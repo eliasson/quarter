@@ -17,8 +17,26 @@ Install .NET Core 6 or greater from [here](https://dotnet.microsoft.com/download
 
 `cp src/Quarter/appsettings.json src/Quarter/appsettings.Development.json`
 
+Quarter use OpenID Connect for authentication. Currently only GitHub and Google are supported and must
+be configured in the `Auth` section. Provide your Client ID and secret (and be sure not to commit it to git!)
+
+```
+  "Auth": {
+    "Providers": {
+      "GitHub": {
+        "ClientId": "",
+        "ClientSecret": ""
+      },
+      "Google": {
+        "ClientId": "",
+        "ClientSecret": ""
+      }
+    }
+  },
+```
+
 During Quarters boot phase an initial user will be created if configured. Add your e-mail
-and don't forget to set `Enabled` to `true` under the `InitialUser` section in `appsettings.json`
+and don't forget to set `Enabled` to `true` under the `InitialUser` section.
 
 ````json
   "InitialUser": {
@@ -26,10 +44,20 @@ and don't forget to set `Enabled` to `true` under the `InitialUser` section in `
     "Email": "jane.doe@example.com"
   }
 ````
-_NOTE: QuarterApp currently use GitHub and Google as OpenID Connect providers. You will need
-a user account on either of those services. Or open a Pull Request to support additional providers._ 
 
-3. Build and run from the root directory:
+Once the initial user is created additional users can be added in the Admin section of the
+application UI.
+
+3. Start a PostgreSQL database
+
+Start an instance of the PostgreSQL database using docker-compose.
+
+Run `docker-compose -f docker/docker-compose.yaml up`
+
+_The first time this is run it will execute the `docker/init.sql` script to setup the local database
+and privileges. All tables are created using Fluent Migrations at `src/Quarter.Core/Migrations`
+
+4. Build and run from the root directory:
 
 - `dotnet build` - download all libraries needed
 - `dotnet test` - runs unit-test for all projects
@@ -54,7 +82,7 @@ npm install
 npm run build
 ```
 
-This will output the CSS file to the location `src/QuarterApp/wwwroot/quarter.css`
+This will output the CSS file to the location `src/Quarter/wwwroot/quarter.css`
 from where it is server by the server.
 
 **NOTE:** The server does not need to be restarted when a new CSS file is built.

@@ -13,9 +13,12 @@ TL;DR
 ```
 git clone git@github.com:eliasson/quarter.git
 cd quarter
+docker-compose -f docker/docker-compose.yaml up
 dotnet build
 dotnet run --project src/Quarter 
 ```
+
+See [getting-started.md](docs/getting-started.md) for more details.
 
 ## What features will it support
 
