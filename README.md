@@ -5,7 +5,21 @@ to track your time.
 - Simple reports for basic needs
 - 100% Open HTTP API for everything else
 
+![quarter-wide](https://user-images.githubusercontent.com/136971/150692080-97a16190-2172-42c4-87ff-e63ff55e8ba4.png)
+
+## Current state
+
 **Under construction - Quarter is under construction and not yet ready for daily use just yet.**
+
+- [x] Authentication
+- [x] Manage projects
+- [x] Manage activities
+- [x] Register time
+- [x] Summarize current week at start page
+- [ ] Weekly report
+- [ ] Archive projects and activities
+- [ ] HTTP API
+- [ ] Export data
 
 ## Getting started
 
