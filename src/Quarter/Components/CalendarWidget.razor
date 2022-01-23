@@ -1,0 +1,133 @@
+@using System.Globalization
+@using Quarter.Core.Utils
+
+<div class="qa-widget qa-widget-calendar">
+    <ul class="qa-calendar-navigation">
+        <li class="qa-navigation-item">
+            <button class="qa-button qa-button--icon qa-button--ghost" test="calendar-previous-month"
+                    @onclick="PreviousMonth">
+                <svg class="qa-icon--small">
+                    <use xlink:href="#icon-chevron-left"></use>
+                </svg>
+            </button>
+        </li>
+        <li class="qa-navigation-month" test="calendar-month">@_monthName @_year</li>
+        <li class="qa-navigation-item">
+            <button class="qa-button qa-button--icon qa-button--ghost" test="calendar-next-month"
+                    @onclick="NextMonth">
+                <svg class="qa-icon--small">
+                    <use xlink:href="#icon-chevron-right"></use>
+                </svg>
+            </button>
+        </li>
+    </ul>
+    <table class="qa-calendar-table">
+        <thead>
+            <tr>
+                <th class="qa-is-hidden"></th>
+                <th test="calendar-day-name">Mo</th>
+                <th test="calendar-day-name">Tu</th>
+                <th test="calendar-day-name">We</th>
+                <th test="calendar-day-name">Th</th>
+                <th test="calendar-day-name">Fr</th>
+                <th test="calendar-day-name">Sa</th>
+                <th test="calendar-day-name">Su</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var week in _weeks)
+        {
+            <tr test="calendar-week">
+                <td class="qa-calendar-week qa-is-hidden" test="calendar-week-number">@week.Number</td>
+                @foreach (var day in week.Days)
+                {
+                    <td class="qa-calendar-link @((day.IsSelected) ? "qa-calendar-selected" : "") @((day.IsAdjacentMonth) ? "qa-calendar-adjacent" : "")"
+                        test="calendar-day">
+                        <NavLink href="@day.Link">@day.Number</NavLink>
+                    </td>
+                }
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+@code {
+#nullable enable
+    // A very simple calendar component that always render 6 weeks. The first week always includes the 1:st of
+    // the month for the SelectedDate.
+    [Parameter]
+    public DateTime? SelectedDate { get; set; }
+
+    [Parameter]
+    public Func<DateTime, string>? LinkGeneratorFn { get; set; }
+
+    record Day(int Number, bool IsSelected, bool IsAdjacentMonth, string Link);
+    record Week(string Number, Day[] Days);
+
+    private Week[] _weeks = Array.Empty<Week>();
+    private DateTime? _renderDate;
+    private string? _monthName;
+    private int? _year;
+
+    protected override void OnParametersSet()
+    {
+        _renderDate = SelectedDate;
+        if (SelectedDate is null) return;
+        RenderCalendar();
+    }
+
+    private void PreviousMonth()
+    {
+        if (_renderDate is null) return;
+        _renderDate = _renderDate?.Subtract(TimeSpan.FromDays(_renderDate.Value.Day));
+        RenderCalendar();
+    }
+
+    private void NextMonth()
+    {
+        if (_renderDate is null) return;
+
+        var dt = new DateTime(_renderDate.Value.Year, _renderDate.Value.Month, 1);
+        _renderDate = dt.AddMonths(1);
+        RenderCalendar();
+    }
+
+    private void RenderCalendar()
+    {
+        if (_renderDate is null) return;
+        if (SelectedDate is null) return;
+        var rd = _renderDate.Value;
+        var sd = SelectedDate.Value;
+
+        // The first date for this month
+        var calendarMonthDate = new DateTime(rd.Year, rd.Month, 1);
+        var dayOffset = calendarMonthDate.DayOfWeek == DayOfWeek.Sunday
+            ? 6
+            : (int) calendarMonthDate.DayOfWeek - 1;
+
+        // The first date in the calendar for this month
+        var dt = calendarMonthDate.Subtract(TimeSpan.FromDays(dayOffset));
+
+        var weeks = new List<Week>();
+        for (var i = 0; i < 6; i++)
+        {
+            var weekNr = dt.Iso8601WeekNumber().ToString();
+            var days = new Day[7];
+            for (var j = 0; j < 7; j++)
+            {
+                // The manipulated date might have different time part, it is not relevant in the calendar though
+                var isSelected = dt.Year == sd.Year && dt.Month == sd.Month && dt.Day == sd.Day;
+                var isAdjacent = dt.IsAdjacentMonth(rd);
+                var link = LinkGeneratorFn?.Invoke(dt) ?? "#";
+                days[j] = new Day(dt.Day, isSelected, isAdjacent, link);
+                dt = dt.AddDays(1);
+            }
+            weeks.Add(new Week(weekNr, days));
+        }
+
+        _weeks = weeks.ToArray();
+        _monthName = rd.ToString("MMMM", CultureInfo.InvariantCulture);
+        _year = rd.Year;
+    }
+}

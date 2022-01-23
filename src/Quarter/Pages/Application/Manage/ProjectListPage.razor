@@ -1,0 +1,52 @@
+@page "/app/manage/projects"
+@attribute [Authorize]
+
+@using Quarter.Components
+@using Quarter.Services
+@using Quarter.State
+@using Quarter.State.ViewModels
+@using Quarter.Utils
+
+<ApplicationPage>
+    <PageContent>
+        <PageContext Tabs="@_tabs">
+            <ActionButton IconRef="#icon-plus-sm" OnAction="@OnAddProject" />
+        </PageContext>
+
+        @if (NoProjects)
+        {
+            <div class="qa-empty-collection--full">
+                <EmptyCollectionMessage Header="No projects" Message="You have not created any projects yet." IconRef="#icon-manage" />
+            </div>
+        }
+
+        @foreach (var project in Projects)
+        {
+            <ProjectListItem Project="project" />
+        }
+    </PageContent>
+</ApplicationPage>
+
+@inherits Quarter.Core.UI.Components.QuarterComponent<Quarter.State.ApplicationState>
+
+@code {
+    private readonly List<TabData> _tabs = new ()
+    {
+        new TabData("Projects", Page.Manage),
+    };
+
+    private bool NoProjects
+        => State?.Projects.Count == 0;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+        await DispatchAsync(new LoadProjects());
+    }
+
+    private Task OnAddProject()
+        => DispatchAsync(new ShowAddProjectAction());
+
+    private IEnumerable<ProjectViewModel> Projects
+        => State?.Projects ?? new List<ProjectViewModel>();
+}

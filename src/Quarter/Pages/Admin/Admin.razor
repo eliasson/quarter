@@ -1,0 +1,10 @@
+@page "/admin"
+@attribute [Authorize(Roles = "administrator")]
+
+@using Quarter.Components
+
+<AdminPage>
+    <PageContent>
+        <h1>Administration</h1>
+    </PageContent>
+</AdminPage>

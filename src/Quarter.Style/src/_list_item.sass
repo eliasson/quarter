@@ -1,0 +1,108 @@
+.qa-empty-collection
+  &--full
+    margin-top: 25%
+
+  &--message
+    text-align: center
+
+.qa-list-item
+  display: flex
+  flex-direction: column
+  background-color: $color-white
+  margin-top: $pillow-large
+  border-radius: $std-border-radius
+  border: 2px solid #252525
+  box-shadow: 4px 4px 4px -4px #14141e
+
+  &--is-active
+    border-color: $color-primary
+    background-color: $color-primary
+    color: $color-white
+    box-shadow: 4px 4px 4px -4px #14141e
+
+    .qa-list-item__statistics__unit
+      color: $color-white
+
+    .qa-tag
+      background-color: transparent
+      border-color: $color-gray
+      color: $color-gray
+
+  &__main
+    display: flex
+    flex-direction: row
+    justify-items: left
+    padding: $pillow-medium
+
+    &__title
+      flex-grow: 1
+      font-size: $font-size-kilo
+
+    &__text
+      cursor: pointer
+      font-weight: 600
+
+
+  &__statistics
+    display: flex
+    justify-content: space-evenly
+
+    &__category
+      text-align: center
+
+    &__unit
+      font-weight: 400
+      color: $color-gray-vdark
+      padding: 4px
+      font-size: $font-size-centi
+
+    &__value
+      font-weight: 200
+      padding: $pillow-small 0 $pillow-medium 0
+      font-size: $font-size-centi
+
+  &__details
+    display: flex
+    flex-direction: column
+    background-color: $color-white
+    color: $color-text
+
+    .qa-empty-collection--message
+      margin-top: $pillow-large
+
+  &__actions
+    margin-top: $pillow-small
+    align-self: flex-end
+    padding: $pillow-medium
+
+$activity-marker-size: 14px
+$activity-marker-size-small: 8px
+
+.qa-activity-marker-column
+  min-width: $activity-marker-size + $pillow-medium
+  max-width: $activity-marker-size + $pillow-medium
+  width: $activity-marker-size + $pillow-medium
+
+.qa-activity-action-column
+  min-width: 40px
+  max-width: 40px
+  width: 40px
+
+.qa-activity-marker
+  min-width: $activity-marker-size
+  max-width: $activity-marker-size
+  width: $activity-marker-size
+  min-height: $activity-marker-size
+  max-height: $activity-marker-size
+  height: $activity-marker-size
+  border-radius: 4px
+  border: 2px solid transparent
+  display: inline-block
+
+  &__small
+    min-width: $activity-marker-size-small
+    max-width: $activity-marker-size-small
+    width: $activity-marker-size-small
+    min-height: $activity-marker-size-small
+    max-height: $activity-marker-size-small
+    height: $activity-marker-size-small

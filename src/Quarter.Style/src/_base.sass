@@ -1,0 +1,86 @@
+// Only style plain HTML elements in here, no custom components
+
+html
+    background-color: $color-page-content-bg
+    color: $color-text
+    font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif
+    font-size: 16px
+
+body
+    font-weight: 200
+    padding: 0
+    margin: 0
+
+a,
+a:active,
+a:link,
+a:hover,
+a:focus
+    outline: 0
+    text-decoration: none
+    font-weight: 200
+    color: $color-text
+    border: none
+
+a.qa-href,
+a.qa-href:active,
+a.qa-href:link
+    color: $color-link
+    text-decoration: underline
+    font-weight: 600
+
+a.qa-href:hover
+    color: $color-link
+    text-decoration: underline
+
+a.qa-href:focus
+    outline: 0
+
+h1,h2,h3,h4,h5,h6
+    margin: 0
+    font-weight: 600
+
+h1
+    font-size: 24px
+h2
+    font-size: 20px
+h3
+    font-size: 16px
+
+ul
+    li + li
+        margin-top: $pillow-small
+
+table
+    border-spacing: 0
+    width: 100%
+
+    &.qa-widget
+        display: table
+
+    thead
+        font-weight: 600
+        background-color: $color-goth
+        color: $color-white
+
+        tr
+            td,
+            th
+                text-align: left
+                padding: $pillow-medium $pillow-small
+                font-weight: 200
+
+                &:first-child,
+                &:last-child
+                    padding: $pillow-medium
+
+    tbody
+        tr
+            td,
+            th
+                text-align: left
+                padding: $pillow-small $pillow-small
+
+                &:first-child,
+                &:last-child
+                    padding: $pillow-small $pillow-medium

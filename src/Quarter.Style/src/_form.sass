@@ -1,0 +1,155 @@
+::placeholder
+  color: $color-gray-dark
+  font-weight: 200
+
+form
+  text-align: left
+
+  label
+    display: block
+    margin-bottom: .5*$std-air
+
+    .is-mandatory
+      color: $color-red
+      font-size: $font-size-centi
+
+  fieldset
+    border: none
+
+.qa-form-pane
+  display: flex
+  flex-direction: column
+  flex-basis: 100%
+
+  fieldset
+    display: flex
+    flex-direction: column
+    border: none
+    padding: $pillow-small
+    margin-bottom: $pillow-medium
+
+  label
+    font-weight: bold
+
+  .qa-form-pane
+    display: flex
+    flex-direction: row
+
+    &--controls
+      flex-grow: 1
+      margin-top: 2*$pillow-medium
+      padding-right: $pillow-medium
+
+    &--controls.qa-compensate-full-width
+      padding-right: 26px
+
+  .qa-button + .qa-button
+    margin-top: $pillow-small
+
+  .qa-button--wide
+    width: 100%
+
+
+@media (min-width: 640px)
+  .qa-form-pane
+    flex-direction: column
+
+    fieldset
+      flex-direction: row
+
+    .qa-form-pane
+      flex-grow: 1
+      margin-top: 2*$pillow-medium
+      padding-right: $pillow-medium
+      min-width: 260px
+
+      &--details
+        flex-grow: 1
+        padding: $pillow-medium
+        max-width: 240px
+        min-width: 240px
+
+      &--controls
+        flex-grow: 1
+        min-width: 260px
+
+        .qa-inline-controls
+          display: flex
+
+        input
+          flex-grow: 1
+
+      &--actions
+        flex-grow: 1
+        min-width: 260px
+        display: flex
+        flex-direction: row
+        margin-top: $pillow-small
+
+    &--single
+      display: flex
+      flex-direction: row
+      justify-content: center
+      padding: $pillow-small
+
+      .qa-button + .qa-button
+        margin-left: $pillow-medium
+
+    .qa-button--wide
+      width: unset
+
+    .qa-button + .qa-button
+      margin-top: unset
+      margin-left: $pillow-small
+
+
+input[type='email'],
+input[type='password'],
+input[type='text'],
+input[type='url'],
+input[type='search'],
+input,
+textarea,
+select
+  background-color: $color-white
+  border: 2px solid $color-gray-dark
+  border-color: $color-text
+  border-radius: $std-border-radius
+  font-size: $font-size
+  font-weight: 200
+  font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif
+  padding: 10px
+  width: 100%
+
+  &.qa-is-invalid,
+  &.invalid
+    border-color: $color-red
+
+  &:-webkit-autofill
+    -webkit-box-shadow: 0 0 0 1000px white inset
+
+  &:focus,
+  &.qa-is-invalid:focus
+    border-color: $color-text
+    outline: 0
+
+.qa-error-message,
+.validation-message
+  position: absolute // To avoid yanky height
+  color: $color-red
+  padding: $std-air 0 0 0
+  text-align: left
+
+$color-marker-size: 38px
+
+.qa-color-input-marker
+  width: $color-marker-size
+  min-width: $color-marker-size
+  max-width: $color-marker-size
+  height: $color-marker-size
+  min-height: $color-marker-size
+  max-height: $color-marker-size
+  border: 2px solid $color-gray-dark
+  border-color: $color-text
+  border-radius: $std-border-radius
+  margin: 2px 4px 0 0

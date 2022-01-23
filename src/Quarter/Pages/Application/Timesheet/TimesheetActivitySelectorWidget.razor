@@ -1,0 +1,65 @@
+<div class="qa-widget qa-activity-list">
+    <div class="qa-activity-list-project">
+        @foreach (var project in Projects())
+        {
+            <div class="qa-activity-list-project-item">
+                <span class="qa-activity-list-project-title" test="project-item">@project.Name</span>
+                <span class="qa-activity-list-project-action"></span>
+            </div>
+            <ul>
+                @foreach (var activity in project.Activities)
+                {
+                    <li @onclick="(() => SelectActivity(project.Id, activity.Id))"
+                        class="@(IsActivitySelected(activity.Id) ? "qa-is-active" : "")"
+                        test="activity-item">
+                        <div class="qa-activity-list-activity-item" >
+                            <div class="qa-activity-marker" test="activity-item-marker"
+                                 style="background-color: @activity.Color; border-color:  @activity.DarkerColor;"></div>
+                            <div class="qa-activity-list-activity-title" test="activity-item-title">@activity.Name</div>
+                        </div>
+                    </li>
+                }
+            </ul>
+        }
+    </div>
+
+    <div class="qa-activity-list-action">
+        <ul>
+            <li @onclick="SelectEraser"
+                class="@(State?.SelectedActivity is null ? "qa-is-active" : "")"
+                test="erase-item">
+                <div class="qa-activity-list-activity-item">
+                    <div class="qa-activity-list-action-marker">
+                        <svg class="qa-icon--small">
+                            <use xlink:href="#icon-trash"></use>
+                        </svg>
+                    </div>
+                    <div class="qa-activity-list-action-title">Erase</div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+@using Quarter.Core.Models
+@using Quarter.State
+@using Quarter.State.ViewModels
+
+@inherits Quarter.Core.UI.Components.QuarterComponent<Quarter.State.ApplicationState>
+
+@code {
+    private IEnumerable<ProjectViewModel> Projects()
+    {
+        var projects = State?.Projects ?? new List<ProjectViewModel>();
+        return projects.Where(p => p.Activities.Any());
+    }
+
+    private bool IsActivitySelected(IdOf<Activity> activityId)
+        => activityId.Equals(State?.SelectedActivity?.ActivityId);
+
+    private Task SelectActivity(IdOf<Project> projectId, IdOf<Activity> activityId)
+        => DispatchAsync(new SelectActivityAction(new SelectedActivity(projectId, activityId)));
+
+    private Task SelectEraser()
+        => DispatchAsync(new SelectEraseActivityAction());
+}

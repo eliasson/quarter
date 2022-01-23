@@ -1,0 +1,116 @@
+@using Quarter.Components
+@using Quarter.State
+@using Quarter.State.ViewModels
+
+<div class="qa-widget qa-ts-widget-summary">
+    <div class="qa-widget-header">
+        <span class="qa-ts-summary-value" test="summary-total">@_summary.Total</span>
+        <span class="qa-ts-summary-unit">h</span>
+    </div>
+    @if (_summary.ProjectSummaries.Count > 0)
+    {
+        <div class="qa-widget-details">
+            <table>
+                <tbody>
+                @foreach (var project in _summary.ProjectSummaries)
+                {
+                    <tr test="summary-project">
+                        <th></th>
+                        <th class="qa-ts-summary-value-column" test="summary-total">@project.Total</th>
+                        <th class="qa-ts-summary-activity-column" test="summary-name">@project.Name</th>
+                    </tr>
+                    @foreach (var activity in project.Activities)
+                    {
+                        <tr test="summary-activity">
+                            <td class="qa-ts-summary-marker-column">
+                                <div class="qa-activity-marker qa-activity-marker__small"
+                                     style="background-color: @activity.Color.BackgroundColor; border-color: @activity.Color.BorderColor;"
+                                     test="activity-item-marker">
+                                </div>
+                            </td>
+                            <td class="qa-ts-summary-value-column" test="summary-total">@activity.Total</td>
+                            <td class="qa-ts-summary-activity-column" test="summary-name">@activity.Name</td>
+                        </tr>
+                    }
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <EmptyCollectionMessage Header="" Message="No time registered." IconRef="#icon-clipboard"/>
+    }
+</div>
+
+@inherits Quarter.Core.UI.Components.QuarterComponent<Quarter.State.ApplicationState>
+
+@code {
+    record ActivitySummary(string Name, string Total, ActivityColor Color);
+
+    record ProjectSummary(string Name, string Total, ActivitySummary[] Activities);
+
+    record Summary(List<ProjectSummary> ProjectSummaries, double TotalHours)
+    {
+        public string Total => TotalHours.ToString("F2");
+    }
+
+    private readonly Dictionary<string, string> _nameLookup = new Dictionary<string, string>();
+    private readonly Dictionary<string, ActivityColor> _colorLookup = new Dictionary<string, ActivityColor>();
+
+    private Summary _summary = new Summary(new List<ProjectSummary>(), 0);
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        PopulateNameCaches();
+        _summary = Summarize();
+    }
+
+    private void PopulateNameCaches()
+    {
+        // Project and activities cannot change while this is rendered.
+        var isInitialed = _colorLookup.Any();
+        if (isInitialed) return;
+        if (State?.Projects is null) return;
+
+        _nameLookup.Clear();
+        _colorLookup.Clear();
+
+        foreach (var p in State.Projects)
+        {
+            _nameLookup.Add(p.Id.AsString(), p.Name);
+            foreach (var a in p.Activities)
+            {
+                _nameLookup.Add(a.Id.AsString(), a.Name);
+                _colorLookup.Add(a.Id.AsString(), new ActivityColor(a.Color, a.DarkerColor));
+            }
+        }
+    }
+
+    private Summary Summarize()
+    {
+        var timesheet = State?.SelectedTimesheet;
+        if (timesheet is null)
+            return new Summary(new List<ProjectSummary>(), 0);
+
+        var total = 0d;
+        var summaries = timesheet.Summarize().Select(p =>
+        {
+            _nameLookup.TryGetValue(p.ProjectId.AsString(), out var projectName);
+            var activities = p.Activities.Select(a =>
+            {
+                _nameLookup.TryGetValue(a.ActivityId.AsString(), out var activityName);
+                _colorLookup.TryGetValue(a.ActivityId.AsString(), out var activityColor);
+                var activityTotal = (a.Duration * 15.0) / 60.0;
+                return new ActivitySummary(activityName ?? "Unknown", activityTotal.ToString("F2"), activityColor ?? ApplicationState.DefaultActivityColor);
+            }).ToArray();
+
+            var projectTotal = (p.Duration * 15.0) / 60.0;
+            total += projectTotal;
+            return new ProjectSummary(projectName ?? "Unknown", projectTotal.ToString("F2"), activities);
+        });
+
+        return new Summary(summaries.ToList(), total);
+    }
+}

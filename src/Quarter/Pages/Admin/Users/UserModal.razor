@@ -1,0 +1,47 @@
+@using Quarter.Components
+@using Quarter.State
+@using Quarter.State.Forms
+@inherits Quarter.Core.UI.Components.QuarterComponent<Quarter.State.ApplicationState>
+
+<Modal Title="Add user">
+    <EditForm Model="@FormData" OnValidSubmit="@OnConfirm" class="qa-form-pane" test="add-user-modal">
+        <DataAnnotationsValidator/>
+        <fieldset>
+            <div class="qa-form-pane--details">
+                <label for="user-email">E-mail:</label>
+                <div class="qa-fine-print">The user e-mail address</div>
+            </div>
+            <div class="qa-form-pane--controls qa-compensate-full-width">
+                <InputText id="user-email"
+                           name="user-email"
+                           placeholder="jane.doe@example.com"
+                           @bind-Value="FormData.Email"
+                           test="user-email"/>
+                <ValidationMessage For="@(() => FormData.Email)" test="user-email-validation"/>
+            </div>
+        </fieldset>
+        <fieldset>
+            <div class="qa-form-pane--details"></div>
+            <div class="qa-form-pane--actions">
+                <button type="button"
+                        class="qa-button qa-button--ghost qa-button--wide"
+                        test="cancel-button"
+                        @onclick="@OnCloseModal">Cancel</button>
+                <button type="submit"
+                        class="qa-button qa-button--primary qa-button--wide"
+                        test="confirm-button">Create</button>
+            </div>
+        </fieldset>
+    </EditForm>
+</Modal>
+
+@code {
+    [Parameter]
+    public UserFormData FormData { get; set; } = new ();
+
+    private Task OnConfirm()
+        => DispatchAsync(new AddUserAction(FormData));
+
+    private Task OnCloseModal()
+        => DispatchAsync(new CloseModalAction());
+}

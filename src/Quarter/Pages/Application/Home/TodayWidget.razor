@@ -1,0 +1,21 @@
+@using System.Globalization
+
+<div class="qa-widget qa-home-widget-summary">
+    <div class="qa-home-widget-summary--label" test="name-of-day">@NameOfDay</div>
+    <div class="qa-home-widget-summary--value" test="day">@Day</div>
+    <div class="qa-home-widget-summary--label" test="name-of-month">@NameOfMonth</div>
+</div>
+
+@code {
+    [Parameter]
+    public DateTime? CurrentDate { get; set; }
+
+    private string? NameOfMonth =>
+        CurrentDate?.ToString("MMMM", CultureInfo.InvariantCulture);
+
+    private string? NameOfDay =>
+        CurrentDate?.ToString("dddd", CultureInfo.InvariantCulture);
+
+    private string? Day =>
+        CurrentDate?.ToString("dd", CultureInfo.InvariantCulture);
+}

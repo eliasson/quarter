@@ -1,0 +1,32 @@
+@using Quarter.State
+@inherits Quarter.Core.UI.Components.QuarterComponent<Quarter.State.ApplicationState>
+
+<div class="qa-modal">
+    <div class="qa-modal--backdrop"></div>
+    <div class="qa-modal--overlay">
+        <div class="qa-modal--container">
+            <div class="qa-modal--header">
+                <div class="qa-modal--header--title">
+                    <h1 test="modal-title">@Title</h1>
+                    <button @onclick="@OnModalClose" class="qa-button qa-button--icon qa-button--close" test="modal-close">
+                        <svg class="qa-icon--medium">
+                            <use xlink:href="#icon-close"></use>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            @ChildContent
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string Title { get; set; } = "";
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private Task OnModalClose()
+        => DispatchAsync(new CloseModalAction());
+}

@@ -1,0 +1,76 @@
+@using System.Threading
+@using Quarter.Components
+@using Quarter.Core.Events
+@using Quarter.Core.Models
+@using Quarter.Core.Repositories
+@using Quarter.State
+
+<table class="qa-widget">
+    <thead>
+    <tr>
+        <th>E-mail</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var user in _users.Values)
+    {
+        <tr>
+            <td test="user-email">@user.Email</td>
+            <td class="qa-end">
+                <ContextMenu Items="@user.MenuItems" ItemSelected="OnUserMenuItem" />
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+@inject IEventDispatcher _eventDispatcher
+@inject IRepositoryFactory _repositoryFactory
+@inherits Quarter.Core.UI.Components.QuarterComponent<Quarter.State.ApplicationState>
+
+@code {
+    public record UserViewModel(string Email, IList<ContextMenu.MenuItemVm> MenuItems);
+
+    private IDictionary<IdOf<User>, UserViewModel> _users = new Dictionary<IdOf<User>, UserViewModel>();
+    private readonly CancellationTokenSource _cts = new ();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+
+        _users = await _repositoryFactory.UserRepository()
+            .GetAllAsync(CancellationToken.None)
+            .ToDictionaryAsync(k => k.Id, ToViewModel);
+
+        _ = _eventDispatcher.Subscribe<UserCreatedEvent>(ev => InvokeAsync(() =>
+        {
+            _users.Add(ev.User.Id, ToViewModel(ev.User));
+            StateHasChanged();
+            return Task.CompletedTask;
+        }), _cts.Token);
+
+        _ = _eventDispatcher.Subscribe<UserRemovedEvent>(ev => InvokeAsync(() =>
+        {
+            _users.Remove(ev.UserId);
+            StateHasChanged();
+            return Task.CompletedTask;
+        }), _cts.Token);
+    }
+
+    private Task OnUserMenuItem(ContextMenu.MenuItemVm item)
+        => DispatchAsync(new ShowRemoveUserAction(item.Id ?? string.Empty)); // Should never be missing!
+
+    private static UserViewModel ToViewModel(User u)
+    {
+        var menuItems = new List<ContextMenu.MenuItemVm>
+        {
+            new("remove", "Remove user", u.Id.AsString()),
+        };
+
+        return new UserViewModel(u.Email.Value, menuItems);
+    }
+
+    public override void Dispose()
+        => _cts.Cancel();
+}

@@ -1,0 +1,124 @@
+
+$sheet-cell-height: 36px
+$sheet-cell-width: 70px
+$sheet-cell-border-size: 1px
+$sheet-cell-border-style: solid
+$sheet-color-border: $color-gray-dark
+$sheet-color-background: $color-gray-light
+
+@keyframes animate-stripes
+  from
+    background-position: 0 0
+  to
+    background-position: -50px 0
+
+.qa-timesheet
+  display: block
+  margin: $pillow-large auto 0 auto
+  min-width: 320px // Since no padding
+  max-width: 320px
+
+  .qa-timesheet-scroll
+    width: 100%
+    padding: $pillow-medium 0
+    display: flex
+    flex-direction: column
+
+    &:hover
+      cursor: pointer
+      color: darken($color-primary, 10%)
+
+    &.qa-disabled
+      cursor: default
+      color: $color-gray-dark
+
+  table.qa-sheet-table
+    border-spacing: 0
+    user-select: none
+    -webkit-user-select: none
+    -moz-user-select: none
+    font-size: $font-size
+    width: 100%
+
+    tbody
+      border: none
+
+    th,
+    td
+      border: none
+      user-select: none
+
+    tbody tr
+      height: $sheet-cell-height + $sheet-cell-border-size
+      min-height: $sheet-cell-height + $sheet-cell-border-size
+
+    tbody th
+      text-align: center
+
+    tbody tr td
+      padding: 5px 0
+
+    tbody tr td,
+    tbody th
+      min-width: calc($sheet-cell-width / 2)
+      width: $sheet-cell-width
+      min-height: $sheet-cell-height
+      height: $sheet-cell-height
+      font-weight: 200
+      font-size: $font-size-centi
+
+    tbody tr td span.qa-timesheet__activity
+      position: relative
+      border-top: $sheet-cell-border-size $sheet-cell-border-style $sheet-color-border
+      border-bottom: $sheet-cell-border-size $sheet-cell-border-style $sheet-color-border
+      min-height: $sheet-cell-height
+      height: $sheet-cell-height
+      display: block
+      cursor: pointer
+
+      &.qa-is-pending
+        background-image: linear-gradient(-45deg, rgba(0, 0, 0, .10) 25%, transparent 25%, transparent 50%, rgba(0, 0, 0, .10) 50%, rgba(0, 0, 0, .10) 75%, transparent 75%, transparent)
+        background-size: 50px 50px
+        animation: animate-stripes 2s linear infinite
+
+    tbody tr td span.qa-timesheet__activity:nth-child(odd)
+      border-left: $sheet-cell-border-size $sheet-cell-border-style $sheet-color-border
+
+    tbody tr td span.qa-timesheet__activity:nth-child(even)
+      border-right: $sheet-cell-border-size $sheet-cell-border-style $sheet-color-border
+
+    tbody tr td:first-of-type span.qa-timesheet__activity
+      border-left: $sheet-cell-border-size $sheet-cell-border-style $sheet-color-border
+      border-top-left-radius: $std-border-radius
+      border-bottom-left-radius: $std-border-radius
+      -webkit-border-top-left-radius: $std-border-radius
+      -webkit-border-bottom-left-radius: $std-border-radius
+      -moz-border-radius-topleft: $std-border-radius
+      -moz-border-radius-bottomleft: $std-border-radius
+
+    tbody tr td:last-of-type span.qa-timesheet__activity
+      border-right: $sheet-cell-border-size $sheet-cell-border-style $sheet-color-border
+      border-top-right-radius: $std-border-radius
+      border-bottom-right-radius: $std-border-radius
+      -webkit-border-top-right-radius: $std-border-radius
+      -webkit-border-bottom-right-radius: $std-border-radius
+      -moz-border-radius-topright: $std-border-radius
+      -moz-border-radius-bottomright: $std-border-radius
+
+    tbody tr td span.qa-timesheet__activity.used
+      border-top: $sheet-cell-border-size solid $sheet-color-border
+      border-bottom: $sheet-cell-border-size solid $sheet-color-border
+      border-left: $sheet-cell-border-size solid $sheet-color-border
+      border-right: $sheet-cell-border-size solid $sheet-color-border
+
+    tbody tr td:first-of-type span.qa-timesheet__activity.used
+      border-left: $sheet-cell-border-size solid $sheet-color-border
+
+    tbody tr td:last-of-type span.qa-timesheet__activity.used
+      border-right: $sheet-cell-border-size solid $sheet-color-border
+
+// Devices larger than 640px
+@media (min-width: 640px)
+  .qa-timesheet
+    max-width: 500px
+    min-width: 500px

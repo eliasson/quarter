@@ -1,0 +1,47 @@
+@page "/app"
+@attribute [Authorize]
+
+@using Quarter.Components
+@using Quarter.Core.Models
+@using Quarter.Core.Queries
+@using Quarter.Core.Utils
+@using Quarter.Services
+
+<ApplicationPage ColumnMode="true">
+    <PageContent>
+        <div class="qa-page-content__context qa-not-xs"></div>
+        <div class="qa-page-content__main">
+            @foreach (var timesheet in Timesheets())
+            {
+                <TimesheetTotalWidget Timesheet="timesheet" />
+            }
+        </div>
+        <div class="qa-page-content__toolbar qa-not-xs">
+            <TodayWidget CurrentDate="DateTime.Today"/>
+            <WeekTotalWidget Summary="_summaryViewModel"/>
+        </div>
+    </PageContent>
+</ApplicationPage>
+
+@inject IUserAuthorizationService _userAuthorizationService;
+@inject IQueryHandler _queryHandler
+
+@code
+{
+    private TimesheetSummaryQueryResult? _summaryViewModel;
+
+    private IEnumerable<Timesheet> Timesheets()
+        => _summaryViewModel?.Timesheets ?? Array.Empty<Timesheet>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var oc = await OperationContextForCurrentUser();
+        _summaryViewModel = await _queryHandler.ExecuteAsync(TimesheetSummaryQuery.ForWeek(Date.Today()), oc, default);
+    }
+
+    private async Task<OperationContext> OperationContextForCurrentUser()
+    {
+        var currentId = await _userAuthorizationService.CurrentUserId();
+        return new OperationContext(currentId);
+    }
+}

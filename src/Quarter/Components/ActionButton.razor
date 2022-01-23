@@ -1,0 +1,51 @@
+@using Microsoft.Extensions.Logging
+
+<button class="qa-button qa-button--icon"
+        test="action-button"
+        type="button"
+        @onclick="@OnClick"
+        disabled="@_inProgress">
+    @Icon
+    @if (Label != null)
+    {
+        <span test="button-label">@Label</span>
+    }
+</button>
+
+@inject ILogger<ActionButton> _logger
+@code {
+    [Parameter]
+    public EventCallback OnAction { get; set; }
+
+    [Parameter]
+    public string? Label { get; set; }
+
+    [Parameter]
+    public string IconRef { get; set; } = "";
+
+    private bool _inProgress;
+
+    private MarkupString Icon
+        => new MarkupString(@$"<svg class=""qa-icon--medium"" test=""button-icon""><use xlink:href=""{IconRef}""></use></svg>");
+
+    // A button that wraps a Task result
+    // Disable while task is in progress
+    private async Task OnClick()
+    {
+        try
+        {
+            _inProgress = true;
+            await OnAction.InvokeAsync();
+        }
+        catch (Exception e)
+        {
+            // TODO: Setup an error handler to where errors can be propagated
+            _logger.LogError(e, "Failed to execute action from ActionButton");
+        }
+        finally
+        {
+            _inProgress = false;
+            StateHasChanged();
+        }
+    }
+}

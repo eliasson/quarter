@@ -1,0 +1,66 @@
+// Common styles or mixins. Avoid components unless very small.
+
+@media only screen and (max-width: 48em)
+  .qa-not-xs
+    display: none
+
+@media only screen and (min-width: 48em)
+  .qa-only-xs
+    display: none
+
+.qa-no-air
+  padding: 0
+  margin: 0
+
+.qa-is-hidden
+  display: none !important
+
+.qa-text-left
+  text-align: left
+
+.qa-text-right
+  text-align: right
+
+.qa-text-center
+  text-align: center
+
+.qa-fine-print
+  color: $color-gray-vdark
+
+.qa-important
+  font-weight: 400
+
+.qa-end
+  display: flex
+  justify-content: end
+
+.qa-icon
+  &--small
+    width: 16px
+    height: 16px
+
+  &--medium
+    width: 24px
+    height: 24px
+
+  &--large
+    width: 48px
+    height: 48px
+
+  &--x-large
+    width: 64px
+    height: 64px
+
+  &--xx-large
+    width: 72px
+    height: 72px
+
+.qa-empty-collection
+  &--full
+    margin-top: 25%
+
+  &--message
+    text-align: center
+
+.qa-button + .qa-button
+  margin-top: $pillow-small

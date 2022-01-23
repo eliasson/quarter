@@ -1,0 +1,68 @@
+.qa-activity-list
+  padding: $pillow-small 0
+  display: flex
+  flex-direction: column
+  min-width: 320px // Since no padding
+  max-width: 320px
+
+  .qa-activity-list-activity-item
+    padding: $pillow-small 0
+
+  .qa-activity-list-project-title
+    font-weight: 600
+
+  .qa-activity-list-project,
+  .qa-activity-list-action
+    margin-bottom: $pillow-medium
+
+    .qa-activity-list-project-item
+      padding: $pillow-medium
+      text-align: left
+
+    ul
+      display: flex
+      flex-direction: column
+      list-style: none
+      padding: 0
+      margin: 0
+
+      li
+        padding: 0 16px
+        margin: 0
+        text-align: left
+        display: block
+        cursor: pointer
+        border-left: 4px solid transparent
+
+        &.qa-is-active
+          background-color: $color-gray-vlight
+          border-color: $color-primary
+
+        &:hover
+          background-color: $color-gray-light
+          transition: background 0.2s, color 0.2s
+
+  .qa-activity-list-action
+    margin-top: $pillow-medium
+
+    ul
+      li.qa-is-active
+        border-color: $color-primary
+
+    .qa-activity-list-action-marker
+      position: relative
+      display: inline-block
+      top: 2px
+      min-width: 20px
+      max-width: 20px
+      width: 20px
+      min-height: 20px
+      max-height: 20px
+      height: 20px
+
+  .qa-activity-list-activity-title,
+  .qa-activity-list-action-title
+    display: inline-block
+    vertical-align: top
+    padding-left: $pillow-small
+

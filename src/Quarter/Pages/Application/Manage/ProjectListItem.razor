@@ -1,0 +1,80 @@
+@using Quarter.Components
+@using Quarter.Core.Models
+@using Quarter.State
+@using Quarter.State.ViewModels
+@using Quarter.Utils
+
+<div class="qa-list-item @((_isActive) ? "qa-list-item--is-active" : "")"
+     test="project-list-item">
+
+    <div class="qa-list-item__main">
+        <div class="qa-list-item__main__title">
+            <span class="qa-list-item__main__text"
+                  @onclick="@ToggleActive"
+                  test="project-title">@Project?.Name</span>
+        </div>
+        <div class="qa-list-item__main__actions">
+            <ContextMenu Items="ProjectMenuItems" ItemSelected="OnProjectMenuItem" IsInverted="_isActive"></ContextMenu>
+        </div>
+    </div>
+    <div class="qa-list-item__statistics">
+        <div class="qa-list-item__statistics__category" test="project-category">
+            <div class="qa-list-item__statistics__unit" test="project-unit">Hours</div>
+            <div class="qa-list-item__statistics__value" test="project-value">@Project?.TotalAsHours()</div>
+        </div>
+        <div class="qa-list-item__statistics__category" test="project-category">
+            <div class="qa-list-item__statistics__unit" test="project-unit">Activities</div>
+            <div class="qa-list-item__statistics__value" test="project-value">0</div>
+        </div>
+        <div class="qa-list-item__statistics__category qa-not-xs" test="project-category">
+            <div class="qa-list-item__statistics__unit" test="project-unit">Updated at</div>
+            <div class="qa-list-item__statistics__value" test="project-value">@UpdatedAt</div>
+        </div>
+        <div class="qa-list-item__statistics__category qa-not-xs" test="project-category">
+            <div class="qa-list-item__statistics__unit" test="project-unit">Last used at</div>
+            <div class="qa-list-item__statistics__value" test="project-value">@LastUsed</div>
+        </div>
+    </div>
+    @if (_isActive)
+    {
+        <ActivityTable Project="Project" />
+    }
+</div>
+
+@inherits Quarter.Core.UI.Components.QuarterComponent<Quarter.State.ApplicationState>
+
+@code {
+    [Parameter]
+    public ProjectViewModel? Project { get; set; }
+
+    private bool _isActive = false;
+
+    private string UpdatedAt
+        => Project?.Updated is null
+            ? "-"
+            : Project.Updated.Value.DateTime.ToString("yyyy-MM-dd HH:mm:ss");
+
+    private string LastUsed
+        => Project?.LastUsed is null || Project.LastUsed.Value.DateTime == DateTime.MinValue
+            ? "-"
+            : Project.LastUsed.Value.DateTime.ToString("yyyy-MM-dd HH:mm:ss");
+
+    private static readonly List<ContextMenu.MenuItemVm> ProjectMenuItems = new List<ContextMenu.MenuItemVm>
+    {
+        new("edit", "Edit project"),
+        new("remove", "Remove project"),
+    };
+
+    private void ToggleActive()
+        => _isActive = !_isActive;
+
+    private async Task OnProjectMenuItem(ContextMenu.MenuItemVm item)
+    {
+        var res = item.Type switch {
+            "edit" => DispatchAsync(new ShowEditProjectAction(Project!.Id)),
+                 _ => DispatchAsync(new ShowRemoveProjectAction(Project!.Id))
+        };
+
+        await res;
+    }
+}

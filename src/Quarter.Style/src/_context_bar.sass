@@ -1,0 +1,36 @@
+.qa-context-bar
+  display: flex
+  flex-direction: row
+  justify-items: left
+  margin-bottom: $pillow-large
+
+  &__tabs
+    flex-grow: 1
+
+    ul
+      margin: 0
+      padding: 0
+
+      display: flex
+      flex-direction: row
+
+      height: 100%
+
+      li
+        list-style: none
+        padding: $pillow-small
+
+      li + li
+        margin-left: 24px
+
+      .qa-tab-item
+        padding-bottom: $pillow-small
+        font-weight: 600
+        color: $color-gray-vdark
+
+        &.qa-is-active
+          border-bottom: 3px solid $color-primary
+          color: $color-text
+
+  &__actions
+    align-self: flex-end

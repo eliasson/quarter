@@ -1,0 +1,36 @@
+@using Microsoft.AspNetCore.Authentication
+@model AuthenticationScheme[]
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Login to Quarter</title>
+        <base href="~/" />
+        <link rel="stylesheet" href="quarter.css" />
+        <meta name="theme-color" content="#252525">
+</head>
+<body>
+    <div class="qa-page-bullseye">
+        <div class="qa-widget qa-widget--with-content">
+            <div class="qa-widget--header">
+                <h1 class="qa-widget--header--title">Login to Quarter</h1>
+            </div>
+            <p class="qa-fine-print">
+                Contributors and sponsors all get accounts at the main installation.
+            </p>
+            <p class="qa-fine-print">
+                Anyone is free to host their own installation, see details at
+                <a class="qa-href" href="https://github.com/eliasson/quarter">GitHub</a>.
+            </p>
+            <a class="qa-button qa-button--primary qa-button--full" href="/account/login/github">Using GitHub</a>
+            <a class="qa-button qa-button--primary qa-button--full" href="/account/login/google">Using Google</a>
+        </div>
+    </div>
+</body>
+</html>

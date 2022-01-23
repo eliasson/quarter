@@ -1,0 +1,301 @@
+@page
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quarter - Time-tracker for individuals</title>
+    <base href="~/" />
+    <link rel="stylesheet" href="quarter.css" />
+    <meta name="theme-color" content="#252525">
+</head>
+<body>
+    <div class="qa-landing-page">
+        <div class="qa-landing-page__column">
+            <div class="qa-widget qa-widget--with-content">
+                <div class="qa-widget--header">
+                    <h1 class="qa-widget--header--title">Welcome to Quarter</h1>
+                </div>
+                <ul>
+                    <li>Graphical timesheet for easy tracking</li>
+                    <li>Simple reports for basic needs</li>
+                    <li>Open-source software</li>
+                </ul>
+                <br/>
+                <p class="qa-text-center"><a class="qa-href" href="https://github.com/eliasson/quarter">https://github.com/eliasson/quarter</a></p>
+            </div>
+
+
+            @if (User?.Identity?.IsAuthenticated ?? false)
+            {
+                <p>👋 Hello <strong>@User.Identity.Name</strong>, are you looking for the <a class="qa-href" href="/app">application</a>?</p>
+            }
+            else
+            {
+                <p class="qa-fine-print">If you are a contributor you can login <a class="qa-href" href="/account/login">here</a></p>
+            }
+        </div>
+        <div class="qa-landing-page__column">
+            <div class="qa-widget qa-timesheet">
+                <div class="qa-timesheet-scroll">
+                    <div id="qa-timesheet-extend-sod">
+                        <svg class="qa-icon--medium">
+                            <use xlink:href="#icon-double-up"></use>
+                        </svg>
+                    </div>
+                </div>
+
+                <table id="qa-timesheet-sheet" class="qa-sheet-table">
+                    <tbody>
+                    <tr>
+                        <th class="qa-timesheet__time">07:00</th>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"></span>
+                        </td>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"></span>
+                        </td>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"></span>
+                        </td>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"></span>
+                        </td>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th class="qa-timesheet__time">08:00</th>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"
+                                  style="background-color: #7A8DCD; border-color: #6777AE;"></span>
+                        </td>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"
+                                  style="background-color: #7A8DCD; border-color: #6777AE;"></span>
+                        </td>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"
+                                  style="background-color: #7A8DCD; border-color: #6777AE;"></span>
+                        </td>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"
+                                  style="background-color: #7A8DCD; border-color: #6777AE;"></span>
+                        </td>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th class="qa-timesheet__time">09:00</th>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"
+                                  style="background-color: #7A8DCD; border-color: #6777AE;"></span>
+                        </td>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"
+                                  style="background-color: #7A8DCD; border-color: #6777AE;"></span>
+                        </td>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"
+                                  style="background-color: #7A8DCD; border-color: #6777AE;"></span>
+                        </td>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"
+                                  style="background-color: #7A8DCD; border-color: #6777AE;"></span>
+                        </td>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th class="qa-timesheet__time">10:00</th>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"
+                                style="background-color: #7A8DCD; border-color: #6777AE;"></span>
+                        </td>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"
+                                  style="background-color: #7A8DCD; border-color: #6777AE;"></span>
+                        </td>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"
+                                  style="background-color: #709DB3; border-color: #5F8598;"></span>
+                        </td>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"
+                                  style="background-color: #709DB3; border-color: #5F8598;"></span>
+                        </td>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th class="qa-timesheet__time">11:00</th>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"
+                                  style="background-color: #709DB3; border-color: #5F8598;"></span>
+                        </td>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"
+                                  style="background-color: #709DB3; border-color: #5F8598;"></span>
+                        </td>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"
+                                  style="background-color: #709DB3; border-color: #5F8598;"></span>
+                        </td>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"
+                                  style="background-color: #709DB3; border-color: #5F8598;"></span>
+                        </td>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th class="qa-timesheet__time">12:00</th>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"></span>
+                        </td>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"></span>
+                        </td>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"></span>
+                        </td>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"></span>
+                        </td>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th class="qa-timesheet__time">13:00</th>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"
+                                  style="background-color: #A3B8FB; border-color: #8A9CD5;"></span>
+                        </td>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"
+                                  style="background-color: #A3B8FB; border-color: #8A9CD5;"></span>
+                        </td>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"
+                                  style="background-color: #A3B8FB; border-color: #8A9CD5;"></span>
+                        </td>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"
+                                  style="background-color: #A3B8FB; border-color: #8A9CD5;"></span>
+                        </td>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th class="qa-timesheet__time">14:00</th>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"
+                                  style="background-color: #A3B8FB; border-color: #8A9CD5;"></span>
+                        </td>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"
+                                  style="background-color: #A3B8FB; border-color: #8A9CD5;"></span>
+                        </td>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"
+                                  style="background-color: #A3B8FB; border-color: #8A9CD5;"></span>
+                        </td>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"
+                                  style="background-color: #A3B8FB; border-color: #8A9CD5;"></span>
+                        </td>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th class="qa-timesheet__time">15:00</th>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"
+                                  style="background-color: #A3B8FB; border-color: #8A9CD5;"></span>
+                        </td>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"
+                                  style="background-color: #A3B8FB; border-color: #8A9CD5;"></span>
+                        </td>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"
+                                  style="background-color: #A3B8FB; border-color: #8A9CD5;"></span>
+                        </td>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"
+                                  style="background-color: #A3B8FB; border-color: #8A9CD5;"></span>
+                        </td>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th class="qa-timesheet__time">16:00</th>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"
+                                  style="background-color: #A3B8FB; border-color: #8A9CD5;"></span>
+                        </td>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"
+                                  style="background-color: #A3B8FB; border-color: #8A9CD5;"></span>
+                        </td>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"></span>
+                        </td>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"></span>
+                        </td>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th class="qa-timesheet__time">17:00</th>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"></span>
+                        </td>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"></span>
+                        </td>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"></span>
+                        </td>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="qa-timesheet__time">18:00</th>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"></span>
+                        </td>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"></span>
+                        </td>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"></span>
+                        </td>
+                        <td class="qa-timesheet__cell">
+                            <span class="qa-timesheet__activity"></span>
+                        </td>
+                        <th></th>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <div class="qa-timesheet-scroll">
+                    <div id="qa-timesheet-extend-eod">
+                        <svg class="qa-icon--medium">
+                            <use xlink:href="#icon-double-down"></use>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--
+    Icons are from Heroicons, MIT licensed https://heroicons.com/
+    -->
+    <svg aria-hidden="true" style="position: absolute; width: 0; height: 0; overflow: hidden;" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <symbol id="icon-double-up" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M5 11l7-7 7 7M5 19l7-7 7 7" />
+            </symbol>
+
+            <symbol id="icon-double-down" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 13l-7 7-7-7m14-8l-7 7-7-7" />
+            </symbol>
+        </defs>
+    </svg>
+</body>
+</html>

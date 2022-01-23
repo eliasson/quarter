@@ -1,0 +1,34 @@
+@using Quarter.Components.Navigation
+
+<nav class="qa-page-nav @(_isOpen ? "qa-is-open" : "")">
+    <div class="qa-page-nav__toggle qa-only-xs">
+        <h1 class="qa-page-nav__toggle__logo">Quarter</h1>
+        <button @onclick="ToggleMenu" class="qa-button qa-button--icon qa-button--ghost qa-page-nav__item">
+            <svg class="qa-page-nav__item__icon">
+                <use xlink:href="#icon-menu"></use>
+            </svg>
+        </button>
+    </div>
+    <ul>
+        <li test="nav-admin">
+            <PageNavigationItem Title="Admin" Path="@Page.Admin" IconRef="#icon-settings" />
+        </li>
+        <li test="nav-users">
+            <PageNavigationItem Title="Users" Path="@Page.AdminUsers" IconRef="#icon-users"/>
+        </li>
+        <li test="nav-home">
+            <PageNavigationItem Title="Application" Path="@Page.Home" IconRef="#icon-home"/>
+        </li>
+        <li test="nav-logout">
+            <PageNavigationItem Title="Logout" Path="@Page.Logout" IconRef="#icon-logout"/>
+        </li>
+    </ul>
+</nav>
+
+@code {
+    // NOTE: Toggle menu for small screens only is tested manually!
+    private bool _isOpen;
+
+    private void ToggleMenu()
+        => _isOpen = !_isOpen;
+}

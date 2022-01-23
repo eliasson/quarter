@@ -1,0 +1,23 @@
+<NavLink ActiveClass="qa-is-active" Match="@Match" href="@Path" class="qa-page-nav__item">
+    @Icon
+    <span class="qa-page-nav__item__label" test="nav-title">@Title</span>
+</NavLink>
+
+@code {
+    // Tested via PageNavigationTest
+
+    [Parameter]
+    public string Title { get; set; } = "";
+
+    [Parameter]
+    public string Path { get; set; } = "";
+
+    [Parameter]
+    public string IconRef { get; set; } = "";
+
+    [Parameter]
+    public NavLinkMatch Match { get; set; } = NavLinkMatch.All;
+
+    private MarkupString Icon
+        => new MarkupString(@$"<svg class=""qa-page-nav__item__icon""><use xlink:href=""{IconRef}""></use></svg>");
+}

@@ -1,0 +1,12 @@
+using System.Security.Claims;
+using Quarter.Core.Models;
+
+namespace Quarter.Auth;
+
+public static class ApplicationClaim
+{
+    public const string QuarterUserIdClaimType = "quarter-user-id";
+
+    public static Claim FromUserId(IdOf<User> userId)
+        => new Claim(QuarterUserIdClaimType, userId.AsString());
+}

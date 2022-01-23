@@ -1,0 +1,19 @@
+<div class="qa-empty-collection">
+    <div class="qa-empty-collection--message">
+        @Icon
+        <h2 test="empty-header">@Header</h2>
+        <p class="qa-fine-print" test="empty-message">@Message</p>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string Header { get; set; } = "";
+    [Parameter]
+    public string Message { get; set; } = "";
+    [Parameter]
+    public string IconRef { get; set; } = "";
+
+    private MarkupString Icon
+        => new MarkupString(@$"<svg class=""qa-icon--xx-large""><use xlink:href=""{IconRef}""></use></svg>");
+}

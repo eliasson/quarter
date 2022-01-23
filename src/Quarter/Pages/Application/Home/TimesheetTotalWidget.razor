@@ -1,0 +1,37 @@
+@using Quarter.Core.Models
+@using System.Globalization
+
+<div class="qa-list-item" @onclick="GoToTimesheet">
+    <div class="qa-list-item__main qa-timesheet__summary-line">
+        <div class="qa-timesheet__summary-line--main">
+            <h2 test="name-of-day">@NameOfDay</h2>
+            <div class="qa-fine-print" test="iso-day">@IsoDateShort</div>
+        </div>
+        <div class="qa-timesheet__summary-line--duration">
+            <span class="qa-summary-value">@Total</span>
+            <span class="qa-summary-unit">h</span>
+        </div>
+    </div>
+</div>
+
+@inject NavigationManager _navigationManager
+
+@code {
+    [Parameter]
+    public Timesheet? Timesheet { get; set; }
+
+    private string? NameOfDay
+        => Timesheet?.Date.DateTime.ToString("dddd", CultureInfo.InvariantCulture);
+
+    private string? IsoDateShort
+        => Timesheet?.Date.DateTime.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+    private string? Total
+        => Timesheet?.TotalAsHours();
+
+    private void GoToTimesheet()
+    {
+        if (Timesheet?.Date == null) return;
+        _navigationManager.NavigateTo(Page.Timesheet(Timesheet.Date.DateTime));
+    }
+}

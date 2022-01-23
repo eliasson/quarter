@@ -1,0 +1,28 @@
+@using Quarter.Utils
+
+<div class="qa-context-bar">
+    <div class="qa-context-bar__tabs">
+        <ul>
+            @foreach (var tab in Tabs)
+            {
+                <li>
+                    <NavLink ActiveClass="qa-is-active" Match="NavLinkMatch.All" href="@tab.Path" class="qa-tab-item" test="tab-item">
+                        @tab.Title
+                    </NavLink>
+                </li>
+            }
+        </ul>
+    </div>
+    <div class="qa-context-bar__actions">
+        @ChildContent
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public IList<TabData> Tabs { get; set; } = new List<TabData>();
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+}

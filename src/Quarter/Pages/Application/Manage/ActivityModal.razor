@@ -1,0 +1,105 @@
+@using Quarter.Components
+@using Quarter.Core.Models
+@using Quarter.State
+@using Quarter.State.Forms
+
+@inherits Quarter.Core.UI.Components.QuarterComponent<Quarter.State.ApplicationState>
+
+<Modal Title="@ModalTitle">
+    <EditForm Model="@FormData" OnValidSubmit="@OnConfirm" class="qa-form-pane" test="add-activity-modal">
+            <DataAnnotationsValidator/>
+            <fieldset>
+                <div class="qa-form-pane--details">
+                    <label for="activity-name">Name</label>
+                    <div class="qa-fine-print">The name that identifies the activity</div>
+                </div>
+                <div class="qa-form-pane--controls qa-compensate-full-width">
+                    <InputText id="activity-name"
+                               name="activity-name"
+                               placeholder="Anything"
+                               @bind-Value="FormData.Name"
+                               test="activity-name"/>
+                    <ValidationMessage For="@(() => FormData.Name)" test="activity-name-validation"/>
+                </div>
+            </fieldset>
+            <fieldset>
+                <div class="qa-form-pane--details">
+                    <label for="activity-description">Description</label>
+                    <div class="qa-fine-print">A short description of the activity</div>
+                </div>
+                <div class="qa-form-pane--controls qa-compensate-full-width">
+                    <InputTextArea id="activity-description"
+                                   name="activity-description"
+                                   placeholder="Something"
+                                   @bind-Value="FormData.Description"
+                                   test="activity-description"/>
+                </div>
+            </fieldset>
+            <fieldset>
+                <div class="qa-form-pane--details">
+                    <label for="activity-color">Color</label>
+                    <div class="qa-fine-print">A color that identifies the activity</div>
+                </div>
+                <div class="qa-form-pane--controls">
+                    <div class="qa-inline-controls">
+                        <div class="qa-color-input-marker"
+                             style="background-color: @FormData.Color"
+                             test="activity-color-marker"></div>
+                        <InputText id="activity-color" name="activity-color" placeholder="#ca1244" test="activity-color"
+                                   @bind-Value="FormData.Color"/>
+                        <ActionButton IconRef="#icon-refresh" OnAction="RandomColor"></ActionButton>
+                    </div>
+                    <ValidationMessage For="@(() => FormData.Color)" test="activity-color-validation" />
+                </div>
+            </fieldset>
+            <fieldset>
+                <div class="qa-form-pane--details"></div>
+                <div class="qa-form-pane--actions">
+                    <button type="button"
+                            class="qa-button qa-button--ghost qa-button--wide"
+                            test="cancel-button"
+                            @onclick="@OnCloseModal">Cancel</button>
+                    <button type="submit"
+                            class="qa-button qa-button--primary qa-button--wide"
+                            test="confirm-button">@(IsCreateMode() ? "Create" : "Save")</button>
+                </div>
+            </fieldset>
+    </EditForm>
+</Modal>
+
+@code {
+    [Parameter]
+    public ActivityFormData FormData { get; set; } = new ();
+
+    [Parameter]
+    public string ModalTitle { get; set;} = String.Empty;
+
+    [Parameter]
+    public IdOf<Project> ProjectId { get; set; } = IdOf<Project>.None;
+
+    [Parameter]
+    public IdOf<Activity>? ActivityId { get; set; }
+
+    private readonly Random _random = new Random();
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        if (FormData.Color.Length == 0)
+            RandomColor();
+    }
+
+    private bool IsCreateMode()
+        => ActivityId is null;
+
+    private Task OnConfirm()
+        => DispatchAsync(ActivityId is null
+            ? new AddActivityAction(ProjectId, FormData)
+            : new EditActivityAction(ProjectId, ActivityId, FormData));
+
+    private Task OnCloseModal()
+        => DispatchAsync(new CloseModalAction());
+
+    private void RandomColor()
+        => FormData.Color = $"#{_random.Next(0x1000000):X6}"; // I.e. FFFFFF + 1
+}

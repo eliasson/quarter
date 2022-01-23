@@ -1,0 +1,23 @@
+﻿@page "/app"
+@namespace Quarter.Pages.Application
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quarter - Time-tracker for individuals</title>
+    <base href="~/" />
+    <link rel="stylesheet" href="quarter.css" />
+    <meta name="theme-color" content="#252525">
+</head>
+<body>
+    <component type="typeof(App)" render-mode="ServerPrerendered" />
+    <script src="_framework/blazor.server.js"></script>
+</body>
+</html>

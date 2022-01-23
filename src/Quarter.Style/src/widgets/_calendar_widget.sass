@@ -1,0 +1,123 @@
+.qa-widget-calendar
+  min-width: 330px
+  max-width: 330px
+
+  ul li
+    margin: 0
+
+  .qa-calendar-navigation
+    display: flex
+    list-style: none
+    padding: 0
+    width: 100%
+
+    .qa-navigation-month
+      flex-grow: 1
+      text-align: center
+      align-self: center
+      font-weight: 600
+      padding: 4px
+
+    .qa-navigation-item
+      display: inline-block
+
+      margin: 0
+
+      &:first-child
+        text-align: left
+        align-self: start
+
+      &:last-child
+        text-align: right
+        align-self: end
+
+      a,
+      span
+        border: none
+        color: $color-text
+        display: inline-block
+        padding: 0.5*$std-air 1*$std-air
+        text-decoration: none
+
+  table.qa-calendar-table
+    border: 0
+    border-collapse: collapse
+    border-spacing: 0
+    padding: 0
+    margin: 0 30px 0 0 // Balance for week number column
+
+    td,
+    th
+      text-align: center
+
+    th, td
+      max-width: 30px
+      max-height: 30px
+
+      &.qa-calendar-today
+        color: $color-red
+        font-weight: bold
+
+      &.qa-calendar-selected
+        border-radius: $std-border-radius
+        background-color: $color-primary
+        color: $color-white
+        font-weight: 200
+
+        a,
+        a:active,
+        a:hover,
+        a:visited,
+        a:focus
+          color: $color-white
+          font-weight: 200
+
+    a,
+    a:active,
+    a:hover,
+    a:visited,
+    a:focus
+      text-decoration: none
+      font-weight: 200
+      display: block
+      padding: 5px
+
+    .qa-calendar-week
+      color: $color-gray-dark
+      vertical-align: middle
+      font-size: $font-size-milli
+
+    .qa-calendar-link
+      color: $color-text
+
+      &:hover
+        border-radius: $std-border-radius
+        background-color: $color-text
+        color: $color-white
+        cursor: pointer
+
+        a,
+        a:active,
+        a:hover,
+        a:visited,
+        a:focus
+          text-decoration: none
+          font-weight: 200
+          color: $color-white
+
+    .qa-calendar-selected
+      background-color: $color-primary
+      color: $color-white
+
+      &:hover
+        background-color: $color-text
+        color: $color-white
+        cursor: pointer
+
+    .qa-calendar-adjacent
+      a,
+      a:active,
+      a:hover,
+      a:visited,
+      a:focus
+        color: $color-gray-dark

@@ -1,0 +1,35 @@
+@using Quarter.Components
+@using Quarter.Core.Models
+@using Quarter.State
+@using Quarter.State.ViewModels
+
+<div class="qa-list-item__details">
+    @if (Project?.Activities.Count == 0)
+    {
+        <EmptyCollectionMessage Header="No activities" Message="You have not created any activities for this project yet." IconRef="#icon-manage"/>
+    }
+    else
+    {
+        <table>
+            <tbody>
+            @foreach (var activity in (Project?.Activities ?? Array.Empty<ActivityViewModel>()))
+            {
+                <ActivityTableRow Activity="activity" />
+            }
+            </tbody>
+        </table>
+    }
+    <div class="qa-list-item__actions">
+        <ActionButton IconRef="#icon-plus-sm" OnAction="@OnAddActivity" />
+    </div>
+</div>
+
+@inherits Quarter.Core.UI.Components.QuarterComponent<Quarter.State.ApplicationState>
+
+@code {
+    [Parameter]
+    public ProjectViewModel? Project { get; set; }
+
+    private Task OnAddActivity()
+        => DispatchAsync(new ShowAddActivityAction(Project!.Id));
+}

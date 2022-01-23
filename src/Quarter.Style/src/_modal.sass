@@ -1,0 +1,56 @@
+.qa-modal
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  position: absolute
+  padding: 0
+  margin: 0
+  background-color: transparent
+
+  &--backdrop
+    width: 100%
+    height: 100%
+    z-index: 90
+    position: absolute
+    opacity: 30%
+    background-color: $color-goth
+
+  &--overlay
+    width: 100%
+    height: 100%
+    z-index: 100
+    display: flex
+    align-items: center
+    justify-content: center
+
+  &--container
+    margin-left: auto
+    margin-right: auto
+    max-width: 48rem
+    min-width: 22rem
+    z-index: 200
+    background-color: $color-white
+    border: 2px solid $color-text
+    border-radius: $std-border-radius
+    box-shadow: 4px 4px 4px 0 rgba(20, 20, 30, 1)
+
+  &--header
+    padding: $pillow-medium
+
+    &--title
+      display: flex
+      flex-direction: row
+      justify-content: center
+
+      h1, h2, h3
+        flex-grow: 1
+        align-self: center
+        text-align: center
+        font-weight: 200
+
+      .qa-button--close
+        align-self: flex-end
+
+  &--content
+    padding: $pillow-medium

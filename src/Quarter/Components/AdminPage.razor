@@ -1,0 +1,37 @@
+@using Quarter.Components.Navigation
+@using Quarter.State
+@inherits Quarter.Core.UI.Components.QuarterComponent<Quarter.State.ApplicationState>
+
+<div class="qa-page-header">
+    <AdminPageNavigation />
+</div>
+
+<div class="qa-page-area">
+    <div class="qa-page-content" test="page-content">
+        @PageContent
+    </div>
+</div>
+
+@foreach (var (type, dictionary) in Modals())
+{
+    <DynamicComponent Type="type" Parameters="dictionary" />
+}
+
+<Icons />
+
+@code {
+#nullable enable
+
+    [Parameter]
+    public RenderFragment? PageContent { get; set; }
+
+    [Parameter]
+    public bool ColumnMode { get; set; }
+
+    private IList<ModalState> Modals()
+    {
+        if (State?.Modals is not null)
+            return State.Modals.ToList();
+        return Array.Empty<ModalState>();
+    }
+}

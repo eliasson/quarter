@@ -1,0 +1,247 @@
+@using Quarter.Components
+@using Quarter.Core.Models
+@using Quarter.Core.UI.State
+@using Quarter.State
+@using Quarter.State.ViewModels
+
+<div class="qa-widget qa-timesheet" xmlns="http://www.w3.org/1999/html">
+    <div class="qa-timesheet-scroll">
+        <button class="qa-button qa-button--icon qa-button--ghost"
+                @onclick="OnStartOfDay"
+                disabled="@_dayStart.LimitReached()"
+                test="start-of-day-action">
+            <svg class="qa-icon--medium">
+                <use xlink:href="#icon-double-up"></use>
+            </svg>
+        </button>
+    </div>
+
+    <table id="qa-timesheet-sheet" class="qa-sheet-table">
+        <tbody>
+        @foreach (var hour in Hours())
+        {
+            if (hour.Index < _dayStart.Value || hour.Index > _dayEnd.Value) continue;
+
+            <tr test="hour-row">
+                <th class="qa-timesheet__time">@hour.Label</th>
+                @foreach (var quarter in hour.Quarters)
+                {
+                    <td class="qa-timesheet__cell"
+                        @onmouseup="@(() => OnMouseUp(quarter))"
+                        @onmousedown="@(() => OnMouseDown(quarter))"
+                        @onmouseover="@(() => OnMouseOver(quarter))"
+                        test="timesheet-cell">
+                        <span class="qa-timesheet__activity @QuarterClasses(quarter)"
+                              style="@QuarterStyling(quarter)"
+                              test="timesheet-cell-activity"></span>
+                    </td>
+                }
+                <th class="qa-timesheet__time"></th>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+    <div class="qa-timesheet-scroll">
+        <button class="qa-button qa-button--icon qa-button--ghost"
+                @onclick="OnEndOfDay"
+                disabled="@_dayEnd.LimitReached()"
+                test="end-of-day-action">
+            <svg class="qa-icon--medium">
+                <use xlink:href="#icon-double-down"></use>
+            </svg>
+        </button>
+    </div>
+</div>
+
+@inherits Quarter.Core.UI.Components.QuarterComponent<Quarter.State.ApplicationState>
+
+@code {
+    //
+    // Note about testing - The grid is very much based on mouse-events which I did not succeed to fake via BUnit.
+    // So the "drawing" of cells needs to be manually tested. Also, the look-and-feel (CSS and animations) cannot be
+    // automated.
+
+    // The timesheet limits the day view with actions to extend that perspective
+    private DayLimit _dayStart = new DayLimit(ApplicationState.DefaultStartHour, 0, true);
+    private DayLimit _dayEnd = new DayLimit(ApplicationState.DefaultEndHour, 23, false);
+
+    // The hours to render. These are reflecting the grids drawing state
+    private Hour[]? _hours;
+
+    // Quarter selection is always a head (the cell that received the first mouse-down event. And a list of offset ID's
+    // for the adjacent cells that are also selected.
+    private QuarterViewModel? _selectedQuartersHead;
+    internal int[] SelectedQuarterIdRange = Array.Empty<int>();
+
+    // The timesheet only need the colors for activities, and we know that the Activity ID is unique, so make
+    // a lookup table to access colors during render.
+    private IDictionary<IdOf<Activity>, ActivityColor> _activityColorLookup = new Dictionary<IdOf<Activity>, ActivityColor>();
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        GenerateHours();
+    }
+
+    internal IEnumerable<Hour> Hours()
+        => _hours ?? GenerateHours();
+
+    private void OnStartOfDay()
+        => _dayStart.Extend();
+
+    private void OnEndOfDay()
+        => _dayEnd.Extend();
+
+    internal void OnMouseDown(QuarterViewModel quarter)
+    {
+        if (State is null) return;
+
+        _selectedQuartersHead = quarter;
+        SelectedQuarterIdRange = new[] { quarter.Index };
+
+        StyleSelectedQuarter(SelectedQuarterIdRange);
+    }
+
+    internal void OnMouseOver(QuarterViewModel quarter)
+    {
+        if (_selectedQuartersHead is null) return;
+
+        var previousRange = SelectedQuarterIdRange;
+        SelectedQuarterIdRange = Array.Empty<int>();
+
+        if (_selectedQuartersHead.Index > quarter.Index) // Going upwards
+            SelectedQuarterIdRange = Enumerable.Range(quarter.Index, _selectedQuartersHead.Index - quarter.Index + 1).ToArray();
+
+        else if (_selectedQuartersHead.Index < quarter.Index) // Going downwards
+            SelectedQuarterIdRange = Enumerable.Range(_selectedQuartersHead.Index, quarter.Index - _selectedQuartersHead.Index + 1).ToArray();
+        else
+            SelectedQuarterIdRange = new[] { quarter.Index };
+
+        ClearStyleFromQuarters(previousRange);
+        StyleSelectedQuarter(SelectedQuarterIdRange);
+    }
+
+    internal async Task OnMouseUp(QuarterViewModel quarter)
+    {
+        var timesheet = State?.SelectedTimesheet;
+        if (timesheet is null) return;
+
+        IAction action = State?.SelectedActivity is null
+            ? new EraseTimeAction(timesheet.Date, new EraseTimeSlot(SelectedQuarterIdRange[0], SelectedQuarterIdRange.Length))
+            : new RegisterTimeAction(timesheet.Date, new ActivityTimeSlot(State.SelectedActivity.ProjectId,
+                State.SelectedActivity.ActivityId, SelectedQuarterIdRange[0], SelectedQuarterIdRange.Length));
+
+        await DispatchAsync(action);
+
+        _selectedQuartersHead = null;
+        SelectedQuarterIdRange = Array.Empty<int>();
+    }
+
+    private string QuarterClasses(QuarterViewModel quarter)
+        => SelectedQuarterIdRange.Contains(quarter.Index) ? "qa-is-pending" : "";
+
+    private string QuarterStyling(QuarterViewModel quarter)
+    {
+        if (quarter.BackgroundColor is not null && quarter.BorderColor is not null)
+            return $"background-color: {quarter.BackgroundColor}; border-color: {quarter.BorderColor};";
+        return string.Empty;
+    }
+
+    private void StyleSelectedQuarter(IEnumerable<int> range)
+    {
+        if (_hours is null) return;
+
+        var (backgroundColor, borderColor) = SelectedActivityColor();
+        foreach (var quarterOffset in range)
+        {
+            var quarter = _hours[quarterOffset / 4].Quarters[quarterOffset % 4];
+            quarter.TemporaryBackgroundColor = backgroundColor;
+            quarter.TemporaryBorderColor = borderColor;
+        }
+    }
+
+    private void ClearStyleFromQuarters(IEnumerable<int> range)
+    {
+        if (_hours is null) return;
+
+        foreach (var quarterOffset in range)
+        {
+            var quarter = _hours[quarterOffset / 4].Quarters[quarterOffset % 4];
+            quarter.TemporaryBackgroundColor = null;
+            quarter.TemporaryBorderColor = null;
+        }
+    }
+
+    private ActivityColor SelectedActivityColor()
+        => State?.SelectedActivity?.ActivityId is null
+            ? ApplicationState.EraseColor
+            : _activityColorLookup[State.SelectedActivity.ActivityId];
+
+    private void GenerateActivityColorLookup()
+    {
+        // The activities does not change while this component is active.
+        if (State is null || _activityColorLookup.Any()) return;
+
+        _activityColorLookup = State.Projects
+            .SelectMany(p => p.Activities)
+            .ToDictionary(a => a.Id!, a => new ActivityColor(a.Color, a.DarkerColor));
+    }
+
+    private IEnumerable<Hour> GenerateHours()
+    {
+        if (State?.SelectedTimesheet is null) return new List<Hour>();
+
+        GenerateActivityColorLookup();
+
+        var timesheet = State.SelectedTimesheet;
+        // Store the activity ID at the quarter offset for easier access while setting colors
+        var existingQuarters = new IdOf<Activity>?[96];
+        var hours = new Hour[24];
+
+        foreach (var slot in timesheet.Slots())
+        {
+            for (var index = slot.Offset; index < slot.Offset + slot.Duration; index++)
+                existingQuarters[index] = slot.ActivityId;
+        }
+
+        for (var i = 0; i < hours.Length; i++)
+        {
+            var quarters = new QuarterViewModel[4];
+            for (var j = 0; j < quarters.Length; j++)
+            {
+                var existingActivityId = existingQuarters[i * 4 + j];
+                if (existingActivityId is not null)
+                {
+                    var activityColor = _activityColorLookup[existingActivityId];
+                    quarters[j] = new QuarterViewModel(i * 4 + j, activityColor);
+                }
+                else
+                {
+                    quarters[j] = new QuarterViewModel(i * 4 + j);
+                }
+            }
+            hours[i] = new Hour(i, quarters);
+        }
+
+        UpdateStartAndEndOfDay(timesheet);
+
+        _hours = hours;
+        return _hours;
+    }
+
+    private void UpdateStartAndEndOfDay(Timesheet timesheet)
+    {
+        if (timesheet.FirstHourInUse is { } startHour)
+        {
+            var hour = Math.Min(startHour, ApplicationState.DefaultStartHour);
+            _dayStart = new DayLimit(hour, 0, true);
+        }
+
+        if (timesheet.LastHourInUse is { } endHour)
+        {
+            var hour = Math.Max(endHour, ApplicationState.DefaultEndHour);
+            _dayEnd = new DayLimit(hour, 23, false);
+        }
+    }
+}

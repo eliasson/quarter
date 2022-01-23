@@ -1,0 +1,38 @@
+@page "/app/timesheet/"
+@page "/app/timesheet/{SelectedDate:datetime}"
+@attribute [Authorize]
+
+@using Quarter.Components
+@using Quarter.Core.Utils
+@using Quarter.State
+
+<ApplicationPage ColumnMode="true">
+    <PageContent>
+        <div class="qa-page-content__context">
+            <CalendarWidget SelectedDate="SelectedDate" LinkGeneratorFn="@Page.Timesheet" />
+            <TimesheetSummaryWidget />
+        </div>
+        <div class="qa-page-content__main">
+            <TimesheetGrid />
+        </div>
+        <div class="qa-page-content__toolbar">
+            <TimesheetActivitySelectorWidget />
+        </div>
+    </PageContent>
+</ApplicationPage>
+
+@inherits Quarter.Core.UI.Components.QuarterComponent<Quarter.State.ApplicationState>
+
+@code {
+    [Parameter]
+    public DateTime? SelectedDate { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+        SelectedDate ??= DateTime.UtcNow.Date;
+
+        await DispatchAsync(new LoadProjects());
+        await DispatchAsync(new LoadTimesheetAction(new Date(SelectedDate.Value)));
+    }
+}

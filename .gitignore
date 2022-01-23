@@ -1,0 +1,9 @@
+.idea/
+bin/
+obj/
+node_modules/
+docker/data/
+.DS_Store
+
+*.DotSettings.user
+*.Development.json

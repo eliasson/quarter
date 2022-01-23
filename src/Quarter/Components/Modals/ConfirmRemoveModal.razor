@@ -1,0 +1,46 @@
+@using Quarter.Components
+@using Quarter.Core.UI.State
+@using Quarter.State
+@inherits Quarter.Core.UI.Components.QuarterComponent<Quarter.State.ApplicationState>
+
+<Modal Title="@Title">
+    <form @onsubmit="@OnConfirmInternal">
+            <fieldset>
+                <div class="qa-form-pane qa-form-pane--single" test="modal-message">
+                    @Message
+                </div>
+            </fieldset>
+            <fieldset>
+                <div class="qa-form-pane qa-form-pane--single">
+                    <button type="button"
+                            class="qa-button qa-button--ghost qa-button--wide"
+                            @onclick="@OnCloseModal"
+                            test="cancel-button">Cancel</button>
+                    <button type="submit"
+                            class="qa-button qa-button--primary qa-button--danger qa-button--wide"
+                            test="confirm-button">Remove</button>
+                </div>
+            </fieldset>
+        </form>
+</Modal>
+
+@code {
+    [Parameter]
+    public string Title { get; set; } = string.Empty;
+
+    [Parameter]
+    public string Message { get; set; } = string.Empty;
+
+    [Parameter]
+    public IAction? OnConfirmAction { get; set; }
+
+    private async Task OnConfirmInternal()
+    {
+        if (OnConfirmAction is not null)
+            await DispatchAsync(OnConfirmAction);
+    }
+
+
+    private Task OnCloseModal()
+        => DispatchAsync(new CloseModalAction());
+}

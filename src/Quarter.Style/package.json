@@ -1,0 +1,11 @@
+{
+  "name": "quarter.style",
+  "version": "0.0.1",
+  "private": "true",
+  "scripts": {
+    "build": "sass src/quarterapp.sass ../Quarter/wwwroot/quarter.css"
+  },
+  "dependencies": {
+    "sass": "^1.32.8"
+  }
+}

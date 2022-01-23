@@ -1,0 +1,15 @@
+version: "3.7"
+services:
+  postgres:
+    image: postgres:14.1
+    container_name: q_postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=sa01
+      - POSTGRES_PASSWORD=local
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - ./data/:/var/lib/postgresql/data/
+      - ./init.sql:/docker-entrypoint-initdb.d/10-init.sql

@@ -1,0 +1,27 @@
+@page "/admin/users/"
+@attribute [Authorize(Roles = "administrator")]
+
+@using Quarter.Components
+@using Quarter.State
+@using Quarter.Utils
+
+<AdminPage>
+    <PageContent>
+        <PageContext Tabs="@_tabs">
+            <ActionButton IconRef="#icon-plus-sm" OnAction="@OnAddUser" />
+        </PageContext>
+        <UsersTable />
+    </PageContent>
+</AdminPage>
+
+@inherits Quarter.Core.UI.Components.QuarterComponent<Quarter.State.ApplicationState>
+
+@code {
+    private readonly List<TabData> _tabs = new ()
+    {
+        new TabData("All", Page.AdminUsers),
+    };
+
+    private Task OnAddUser()
+        => DispatchAsync(new ShowAddUserAction());
+}

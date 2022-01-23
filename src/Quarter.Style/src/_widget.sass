@@ -1,0 +1,25 @@
+.qa-widget
+  display: inline-block
+  background-color: $color-white
+  width: 100%
+  border-radius: $std-border-radius
+  border: 2px solid #252525
+  box-shadow: 4px 4px 4px -4px #14141e
+
+  .qa-widget-header
+    text-align: center
+
+  &--with-content
+    padding: $pillow-large
+    min-width: 360px
+    max-width: 360px
+
+  &--header
+    padding: $pillow-medium
+    text-align: center
+
+    &--title
+      font-weight: 200
+
+.qa-widget + .qa-widget
+  margin-top: $pillow-large

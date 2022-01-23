@@ -1,0 +1,70 @@
+<button @onclick="@(ev => ToggleMenu(ev))"
+        class="qa-button qa-button--icon qa-button--ghost @(IsInverted ? "qa-button--inverted" : "")"
+        test="menu-launcher">
+    <svg class="qa-icon--medium">
+        <use xlink:href="#icon-dots-horizontal"></use>
+    </svg>
+</button>
+
+@if (_isActive)
+{
+    <div @onclick="@(() => ToggleMenu())"
+         class="qa-context-menu-backdrop"
+         test="menu-backdrop">
+
+        <menu id="menu"
+              class="qa-context-menu qa-text-left"
+              style="@MenuStyling()"
+              @onclick:stopPropagation="true"
+              @onclick:preventDefault="true">
+            @foreach (var item in Items)
+            {
+                <li @onclick="(ev) => SelectItem(item)"
+                    class="qa-context-menu-item"
+                    test-menu="@item.Title"
+                    test="menu-item">
+                    <span class="qa-context-menu-item__label" test="menu-item-label">@item.Title</span>
+                </li>
+            }
+        </menu>
+    </div>
+}
+
+@code {
+    public record MenuItemVm(string Type, string Title, string? Id = null);
+
+    [Parameter]
+    public IList<MenuItemVm> Items { get; set; } = new List<MenuItemVm>();
+
+    [Parameter]
+    public EventCallback<MenuItemVm> ItemSelected { get; set; }
+
+    [Parameter]
+    public bool IsInverted { get; set; }
+
+    private bool _isActive;
+    private (int X, int Y) _position = (0, 0);
+
+    private void ToggleMenu()
+        => _isActive = !_isActive;
+
+    private void ToggleMenu(MouseEventArgs ev)
+    {
+        _isActive = !_isActive;
+        _position = ((int)ev.ClientX, (int)ev.ClientY);
+    }
+
+    private async Task SelectItem(MenuItemVm item)
+    {
+        await InvokeAsync(async () =>
+        {
+            _isActive = false;
+            await ItemSelected.InvokeAsync(item);
+            ;
+        });
+    }
+
+    // Needs to be tested manually
+    private string MenuStyling()
+        => $"left: {_position.X - 275}px; top: {_position.Y}px";
+}

@@ -1,0 +1,39 @@
+@using Quarter.Components
+@using Quarter.State
+@using Quarter.State.ViewModels
+
+<tr test="activity">
+    <td class="qa-activity-marker-column">
+        <div class="qa-activity-marker"
+             style="background-color: @Activity?.Color; border-color: @Activity?.DarkerColor"
+             test="activity-color"></div>
+    </td>
+    <td test="activity-name">@Activity?.Name</td>
+    <td class="qa-text-right" test="activity-usage">@Activity?.TotalAsHours() h</td>
+    <td class="qa-activity-action-column">
+        <ContextMenu Items="MenuItems" ItemSelected="OnMenuItem" />
+    </td>
+</tr>
+
+@inherits Quarter.Core.UI.Components.QuarterComponent<Quarter.State.ApplicationState>
+
+@code {
+    [Parameter]
+    public ActivityViewModel? Activity { get; set; }
+
+    private static readonly List<ContextMenu.MenuItemVm> MenuItems = new List<ContextMenu.MenuItemVm>
+    {
+        new("edit", "Edit activity"),
+        new("remove", "Remove activity"),
+    };
+
+    private async Task OnMenuItem(ContextMenu.MenuItemVm item)
+    {
+        var res = item.Type switch {
+            "edit" => DispatchAsync(new ShowEditActivityAction(Activity!.ProjectId, Activity!.Id)),
+                 _ => DispatchAsync(new ShowRemoveActivityAction(Activity!.Id))
+        };
+
+        await res;
+    }
+}

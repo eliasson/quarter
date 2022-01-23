@@ -1,0 +1,51 @@
+.qa-ts-widget-summary
+  min-width: 330px - (2 * $pillow-medium)
+  max-width: 330px - (2 * $pillow-medium)
+  padding:  $pillow-medium
+
+  .qa-widget-header
+    .qa-ts-summary-value
+      font-size: $font-size-tera
+
+    .qa-ts-summary-unit
+      font-size: $font-size-mega
+      padding-left: $pillow-small
+
+  .qa-widget-details
+    table
+      width: unset
+
+      tbody
+        &::after
+          height:  $pillow-medium
+          display: table-row
+          content: ''
+
+      th,
+      td
+        &.qa-ts-summary-marker-column
+          .qa-activity-marker
+            margin-left: $pillow-medium
+
+        &.qa-ts-summary-value-column
+          font-weight: 200
+          text-align: right
+          vertical-align: top
+          color: $color-text
+
+        &.qa-ts-summary-activity-column
+          font-weight: 200
+          padding-left: 10px
+          color: $color-text
+
+      th
+        padding-top:  $pillow-medium
+        text-align: left
+        font-size: $font-size
+
+        &.qa-ts-summary-value-column,
+        &.qa-ts-summary-activity-column
+          font-weight: 600
+
+      tr:last-of-type > td
+        padding-bottom: $pillow-small
