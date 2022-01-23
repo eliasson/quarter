@@ -261,6 +261,7 @@ public class InMemoryTimesheetRepositoryTest : TimesheetRepositoryTest
         => new InMemoryTimesheetRepository();
 }
 
+[Category(TestCategories.DatabaseDependency)]
 public class PostgresqlTimesheetRepositoryTest : TimesheetRepositoryTest
 {
     protected override ITimesheetRepository Repository()

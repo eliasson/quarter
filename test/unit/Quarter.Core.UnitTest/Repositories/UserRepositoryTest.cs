@@ -110,6 +110,7 @@ namespace Quarter.Core.UnitTest.Repositories
             => new InMemoryUserRepository();
     }
 
+    [Category(TestCategories.DatabaseDependency)]
     public class PostgresUserRepositoryTest : UserRepositoryTest
     {
         protected override IUserRepository Repository()

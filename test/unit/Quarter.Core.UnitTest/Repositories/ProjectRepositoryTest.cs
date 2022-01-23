@@ -1,4 +1,5 @@
 using System;
+using NUnit.Framework;
 using Quarter.Core.Models;
 using Quarter.Core.Repositories;
 using Quarter.Core.UnitTest.TestUtils;
@@ -33,6 +34,7 @@ namespace Quarter.Core.UnitTest.Repositories
             => new InMemoryProjectRepository();
     }
 
+    [Category(TestCategories.DatabaseDependency)]
     public class PostgresProjectRepositoryTest : ProjectRepositoryTest
     {
         protected override IProjectRepository Repository()

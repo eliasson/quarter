@@ -1,4 +1,5 @@
 using System;
+using NUnit.Framework;
 using Quarter.Core.Models;
 using Quarter.Core.Repositories;
 using Quarter.Core.UnitTest.TestUtils;
@@ -35,6 +36,7 @@ namespace Quarter.Core.UnitTest.Repositories
             => new InMemoryActivityRepository();
     }
 
+    [Category(TestCategories.DatabaseDependency)]
     public class PostgresActivityRepositoryTest : ActivityRepositoryTest
     {
         protected override IActivityRepository Repository()

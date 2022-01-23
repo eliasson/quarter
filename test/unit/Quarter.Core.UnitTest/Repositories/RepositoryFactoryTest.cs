@@ -148,6 +148,7 @@ public class InMemoryRepositoryAccessTest : RepositoryAccessTestBase
     protected override IRepositoryFactory Factory { get; } = new InMemoryRepositoryFactory();
 }
 
+[Category(TestCategories.DatabaseDependency)]
 public class SqliteRepositoryAccessTest : RepositoryAccessTestBase
 {
     protected override IRepositoryFactory Factory { get; } = new PostgresRepositoryFactory(UnitTestPostgresConnectionProvider.Instance);
