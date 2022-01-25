@@ -133,6 +133,31 @@ public abstract class RepositoryAccessTestBase
         Assert.That(oneIds.Except(twoIds), Is.EquivalentTo(oneIds));
     }
 
+    [Test]
+    public async Task GetByDateShouldReturnTimesheetForUserOnly()
+    {
+        // Create two timesheets, where only the first has any time registered
+        var date = Date.Random();
+
+        var tsOne = Timesheet.CreateForDate(date);
+        tsOne.Register(new ActivityTimeSlot(IdOf<Project>.Random(), IdOf<Activity>.Random(), 0, 4));
+
+        var tsTwo = Timesheet.CreateForDate(date);
+
+        await _timesheetRepositoryOne.CreateAsync(tsOne, CancellationToken.None);
+        await _timesheetRepositoryTwo.CreateAsync(tsTwo, CancellationToken.None);
+
+        var readOne = await _timesheetRepositoryOne.GetByDateAsync(date, CancellationToken.None);
+        var readTwo = await _timesheetRepositoryTwo.GetByDateAsync(date, CancellationToken.None);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(readOne.Id, Is.Not.EqualTo(readTwo.Id));
+            Assert.That(readOne.TotalMinutes(), Is.EqualTo(4 * 15));
+            Assert.That(readTwo.TotalMinutes(), Is.Zero);
+        });
+    }
+
     private static Project ArbitraryProject()
         => new Project("Arbitrary", "Arbitrary");
 

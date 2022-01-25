@@ -158,8 +158,8 @@ public class PostgresTimesheetRepository : PostgresRepositoryBase<Timesheet>, IT
     public async Task<Timesheet> GetByDateAsync(Date date, CancellationToken ct)
     {
         await using var connection = await _connectionProvider.GetConnectionAsync(ct);
-        var query = $"SELECT data FROM {TableName} WHERE date=@date";
-        var parameters = new List<NpgsqlParameter>{ new ("date", date.IsoString()) };
+        var query = $"SELECT data FROM {TableName} WHERE date=@date AND {UserIdColumnName}=@userId";
+        var parameters = new List<NpgsqlParameter>{ new ("date", date.IsoString()), WithAccessCondition() };
         var result = await ExecuteQueryAsync(connection, query, ct, parameters).ToListAsync(ct);
 
         var timesheet = result.FirstOrThrow(new NotFoundException($"No timesheet for date {date.IsoString()} exists"));
@@ -245,11 +245,11 @@ public class PostgresTimesheetRepository : PostgresRepositoryBase<Timesheet>, IT
         }
     }
 
-    private static async Task<IList<ActivityTimeSlot>> ReadTimeSlots(NpgsqlConnection connection, IdOf<Timesheet> id, CancellationToken ct)
+    private async Task<IList<ActivityTimeSlot>> ReadTimeSlots(NpgsqlConnection connection, IdOf<Timesheet> id, CancellationToken ct)
     {
         await using var command = connection.CreateCommand();
-        command.CommandText = $"SELECT projectId, activityId, qoffset, duration, created FROM {SlotTableName} WHERE id=@id;";
-        command.Parameters.AddRange(new NpgsqlParameter[] { new("id", id.Id) });
+        command.CommandText = $"SELECT projectId, activityId, qoffset, duration, created FROM {SlotTableName} WHERE id=@id AND {UserIdColumnName}=@userId;";
+        command.Parameters.AddRange(new NpgsqlParameter[] { new("id", id.Id), WithAccessCondition() });
 
         var slots = new List<ActivityTimeSlot>();
         await using var reader = await command.ExecuteReaderAsync(ct);
