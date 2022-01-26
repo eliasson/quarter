@@ -88,7 +88,7 @@ public class InMemoryTimesheetRepository : InMemoryRepositoryBase<Timesheet>, IT
     public Task<ProjectTotalUsage> GetProjectTotalUsageAsync(IdOf<Project> projectId, CancellationToken ct)
     {
         var total = 0;
-        var activities = new List<ActivityUsage>();
+        var activities = new Dictionary<IdOf<Activity>, ActivityUsage>();
         var soonestTimestamp = DateTime.MinValue;
 
         var slotsForProject = Storage.Values
@@ -99,11 +99,14 @@ public class InMemoryTimesheetRepository : InMemoryRepositoryBase<Timesheet>, IT
             if (slot.Created.DateTime > soonestTimestamp)
                 soonestTimestamp = slot.Created.DateTime;
 
-            activities.Add(new ActivityUsage(slot.ActivityId, slot.Duration * 15, slot.Created));
+            if (activities.TryGetValue(slot.ActivityId, out var existingUsage))
+                activities[slot.ActivityId] = new ActivityUsage(slot.ActivityId, existingUsage.TotalMinutes + slot.Duration * 15, slot.Created);
+            else
+                activities[slot.ActivityId] = new ActivityUsage(slot.ActivityId, slot.Duration * 15, slot.Created);
             total += slot.Duration * 15;
         }
 
-        var result = new ProjectTotalUsage(total, activities, new UtcDateTime(soonestTimestamp));
+        var result = new ProjectTotalUsage(total, activities.Values.ToList(), new UtcDateTime(soonestTimestamp));
         return Task.FromResult(result);
     }
 }
@@ -204,7 +207,7 @@ public class PostgresTimesheetRepository : PostgresRepositoryBase<Timesheet>, IT
         await using var reader = await command.ExecuteReaderAsync(ct);
 
         var total = 0;
-        var activities = new List<ActivityUsage>();
+        var activities = new Dictionary<IdOf<Activity>, ActivityUsage>();
         var soonestTimestamp = DateTime.MinValue;
         while (await reader.ReadAsync(ct))
         {
@@ -216,11 +219,14 @@ public class PostgresTimesheetRepository : PostgresRepositoryBase<Timesheet>, IT
             if (createdTimestamp > soonestTimestamp)
                 soonestTimestamp = createdTimestamp;
 
-            activities.Add(new ActivityUsage(activityId, duration * 15, created));
+            if (activities.TryGetValue(activityId, out var existingUsage))
+                activities[activityId] = new ActivityUsage(activityId, existingUsage.TotalMinutes + duration * 15, created);
+            else
+                activities[activityId] = new ActivityUsage(activityId, duration * 15, created);
             total += duration * 15;
         }
 
-        return new ProjectTotalUsage(total, activities,  new UtcDateTime(soonestTimestamp));
+        return new ProjectTotalUsage(total, activities.Values.ToList(), new UtcDateTime(soonestTimestamp));
     }
 
     private async Task StoreTimeSlotsForTimesheet(NpgsqlConnection connection, Timesheet timesheet, CancellationToken ct)

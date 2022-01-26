@@ -163,6 +163,21 @@ public abstract class TimesheetRepositoryTest : RepositoryTestBase<Timesheet, IT
     }
 
     [Test]
+    public async Task ShouldAggregateTotalUsagePerActivity()
+    {
+        var repository = Repository();
+        var agg = ArbitraryAggregate();
+        var activityId = IdOf<Activity>.Random();
+        agg.Register(new ActivityTimeSlot(_stableProjectId, activityId, 0, 2));
+        agg.Register(new ActivityTimeSlot(_stableProjectId, activityId, 4, 4));
+
+        _ = await repository.CreateAsync(agg, CancellationToken.None);
+        var usage = await repository.GetProjectTotalUsageAsync(_stableProjectId, CancellationToken.None);
+        var activityUsage = usage.Activities.Select(u => u.TotalMinutes);
+        Assert.That(activityUsage, Is.EqualTo(new [] { 6 * 15 }));
+    }
+
+    [Test]
     public async Task ShouldReportTotalPerActivity()
     {
         var activityOne = IdOf<Activity>.Random();
