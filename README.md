@@ -9,6 +9,8 @@ to track your time.
 
 ## Current state
 
+[![Build](https://github.com/eliasson/quarter/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/eliasson/quarter/actions/workflows/build.yml)
+
 **Under construction - Quarter is under construction and not yet ready for daily use just yet.**
 
 - [x] Authentication
