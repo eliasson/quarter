@@ -49,5 +49,9 @@ namespace Quarter.Core.UnitTest.Utils
             // Just assert one thing, the problem was that date was DateTime.MinValue
             Assert.That(result.DateTime.Day, Is.EqualTo(15));
         }
+
+        [Test]
+        public void ItShouldHaveAMinValue()
+            => Assert.That(UtcDateTime.MinValue.DateTime, Is.EqualTo(DateTime.MinValue));
     }
 }

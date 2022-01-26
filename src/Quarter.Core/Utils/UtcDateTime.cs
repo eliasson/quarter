@@ -22,5 +22,11 @@ namespace Quarter.Core.Utils
         /// <returns>The UTC date time</returns>
         public static UtcDateTime Now()
             => new (DateTime.UtcNow);
+
+        /// <summary>
+        /// Get a UTC DateTime representing no time / empty / null
+        /// </summary>
+        public static UtcDateTime MinValue
+            => new (DateTime.MinValue);
     }
 }
