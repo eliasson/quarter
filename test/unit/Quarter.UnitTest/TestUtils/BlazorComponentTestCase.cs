@@ -48,7 +48,7 @@ namespace Quarter.UnitTest.TestUtils
         protected IElement ComponentByTestAttribute(string value)
             => Component?.Find($"[test={value}]");
 
-        protected IRefreshableElementCollection<IElement>? ComponentsByTestAttribute(string value)
+        protected IRefreshableElementCollection<IElement> ComponentsByTestAttribute(string value)
             => Component?.FindAll($"[test={value}]");
 
         protected bool DidDispatchAction(Type actionType)
