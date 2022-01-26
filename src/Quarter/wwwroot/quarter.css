@@ -766,9 +766,14 @@ input[type=submit][disabled] {
 }
 .qa-timesheet .qa-timesheet-scroll {
   width: 100%;
-  padding: 16px 0;
   display: flex;
   flex-direction: column;
+}
+.qa-timesheet .qa-timesheet-scroll--sod {
+  padding: 16px 0 0 0;
+}
+.qa-timesheet .qa-timesheet-scroll--eod {
+  padding: 0 0 16px 0;
 }
 .qa-timesheet .qa-timesheet-scroll:hover {
   cursor: pointer;
@@ -1029,12 +1034,10 @@ input[type=submit][disabled] {
   font-weight: 400;
   color: #6f6f6f;
   padding: 4px;
-  font-size: 14px;
 }
 .qa-list-item__statistics__value {
   font-weight: 200;
   padding: 8px 0 16px 0;
-  font-size: 14px;
 }
 .qa-list-item__details {
   display: flex;
@@ -1084,9 +1087,9 @@ input[type=submit][disabled] {
 }
 
 .qa-home-widget-summary {
-  min-width: 300px;
-  min-height: 300px;
-  max-width: 300px;
+  min-width: 330px;
+  min-height: 330px;
+  max-width: 330px;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -1178,8 +1181,8 @@ input[type=submit][disabled] {
   padding: 8px 0;
   display: flex;
   flex-direction: column;
-  min-width: 320px;
-  max-width: 320px;
+  min-width: 3 330px;
+  max-width: 330px;
 }
 .qa-activity-list .qa-activity-list-activity-item {
   padding: 8px 0;
@@ -1265,7 +1268,6 @@ input[type=submit][disabled] {
   text-align: center;
   align-self: center;
   font-weight: 600;
-  padding: 4px;
 }
 .qa-widget-calendar .qa-calendar-navigation .qa-navigation-item {
   display: inline-block;
@@ -1332,7 +1334,6 @@ input[type=submit][disabled] {
   text-decoration: none;
   font-weight: 200;
   display: block;
-  padding: 5px;
 }
 .qa-widget-calendar table.qa-calendar-table .qa-calendar-week {
   color: #bbbbbb;

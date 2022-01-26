@@ -1,6 +1,6 @@
 .qa-widget-calendar
-  min-width: 330px
-  max-width: 330px
+  min-width: $widget-width
+  max-width: $widget-width
 
   ul li
     margin: 0
@@ -16,7 +16,6 @@
       text-align: center
       align-self: center
       font-weight: 600
-      padding: 4px
 
     .qa-navigation-item
       display: inline-block
@@ -36,7 +35,7 @@
         border: none
         color: $color-text
         display: inline-block
-        padding: 0.5*$std-air 1*$std-air
+        padding: 0.5*$pillow-small 1*$pillow-small
         text-decoration: none
 
   table.qa-calendar-table
@@ -80,7 +79,6 @@
       text-decoration: none
       font-weight: 200
       display: block
-      padding: 5px
 
     .qa-calendar-week
       color: $color-gray-dark

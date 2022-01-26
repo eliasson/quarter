@@ -5,7 +5,7 @@
 @using Quarter.State.ViewModels
 
 <div class="qa-widget qa-timesheet" xmlns="http://www.w3.org/1999/html">
-    <div class="qa-timesheet-scroll">
+    <div class="qa-timesheet-scroll qa-timesheet-scroll--sod">
         <button class="qa-button qa-button--icon qa-button--ghost"
                 @onclick="OnStartOfDay"
                 disabled="@_dayStart.LimitReached()"
@@ -42,7 +42,7 @@
         </tbody>
     </table>
 
-    <div class="qa-timesheet-scroll">
+    <div class="qa-timesheet-scroll qa-timesheet-scroll--eod">
         <button class="qa-button qa-button--icon qa-button--ghost"
                 @onclick="OnEndOfDay"
                 disabled="@_dayEnd.LimitReached()"
