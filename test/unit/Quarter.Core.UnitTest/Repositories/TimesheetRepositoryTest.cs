@@ -94,7 +94,7 @@ public abstract class TimesheetRepositoryTest : RepositoryTestBase<Timesheet, IT
         }, CancellationToken.None);
         var readAgg = await repository.GetByDateAsync(storedAgg.Date, CancellationToken.None);
 
-        Assert.That(readAgg.Slots, Is.EqualTo(new []
+        Assert.That(readAgg.Slots().OrderBy(_ => _.Offset), Is.EqualTo(new []
         {
             new ActivityTimeSlot(_stableProjectId,_stableActivityId, 0, 2),
             new ActivityTimeSlot(_stableProjectId,_stableActivityId, 4, 2),
