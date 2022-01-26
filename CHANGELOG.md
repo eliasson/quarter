@@ -6,14 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixes
+- Include project and activity usage in project list item.
+
 ## [0.1.3] - 2022-01-24
 
 ### Fixes
 - Corrected a missing user ID filter on query.
-
-## [0.1.2] - 2022-01-24
-## [0.1.1] - 2022-01-24
-## [0.1.0] - 2022-01-24
-
-### Added
-- Initial `CHANGELOG.md`
