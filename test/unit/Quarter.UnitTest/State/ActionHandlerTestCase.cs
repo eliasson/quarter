@@ -40,11 +40,14 @@ public abstract class ActionHandlerTestCase
         return await repo.CreateAsync(a, CancellationToken.None);
     }
 
-    protected async Task<Timesheet> AddTimesheet(IdOf<User> userId, Date date, int offset, int duration)
+    protected Task<Timesheet> AddTimesheet(IdOf<User> userId, Date date, int offset, int duration)
+        => AddTimesheet(userId, date, IdOf<Project>.Random(), IdOf<Activity>.Random(), offset, duration);
+
+    protected async Task<Timesheet> AddTimesheet(IdOf<User> userId, Date date, IdOf<Project> projectId, IdOf<Activity> activityId,  int offset, int duration)
     {
         var repo = RepositoryFactory.TimesheetRepository(userId);
         var ts = Timesheet.CreateForDate(date);
-        ts.Register(new ActivityTimeSlot(IdOf<Project>.Random(), IdOf<Activity>.Random(), offset, duration));
+        ts.Register(new ActivityTimeSlot(projectId, activityId, offset, duration));
         return await repo.CreateAsync(ts, CancellationToken.None);
     }
 

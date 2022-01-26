@@ -11,7 +11,11 @@ using Quarter.Core.Utils;
 namespace Quarter.Core.Repositories;
 
 public record ActivityUsage(IdOf<Activity> ActivityId, int TotalMinutes, UtcDateTime LastUsed);
-public record ProjectTotalUsage(int TotalMinutes, List<ActivityUsage> Activities, UtcDateTime LastUsed);
+
+public record ProjectTotalUsage(int TotalMinutes, List<ActivityUsage> Activities, UtcDateTime LastUsed)
+{
+    public static readonly ProjectTotalUsage Zero = new (0, new List<ActivityUsage>(), UtcDateTime.MinValue);
+}
 
 public interface ITimesheetRepository : IRepository<Timesheet>
 {

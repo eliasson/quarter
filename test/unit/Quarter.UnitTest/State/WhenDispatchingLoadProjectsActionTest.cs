@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -97,7 +98,7 @@ public abstract class WhenDispatchingLoadProjectsActionTest
 
         [Test]
         public void ItShouldNotHaveLastUsedTimestamp()
-            => Assert.That(_projectViewModel.LastUsed, Is.Null);
+            => Assert.That(_projectViewModel.LastUsed, Is.EqualTo(UtcDateTime.MinValue));
 
         [Test]
         public void ItShouldIncludeTotalMinutes()
@@ -192,23 +193,44 @@ public abstract class WhenDispatchingLoadProjectsActionTest
     {
         private Activity _activity;
         private ActivityViewModel _activityViewModel;
+        private ProjectViewModel _projectViewModel;
+        private Date _dateInTest;
 
         [OneTimeSetUp]
         public async Task Setup()
         {
+            _dateInTest = Date.Today();
             var project = await AddProject(ActingUserId, "Alpha", "Alpha description");
             _activity = await AddActivity(ActingUserId, project.Id, "Activity One", "Some activity",
                 Color.FromHexString("#333"));
             _activity = await UpdateActivity(ActingUserId, _activity.Id);
+            await AddTimesheet(ActingUserId, _dateInTest,project.Id, _activity.Id,  0, 6);
             State = await ActionHandler.HandleAsync(State, new LoadProjects(), CancellationToken.None);
 
-            var projectVm = State.Projects.First();
-            _activityViewModel = projectVm.Activities.First();
+            _projectViewModel = State.Projects.First();
+            _activityViewModel = _projectViewModel.Activities.First();
         }
 
         [Test]
         public void ItShouldUseUpdatedTimestampAsUpdated()
             => Assert.That(_activityViewModel.Updated, Is.EqualTo(_activity.Updated));
+
+        [Test]
+        public void ItShouldIncludeActivityTotalMinutes()
+            => Assert.That(_activityViewModel.TotalMinutes, Is.EqualTo(90));
+
+
+        [Test]
+        public void ItShouldNotHaveLastUsedTimestamp()
+            => Assert.That(_projectViewModel.LastUsed!.Value.DateTime - DateTime.UtcNow, Is.LessThan(TimeSpan.FromMilliseconds(500)));
+
+        [Test]
+        public void ItShouldIncludeTotalMinutes()
+            => Assert.That(_projectViewModel.TotalMinutes, Is.EqualTo(90));
+
+        [Test]
+        public void ItShouldIncludeTotalHours()
+            => Assert.That(_projectViewModel.TotalAsHours(), Is.EqualTo("1.50"));
     }
 
     public class TestCase : ActionHandlerTestCase

@@ -142,10 +142,19 @@ namespace Quarter.State
 
             var oc = await OperationContextForCurrentUser();
             var projectRepository = _repositoryFactory.ProjectRepository(oc.UserId);
-            var projects = await projectRepository.GetAllAsync(ct).ToListAsync();
+            var projects = await projectRepository.GetAllAsync(ct).ToListAsync(ct);
             var activitiesPerProject = await GetActivitiesPerProjectAsync(oc.UserId, ct);
+            var timesheetRepository = _repositoryFactory.TimesheetRepository(oc.UserId);
 
-            currentState.Projects = projects.Select(p => FromProject(p, activitiesPerProject)).ToList();
+            var vms = new List<ProjectViewModel>();
+            foreach (var project in projects)
+            {
+                var usage = await timesheetRepository.GetProjectTotalUsageAsync(project.Id, ct);
+                vms.Add(FromProject(project, activitiesPerProject, usage));
+            }
+
+            currentState.Projects = vms;
+
 
             return currentState;
         }
@@ -183,7 +192,7 @@ namespace Quarter.State
             foreach (var project in allProjects)
             {
                 if (!existingIds.Contains(project.Id))
-                    currentState.Projects.Add(FromProject(project, noActivities));
+                    currentState.Projects.Add(FromProject(project, noActivities, ProjectTotalUsage.Zero));
             }
 
             currentState.SafePopTopMostModal();
@@ -288,7 +297,7 @@ namespace Quarter.State
             foreach (var activity in activities)
             {
                 if (!existingIds.Contains(activity.Id))
-                    project.Activities.Add(FromActivity(activity));
+                    project.Activities.Add(FromActivity(activity, ProjectTotalUsage.Zero));
             }
 
             currentState.SafePopTopMostModal();
@@ -431,7 +440,11 @@ namespace Quarter.State
             return activities;
         }
 
-        private static ProjectViewModel FromProject(Project project, IDictionary<IdOf<Project>, IList<Activity>> activitiesPerProject)
+        private static ProjectViewModel FromProject(
+            Project project,
+            IDictionary<IdOf<Project>,
+            IList<Activity>> activitiesPerProject,
+            ProjectTotalUsage projectTotalUsage)
         {
             if (!activitiesPerProject.TryGetValue(project.Id, out var activities))
                 activities = new List<Activity>();
@@ -442,13 +455,15 @@ namespace Quarter.State
                 Name = project.Name,
                 Description = project.Description,
                 Updated = project.Updated ?? project.Created,
-                TotalMinutes = 0,
-                Activities = activities.Select(FromActivity).ToList()
+                Activities = activities.Select(a => FromActivity(a, projectTotalUsage)).ToList(),
+                TotalMinutes = projectTotalUsage.TotalMinutes,
+                LastUsed = projectTotalUsage.LastUsed
             };
         }
 
-        private static ActivityViewModel FromActivity(Activity activity)
+        private static ActivityViewModel FromActivity(Activity activity, ProjectTotalUsage projectTotalUsage)
         {
+            var activityUsage = projectTotalUsage.Activities.FirstOrDefault(a => a.ActivityId == activity.Id);
             return new ActivityViewModel
             {
                 Id = activity.Id,
@@ -458,7 +473,7 @@ namespace Quarter.State
                 Color = activity.Color.ToHex(),
                 DarkerColor = activity.Color.Darken(0.15).ToHex(),
                 Updated = activity.Updated ?? activity.Created,
-                TotalMinutes = 0,
+                TotalMinutes = activityUsage?.TotalMinutes ?? 0,
             };
         }
     }
