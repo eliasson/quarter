@@ -24,7 +24,7 @@
         </div>
         <div class="qa-list-item__statistics__category" test="project-category">
             <div class="qa-list-item__statistics__unit" test="project-unit">Activities</div>
-            <div class="qa-list-item__statistics__value" test="project-value">0</div>
+            <div class="qa-list-item__statistics__value" test="project-value">@ActivityCount</div>
         </div>
         <div class="qa-list-item__statistics__category qa-not-xs" test="project-category">
             <div class="qa-list-item__statistics__unit" test="project-unit">Updated at</div>
@@ -48,6 +48,9 @@
     public ProjectViewModel? Project { get; set; }
 
     private bool _isActive = false;
+
+    private string ActivityCount
+        => Project?.Activities.Count.ToString() ?? "-";
 
     private string UpdatedAt
         => Project?.Updated is null

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ using Bunit.Rendering;
 using NUnit.Framework;
 using Quarter.Components;
 using Quarter.Core.Models;
+using Quarter.Core.Utils;
 using Quarter.Pages.Application.Manage;
 using Quarter.State;
 using Quarter.State.ViewModels;
@@ -109,6 +111,48 @@ public abstract class ProjectListItemTest
             [Test]
             public void ItShouldShowAnActivityTable()
                 => Assert.DoesNotThrow(() => Component?.FindComponent<ActivityTable>());
+        }
+    }
+
+    public class WhenRenderFullProject : TestCase
+    {
+        private ProjectViewModel _projectViewModel;
+
+        [OneTimeSetUp]
+        public void Setup()
+        {
+            _projectViewModel = new ProjectViewModel
+            {
+                Id = IdOf<Project>.Random(),
+                Name = "Project X",
+                Updated = new UtcDateTime(DateTime.Parse("2021-07-15T23:01:02Z")),
+                Activities = new List<ActivityViewModel>()
+                {
+                    new () {Color ="#123456", DarkerColor = "#000000", Name = "Activity One", TotalMinutes = 120},
+                    new () {Color ="#FFFFFF", DarkerColor = "#000000", Name = "Activity Two"},
+                },
+                TotalMinutes = 90,
+                LastUsed = new UtcDateTime(DateTime.Parse("2021-08-15T23:01:02Z")),
+            };
+            RenderWithParameters(pb => pb.Add(
+                ps => ps.Project, _projectViewModel));
+        }
+
+        [TestCase(0, "Hours", "1.50")]
+        [TestCase(1, "Activities", "2")]
+        [TestCase(2, "Updated at", "2021-07-15 23:01:02")]
+        [TestCase(3, "Last used at", "2021-08-15 23:01:02")]
+        public void ItShouldRenderProjectStats(int index, string expectedUnit, string expectedValue)
+        {
+            var category = CategoryByIndex(index);
+            var unit = category?.QuerySelector("[test=project-unit]")?.TextContent;
+            var value = category?.QuerySelector("[test=project-value]")?.TextContent;
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(unit, Is.EqualTo(expectedUnit));
+                Assert.That(value, Is.EqualTo(expectedValue));
+            });
         }
     }
 
