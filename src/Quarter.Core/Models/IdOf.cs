@@ -33,6 +33,9 @@ namespace Quarter.Core.Models
         public string AsString()
             => Id.ToString();
 
+        public override string ToString()
+            => Id.ToString();
+
         public override bool Equals(object? obj)
         {
             if (ReferenceEquals(null, obj)) return false;
