@@ -13,15 +13,14 @@ namespace Quarter.Core.UI.Components
         [Inject]
         protected IStateManager<TState>? StateManager { get; set; }
 
-        public override Task SetParametersAsync(ParameterView parameters)
+        public override async Task SetParametersAsync(ParameterView parameters)
         {
             if (StateManager is null) throw new ArgumentException("No StateManager injected");
 
             State = StateManager.State;
             StateManager.OnChange += OnStateChange;
 
-            base.SetParametersAsync(parameters);
-            return Task.CompletedTask;
+            await base.SetParametersAsync(parameters);
         }
 
         private void OnStateChange(object? sender, EventArgs e)
