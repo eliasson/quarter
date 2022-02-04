@@ -33,5 +33,22 @@ namespace Quarter.Core.UnitTest.Commands
 
         protected OperationContext OperationContext()
             => new OperationContext(ActingUser);
+
+        protected async Task RegisterTimeAsync(Date date, Activity activity, int offset, int duration)
+        {
+            var repo = RepositoryFactory.TimesheetRepository(ActingUser);
+            var timesheet = await repo.GetOrNewTimesheetAsync(date, CancellationToken.None);
+            await repo.UpdateByIdAsync(timesheet.Id, ts =>
+            {
+                ts.Register(new ActivityTimeSlot(activity.ProjectId, activity.Id, offset, duration));
+                return ts;
+            }, CancellationToken.None);
+        }
+
+        protected Task<Timesheet> GetTimesheetAsync(Date date)
+        {
+            var repo = RepositoryFactory.TimesheetRepository(ActingUser);
+            return repo.GetOrNewTimesheetAsync(date, CancellationToken.None);
+        }
     }
 }

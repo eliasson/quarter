@@ -54,4 +54,33 @@ public class RemoveActivityCommandTest : CommandTestBase<ActivityRemovedEvent>
             Assert.That(ev.ActivityId, Is.EqualTo(_initialActivity.Id));
         }
     }
+
+    public class WhenTimeIsRegistered : RemoveActivityCommandTest
+    {
+        private Activity _initialActivity;
+        private IActivityRepository _activityRepository;
+        private Date _dateInTest;
+
+        [OneTimeSetUp]
+        public async Task RegisterTimeForActivity()
+        {
+            _dateInTest = Date.Today();
+            _activityRepository = RepositoryFactory.ActivityRepository(ActingUser);
+            var activity = new Activity(IdOf<Project>.Random(), "a", "a", Color.FromHexString("#123"));
+            _initialActivity = await _activityRepository.CreateAsync(activity, CancellationToken.None);
+            await RegisterTimeAsync(_dateInTest, _initialActivity, 0, 8);
+
+            var command = new RemoveActivityCommand(_initialActivity.Id);
+
+            await Handler.ExecuteAsync(command, OperationContext(), CancellationToken.None);
+        }
+
+        [Test]
+        public async Task ItShouldNotIncludeTimeslotInTimesheet()
+        {
+            var ts = await GetTimesheetAsync(_dateInTest);
+
+            Assert.That(ts.Slots(), Is.Empty);
+        }
+    }
 }

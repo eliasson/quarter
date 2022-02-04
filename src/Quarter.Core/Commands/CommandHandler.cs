@@ -132,7 +132,10 @@ namespace Quarter.Core.Commands
         {
             var result = await _repositoryFactory.ActivityRepository(oc.UserId).RemoveByIdAsync(command.ActivityId, ct);
             if (result == RemoveResult.Removed)
+            {
+                await _repositoryFactory.TimesheetRepository(oc.UserId).RemoveSlotsForActivityAsync(command.ActivityId, ct);
                 await _eventDispatcher.Dispatch(new ActivityRemovedEvent(command.ActivityId));
+            }
         }
     }
 }
