@@ -17,36 +17,8 @@ Install .NET Core 6 or greater from [here](https://dotnet.microsoft.com/download
 
 `cp src/Quarter/appsettings.json src/Quarter/appsettings.Development.json`
 
-Quarter use OpenID Connect for authentication. Currently only GitHub and Google are supported and must
-be configured in the `Auth` section. Provide your Client ID and secret (and be sure not to commit it to git!)
-
-```
-  "Auth": {
-    "Providers": {
-      "GitHub": {
-        "ClientId": "",
-        "ClientSecret": ""
-      },
-      "Google": {
-        "ClientId": "",
-        "ClientSecret": ""
-      }
-    }
-  },
-```
-
-During Quarters boot phase an initial user will be created if configured. Add your e-mail
-and don't forget to set `Enabled` to `true` under the `InitialUser` section.
-
-````json
-  "InitialUser": {
-    "Enabled": true,
-    "Email": "jane.doe@example.com"
-  }
-````
-
-Once the initial user is created additional users can be added in the Admin section of the
-application UI.
+By default Quarter will run in local mode, which is useful for development. See [authentication.md](authentication.md) for
+details on how to setup external Identity Providers.
 
 3. Start a PostgreSQL database
 
