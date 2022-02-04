@@ -7,6 +7,7 @@ using Quarter.Core.Events;
 using Quarter.Core.Exceptions;
 using Quarter.Core.Models;
 using Quarter.Core.Repositories;
+using Quarter.Core.Utils;
 
 namespace Quarter.Core.UnitTest.Commands;
 
@@ -51,6 +52,40 @@ public abstract class RemoveProjectCommandTest : CommandTestBase<ProjectRemovedE
             var ev = await EventSubscriber.EventuallyDispatchedOneEvent();
 
             Assert.That(ev.ProjectId, Is.EqualTo(_initialProject.Id));
+        }
+    }
+
+    public class WhenTimeIsRegistered : RemoveProjectCommandTest
+    {
+        private Project _projectOne;
+        private Project _projectTwo;
+        private Activity _activityOne;
+        private Activity _activityTwo;
+        private Date _dateInTest;
+
+        [OneTimeSetUp]
+        public async Task RegisterTimeForProject()
+        {
+            _dateInTest = Date.Today();
+            _projectOne = await CreateProjectAsync("One");
+            _projectTwo = await CreateProjectAsync("Two");
+            _activityOne = await CreateActivityAsync(_projectOne.Id, "One");
+            _activityTwo = await CreateActivityAsync(_projectTwo.Id, "Two");
+
+            await RegisterTimeAsync(_dateInTest, _activityOne, 0, 4);
+            await RegisterTimeAsync(_dateInTest, _activityTwo, 10, 4);
+
+            var command = new RemoveProjectCommand(_projectOne.Id);
+
+            await Handler.ExecuteAsync(command, OperationContext(), CancellationToken.None);
+        }
+
+        [Test]
+        public async Task ItShouldNotIncludeTimeSlotForDeletedProjectInTimesheet()
+        {
+            var ts = await GetTimesheetAsync(_dateInTest);
+            var slotProjects = ts.Slots().Select(s => s.ProjectId);
+            Assert.That(slotProjects, Is.EqualTo(new [] { _projectTwo.Id }));
         }
     }
 }

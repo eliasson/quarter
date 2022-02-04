@@ -34,6 +34,18 @@ namespace Quarter.Core.UnitTest.Commands
         protected OperationContext OperationContext()
             => new OperationContext(ActingUser);
 
+        protected Task<Project> CreateProjectAsync(string name)
+        {
+            var repo = RepositoryFactory.ProjectRepository(ActingUser);
+            return repo.CreateAsync(new Project(name, $"Description for {name}"), CancellationToken.None);
+        }
+
+        protected Task<Activity> CreateActivityAsync(IdOf<Project> projectId, string name)
+        {
+            var repo = RepositoryFactory.ActivityRepository(ActingUser);
+            return repo.CreateAsync(new Activity(projectId, name, $"Description for {name}", Color.FromHexString("#123")), CancellationToken.None);
+        }
+
         protected async Task RegisterTimeAsync(Date date, Activity activity, int offset, int duration)
         {
             var repo = RepositoryFactory.TimesheetRepository(ActingUser);

@@ -102,7 +102,10 @@ namespace Quarter.Core.Commands
         {
             var result = await _repositoryFactory.ProjectRepository(oc.UserId).RemoveByIdAsync(command.ProjectId, ct);
             if (result == RemoveResult.Removed)
+            {
+                await _repositoryFactory.TimesheetRepository(oc.UserId).RemoveSlotsForProjectAsync(command.ProjectId, ct);
                 await _eventDispatcher.Dispatch(new ProjectRemovedEvent(command.ProjectId));
+            }
         }
 
         private async Task ExecuteAsync(AddActivityCommand command, OperationContext oc, CancellationToken ct)
