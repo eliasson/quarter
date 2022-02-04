@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
@@ -57,20 +58,20 @@ public class RemoveActivityCommandTest : CommandTestBase<ActivityRemovedEvent>
 
     public class WhenTimeIsRegistered : RemoveActivityCommandTest
     {
-        private Activity _initialActivity;
-        private IActivityRepository _activityRepository;
+        private Activity _activityOne;
+        private Activity _activityTwo;
         private Date _dateInTest;
 
         [OneTimeSetUp]
         public async Task RegisterTimeForActivity()
         {
             _dateInTest = Date.Today();
-            _activityRepository = RepositoryFactory.ActivityRepository(ActingUser);
-            var activity = new Activity(IdOf<Project>.Random(), "a", "a", Color.FromHexString("#123"));
-            _initialActivity = await _activityRepository.CreateAsync(activity, CancellationToken.None);
-            await RegisterTimeAsync(_dateInTest, _initialActivity, 0, 8);
+            _activityOne = await CreateActivityAsync(IdOf<Project>.Random(), "One");
+            _activityTwo = await CreateActivityAsync(IdOf<Project>.Random(), "Two");
+            await RegisterTimeAsync(_dateInTest, _activityOne, 0, 4);
+            await RegisterTimeAsync(_dateInTest, _activityTwo, 10, 4);
 
-            var command = new RemoveActivityCommand(_initialActivity.Id);
+            var command = new RemoveActivityCommand(_activityOne.Id);
 
             await Handler.ExecuteAsync(command, OperationContext(), CancellationToken.None);
         }
@@ -79,8 +80,9 @@ public class RemoveActivityCommandTest : CommandTestBase<ActivityRemovedEvent>
         public async Task ItShouldNotIncludeTimeslotInTimesheet()
         {
             var ts = await GetTimesheetAsync(_dateInTest);
+            var slotActivities = ts.Slots().Select(s => s.ActivityId);
 
-            Assert.That(ts.Slots(), Is.Empty);
+            Assert.That(slotActivities, Is.EqualTo(new [] { _activityTwo.Id }));
         }
     }
 }
