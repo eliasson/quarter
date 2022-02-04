@@ -139,7 +139,7 @@
     }
 
     private string QuarterClasses(QuarterViewModel quarter)
-        => SelectedQuarterIdRange.Contains(quarter.Index) ? "qa-is-pending" : "";
+        => SelectedQuarterIdRange.Contains(quarter.Index) ? "qa-is-pending" : string.Empty;
 
     private string QuarterStyling(QuarterViewModel quarter)
     {
@@ -185,7 +185,7 @@
 
         _activityColorLookup = State.Projects
             .SelectMany(p => p.Activities)
-            .ToDictionary(a => a.Id!, a => new ActivityColor(a.Color, a.DarkerColor));
+            .ToDictionary(a => a.Id, a => new ActivityColor(a.Color, a.DarkerColor));
     }
 
     private IEnumerable<Hour> GenerateHours()
