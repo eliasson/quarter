@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Quarter.Auth;
 using Quarter.Core.Options;
 using Quarter.Services;
 using Quarter.StartupTasks;
@@ -48,6 +49,16 @@ namespace Quarter
         private void ConfigureAuth(IServiceCollection services)
         {
             // NOTE: The authentication wiring is manually tested!
+            var localMode = Configuration.GetValue<bool>("LocalMode");
+            if (localMode)
+            {
+                services.AddScoped<IUserAuthorizationService, LocalAuthorizationService>();
+                services.AddAuthentication(nameof(LocalModeAuthenticationHandler))
+                    .AddScheme<LocalModeAuthenticationOptions, LocalModeAuthenticationHandler>(
+                        nameof(LocalModeAuthenticationHandler),
+                        _ => { });
+                return;
+            }
 
             services.AddAuthentication(options =>
                 {
