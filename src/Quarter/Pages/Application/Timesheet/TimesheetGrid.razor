@@ -213,8 +213,11 @@
                 var existingActivityId = existingQuarters[i * 4 + j];
                 if (existingActivityId is not null)
                 {
-                    var activityColor = _activityColorLookup[existingActivityId];
-                    quarters[j] = new QuarterViewModel(i * 4 + j, activityColor);
+                    // Bug with deleted data until cascade delete slots when activity is deleted
+                    if (_activityColorLookup.TryGetValue(existingActivityId, out var activityColor))
+                        quarters[j] = new QuarterViewModel(i * 4 + j, activityColor);
+                    else
+                        quarters[j] = new QuarterViewModel(i * 4 + j);
                 }
                 else
                 {
