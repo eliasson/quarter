@@ -1,4 +1,7 @@
 using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using Quarter.Core.Models;
 using Quarter.Core.Repositories;
@@ -25,6 +28,21 @@ namespace Quarter.Core.UnitTest.Repositories
             var id = Guid.NewGuid();
             aggregate.Description += id.ToString();
             return aggregate;
+        }
+
+        [Test]
+        public async Task ItShouldCreateASandboxProject()
+        {
+            var repository = Repository();
+            await repository.CreateSandboxProjectAsync(CancellationToken.None);
+            var project = (await repository.GetAllAsync(CancellationToken.None).ToListAsync())
+                .Single();
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(project.Name, Is.EqualTo("Your first project"));
+                Assert.That(project.Description, Is.EqualTo("A project is used to group activities."));
+            });
         }
     }
 

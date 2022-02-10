@@ -1,4 +1,7 @@
 using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using Quarter.Core.Models;
 using Quarter.Core.Repositories;
@@ -27,6 +30,24 @@ namespace Quarter.Core.UnitTest.Repositories
             var id = Guid.NewGuid();
             aggregate.Description += id.ToString();
             return aggregate;
+        }
+
+        [Test]
+        public async Task ItShouldCreateASandboxActivity()
+        {
+            var repository = Repository();
+            var projectId = IdOf<Project>.Random();
+            await repository.CreateSandboxActivityAsync(projectId, CancellationToken.None);
+            var activity = (await repository.GetAllAsync(CancellationToken.None).ToListAsync())
+                .Single();
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(activity.ProjectId, Is.EqualTo(projectId));
+                Assert.That(activity.Name, Is.EqualTo("Your first activity"));
+                Assert.That(activity.Description, Is.EqualTo("An activity is used to register time. Each activity has a color to make it easier to associate to."));
+                Assert.That(activity.Color.ToHex(), Is.EqualTo("#4E4694"));
+            });
         }
     }
 

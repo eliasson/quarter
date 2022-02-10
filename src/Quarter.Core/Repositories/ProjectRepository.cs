@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using Npgsql;
 using Quarter.Core.Models;
 
@@ -7,10 +9,22 @@ namespace Quarter.Core.Repositories
 {
     public interface IProjectRepository : IRepository<Project>
     {
+        Task<Project> CreateSandboxProjectAsync(CancellationToken ct);
+    }
+
+    public static class ProjectRepository
+    {
+        public static Task<Project> CreateSandboxProjectAsync(IProjectRepository self, CancellationToken ct)
+        {
+            var project = new Project("Your first project", "A project is used to group activities.");
+            return self.CreateAsync(project, ct);
+        }
     }
 
     public class InMemoryProjectRepository : InMemoryRepositoryBase<Project>, IProjectRepository
     {
+        public Task<Project> CreateSandboxProjectAsync(CancellationToken ct)
+            => ProjectRepository.CreateSandboxProjectAsync(this, ct);
     }
 
     public class PostgresProjectRepository : PostgresRepositoryBase<Project>, IProjectRepository
@@ -39,5 +53,8 @@ namespace Quarter.Core.Repositories
 
         protected override NpgsqlParameter? WithAccessCondition()
             => new NpgsqlParameter(UserIdColumnName, _userId.Id);
+
+        public Task<Project> CreateSandboxProjectAsync(CancellationToken ct)
+            => ProjectRepository.CreateSandboxProjectAsync(this, ct);
     }
 }

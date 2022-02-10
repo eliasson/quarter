@@ -41,7 +41,14 @@ namespace Quarter.Core.Commands
         {
             var user = new User(command.Email, command.Roles);
             user = await _repositoryFactory.UserRepository().CreateAsync(user, ct);
+
+            // Create placeholder project and activity to the user has something to begin with
+            var project = await _repositoryFactory.ProjectRepository(user.Id).CreateSandboxProjectAsync(ct);
+            var activity = await _repositoryFactory.ActivityRepository(user.Id).CreateSandboxActivityAsync(project.Id, ct);
+
             await _eventDispatcher.Dispatch(new UserCreatedEvent(user));
+            await _eventDispatcher.Dispatch(new ProjectCreatedEvent(project));
+            await _eventDispatcher.Dispatch(new ActivityCreatedEvent(activity));
         }
 
         private async Task ExecuteAsync(RemoveUserCommand command, CancellationToken ct)

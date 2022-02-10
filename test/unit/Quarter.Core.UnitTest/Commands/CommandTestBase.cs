@@ -17,15 +17,15 @@ namespace Quarter.Core.UnitTest.Commands
         protected ICommandHandler Handler;
         protected TestSubscriber<T> EventSubscriber;
         protected readonly IdOf<User> ActingUser = IdOf<User>.Random();
+        protected readonly  EventDispatcher EventDispatcher = new ();
 
         [OneTimeSetUp]
         protected void SetUpTestBase()
         {
             RepositoryFactory = new InMemoryRepositoryFactory();
             UserRepository = RepositoryFactory.UserRepository();
-            var eventDispatcher = new EventDispatcher();
-            EventSubscriber = new TestSubscriber<T>(eventDispatcher);
-            Handler = new CommandHandler(RepositoryFactory, eventDispatcher);
+            EventSubscriber = new TestSubscriber<T>(EventDispatcher);
+            Handler = new CommandHandler(RepositoryFactory, EventDispatcher);
         }
 
         protected Task<User> AddUserInRepository(Email email, params UserRole[] roles)
