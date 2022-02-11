@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.4] - 2022-02-11
+
 ### Features
 - Add chevron icon next to project title to highlight that it is actionable.
 - Create initial (sandbox) project and activity when creating a new user.
