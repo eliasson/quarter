@@ -74,6 +74,10 @@ public abstract class ProjectListItemTest
             [Test]
             public void ItShouldNotShowAnActivityTable()
                 => Assert.Catch<ComponentNotFoundException>(() => Component?.FindComponent<ActivityTable>());
+
+            [Test]
+            public void ItShouldHaveExpandIcon()
+                => Assert.That(ExpandIcon(), Is.Not.Null);
         }
 
         public class WhenSelectingRemoveProjectMenuItem : WhenRenderMinimalProject
@@ -111,6 +115,10 @@ public abstract class ProjectListItemTest
             [Test]
             public void ItShouldShowAnActivityTable()
                 => Assert.DoesNotThrow(() => Component?.FindComponent<ActivityTable>());
+
+            [Test]
+            public void ItShouldHaveCollapseIcon()
+                => Assert.That(CollapseIcon(), Is.Not.Null);
         }
     }
 
@@ -160,6 +168,12 @@ public abstract class ProjectListItemTest
     {
         protected string Title()
             => ComponentByTestAttribute("project-title")?.TextContent;
+
+        protected IElement ExpandIcon()
+            => ComponentByTestAttribute("expand-icon");
+
+        protected IElement CollapseIcon()
+            => ComponentByTestAttribute("collapse-icon");
 
         protected IElement CategoryByIndex(int index)
             => ComponentsByTestAttribute("project-category")?[index];

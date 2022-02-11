@@ -9,9 +9,18 @@
 
     <div class="qa-list-item__main">
         <div class="qa-list-item__main__title">
-            <span class="qa-list-item__main__text"
+            <div class="qa-list-item__main__text"
                   @onclick="@ToggleActive"
-                  test="project-title">@Project?.Name</span>
+                  test="project-title">@Project?.Name
+                @if (_isActive)
+                {
+                    <span class="qa-list-item__main__chevron" test="collapse-icon">@CollapseIcon</span>
+                }
+                else
+                {
+                    <span class="qa-list-item__main__chevron" test="expand-icon">@ExpandIcon</span>
+                }
+            </div>
         </div>
         <div class="qa-list-item__main__actions">
             <ContextMenu Items="ProjectMenuItems" ItemSelected="OnProjectMenuItem" IsInverted="_isActive"></ContextMenu>
@@ -51,6 +60,12 @@
 
     private string ActivityCount
         => Project?.Activities.Count.ToString() ?? "-";
+
+    private MarkupString ExpandIcon
+        => new MarkupString(@$"<svg class=""qa-icon--small""><use xlink:href=""#icon-chevron-down""></use></svg>");
+
+    private MarkupString CollapseIcon
+        => new MarkupString(@$"<svg class=""qa-icon--small""><use xlink:href=""#icon-chevron-up""></use></svg>");
 
     private string UpdatedAt
         => Project?.Updated is null
