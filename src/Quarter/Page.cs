@@ -11,6 +11,7 @@ namespace Quarter
         public static string Admin => "/admin";
         public static string AdminUsers => "/admin/users";
         public static string Logout => "/account/logout";
+        public static string Login => "/account/login";
 
         public static string Timesheet(DateTime date)
             => $"/app/timesheet/{date:yyyy-MM-dd}";

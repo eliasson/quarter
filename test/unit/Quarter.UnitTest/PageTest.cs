@@ -14,6 +14,7 @@ namespace Quarter.UnitTest
             yield return new object[] { Page.AdminUsers, "/admin/users"};
             yield return new object[] { Page.Admin, "/admin"};
             yield return new object[] { Page.Logout, "/account/logout"};
+            yield return new object[] { Page.Login, "/account/login"};
         }
 
         [TestCaseSource(nameof(PageTests))]
