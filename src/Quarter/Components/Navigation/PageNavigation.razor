@@ -19,11 +19,13 @@
         <li test="nav-manage">
             <PageNavigationItem Title="Manage" Path="@Page.Manage" IconRef="#icon-manage" />
         </li>
-        <li test="nav-admin">
-            <PageNavigationItem Title="Admin" Path="@Page.Admin" IconRef="#icon-settings" />
-        </li>
+        <AuthorizeView Roles="administrator">
+            <li test="nav-admin">
+                <PageNavigationItem Title="Admin" Path="@Page.Admin" IconRef="#icon-settings" />
+            </li>
+        </AuthorizeView>
         <li test="nav-logout">
-            <PageNavigationItem Title="Logout" Path="@Page.Logout" IconRef="#icon-logout" />
+            <PageNavigationItem Title="Logout" Path="@Page.Logout" IconRef="#icon-logout"/>
         </li>
     </ul>
 </nav>

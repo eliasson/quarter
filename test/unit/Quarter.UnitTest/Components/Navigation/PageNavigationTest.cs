@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Bunit;
 using NUnit.Framework;
 using Quarter.Components.Navigation;
 using Quarter.UnitTest.TestUtils;
@@ -42,6 +43,43 @@ namespace Quarter.UnitTest.Components.Navigation
                 var title = elm?.QuerySelector("[test=nav-title]");
 
                 Assert.That(title?.TextContent, Is.EqualTo(expectedTitle));
+            }
+
+
+            [TestCase("nav-home", true)]
+            [TestCase("nav-timesheets", true)]
+            [TestCase("nav-manage", true)]
+            [TestCase("nav-admin", false)]
+            [TestCase("nav-logout", true)]
+            public void ItShouldHaveNavigationItem(string selector, bool expected)
+            {
+                if (expected)
+                    Assert.That(ComponentByTestAttribute(selector), Is.Not.Null);
+                else
+                    Assert.Throws<ElementNotFoundException>(() => ComponentByTestAttribute(selector));
+            }
+        }
+
+        public class WhenUserIsAdmin : TestCase
+        {
+            [OneTimeSetUp]
+            public void Setup()
+            {
+                SetUserIsAdmin();
+                Render();
+            }
+
+            [TestCase("nav-home", true)]
+            [TestCase("nav-timesheets", true)]
+            [TestCase("nav-manage", true)]
+            [TestCase("nav-admin", true)]
+            [TestCase("nav-logout", true)]
+            public void ItShouldHaveNavigationItem(string selector, bool expected)
+            {
+                if (expected)
+                    Assert.That(ComponentByTestAttribute(selector), Is.Not.Null);
+                else
+                    Assert.Throws<ElementNotFoundException>(() => ComponentByTestAttribute(selector));
             }
         }
 

@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixes
+- Hide admin navigation item for non-admin users.
+
 ## [0.1.4] - 2022-02-11
 
 ### Features

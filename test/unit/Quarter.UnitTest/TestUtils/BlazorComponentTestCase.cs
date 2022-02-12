@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AngleSharp.Dom;
 using Bunit;
+using Bunit.TestDoubles;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 using Quarter.Core.Events;
@@ -21,6 +22,7 @@ namespace Quarter.UnitTest.TestUtils
         protected readonly TestStateManager StateManager = new TestStateManager();
         protected readonly IRepositoryFactory RepositoryFactory = new InMemoryRepositoryFactory();
         protected readonly IEventDispatcher EventDispatcher = new EventDispatcher();
+        private TestAuthorizationContext _authContext;
 
         protected BlazorComponentTestCase()
         {
@@ -40,7 +42,14 @@ namespace Quarter.UnitTest.TestUtils
             Context.Services.AddSingleton(RepositoryFactory);
             Context.Services.AddSingleton(EventDispatcher);
             Context.Services.AddScoped<IUserAuthorizationService, TestIUserAuthorizationService>();
+
+            _authContext = Context.AddTestAuthorization();
+            _authContext.SetAuthorizing();
+            _authContext.SetAuthorized("Unit-test user");
         }
+
+        protected void SetUserIsAdmin()
+        => _authContext.SetRoles("administrator");
 
         protected string TextForElement(string cssSelector)
             => Component?.Find(cssSelector).TextContent;
