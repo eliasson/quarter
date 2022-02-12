@@ -3,6 +3,7 @@ bin/
 obj/
 node_modules/
 docker/data/
+db/
 .DS_Store
 
 *.DotSettings.user
