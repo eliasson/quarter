@@ -1,0 +1,25 @@
+@page "/app/reports"
+@attribute [Authorize]
+
+@using Quarter.Components
+@using Quarter.Utils
+
+<ApplicationPage ColumnMode="true">
+    <PageContent>
+        <PageContext Tabs="@_tabs" />
+
+        <div class="qa-page-content__context qa-not-xs"></div>
+        <div class="qa-page-content__main">
+        </div>
+        <div class="qa-page-content__toolbar qa-not-xs">
+
+        </div>
+    </PageContent>
+</ApplicationPage>
+
+@code {
+    private readonly List<TabData> _tabs = new ()
+    {
+        new TabData("Weekly", Page.Report),
+    };
+}
