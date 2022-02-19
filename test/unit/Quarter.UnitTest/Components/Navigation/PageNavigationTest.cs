@@ -21,6 +21,7 @@ namespace Quarter.UnitTest.Components.Navigation
                 yield return new object[]{ "nav-home", Page.Home, "Home" };
                 yield return new object[]{ "nav-timesheets", Page.TimesheetBase, "Timesheets" };
                 yield return new object[]{ "nav-manage", Page.Manage, "Manage" };
+                yield return new object[]{ "nav-report", Page.Report, "Report" };
                 yield return new object[]{ "nav-logout", Page.Logout, "Logout" };
             }
 
