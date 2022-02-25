@@ -1,0 +1,29 @@
+<div class="qa-page-columns">
+    @if (ContextContent is not null)
+    {
+        <div class="qa-page-content__context qa-not-xs">
+            @ContextContent
+        </div>
+    }
+
+    <div class="qa-page-content__main">
+        @MainContent
+    </div>
+
+    @if (ToolbarContent is not null)
+    {
+        <div class="qa-page-content__toolbar qa-not-xs">
+            @ToolbarContent
+        </div>
+    }
+
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment? ContextContent { get; set; }
+    [Parameter]
+    public RenderFragment? MainContent { get; set; }
+    [Parameter]
+    public RenderFragment? ToolbarContent { get; set; }
+}

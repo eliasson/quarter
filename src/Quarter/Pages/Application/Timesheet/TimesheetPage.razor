@@ -6,18 +6,20 @@
 @using Quarter.Core.Utils
 @using Quarter.State
 
-<ApplicationPage ColumnMode="true">
+<ApplicationPage>
     <PageContent>
-        <div class="qa-page-content__context">
-            <CalendarWidget SelectedDate="SelectedDate" LinkGeneratorFn="@Page.Timesheet" />
-            <TimesheetSummaryWidget />
-        </div>
-        <div class="qa-page-content__main">
-            <TimesheetGrid />
-        </div>
-        <div class="qa-page-content__toolbar">
-            <TimesheetActivitySelectorWidget />
-        </div>
+        <PageColumns>
+            <ContextContent>
+                <CalendarWidget SelectedDate="SelectedDate" LinkGeneratorFn="@Page.Timesheet"/>
+                <TimesheetSummaryWidget/>
+            </ContextContent>
+        <MainContent>
+            <TimesheetGrid/>
+        </MainContent>
+        <ToolbarContent>
+            <TimesheetActivitySelectorWidget/>
+        </ToolbarContent>
+        </PageColumns>
     </PageContent>
 </ApplicationPage>
 

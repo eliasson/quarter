@@ -158,12 +158,14 @@
       margin-left: 80px // The menu
       height: 100%
 
+      .qa-page-columns
+        display: flex
+        flex-direction: row
+
       .qa-page-content
         margin: $pillow-large
         display: flex
-
-        &--columns
-          flex-direction: row
+        flex-direction: column
 
         // Currently only used on timesheet view. This divides the page content into three columns
         &__context
