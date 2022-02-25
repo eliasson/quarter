@@ -3,17 +3,113 @@
 
 @using Quarter.Components
 @using Quarter.Utils
+@using Quarter.Pages.Application.Home
 
-<ApplicationPage ColumnMode="true">
+<ApplicationPage>
     <PageContent>
-        <PageContext Tabs="@_tabs" />
-
-        <div class="qa-page-content__context qa-not-xs"></div>
-        <div class="qa-page-content__main">
-        </div>
-        <div class="qa-page-content__toolbar qa-not-xs">
-
-        </div>
+        <PageContext Tabs="@_tabs"/>
+        <PageColumns>
+            <ContextContent>
+                <TodayWidget CurrentDate="DateTime.Today" />
+            </ContextContent>
+            <MainContent>
+                <table class="qa-widget qa-report-table">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>Mon</th>
+                        <th>Tue</th>
+                        <th>Wed</th>
+                        <th>Thu</th>
+                        <th>Fri</th>
+                        <th>Sat</th>
+                        <th>Sun</th>
+                        <th>Total</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th class="qa-project-title">Project One</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="qa-activity-marker" test="activity-item-marker" style="background-color: #D19B93; border-color:  #B1837C;"></div>
+                            <div class="qa-activity-marker-title">Activity One</div>
+                        </td>
+                        <td>23.75</td>
+                        <td>23.75</td>
+                        <td>23.75</td>
+                        <td>23.75</td>
+                        <td>23.75</td>
+                        <td>23.75</td>
+                        <td>23.75</td>
+                        <td>100.75</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="qa-activity-marker" test="activity-item-marker" style="background-color: #D19B93; border-color:  #B1837C;"></div>
+                            <div class="qa-activity-marker-title">Activity Two</div>
+                        </td>
+                        <td>23.75</td>
+                        <td>23.75</td>
+                        <td>23.75</td>
+                        <td>23.75</td>
+                        <td>23.75</td>
+                        <td>23.75</td>
+                        <td>23.75</td>
+                        <td>100.75</td>
+                    </tr>
+                    <tr>
+                        <th class="qa-project-title">Project Two</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="qa-activity-marker" test="activity-item-marker" style="background-color: #D19B93; border-color:  #B1837C;"></div>
+                            <div class="qa-activity-marker-title">Activity Two</div>
+                        </td>
+                        <td>23.75</td>
+                        <td>23.75</td>
+                        <td>23.75</td>
+                        <td>23.75</td>
+                        <td>23.75</td>
+                        <td>23.75</td>
+                        <td>23.75</td>
+                        <td>100.75</td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <th></th>
+                        <th>23.75</th>
+                        <th>23.75</th>
+                        <th>23.75</th>
+                        <th>23.75</th>
+                        <th>23.75</th>
+                        <th>23.75</th>
+                        <th>23.75</th>
+                        <th>1234.75</th>
+                    </tr>
+                    </tfoot>
+                </table>
+            </MainContent>
+            <ToolbarContent></ToolbarContent>
+        </PageColumns>
     </PageContent>
 </ApplicationPage>
 
