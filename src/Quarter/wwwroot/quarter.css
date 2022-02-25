@@ -254,12 +254,14 @@ table tbody tr th:last-child {
     margin-left: 80px;
     height: 100%;
   }
+  .qa-page .qa-page-area .qa-page-columns {
+    display: flex;
+    flex-direction: row;
+  }
   .qa-page .qa-page-area .qa-page-content {
     margin: 24px;
     display: flex;
-  }
-  .qa-page .qa-page-area .qa-page-content--columns {
-    flex-direction: row;
+    flex-direction: column;
   }
   .qa-page .qa-page-area .qa-page-content__context {
     display: flex;
@@ -1089,6 +1091,11 @@ input[type=submit][disabled] {
   height: 8px;
 }
 
+.qa-activity-marker-title {
+  display: inline-block;
+  vertical-align: top;
+}
+
 .qa-home-widget-summary {
   min-width: 330px;
   min-height: 330px;
@@ -1246,7 +1253,6 @@ input[type=submit][disabled] {
   max-height: 20px;
   height: 20px;
 }
-.qa-activity-list .qa-activity-list-activity-title,
 .qa-activity-list .qa-activity-list-action-title {
   display: inline-block;
   vertical-align: top;
