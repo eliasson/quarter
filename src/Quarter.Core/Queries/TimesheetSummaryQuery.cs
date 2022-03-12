@@ -13,7 +13,7 @@ namespace Quarter.Core.Queries;
 public record TimesheetSummaryQuery(Date From, Date To)
 {
     public static TimesheetSummaryQuery ForWeek(Date date)
-        => new TimesheetSummaryQuery(date.StartOfWeek(), date.EndOfWeek());
+        => new (date.StartOfWeek(), date.EndOfWeek());
 }
 
 public class TimesheetSummaryQueryResult
