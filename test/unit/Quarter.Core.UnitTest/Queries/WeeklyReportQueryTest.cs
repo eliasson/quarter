@@ -115,5 +115,18 @@ public abstract class WeeklyReportQueryTest
                 }),
             }));
         }
+
+        [Test]
+        public void ItShouldContainUsagePerWeekday()
+        {
+            var result = _result.Usage.Values.SelectMany(pu => pu.Usage.Values.Select(au =>
+                (pu.ProjectId, au.ActivityId, au.DurationPerWeekDay)));
+            Assert.That(result, Is.EquivalentTo(new[]
+            {
+                ( _projectIdOne, _activityIdOne,   new [] { 2 * 15, 0, 0, 0, 0, 0,      0 } ),
+                ( _projectIdOne, _activityIdThree, new [] {      0, 0, 0, 0, 0, 0, 8 * 15 } ),
+                ( _projectIdTwo, _activityIdTwo,   new [] { 6 * 15, 0, 0, 0, 0, 0,      0 } ),
+            }));
+        }
     }
 }

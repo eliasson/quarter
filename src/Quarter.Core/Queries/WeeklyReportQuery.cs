@@ -36,7 +36,7 @@ public class WeeklyReportResult
     public string TotalAsHours()
         => ((float) TotalMinutes / 60.0).ToString("F2");
 
-    public void AddOrUpdate(ProjectSummary projectSummary)
+    public void AddOrUpdate(ProjectSummary projectSummary, int weekDayIndex)
     {
         if (!Usage.TryGetValue(projectSummary.ProjectId, out var projectUsage))
         {
@@ -45,7 +45,7 @@ public class WeeklyReportResult
         }
 
         foreach (var activitySummary in projectSummary.Activities)
-            projectUsage.AddOrUpdate(activitySummary);
+            projectUsage.AddOrUpdate(activitySummary, weekDayIndex);
 
         TotalMinutes += projectSummary.Duration * 15;
     }
@@ -62,8 +62,7 @@ public class ProjectWeekUsage
         ProjectId = projectId;
     }
 
-
-    public void AddOrUpdate(ActivitySummary activitySummary)
+    public void AddOrUpdate(ActivitySummary activitySummary, int weekDayIndex)
     {
         if (!Usage.TryGetValue(activitySummary.ActivityId, out var activityUsage))
         {
@@ -71,7 +70,7 @@ public class ProjectWeekUsage
             Usage.Add(activitySummary.ActivityId, activityUsage);
         }
 
-        activityUsage.AddOrUpdate(activitySummary);
+        activityUsage.AddOrUpdate(activitySummary, weekDayIndex);
         TotalMinutes += activitySummary.Duration * 15;
     }
 }
@@ -79,7 +78,7 @@ public class ProjectWeekUsage
 public class ActivityWeekUsage
 {
     public IdOf<Activity> ActivityId { get; private set; }
-    public int[] DurationPerWeekDay; // Always size 7
+    public readonly int[] DurationPerWeekDay;
     public int TotalMinutes;
 
     public ActivityWeekUsage(IdOf<Activity> activityId)
@@ -88,8 +87,9 @@ public class ActivityWeekUsage
         DurationPerWeekDay = new int[7];
     }
 
-    public void AddOrUpdate(ActivitySummary activitySummary)
+    public void AddOrUpdate(ActivitySummary activitySummary, int weekDayIndex)
     {
+        DurationPerWeekDay[weekDayIndex] += activitySummary.Duration * 15;
         TotalMinutes += activitySummary.Duration * 15;
     }
 }

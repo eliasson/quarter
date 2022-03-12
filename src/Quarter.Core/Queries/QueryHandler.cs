@@ -44,11 +44,14 @@ public class QueryHandler : IQueryHandler
         // It should be replaced with a new repository function that aggregates the timeslot table directly.
 
         var timesheetRepository = _repositoryFactory.TimesheetRepository(oc.UserId);
+        var weekDayIndex = 0;
         foreach (var date in Date.Sequence(query.From, query.To))
         {
             var timesheet = await timesheetRepository.GetOrNewTimesheetAsync(date, ct);
             foreach (var projectSummary in timesheet.Summarize())
-                result.AddOrUpdate(projectSummary);
+                result.AddOrUpdate(projectSummary, weekDayIndex);
+
+            weekDayIndex++;
         }
 
         return result;
