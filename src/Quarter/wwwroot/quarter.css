@@ -363,10 +363,6 @@ table tbody tr th:last-child {
   text-align: center;
 }
 
-.qa-button + .qa-button {
-  margin-top: 8px;
-}
-
 ::placeholder {
   color: #bbbbbb;
   font-weight: 200;
@@ -1069,6 +1065,63 @@ input[type=submit][disabled] {
   width: 40px;
 }
 
+.qa-report {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  margin-bottom: 24px;
+  border-radius: 4px;
+  border: 2px solid #252525;
+  box-shadow: 4px 4px 4px -4px #14141e;
+}
+.qa-report__header {
+  display: flex;
+  flex-direction: row;
+  justify-items: left;
+  padding: 16px;
+  background-color: #252525;
+  color: #ffffff;
+}
+.qa-report__header__title {
+  flex-grow: 1;
+}
+.qa-report__header__title__main {
+  font-size: 20px;
+  font-weight: 400;
+}
+.qa-report__header__title__sub {
+  font-size: 14px;
+  font-weight: 200;
+  margin-top: 8px;
+}
+.qa-report__header__actions {
+  align-self: flex-end;
+  display: flex;
+}
+.qa-report__summary {
+  text-align: center;
+  background-color: #252525;
+  color: #ffffff;
+  padding: 24px;
+}
+.qa-report__summary__value {
+  font-size: 36px;
+  font-weight: 600;
+}
+.qa-report__summary__label {
+  font-size: 20px;
+  font-weight: 200;
+}
+.qa-report__details {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  color: #252525;
+}
+
+table.qa-report-table tr th {
+  font-weight: 600;
+}
 table.qa-report-table tr th,
 table.qa-report-table tr td {
   text-align: right;
@@ -1080,6 +1133,10 @@ table.qa-report-table tr td:first-child {
 }
 table.qa-report-table tbody tr th.qa-project-title {
   padding: 24px 8px 8px 8px;
+}
+table.qa-report-table thead {
+  background-color: #ffffff;
+  color: #252525;
 }
 table.qa-report-table tfoot tr th,
 table.qa-report-table tfoot tr td {

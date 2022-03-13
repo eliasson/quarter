@@ -2,32 +2,49 @@
 @attribute [Authorize]
 
 @using Quarter.Components
+@using Quarter.Core.Queries
+@using Quarter.Core.Utils
+@using Quarter.Services
 @using Quarter.Utils
-@using Quarter.Pages.Application.Home
 
 <ApplicationPage>
     <PageContent>
         <PageContext Tabs="@_tabs"/>
         <PageColumns>
             <ContextContent>
-                <TodayWidget CurrentDate="DateTime.Today" />
             </ContextContent>
             <MainContent>
-                <table class="qa-widget qa-report-table">
-                    <thead>
-                    <tr>
-                        <th></th>
-                        <th>Mon</th>
-                        <th>Tue</th>
-                        <th>Wed</th>
-                        <th>Thu</th>
-                        <th>Fri</th>
-                        <th>Sat</th>
-                        <th>Sun</th>
-                        <th>Total</th>
-                    </tr>
-                    </thead>
-                    <tbody>
+                <div class="qa-report">
+                    <div class="qa-report__header">
+                        <div class="qa-report__header__title">
+                            <div class="qa-report__header__title__main" test="report-title">@ReportTitle</div>
+                            <div class="qa-report__header__title__sub" test="report-sub-title">@ReportSubTitle</div>
+                        </div>
+                        <div class="qa-report__header__actions">
+                            <ActionButton IconRef="#icon-chevron-left" OnAction="@Todo" />
+                            <ActionButton IconRef="#icon-chevron-right" OnAction="@Todo" />
+                        </div>
+                    </div>
+                    <div class="qa-report__summary">
+                        <div class="qa-report__summary__value" test="week-total">124.50</div>
+                        <div class="qa-report__summary__label">Hours</div>
+                    </div>
+                    <div class="qa-report__details">
+                        <table class="qa-report-table">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Mon</th>
+                                    <th>Tue</th>
+                                    <th>Wed</th>
+                                    <th>Thu</th>
+                                    <th>Fri</th>
+                                    <th>Sat</th>
+                                    <th>Sun</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
                     <tr>
                         <th class="qa-project-title">Project One</th>
                         <th></th>
@@ -107,15 +124,49 @@
                     </tr>
                     </tfoot>
                 </table>
+                    </div>
+                </div>
             </MainContent>
             <ToolbarContent></ToolbarContent>
         </PageColumns>
     </PageContent>
 </ApplicationPage>
 
+@inject IUserAuthorizationService _userAuthorizationService;
+@inject IQueryHandler _queryHandler
+
 @code {
     private readonly List<TabData> _tabs = new ()
     {
         new TabData("Weekly", Page.Report),
     };
+
+    private readonly Date _selectedDate = Date.Today();
+    private WeeklyReportResult? _report;
+
+    private string ReportTitle
+        => _report is null
+            ? ""
+            :$"Week {_report.StartOfWeek.DateTime.Iso8601WeekNumber()}";
+
+    private string ReportSubTitle
+        => _report is null
+            ? ""
+            : $"{_report.StartOfWeek.IsoString()} - {_report.EndOfWeek.IsoString()}";
+
+    private void Todo()
+    {
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var oc = await OperationContextForCurrentUser();
+        _report = await _queryHandler.ExecuteAsync(new WeeklyReportQuery(_selectedDate), oc, default);
+    }
+
+    private async Task<OperationContext> OperationContextForCurrentUser()
+    {
+        var currentId = await _userAuthorizationService.CurrentUserId();
+        return new OperationContext(currentId);
+    }
 }
