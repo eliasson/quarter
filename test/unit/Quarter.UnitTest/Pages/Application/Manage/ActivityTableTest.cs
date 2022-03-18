@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using AngleSharp.Dom;
 using Bunit;
 using NUnit.Framework;
 using Quarter.Components;
