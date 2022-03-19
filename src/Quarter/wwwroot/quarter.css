@@ -293,12 +293,12 @@ table tbody tr th:last-child {
 
 @media only screen and (max-width: 48em) {
   .qa-not-xs {
-    display: none;
+    display: none !important;
   }
 }
 @media only screen and (min-width: 48em) {
   .qa-only-xs {
-    display: none;
+    display: none !important;
   }
 }
 .qa-no-air {
@@ -406,6 +406,9 @@ form fieldset {
   flex-grow: 1;
   margin-top: 32px;
   padding-right: 16px;
+}
+.qa-form-pane .qa-form-pane--controls .qa-inline-controls {
+  display: flex;
 }
 .qa-form-pane .qa-form-pane--controls.qa-compensate-full-width {
   padding-right: 26px;
@@ -749,6 +752,12 @@ input[type=submit][disabled] {
   padding: 16px;
 }
 
+@media only screen and (max-width: 48em) {
+  .qa-modal--container {
+    max-width: 96%;
+    min-width: 96%;
+  }
+}
 @keyframes animate-stripes {
   from {
     background-position: 0 0;
