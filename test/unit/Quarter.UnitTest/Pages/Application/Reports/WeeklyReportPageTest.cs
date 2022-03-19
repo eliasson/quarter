@@ -4,6 +4,7 @@ using System.Linq;
 using AngleSharp.Css.Dom;
 using Bunit;
 using Bunit.Rendering;
+using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using Quarter.Components;
@@ -79,6 +80,20 @@ public abstract class WeeklyReportPageTest
                 Assert.That(emptyComponent?.Header, Is.EqualTo("No registered time"));
                 Assert.That(emptyComponent?.Message, Is.EqualTo("There are no registered time for this week."));
             });
+        }
+
+        [Test]
+        public void ItShouldNavigateToFirstDayInPreviousWeek()
+        {
+            GoToPreviousWeek();
+            Assert.That(LastNavigatedTo, Is.EqualTo("/app/reports/2022-03-07"));
+        }
+
+        [Test]
+        public void ItShouldNavigateToFirstDayInNextWeek()
+        {
+            GoToNextWeek();
+            Assert.That(LastNavigatedTo, Is.EqualTo("/app/reports/2022-03-21"));
         }
     }
 
@@ -209,12 +224,14 @@ public abstract class WeeklyReportPageTest
     {
         private readonly TestQueryHandler _queryHandler = new TestQueryHandler();
         private readonly IUserAuthorizationService _authService = new TestIUserAuthorizationService();
+        private readonly TestNavigationManager _testNavigationManager = new TestNavigationManager();
 
         protected override void ConfigureTestContext(TestContext ctx)
         {
             base.ConfigureTestContext(ctx);
             Context.Services.AddSingleton<IQueryHandler>(_queryHandler);
             Context.Services.AddSingleton(_authService);
+            Context.Services.AddSingleton<NavigationManager>(_testNavigationManager);
         }
 
         protected void RenderWithEmptyResult(DateTime dateInTest, Date startOfWeek, Date endOfWeek)
@@ -263,5 +280,14 @@ public abstract class WeeklyReportPageTest
                 return (name, bgColor, borderColor, weekDays, total);
             });
         }
+
+        protected void GoToPreviousWeek()
+            => Component?.FindAll("[test=action-button]").First().Click();
+
+        protected void GoToNextWeek()
+            => Component?.FindAll("[test=action-button]").Last().Click();
+
+        protected string LastNavigatedTo()
+            =>_testNavigationManager.LastNavigatedTo();
     }
 }

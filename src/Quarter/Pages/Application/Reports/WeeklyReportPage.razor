@@ -24,8 +24,8 @@
                             <div class="qa-report__header__title__sub" test="report-sub-title">@ReportSubTitle</div>
                         </div>
                         <div class="qa-report__header__actions">
-                            <ActionButton IconRef="#icon-chevron-left" OnAction="@Todo" />
-                            <ActionButton IconRef="#icon-chevron-right" OnAction="@Todo" />
+                            <ActionButton IconRef="#icon-chevron-left" OnAction="@PreviousWeek" />
+                            <ActionButton IconRef="#icon-chevron-right" OnAction="@NextWeek" />
                         </div>
                     </div>
                     <div class="qa-report__summary">
@@ -96,6 +96,7 @@
 @inherits Quarter.Core.UI.Components.QuarterComponent<Quarter.State.ApplicationState>
 @inject IUserAuthorizationService _userAuthorizationService;
 @inject IQueryHandler _queryHandler
+@inject NavigationManager _navigationManager
 
 @code {
     private record ProjectVm(string Name, ActivityVm[] Activities);
@@ -154,21 +155,20 @@
         }
     }
 
-    private void Todo()
-    {
-    }
-
     protected override async Task OnInitializedAsync()
     {
         // TODO: Add test that this action is dispatched
         await base.OnParametersSetAsync();
         await DispatchAsync(new LoadProjects());
 
-        var date = SelectedDate ?? DateTime.UtcNow.Date;
-        SelectedDate = date;
+        SelectedDate ??= DateTime.UtcNow.Date;
+    }
 
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
         var oc = await OperationContextForCurrentUser();
-        _report = await _queryHandler.ExecuteAsync(new WeeklyReportQuery(new Date(date)), oc, default);
+        _report = await _queryHandler.ExecuteAsync(new WeeklyReportQuery(StartOfWeek()), oc, default);
     }
 
     private async Task<OperationContext> OperationContextForCurrentUser()
@@ -176,4 +176,13 @@
         var currentId = await _userAuthorizationService.CurrentUserId();
         return new OperationContext(currentId);
     }
+
+    private Date StartOfWeek()
+        => new Date(SelectedDate ?? DateTime.UtcNow.Date).StartOfWeek();
+
+    private void PreviousWeek()
+        => _navigationManager.NavigateTo(Page.WeekReport(StartOfWeek().DateTime.Subtract(TimeSpan.FromDays(7))));
+
+    private void NextWeek()
+        => _navigationManager.NavigateTo(Page.WeekReport(StartOfWeek().DateTime.Add(TimeSpan.FromDays(7))));
 }
