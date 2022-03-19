@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using AngleSharp.Dom;
 using Bunit;
 using NUnit.Framework;
-using Quarter.Core.Events;
 using Quarter.Core.Models;
 using Quarter.Core.Utils;
 using Quarter.Pages.Admin.Users;
@@ -50,60 +49,12 @@ public abstract class UserTableTest
             => Assert.That(Users(), Is.EquivalentTo(new [] {"alpha@example.com", "bravo@example.com" }));
     }
 
-    [Ignore("Removed automatic updates temporarily")]
-    public class WhenUserIsAdded : TestCase
-    {
-        [OneTimeSetUp]
-        public async Task StartUp()
-        {
-            await AddExistingUser("alpha@example.com");
-            Render();
-
-            await AddNewUser("bravo@example.com");
-        }
-
-        [Test]
-        public void ItShouldIncludeAddedUser()
-            => Assert.That(Users(), Is.EquivalentTo(new [] {"alpha@example.com", "bravo@example.com" }));
-    }
-
-    [Ignore("Removed automatic updates temporarily")]
-    public class WhenUserIsRemoved : TestCase
-    {
-        [OneTimeSetUp]
-        public async Task StartUp()
-        {
-            await AddExistingUser("alpha@example.com");
-            await AddExistingUser("bravo@example.com");
-            Render();
-            await RemoveUser("bravo@example.com");
-        }
-
-        [Test]
-        public void ItShouldNotIncludeUser()
-            => Assert.That(Users(), Is.EquivalentTo(new [] {"alpha@example.com" }));
-    }
-
     public class TestCase : BlazorComponentTestCase<UsersTable>
     {
         protected Task<User> AddExistingUser(string email)
         {
             var user = User.StandardUser(new Email(email));
             return RepositoryFactory.UserRepository().CreateAsync(user, CancellationToken.None);
-        }
-
-        protected async Task AddNewUser(string email)
-        {
-            var user = User.StandardUser(new Email(email));
-            await EventDispatcher.Dispatch(new UserCreatedEvent(user));
-            await Task.Delay(500);
-        }
-
-        protected async Task RemoveUser(string email)
-        {
-            var user = await RepositoryFactory.UserRepository().GetUserByEmailAsync(email, CancellationToken.None);
-            await EventDispatcher.Dispatch(new UserRemovedEvent(user.Id));
-            await Task.Delay(500);
         }
 
         protected IEnumerable<string> Users()

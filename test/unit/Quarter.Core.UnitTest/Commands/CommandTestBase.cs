@@ -5,27 +5,22 @@ using Quarter.Core.Repositories;
 using Quarter.Core.Utils;
 using NUnit.Framework;
 using Quarter.Core.Commands;
-using Quarter.Core.Events;
-using Quarter.Core.UnitTest.TestUtils;
 
 namespace Quarter.Core.UnitTest.Commands
 {
-    public abstract class CommandTestBase<T> where T : IEvent
+    public abstract class CommandTestBase
     {
         protected InMemoryRepositoryFactory RepositoryFactory;
         protected IUserRepository UserRepository;
         protected ICommandHandler Handler;
-        protected TestSubscriber<T> EventSubscriber;
         protected readonly IdOf<User> ActingUser = IdOf<User>.Random();
-        protected readonly  EventDispatcher EventDispatcher = new ();
 
         [OneTimeSetUp]
         protected void SetUpTestBase()
         {
             RepositoryFactory = new InMemoryRepositoryFactory();
             UserRepository = RepositoryFactory.UserRepository();
-            EventSubscriber = new TestSubscriber<T>(EventDispatcher);
-            Handler = new CommandHandler(RepositoryFactory, EventDispatcher);
+            Handler = new CommandHandler(RepositoryFactory);
         }
 
         protected Task<User> AddUserInRepository(Email email, params UserRole[] roles)

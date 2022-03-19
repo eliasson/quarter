@@ -2,7 +2,6 @@ using Quarter.Core.UI.State;
 using Quarter.State;
 using Microsoft.Extensions.DependencyInjection;
 using Quarter.Core.Commands;
-using Quarter.Core.Events;
 using Quarter.Core.Migrations;
 using Quarter.Core.Queries;
 using Quarter.Core.Repositories;
@@ -32,7 +31,6 @@ namespace Quarter
                 serviceCollection.AddSingleton<IRepositoryFactory, PostgresRepositoryFactory>();
             }
 
-            serviceCollection.AddSingleton<IEventDispatcher, EventDispatcher>();
             serviceCollection.AddSingleton<ICommandHandler, CommandHandler>();
             serviceCollection.AddSingleton<IQueryHandler, QueryHandler>();
             serviceCollection.AddScoped<IStateManager<ApplicationState>>(

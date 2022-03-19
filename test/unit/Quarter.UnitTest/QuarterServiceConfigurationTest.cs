@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using Quarter.Core.Commands;
-using Quarter.Core.Events;
 using Quarter.Core.Queries;
 using Quarter.Core.Repositories;
 using Quarter.Core.UI.State;
@@ -16,7 +15,6 @@ namespace Quarter.UnitTest;
 public class QuarterServiceConfigurationTest
 {
     [TestCase(typeof(IRepositoryFactory))]
-    [TestCase(typeof(IEventDispatcher))]
     [TestCase(typeof(ICommandHandler))]
     [TestCase(typeof(IQueryHandler))]
     [TestCase(typeof(IStateManager<ApplicationState>))]

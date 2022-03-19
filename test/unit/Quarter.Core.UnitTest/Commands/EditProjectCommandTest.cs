@@ -3,13 +3,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Quarter.Core.Commands;
-using Quarter.Core.Events;
 using Quarter.Core.Exceptions;
 using Quarter.Core.Models;
 
 namespace Quarter.Core.UnitTest.Commands;
 
-public class EditProjectCommandTest : CommandTestBase<ProjectEditedEvent>
+public class EditProjectCommandTest : CommandTestBase
 {
     public class WhenProjectDoesNotExist : EditProjectCommandTest
     {
@@ -19,10 +18,6 @@ public class EditProjectCommandTest : CommandTestBase<ProjectEditedEvent>
             var command = new EditProjectCommand(IdOf<Project>.Random(), null, null);
             Assert.ThrowsAsync<NotFoundException>(() => Handler.ExecuteAsync(command, OperationContext(), CancellationToken.None));
         }
-
-        [Test]
-        public void ItShouldNotDispatchAnyEvent()
-            => Assert.That(EventSubscriber.CollectedEvents, Is.Empty);
     }
 
     public class WhenEditingProjectName : EditProjectCommandTest
@@ -58,28 +53,6 @@ public class EditProjectCommandTest : CommandTestBase<ProjectEditedEvent>
                 Assert.That(readProject.Name, Is.EqualTo(expectedName));
                 Assert.That(readProject.Description, Is.EqualTo(expectedDescription));
             });
-        }
-    }
-
-    public class SuccessfulEditing : EditProjectCommandTest
-    {
-        private Project _initialProject;
-
-        [OneTimeSetUp]
-        public async Task AddingInitialProject()
-        {
-            var projectRepository = RepositoryFactory.ProjectRepository(ActingUser);
-            _initialProject = await projectRepository.CreateAsync(new Project("Initial name", "Initial description"), CancellationToken.None);
-            var command = new EditProjectCommand(_initialProject.Id, "Updated name", null);
-            await Handler.ExecuteAsync(command, OperationContext(), CancellationToken.None);
-        }
-
-        [Test]
-        public async Task ItShouldDispatchEvent()
-        {
-            var ev = await EventSubscriber.EventuallyDispatchedOneEvent();
-
-            Assert.That(ev.ProjectId, Is.EqualTo(_initialProject.Id));
         }
     }
 }

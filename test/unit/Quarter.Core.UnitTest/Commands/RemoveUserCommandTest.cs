@@ -1,8 +1,6 @@
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Quarter.Core.Commands;
-using Quarter.Core.Events;
 using Quarter.Core.Exceptions;
 using Quarter.Core.Models;
 using Quarter.Core.Utils;
@@ -10,7 +8,7 @@ using NUnit.Framework;
 
 namespace Quarter.Core.UnitTest.Commands
 {
-    public abstract class RemoveUserCommandTest : CommandTestBase<UserRemovedEvent>
+    public abstract class RemoveUserCommandTest : CommandTestBase
     {
         public class WhenUserDoesNotExist : RemoveUserCommandTest
         {
@@ -20,10 +18,6 @@ namespace Quarter.Core.UnitTest.Commands
                 var command = new RemoveUserCommand(IdOf<User>.Random());
                 Assert.DoesNotThrowAsync(() => Handler.ExecuteAsync(command, OperationContext(), CancellationToken.None));
             }
-
-            [Test]
-            public void ItShouldNotDispatchAnyEvent()
-                => Assert.That(EventSubscriber.CollectedEvents, Is.Empty);
         }
 
         public class WhenUserExist : RemoveUserCommandTest
@@ -42,14 +36,6 @@ namespace Quarter.Core.UnitTest.Commands
             [Test]
             public void ItShouldHaveRemovedUser()
                 => Assert.ThrowsAsync<NotFoundException>(() => UserRepository.GetByIdAsync(_initialUser.Id, CancellationToken.None));
-
-            [Test]
-            public async Task ItShouldDispatchUserRemovedEvent()
-            {
-                var ev = await EventSubscriber.EventuallyDispatchedOneEvent();
-
-                Assert.That(ev.UserId, Is.EqualTo(_initialUser.Id));
-            }
         }
     }
 }

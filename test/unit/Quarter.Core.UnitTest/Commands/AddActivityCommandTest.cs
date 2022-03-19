@@ -3,13 +3,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Quarter.Core.Commands;
-using Quarter.Core.Events;
 using Quarter.Core.Models;
 using Quarter.Core.Utils;
 
 namespace Quarter.Core.UnitTest.Commands;
 
-public class AddActivityCommandTest : CommandTestBase<ActivityCreatedEvent>
+public class AddActivityCommandTest : CommandTestBase
 {
     public class WhenAddingActivity : AddActivityCommandTest
     {
@@ -29,14 +28,6 @@ public class AddActivityCommandTest : CommandTestBase<ActivityCreatedEvent>
                 .ToListAsync();
 
             Assert.That(activities, Is.EquivalentTo(new [] { "Sample activity" }));
-        }
-
-        [Test]
-        public void ItShouldHaveDispatchedActivityCreatedEvent()
-        {
-            var ev = EventSubscriber.CollectedEvents.Single();
-
-            Assert.That(ev.Activity.Name, Is.EqualTo("Sample activity"));
         }
     }
 }
