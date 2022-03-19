@@ -1123,10 +1123,6 @@ input[type=submit][disabled] {
   padding: 24px 0;
 }
 
-table.qa-report-table {
-  overflow-x: auto;
-  display: block;
-}
 table.qa-report-table tr th {
   font-weight: 600;
 }
@@ -1151,6 +1147,12 @@ table.qa-report-table tfoot tr td {
   padding: 24px 8px;
 }
 
+@media only screen and (max-width: 48em) {
+  table.qa-report-table {
+    overflow-x: auto;
+    display: block;
+  }
+}
 .qa-activity-marker {
   min-width: 14px;
   max-width: 14px;

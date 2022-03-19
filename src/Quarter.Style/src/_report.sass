@@ -51,9 +51,6 @@
         padding: $pillow-large 0
 
 table.qa-report-table
-    overflow-x: auto
-    display: block
-
     tr
         th
             font-weight: 600
@@ -79,3 +76,8 @@ table.qa-report-table
         th,
         td
             padding: $pillow-large $pillow-small
+
+@media only screen and (max-width: 48em)
+    table.qa-report-table
+        overflow-x: auto
+        display: block
