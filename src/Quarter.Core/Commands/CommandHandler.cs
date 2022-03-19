@@ -1,7 +1,6 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Quarter.Core.Events;
 using Quarter.Core.Models;
 using Quarter.Core.Repositories;
 using Quarter.Core.Utils;
@@ -11,12 +10,10 @@ namespace Quarter.Core.Commands
     public class CommandHandler : ICommandHandler
     {
         private readonly IRepositoryFactory _repositoryFactory;
-        private readonly IEventDispatcher _eventDispatcher;
 
-        public CommandHandler(IRepositoryFactory repositoryFactory, IEventDispatcher eventDispatcher)
+        public CommandHandler(IRepositoryFactory repositoryFactory)
         {
             _repositoryFactory = repositoryFactory;
-            _eventDispatcher = eventDispatcher;
         }
 
         public Task ExecuteAsync(ICommand command, OperationContext oc, CancellationToken ct)
@@ -44,19 +41,11 @@ namespace Quarter.Core.Commands
 
             // Create placeholder project and activity to the user has something to begin with
             var project = await _repositoryFactory.ProjectRepository(user.Id).CreateSandboxProjectAsync(ct);
-            var activity = await _repositoryFactory.ActivityRepository(user.Id).CreateSandboxActivityAsync(project.Id, ct);
-
-            await _eventDispatcher.Dispatch(new UserCreatedEvent(user));
-            await _eventDispatcher.Dispatch(new ProjectCreatedEvent(project));
-            await _eventDispatcher.Dispatch(new ActivityCreatedEvent(activity));
+            _ = await _repositoryFactory.ActivityRepository(user.Id).CreateSandboxActivityAsync(project.Id, ct);
         }
 
         private async Task ExecuteAsync(RemoveUserCommand command, CancellationToken ct)
-        {
-            var result = await _repositoryFactory.UserRepository().RemoveByIdAsync(command.UserId, ct);
-            if (result == RemoveResult.Removed)
-                await _eventDispatcher.Dispatch(new UserRemovedEvent(command.UserId));
-        }
+            => await _repositoryFactory.UserRepository().RemoveByIdAsync(command.UserId, ct);
 
         private async Task ExecuteAsync(AssignUserRoleCommand command, CancellationToken ct)
         {
@@ -66,8 +55,6 @@ namespace Quarter.Core.Commands
                     user.AssignRole(command.Role);
                     return user;
                 }, ct);
-
-            await _eventDispatcher.Dispatch(new AssignedUserRoleEvent(command.UserId, new [] { command.Role }));
         }
 
         private async Task ExecuteAsync(RevokeUserRoleCommand command, CancellationToken ct)
@@ -78,15 +65,12 @@ namespace Quarter.Core.Commands
                     user.RevokeRole(command.Role);
                     return user;
                 }, ct);
-
-            await _eventDispatcher.Dispatch(new RevokedUserRoleEvent(command.UserId, new [] { command.Role }));
         }
 
         private async Task ExecuteAsync(AddProjectCommand command, OperationContext oc, CancellationToken ct)
         {
             var project = new Project(command.Name, command.Description);
-            project = await _repositoryFactory.ProjectRepository(oc.UserId).CreateAsync(project, ct);
-            await _eventDispatcher.Dispatch(new ProjectCreatedEvent(project));
+            await _repositoryFactory.ProjectRepository(oc.UserId).CreateAsync(project, ct);
         }
 
         private async Task ExecuteAsync(EditProjectCommand command, OperationContext oc, CancellationToken ct)
@@ -101,8 +85,6 @@ namespace Quarter.Core.Commands
 
                     return current;
                 }, ct);
-
-            await _eventDispatcher.Dispatch(new ProjectEditedEvent(command.ProjectId));
         }
 
         private async Task ExecuteAsync(RemoveProjectCommand command, OperationContext oc, CancellationToken ct)
@@ -111,15 +93,13 @@ namespace Quarter.Core.Commands
             if (result == RemoveResult.Removed)
             {
                 await _repositoryFactory.TimesheetRepository(oc.UserId).RemoveSlotsForProjectAsync(command.ProjectId, ct);
-                await _eventDispatcher.Dispatch(new ProjectRemovedEvent(command.ProjectId));
             }
         }
 
         private async Task ExecuteAsync(AddActivityCommand command, OperationContext oc, CancellationToken ct)
         {
             var activity = new Activity(command.ProjectId, command.Name, command.Description, command.Color);
-            activity = await _repositoryFactory.ActivityRepository(oc.UserId).CreateAsync(activity, ct);
-            await _eventDispatcher.Dispatch(new ActivityCreatedEvent(activity));
+            await _repositoryFactory.ActivityRepository(oc.UserId).CreateAsync(activity, ct);
         }
 
         private async Task ExecuteAsync(EditActivityCommand command, OperationContext oc, CancellationToken ct)
@@ -135,7 +115,6 @@ namespace Quarter.Core.Commands
 
                 return current;
             }, ct);
-            await _eventDispatcher.Dispatch(new ActivityEditedEvent(command.ActivityId));
         }
 
         private async Task ExecuteAsync(RemoveActivityCommand command, OperationContext oc, CancellationToken ct)
@@ -144,7 +123,6 @@ namespace Quarter.Core.Commands
             if (result == RemoveResult.Removed)
             {
                 await _repositoryFactory.TimesheetRepository(oc.UserId).RemoveSlotsForActivityAsync(command.ActivityId, ct);
-                await _eventDispatcher.Dispatch(new ActivityRemovedEvent(command.ActivityId));
             }
         }
     }

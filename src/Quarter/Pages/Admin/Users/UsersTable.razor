@@ -1,6 +1,5 @@
 @using System.Threading
 @using Quarter.Components
-@using Quarter.Core.Events
 @using Quarter.Core.Models
 @using Quarter.Core.Repositories
 @using Quarter.State
@@ -25,7 +24,6 @@
     </tbody>
 </table>
 
-@inject IEventDispatcher _eventDispatcher
 @inject IRepositoryFactory _repositoryFactory
 @inherits Quarter.Core.UI.Components.QuarterComponent<Quarter.State.ApplicationState>
 
@@ -42,20 +40,6 @@
         _users = await _repositoryFactory.UserRepository()
             .GetAllAsync(CancellationToken.None)
             .ToDictionaryAsync(k => k.Id, ToViewModel);
-
-        _ = _eventDispatcher.Subscribe<UserCreatedEvent>(ev => InvokeAsync(() =>
-        {
-            _users.Add(ev.User.Id, ToViewModel(ev.User));
-            StateHasChanged();
-            return Task.CompletedTask;
-        }), _cts.Token);
-
-        _ = _eventDispatcher.Subscribe<UserRemovedEvent>(ev => InvokeAsync(() =>
-        {
-            _users.Remove(ev.UserId);
-            StateHasChanged();
-            return Task.CompletedTask;
-        }), _cts.Token);
     }
 
     private Task OnUserMenuItem(ContextMenu.MenuItemVm item)

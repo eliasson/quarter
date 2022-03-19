@@ -7,7 +7,6 @@ using Bunit;
 using Bunit.TestDoubles;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
-using Quarter.Core.Events;
 using Quarter.Core.Repositories;
 using Quarter.Core.UI.State;
 using Quarter.Services;
@@ -21,7 +20,6 @@ namespace Quarter.UnitTest.TestUtils
         protected IRenderedComponent<T> Component;
         protected readonly TestStateManager StateManager = new TestStateManager();
         protected readonly IRepositoryFactory RepositoryFactory = new InMemoryRepositoryFactory();
-        protected readonly IEventDispatcher EventDispatcher = new EventDispatcher();
         private TestAuthorizationContext _authContext;
 
         protected BlazorComponentTestCase()
@@ -40,7 +38,6 @@ namespace Quarter.UnitTest.TestUtils
             // Override this to configure which services to inject
             Context.Services.AddScoped<IStateManager<ApplicationState>>(_ => StateManager);
             Context.Services.AddSingleton(RepositoryFactory);
-            Context.Services.AddSingleton(EventDispatcher);
             Context.Services.AddScoped<IUserAuthorizationService, TestIUserAuthorizationService>();
 
             _authContext = Context.AddTestAuthorization();

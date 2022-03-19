@@ -3,11 +3,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Quarter.Core.Commands;
-using Quarter.Core.Events;
 
 namespace Quarter.Core.UnitTest.Commands;
 
-public abstract class AddProjectCommandTest : CommandTestBase<ProjectCreatedEvent>
+public abstract class AddProjectCommandTest : CommandTestBase
 {
     public class WhenAddingProject : AddProjectCommandTest
     {
@@ -27,14 +26,6 @@ public abstract class AddProjectCommandTest : CommandTestBase<ProjectCreatedEven
                 .ToListAsync();
 
             Assert.That(projects, Is.EquivalentTo(new [] { "Sample project" }));
-        }
-
-        [Test]
-        public void ItShouldHaveDispatchedProjectCreatedEvent()
-        {
-            var ev = EventSubscriber.CollectedEvents.Single();
-
-            Assert.That(ev.Project.Name, Is.EqualTo("Sample project"));
         }
     }
 }

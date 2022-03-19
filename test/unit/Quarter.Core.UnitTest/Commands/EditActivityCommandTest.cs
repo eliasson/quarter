@@ -3,14 +3,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Quarter.Core.Commands;
-using Quarter.Core.Events;
 using Quarter.Core.Exceptions;
 using Quarter.Core.Models;
 using Quarter.Core.Utils;
 
 namespace Quarter.Core.UnitTest.Commands;
 
-public abstract class EditActivityCommandTest : CommandTestBase<ActivityEditedEvent>
+public abstract class EditActivityCommandTest : CommandTestBase
 {
     public class WhenActivityDoesNotExist : EditActivityCommandTest
     {
@@ -20,10 +19,6 @@ public abstract class EditActivityCommandTest : CommandTestBase<ActivityEditedEv
             var command = new EditActivityCommand(IdOf<Activity>.Random(), null, null, null);
             Assert.ThrowsAsync<NotFoundException>(() => Handler.ExecuteAsync(command, OperationContext(), CancellationToken.None));
         }
-
-        [Test]
-        public void ItShouldNotDispatchAnyEvent()
-            => Assert.That(EventSubscriber.CollectedEvents, Is.Empty);
     }
 
     public class WhenEditingActivityName : EditActivityCommandTest
@@ -64,30 +59,6 @@ public abstract class EditActivityCommandTest : CommandTestBase<ActivityEditedEv
                 Assert.That(readProject.Description, Is.EqualTo(expectedDescription));
                 Assert.That(readProject.Color, Is.EqualTo(expectedColor));
             });
-        }
-    }
-
-    public class SuccessfulEditing : EditActivityCommandTest
-    {
-        private Activity _initialActivity;
-
-        [OneTimeSetUp]
-        public async Task AddingInitialProject()
-        {
-            var activityRepository = RepositoryFactory.ActivityRepository(ActingUser);
-            _initialActivity = await activityRepository.CreateAsync(
-                new Activity(IdOf<Project>.Random(), "Initial name", "Initial description", Color.FromHexString("#ffffff"))
-                , CancellationToken.None);
-            var command = new EditActivityCommand(_initialActivity.Id, "Updated name", null, null);
-            await Handler.ExecuteAsync(command, OperationContext(), CancellationToken.None);
-        }
-
-        [Test]
-        public async Task ItShouldDispatchEvent()
-        {
-            var ev = await EventSubscriber.EventuallyDispatchedOneEvent();
-
-            Assert.That(ev.ActivityId, Is.EqualTo(_initialActivity.Id));
         }
     }
 }

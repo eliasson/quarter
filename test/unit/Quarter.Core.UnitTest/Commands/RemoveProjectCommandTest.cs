@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Quarter.Core.Commands;
-using Quarter.Core.Events;
 using Quarter.Core.Exceptions;
 using Quarter.Core.Models;
 using Quarter.Core.Repositories;
@@ -11,7 +10,7 @@ using Quarter.Core.Utils;
 
 namespace Quarter.Core.UnitTest.Commands;
 
-public abstract class RemoveProjectCommandTest : CommandTestBase<ProjectRemovedEvent>
+public abstract class RemoveProjectCommandTest : CommandTestBase
 {
     public class WhenProjectDoesNotExist : RemoveProjectCommandTest
     {
@@ -21,10 +20,6 @@ public abstract class RemoveProjectCommandTest : CommandTestBase<ProjectRemovedE
             var command = new RemoveProjectCommand(IdOf<Project>.Random());
             Assert.DoesNotThrowAsync(() => Handler.ExecuteAsync(command, OperationContext(), CancellationToken.None));
         }
-
-        [Test]
-        public void ItShouldNotDispatchAnyEvent()
-            => Assert.That(EventSubscriber.CollectedEvents, Is.Empty);
     }
 
     public class WhenProjectExist : RemoveProjectCommandTest
@@ -45,14 +40,6 @@ public abstract class RemoveProjectCommandTest : CommandTestBase<ProjectRemovedE
         [Test]
         public void ItShouldHaveRemovedProject()
             => Assert.ThrowsAsync<NotFoundException>(() => _projectRepository.GetByIdAsync(_initialProject.Id, CancellationToken.None));
-
-        [Test]
-        public async Task ItShouldDispatchProjectRemovedEvent()
-        {
-            var ev = await EventSubscriber.EventuallyDispatchedOneEvent();
-
-            Assert.That(ev.ProjectId, Is.EqualTo(_initialProject.Id));
-        }
     }
 
     public class WhenTimeIsRegistered : RemoveProjectCommandTest
