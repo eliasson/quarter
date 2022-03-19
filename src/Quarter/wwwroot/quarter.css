@@ -646,6 +646,9 @@ input[type=submit][disabled] {
 .qa-button--full {
   width: 100%;
 }
+.qa-button--full + .qa-button--full {
+  margin-top: 16px;
+}
 .qa-button--square {
   min-width: 42px;
   min-height: 42px;
