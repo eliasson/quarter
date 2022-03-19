@@ -1,5 +1,6 @@
 @using Quarter.Core.Models
 @using System.Globalization
+@using Quarter.Core.Utils
 
 <div class="qa-list-item" @onclick="GoToTimesheet">
     <div class="qa-list-item__main qa-timesheet__summary-line">
@@ -27,7 +28,7 @@
         => Timesheet?.Date.DateTime.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
 
     private string? Total
-        => Timesheet?.TotalAsHours();
+        => Timesheet?.TotalMinutes().MinutesAsHours();
 
     private void GoToTimesheet()
     {

@@ -1,5 +1,6 @@
 @using Quarter.Components
 @using Quarter.Core.Models
+@using Quarter.Core.Utils
 @using Quarter.State
 @using Quarter.State.ViewModels
 @using Quarter.Utils
@@ -29,7 +30,7 @@
     <div class="qa-list-item__statistics">
         <div class="qa-list-item__statistics__category" test="project-category">
             <div class="qa-list-item__statistics__unit" test="project-unit">Hours</div>
-            <div class="qa-list-item__statistics__value" test="project-value">@Project?.TotalAsHours()</div>
+            <div class="qa-list-item__statistics__value" test="project-value">@Project?.TotalMinutes.MinutesAsHours()</div>
         </div>
         <div class="qa-list-item__statistics__category" test="project-category">
             <div class="qa-list-item__statistics__unit" test="project-unit">Activities</div>

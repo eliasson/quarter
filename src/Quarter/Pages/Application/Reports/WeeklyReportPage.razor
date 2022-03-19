@@ -119,7 +119,7 @@
             : $"{_report.StartOfWeek.IsoString()} - {_report.EndOfWeek.IsoString()}";
 
     private string TotalHours
-        => _report?.TotalAsHours() ?? "";
+        => _report?.TotalMinutes.MinutesAsHours() ?? "";
 
     private bool IsEmpty()
         => _report?.TotalMinutes == 0;

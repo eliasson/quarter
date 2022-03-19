@@ -43,11 +43,4 @@ public class ActivityViewModel
     /// The total usage in minutes for this activity
     /// </summary>
     public int TotalMinutes { get; set; }
-
-    /// <summary>
-    /// Return the total usage in hours represented by a string formatted as (hh:hh) e.g. 2.50
-    /// </summary>
-    /// <returns></returns>
-    public string TotalAsHours()
-        => ((float) TotalMinutes / 60.0).ToString("F2");
 }

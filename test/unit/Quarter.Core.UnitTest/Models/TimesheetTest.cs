@@ -122,10 +122,6 @@ public abstract class TimesheetTest
                 => Assert.That(_tc?.Timesheet.TotalMinutes(), Is.EqualTo(90));
 
             [Test]
-            public void ItShouldBeReflectedInTotalHours()
-                => Assert.That(_tc?.Timesheet.TotalAsHours(), Is.EqualTo("1.50"));
-
-            [Test]
             public void ItShouldHaveRegisteredSlots()
                 => Assert.That(_tc?.Slots, Is.EqualTo(new []
                     {

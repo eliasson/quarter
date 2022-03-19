@@ -30,12 +30,6 @@ public class WeeklyReportResult
         Usage = new Dictionary<IdOf<Project>, ProjectWeekUsage>();
     }
 
-    /// <summary>
-    /// Return the total usage in hours represented by a string formatted as (hh:hh) e.g. 2.50
-    /// </summary>
-    public string TotalAsHours()
-        => ((float) TotalMinutes / 60.0).ToString("F2");
-
     public void AddOrUpdate(ProjectSummary projectSummary, int weekDayIndex)
     {
         if (!Usage.TryGetValue(projectSummary.ProjectId, out var projectUsage))

@@ -33,7 +33,7 @@ public abstract class WeeklyReportQueryTest
 
         [Test]
         public void ItShouldContainTotalHours()
-            => Assert.That(_result.TotalAsHours(), Is.EqualTo("0.00"));
+            => Assert.That(_result.TotalMinutes.MinutesAsHours(), Is.EqualTo("0.00"));
     }
 
     public class WhenTimeIsRegistered : QueryTestBase
@@ -79,10 +79,6 @@ public abstract class WeeklyReportQueryTest
         [Test]
         public void ItShouldContainTotalMinutes()
             => Assert.That(_result?.TotalMinutes, Is.EqualTo(16 * 15));
-
-        [Test]
-        public void ItShouldContainTotalHours()
-            => Assert.That(_result?.TotalAsHours(), Is.EqualTo("4.00"));
 
         [Test]
         public void ItShouldContainTotalUsageForTwoProjects()

@@ -49,13 +49,6 @@ public class Timesheet : IAggregate<Timesheet>
         => _slots.Sum(s => s.Duration) * 15;
 
     /// <summary>
-    /// Return the total usage in hours represented by a string formatted as (hh:hh) e.g. 2.50
-    /// </summary>
-    /// <returns></returns>
-    public string TotalAsHours()
-        => ((float) TotalMinutes() / 60.0).ToString("F2");
-
-    /// <summary>
     /// Get the registered slots
     /// </summary>
     private IList<ActivityTimeSlot> _slots = new List<ActivityTimeSlot>();
