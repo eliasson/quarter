@@ -11,8 +11,8 @@
     <div class="qa-list-item__main">
         <div class="qa-list-item__main__title">
             <div class="qa-list-item__main__text"
-                  @onclick="@ToggleActive"
-                  test="project-title">@Project?.Name
+                 @onclick="@ToggleActive"
+                 test="project-title">@Project?.Name
                 @if (_isActive)
                 {
                     <span class="qa-list-item__main__chevron" test="collapse-icon">@CollapseIcon</span>
@@ -22,6 +22,7 @@
                     <span class="qa-list-item__main__chevron" test="expand-icon">@ExpandIcon</span>
                 }
             </div>
+            <div class="qa-list-item__main__sub" test="project-description">@Project?.Description</div>
         </div>
         <div class="qa-list-item__main__actions">
             <ContextMenu Items="ProjectMenuItems" ItemSelected="OnProjectMenuItem" IsInverted="_isActive"></ContextMenu>

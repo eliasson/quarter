@@ -1017,6 +1017,9 @@ input[type=submit][disabled] {
   border-color: #eeeeee;
   color: #eeeeee;
 }
+.qa-list-item--is-active .qa-list-item__main__sub {
+  color: #ffffff;
+}
 .qa-list-item__main {
   display: flex;
   flex-direction: row;
@@ -1034,6 +1037,12 @@ input[type=submit][disabled] {
 .qa-list-item__main__chevron {
   margin-left: 8px;
 }
+.qa-list-item__main__sub {
+  font-weight: 200;
+  margin-top: 4px;
+  font-size: 16px;
+  color: #333333;
+}
 .qa-list-item__statistics {
   display: flex;
   justify-content: space-evenly;
@@ -1042,8 +1051,8 @@ input[type=submit][disabled] {
   text-align: center;
 }
 .qa-list-item__statistics__unit {
-  font-weight: 400;
-  color: #6f6f6f;
+  font-weight: 600;
+  color: #333333;
   padding: 4px;
 }
 .qa-list-item__statistics__value {

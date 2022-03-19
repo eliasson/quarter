@@ -29,6 +29,7 @@ public abstract class ProjectListItemTest
             {
                 Id = IdOf<Project>.Random(),
                 Name = "Project X",
+                Description = "Some project",
             };
             RenderWithParameters(pb => pb.Add(
                 ps => ps.Project, _projectViewModel));
@@ -37,6 +38,10 @@ public abstract class ProjectListItemTest
         [Test]
         public void ItShouldHaveTitle()
             => Assert.That(Title(), Is.EqualTo("Project X"));
+
+        [Test]
+        public void ItShouldHaveDescription()
+            => Assert.That(Description(), Is.EqualTo("Some project"));
 
         [TestCase(0, "Hours", "0.00")]
         [TestCase(1, "Activities", "0")]
@@ -168,6 +173,9 @@ public abstract class ProjectListItemTest
     {
         protected string Title()
             => ComponentByTestAttribute("project-title")?.TextContent;
+
+        protected string Description()
+            => ComponentByTestAttribute("project-description")?.TextContent;
 
         protected IElement ExpandIcon()
             => ComponentByTestAttribute("expand-icon");

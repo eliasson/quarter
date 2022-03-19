@@ -28,6 +28,9 @@
       border-color: $color-gray
       color: $color-gray
 
+    .qa-list-item__main__sub
+      color: $color-white
+
   &__main
     display: flex
     flex-direction: row
@@ -45,6 +48,12 @@
     &__chevron
       margin-left: $pillow-small
 
+    &__sub
+      font-weight: 200
+      margin-top: $pillow-xsmall
+      font-size: $font-size
+      color: $color-text-light
+
   &__statistics
     display: flex
     justify-content: space-evenly
@@ -53,8 +62,8 @@
       text-align: center
 
     &__unit
-      font-weight: 400
-      color: $color-gray-vdark
+      font-weight: 600
+      color: $color-text-light
       padding: 4px
 
     &__value
