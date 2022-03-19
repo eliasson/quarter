@@ -1153,6 +1153,11 @@ table.qa-report-table tfoot tr td {
     display: block;
   }
 }
+@media only screen and (min-width: 48em) {
+  .qa-report__details {
+    min-width: 650px;
+  }
+}
 .qa-activity-marker {
   min-width: 14px;
   max-width: 14px;
