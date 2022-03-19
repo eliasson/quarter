@@ -50,6 +50,7 @@ public abstract class UserTableTest
             => Assert.That(Users(), Is.EquivalentTo(new [] {"alpha@example.com", "bravo@example.com" }));
     }
 
+    [Ignore("Removed automatic updates temporarily")]
     public class WhenUserIsAdded : TestCase
     {
         [OneTimeSetUp]
@@ -66,6 +67,7 @@ public abstract class UserTableTest
             => Assert.That(Users(), Is.EquivalentTo(new [] {"alpha@example.com", "bravo@example.com" }));
     }
 
+    [Ignore("Removed automatic updates temporarily")]
     public class WhenUserIsRemoved : TestCase
     {
         [OneTimeSetUp]
