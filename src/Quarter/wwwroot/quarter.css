@@ -1105,7 +1105,7 @@ input[type=submit][disabled] {
   padding: 24px;
 }
 .qa-report__summary__value {
-  font-size: 36px;
+  font-size: 64px;
   font-weight: 600;
 }
 .qa-report__summary__label {
@@ -1117,8 +1117,13 @@ input[type=submit][disabled] {
   flex-direction: column;
   background-color: #ffffff;
   color: #252525;
+  padding: 24px 0;
 }
 
+table.qa-report-table {
+  overflow-x: auto;
+  display: block;
+}
 table.qa-report-table tr th {
   font-weight: 600;
 }
@@ -1166,6 +1171,7 @@ table.qa-report-table tfoot tr td {
 .qa-activity-marker-title {
   display: inline-block;
   vertical-align: top;
+  margin-left: 4px;
 }
 
 .qa-home-widget-summary {

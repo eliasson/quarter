@@ -3,8 +3,10 @@
 
 @using Quarter.Components
 @using Quarter.Core.Queries
+@using Quarter.Core.UI.State
 @using Quarter.Core.Utils
 @using Quarter.Services
+@using Quarter.State
 @using Quarter.Utils
 
 <ApplicationPage>
@@ -26,104 +28,62 @@
                         </div>
                     </div>
                     <div class="qa-report__summary">
-                        <div class="qa-report__summary__value" test="week-total">124.50</div>
+                        <div class="qa-report__summary__value" test="report-total-hours">@TotalHours</div>
                         <div class="qa-report__summary__label">Hours</div>
                     </div>
                     <div class="qa-report__details">
-                        <table class="qa-report-table">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>Mon</th>
-                                    <th>Tue</th>
-                                    <th>Wed</th>
-                                    <th>Thu</th>
-                                    <th>Fri</th>
-                                    <th>Sat</th>
-                                    <th>Sun</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                    <tr>
-                        <th class="qa-project-title">Project One</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="qa-activity-marker" test="activity-item-marker" style="background-color: #D19B93; border-color:  #B1837C;"></div>
-                            <div class="qa-activity-marker-title">Activity One</div>
-                        </td>
-                        <td>23.75</td>
-                        <td>23.75</td>
-                        <td>23.75</td>
-                        <td>23.75</td>
-                        <td>23.75</td>
-                        <td>23.75</td>
-                        <td>23.75</td>
-                        <td>100.75</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="qa-activity-marker" test="activity-item-marker" style="background-color: #D19B93; border-color:  #B1837C;"></div>
-                            <div class="qa-activity-marker-title">Activity Two</div>
-                        </td>
-                        <td>23.75</td>
-                        <td>23.75</td>
-                        <td>23.75</td>
-                        <td>23.75</td>
-                        <td>23.75</td>
-                        <td>23.75</td>
-                        <td>23.75</td>
-                        <td>100.75</td>
-                    </tr>
-                    <tr>
-                        <th class="qa-project-title">Project Two</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="qa-activity-marker" test="activity-item-marker" style="background-color: #D19B93; border-color:  #B1837C;"></div>
-                            <div class="qa-activity-marker-title">Activity Two</div>
-                        </td>
-                        <td>23.75</td>
-                        <td>23.75</td>
-                        <td>23.75</td>
-                        <td>23.75</td>
-                        <td>23.75</td>
-                        <td>23.75</td>
-                        <td>23.75</td>
-                        <td>100.75</td>
-                    </tr>
-                    </tbody>
-                    <tfoot>
-                    <tr>
-                        <th></th>
-                        <th>23.75</th>
-                        <th>23.75</th>
-                        <th>23.75</th>
-                        <th>23.75</th>
-                        <th>23.75</th>
-                        <th>23.75</th>
-                        <th>23.75</th>
-                        <th>1234.75</th>
-                    </tr>
-                    </tfoot>
-                </table>
+                        @if (IsEmpty())
+                        {
+                            <EmptyCollectionMessage Header="No registered time" Message="There are no registered time for this week." IconRef="#icon-manage"/>
+                        }
+                        else if(_report is not null)
+                        {
+                            <table class="qa-report-table">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Mon</th>
+                                        <th>Tue</th>
+                                        <th>Wed</th>
+                                        <th>Thu</th>
+                                        <th>Fri</th>
+                                        <th>Sat</th>
+                                        <th>Sun</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                @foreach (var project in Usage())
+                                {
+                                    <tr test="report-project-row">
+                                        <th class="qa-project-title" test="project-name">@project.Name</th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                    @foreach (var activity in project.Activities)
+                                    {
+                                        <tr test="report-activity-row">
+                                            <td>
+                                                <div class="qa-activity-marker" test="activity-item-marker" style="background-color: @activity.Color; border-color: @activity.DarkerColor;"></div>
+                                                <div class="qa-activity-marker-title" test="activity-name">@activity.Name</div>
+                                            </td>
+                                            @foreach (var weekDay in activity.Usage)
+                                            {
+                                                <td test="report-activity-weekday">@weekDay</td>
+                                            }
+                                            <td test="report-activity-total">@activity.Total</td>
+                                        </tr>
+                                    }
+                                }
+                                </tbody>
+                            </table>
+                        }
                     </div>
                 </div>
             </MainContent>
@@ -132,11 +92,15 @@
     </PageContent>
 </ApplicationPage>
 
+@inherits Quarter.Core.UI.Components.QuarterComponent<Quarter.State.ApplicationState>
 @inject IUserAuthorizationService _userAuthorizationService;
 @inject IQueryHandler _queryHandler
 
 @code {
-    private readonly List<TabData> _tabs = new ()
+    private record ProjectVm(string Name, ActivityVm[] Activities);
+    private record ActivityVm(string Name, string Color, string DarkerColor, string[] Usage, string Total);
+
+    private readonly List<TabData> _tabs = new()
     {
         new TabData("Weekly", Page.Report),
     };
@@ -147,12 +111,45 @@
     private string ReportTitle
         => _report is null
             ? ""
-            :$"Week {_report.StartOfWeek.DateTime.Iso8601WeekNumber()}";
+            : $"Week {_report.StartOfWeek.DateTime.Iso8601WeekNumber()}";
 
     private string ReportSubTitle
         => _report is null
             ? ""
             : $"{_report.StartOfWeek.IsoString()} - {_report.EndOfWeek.IsoString()}";
+
+    private string TotalHours
+        => _report?.TotalAsHours() ?? "";
+
+    private bool IsEmpty()
+        => _report?.TotalMinutes == 0;
+
+    private IEnumerable<ProjectVm> Usage()
+    {
+        if (_report is null || State is null) yield break;
+
+        var projectNameLookup = State.Projects.ToDictionary(kv => kv.Id, kv => kv.Name);
+        var activityLookup = State.Projects.SelectMany(p => p.Activities).ToDictionary(kv => kv.Id, kv => kv);
+
+        foreach (var projectSummary in _report.Usage.Values)
+        {
+            if (!projectNameLookup.TryGetValue(projectSummary.ProjectId, out var projectName))
+                projectName = "Unknown";
+
+            var activities = new List<ActivityVm>();
+            foreach (var activitySummary in projectSummary.Usage.Values)
+            {
+                if (activityLookup.TryGetValue(activitySummary.ActivityId, out var activityVm))
+                {
+                    var activityUsage = activitySummary.DurationPerWeekDay.Select(m => m.MinutesAsHours()).ToArray();
+                    var total = activitySummary.TotalMinutes.MinutesAsHours();
+                    activities.Add(new ActivityVm(activityVm.Name, activityVm.Color, activityVm.DarkerColor, activityUsage, total));
+                }
+            }
+
+            yield return new ProjectVm(projectName, activities.ToArray());
+        }
+    }
 
     private void Todo()
     {
@@ -160,6 +157,10 @@
 
     protected override async Task OnInitializedAsync()
     {
+        // TODO: Add test that this action is dispatched
+        await base.OnParametersSetAsync();
+        await DispatchAsync(new LoadProjects());
+
         var oc = await OperationContextForCurrentUser();
         _report = await _queryHandler.ExecuteAsync(new WeeklyReportQuery(_selectedDate), oc, default);
     }
