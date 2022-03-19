@@ -7,19 +7,21 @@
 @using Quarter.Core.Utils
 @using Quarter.Services
 
-<ApplicationPage ColumnMode="true">
+<ApplicationPage>
     <PageContent>
-        <div class="qa-page-content__context qa-not-xs"></div>
-        <div class="qa-page-content__main">
-            @foreach (var timesheet in Timesheets())
-            {
-                <TimesheetTotalWidget Timesheet="timesheet" />
-            }
-        </div>
-        <div class="qa-page-content__toolbar qa-not-xs">
-            <TodayWidget CurrentDate="DateTime.Today"/>
-            <WeekTotalWidget Summary="_summaryViewModel"/>
-        </div>
+        <PageColumns>
+            <ContextContent></ContextContent>
+            <MainContent>
+                @foreach (var timesheet in Timesheets())
+                {
+                    <TimesheetTotalWidget Timesheet="timesheet"/>
+                }
+            </MainContent>
+            <ToolbarContent>
+                <TodayWidget CurrentDate="DateTime.Today" />
+                <WeekTotalWidget Summary="_summaryViewModel" />
+            </ToolbarContent>
+        </PageColumns>
     </PageContent>
 </ApplicationPage>
 

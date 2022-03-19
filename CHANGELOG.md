@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixes
 - Hide admin navigation item for non-admin users.
+- Add week report
 
 ## [0.1.4] - 2022-02-11
 

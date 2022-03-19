@@ -12,10 +12,8 @@
                     <li @onclick="(() => SelectActivity(project.Id, activity.Id))"
                         class="@(IsActivitySelected(activity.Id) ? "qa-is-active" : "")"
                         test="activity-item">
-                        <div class="qa-activity-list-activity-item" >
-                            <div class="qa-activity-marker" test="activity-item-marker"
-                                 style="background-color: @activity.Color; border-color:  @activity.DarkerColor;"></div>
-                            <div class="qa-activity-list-activity-title" test="activity-item-title">@activity.Name</div>
+                        <div class="qa-activity-list-activity-item">
+                            <ActivityMarker Activity="activity" />
                         </div>
                     </li>
                 }
@@ -41,6 +39,7 @@
     </div>
 </div>
 
+@using Quarter.Components
 @using Quarter.Core.Models
 @using Quarter.State
 @using Quarter.State.ViewModels

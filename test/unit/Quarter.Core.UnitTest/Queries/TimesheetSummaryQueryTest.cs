@@ -43,10 +43,6 @@ public abstract class TimesheetSummaryQueryTest
             => Assert.That(_vm?.TotalMinutes, Is.EqualTo(0));
 
         [Test]
-        public void ItShouldContainTotalHours()
-            => Assert.That(_vm?.TotalAsHours(), Is.EqualTo("0.00"));
-
-        [Test]
         public void ItShouldContainEmptyTimesheetsForAllDays()
         {
             var dayOne = new Date(StartDate.DateTime).IsoString();
@@ -94,10 +90,6 @@ public abstract class TimesheetSummaryQueryTest
         [Test]
         public void ItShouldContainTotalMinutes()
             => Assert.That(_vm?.TotalMinutes, Is.EqualTo(12 * 15));
-
-        [Test]
-        public void ItShouldContainTotalHours()
-            => Assert.That(_vm?.TotalAsHours(), Is.EqualTo("3.00"));
 
         [Test]
         public void ItShouldContainEmptyTimesheetsForAllDays()

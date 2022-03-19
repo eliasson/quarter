@@ -10,6 +10,7 @@ namespace Quarter.UnitTest
         {
             yield return new object[] { Page.Home, "/app"};
             yield return new object[] { Page.Manage, "/app/manage/projects"};
+            yield return new object[] { Page.Report, "/app/reports"};
             yield return new object[] { Page.Profile, "/app/profile"};
             yield return new object[] { Page.AdminUsers, "/admin/users"};
             yield return new object[] { Page.Admin, "/admin"};
@@ -27,6 +28,14 @@ namespace Quarter.UnitTest
             var dt = DateTime.UtcNow;
             var actual = Page.Timesheet(dt);
             Assert.That(actual, Is.EqualTo($"/app/timesheet/{dt:yyyy-MM-dd}"));
+        }
+
+        [Test]
+        public void ItShouldResolveToWeekReportUrl()
+        {
+            var dt = DateTime.UtcNow;
+            var actual = Page.WeekReport(dt);
+            Assert.That(actual, Is.EqualTo($"/app/reports/{dt:yyyy-MM-dd}"));
         }
     }
 }

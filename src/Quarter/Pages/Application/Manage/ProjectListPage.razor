@@ -13,17 +13,23 @@
             <ActionButton IconRef="#icon-plus-sm" OnAction="@OnAddProject" />
         </PageContext>
 
-        @if (NoProjects)
-        {
-            <div class="qa-empty-collection--full">
-                <EmptyCollectionMessage Header="No projects" Message="You have not created any projects yet." IconRef="#icon-manage" />
-            </div>
-        }
+        <PageColumns>
+            <ContextContent></ContextContent>
+            <MainContent>
+                @if (NoProjects)
+                {
+                    <div class="qa-empty-collection--full">
+                        <EmptyCollectionMessage Header="No projects" Message="You have not created any projects yet." IconRef="#icon-manage" />
+                    </div>
+                }
 
-        @foreach (var project in Projects)
-        {
-            <ProjectListItem Project="project" />
-        }
+                @foreach (var project in Projects)
+                {
+                    <ProjectListItem Project="project" />
+                }
+            </MainContent>
+            <ToolbarContent></ToolbarContent>
+        </PageColumns>
     </PageContent>
 </ApplicationPage>
 

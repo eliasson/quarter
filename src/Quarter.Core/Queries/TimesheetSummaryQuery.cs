@@ -13,7 +13,7 @@ namespace Quarter.Core.Queries;
 public record TimesheetSummaryQuery(Date From, Date To)
 {
     public static TimesheetSummaryQuery ForWeek(Date date)
-        => new TimesheetSummaryQuery(date.StartOfWeek(), date.EndOfWeek());
+        => new (date.StartOfWeek(), date.EndOfWeek());
 }
 
 public class TimesheetSummaryQueryResult
@@ -24,13 +24,6 @@ public class TimesheetSummaryQueryResult
     /// The total usage in minutes
     /// </summary>
     public int TotalMinutes { get; set; }
-
-    /// <summary>
-    /// Return the total usage in hours represented by a string formatted as (hh:hh) e.g. 2.50
-    /// </summary>
-    /// <returns></returns>
-    public string TotalAsHours()
-        => ((float) TotalMinutes / 60.0).ToString("F2");
 
     public void Add(Timesheet timesheet)
     {

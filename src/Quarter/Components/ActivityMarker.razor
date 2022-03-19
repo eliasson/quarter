@@ -1,0 +1,13 @@
+@using Quarter.State.ViewModels
+
+<div class="qa-activity-marker"
+     test="activity-item-marker"
+     style="background-color: @Activity?.Color; border-color: @Activity?.DarkerColor;"></div>
+<div class="qa-activity-marker-title"
+     test="activity-item-title">@Activity?.Name</div>
+
+@code {
+    // Implicitly tested via TimesheetActivitySelectorWidgetTest
+    [Parameter]
+    public ActivityViewModel? Activity { get; set; }
+}

@@ -1,0 +1,188 @@
+@page "/app/reports"
+@page "/app/reports/{SelectedDate:datetime}"
+@attribute [Authorize]
+
+@using Quarter.Components
+@using Quarter.Core.Queries
+@using Quarter.Core.UI.State
+@using Quarter.Core.Utils
+@using Quarter.Services
+@using Quarter.State
+@using Quarter.Utils
+
+<ApplicationPage>
+    <PageContent>
+        <PageContext Tabs="@_tabs"/>
+        <PageColumns>
+            <ContextContent>
+            </ContextContent>
+            <MainContent>
+                <div class="qa-report">
+                    <div class="qa-report__header">
+                        <div class="qa-report__header__title">
+                            <div class="qa-report__header__title__main" test="report-title">@ReportTitle</div>
+                            <div class="qa-report__header__title__sub" test="report-sub-title">@ReportSubTitle</div>
+                        </div>
+                        <div class="qa-report__header__actions">
+                            <ActionButton IconRef="#icon-chevron-left" OnAction="@PreviousWeek" />
+                            <ActionButton IconRef="#icon-chevron-right" OnAction="@NextWeek" />
+                        </div>
+                    </div>
+                    <div class="qa-report__summary">
+                        <div class="qa-report__summary__value" test="report-total-hours">@TotalHours</div>
+                        <div class="qa-report__summary__label">Hours</div>
+                    </div>
+                    <div class="qa-report__details">
+                        @if (IsEmpty())
+                        {
+                            <EmptyCollectionMessage Header="No registered time" Message="There are no registered time for this week." IconRef="#icon-manage"/>
+                        }
+                        else if(_report is not null)
+                        {
+                            <table class="qa-report-table">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Mon</th>
+                                        <th>Tue</th>
+                                        <th>Wed</th>
+                                        <th>Thu</th>
+                                        <th>Fri</th>
+                                        <th>Sat</th>
+                                        <th>Sun</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                @foreach (var project in Usage())
+                                {
+                                    <tr test="report-project-row">
+                                        <th class="qa-project-title" test="project-name">@project.Name</th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                    @foreach (var activity in project.Activities)
+                                    {
+                                        <tr test="report-activity-row">
+                                            <td>
+                                                <div class="qa-activity-marker" test="activity-item-marker" style="background-color: @activity.Color; border-color: @activity.DarkerColor;"></div>
+                                                <div class="qa-activity-marker-title" test="activity-name">@activity.Name</div>
+                                            </td>
+                                            @foreach (var weekDay in activity.Usage)
+                                            {
+                                                <td test="report-activity-weekday">@weekDay</td>
+                                            }
+                                            <td test="report-activity-total">@activity.Total</td>
+                                        </tr>
+                                    }
+                                }
+                                </tbody>
+                            </table>
+                        }
+                    </div>
+                </div>
+            </MainContent>
+            <ToolbarContent></ToolbarContent>
+        </PageColumns>
+    </PageContent>
+</ApplicationPage>
+
+@inherits Quarter.Core.UI.Components.QuarterComponent<Quarter.State.ApplicationState>
+@inject IUserAuthorizationService _userAuthorizationService;
+@inject IQueryHandler _queryHandler
+@inject NavigationManager _navigationManager
+
+@code {
+    private record ProjectVm(string Name, ActivityVm[] Activities);
+    private record ActivityVm(string Name, string Color, string DarkerColor, string[] Usage, string Total);
+
+    [Parameter]
+    public DateTime? SelectedDate { get; set; }
+
+    private readonly List<TabData> _tabs = new()
+    {
+        new TabData("Weekly", Page.Report),
+    };
+
+    private WeeklyReportResult? _report;
+
+    private string ReportTitle
+        => _report is null
+            ? ""
+            : $"Week {_report.StartOfWeek.DateTime.Iso8601WeekNumber()}";
+
+    private string ReportSubTitle
+        => _report is null
+            ? ""
+            : $"{_report.StartOfWeek.IsoString()} - {_report.EndOfWeek.IsoString()}";
+
+    private string TotalHours
+        => _report?.TotalMinutes.MinutesAsHours() ?? "";
+
+    private bool IsEmpty()
+        => _report?.TotalMinutes == 0;
+
+    private IEnumerable<ProjectVm> Usage()
+    {
+        if (_report is null || State is null) yield break;
+
+        var projectNameLookup = State.Projects.ToDictionary(kv => kv.Id, kv => kv.Name);
+        var activityLookup = State.Projects.SelectMany(p => p.Activities).ToDictionary(kv => kv.Id, kv => kv);
+
+        foreach (var projectSummary in _report.Usage.Values)
+        {
+            if (!projectNameLookup.TryGetValue(projectSummary.ProjectId, out var projectName))
+                projectName = "Unknown";
+
+            var activities = new List<ActivityVm>();
+            foreach (var activitySummary in projectSummary.Usage.Values)
+            {
+                if (activityLookup.TryGetValue(activitySummary.ActivityId, out var activityVm))
+                {
+                    var activityUsage = activitySummary.DurationPerWeekDay.Select(m => m.MinutesAsHours()).ToArray();
+                    var total = activitySummary.TotalMinutes.MinutesAsHours();
+                    activities.Add(new ActivityVm(activityVm.Name, activityVm.Color, activityVm.DarkerColor, activityUsage, total));
+                }
+            }
+
+            yield return new ProjectVm(projectName, activities.ToArray());
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        // TODO: Add test that this action is dispatched
+        await base.OnParametersSetAsync();
+        await DispatchAsync(new LoadProjects());
+
+        SelectedDate ??= DateTime.UtcNow.Date;
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+        var oc = await OperationContextForCurrentUser();
+        _report = await _queryHandler.ExecuteAsync(new WeeklyReportQuery(StartOfWeek()), oc, default);
+    }
+
+    private async Task<OperationContext> OperationContextForCurrentUser()
+    {
+        var currentId = await _userAuthorizationService.CurrentUserId();
+        return new OperationContext(currentId);
+    }
+
+    private Date StartOfWeek()
+        => new Date(SelectedDate ?? DateTime.UtcNow.Date).StartOfWeek();
+
+    private void PreviousWeek()
+        => _navigationManager.NavigateTo(Page.WeekReport(StartOfWeek().DateTime.Subtract(TimeSpan.FromDays(7))));
+
+    private void NextWeek()
+        => _navigationManager.NavigateTo(Page.WeekReport(StartOfWeek().DateTime.Add(TimeSpan.FromDays(7))));
+}

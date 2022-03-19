@@ -1,0 +1,88 @@
+.qa-report
+    display: flex
+    flex-direction: column
+    background-color: $color-white
+    margin-bottom: $pillow-large
+    border-radius: $std-border-radius
+    border: 2px solid #252525
+    box-shadow: 4px 4px 4px -4px #14141e
+
+    &__header
+        display: flex
+        flex-direction: row
+        justify-items: left
+        padding: $pillow-medium
+        background-color: $color-text
+        color: $color-white
+
+        &__title
+            flex-grow: 1
+
+            &__main
+                font-size: $font-size-mega
+                font-weight: 400
+            &__sub
+                font-size: $font-size-centi
+                font-weight: 200
+                margin-top: $pillow-small
+
+        &__actions
+            align-self: flex-end
+            display: flex
+
+    &__summary
+        text-align: center
+        background-color: $color-text
+        color: $color-white
+        padding: $pillow-large
+
+        &__value
+            font-size: $font-size-exa
+            font-weight: 600
+        &__label
+            font-size: $font-size-mega
+            font-weight: 200
+
+    &__details
+        display: flex
+        flex-direction: column
+        background-color: $color-white
+        color: $color-text
+        padding: $pillow-large 0
+
+table.qa-report-table
+    tr
+        th
+            font-weight: 600
+        th,
+        td
+            text-align: right
+            padding: $pillow-small
+
+        th:first-child,
+        td:first-child
+            text-align: left
+
+    tbody
+        tr
+            th.qa-project-title
+                padding: $pillow-large $pillow-small $pillow-small $pillow-small
+
+    thead
+        background-color: $color-white
+        color: $color-text
+
+    tfoot tr
+        th,
+        td
+            padding: $pillow-large $pillow-small
+
+@media only screen and (max-width: 48em)
+    table.qa-report-table
+        overflow-x: auto
+        display: block
+
+@media only screen and (min-width: 48em)
+    .qa-report
+        &__details
+            min-width: 650px

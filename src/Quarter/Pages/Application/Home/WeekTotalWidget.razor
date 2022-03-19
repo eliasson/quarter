@@ -1,5 +1,6 @@
 @using Quarter.State.ViewModels
 @using Quarter.Core.Queries
+@using Quarter.Core.Utils
 
 <div class="qa-widget qa-home-widget-summary">
     <div class="qa-home-widget-summary--value" test="week-total">@Total</div>
@@ -11,5 +12,5 @@
     public TimesheetSummaryQueryResult? Summary { get; set; }
 
     private string? Total
-        => Summary?.TotalAsHours();
+        => Summary?.TotalMinutes.MinutesAsHours();
 }

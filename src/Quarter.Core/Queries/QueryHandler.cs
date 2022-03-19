@@ -8,6 +8,7 @@ namespace Quarter.Core.Queries;
 public interface IQueryHandler
 {
     Task<TimesheetSummaryQueryResult> ExecuteAsync(TimesheetSummaryQuery query, OperationContext oc, CancellationToken ct);
+    Task<WeeklyReportResult> ExecuteAsync(WeeklyReportQuery query, OperationContext oc, CancellationToken ct);
 }
 
 public class QueryHandler : IQueryHandler
@@ -33,5 +34,26 @@ public class QueryHandler : IQueryHandler
             vm.Add(timesheet);
         }
         return vm;
+    }
+
+    public async Task<WeeklyReportResult> ExecuteAsync(WeeklyReportQuery query, OperationContext oc, CancellationToken ct)
+    {
+        var result  = new WeeklyReportResult(query.From, query.To);
+
+        // This is just a basic version,inefficient but good enough to get all parts in place and to try it out.
+        // It should be replaced with a new repository function that aggregates the timeslot table directly.
+
+        var timesheetRepository = _repositoryFactory.TimesheetRepository(oc.UserId);
+        var weekDayIndex = 0;
+        foreach (var date in Date.Sequence(query.From, query.To))
+        {
+            var timesheet = await timesheetRepository.GetOrNewTimesheetAsync(date, ct);
+            foreach (var projectSummary in timesheet.Summarize())
+                result.AddOrUpdate(projectSummary, weekDayIndex);
+
+            weekDayIndex++;
+        }
+
+        return result;
     }
 }

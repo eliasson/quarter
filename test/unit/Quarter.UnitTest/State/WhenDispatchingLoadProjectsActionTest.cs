@@ -105,10 +105,6 @@ public abstract class WhenDispatchingLoadProjectsActionTest
             => Assert.That(_projectViewModel.TotalMinutes, Is.Zero);
 
         [Test]
-        public void ItShouldIncludeTotalHours()
-            => Assert.That(_projectViewModel.TotalAsHours(), Is.EqualTo("0.00"));
-
-        [Test]
         public void ItShouldHaveZeroActivities()
             => Assert.That(_projectViewModel.Activities, Is.Empty);
     }
@@ -183,10 +179,6 @@ public abstract class WhenDispatchingLoadProjectsActionTest
         [Test]
         public void ItShouldIncludeTotalMinutes()
             => Assert.That(_activityViewModel.TotalMinutes, Is.Zero);
-
-        [Test]
-        public void ItShouldIncludeTotalHours()
-            => Assert.That(_activityViewModel.TotalAsHours(), Is.EqualTo("0.00"));
     }
 
     public class WithUsedActivity : TestCase
@@ -227,10 +219,6 @@ public abstract class WhenDispatchingLoadProjectsActionTest
         [Test]
         public void ItShouldIncludeTotalMinutes()
             => Assert.That(_projectViewModel.TotalMinutes, Is.EqualTo(90));
-
-        [Test]
-        public void ItShouldIncludeTotalHours()
-            => Assert.That(_projectViewModel.TotalAsHours(), Is.EqualTo("1.50"));
     }
 
     public class TestCase : ActionHandlerTestCase
