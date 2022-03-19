@@ -16,5 +16,8 @@ namespace Quarter
 
         public static string Timesheet(DateTime date)
             => $"/app/timesheet/{date:yyyy-MM-dd}";
+
+        public static string WeekReport(DateTime date)
+            => $"/app/reports/{date:yyyy-MM-dd}";
     }
 }

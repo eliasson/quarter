@@ -29,5 +29,13 @@ namespace Quarter.UnitTest
             var actual = Page.Timesheet(dt);
             Assert.That(actual, Is.EqualTo($"/app/timesheet/{dt:yyyy-MM-dd}"));
         }
+
+        [Test]
+        public void ItShouldResolveToWeekReportUrl()
+        {
+            var dt = DateTime.UtcNow;
+            var actual = Page.WeekReport(dt);
+            Assert.That(actual, Is.EqualTo($"/app/reports/{dt:yyyy-MM-dd}"));
+        }
     }
 }
