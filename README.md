@@ -11,14 +11,14 @@ to track your time.
 
 [![Build](https://github.com/eliasson/quarter/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/eliasson/quarter/actions/workflows/build.yml)
 
-**Under construction - Quarter is under construction and not yet ready for daily use just yet.**
+**Under construction - Quarter is under construction might receive significant changes.**
 
 - [x] Authentication
 - [x] Manage projects
 - [x] Manage activities
 - [x] Register time
 - [x] Summarize current week at start page
-- [ ] Weekly report
+- [x] Weekly report
 - [ ] Archive projects and activities
 - [ ] HTTP API
 - [ ] Export data
