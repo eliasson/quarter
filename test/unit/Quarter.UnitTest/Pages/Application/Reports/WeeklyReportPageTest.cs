@@ -21,14 +21,29 @@ namespace Quarter.UnitTest.Pages.Application.Reports;
 
 public abstract class WeeklyReportPageTest
 {
+    public class WhenUrlParameterIsMissing : TestCase
+    {
+        [OneTimeSetUp]
+        public void Setup()
+            => Render();
+
+        [Test]
+        public void ItShouldSetTheCurrentTimesheetDate()
+            => Assert.That(SelectedDate(), Is.EqualTo(DateTime.UtcNow.Date));
+    }
+
     [TestFixture]
     public class WhenRenderedEmpty : TestCase
     {
         [OneTimeSetUp]
         public void Setup()
-            => RenderWithEmptyResult(
+            => RenderWithEmptyResult(DateTime.Parse("2022-03-17T00:00:00Z"),
                 new Date(DateTime.Parse("2022-03-14T00:00:00Z")),
                 new Date(DateTime.Parse("2022-03-20T00:00:00Z")));
+
+        [Test]
+        public void ItShouldSetTheGivenDate()
+            => Assert.That(SelectedDate(), Is.EqualTo(DateTime.Parse("2022-03-17T00:00:00Z")));
 
         [Test]
         public void ItHasAProjectTab()
@@ -41,8 +56,6 @@ public abstract class WeeklyReportPageTest
                 }
             ));
         }
-
-        // TODO: Add test that today's date is used
 
         [Test]
         public void ItShouldRenderTheGivenWeekNumber()
@@ -204,10 +217,11 @@ public abstract class WeeklyReportPageTest
             Context.Services.AddSingleton(_authService);
         }
 
-        protected void RenderWithEmptyResult(Date startOfWeek, Date endOfWeek)
+        protected void RenderWithEmptyResult(DateTime dateInTest, Date startOfWeek, Date endOfWeek)
         {
             _queryHandler.FakeWeeklyReportResult = new WeeklyReportResult(startOfWeek, endOfWeek);
-            Render();
+            RenderWithParameters(pb =>
+                pb.Add(ps => ps.SelectedDate, dateInTest));
         }
 
         protected void RenderWithResult(WeeklyReportResult result)
@@ -215,6 +229,9 @@ public abstract class WeeklyReportPageTest
             _queryHandler.FakeWeeklyReportResult = result;
             Render();
         }
+
+        protected DateTime? SelectedDate()
+            => Component?.Instance.SelectedDate;
 
         protected string WeekNumber()
             => ComponentByTestAttribute("report-title").TextContent;
