@@ -22,12 +22,14 @@ public class WeeklyReportResult
     public Date EndOfWeek { get; private set; }
     public IDictionary<IdOf<Project>, ProjectWeekUsage> Usage { get; private set; }
     public int TotalMinutes { get; private set; }
+    public int[] WeekdayTotals { get; private set; }
 
     public WeeklyReportResult(Date startOfWeek, Date endOfWeek)
     {
         StartOfWeek = startOfWeek;
         EndOfWeek = endOfWeek;
         Usage = new Dictionary<IdOf<Project>, ProjectWeekUsage>();
+        WeekdayTotals = new int[7];
     }
 
     public void AddOrUpdate(ProjectSummary projectSummary, int weekDayIndex)
@@ -39,8 +41,11 @@ public class WeeklyReportResult
         }
 
         foreach (var activitySummary in projectSummary.Activities)
+        {
             projectUsage.AddOrUpdate(activitySummary, weekDayIndex);
+        }
 
+        WeekdayTotals[weekDayIndex] += projectUsage.WeekdayTotals[weekDayIndex];
         TotalMinutes += projectSummary.Duration * 15;
     }
 }
@@ -50,10 +55,12 @@ public class ProjectWeekUsage
     public IdOf<Project> ProjectId { get; private set; }
     public readonly IDictionary<IdOf<Activity>, ActivityWeekUsage> Usage = new Dictionary<IdOf<Activity>, ActivityWeekUsage>();
     public int TotalMinutes;
+    public int[] WeekdayTotals { get; private set; }
 
     public ProjectWeekUsage(IdOf<Project> projectId)
     {
         ProjectId = projectId;
+        WeekdayTotals = new int[7];
     }
 
     public void AddOrUpdate(ActivitySummary activitySummary, int weekDayIndex)
@@ -65,7 +72,10 @@ public class ProjectWeekUsage
         }
 
         activityUsage.AddOrUpdate(activitySummary, weekDayIndex);
-        TotalMinutes += activitySummary.Duration * 15;
+
+        var durationForActivity = activitySummary.Duration * 15;
+        TotalMinutes += durationForActivity;
+        WeekdayTotals[weekDayIndex] += durationForActivity;
     }
 }
 

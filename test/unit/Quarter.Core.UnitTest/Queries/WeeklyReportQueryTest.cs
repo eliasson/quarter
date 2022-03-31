@@ -38,7 +38,6 @@ public abstract class WeeklyReportQueryTest
 
     public class WhenTimeIsRegistered : QueryTestBase
     {
-
         private static readonly Date StartOfWeek = Date.Today().StartOfWeek();
         private static readonly Date EndOfWeek = StartOfWeek.EndOfWeek();
         private static readonly Date BeforeWeek = new Date(StartOfWeek.DateTime.AddDays(-1));
@@ -73,7 +72,8 @@ public abstract class WeeklyReportQueryTest
             await StoreTimesheet(ActingUser, endOfWeekTimesheet);
             await StoreTimesheet(ActingUser, afterWeekTimesheet);
 
-            _result =  await QueryHandler.ExecuteAsync(new WeeklyReportQuery(Date.Today()), OperationContext(), CancellationToken.None);
+            _result = await QueryHandler.ExecuteAsync(new WeeklyReportQuery(Date.Today()), OperationContext(),
+                CancellationToken.None);
         }
 
         [Test]
@@ -85,10 +85,10 @@ public abstract class WeeklyReportQueryTest
         {
             var projectTotalUsage = _result.Usage.Values.Select(pu => (pu.ProjectId, pu.TotalMinutes));
 
-            Assert.That(projectTotalUsage, Is.EquivalentTo(new []
+            Assert.That(projectTotalUsage, Is.EquivalentTo(new[]
             {
-                ( _projectIdOne, 10 * 15 ),
-                ( _projectIdTwo, 6 * 15 ),
+                (_projectIdOne, 10 * 15),
+                (_projectIdTwo, 6 * 15),
             }));
         }
 
@@ -98,14 +98,14 @@ public abstract class WeeklyReportQueryTest
             var projectActivityTotalUsage = _result.Usage.Values.Select(pu =>
                 (pu.ProjectId, pu.Usage.Values.Select(au => (au.ActivityId, au.TotalMinutes))));
 
-            Assert.That(projectActivityTotalUsage, Is.EquivalentTo(new []
+            Assert.That(projectActivityTotalUsage, Is.EquivalentTo(new[]
             {
-                ( _projectIdOne, new []
+                (_projectIdOne, new[]
                 {
                     (_activityIdOne, 2 * 15),
                     (_activityIdThree, 8 * 15),
                 }),
-                ( _projectIdTwo, new []
+                (_projectIdTwo, new[]
                 {
                     (_activityIdTwo, 6 * 15)
                 }),
@@ -119,10 +119,24 @@ public abstract class WeeklyReportQueryTest
                 (pu.ProjectId, au.ActivityId, au.DurationPerWeekDay)));
             Assert.That(result, Is.EquivalentTo(new[]
             {
-                ( _projectIdOne, _activityIdOne,   new [] { 2 * 15, 0, 0, 0, 0, 0,      0 } ),
-                ( _projectIdOne, _activityIdThree, new [] {      0, 0, 0, 0, 0, 0, 8 * 15 } ),
-                ( _projectIdTwo, _activityIdTwo,   new [] { 6 * 15, 0, 0, 0, 0, 0,      0 } ),
+                (_projectIdOne, _activityIdOne,   new[] { 2 * 15, 0, 0, 0, 0, 0, 0 }),
+                (_projectIdOne, _activityIdThree, new[] { 0, 0, 0, 0, 0, 0, 8 * 15 }),
+                (_projectIdTwo, _activityIdTwo,   new[] { 6 * 15, 0, 0, 0, 0, 0, 0 }),
             }));
         }
+
+        [Test]
+        public void ItShouldContainWeekdayTotalMinutesPerProject()
+        {
+            var projectWeekdayUsage = _result.Usage.Values.Select(pu => pu.WeekdayTotals);
+            Assert.That(projectWeekdayUsage, Is.EqualTo(new [] {
+                    new [] { 2 * 15, 0, 0, 0, 0, 0, 8 * 15 },
+                    new [] { 6 * 15, 0, 0, 0, 0, 0, 0 },
+            }));
+        }
+
+        [Test]
+        public void ItShouldContainWeekdayTotalMinutes()
+            => Assert.That(_result?.WeekdayTotals, Is.EqualTo(new [] { 8 * 15, 0, 0, 0, 0, 0, 8*15 }));
     }
 }
