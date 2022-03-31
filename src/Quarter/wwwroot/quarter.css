@@ -1153,6 +1153,9 @@ table.qa-report-table tr th:first-child,
 table.qa-report-table tr td:first-child {
   text-align: left;
 }
+table.qa-report-table tr td.is-total {
+  font-weight: 600;
+}
 table.qa-report-table tbody tr th.qa-project-title {
   padding: 24px 8px 8px 8px;
 }

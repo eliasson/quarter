@@ -218,6 +218,13 @@ public abstract class WeeklyReportPageTest
                 ("Alpha Two", "rgba(204, 204, 204, 1)", "rgba(221, 221, 221, 1)", new [] {"1.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00"}, "1.00"),
                 ("Bravo One", "rgba(238, 238, 238, 1)", "rgba(255, 255, 255, 1)", new [] {"0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "24.00"}, "24.00"),
             }));
+
+        [Test]
+        public void ItShouldRenderWeekdayTotals()
+            => Assert.That(WeekdayTotals(), Is.EqualTo(new[]
+            {
+                "1.50", "0.00", "0.00", "0.00", "0.00", "0.00", "24.00",
+            }));
     }
 
     public class TestCase : BlazorComponentTestCase<WeeklyReportPage>
@@ -267,6 +274,9 @@ public abstract class WeeklyReportPageTest
 
         protected IEnumerable<string> ProjectRows()
             => Component?.FindAll("th[test=project-name]").Select(elm => elm.TextContent);
+
+        protected IEnumerable<string> WeekdayTotals()
+            => Component?.FindAll("td[test=report-weekday-total]").Select(elm => elm.TextContent);
 
         protected IEnumerable<(string name, string bgColor, string borderColor, string[] weekDays, string total)> ActivityRows()
         {

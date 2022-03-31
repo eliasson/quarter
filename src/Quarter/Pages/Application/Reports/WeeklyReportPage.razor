@@ -78,11 +78,21 @@
                                             {
                                                 <td test="report-activity-weekday">@weekDay</td>
                                             }
-                                            <td test="report-activity-total">@activity.Total</td>
+                                            <td test="report-activity-total" class="is-total">@activity.Total</td>
                                         </tr>
                                     }
                                 }
                                 </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td></td>
+                                        @foreach (var weekdayTotal in WeekdayTotal())
+                                        {
+                                            <td test="report-weekday-total" class="is-total">@weekdayTotal</td>
+                                        }
+                                        <td></td>
+                                    </tr>
+                                </tfoot>
                             </table>
                         }
                     </div>
@@ -99,6 +109,7 @@
 @inject NavigationManager _navigationManager
 
 @code {
+    private record UsageVm(IList<ProjectVm> Projects, string[] WeekDayTotal);
     private record ProjectVm(string Name, ActivityVm[] Activities);
     private record ActivityVm(string Name, string Color, string DarkerColor, string[] Usage, string Total);
 
@@ -153,6 +164,13 @@
 
             yield return new ProjectVm(projectName, activities.ToArray());
         }
+    }
+
+    private IEnumerable<string> WeekdayTotal()
+    {
+        if (_report is null || State is null) yield break;
+        foreach (var total in _report.WeekdayTotals)
+            yield return total.MinutesAsHours();
     }
 
     protected override async Task OnInitializedAsync()
