@@ -109,7 +109,6 @@
 @inject NavigationManager _navigationManager
 
 @code {
-    private record UsageVm(IList<ProjectVm> Projects, string[] WeekDayTotal);
     private record ProjectVm(string Name, ActivityVm[] Activities);
     private record ActivityVm(string Name, string Color, string DarkerColor, string[] Usage, string Total);
 
