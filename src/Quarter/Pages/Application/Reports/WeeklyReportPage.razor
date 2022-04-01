@@ -174,7 +174,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        // TODO: Add test that this action is dispatched
         await base.OnParametersSetAsync();
         await DispatchAsync(new LoadProjects());
 

@@ -13,6 +13,7 @@ using Quarter.Core.Queries;
 using Quarter.Core.Utils;
 using Quarter.Pages.Application.Reports;
 using Quarter.Services;
+using Quarter.State;
 using Quarter.State.ViewModels;
 using Quarter.UnitTest.TestUtils;
 using Quarter.Utils;
@@ -41,6 +42,10 @@ public abstract class WeeklyReportPageTest
             => RenderWithEmptyResult(DateTime.Parse("2022-03-17T00:00:00Z"),
                 new Date(DateTime.Parse("2022-03-14T00:00:00Z")),
                 new Date(DateTime.Parse("2022-03-20T00:00:00Z")));
+
+        [Test]
+        public void ItShouldDispatchLoadProjectsAction()
+            => Assert.That(DidDispatchAction(new LoadProjects()), Is.True);
 
         [Test]
         public void ItShouldSetTheGivenDate()
