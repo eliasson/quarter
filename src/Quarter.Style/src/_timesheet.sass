@@ -17,6 +17,10 @@ $sheet-color-background: $color-gray-light
   margin: 0 auto
   min-width: 320px // Since no padding
   max-width: 320px
+  cursor: default
+  user-select: none
+  -webkit-user-select: none
+  -moz-user-select: none
 
   .qa-timesheet-scroll
     width: 100%
@@ -51,7 +55,10 @@ $sheet-color-background: $color-gray-light
     th,
     td
       border: none
+      cursor: pointer
       user-select: none
+      -webkit-user-select: none
+      -moz-user-select: none
 
     tbody tr
       height: $sheet-cell-height + $sheet-cell-border-size
@@ -62,6 +69,10 @@ $sheet-color-background: $color-gray-light
 
     tbody tr td
       padding: 5px 0
+      cursor: pointer
+      user-select: none
+      -webkit-user-select: none
+      -moz-user-select: none
 
     tbody tr td,
     tbody th
@@ -79,7 +90,6 @@ $sheet-color-background: $color-gray-light
       min-height: $sheet-cell-height
       height: $sheet-cell-height
       display: block
-      cursor: pointer
 
       &.qa-is-pending
         background-image: linear-gradient(-45deg, rgba(0, 0, 0, .10) 25%, transparent 25%, transparent 50%, rgba(0, 0, 0, .10) 50%, rgba(0, 0, 0, .10) 75%, transparent 75%, transparent)

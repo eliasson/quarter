@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file. 
 
 ## Pending
+- Disable selection cursor in timesheet and calendar widget.
 - Show weekday total in week report.
 
 ## [0.1.6] - 2022-03-19

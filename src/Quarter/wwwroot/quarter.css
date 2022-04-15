@@ -771,6 +771,10 @@ input[type=submit][disabled] {
   margin: 0 auto;
   min-width: 320px;
   max-width: 320px;
+  cursor: default;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
 }
 .qa-timesheet .qa-timesheet-scroll {
   width: 100%;
@@ -805,7 +809,10 @@ input[type=submit][disabled] {
 .qa-timesheet table.qa-sheet-table th,
 .qa-timesheet table.qa-sheet-table td {
   border: none;
+  cursor: pointer;
   user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
 }
 .qa-timesheet table.qa-sheet-table tbody tr {
   height: 37px;
@@ -816,6 +823,10 @@ input[type=submit][disabled] {
 }
 .qa-timesheet table.qa-sheet-table tbody tr td {
   padding: 5px 0;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
 }
 .qa-timesheet table.qa-sheet-table tbody tr td,
 .qa-timesheet table.qa-sheet-table tbody th {
@@ -833,7 +844,6 @@ input[type=submit][disabled] {
   min-height: 36px;
   height: 36px;
   display: block;
-  cursor: pointer;
 }
 .qa-timesheet table.qa-sheet-table tbody tr td span.qa-timesheet__activity.qa-is-pending {
   background-image: linear-gradient(-45deg, rgba(0, 0, 0, 0.1) 25%, transparent 25%, transparent 50%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.1) 75%, transparent 75%, transparent);
@@ -1417,6 +1427,7 @@ table.qa-report-table tfoot tr td {
 .qa-widget-calendar table.qa-calendar-table td,
 .qa-widget-calendar table.qa-calendar-table th {
   text-align: center;
+  user-select: none;
 }
 .qa-widget-calendar table.qa-calendar-table th, .qa-widget-calendar table.qa-calendar-table td {
   max-width: 30px;
