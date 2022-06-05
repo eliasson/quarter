@@ -17,7 +17,7 @@ namespace Quarter.Core.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public Color Color { get; set; }
-        public bool IsArchived { get; private set; }
+        public bool IsArchived { get; set; }
 
         public Activity(IdOf<Project> projectId, string name, string description, Color color)
         {

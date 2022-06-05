@@ -457,7 +457,7 @@ namespace Quarter.State
         private async Task<ApplicationState> HandleAsync(ApplicationState currentState, ConfirmRestoreActivityAction action, CancellationToken ct)
         {
             var oc = await OperationContextForCurrentUser();
-            var command = new ArchiveActivityCommand(action.ActivityId);
+            var command = new RestoreActivityCommand(action.ActivityId);
             await _commandHandler.ExecuteAsync(command, oc, ct);
 
             // TODO: Add projectId to the action to make this lookup faster

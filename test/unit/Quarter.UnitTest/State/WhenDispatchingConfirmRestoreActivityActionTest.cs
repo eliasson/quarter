@@ -38,12 +38,12 @@ public class WhenDispatchingConfirmRestoreActivityActionTest : ActionHandlerTest
     [Test]
     public void ItShouldIssueCommand()
     {
-        var expectedCommand = new ArchiveActivityCommand(_activityId);
+        var expectedCommand = new RestoreActivityCommand(_activityId);
         AssertIssuedCommandByUserId(expectedCommand, ActingUserId);
     }
 
     [Test]
-    public void ItShouldBeMarkedAsArchivedInState()
+    public void ItShouldBeMarkedAsNotArchivedInState()
     {
         var activity = _state.Projects.First().Activities?.First(a => a.Id == _activityId);
         Assert.That(activity.IsArchived, Is.False);
