@@ -30,6 +30,7 @@ namespace Quarter.Core.Commands
                 AddActivityCommand cmd => ExecuteAsync(cmd, oc, ct),
                 EditActivityCommand cmd => ExecuteAsync(cmd, oc, ct),
                 RemoveActivityCommand cmd => ExecuteAsync(cmd, oc, ct),
+                ArchiveActivityCommand cmd => ExecuteAsync(cmd, oc, ct),
                 _ => throw new NotImplementedException(),
             };
         }
@@ -124,6 +125,15 @@ namespace Quarter.Core.Commands
             {
                 await _repositoryFactory.TimesheetRepository(oc.UserId).RemoveSlotsForActivityAsync(command.ActivityId, ct);
             }
+        }
+
+        private async Task ExecuteAsync(ArchiveActivityCommand command, OperationContext oc, CancellationToken ct)
+        {
+            await _repositoryFactory.ActivityRepository(oc.UserId).UpdateByIdAsync(command.ActivityId, current =>
+            {
+                current.Archive();
+                return current;
+            }, ct);
         }
     }
 }
