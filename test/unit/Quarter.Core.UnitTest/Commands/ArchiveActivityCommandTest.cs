@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
@@ -42,6 +43,36 @@ public abstract class ArchiveActivityCommandTest : CommandTestBase
         {
             var activity = await _activityRepository.GetByIdAsync(_initialActivity.Id, CancellationToken.None);
             Assert.That(activity.IsArchived, Is.True);
+        }
+    }
+
+    public class WhenTimeIsRegistered : ArchiveActivityCommandTest
+    {
+        private Activity _activityOne;
+        private Activity _activityTwo;
+        private Date _dateInTest;
+
+        [OneTimeSetUp]
+        public async Task RegisterTimeForActivity()
+        {
+            _dateInTest = Date.Today();
+            _activityOne = await CreateActivityAsync(IdOf<Project>.Random(), "One");
+            _activityTwo = await CreateActivityAsync(IdOf<Project>.Random(), "Two");
+            await RegisterTimeAsync(_dateInTest, _activityOne, 0, 4);
+            await RegisterTimeAsync(_dateInTest, _activityTwo, 10, 4);
+
+            var command = new ArchiveActivityCommand(_activityOne.Id);
+
+            await Handler.ExecuteAsync(command, OperationContext(), CancellationToken.None);
+        }
+
+        [Test]
+        public async Task ItShouldStillIncludeTimeslotsInTimesheet()
+        {
+            var ts = await GetTimesheetAsync(_dateInTest);
+            var slotActivities = ts.Slots().Select(s => s.ActivityId);
+
+            Assert.That(slotActivities, Is.EqualTo(new [] { _activityOne.Id, _activityTwo.Id }));
         }
     }
 }
