@@ -179,6 +179,10 @@ public abstract class WhenDispatchingLoadProjectsActionTest
         [Test]
         public void ItShouldIncludeTotalMinutes()
             => Assert.That(_activityViewModel.TotalMinutes, Is.Zero);
+
+        [Test]
+        public void ItShouldNotBeArchived()
+            => Assert.That(_activityViewModel.IsArchived, Is.False);
     }
 
     public class WithUsedActivity : TestCase
@@ -197,6 +201,10 @@ public abstract class WhenDispatchingLoadProjectsActionTest
                 Color.FromHexString("#333"));
             _activity = await UpdateActivity(ActingUserId, _activity.Id);
             await AddTimesheet(ActingUserId, _dateInTest,project.Id, _activity.Id,  0, 6);
+
+            _activity.Archive();
+            _activity = await UpdateActivity(ActingUserId, _activity.Id);
+
             State = await ActionHandler.HandleAsync(State, new LoadProjects(), CancellationToken.None);
 
             _projectViewModel = State.Projects.First();
@@ -219,6 +227,10 @@ public abstract class WhenDispatchingLoadProjectsActionTest
         [Test]
         public void ItShouldIncludeTotalMinutes()
             => Assert.That(_projectViewModel.TotalMinutes, Is.EqualTo(90));
+
+        [Test]
+        public void ItShouldBeArchived()
+            => Assert.That(_activityViewModel.IsArchived, Is.True);
     }
 
     public class TestCase : ActionHandlerTestCase
