@@ -108,15 +108,15 @@ namespace Quarter.State
         private static Task<ApplicationState> HandleAsync(ApplicationState currentState, ShowRemoveUserAction action, CancellationToken ct)
         {
             currentState.Modals.Push(
-                new ModalState(typeof(ConfirmRemoveModal), new Dictionary<string, object>
+                new ModalState(typeof(ConfirmModal), new Dictionary<string, object>
                 {
-                    { nameof(ConfirmRemoveModal.Title), "Remove user?" },
+                    { nameof(ConfirmModal.Title), "Remove user?" },
                     {
-                        nameof(ConfirmRemoveModal.Message),
+                        nameof(ConfirmModal.Message),
                         "Are you sure you want to remove this user and all associated projects? This cannot be undone!"
                     },
                     {
-                        nameof(ConfirmRemoveModal.OnConfirmAction), new ConfirmRemoveUserAction(action.UserId)
+                        nameof(ConfirmModal.OnConfirmAction), new ConfirmRemoveUserAction(action.UserId)
                     }
                 }));
             return Task.FromResult(currentState);
@@ -213,15 +213,15 @@ namespace Quarter.State
         private static Task<ApplicationState> HandleAsync(ApplicationState currentState, ShowRemoveProjectAction action, CancellationToken ct)
         {
             currentState.Modals.Push(
-                new ModalState(typeof(ConfirmRemoveModal), new Dictionary<string, object>
+                new ModalState(typeof(ConfirmModal), new Dictionary<string, object>
                 {
-                    { nameof(ConfirmRemoveModal.Title), "Remove project?" },
+                    { nameof(ConfirmModal.Title), "Remove project?" },
                     {
-                        nameof(ConfirmRemoveModal.Message),
+                        nameof(ConfirmModal.Message),
                         "Are you sure you want to remove this project and all associated activities? This cannot be undone!"
                     },
                     {
-                        nameof(ConfirmRemoveModal.OnConfirmAction), new ConfirmRemoveProjectAction(action.ProjectId)
+                        nameof(ConfirmModal.OnConfirmAction), new ConfirmRemoveProjectAction(action.ProjectId)
                     }
                 }));
             return Task.FromResult(currentState);
@@ -318,15 +318,15 @@ namespace Quarter.State
         private static Task<ApplicationState> HandleAsync(ApplicationState currentState, ShowRemoveActivityAction action, CancellationToken ct)
         {
             currentState.Modals.Push(
-                new ModalState(typeof(ConfirmRemoveModal), new Dictionary<string, object>
+                new ModalState(typeof(ConfirmModal), new Dictionary<string, object>
                 {
-                    { nameof(ConfirmRemoveModal.Title), "Remove activity?" },
+                    { nameof(ConfirmModal.Title), "Remove activity?" },
                     {
-                        nameof(ConfirmRemoveModal.Message),
+                        nameof(ConfirmModal.Message),
                         "Are you sure you want to remove this activity and all registered time? This cannot be undone!"
                     },
                     {
-                        nameof(ConfirmRemoveModal.OnConfirmAction), new ConfirmRemoveActivityAction(action.ActivityId)
+                        nameof(ConfirmModal.OnConfirmAction), new ConfirmRemoveActivityAction(action.ActivityId)
                     }
                 }));
             return Task.FromResult(currentState);
@@ -398,15 +398,15 @@ namespace Quarter.State
         private static Task<ApplicationState> HandleAsync(ApplicationState currentState, ShowArchiveActivityAction action, CancellationToken ct)
         {
             currentState.Modals.Push(
-                new ModalState(typeof(ConfirmRemoveModal), new Dictionary<string, object>
+                new ModalState(typeof(ConfirmModal), new Dictionary<string, object>
                 {
-                    { nameof(ConfirmRemoveModal.Title), "Archive activity?" },
+                    { nameof(ConfirmModal.Title), "Archive activity?" },
                     {
-                        nameof(ConfirmRemoveModal.Message),
+                        nameof(ConfirmModal.Message),
                         "If you archive this activity it can no longer be used to register time. All registered time will still be available though. This activity can be restored at a later time."
                     },
                     {
-                        nameof(ConfirmRemoveModal.OnConfirmAction), new ConfirmArchiveActivityAction(action.ActivityId)
+                        nameof(ConfirmModal.OnConfirmAction), new ConfirmArchiveActivityAction(action.ActivityId)
                     }
                 }));
             return Task.FromResult(currentState);
@@ -438,15 +438,15 @@ namespace Quarter.State
         private static Task<ApplicationState> HandleAsync(ApplicationState currentState, ShowRestoreActivityAction action, CancellationToken ct)
         {
             currentState.Modals.Push(
-                new ModalState(typeof(ConfirmRemoveModal), new Dictionary<string, object>
+                new ModalState(typeof(ConfirmModal), new Dictionary<string, object>
                 {
-                    { nameof(ConfirmRemoveModal.Title), "Restore activity?" },
+                    { nameof(ConfirmModal.Title), "Restore activity?" },
                     {
-                        nameof(ConfirmRemoveModal.Message),
+                        nameof(ConfirmModal.Message),
                         "If you archive this activity you will be able to use it to register time again. All previously registered time will still be available. The activity can later be archived again."
                     },
                     {
-                        nameof(ConfirmRemoveModal.OnConfirmAction), new ConfirmRestoreActivityAction(action.ActivityId)
+                        nameof(ConfirmModal.OnConfirmAction), new ConfirmRestoreActivityAction(action.ActivityId)
                     }
                 }));
             return Task.FromResult(currentState);

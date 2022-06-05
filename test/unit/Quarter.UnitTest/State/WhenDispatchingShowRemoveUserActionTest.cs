@@ -18,7 +18,7 @@ public class WhenDispatchingShowRemoveUserActionTest : ActionHandlerTestCase
 
     [Test]
     public void ItShouldPushNewModal()
-        => _state.AssertPushedNewModal(typeof(ConfirmRemoveModal));
+        => _state.AssertPushedNewModal(typeof(ConfirmModal));
 
     [Test]
     public void ItShouldUseCorrectParameters()
@@ -35,7 +35,7 @@ public class WhenDispatchingShowRemoveUserActionTest : ActionHandlerTestCase
     public void ItShouldIssueExpectedAction()
     {
         var parameters = _state.Modals.Select(m => m.Parameters).First();
-        var action = parameters[nameof(ConfirmRemoveModal.OnConfirmAction)] as ConfirmRemoveUserAction;
+        var action = parameters[nameof(ConfirmModal.OnConfirmAction)] as ConfirmRemoveUserAction;
 
         Assert.That(action?.UserId, Is.EqualTo("jane.doe@example.com"));
     }

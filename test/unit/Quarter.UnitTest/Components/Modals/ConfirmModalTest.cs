@@ -7,7 +7,7 @@ using Quarter.UnitTest.TestUtils;
 
 namespace Quarter.UnitTest.Components.Modals;
 
-public abstract class ConfirmRemoveModalTest
+public abstract class ConfirmModalTest
 {
     public class WhenRendered : TestCase
     {
@@ -69,7 +69,7 @@ public abstract class ConfirmRemoveModalTest
             => Assert.True(DidDispatchAction(new CloseModalAction()));
     }
 
-    public class TestCase : BlazorModalTestCase<ConfirmRemoveModal>
+    public class TestCase : BlazorModalTestCase<ConfirmModal>
     {
         protected string Message()
             => ComponentByTestAttribute("modal-message")?.TextContent;

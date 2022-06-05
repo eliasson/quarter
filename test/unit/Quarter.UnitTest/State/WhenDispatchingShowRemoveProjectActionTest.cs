@@ -23,7 +23,7 @@ public class WhenDispatchingShowRemoveProjectActionTest : ActionHandlerTestCase
 
     [Test]
     public void ItShouldPushNewModal()
-        => _state.AssertPushedNewModal(typeof(ConfirmRemoveModal));
+        => _state.AssertPushedNewModal(typeof(ConfirmModal));
 
     [Test]
     public void ItShouldUseCorrectParameters()
@@ -40,7 +40,7 @@ public class WhenDispatchingShowRemoveProjectActionTest : ActionHandlerTestCase
     public void ItShouldIssueExpectedAction()
     {
         var parameters = _state.Modals.Select(m => m.Parameters).First();
-        var action = parameters[nameof(ConfirmRemoveModal.OnConfirmAction)] as ConfirmRemoveProjectAction;
+        var action = parameters[nameof(ConfirmModal.OnConfirmAction)] as ConfirmRemoveProjectAction;
 
         Assert.That(action?.ProjectId, Is.EqualTo(_projectId));
     }

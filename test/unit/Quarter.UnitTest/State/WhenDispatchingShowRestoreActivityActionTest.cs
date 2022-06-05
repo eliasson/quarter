@@ -23,7 +23,7 @@ public class WhenDispatchingShowRestoreActivityActionTest : ActionHandlerTestCas
 
     [Test]
     public void ItShouldPushNewModal()
-        => _state.AssertPushedNewModal(typeof(ConfirmRemoveModal));
+        => _state.AssertPushedNewModal(typeof(ConfirmModal));
 
     [Test]
     public void ItShouldUseCorrectParameters()
@@ -40,7 +40,7 @@ public class WhenDispatchingShowRestoreActivityActionTest : ActionHandlerTestCas
     public void ItShouldIssueExpectedAction()
     {
         var parameters = _state.Modals.Select(m => m.Parameters).First();
-        var action = parameters[nameof(ConfirmRemoveModal.OnConfirmAction)] as ConfirmRestoreActivityAction;
+        var action = parameters[nameof(ConfirmModal.OnConfirmAction)] as ConfirmRestoreActivityAction;
 
         Assert.That(action?.ActivityId, Is.EqualTo(_activityId));
     }
