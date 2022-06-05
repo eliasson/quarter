@@ -11,3 +11,4 @@ public record AddActivityCommand(IdOf<Project> ProjectId, string Name, string De
 public record EditActivityCommand(IdOf<Activity> ActivityId, string? Name, string? Description, Color? Color) : ICommand;
 public record RemoveActivityCommand(IdOf<Activity> ActivityId) : ICommand;
 public record ArchiveActivityCommand(IdOf<Activity> ActivityId) : ICommand;
+public record RestoreActivityCommand(IdOf<Activity> ActivityId) : ICommand;

@@ -31,6 +31,7 @@ namespace Quarter.Core.Commands
                 EditActivityCommand cmd => ExecuteAsync(cmd, oc, ct),
                 RemoveActivityCommand cmd => ExecuteAsync(cmd, oc, ct),
                 ArchiveActivityCommand cmd => ExecuteAsync(cmd, oc, ct),
+                RestoreActivityCommand cmd => ExecuteAsync(cmd, oc, ct),
                 _ => throw new NotImplementedException(),
             };
         }
@@ -132,6 +133,15 @@ namespace Quarter.Core.Commands
             await _repositoryFactory.ActivityRepository(oc.UserId).UpdateByIdAsync(command.ActivityId, current =>
             {
                 current.Archive();
+                return current;
+            }, ct);
+        }
+
+        private async Task ExecuteAsync(RestoreActivityCommand command, OperationContext oc, CancellationToken ct)
+        {
+            await _repositoryFactory.ActivityRepository(oc.UserId).UpdateByIdAsync(command.ActivityId, current =>
+            {
+                current.Restore();
                 return current;
             }, ct);
         }
