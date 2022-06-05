@@ -17,8 +17,8 @@
                             @onclick="@OnCloseModal"
                             test="cancel-button">Cancel</button>
                     <button type="submit"
-                            class="qa-button qa-button--primary qa-button--danger qa-button--wide"
-                            test="confirm-button">Remove</button>
+                            class="qa-button qa-button--primary qa-button-wide @(IsDangerous ? "qa-button--danger" : "")"
+                            test="confirm-button">@ConfirmText</button>
                 </div>
             </fieldset>
         </form>
@@ -32,6 +32,12 @@
     public string Message { get; set; } = string.Empty;
 
     [Parameter]
+    public string ConfirmText { get; set; } = string.Empty;
+
+    [Parameter]
+    public bool IsDangerous { get; set; } = false;
+
+    [Parameter]
     public IAction? OnConfirmAction { get; set; }
 
     private async Task OnConfirmInternal()
@@ -39,7 +45,6 @@
         if (OnConfirmAction is not null)
             await DispatchAsync(OnConfirmAction);
     }
-
 
     private Task OnCloseModal()
         => DispatchAsync(new CloseModalAction());
