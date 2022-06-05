@@ -9,6 +9,8 @@
             <ul>
                 @foreach (var activity in project.Activities)
                 {
+                    @if (activity.IsArchived) continue;
+
                     <li @onclick="(() => SelectActivity(project.Id, activity.Id))"
                         class="@(IsActivitySelected(activity.Id) ? "qa-is-active" : "")"
                         test="activity-item">

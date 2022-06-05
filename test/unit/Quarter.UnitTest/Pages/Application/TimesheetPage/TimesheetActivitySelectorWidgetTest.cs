@@ -42,7 +42,7 @@ public abstract class TimesheetActivitySelectorWidgetTest
         }
 
         [Test]
-        public void ItShouldRenderAllActivities()
+        public void ItShouldRenderAllNonArchivedActivities()
         {
             var projectNames = ActivityTitles()?.Select(p => p.TextContent);
             Assert.That(projectNames, Is.EqualTo(new[] { "P1A", "P2A", "P2B" }));
@@ -195,6 +195,14 @@ public abstract class TimesheetActivitySelectorWidgetTest
                     Name = "P2B",
                     Color = "#555555",
                     DarkerColor = "#666666",
+                },
+                new ActivityViewModel
+                {
+                    Id = IdOf<Activity>.Random(),
+                    Name = "P2C",
+                    Color = "#555555",
+                    DarkerColor = "#666666",
+                    IsArchived = true,
                 }
             }
         },
