@@ -363,6 +363,15 @@ table tbody tr th:last-child {
   text-align: center;
 }
 
+.qa-tag {
+  margin: 0 8px;
+  padding: 4px;
+  border-radius: 4px;
+  border: 1px solid #bbbbbb;
+  color: #bbbbbb;
+  font-size: 14px;
+}
+
 ::placeholder {
   color: #bbbbbb;
   font-weight: 200;
@@ -1021,11 +1030,6 @@ input[type=submit][disabled] {
 }
 .qa-list-item--is-active .qa-list-item__statistics__unit {
   color: #ffffff;
-}
-.qa-list-item--is-active .qa-tag {
-  background-color: transparent;
-  border-color: #eeeeee;
-  color: #eeeeee;
 }
 .qa-list-item--is-active .qa-list-item__main__sub {
   color: #ffffff;

@@ -41,6 +41,10 @@ public abstract class ActivityTableRowTest
             => Assert.That(ActivityName(), Is.EqualTo("Activity One"));
 
         [Test]
+        public void ItShouldNotRenderActivityArchivedTag()
+            => Assert.Throws<ElementNotFoundException>(() => ArchivedTag());
+
+        [Test]
         public void ItShouldRenderActivityTotalUsage()
             => Assert.That(ActivityTotalUsage(), Is.EqualTo("1.25 h"));
 
@@ -109,6 +113,10 @@ public abstract class ActivityTableRowTest
         }
 
         [Test]
+        public void ItShouldRenderActivityArchivedTag()
+            => Assert.That(ArchivedTag(), Is.EqualTo("Archived"));
+
+        [Test]
         public void ItShouldHaveActivityMenuItems()
         {
             Assert.That(MenuItems(), Is.EqualTo(new []
@@ -147,6 +155,9 @@ public abstract class ActivityTableRowTest
 
         protected string ActivityName()
             => ComponentByTestAttribute("activity-name").TextContent;
+
+        protected string ArchivedTag()
+            => ComponentByTestAttribute("archived-tag").TextContent;
 
         protected string ActivityTotalUsage()
             => ComponentByTestAttribute("activity-usage").TextContent;

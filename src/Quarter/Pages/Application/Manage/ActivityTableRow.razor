@@ -9,7 +9,13 @@
              style="background-color: @Activity?.Color; border-color: @Activity?.DarkerColor"
              test="activity-color"></div>
     </td>
-    <td test="activity-name">@Activity?.Name</td>
+    <td test="activity-name">
+        @Activity?.Name
+        @if (Activity?.IsArchived == true)
+        {
+            <span class="qa-tag" test="archived-tag">Archived</span>
+        }
+    </td>
     <td class="qa-text-right" test="activity-usage">@Activity?.TotalMinutes.MinutesAsHours() h</td>
     <td class="qa-activity-action-column">
         <ContextMenu Items="MenuItems" ItemSelected="OnMenuItem" />
