@@ -57,6 +57,8 @@ namespace Quarter.State
                 ConfirmRemoveActivityAction a => HandleAsync(currentState, a, ct),
                 ShowEditActivityAction a => HandleAsync(currentState, a, ct),
                 EditActivityAction a => HandleAsync(currentState, a, ct),
+                ShowArchiveActivityAction a => HandleAsync(currentState, a, ct),
+                ConfirmArchiveActivityAction a => HandleAsync(currentState, a, ct),
                 LoadTimesheetAction a => HandleAsync(currentState, a, ct),
                 SelectEraseActivityAction a => HandleAsync(currentState, a, ct),
                 SelectActivityAction a => HandleAsync(currentState, a, ct),
@@ -384,6 +386,46 @@ namespace Quarter.State
             return currentState;
         }
 
+        private static Task<ApplicationState> HandleAsync(ApplicationState currentState, ShowArchiveActivityAction action, CancellationToken ct)
+        {
+            currentState.Modals.Push(
+                new ModalState(typeof(ConfirmRemoveModal), new Dictionary<string, object>
+                {
+                    { nameof(ConfirmRemoveModal.Title), "Archive activity?" },
+                    {
+                        nameof(ConfirmRemoveModal.Message),
+                        "If you archive this activity it can no longer be used to register time. All registered time will still be available though. This activity can be restored at a later time."
+                    },
+                    {
+                        nameof(ConfirmRemoveModal.OnConfirmAction), new ConfirmArchiveActivityAction(action.ActivityId)
+                    }
+                }));
+            return Task.FromResult(currentState);
+        }
+
+        private async Task<ApplicationState> HandleAsync(ApplicationState currentState, ConfirmArchiveActivityAction action, CancellationToken ct)
+        {
+            var oc = await OperationContextForCurrentUser();
+            var command = new ArchiveActivityCommand(action.ActivityId);
+            await _commandHandler.ExecuteAsync(command, oc, ct);
+
+            // TODO: Add projectId to the action to make this lookup faster
+            foreach (var p in currentState.Projects)
+            {
+                foreach (var a in p.Activities)
+                {
+                    if (Equals(a.Id, command.ActivityId))
+                    {
+                        a.IsArchived = true;
+                        break;
+                    }
+                }
+            }
+
+            currentState.SafePopTopMostModal();
+            return currentState;
+        }
+
         private async Task<ApplicationState> HandleAsync(ApplicationState currentState, LoadTimesheetAction action, CancellationToken ct)
         {
             var oc = await OperationContextForCurrentUser();
@@ -474,6 +516,7 @@ namespace Quarter.State
                 DarkerColor = activity.Color.Darken(0.15).ToHex(),
                 Updated = activity.Updated ?? activity.Created,
                 TotalMinutes = activityUsage?.TotalMinutes ?? 0,
+                IsArchived = activity.IsArchived,
             };
         }
     }

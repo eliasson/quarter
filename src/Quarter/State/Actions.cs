@@ -125,6 +125,18 @@ namespace Quarter.State
     /// <param name="FormData">The data populated from the activity form</param>
     public record EditActivityAction(IdOf<Project> ProjectId, IdOf<Activity> ActivityId, ActivityFormData FormData) : IAction;
 
+    /// <summary>
+    /// Show archived activity confirmation modal.
+    /// </summary>
+    /// <param name="ActivityId">The ID of the activity to archive</param>
+    public record ShowArchiveActivityAction(IdOf<Activity> ActivityId) : IAction;
+
+    /// <summary>
+    /// Confirm and archive the activity.
+    /// </summary>
+    /// <param name="ActivityId">The ID of the activity to archive</param>
+    public record ConfirmArchiveActivityAction(IdOf<Activity> ActivityId) : IAction;
+
     #endregion
 
     #region Timesheet related
