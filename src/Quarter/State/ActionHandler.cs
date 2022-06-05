@@ -115,9 +115,9 @@ namespace Quarter.State
                         nameof(ConfirmModal.Message),
                         "Are you sure you want to remove this user and all associated projects? This cannot be undone!"
                     },
-                    {
-                        nameof(ConfirmModal.OnConfirmAction), new ConfirmRemoveUserAction(action.UserId)
-                    }
+                    { nameof(ConfirmModal.ConfirmText), "Remove" },
+                    { nameof(ConfirmModal.IsDangerous), true },
+                    { nameof(ConfirmModal.OnConfirmAction), new ConfirmRemoveUserAction(action.UserId) }
                 }));
             return Task.FromResult(currentState);
         }
@@ -220,9 +220,9 @@ namespace Quarter.State
                         nameof(ConfirmModal.Message),
                         "Are you sure you want to remove this project and all associated activities? This cannot be undone!"
                     },
-                    {
-                        nameof(ConfirmModal.OnConfirmAction), new ConfirmRemoveProjectAction(action.ProjectId)
-                    }
+                    { nameof(ConfirmModal.ConfirmText), "Remove" },
+                    { nameof(ConfirmModal.IsDangerous), true },
+                    { nameof(ConfirmModal.OnConfirmAction), new ConfirmRemoveProjectAction(action.ProjectId) }
                 }));
             return Task.FromResult(currentState);
         }
@@ -325,9 +325,9 @@ namespace Quarter.State
                         nameof(ConfirmModal.Message),
                         "Are you sure you want to remove this activity and all registered time? This cannot be undone!"
                     },
-                    {
-                        nameof(ConfirmModal.OnConfirmAction), new ConfirmRemoveActivityAction(action.ActivityId)
-                    }
+                    { nameof(ConfirmModal.ConfirmText), "Remove" },
+                    { nameof(ConfirmModal.IsDangerous), true },
+                    { nameof(ConfirmModal.OnConfirmAction), new ConfirmRemoveActivityAction(action.ActivityId) }
                 }));
             return Task.FromResult(currentState);
         }
@@ -405,6 +405,7 @@ namespace Quarter.State
                         nameof(ConfirmModal.Message),
                         "If you archive this activity it can no longer be used to register time. All registered time will still be available though. This activity can be restored at a later time."
                     },
+                    { nameof(ConfirmModal.ConfirmText), "Archive" },
                     {
                         nameof(ConfirmModal.OnConfirmAction), new ConfirmArchiveActivityAction(action.ActivityId)
                     }
@@ -445,6 +446,7 @@ namespace Quarter.State
                         nameof(ConfirmModal.Message),
                         "If you archive this activity you will be able to use it to register time again. All previously registered time will still be available. The activity can later be archived again."
                     },
+                    { nameof(ConfirmModal.ConfirmText), "Restore" },
                     {
                         nameof(ConfirmModal.OnConfirmAction), new ConfirmRestoreActivityAction(action.ActivityId)
                     }

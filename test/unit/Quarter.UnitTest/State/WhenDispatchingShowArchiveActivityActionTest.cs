@@ -33,6 +33,7 @@ public class WhenDispatchingShowArchiveActivityActionTest : ActionHandlerTestCas
         {
             Assert.That(parameters["Title"], Is.EqualTo("Archive activity?"));
             Assert.That(parameters["Message"], Is.EqualTo("If you archive this activity it can no longer be used to register time. All registered time will still be available though. This activity can be restored at a later time."));
+            Assert.That(parameters["ConfirmText"], Is.EqualTo("Archive"));
         });
     }
 

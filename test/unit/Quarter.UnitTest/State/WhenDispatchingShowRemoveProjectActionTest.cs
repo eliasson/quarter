@@ -33,6 +33,8 @@ public class WhenDispatchingShowRemoveProjectActionTest : ActionHandlerTestCase
         {
             Assert.That(parameters["Title"], Is.EqualTo("Remove project?"));
             Assert.That(parameters["Message"], Is.EqualTo("Are you sure you want to remove this project and all associated activities? This cannot be undone!"));
+            Assert.That(parameters["ConfirmText"], Is.EqualTo("Remove"));
+            Assert.That(parameters["IsDangerous"], Is.True);
         });
     }
 

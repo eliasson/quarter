@@ -28,6 +28,8 @@ public class WhenDispatchingShowRemoveUserActionTest : ActionHandlerTestCase
         {
             Assert.That(parameters["Title"], Is.EqualTo("Remove user?"));
             Assert.That(parameters["Message"], Is.EqualTo("Are you sure you want to remove this user and all associated projects? This cannot be undone!"));
+            Assert.That(parameters["ConfirmText"], Is.EqualTo("Remove"));
+            Assert.That(parameters["IsDangerous"], Is.True);
         });
     }
 
