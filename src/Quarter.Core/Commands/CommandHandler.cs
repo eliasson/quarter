@@ -28,6 +28,7 @@ namespace Quarter.Core.Commands
                 EditProjectCommand cmd => ExecuteAsync(cmd, oc ,ct),
                 RemoveProjectCommand cmd => ExecuteAsync(cmd, oc, ct),
                 ArchiveProjectCommand cmd => ExecuteAsync(cmd, oc, ct),
+                RestoreProjectCommand cmd => ExecuteAsync(cmd, oc, ct),
                 AddActivityCommand cmd => ExecuteAsync(cmd, oc, ct),
                 EditActivityCommand cmd => ExecuteAsync(cmd, oc, ct),
                 RemoveActivityCommand cmd => ExecuteAsync(cmd, oc, ct),
@@ -149,10 +150,20 @@ namespace Quarter.Core.Commands
 
         private async Task ExecuteAsync(ArchiveProjectCommand command, OperationContext oc, CancellationToken ct)
         {
-            var result = await _repositoryFactory.ProjectRepository(oc.UserId)
+            await _repositoryFactory.ProjectRepository(oc.UserId)
                 .UpdateByIdAsync(command.ProjectId, current =>
                 {
                     current.Archive();
+                    return current;
+                }, ct);
+        }
+
+        private async Task ExecuteAsync(RestoreProjectCommand command, OperationContext oc, CancellationToken ct)
+        {
+            await _repositoryFactory.ProjectRepository(oc.UserId)
+                .UpdateByIdAsync(command.ProjectId, current =>
+                {
+                    current.Restore();
                     return current;
                 }, ct);
         }
