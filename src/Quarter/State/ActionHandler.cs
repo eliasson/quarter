@@ -39,11 +39,14 @@ namespace Quarter.State
 
             var task = action switch
             {
+                // Misc actions
                 CloseModalAction a => HandleAsync(currentState, a, ct),
                 ShowAddUserAction a => HandleAsync(currentState, a, ct),
                 ShowRemoveUserAction a => HandleAsync(currentState, a, ct),
                 ConfirmRemoveUserAction a => HandleAsync(currentState, a, ct),
                 AddUserAction a => HandleAsync(currentState, a, ct),
+
+                // Project related actions
                 LoadProjects a => HandleAsync(currentState, a, ct),
                 ShowAddProjectAction a => HandleAsync(currentState, a, ct),
                 AddProjectAction a =>  HandleAsync(currentState, a, ct),
@@ -51,6 +54,8 @@ namespace Quarter.State
                 ConfirmRemoveProjectAction a => HandleAsync(currentState, a, ct),
                 ShowEditProjectAction a =>HandleAsync(currentState, a, ct),
                 EditProjectAction a => HandleAsync(currentState, a, ct),
+
+                // Activity related actions
                 ShowAddActivityAction a => HandleAsync(currentState, a, ct),
                 AddActivityAction a => HandleAsync(currentState, a, ct),
                 ShowRemoveActivityAction a => HandleAsync(currentState, a, ct),
@@ -59,6 +64,8 @@ namespace Quarter.State
                 EditActivityAction a => HandleAsync(currentState, a, ct),
                 ShowArchiveActivityAction a => HandleAsync(currentState, a, ct),
                 ConfirmArchiveActivityAction a => HandleAsync(currentState, a, ct),
+
+                // Timesheet related actions
                 LoadTimesheetAction a => HandleAsync(currentState, a, ct),
                 SelectEraseActivityAction a => HandleAsync(currentState, a, ct),
                 SelectActivityAction a => HandleAsync(currentState, a, ct),
