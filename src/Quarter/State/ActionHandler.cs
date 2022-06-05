@@ -64,6 +64,8 @@ namespace Quarter.State
                 EditActivityAction a => HandleAsync(currentState, a, ct),
                 ShowArchiveActivityAction a => HandleAsync(currentState, a, ct),
                 ConfirmArchiveActivityAction a => HandleAsync(currentState, a, ct),
+                ShowRestoreActivityAction a => HandleAsync(currentState, a, ct),
+                ConfirmRestoreActivityAction a => HandleAsync(currentState, a, ct),
 
                 // Timesheet related actions
                 LoadTimesheetAction a => HandleAsync(currentState, a, ct),
@@ -424,6 +426,46 @@ namespace Quarter.State
                     if (Equals(a.Id, command.ActivityId))
                     {
                         a.IsArchived = true;
+                        break;
+                    }
+                }
+            }
+
+            currentState.SafePopTopMostModal();
+            return currentState;
+        }
+
+        private static Task<ApplicationState> HandleAsync(ApplicationState currentState, ShowRestoreActivityAction action, CancellationToken ct)
+        {
+            currentState.Modals.Push(
+                new ModalState(typeof(ConfirmRemoveModal), new Dictionary<string, object>
+                {
+                    { nameof(ConfirmRemoveModal.Title), "Restore activity?" },
+                    {
+                        nameof(ConfirmRemoveModal.Message),
+                        "If you archive this activity you will be able to use it to register time again. All previously registered time will still be available. The activity can later be archived again."
+                    },
+                    {
+                        nameof(ConfirmRemoveModal.OnConfirmAction), new ConfirmRestoreActivityAction(action.ActivityId)
+                    }
+                }));
+            return Task.FromResult(currentState);
+        }
+
+        private async Task<ApplicationState> HandleAsync(ApplicationState currentState, ConfirmRestoreActivityAction action, CancellationToken ct)
+        {
+            var oc = await OperationContextForCurrentUser();
+            var command = new ArchiveActivityCommand(action.ActivityId);
+            await _commandHandler.ExecuteAsync(command, oc, ct);
+
+            // TODO: Add projectId to the action to make this lookup faster
+            foreach (var p in currentState.Projects)
+            {
+                foreach (var a in p.Activities)
+                {
+                    if (Equals(a.Id, command.ActivityId))
+                    {
+                        a.IsArchived = false;
                         break;
                     }
                 }

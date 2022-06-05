@@ -137,6 +137,18 @@ namespace Quarter.State
     /// <param name="ActivityId">The ID of the activity to archive</param>
     public record ConfirmArchiveActivityAction(IdOf<Activity> ActivityId) : IAction;
 
+    /// <summary>
+    /// Show restore activity confirmation modal.
+    /// </summary>
+    /// <param name="ActivityId">The ID of the activity to restore</param>
+    public record ShowRestoreActivityAction(IdOf<Activity> ActivityId) : IAction;
+
+    /// <summary>
+    /// Confirm and restore the activity.
+    /// </summary>
+    /// <param name="ActivityId">The ID of the activity to restore</param>
+    public record ConfirmRestoreActivityAction(IdOf<Activity> ActivityId) : IAction;
+
     #endregion
 
     #region Timesheet related
