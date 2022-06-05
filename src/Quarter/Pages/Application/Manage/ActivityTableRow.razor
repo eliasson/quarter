@@ -25,16 +25,36 @@
     private static readonly List<ContextMenu.MenuItemVm> MenuItems = new List<ContextMenu.MenuItemVm>
     {
         new("edit", "Edit activity"),
+        new("archive", "Archive activity"),
         new("remove", "Remove activity"),
     };
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        UpdateArchiveRestoreMenuItems();
+    }
 
     private async Task OnMenuItem(ContextMenu.MenuItemVm item)
     {
         var res = item.Type switch {
-            "edit" => DispatchAsync(new ShowEditActivityAction(Activity!.ProjectId, Activity!.Id)),
-                 _ => DispatchAsync(new ShowRemoveActivityAction(Activity!.Id))
+               "edit" => DispatchAsync(new ShowEditActivityAction(Activity!.ProjectId, Activity!.Id)),
+            "archive" => DispatchAsync(new ShowArchiveActivityAction(Activity!.Id)),
+            "restore" => DispatchAsync(new ShowRestoreActivityAction(Activity!.Id)),
+                    _ => DispatchAsync(new ShowRemoveActivityAction(Activity!.Id))
         };
 
         await res;
+    }
+
+    private void UpdateArchiveRestoreMenuItems()
+    {
+        if (Activity is null) return;
+
+        var menuItem = Activity.IsArchived
+            ? new ContextMenu.MenuItemVm("restore", "Restore activity")
+            : new ContextMenu.MenuItemVm("archive", "Archive activity");
+        MenuItems.RemoveAt(1);
+        MenuItems.Insert(1, menuItem);
     }
 }
