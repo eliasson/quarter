@@ -12,7 +12,7 @@ namespace Quarter.Core.Models
         public UtcDateTime? Updated { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public bool IsArchived { get; private set; }
+        public bool IsArchived { get; set; }
 
         public Project(string name, string description)
         {

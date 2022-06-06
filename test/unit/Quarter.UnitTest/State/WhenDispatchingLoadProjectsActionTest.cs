@@ -107,6 +107,10 @@ public abstract class WhenDispatchingLoadProjectsActionTest
         [Test]
         public void ItShouldHaveZeroActivities()
             => Assert.That(_projectViewModel.Activities, Is.Empty);
+
+        [Test]
+        public void ItShouldNotBeArchived()
+            => Assert.That(_projectViewModel.IsArchived, Is.False);
     }
 
     public class WithFullProject : TestCase
@@ -126,6 +130,26 @@ public abstract class WhenDispatchingLoadProjectsActionTest
         [Test]
         public void ItShouldUseUpdatedTimestampAsUpdated()
             => Assert.That(_projectViewModel.Updated, Is.EqualTo(_project.Updated));
+    }
+
+    public class WithArchivedProject : TestCase
+    {
+        private Project _project;
+        private ProjectViewModel _projectViewModel;
+
+        [OneTimeSetUp]
+        public async Task Setup()
+        {
+            _project = await AddProject(ActingUserId, "Alpha", "Alpha description");
+            _project.Archive();
+            _project = await UpdateProject(ActingUserId, _project.Id);
+            State = await ActionHandler.HandleAsync(State, new LoadProjects(), CancellationToken.None);
+            _projectViewModel = State.Projects.First();
+        }
+
+        [Test]
+        public void ItShouldNotBeArchived()
+            => Assert.That(_projectViewModel.IsArchived, Is.True);
     }
 
     public class WithMinimalActivity : TestCase

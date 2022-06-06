@@ -618,7 +618,8 @@ namespace Quarter.State
                 Updated = project.Updated ?? project.Created,
                 Activities = activities.Select(a => FromActivity(a, projectTotalUsage)).ToList(),
                 TotalMinutes = projectTotalUsage.TotalMinutes,
-                LastUsed = projectTotalUsage.LastUsed
+                LastUsed = projectTotalUsage.LastUsed,
+                IsArchived = project.IsArchived,
             };
         }
 

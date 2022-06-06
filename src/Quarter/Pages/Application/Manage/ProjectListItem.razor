@@ -12,7 +12,7 @@
         <div class="qa-list-item__main__title">
             <div class="qa-list-item__main__text"
                  @onclick="@ToggleActive"
-                 test="project-title">@Project?.Name
+                 test="project-title">
                 @if (_isActive)
                 {
                     <span class="qa-list-item__main__chevron" test="collapse-icon">@CollapseIcon</span>
@@ -21,11 +21,16 @@
                 {
                     <span class="qa-list-item__main__chevron" test="expand-icon">@ExpandIcon</span>
                 }
+                @Project?.Name
+                @if (Project?.IsArchived == true)
+                {
+                    <span class="qa-tag" test="archived-tag">Archived</span>
+                }
             </div>
             <div class="qa-list-item__main__sub" test="project-description">@Project?.Description</div>
         </div>
         <div class="qa-list-item__main__actions">
-            <ContextMenu Items="ProjectMenuItems" ItemSelected="OnProjectMenuItem" IsInverted="_isActive"></ContextMenu>
+            <ContextMenu Items="_menuItems" ItemSelected="OnProjectMenuItem" IsInverted="_isActive"></ContextMenu>
         </div>
     </div>
     <div class="qa-list-item__statistics">
@@ -79,11 +84,18 @@
             ? "-"
             : Project.LastUsed.Value.DateTime.ToString("yyyy-MM-dd HH:mm:ss");
 
-    private static readonly List<ContextMenu.MenuItemVm> ProjectMenuItems = new List<ContextMenu.MenuItemVm>
+    private List<ContextMenu.MenuItemVm> _menuItems = new List<ContextMenu.MenuItemVm>
     {
         new("edit", "Edit project"),
+        new("archive", "Archive project"),
         new("remove", "Remove project"),
     };
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        UpdateArchiveRestoreMenuItems();
+    }
 
     private void ToggleActive()
         => _isActive = !_isActive;
@@ -91,10 +103,23 @@
     private async Task OnProjectMenuItem(ContextMenu.MenuItemVm item)
     {
         var res = item.Type switch {
-            "edit" => DispatchAsync(new ShowEditProjectAction(Project!.Id)),
-                 _ => DispatchAsync(new ShowRemoveProjectAction(Project!.Id))
+               "edit" => DispatchAsync(new ShowEditProjectAction(Project!.Id)),
+            "archive" => DispatchAsync(new ShowArchiveProjectAction(Project!.Id)),
+            "restore" => DispatchAsync(new ShowRestoreProjectAction(Project!.Id)),
+                    _ => DispatchAsync(new ShowRemoveProjectAction(Project!.Id))
         };
 
         await res;
+    }
+
+    private void UpdateArchiveRestoreMenuItems()
+    {
+        if (Project is null) return;
+
+        var menuItem = Project.IsArchived
+            ? new ContextMenu.MenuItemVm("restore", "Restore project")
+            : new ContextMenu.MenuItemVm("archive", "Archive project");
+        _menuItems.RemoveAt(1);
+        _menuItems.Insert(1, menuItem);
     }
 }

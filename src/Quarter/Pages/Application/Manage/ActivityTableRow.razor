@@ -18,7 +18,7 @@
     </td>
     <td class="qa-text-right" test="activity-usage">@Activity?.TotalMinutes.MinutesAsHours() h</td>
     <td class="qa-activity-action-column">
-        <ContextMenu Items="MenuItems" ItemSelected="OnMenuItem" />
+        <ContextMenu Items="_menuItems" ItemSelected="OnMenuItem" />
     </td>
 </tr>
 
@@ -28,7 +28,7 @@
     [Parameter]
     public ActivityViewModel? Activity { get; set; }
 
-    private static readonly List<ContextMenu.MenuItemVm> MenuItems = new List<ContextMenu.MenuItemVm>
+    private readonly List<ContextMenu.MenuItemVm> _menuItems = new List<ContextMenu.MenuItemVm>
     {
         new("edit", "Edit activity"),
         new("archive", "Archive activity"),
@@ -60,7 +60,7 @@
         var menuItem = Activity.IsArchived
             ? new ContextMenu.MenuItemVm("restore", "Restore activity")
             : new ContextMenu.MenuItemVm("archive", "Archive activity");
-        MenuItems.RemoveAt(1);
-        MenuItems.Insert(1, menuItem);
+        _menuItems.RemoveAt(1);
+        _menuItems.Insert(1, menuItem);
     }
 }
