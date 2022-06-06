@@ -2,6 +2,8 @@
     <div class="qa-activity-list-project">
         @foreach (var project in Projects())
         {
+            @if (project.IsArchived) continue;
+
             <div class="qa-activity-list-project-item">
                 <span class="qa-activity-list-project-title" test="project-item">@project.Name</span>
                 <span class="qa-activity-list-project-action"></span>
