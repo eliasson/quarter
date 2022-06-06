@@ -1049,11 +1049,12 @@ input[type=submit][disabled] {
   font-weight: 600;
 }
 .qa-list-item__main__chevron {
-  margin-left: 8px;
+  margin-right: 8px;
 }
 .qa-list-item__main__sub {
   font-weight: 200;
   margin-top: 4px;
+  margin-left: 24px;
   font-size: 16px;
   color: #333333;
 }

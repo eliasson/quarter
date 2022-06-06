@@ -69,10 +69,10 @@
         => Project?.Activities.Count.ToString() ?? "-";
 
     private MarkupString ExpandIcon
-        => new MarkupString(@$"<svg class=""qa-icon--small""><use xlink:href=""#icon-chevron-down""></use></svg>");
+        => new MarkupString(@$"<svg class=""qa-icon--small""><use xlink:href=""#icon-plus-sm""></use></svg>");
 
     private MarkupString CollapseIcon
-        => new MarkupString(@$"<svg class=""qa-icon--small""><use xlink:href=""#icon-chevron-up""></use></svg>");
+        => new MarkupString(@$"<svg class=""qa-icon--small""><use xlink:href=""#icon-minus-sm""></use></svg>");
 
     private string UpdatedAt
         => Project?.Updated is null
