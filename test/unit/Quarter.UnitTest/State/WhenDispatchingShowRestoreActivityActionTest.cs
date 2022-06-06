@@ -32,7 +32,7 @@ public class WhenDispatchingShowRestoreActivityActionTest : ActionHandlerTestCas
         Assert.Multiple(() =>
         {
             Assert.That(parameters["Title"], Is.EqualTo("Restore activity?"));
-            Assert.That(parameters["Message"], Is.EqualTo("If you archive this activity you will be able to use it to register time again. All previously registered time will still be available. The activity can later be archived again."));
+            Assert.That(parameters["Message"], Is.EqualTo("If you restore this activity you will be able to use it to register time again. All previously registered time will still be available. The activity can later be archived again."));
             Assert.That(parameters["ConfirmText"], Is.EqualTo("Restore"));
         });
     }

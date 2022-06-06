@@ -478,7 +478,7 @@ namespace Quarter.State
                     { nameof(ConfirmModal.Title), "Restore activity?" },
                     {
                         nameof(ConfirmModal.Message),
-                        "If you archive this activity you will be able to use it to register time again. All previously registered time will still be available. The activity can later be archived again."
+                        "If you restore this activity you will be able to use it to register time again. All previously registered time will still be available. The activity can later be archived again."
                     },
                     { nameof(ConfirmModal.ConfirmText), "Restore" },
                     {
