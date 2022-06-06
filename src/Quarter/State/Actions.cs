@@ -81,6 +81,18 @@ namespace Quarter.State
     /// <param name="FormData">The data populated from the project form</param>
     public record EditProjectAction(IdOf<Project> ProjectId, ProjectFormData FormData) : IAction;
 
+    /// <summary>
+    /// Show archive project confirmation modal.
+    /// </summary>
+    /// <param name="ProjectId">The ID of the project to archive</param>
+    public record ShowArchiveProjectAction(IdOf<Project> ProjectId) : IAction;
+
+    /// <summary>
+    /// Confirm and archive the project.
+    /// </summary>
+    /// <param name="ProjectId">The ID of the project to archive</param>
+    public record ConfirmArchiveProjectAction(IdOf<Project> ProjectId) : IAction;
+
     #endregion
 
     #region Activity related

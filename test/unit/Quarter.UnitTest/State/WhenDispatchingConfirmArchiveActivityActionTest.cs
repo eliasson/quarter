@@ -6,6 +6,7 @@ using Quarter.Core.Commands;
 using Quarter.Core.Models;
 using Quarter.State;
 using Quarter.State.ViewModels;
+using Quarter.UnitTest.TestUtils;
 
 namespace Quarter.UnitTest.State;
 
@@ -31,6 +32,7 @@ public class WhenDispatchingConfirmArchiveActivityActionTest : ActionHandlerTest
                 new ActivityViewModel { Id = IdOf<Activity>.Random(), Name = "Two" },
             }
         });
+        _state.Modals.Push(ModalState.ParameterLess(typeof(FakeModal)));
 
         ActionHandler.HandleAsync(_state, new ConfirmArchiveActivityAction(_activityId), CancellationToken.None);
     }

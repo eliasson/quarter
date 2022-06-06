@@ -52,8 +52,10 @@ namespace Quarter.State
                 AddProjectAction a =>  HandleAsync(currentState, a, ct),
                 ShowRemoveProjectAction a => HandleAsync(currentState, a, ct),
                 ConfirmRemoveProjectAction a => HandleAsync(currentState, a, ct),
-                ShowEditProjectAction a =>HandleAsync(currentState, a, ct),
+                ShowEditProjectAction a => HandleAsync(currentState, a, ct),
                 EditProjectAction a => HandleAsync(currentState, a, ct),
+                ShowArchiveProjectAction a => HandleAsync(currentState, a, ct),
+                ConfirmArchiveProjectAction a => HandleAsync(currentState, a, ct),
 
                 // Activity related actions
                 ShowAddActivityAction a => HandleAsync(currentState, a, ct),
@@ -271,6 +273,38 @@ namespace Quarter.State
             var project = currentState.Projects.Single(p => p.Id == action.ProjectId);
             project.Name = action.FormData.Name;
             project.Description = action.FormData.Description;
+
+            currentState.SafePopTopMostModal();
+            return currentState;
+        }
+
+        private Task<ApplicationState> HandleAsync(ApplicationState currentState, ShowArchiveProjectAction action, CancellationToken ct)
+        {
+            currentState.Modals.Push(
+                new ModalState(typeof(ConfirmModal), new Dictionary<string, object>
+                {
+                    { nameof(ConfirmModal.Title), "Archive project?" },
+                    {
+                        nameof(ConfirmModal.Message),
+                        "If you archive this project it can no longer be used to register time. All registered time will still be available though. This project can be restored at a later time."
+                    },
+                    { nameof(ConfirmModal.ConfirmText), "Archive" },
+                    {
+                        nameof(ConfirmModal.OnConfirmAction), new ConfirmArchiveProjectAction(action.ProjectId)
+                    }
+                }));
+            return Task.FromResult(currentState);
+        }
+
+        private async Task<ApplicationState> HandleAsync(ApplicationState currentState, ConfirmArchiveProjectAction action, CancellationToken ct)
+        {
+            var oc = await OperationContextForCurrentUser();
+            var command = new ArchiveProjectCommand(action.ProjectId);
+            await _commandHandler.ExecuteAsync(command, oc, ct);
+
+            // Update the project in place to avoid re-reading
+            var project = currentState.Projects.Single(p => p.Id == action.ProjectId);
+            project.IsArchived = true;
 
             currentState.SafePopTopMostModal();
             return currentState;
