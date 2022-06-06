@@ -1,12 +1,11 @@
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using Quarter.Core.Commands;
+using Quarter.Components.Modals;
 using Quarter.Core.Models;
 using Quarter.State;
-using Quarter.State.ViewModels;
+using Quarter.UnitTest.TestUtils;
 
 namespace Quarter.UnitTest.State;
 
@@ -20,25 +19,32 @@ public class ShowArchiveProjectActionTest : ActionHandlerTestCase
     {
         _state = NewState();
         _projectId = IdOf<Project>.Random();
-        _state.Projects = new List<ProjectViewModel> { new() { Id = _projectId, Name = "Alpha" } };
-        _state = await ActionHandler.HandleAsync(_state, new ConfirmArchiveProjectAction(_projectId), CancellationToken.None);
+        _state.Modals.Push(ModalState.ParameterLess(typeof(FakeModal)));
+        _state = await ActionHandler.HandleAsync(NewState(), new ShowArchiveProjectAction(_projectId), CancellationToken.None);
     }
 
     [Test]
-    public void ItShouldIssueCommand()
+    public void ItShouldPushNewModal()
+        => _state.AssertPushedNewModal(typeof(ConfirmModal));
+
+    [Test]
+    public void ItShouldUseCorrectParameters()
     {
-        var expectedCommand = new ArchiveProjectCommand(_projectId);
-        AssertIssuedCommandByUserId(expectedCommand, ActingUserId);
+        var parameters = _state.Modals.Select(m => m.Parameters).First();
+        Assert.Multiple(() =>
+        {
+            Assert.That(parameters["Title"], Is.EqualTo("Archive project?"));
+            Assert.That(parameters["Message"], Is.EqualTo("If you archive this project it can no longer be used to register time. All registered time will still be available though. This project can be restored at a later time."));
+            Assert.That(parameters["ConfirmText"], Is.EqualTo("Archive"));
+        });
     }
 
     [Test]
-    public void ItShouldBeMarkedAsArchivedInState()
+    public void ItShouldIssueExpectedAction()
     {
-        var project = _state.Projects.First(p => p.Id == _projectId);
-        Assert.That(project.IsArchived, Is.True);
-    }
+        var parameters = _state.Modals.Select(m => m.Parameters).First();
+        var action = parameters[nameof(ConfirmModal.OnConfirmAction)] as ConfirmArchiveProjectAction;
 
-    [Test]
-    public void ItShouldPopTopMostModal()
-        => Assert.That(_state.Modals, Is.Empty);
+        Assert.That(action?.ProjectId, Is.EqualTo(_projectId));
+    }
 }
