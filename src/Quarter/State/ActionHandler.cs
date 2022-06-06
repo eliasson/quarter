@@ -56,6 +56,8 @@ namespace Quarter.State
                 EditProjectAction a => HandleAsync(currentState, a, ct),
                 ShowArchiveProjectAction a => HandleAsync(currentState, a, ct),
                 ConfirmArchiveProjectAction a => HandleAsync(currentState, a, ct),
+                ShowRestoreProjectAction a => HandleAsync(currentState, a, ct),
+                ConfirmRestoreProjectAction a => HandleAsync(currentState, a, ct),
 
                 // Activity related actions
                 ShowAddActivityAction a => HandleAsync(currentState, a, ct),
@@ -305,6 +307,38 @@ namespace Quarter.State
             // Update the project in place to avoid re-reading
             var project = currentState.Projects.Single(p => p.Id == action.ProjectId);
             project.IsArchived = true;
+
+            currentState.SafePopTopMostModal();
+            return currentState;
+        }
+
+        private Task<ApplicationState> HandleAsync(ApplicationState currentState, ShowRestoreProjectAction action, CancellationToken ct)
+        {
+            currentState.Modals.Push(
+                new ModalState(typeof(ConfirmModal), new Dictionary<string, object>
+                {
+                    { nameof(ConfirmModal.Title), "Restore project?" },
+                    {
+                        nameof(ConfirmModal.Message),
+                        "If you restore this project you will be able to use it to register time again. All previously registered time will still be available. The project can later be archived again."
+                    },
+                    { nameof(ConfirmModal.ConfirmText), "Restore" },
+                    {
+                        nameof(ConfirmModal.OnConfirmAction), new ConfirmRestoreProjectAction(action.ProjectId)
+                    }
+                }));
+            return Task.FromResult(currentState);
+        }
+
+        private async Task<ApplicationState> HandleAsync(ApplicationState currentState, ConfirmRestoreProjectAction action, CancellationToken ct)
+        {
+            var oc = await OperationContextForCurrentUser();
+            var command = new RestoreProjectCommand(action.ProjectId);
+            await _commandHandler.ExecuteAsync(command, oc, ct);
+
+            // Update the project in place to avoid re-reading
+            var project = currentState.Projects.Single(p => p.Id == action.ProjectId);
+            project.IsArchived = false;
 
             currentState.SafePopTopMostModal();
             return currentState;

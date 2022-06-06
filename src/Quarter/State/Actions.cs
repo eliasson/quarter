@@ -93,6 +93,18 @@ namespace Quarter.State
     /// <param name="ProjectId">The ID of the project to archive</param>
     public record ConfirmArchiveProjectAction(IdOf<Project> ProjectId) : IAction;
 
+    /// <summary>
+    /// Show restore project confirmation modal.
+    /// </summary>
+    /// <param name="ProjectId">The ID of the project to restore</param>
+    public record ShowRestoreProjectAction(IdOf<Project> ProjectId) : IAction;
+
+    /// <summary>
+    /// Confirm and restore the project.
+    /// </summary>
+    /// <param name="ProjectId">The ID of the project to restore</param>
+    public record ConfirmRestoreProjectAction(IdOf<Project> ProjectId) : IAction;
+
     #endregion
 
     #region Activity related
