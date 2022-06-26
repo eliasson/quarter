@@ -49,6 +49,7 @@ public abstract class TimesheetSummaryWidgetTest
             _project1 = new Project("Project One", "Irrelevant");
             _activityP1A = new Activity(_project1.Id, "P1A", "", Color.FromHexString("#123123"));
             _project2 = new Project("Project Two", "Irrelevant");
+            _project2.Archive();
             _activityP2A = new Activity(_project2.Id, "P2A", "", Color.FromHexString("#aaa"));
             _activityP2A.Archive();
             _activityP2B = new Activity(_project2.Id, "P2B", "", Color.FromHexString("#bbb"));
@@ -74,6 +75,15 @@ public abstract class TimesheetSummaryWidgetTest
                 ("Project Two", "11.00"),
             }));
 
+        [Test]
+        public void ItShouldHaveArchivedIconsForProjects()
+        {
+            Assert.That(ArchivedProjectMarkers(), Is.EqualTo(new[]
+            {
+                ("Project One", false),
+                ("Project Two", true),
+            }));
+        }
         [Test]
         public void ItShouldListTotalPerActivity()
             => Assert.That(ActivityTotals(), Is.EqualTo(new[]
@@ -113,6 +123,7 @@ public abstract class TimesheetSummaryWidgetTest
                 {
                     Id = _project1.Id,
                     Name = _project1.Name,
+                    IsArchived = _project1.IsArchived,
                     Activities = new List<ActivityViewModel>
                     {
                         new ActivityViewModel
@@ -129,6 +140,7 @@ public abstract class TimesheetSummaryWidgetTest
                 {
                     Id = _project2.Id,
                     Name = _project2.Name,
+                    IsArchived = _project2.IsArchived,
                     Activities = new List<ActivityViewModel>
                     {
                         new ActivityViewModel
@@ -168,6 +180,18 @@ public abstract class TimesheetSummaryWidgetTest
             }).ToArray();
 
             return result ?? Array.Empty<(string, string)>();
+        }
+
+        protected (string Name, bool IsAcchived)[] ArchivedProjectMarkers()
+        {
+            var result = Component?.FindAll("[test=summary-project]").Select(elm =>
+            {
+                var name = elm.QuerySelector("[test=summary-name]")?.TextContent;
+                var archived = elm.QuerySelector("[test=summary-archived]") is not null;
+                return (name, archived);
+            }).ToArray();
+
+            return result ?? Array.Empty<(string, bool)>();
         }
 
         protected (string Name, string Total)[] ActivityTotals()

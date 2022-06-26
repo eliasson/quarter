@@ -19,7 +19,17 @@
                     <tr test="summary-project">
                         <th></th>
                         <th class="qa-ts-summary-value-column" test="summary-total">@project.Total</th>
-                        <th class="qa-ts-summary-activity-column" test="summary-name">@project.Name</th>
+                        <th class="qa-ts-summary-activity-column">
+                            <span class="qa-ts-summary-name" test="summary-name">@project.Name</span>
+                            @if(project.IsArchived)
+                            {
+                                <span class="qa-ts-summary-archived" test="summary-archived">
+                                    <svg class="qa-icon--small">
+                                        <use xlink:href="#icon-archive"></use>
+                                    </svg>
+                                </span>
+                            }
+                        </th>
                     </tr>
                     @foreach (var activity in project.Activities)
                     {
@@ -60,7 +70,7 @@
 @code {
     record ActivitySummary(string Name, string Total, ActivityColor Color, bool IsArchived);
 
-    record ProjectSummary(string Name, string Total, ActivitySummary[] Activities);
+    record ProjectSummary(string Name, string Total, ActivitySummary[] Activities, bool IsArchived);
 
     record Summary(List<ProjectSummary> ProjectSummaries, double TotalHours)
     {
@@ -124,7 +134,7 @@
 
             var projectTotal = (p.Duration * 15.0) / 60.0;
             total += projectTotal;
-            return new ProjectSummary(projectVm?.Name ?? "Unknown", projectTotal.ToString("F2"), activities);
+            return new ProjectSummary(projectVm?.Name ?? "Unknown", projectTotal.ToString("F2"), activities, projectVm?.IsArchived ?? false);
         });
 
         return new Summary(summaries.ToList(), total);
