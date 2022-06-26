@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file. 
 
+## [0.2.0] - 2022-06-26
+- Add archive support for project and activity.
+
 ## [0.1.7] - 2022-04-15
 - Disable selection cursor in timesheet and calendar widget.
 - Show weekday total in week report.
