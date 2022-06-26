@@ -81,6 +81,30 @@ namespace Quarter.State
     /// <param name="FormData">The data populated from the project form</param>
     public record EditProjectAction(IdOf<Project> ProjectId, ProjectFormData FormData) : IAction;
 
+    /// <summary>
+    /// Show archive project confirmation modal.
+    /// </summary>
+    /// <param name="ProjectId">The ID of the project to archive</param>
+    public record ShowArchiveProjectAction(IdOf<Project> ProjectId) : IAction;
+
+    /// <summary>
+    /// Confirm and archive the project.
+    /// </summary>
+    /// <param name="ProjectId">The ID of the project to archive</param>
+    public record ConfirmArchiveProjectAction(IdOf<Project> ProjectId) : IAction;
+
+    /// <summary>
+    /// Show restore project confirmation modal.
+    /// </summary>
+    /// <param name="ProjectId">The ID of the project to restore</param>
+    public record ShowRestoreProjectAction(IdOf<Project> ProjectId) : IAction;
+
+    /// <summary>
+    /// Confirm and restore the project.
+    /// </summary>
+    /// <param name="ProjectId">The ID of the project to restore</param>
+    public record ConfirmRestoreProjectAction(IdOf<Project> ProjectId) : IAction;
+
     #endregion
 
     #region Activity related
@@ -124,6 +148,30 @@ namespace Quarter.State
     /// <param name="ActivityId">The ID of the activity to edit</param>
     /// <param name="FormData">The data populated from the activity form</param>
     public record EditActivityAction(IdOf<Project> ProjectId, IdOf<Activity> ActivityId, ActivityFormData FormData) : IAction;
+
+    /// <summary>
+    /// Show archived activity confirmation modal.
+    /// </summary>
+    /// <param name="ActivityId">The ID of the activity to archive</param>
+    public record ShowArchiveActivityAction(IdOf<Activity> ActivityId) : IAction;
+
+    /// <summary>
+    /// Confirm and archive the activity.
+    /// </summary>
+    /// <param name="ActivityId">The ID of the activity to archive</param>
+    public record ConfirmArchiveActivityAction(IdOf<Activity> ActivityId) : IAction;
+
+    /// <summary>
+    /// Show restore activity confirmation modal.
+    /// </summary>
+    /// <param name="ActivityId">The ID of the activity to restore</param>
+    public record ShowRestoreActivityAction(IdOf<Activity> ActivityId) : IAction;
+
+    /// <summary>
+    /// Confirm and restore the activity.
+    /// </summary>
+    /// <param name="ActivityId">The ID of the activity to restore</param>
+    public record ConfirmRestoreActivityAction(IdOf<Activity> ActivityId) : IAction;
 
     #endregion
 

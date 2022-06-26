@@ -39,24 +39,39 @@ namespace Quarter.State
 
             var task = action switch
             {
+                // Misc actions
                 CloseModalAction a => HandleAsync(currentState, a, ct),
                 ShowAddUserAction a => HandleAsync(currentState, a, ct),
                 ShowRemoveUserAction a => HandleAsync(currentState, a, ct),
                 ConfirmRemoveUserAction a => HandleAsync(currentState, a, ct),
                 AddUserAction a => HandleAsync(currentState, a, ct),
+
+                // Project related actions
                 LoadProjects a => HandleAsync(currentState, a, ct),
                 ShowAddProjectAction a => HandleAsync(currentState, a, ct),
                 AddProjectAction a =>  HandleAsync(currentState, a, ct),
                 ShowRemoveProjectAction a => HandleAsync(currentState, a, ct),
                 ConfirmRemoveProjectAction a => HandleAsync(currentState, a, ct),
-                ShowEditProjectAction a =>HandleAsync(currentState, a, ct),
+                ShowEditProjectAction a => HandleAsync(currentState, a, ct),
                 EditProjectAction a => HandleAsync(currentState, a, ct),
+                ShowArchiveProjectAction a => HandleAsync(currentState, a, ct),
+                ConfirmArchiveProjectAction a => HandleAsync(currentState, a, ct),
+                ShowRestoreProjectAction a => HandleAsync(currentState, a, ct),
+                ConfirmRestoreProjectAction a => HandleAsync(currentState, a, ct),
+
+                // Activity related actions
                 ShowAddActivityAction a => HandleAsync(currentState, a, ct),
                 AddActivityAction a => HandleAsync(currentState, a, ct),
                 ShowRemoveActivityAction a => HandleAsync(currentState, a, ct),
                 ConfirmRemoveActivityAction a => HandleAsync(currentState, a, ct),
                 ShowEditActivityAction a => HandleAsync(currentState, a, ct),
                 EditActivityAction a => HandleAsync(currentState, a, ct),
+                ShowArchiveActivityAction a => HandleAsync(currentState, a, ct),
+                ConfirmArchiveActivityAction a => HandleAsync(currentState, a, ct),
+                ShowRestoreActivityAction a => HandleAsync(currentState, a, ct),
+                ConfirmRestoreActivityAction a => HandleAsync(currentState, a, ct),
+
+                // Timesheet related actions
                 LoadTimesheetAction a => HandleAsync(currentState, a, ct),
                 SelectEraseActivityAction a => HandleAsync(currentState, a, ct),
                 SelectActivityAction a => HandleAsync(currentState, a, ct),
@@ -97,16 +112,16 @@ namespace Quarter.State
         private static Task<ApplicationState> HandleAsync(ApplicationState currentState, ShowRemoveUserAction action, CancellationToken ct)
         {
             currentState.Modals.Push(
-                new ModalState(typeof(ConfirmRemoveModal), new Dictionary<string, object>
+                new ModalState(typeof(ConfirmModal), new Dictionary<string, object>
                 {
-                    { nameof(ConfirmRemoveModal.Title), "Remove user?" },
+                    { nameof(ConfirmModal.Title), "Remove user?" },
                     {
-                        nameof(ConfirmRemoveModal.Message),
+                        nameof(ConfirmModal.Message),
                         "Are you sure you want to remove this user and all associated projects? This cannot be undone!"
                     },
-                    {
-                        nameof(ConfirmRemoveModal.OnConfirmAction), new ConfirmRemoveUserAction(action.UserId)
-                    }
+                    { nameof(ConfirmModal.ConfirmText), "Remove" },
+                    { nameof(ConfirmModal.IsDangerous), true },
+                    { nameof(ConfirmModal.OnConfirmAction), new ConfirmRemoveUserAction(action.UserId) }
                 }));
             return Task.FromResult(currentState);
         }
@@ -202,16 +217,16 @@ namespace Quarter.State
         private static Task<ApplicationState> HandleAsync(ApplicationState currentState, ShowRemoveProjectAction action, CancellationToken ct)
         {
             currentState.Modals.Push(
-                new ModalState(typeof(ConfirmRemoveModal), new Dictionary<string, object>
+                new ModalState(typeof(ConfirmModal), new Dictionary<string, object>
                 {
-                    { nameof(ConfirmRemoveModal.Title), "Remove project?" },
+                    { nameof(ConfirmModal.Title), "Remove project?" },
                     {
-                        nameof(ConfirmRemoveModal.Message),
+                        nameof(ConfirmModal.Message),
                         "Are you sure you want to remove this project and all associated activities? This cannot be undone!"
                     },
-                    {
-                        nameof(ConfirmRemoveModal.OnConfirmAction), new ConfirmRemoveProjectAction(action.ProjectId)
-                    }
+                    { nameof(ConfirmModal.ConfirmText), "Remove" },
+                    { nameof(ConfirmModal.IsDangerous), true },
+                    { nameof(ConfirmModal.OnConfirmAction), new ConfirmRemoveProjectAction(action.ProjectId) }
                 }));
             return Task.FromResult(currentState);
         }
@@ -265,6 +280,70 @@ namespace Quarter.State
             return currentState;
         }
 
+        private Task<ApplicationState> HandleAsync(ApplicationState currentState, ShowArchiveProjectAction action, CancellationToken ct)
+        {
+            currentState.Modals.Push(
+                new ModalState(typeof(ConfirmModal), new Dictionary<string, object>
+                {
+                    { nameof(ConfirmModal.Title), "Archive project?" },
+                    {
+                        nameof(ConfirmModal.Message),
+                        "If you archive this project it can no longer be used to register time. All registered time will still be available though. This project can be restored at a later time."
+                    },
+                    { nameof(ConfirmModal.ConfirmText), "Archive" },
+                    {
+                        nameof(ConfirmModal.OnConfirmAction), new ConfirmArchiveProjectAction(action.ProjectId)
+                    }
+                }));
+            return Task.FromResult(currentState);
+        }
+
+        private async Task<ApplicationState> HandleAsync(ApplicationState currentState, ConfirmArchiveProjectAction action, CancellationToken ct)
+        {
+            var oc = await OperationContextForCurrentUser();
+            var command = new ArchiveProjectCommand(action.ProjectId);
+            await _commandHandler.ExecuteAsync(command, oc, ct);
+
+            // Update the project in place to avoid re-reading
+            var project = currentState.Projects.Single(p => p.Id == action.ProjectId);
+            project.IsArchived = true;
+
+            currentState.SafePopTopMostModal();
+            return currentState;
+        }
+
+        private Task<ApplicationState> HandleAsync(ApplicationState currentState, ShowRestoreProjectAction action, CancellationToken ct)
+        {
+            currentState.Modals.Push(
+                new ModalState(typeof(ConfirmModal), new Dictionary<string, object>
+                {
+                    { nameof(ConfirmModal.Title), "Restore project?" },
+                    {
+                        nameof(ConfirmModal.Message),
+                        "If you restore this project you will be able to use it to register time again. All previously registered time will still be available. The project can later be archived again."
+                    },
+                    { nameof(ConfirmModal.ConfirmText), "Restore" },
+                    {
+                        nameof(ConfirmModal.OnConfirmAction), new ConfirmRestoreProjectAction(action.ProjectId)
+                    }
+                }));
+            return Task.FromResult(currentState);
+        }
+
+        private async Task<ApplicationState> HandleAsync(ApplicationState currentState, ConfirmRestoreProjectAction action, CancellationToken ct)
+        {
+            var oc = await OperationContextForCurrentUser();
+            var command = new RestoreProjectCommand(action.ProjectId);
+            await _commandHandler.ExecuteAsync(command, oc, ct);
+
+            // Update the project in place to avoid re-reading
+            var project = currentState.Projects.Single(p => p.Id == action.ProjectId);
+            project.IsArchived = false;
+
+            currentState.SafePopTopMostModal();
+            return currentState;
+        }
+
         private static Task<ApplicationState> HandleAsync(ApplicationState currentState, ShowAddActivityAction a, CancellationToken ct)
         {
             currentState.Modals.Push(
@@ -307,16 +386,16 @@ namespace Quarter.State
         private static Task<ApplicationState> HandleAsync(ApplicationState currentState, ShowRemoveActivityAction action, CancellationToken ct)
         {
             currentState.Modals.Push(
-                new ModalState(typeof(ConfirmRemoveModal), new Dictionary<string, object>
+                new ModalState(typeof(ConfirmModal), new Dictionary<string, object>
                 {
-                    { nameof(ConfirmRemoveModal.Title), "Remove activity?" },
+                    { nameof(ConfirmModal.Title), "Remove activity?" },
                     {
-                        nameof(ConfirmRemoveModal.Message),
+                        nameof(ConfirmModal.Message),
                         "Are you sure you want to remove this activity and all registered time? This cannot be undone!"
                     },
-                    {
-                        nameof(ConfirmRemoveModal.OnConfirmAction), new ConfirmRemoveActivityAction(action.ActivityId)
-                    }
+                    { nameof(ConfirmModal.ConfirmText), "Remove" },
+                    { nameof(ConfirmModal.IsDangerous), true },
+                    { nameof(ConfirmModal.OnConfirmAction), new ConfirmRemoveActivityAction(action.ActivityId) }
                 }));
             return Task.FromResult(currentState);
         }
@@ -379,6 +458,88 @@ namespace Quarter.State
             activity.Name = action.FormData.Name;
             activity.Description = action.FormData.Description;
             activity.Color = action.FormData.Color;
+
+            currentState.SafePopTopMostModal();
+            return currentState;
+        }
+
+        private static Task<ApplicationState> HandleAsync(ApplicationState currentState, ShowArchiveActivityAction action, CancellationToken ct)
+        {
+            currentState.Modals.Push(
+                new ModalState(typeof(ConfirmModal), new Dictionary<string, object>
+                {
+                    { nameof(ConfirmModal.Title), "Archive activity?" },
+                    {
+                        nameof(ConfirmModal.Message),
+                        "If you archive this activity it can no longer be used to register time. All registered time will still be available though. This activity can be restored at a later time."
+                    },
+                    { nameof(ConfirmModal.ConfirmText), "Archive" },
+                    {
+                        nameof(ConfirmModal.OnConfirmAction), new ConfirmArchiveActivityAction(action.ActivityId)
+                    }
+                }));
+            return Task.FromResult(currentState);
+        }
+
+        private async Task<ApplicationState> HandleAsync(ApplicationState currentState, ConfirmArchiveActivityAction action, CancellationToken ct)
+        {
+            var oc = await OperationContextForCurrentUser();
+            var command = new ArchiveActivityCommand(action.ActivityId);
+            await _commandHandler.ExecuteAsync(command, oc, ct);
+
+            // TODO: Add projectId to the action to make this lookup faster
+            foreach (var p in currentState.Projects)
+            {
+                foreach (var a in p.Activities)
+                {
+                    if (Equals(a.Id, command.ActivityId))
+                    {
+                        a.IsArchived = true;
+                        break;
+                    }
+                }
+            }
+
+            currentState.SafePopTopMostModal();
+            return currentState;
+        }
+
+        private static Task<ApplicationState> HandleAsync(ApplicationState currentState, ShowRestoreActivityAction action, CancellationToken ct)
+        {
+            currentState.Modals.Push(
+                new ModalState(typeof(ConfirmModal), new Dictionary<string, object>
+                {
+                    { nameof(ConfirmModal.Title), "Restore activity?" },
+                    {
+                        nameof(ConfirmModal.Message),
+                        "If you restore this activity you will be able to use it to register time again. All previously registered time will still be available. The activity can later be archived again."
+                    },
+                    { nameof(ConfirmModal.ConfirmText), "Restore" },
+                    {
+                        nameof(ConfirmModal.OnConfirmAction), new ConfirmRestoreActivityAction(action.ActivityId)
+                    }
+                }));
+            return Task.FromResult(currentState);
+        }
+
+        private async Task<ApplicationState> HandleAsync(ApplicationState currentState, ConfirmRestoreActivityAction action, CancellationToken ct)
+        {
+            var oc = await OperationContextForCurrentUser();
+            var command = new RestoreActivityCommand(action.ActivityId);
+            await _commandHandler.ExecuteAsync(command, oc, ct);
+
+            // TODO: Add projectId to the action to make this lookup faster
+            foreach (var p in currentState.Projects)
+            {
+                foreach (var a in p.Activities)
+                {
+                    if (Equals(a.Id, command.ActivityId))
+                    {
+                        a.IsArchived = false;
+                        break;
+                    }
+                }
+            }
 
             currentState.SafePopTopMostModal();
             return currentState;
@@ -457,7 +618,8 @@ namespace Quarter.State
                 Updated = project.Updated ?? project.Created,
                 Activities = activities.Select(a => FromActivity(a, projectTotalUsage)).ToList(),
                 TotalMinutes = projectTotalUsage.TotalMinutes,
-                LastUsed = projectTotalUsage.LastUsed
+                LastUsed = projectTotalUsage.LastUsed,
+                IsArchived = project.IsArchived,
             };
         }
 
@@ -474,6 +636,7 @@ namespace Quarter.State
                 DarkerColor = activity.Color.Darken(0.15).ToHex(),
                 Updated = activity.Updated ?? activity.Created,
                 TotalMinutes = activityUsage?.TotalMinutes ?? 0,
+                IsArchived = activity.IsArchived,
             };
         }
     }

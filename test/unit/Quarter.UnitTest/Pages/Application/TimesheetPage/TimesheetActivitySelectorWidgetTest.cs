@@ -42,7 +42,7 @@ public abstract class TimesheetActivitySelectorWidgetTest
         }
 
         [Test]
-        public void ItShouldRenderAllActivities()
+        public void ItShouldRenderAllNonArchivedActivities()
         {
             var projectNames = ActivityTitles()?.Select(p => p.TextContent);
             Assert.That(projectNames, Is.EqualTo(new[] { "P1A", "P2A", "P2B" }));
@@ -195,6 +195,14 @@ public abstract class TimesheetActivitySelectorWidgetTest
                     Name = "P2B",
                     Color = "#555555",
                     DarkerColor = "#666666",
+                },
+                new ActivityViewModel
+                {
+                    Id = IdOf<Activity>.Random(),
+                    Name = "P2C",
+                    Color = "#555555",
+                    DarkerColor = "#666666",
+                    IsArchived = true,
                 }
             }
         },
@@ -203,6 +211,38 @@ public abstract class TimesheetActivitySelectorWidgetTest
             Id = IdOf<Project>.Random(),
             Name = "Project Three",
             Activities = new List<ActivityViewModel>()
+        },
+        new ProjectViewModel
+        {
+            Id = IdOf<Project>.Random(),
+            Name = "Archived project",
+            IsArchived = true,
+            Activities = new List<ActivityViewModel>
+            {
+                new ActivityViewModel
+                {
+                    Id = IdOf<Activity>.Random(),
+                    Name = "P1A",
+                    Color = "#111111",
+                    DarkerColor = "#222222",
+                }
+            }
+        },
+        new ProjectViewModel
+        {
+            Id = IdOf<Project>.Random(),
+            Name = "Project with only archived activities",
+            Activities = new List<ActivityViewModel>
+            {
+                new ActivityViewModel
+                {
+                    Id = IdOf<Activity>.Random(),
+                    Name = "P1A",
+                    Color = "#111111",
+                    DarkerColor = "#222222",
+                    IsArchived = true,
+                }
+            }
         },
     };
 }

@@ -43,6 +43,10 @@ public abstract class ProjectListItemTest
         public void ItShouldHaveDescription()
             => Assert.That(Description(), Is.EqualTo("Some project"));
 
+        [Test]
+        public void ItShouldNotRenderArchivedTag()
+            => Assert.Throws<ElementNotFoundException>(() => ArchivedTag());
+
         [TestCase(0, "Hours", "0.00")]
         [TestCase(1, "Activities", "0")]
         [TestCase(2, "Updated at", "-")]
@@ -72,6 +76,7 @@ public abstract class ProjectListItemTest
                 Assert.That(MenuItems(), Is.EqualTo(new []
                 {
                     ("edit", "Edit project"),
+                    ("archive", "Archive project"),
                     ("remove", "Remove project"),
                 }));
             }
@@ -105,6 +110,17 @@ public abstract class ProjectListItemTest
             [Test]
             public async Task ItShouldDispatchShowEditProjectAction()
                 => Assert.True(await EventuallyDispatchedAction(new ShowEditProjectAction(_projectViewModel.Id)));
+        }
+
+        public class WhenSelectingArchiveProjectMenuItem : WhenRenderMinimalProject
+        {
+            [OneTimeSetUp]
+            public void SelectItem()
+                => MenuItem("Archive project").Click();
+
+            [TestCase]
+            public async Task ItShouldDispatchShowArchiveProjectAction()
+                => Assert.True(await EventuallyDispatchedAction(new ShowArchiveProjectAction(_projectViewModel.Id)));
         }
 
         public class WhenSelectingProject : WhenRenderMinimalProject
@@ -169,6 +185,51 @@ public abstract class ProjectListItemTest
         }
     }
 
+    public class WhenRenderArchivedProject : TestCase
+    {
+        private ProjectViewModel _projectViewModel;
+
+        [OneTimeSetUp]
+        public void Setup()
+        {
+            _projectViewModel = new ProjectViewModel
+            {
+                Id = IdOf<Project>.Random(),
+                Name = "Project X",
+                Description = "Some project",
+                IsArchived = true,
+            };
+            RenderWithParameters(pb => pb.Add(
+                ps => ps.Project, _projectViewModel));
+        }
+
+        [Test]
+        public void ItShouldHaveProjectMenuItems()
+        {
+            Assert.That(MenuItems(), Is.EqualTo(new []
+            {
+                ("edit", "Edit project"),
+                ("restore", "Restore project"),
+                ("remove", "Remove project"),
+            }));
+        }
+
+        [Test]
+        public void ItShouldRenderArchivedTag()
+            => Assert.That(ArchivedTag(), Is.EqualTo("Archived"));
+
+        public class WhenSelectingRestoreProjectMenuItem : WhenRenderArchivedProject
+        {
+            [OneTimeSetUp]
+            public void SelectItem()
+                => MenuItem("Restore project").Click();
+
+            [TestCase]
+            public async Task ItShouldDispatchShowRestoreProjectAction()
+                => Assert.True(await EventuallyDispatchedAction(new ShowRestoreProjectAction(_projectViewModel.Id)));
+        }
+    }
+
     public abstract class TestCase : BlazorComponentTestCase<ProjectListItem>
     {
         protected string Title()
@@ -182,6 +243,9 @@ public abstract class ProjectListItemTest
 
         protected IElement CollapseIcon()
             => ComponentByTestAttribute("collapse-icon");
+
+        protected string ArchivedTag()
+            => ComponentByTestAttribute("archived-tag").TextContent;
 
         protected IElement CategoryByIndex(int index)
             => ComponentsByTestAttribute("project-category")?[index];

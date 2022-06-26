@@ -43,4 +43,10 @@ public class ActivityViewModel
     /// The total usage in minutes for this activity
     /// </summary>
     public int TotalMinutes { get; set; }
+
+    /// <summary>
+    /// Whether or not this activity is archived. If an activity is archived it does not support registering new time
+    /// only reporting already registered time.
+    /// </summary>
+    public bool IsArchived { get; set; }
 }

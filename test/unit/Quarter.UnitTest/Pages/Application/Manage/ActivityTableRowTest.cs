@@ -41,6 +41,10 @@ public abstract class ActivityTableRowTest
             => Assert.That(ActivityName(), Is.EqualTo("Activity One"));
 
         [Test]
+        public void ItShouldNotRenderActivityArchivedTag()
+            => Assert.Throws<ElementNotFoundException>(() => ArchivedTag());
+
+        [Test]
         public void ItShouldRenderActivityTotalUsage()
             => Assert.That(ActivityTotalUsage(), Is.EqualTo("1.25 h"));
 
@@ -50,6 +54,7 @@ public abstract class ActivityTableRowTest
             Assert.That(MenuItems(), Is.EqualTo(new []
             {
                 ("edit", "Edit activity"),
+                ("archive", "Archive activity"),
                 ("remove", "Remove activity"),
             }));
         }
@@ -65,6 +70,17 @@ public abstract class ActivityTableRowTest
                 => Assert.True(await EventuallyDispatchedAction(new ShowEditActivityAction(_activityViewModel.ProjectId, _activityViewModel.Id)));
         }
 
+        public class WhenSelectingArchiveMenuItem : WhenRendered
+        {
+            [OneTimeSetUp]
+            public void SelectItem()
+                => MenuItem("Archive activity").Click();
+
+            [Test]
+            public async Task ItShouldDispatchAction()
+                => Assert.True(await EventuallyDispatchedAction(new ShowArchiveActivityAction(_activityViewModel.Id)));
+        }
+
         public class WhenSelectingRemoveMenuItem : WhenRendered
         {
             [OneTimeSetUp]
@@ -74,6 +90,52 @@ public abstract class ActivityTableRowTest
             [Test]
             public async Task ItShouldDispatchAction()
                 => Assert.True(await EventuallyDispatchedAction(new ShowRemoveActivityAction(_activityViewModel.Id)));
+        }
+    }
+
+    public class WhenRenderingAnArchivedActivity : TestCase
+    {
+        private ActivityViewModel _activityViewModel;
+
+        [OneTimeSetUp]
+        public void Setup()
+        {
+            _activityViewModel = new ActivityViewModel
+            {
+                Name = "Activity One",
+                TotalMinutes = 75,
+                Color = "#123456",
+                DarkerColor = "#000000",
+                IsArchived = true,
+            };
+            RenderWithParameters(bp =>
+                bp.Add(ps => ps.Activity, _activityViewModel));
+        }
+
+        [Test]
+        public void ItShouldRenderActivityArchivedTag()
+            => Assert.That(ArchivedTag(), Is.EqualTo("Archived"));
+
+        [Test]
+        public void ItShouldHaveActivityMenuItems()
+        {
+            Assert.That(MenuItems(), Is.EqualTo(new []
+            {
+                ("edit", "Edit activity"),
+                ("restore", "Restore activity"),
+                ("remove", "Remove activity"),
+            }));
+        }
+
+        public class WhenSelectingRestoreMenuItem : WhenRenderingAnArchivedActivity
+        {
+            [OneTimeSetUp]
+            public void SelectItem()
+                => MenuItem("Restore activity").Click();
+
+            [Test]
+            public async Task ItShouldDispatchAction()
+                => Assert.True(await EventuallyDispatchedAction(new ShowRestoreActivityAction(_activityViewModel.Id)));
         }
     }
 
@@ -93,6 +155,9 @@ public abstract class ActivityTableRowTest
 
         protected string ActivityName()
             => ComponentByTestAttribute("activity-name").TextContent;
+
+        protected string ArchivedTag()
+            => ComponentByTestAttribute("archived-tag").TextContent;
 
         protected string ActivityTotalUsage()
             => ComponentByTestAttribute("activity-usage").TextContent;

@@ -1,3 +1,4 @@
+using System.Linq;
 using AngleSharp.Dom;
 using Bunit;
 using NUnit.Framework;
@@ -7,7 +8,7 @@ using Quarter.UnitTest.TestUtils;
 
 namespace Quarter.UnitTest.Components.Modals;
 
-public abstract class ConfirmRemoveModalTest
+public abstract class ConfirmModalTest
 {
     public class WhenRendered : TestCase
     {
@@ -16,7 +17,8 @@ public abstract class ConfirmRemoveModalTest
         {
             RenderWithParameters(pb => pb
                 .Add(c => c.Title,  "Some title")
-                .Add(c => c.Message, "Some message"));
+                .Add(c => c.Message, "Some message")
+                .Add(c => c.ConfirmText, "Confirm"));
         }
 
         [Test]
@@ -29,11 +31,32 @@ public abstract class ConfirmRemoveModalTest
 
         [Test]
         public void ItShouldHaveAConfirmButton()
-            => Assert.That(ConfirmButton()?.Text(), Is.EqualTo("Remove"));
+            => Assert.That(ConfirmButton()?.Text(), Is.EqualTo("Confirm"));
 
         [Test]
         public void ItShouldHaveACancelButton()
             => Assert.That(CancelButton()?.Text(), Is.EqualTo("Cancel"));
+
+        [Test]
+        public void ItShouldShouldNotHaveDangerousConfirmAction()
+            => Assert.That(ConfirmButton()?.ClassList.Contains("qa-button--danger"), Is.False);
+    }
+
+    public class WhenRenderedDangerous : TestCase
+    {
+        [OneTimeSetUp]
+        public void Setup()
+        {
+            RenderWithParameters(pb => pb
+                .Add(c => c.Title,  "Some title")
+                .Add(c => c.Message, "Some message")
+                .Add(c => c.ConfirmText, "Confirm")
+                .Add(c => c.IsDangerous, true));
+        }
+
+        [Test]
+        public void ItShouldShouldNotHaveDangerousConfirmAction()
+            => Assert.That(ConfirmButton()?.ClassList.Contains("qa-button--danger"), Is.True);
     }
 
     public class WhenConfirming : TestCase
@@ -69,7 +92,7 @@ public abstract class ConfirmRemoveModalTest
             => Assert.True(DidDispatchAction(new CloseModalAction()));
     }
 
-    public class TestCase : BlazorModalTestCase<ConfirmRemoveModal>
+    public class TestCase : BlazorModalTestCase<ConfirmModal>
     {
         protected string Message()
             => ComponentByTestAttribute("modal-message")?.TextContent;

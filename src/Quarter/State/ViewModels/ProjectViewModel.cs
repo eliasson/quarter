@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Quarter.Core.Models;
 using Quarter.Core.Utils;
 
@@ -31,4 +32,13 @@ public class ProjectViewModel
     /// All activities associated with this project
     /// </summary>
     public IList<ActivityViewModel> Activities { get; set; } = new List<ActivityViewModel>();
+
+    /// <summary>
+    /// Whether or not this project is archived. If a project is archived it does not support registering new time
+    /// only reporting any already registered time.
+    /// </summary>
+    public bool IsArchived { get; set; }
+
+    public bool AllActivitiesAreArchived
+        => Activities.All(a => a.IsArchived);
 }

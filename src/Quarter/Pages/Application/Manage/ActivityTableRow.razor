@@ -9,10 +9,16 @@
              style="background-color: @Activity?.Color; border-color: @Activity?.DarkerColor"
              test="activity-color"></div>
     </td>
-    <td test="activity-name">@Activity?.Name</td>
+    <td test="activity-name">
+        @Activity?.Name
+        @if (Activity?.IsArchived == true)
+        {
+            <span class="qa-tag" test="archived-tag">Archived</span>
+        }
+    </td>
     <td class="qa-text-right" test="activity-usage">@Activity?.TotalMinutes.MinutesAsHours() h</td>
     <td class="qa-activity-action-column">
-        <ContextMenu Items="MenuItems" ItemSelected="OnMenuItem" />
+        <ContextMenu Items="_menuItems" ItemSelected="OnMenuItem" />
     </td>
 </tr>
 
@@ -22,19 +28,39 @@
     [Parameter]
     public ActivityViewModel? Activity { get; set; }
 
-    private static readonly List<ContextMenu.MenuItemVm> MenuItems = new List<ContextMenu.MenuItemVm>
+    private readonly List<ContextMenu.MenuItemVm> _menuItems = new List<ContextMenu.MenuItemVm>
     {
         new("edit", "Edit activity"),
+        new("archive", "Archive activity"),
         new("remove", "Remove activity"),
     };
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        UpdateArchiveRestoreMenuItems();
+    }
 
     private async Task OnMenuItem(ContextMenu.MenuItemVm item)
     {
         var res = item.Type switch {
-            "edit" => DispatchAsync(new ShowEditActivityAction(Activity!.ProjectId, Activity!.Id)),
-                 _ => DispatchAsync(new ShowRemoveActivityAction(Activity!.Id))
+               "edit" => DispatchAsync(new ShowEditActivityAction(Activity!.ProjectId, Activity!.Id)),
+            "archive" => DispatchAsync(new ShowArchiveActivityAction(Activity!.Id)),
+            "restore" => DispatchAsync(new ShowRestoreActivityAction(Activity!.Id)),
+                    _ => DispatchAsync(new ShowRemoveActivityAction(Activity!.Id))
         };
 
         await res;
+    }
+
+    private void UpdateArchiveRestoreMenuItems()
+    {
+        if (Activity is null) return;
+
+        var menuItem = Activity.IsArchived
+            ? new ContextMenu.MenuItemVm("restore", "Restore activity")
+            : new ContextMenu.MenuItemVm("archive", "Archive activity");
+        _menuItems.RemoveAt(1);
+        _menuItems.Insert(1, menuItem);
     }
 }

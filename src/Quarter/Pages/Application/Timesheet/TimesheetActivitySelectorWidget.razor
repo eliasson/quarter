@@ -2,6 +2,9 @@
     <div class="qa-activity-list-project">
         @foreach (var project in Projects())
         {
+            @if (project.IsArchived) continue;
+            @if (project.AllActivitiesAreArchived) continue;
+
             <div class="qa-activity-list-project-item">
                 <span class="qa-activity-list-project-title" test="project-item">@project.Name</span>
                 <span class="qa-activity-list-project-action"></span>
@@ -9,6 +12,8 @@
             <ul>
                 @foreach (var activity in project.Activities)
                 {
+                    @if (activity.IsArchived) continue;
+
                     <li @onclick="(() => SelectActivity(project.Id, activity.Id))"
                         class="@(IsActivitySelected(activity.Id) ? "qa-is-active" : "")"
                         test="activity-item">

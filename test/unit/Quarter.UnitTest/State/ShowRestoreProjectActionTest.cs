@@ -9,7 +9,7 @@ using Quarter.UnitTest.TestUtils;
 
 namespace Quarter.UnitTest.State;
 
-public class WhenDispatchingShowRemoveProjectActionTest : ActionHandlerTestCase
+public class ShowRestoreProjectActionTest : ActionHandlerTestCase
 {
     private ApplicationState _state;
     private IdOf<Project> _projectId;
@@ -17,8 +17,10 @@ public class WhenDispatchingShowRemoveProjectActionTest : ActionHandlerTestCase
     [OneTimeSetUp]
     public async Task Setup()
     {
+        _state = NewState();
         _projectId = IdOf<Project>.Random();
-        _state = await ActionHandler.HandleAsync(NewState(), new ShowRemoveProjectAction(_projectId), CancellationToken.None);
+        _state.Modals.Push(ModalState.ParameterLess(typeof(FakeModal)));
+        _state = await ActionHandler.HandleAsync(NewState(), new ShowRestoreProjectAction(_projectId), CancellationToken.None);
     }
 
     [Test]
@@ -31,10 +33,9 @@ public class WhenDispatchingShowRemoveProjectActionTest : ActionHandlerTestCase
         var parameters = _state.Modals.Select(m => m.Parameters).First();
         Assert.Multiple(() =>
         {
-            Assert.That(parameters["Title"], Is.EqualTo("Remove project?"));
-            Assert.That(parameters["Message"], Is.EqualTo("Are you sure you want to remove this project and all associated activities? This cannot be undone!"));
-            Assert.That(parameters["ConfirmText"], Is.EqualTo("Remove"));
-            Assert.That(parameters["IsDangerous"], Is.True);
+            Assert.That(parameters["Title"], Is.EqualTo("Restore project?"));
+            Assert.That(parameters["Message"], Is.EqualTo("If you restore this project you will be able to use it to register time again. All previously registered time will still be available. The project can later be archived again."));
+            Assert.That(parameters["ConfirmText"], Is.EqualTo("Restore"));
         });
     }
 
@@ -42,7 +43,7 @@ public class WhenDispatchingShowRemoveProjectActionTest : ActionHandlerTestCase
     public void ItShouldIssueExpectedAction()
     {
         var parameters = _state.Modals.Select(m => m.Parameters).First();
-        var action = parameters[nameof(ConfirmModal.OnConfirmAction)] as ConfirmRemoveProjectAction;
+        var action = parameters[nameof(ConfirmModal.OnConfirmAction)] as ConfirmRestoreProjectAction;
 
         Assert.That(action?.ProjectId, Is.EqualTo(_projectId));
     }

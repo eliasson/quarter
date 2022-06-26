@@ -27,9 +27,13 @@ namespace Quarter.Core.Commands
                 AddProjectCommand cmd => ExecuteAsync(cmd, oc ,ct),
                 EditProjectCommand cmd => ExecuteAsync(cmd, oc ,ct),
                 RemoveProjectCommand cmd => ExecuteAsync(cmd, oc, ct),
+                ArchiveProjectCommand cmd => ExecuteAsync(cmd, oc, ct),
+                RestoreProjectCommand cmd => ExecuteAsync(cmd, oc, ct),
                 AddActivityCommand cmd => ExecuteAsync(cmd, oc, ct),
                 EditActivityCommand cmd => ExecuteAsync(cmd, oc, ct),
                 RemoveActivityCommand cmd => ExecuteAsync(cmd, oc, ct),
+                ArchiveActivityCommand cmd => ExecuteAsync(cmd, oc, ct),
+                RestoreActivityCommand cmd => ExecuteAsync(cmd, oc, ct),
                 _ => throw new NotImplementedException(),
             };
         }
@@ -124,6 +128,44 @@ namespace Quarter.Core.Commands
             {
                 await _repositoryFactory.TimesheetRepository(oc.UserId).RemoveSlotsForActivityAsync(command.ActivityId, ct);
             }
+        }
+
+        private async Task ExecuteAsync(ArchiveActivityCommand command, OperationContext oc, CancellationToken ct)
+        {
+            await _repositoryFactory.ActivityRepository(oc.UserId).UpdateByIdAsync(command.ActivityId, current =>
+            {
+                current.Archive();
+                return current;
+            }, ct);
+        }
+
+        private async Task ExecuteAsync(RestoreActivityCommand command, OperationContext oc, CancellationToken ct)
+        {
+            await _repositoryFactory.ActivityRepository(oc.UserId).UpdateByIdAsync(command.ActivityId, current =>
+            {
+                current.Restore();
+                return current;
+            }, ct);
+        }
+
+        private async Task ExecuteAsync(ArchiveProjectCommand command, OperationContext oc, CancellationToken ct)
+        {
+            await _repositoryFactory.ProjectRepository(oc.UserId)
+                .UpdateByIdAsync(command.ProjectId, current =>
+                {
+                    current.Archive();
+                    return current;
+                }, ct);
+        }
+
+        private async Task ExecuteAsync(RestoreProjectCommand command, OperationContext oc, CancellationToken ct)
+        {
+            await _repositoryFactory.ProjectRepository(oc.UserId)
+                .UpdateByIdAsync(command.ProjectId, current =>
+                {
+                    current.Restore();
+                    return current;
+                }, ct);
         }
     }
 }
