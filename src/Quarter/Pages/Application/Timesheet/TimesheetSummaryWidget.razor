@@ -1,6 +1,8 @@
 @using Quarter.Components
+@using Quarter.Core.Models
 @using Quarter.State
 @using Quarter.State.ViewModels
+@using System.Net
 
 <div class="qa-widget qa-ts-widget-summary">
     <div class="qa-widget-header">
@@ -55,35 +57,36 @@
         public string Total => TotalHours.ToString("F2");
     }
 
-    private readonly Dictionary<string, string> _nameLookup = new Dictionary<string, string>();
-    private readonly Dictionary<string, ActivityColor> _colorLookup = new Dictionary<string, ActivityColor>();
+    // Move these to state?
+    private readonly Dictionary<IdOf<Project>, ProjectViewModel> _projectLookup = new Dictionary<IdOf<Project>, ProjectViewModel>();
+    private readonly Dictionary<IdOf<Activity>, ActivityViewModel> _activityLookup = new Dictionary<IdOf<Activity>, ActivityViewModel>();
 
     private Summary _summary = new Summary(new List<ProjectSummary>(), 0);
 
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        PopulateNameCaches();
+        PopulateCaches();
         _summary = Summarize();
     }
 
-    private void PopulateNameCaches()
+    private void PopulateCaches()
     {
         // Project and activities cannot change while this is rendered.
-        var isInitialed = _colorLookup.Any();
+        var isInitialed = _projectLookup.Any();
         if (isInitialed) return;
         if (State?.Projects is null) return;
 
-        _nameLookup.Clear();
-        _colorLookup.Clear();
+        _projectLookup.Clear();
+        _activityLookup.Clear();
 
         foreach (var p in State.Projects)
         {
-            _nameLookup.Add(p.Id.AsString(), p.Name);
+            _projectLookup.Add(p.Id, p);
+
             foreach (var a in p.Activities)
             {
-                _nameLookup.Add(a.Id.AsString(), a.Name);
-                _colorLookup.Add(a.Id.AsString(), new ActivityColor(a.Color, a.DarkerColor));
+                _activityLookup.Add(a.Id, a);
             }
         }
     }
@@ -97,18 +100,21 @@
         var total = 0d;
         var summaries = timesheet.Summarize().Select(p =>
         {
-            _nameLookup.TryGetValue(p.ProjectId.AsString(), out var projectName);
+            _projectLookup.TryGetValue(p.ProjectId, out var projectVm);
             var activities = p.Activities.Select(a =>
             {
-                _nameLookup.TryGetValue(a.ActivityId.AsString(), out var activityName);
-                _colorLookup.TryGetValue(a.ActivityId.AsString(), out var activityColor);
+                _activityLookup.TryGetValue(a.ActivityId, out var activityVm);
+
                 var activityTotal = (a.Duration * 15.0) / 60.0;
-                return new ActivitySummary(activityName ?? "Unknown", activityTotal.ToString("F2"), activityColor ?? ApplicationState.DefaultActivityColor);
+                var activityColor = activityVm is not null
+                    ? new ActivityColor(activityVm.Color, activityVm.DarkerColor)
+                    : ApplicationState.DefaultActivityColor;
+                return new ActivitySummary(activityVm?.Name ?? "Unknown", activityTotal.ToString("F2"), activityColor);
             }).ToArray();
 
             var projectTotal = (p.Duration * 15.0) / 60.0;
             total += projectTotal;
-            return new ProjectSummary(projectName ?? "Unknown", projectTotal.ToString("F2"), activities);
+            return new ProjectSummary(projectVm?.Name ?? "Unknown", projectTotal.ToString("F2"), activities);
         });
 
         return new Summary(summaries.ToList(), total);
