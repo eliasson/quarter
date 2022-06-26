@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Quarter.Core.Models;
 using Quarter.Core.Utils;
 
@@ -37,4 +38,7 @@ public class ProjectViewModel
     /// only reporting any already registered time.
     /// </summary>
     public bool IsArchived { get; set; }
+
+    public bool AllActivitiesAreArchived
+        => Activities.All(a => a.IsArchived);
 }

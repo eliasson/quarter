@@ -228,5 +228,21 @@ public abstract class TimesheetActivitySelectorWidgetTest
                 }
             }
         },
+        new ProjectViewModel
+        {
+            Id = IdOf<Project>.Random(),
+            Name = "Project with only archived activities",
+            Activities = new List<ActivityViewModel>
+            {
+                new ActivityViewModel
+                {
+                    Id = IdOf<Activity>.Random(),
+                    Name = "P1A",
+                    Color = "#111111",
+                    DarkerColor = "#222222",
+                    IsArchived = true,
+                }
+            }
+        },
     };
 }
