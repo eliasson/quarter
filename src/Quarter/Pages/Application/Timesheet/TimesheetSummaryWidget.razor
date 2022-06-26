@@ -31,7 +31,17 @@
                                 </div>
                             </td>
                             <td class="qa-ts-summary-value-column" test="summary-total">@activity.Total</td>
-                            <td class="qa-ts-summary-activity-column" test="summary-name">@activity.Name</td>
+                            <td class="qa-ts-summary-activity-column">
+                                <span class="qa-ts-summary-name" test="summary-name">@activity.Name</span>
+                                @if (activity.IsArchived)
+                                {
+                                    <span class="qa-ts-summary-archived" test="summary-archived">
+                                        <svg class="qa-icon--small">
+                                            <use xlink:href="#icon-archive"></use>
+                                        </svg>
+                                    </span>
+                                }
+                            </td>
                         </tr>
                     }
                 }
@@ -48,7 +58,7 @@
 @inherits Quarter.Core.UI.Components.QuarterComponent<Quarter.State.ApplicationState>
 
 @code {
-    record ActivitySummary(string Name, string Total, ActivityColor Color);
+    record ActivitySummary(string Name, string Total, ActivityColor Color, bool IsArchived);
 
     record ProjectSummary(string Name, string Total, ActivitySummary[] Activities);
 
@@ -109,7 +119,7 @@
                 var activityColor = activityVm is not null
                     ? new ActivityColor(activityVm.Color, activityVm.DarkerColor)
                     : ApplicationState.DefaultActivityColor;
-                return new ActivitySummary(activityVm?.Name ?? "Unknown", activityTotal.ToString("F2"), activityColor);
+                return new ActivitySummary(activityVm?.Name ?? "Unknown", activityTotal.ToString("F2"), activityColor, activityVm?.IsArchived ?? false);
             }).ToArray();
 
             var projectTotal = (p.Duration * 15.0) / 60.0;

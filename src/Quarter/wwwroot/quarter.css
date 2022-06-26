@@ -1298,6 +1298,15 @@ table.qa-report-table tfoot tr td {
   font-weight: 200;
   padding-left: 10px;
   color: #252525;
+  display: flex;
+}
+.qa-ts-widget-summary .qa-widget-details table th.qa-ts-summary-activity-column .qa-ts-summary-name,
+.qa-ts-widget-summary .qa-widget-details table td.qa-ts-summary-activity-column .qa-ts-summary-name {
+  flex-grow: 1;
+}
+.qa-ts-widget-summary .qa-widget-details table th.qa-ts-summary-activity-column .qa-ts-summary-archived,
+.qa-ts-widget-summary .qa-widget-details table td.qa-ts-summary-activity-column .qa-ts-summary-archived {
+  justify-self: flex-end;
 }
 .qa-ts-widget-summary .qa-widget-details table th {
   padding-top: 16px;
