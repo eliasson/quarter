@@ -9,7 +9,9 @@ services:
     environment:
       - POSTGRES_USER=sa01
       - POSTGRES_PASSWORD=local
-      - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
-      - ./data/:/var/lib/postgresql/data/
+      - quarter_data:/var/lib/postgresql/data/
       - ./init.sql:/docker-entrypoint-initdb.d/10-init.sql
+
+volumes:
+  quarter_data:
