@@ -3,6 +3,7 @@
 @using Quarter.State
 @using Quarter.State.ViewModels
 @using System.Net
+@using System.Globalization
 
 <div class="qa-widget qa-ts-widget-summary">
     <div class="qa-widget-header">
@@ -74,7 +75,7 @@
 
     record Summary(List<ProjectSummary> ProjectSummaries, double TotalHours)
     {
-        public string Total => TotalHours.ToString("F2");
+        public string Total => TotalHours.ToString("F2", CultureInfo.InvariantCulture);
     }
 
     // Move these to state?
@@ -129,12 +130,12 @@
                 var activityColor = activityVm is not null
                     ? new ActivityColor(activityVm.Color, activityVm.DarkerColor)
                     : ApplicationState.DefaultActivityColor;
-                return new ActivitySummary(activityVm?.Name ?? "Unknown", activityTotal.ToString("F2"), activityColor, activityVm?.IsArchived ?? false);
+                return new ActivitySummary(activityVm?.Name ?? "Unknown", activityTotal.ToString("F2", CultureInfo.InvariantCulture), activityColor, activityVm?.IsArchived ?? false);
             }).ToArray();
 
             var projectTotal = (p.Duration * 15.0) / 60.0;
             total += projectTotal;
-            return new ProjectSummary(projectVm?.Name ?? "Unknown", projectTotal.ToString("F2"), activities, projectVm?.IsArchived ?? false);
+            return new ProjectSummary(projectVm?.Name ?? "Unknown", projectTotal.ToString("F2", CultureInfo.InvariantCulture), activities, projectVm?.IsArchived ?? false);
         });
 
         return new Summary(summaries.ToList(), total);
