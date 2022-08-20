@@ -8,26 +8,21 @@
 
 @if (_isActive)
 {
-    <div @onclick="@(() => ToggleMenu())"
-         class="qa-context-menu-backdrop"
-         test="menu-backdrop">
-
-        <menu id="menu"
-              class="qa-context-menu qa-text-left"
-              style="@MenuStyling()"
-              @onclick:stopPropagation="true"
-              @onclick:preventDefault="true">
-            @foreach (var item in Items)
-            {
-                <li @onclick="(ev) => SelectItem(item)"
-                    class="qa-context-menu-item"
-                    test-menu="@item.Title"
-                    test="menu-item">
-                    <span class="qa-context-menu-item__label" test="menu-item-label">@item.Title</span>
-                </li>
-            }
-        </menu>
-    </div>
+    <menu id="menu"
+          class="qa-context-menu qa-text-left"
+          style="@MenuStyling()"
+          @onclick:stopPropagation="true"
+          @onclick:preventDefault="true">
+        @foreach (var item in Items)
+        {
+            <li @onclick="(ev) => SelectItem(item)"
+                class="qa-context-menu-item"
+                test-menu="@item.Title"
+                test="menu-item">
+                <span class="qa-context-menu-item__label" test="menu-item-label">@item.Title</span>
+            </li>
+        }
+    </menu>
 }
 
 @code {
@@ -51,7 +46,7 @@
     private void ToggleMenu(MouseEventArgs ev)
     {
         _isActive = !_isActive;
-        _position = ((int)ev.ClientX, (int)ev.ClientY);
+        _position = ((int)ev.PageX, (int)ev.PageY);
     }
 
     private async Task SelectItem(MenuItemVm item)

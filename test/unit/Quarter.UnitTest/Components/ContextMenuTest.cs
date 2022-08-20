@@ -8,7 +8,8 @@ using Quarter.UnitTest.TestUtils;
 
 namespace Quarter.UnitTest.Components;
 
-public abstract class ContextMenuTest
+[TestFixture]
+public class ContextMenuTest
 {
      private static readonly List<ContextMenu.MenuItemVm> TestItems = new List<ContextMenu.MenuItemVm>
         {
@@ -97,6 +98,7 @@ public abstract class ContextMenuTest
                 }));
         }
 
+        [Ignore("issue#14")]
         public class WhenClickingOutsideMenu : TestCase
         {
             [OneTimeSetUp]
