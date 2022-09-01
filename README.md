@@ -19,7 +19,7 @@ to track your time.
 - [x] Register time
 - [x] Summarize current week at start page
 - [x] Weekly report
-- [ ] Archive projects and activities
+- [x] Archive projects and activities
 - [ ] HTTP API
 - [ ] Export data
 
