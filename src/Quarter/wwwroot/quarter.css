@@ -1452,7 +1452,6 @@ table.qa-report-table tfoot tr td {
   font-weight: bold;
 }
 .qa-widget-calendar table.qa-calendar-table th.qa-calendar-selected, .qa-widget-calendar table.qa-calendar-table td.qa-calendar-selected {
-  border-radius: 4px;
   background-color: #252525;
   color: #ffffff;
   font-weight: 200;
@@ -1487,7 +1486,6 @@ table.qa-report-table tfoot tr td {
   color: #252525;
 }
 .qa-widget-calendar table.qa-calendar-table .qa-calendar-link:hover {
-  border-radius: 4px;
   background-color: #252525;
   color: #ffffff;
   cursor: pointer;
