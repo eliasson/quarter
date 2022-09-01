@@ -7,7 +7,7 @@ using Quarter.UnitTest.TestUtils;
 namespace Quarter.UnitTest.State;
 
 [TestFixture]
-public class WhenDispatchingCloseModalActionTest : ActionHandlerTestCase
+public class CloseModalActionTest : ActionHandlerTestCase
 {
     [Test]
     public void ItShouldPopTopMostModal()

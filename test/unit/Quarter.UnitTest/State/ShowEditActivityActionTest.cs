@@ -12,7 +12,7 @@ using Quarter.UnitTest.TestUtils;
 namespace Quarter.UnitTest.State;
 
 [TestFixture]
-public class WhenDispatchingShowEditActivityActionTest : ActionHandlerTestCase
+public class ShowEditActivityActionTest : ActionHandlerTestCase
 {
     private Activity _activity;
     private ApplicationState _state;

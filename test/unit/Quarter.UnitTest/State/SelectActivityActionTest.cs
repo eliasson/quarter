@@ -7,7 +7,7 @@ using Quarter.State;
 namespace Quarter.UnitTest.State;
 
 [TestFixture]
-public class WhenDispatchingSelectActivityActionTest : ActionHandlerTestCase
+public class SelectActivityActionTest : ActionHandlerTestCase
 {
     [Test]
     public async Task ItShouldUpdateSelectedActivity()

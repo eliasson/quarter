@@ -11,7 +11,7 @@ using Quarter.UnitTest.TestUtils;
 namespace Quarter.UnitTest.State;
 
 [TestFixture]
-public class WhenDispatchingShowAddActivityActionTest : ActionHandlerTestCase
+public class ShowAddActivityActionTest : ActionHandlerTestCase
 {
     private ApplicationState _state;
     private IdOf<Project> _projectId;

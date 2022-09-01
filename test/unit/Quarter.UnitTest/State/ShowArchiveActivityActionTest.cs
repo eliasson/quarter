@@ -10,7 +10,7 @@ using Quarter.UnitTest.TestUtils;
 namespace Quarter.UnitTest.State;
 
 [TestFixture]
-public class WhenDispatchingShowRestoreActivityActionTest : ActionHandlerTestCase
+public class ShowArchiveActivityActionTest : ActionHandlerTestCase
 {
     private ApplicationState _state;
     private IdOf<Activity> _activityId;
@@ -19,7 +19,7 @@ public class WhenDispatchingShowRestoreActivityActionTest : ActionHandlerTestCas
     public async Task Setup()
     {
         _activityId = IdOf<Activity>.Random();
-        _state = await ActionHandler.HandleAsync(NewState(), new ShowRestoreActivityAction(_activityId), CancellationToken.None);
+        _state = await ActionHandler.HandleAsync(NewState(), new ShowArchiveActivityAction(_activityId), CancellationToken.None);
     }
 
     [Test]
@@ -32,9 +32,9 @@ public class WhenDispatchingShowRestoreActivityActionTest : ActionHandlerTestCas
         var parameters = _state.Modals.Select(m => m.Parameters).First();
         Assert.Multiple(() =>
         {
-            Assert.That(parameters["Title"], Is.EqualTo("Restore activity?"));
-            Assert.That(parameters["Message"], Is.EqualTo("If you restore this activity you will be able to use it to register time again. All previously registered time will still be available. The activity can later be archived again."));
-            Assert.That(parameters["ConfirmText"], Is.EqualTo("Restore"));
+            Assert.That(parameters["Title"], Is.EqualTo("Archive activity?"));
+            Assert.That(parameters["Message"], Is.EqualTo("If you archive this activity it can no longer be used to register time. All registered time will still be available though. This activity can be restored at a later time."));
+            Assert.That(parameters["ConfirmText"], Is.EqualTo("Archive"));
         });
     }
 
@@ -42,7 +42,7 @@ public class WhenDispatchingShowRestoreActivityActionTest : ActionHandlerTestCas
     public void ItShouldIssueExpectedAction()
     {
         var parameters = _state.Modals.Select(m => m.Parameters).First();
-        var action = parameters[nameof(ConfirmModal.OnConfirmAction)] as ConfirmRestoreActivityAction;
+        var action = parameters[nameof(ConfirmModal.OnConfirmAction)] as ConfirmArchiveActivityAction;
 
         Assert.That(action?.ActivityId, Is.EqualTo(_activityId));
     }

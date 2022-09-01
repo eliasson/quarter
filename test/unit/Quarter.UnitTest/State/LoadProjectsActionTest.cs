@@ -11,7 +11,7 @@ using Quarter.State.ViewModels;
 namespace Quarter.UnitTest.State;
 
 [TestFixture]
-public class WhenDispatchingLoadProjectsActionTest
+public class LoadProjectsActionTest
 {
     public class WithDefaultBehaviour : TestCase
     {

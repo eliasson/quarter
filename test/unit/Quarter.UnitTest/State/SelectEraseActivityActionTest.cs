@@ -7,7 +7,7 @@ using Quarter.State;
 namespace Quarter.UnitTest.State;
 
 [TestFixture]
-public class WhenDispatchingSelectEraseActivityActionTest : ActionHandlerTestCase
+public class SelectEraseActivityActionTest : ActionHandlerTestCase
 {
     [Test]
     public async Task ItShouldRemoveSelectedActivityFromState()

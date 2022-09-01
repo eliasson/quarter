@@ -10,16 +10,16 @@ using Quarter.UnitTest.TestUtils;
 namespace Quarter.UnitTest.State;
 
 [TestFixture]
-public class WhenDispatchingShowRemoveActivityActionTest : ActionHandlerTestCase
+public class ShowRemoveProjectActionTest : ActionHandlerTestCase
 {
     private ApplicationState _state;
-    private IdOf<Activity> _activityId;
+    private IdOf<Project> _projectId;
 
     [OneTimeSetUp]
     public async Task Setup()
     {
-        _activityId = IdOf<Activity>.Random();
-        _state = await ActionHandler.HandleAsync(NewState(), new ShowRemoveActivityAction(_activityId), CancellationToken.None);
+        _projectId = IdOf<Project>.Random();
+        _state = await ActionHandler.HandleAsync(NewState(), new ShowRemoveProjectAction(_projectId), CancellationToken.None);
     }
 
     [Test]
@@ -32,8 +32,8 @@ public class WhenDispatchingShowRemoveActivityActionTest : ActionHandlerTestCase
         var parameters = _state.Modals.Select(m => m.Parameters).First();
         Assert.Multiple(() =>
         {
-            Assert.That(parameters["Title"], Is.EqualTo("Remove activity?"));
-            Assert.That(parameters["Message"], Is.EqualTo("Are you sure you want to remove this activity and all registered time? This cannot be undone!"));
+            Assert.That(parameters["Title"], Is.EqualTo("Remove project?"));
+            Assert.That(parameters["Message"], Is.EqualTo("Are you sure you want to remove this project and all associated activities? This cannot be undone!"));
             Assert.That(parameters["ConfirmText"], Is.EqualTo("Remove"));
             Assert.That(parameters["IsDangerous"], Is.True);
         });
@@ -43,8 +43,8 @@ public class WhenDispatchingShowRemoveActivityActionTest : ActionHandlerTestCase
     public void ItShouldIssueExpectedAction()
     {
         var parameters = _state.Modals.Select(m => m.Parameters).First();
-        var action = parameters[nameof(ConfirmModal.OnConfirmAction)] as ConfirmRemoveActivityAction;
+        var action = parameters[nameof(ConfirmModal.OnConfirmAction)] as ConfirmRemoveProjectAction;
 
-        Assert.That(action?.ActivityId, Is.EqualTo(_activityId));
+        Assert.That(action?.ProjectId, Is.EqualTo(_projectId));
     }
 }

@@ -9,7 +9,7 @@ using Quarter.UnitTest.TestUtils;
 namespace Quarter.UnitTest.State;
 
 [TestFixture]
-public class WhenDispatchingShowAddUserActionTest : ActionHandlerTestCase
+public class ShowAddUserActionTest : ActionHandlerTestCase
 {
     [Test]
     public void ItShouldPushNewModal()

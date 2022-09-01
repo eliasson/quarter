@@ -3,24 +3,19 @@ using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Quarter.Components.Modals;
-using Quarter.Core.Models;
 using Quarter.State;
 using Quarter.UnitTest.TestUtils;
 
 namespace Quarter.UnitTest.State;
 
 [TestFixture]
-public class WhenDispatchingShowRemoveProjectActionTest : ActionHandlerTestCase
+public class ShowRemoveUserActionTest : ActionHandlerTestCase
 {
     private ApplicationState _state;
-    private IdOf<Project> _projectId;
 
     [OneTimeSetUp]
     public async Task Setup()
-    {
-        _projectId = IdOf<Project>.Random();
-        _state = await ActionHandler.HandleAsync(NewState(), new ShowRemoveProjectAction(_projectId), CancellationToken.None);
-    }
+        => _state = await ActionHandler.HandleAsync(NewState(), new ShowRemoveUserAction("jane.doe@example.com"), CancellationToken.None);
 
     [Test]
     public void ItShouldPushNewModal()
@@ -32,8 +27,8 @@ public class WhenDispatchingShowRemoveProjectActionTest : ActionHandlerTestCase
         var parameters = _state.Modals.Select(m => m.Parameters).First();
         Assert.Multiple(() =>
         {
-            Assert.That(parameters["Title"], Is.EqualTo("Remove project?"));
-            Assert.That(parameters["Message"], Is.EqualTo("Are you sure you want to remove this project and all associated activities? This cannot be undone!"));
+            Assert.That(parameters["Title"], Is.EqualTo("Remove user?"));
+            Assert.That(parameters["Message"], Is.EqualTo("Are you sure you want to remove this user and all associated projects? This cannot be undone!"));
             Assert.That(parameters["ConfirmText"], Is.EqualTo("Remove"));
             Assert.That(parameters["IsDangerous"], Is.True);
         });
@@ -43,8 +38,8 @@ public class WhenDispatchingShowRemoveProjectActionTest : ActionHandlerTestCase
     public void ItShouldIssueExpectedAction()
     {
         var parameters = _state.Modals.Select(m => m.Parameters).First();
-        var action = parameters[nameof(ConfirmModal.OnConfirmAction)] as ConfirmRemoveProjectAction;
+        var action = parameters[nameof(ConfirmModal.OnConfirmAction)] as ConfirmRemoveUserAction;
 
-        Assert.That(action?.ProjectId, Is.EqualTo(_projectId));
+        Assert.That(action?.UserId, Is.EqualTo("jane.doe@example.com"));
     }
 }

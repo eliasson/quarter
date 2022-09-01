@@ -6,12 +6,11 @@ using Quarter.Core.Commands;
 using Quarter.Core.Models;
 using Quarter.State;
 using Quarter.State.ViewModels;
-using Quarter.UnitTest.TestUtils;
 
 namespace Quarter.UnitTest.State;
 
 [TestFixture]
-public class WhenDispatchingConfirmArchiveActivityActionTest : ActionHandlerTestCase
+public class ConfirmRemoveActivityActionTest : ActionHandlerTestCase
 {
     private IdOf<Project> _projectId;
     private IdOf<Activity> _activityId;
@@ -33,23 +32,22 @@ public class WhenDispatchingConfirmArchiveActivityActionTest : ActionHandlerTest
                 new ActivityViewModel { Id = IdOf<Activity>.Random(), Name = "Two" },
             }
         });
-        _state.Modals.Push(ModalState.ParameterLess(typeof(FakeModal)));
 
-        ActionHandler.HandleAsync(_state, new ConfirmArchiveActivityAction(_activityId), CancellationToken.None);
+        ActionHandler.HandleAsync(_state, new ConfirmRemoveActivityAction(_activityId), CancellationToken.None);
     }
 
     [Test]
     public void ItShouldIssueCommand()
     {
-        var expectedCommand = new ArchiveActivityCommand(_activityId);
+        var expectedCommand = new RemoveActivityCommand(_activityId);
         AssertIssuedCommandByUserId(expectedCommand, ActingUserId);
     }
 
     [Test]
-    public void ItShouldBeMarkedAsArchivedInState()
+    public void ItShouldNoLongerIncludeActivityInState()
     {
-        var activity = _state.Projects.First().Activities?.First(a => a.Id == _activityId);
-        Assert.That(activity.IsArchived, Is.True);
+        var activityNames = _state.Projects.First().Activities?.Select(a => a.Name);
+        Assert.That(activityNames, Is.EqualTo(new [] { "Two" }));
     }
 
     [Test]

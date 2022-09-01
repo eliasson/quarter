@@ -11,7 +11,7 @@ using Quarter.UnitTest.TestUtils;
 namespace Quarter.UnitTest.State;
 
 [TestFixture]
-public class WhenDispatchingAddUserActionTest : ActionHandlerTestCase
+public class AddUserActionTest : ActionHandlerTestCase
 {
     [OneTimeSetUp]
     public void Setup()

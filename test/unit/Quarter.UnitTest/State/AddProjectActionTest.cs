@@ -9,7 +9,7 @@ using Quarter.UnitTest.TestUtils;
 namespace Quarter.UnitTest.State;
 
 [TestFixture]
-public class WhenDispatchingAddProjectActionTest : ActionHandlerTestCase
+public class AddProjectActionTest : ActionHandlerTestCase
 {
     [OneTimeSetUp]
     public async Task Setup()

@@ -9,7 +9,7 @@ using Quarter.State.Forms;
 namespace Quarter.UnitTest.State;
 
 [TestFixture]
-public class WhenDispatchingAddUserActionWithAdminRoleTest : ActionHandlerTestCase
+public class AddUserActionWithAdminRoleTest : ActionHandlerTestCase
 {
     [OneTimeSetUp]
     public void Setup()

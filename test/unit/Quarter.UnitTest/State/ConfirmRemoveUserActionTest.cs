@@ -8,7 +8,7 @@ using Quarter.UnitTest.TestUtils;
 namespace Quarter.UnitTest.State;
 
 [TestFixture]
-public class WhenDispatchingConfirmRemoveUserActionTest : ActionHandlerTestCase
+public class ConfirmRemoveUserActionTest : ActionHandlerTestCase
 {
     private IdOf<User> _userId;
 

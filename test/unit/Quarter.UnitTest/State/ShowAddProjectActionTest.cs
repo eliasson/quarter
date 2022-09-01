@@ -10,7 +10,7 @@ using Quarter.UnitTest.TestUtils;
 namespace Quarter.UnitTest.State;
 
 [TestFixture]
-public class WhenDispatchingShowAddProjectActionTest : ActionHandlerTestCase
+public class ShowAddProjectActionTest : ActionHandlerTestCase
 {
     private ApplicationState _state;
 
