@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file. 
 
+## Pending
+- Change calendar appearance and highlight today 
+- Fix modal position
+
 ## [0.2.0] - 2022-06-26
 - Add archive support for project and activity.
 

@@ -1508,6 +1508,9 @@ table.qa-report-table tfoot tr td {
   color: #ffffff;
   cursor: pointer;
 }
+.qa-widget-calendar table.qa-calendar-table .qa-calendar-today {
+  border-bottom: 2px solid #e72922;
+}
 .qa-widget-calendar table.qa-calendar-table .qa-calendar-adjacent a,
 .qa-widget-calendar table.qa-calendar-table .qa-calendar-adjacent a:active,
 .qa-widget-calendar table.qa-calendar-table .qa-calendar-adjacent a:hover,

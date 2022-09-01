@@ -41,7 +41,7 @@
                 <td class="qa-calendar-week qa-is-hidden" test="calendar-week-number">@week.Number</td>
                 @foreach (var day in week.Days)
                 {
-                    <td class="qa-calendar-link @((day.IsSelected) ? "qa-calendar-selected" : "") @((day.IsAdjacentMonth) ? "qa-calendar-adjacent" : "")"
+                    <td class="qa-calendar-link @((day.IsToday) ? "qa-calendar-today" : "") @((day.IsSelected) ? "qa-calendar-selected" : "") @((day.IsAdjacentMonth) ? "qa-calendar-adjacent" : "")"
                         test="calendar-day">
                         <NavLink href="@day.Link">@day.Number</NavLink>
                     </td>
@@ -62,7 +62,7 @@
     [Parameter]
     public Func<DateTime, string>? LinkGeneratorFn { get; set; }
 
-    record Day(int Number, bool IsSelected, bool IsAdjacentMonth, string Link);
+    record Day(int Number, bool IsSelected, bool IsAdjacentMonth, string Link, bool IsToday);
     record Week(string Number, Day[] Days);
 
     private Week[] _weeks = Array.Empty<Week>();
@@ -99,6 +99,7 @@
         if (SelectedDate is null) return;
         var rd = _renderDate.Value;
         var sd = SelectedDate.Value;
+        var today = DateTime.UtcNow;
 
         // The first date for this month
         var calendarMonthDate = new DateTime(rd.Year, rd.Month, 1);
@@ -108,6 +109,10 @@
 
         // The first date in the calendar for this month
         var dt = calendarMonthDate.Subtract(TimeSpan.FromDays(dayOffset));
+
+        // This lacks unit-test since the component does not take "time provider" as parameter
+        bool IsToday(DateTime date)
+            => date.Day == today.Day && date.Month == today.Month && date.Year == today.Year;
 
         var weeks = new List<Week>();
         for (var i = 0; i < 6; i++)
@@ -120,7 +125,7 @@
                 var isSelected = dt.Year == sd.Year && dt.Month == sd.Month && dt.Day == sd.Day;
                 var isAdjacent = dt.IsAdjacentMonth(rd);
                 var link = LinkGeneratorFn?.Invoke(dt) ?? "#";
-                days[j] = new Day(dt.Day, isSelected, isAdjacent, link);
+                days[j] = new Day(dt.Day, isSelected, isAdjacent, link, IsToday(dt));
                 dt = dt.AddDays(1);
             }
             weeks.Add(new Week(weekNr, days));
