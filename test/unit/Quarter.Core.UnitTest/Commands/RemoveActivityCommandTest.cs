@@ -10,6 +10,7 @@ using Quarter.Core.Utils;
 
 namespace Quarter.Core.UnitTest.Commands;
 
+[TestFixture]
 public class RemoveActivityCommandTest : CommandTestBase
 {
     public class WhenActivityDoesNotExist : RemoveActivityCommandTest

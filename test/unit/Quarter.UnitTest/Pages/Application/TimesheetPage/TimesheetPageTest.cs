@@ -11,7 +11,8 @@ using TestContext = Bunit.TestContext;
 
 namespace Quarter.UnitTest.Pages.Application.TimesheetPage;
 
-public abstract class TimesheetPageTest
+[TestFixture]
+public class TimesheetPageTest
 {
     public class WhenUrlParameterIsMissing : TestCase
     {

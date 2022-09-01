@@ -8,7 +8,8 @@ using NUnit.Framework;
 
 namespace Quarter.Core.UnitTest.Commands
 {
-    public abstract class RemoveUserCommandTest : CommandTestBase
+    [TestFixture]
+    public class RemoveUserCommandTest : CommandTestBase
     {
         public class WhenUserDoesNotExist : RemoveUserCommandTest
         {

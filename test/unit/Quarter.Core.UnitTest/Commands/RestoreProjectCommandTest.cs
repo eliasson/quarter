@@ -8,7 +8,8 @@ using Quarter.Core.Repositories;
 
 namespace Quarter.Core.UnitTest.Commands;
 
-public abstract class RestoreProjectCommandTest : CommandTestBase
+[TestFixture]
+public class RestoreProjectCommandTest : CommandTestBase
 {
     public class WhenProjectDoesNotExist : RestoreProjectCommandTest
     {

@@ -16,7 +16,8 @@ using Quarter.UnitTest.TestUtils;
 
 namespace Quarter.UnitTest.Pages.Application.Manage;
 
-public abstract class ProjectListItemTest
+[TestFixture]
+public class ProjectListItemTest
 {
     public class WhenRenderMinimalProject : TestCase
     {

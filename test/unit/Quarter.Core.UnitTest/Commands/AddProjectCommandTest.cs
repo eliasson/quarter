@@ -6,7 +6,8 @@ using Quarter.Core.Commands;
 
 namespace Quarter.Core.UnitTest.Commands;
 
-public abstract class AddProjectCommandTest : CommandTestBase
+[TestFixture]
+public class AddProjectCommandTest : CommandTestBase
 {
     public class WhenAddingProject : AddProjectCommandTest
     {

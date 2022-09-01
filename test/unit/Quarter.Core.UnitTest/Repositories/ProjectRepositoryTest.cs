@@ -46,12 +46,14 @@ namespace Quarter.Core.UnitTest.Repositories
         }
     }
 
+    [TestFixture]
     public class InMemoryProjectRepositoryTest : ProjectRepositoryTest
     {
         protected override IProjectRepository Repository()
             => new InMemoryProjectRepository();
     }
 
+    [TestFixture]
     [Category(TestCategories.DatabaseDependency)]
     public class PostgresProjectRepositoryTest : ProjectRepositoryTest
     {

@@ -5,6 +5,7 @@ using Quarter.Core.Models;
 
 namespace Quarter.UnitTest.Auth;
 
+[TestFixture]
 public class ApplicationClaimTest
 {
     private Claim _claim;

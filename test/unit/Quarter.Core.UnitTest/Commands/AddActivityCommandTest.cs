@@ -8,6 +8,7 @@ using Quarter.Core.Utils;
 
 namespace Quarter.Core.UnitTest.Commands;
 
+[TestFixture]
 public class AddActivityCommandTest : CommandTestBase
 {
     public class WhenAddingActivity : AddActivityCommandTest

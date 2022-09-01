@@ -12,7 +12,8 @@ using Quarter.UnitTest.TestUtils;
 
 namespace Quarter.UnitTest.StartupTasks;
 
-public abstract class InitialUserStartupTaskTest
+[TestFixture]
+public class InitialUserStartupTaskTest
 {
     public class WhenNotConfigured : TestCase
     {

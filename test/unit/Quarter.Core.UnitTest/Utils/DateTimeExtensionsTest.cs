@@ -4,6 +4,7 @@ using Quarter.Core.Utils;
 
 namespace Quarter.Core.UnitTest.Utils;
 
+[TestFixture]
 public class DateTimeExtensionsTest
 {
     [TestCase("2020-12-12", "2020-11-01", true)]

@@ -7,8 +7,9 @@ using Quarter.Core.Utils;
 
 namespace Quarter.Core.UnitTest.Models;
 
-public abstract class TimesheetTest
-    {
+[TestFixture]
+public class TimesheetTest
+{
         public class WhenConstructed
         {
             private Timesheet _timesheet;

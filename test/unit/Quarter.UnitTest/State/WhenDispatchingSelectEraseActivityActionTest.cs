@@ -6,6 +6,7 @@ using Quarter.State;
 
 namespace Quarter.UnitTest.State;
 
+[TestFixture]
 public class WhenDispatchingSelectEraseActivityActionTest : ActionHandlerTestCase
 {
     [Test]

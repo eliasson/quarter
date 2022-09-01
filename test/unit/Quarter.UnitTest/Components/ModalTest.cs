@@ -6,7 +6,8 @@ using Quarter.UnitTest.TestUtils;
 
 namespace Quarter.UnitTest.Components
 {
-    public abstract class ModalTest
+    [TestFixture]
+    public class ModalTest
     {
         public class WhenRendered : TestCase
         {

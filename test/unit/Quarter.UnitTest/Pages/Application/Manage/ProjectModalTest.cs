@@ -10,7 +10,8 @@ using Quarter.UnitTest.TestUtils;
 
 namespace Quarter.UnitTest.Pages.Application.Manage;
 
-public abstract class ProjectModalTest
+[TestFixture]
+public class ProjectModalTest
 {
     public class WhenRenderingEmptyFormData : TestCase
     {

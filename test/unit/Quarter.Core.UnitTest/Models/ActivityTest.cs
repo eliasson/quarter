@@ -4,7 +4,8 @@ using Quarter.Core.Utils;
 
 namespace Quarter.Core.UnitTest.Models
 {
-    public abstract class ActivityTest
+    [TestFixture]
+    public class ActivityTest
     {
         public class WhenConstructed
         {

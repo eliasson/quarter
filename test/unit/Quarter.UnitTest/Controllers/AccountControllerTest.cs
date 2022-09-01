@@ -6,7 +6,8 @@ using Quarter.UnitTest.TestUtils;
 
 namespace Quarter.UnitTest.Controllers
 {
-    public abstract class AccountControllerTest
+    [TestFixture]
+    public class AccountControllerTest
     {
         public class WhenLoggingInUsingGitHub : AccountControllerTest
         {

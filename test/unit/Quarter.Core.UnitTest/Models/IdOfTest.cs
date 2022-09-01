@@ -7,6 +7,7 @@ using NUnit.Framework;
 
 namespace Quarter.Core.UnitTest.Models
 {
+    [TestFixture]
     public class IdOfTest
     {
         [Test]

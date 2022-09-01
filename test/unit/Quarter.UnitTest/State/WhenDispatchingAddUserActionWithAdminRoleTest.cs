@@ -8,6 +8,7 @@ using Quarter.State.Forms;
 
 namespace Quarter.UnitTest.State;
 
+[TestFixture]
 public class WhenDispatchingAddUserActionWithAdminRoleTest : ActionHandlerTestCase
 {
     [OneTimeSetUp]

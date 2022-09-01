@@ -12,7 +12,8 @@ using Quarter.UnitTest.TestUtils;
 
 namespace Quarter.UnitTest.Pages.Application.TimesheetPage;
 
-public abstract class TimesheetActivitySelectorWidgetTest
+[TestFixture]
+public class TimesheetActivitySelectorWidgetTest
 {
     public class WhenThereAreNoProjects : TestCase
     {

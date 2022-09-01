@@ -11,7 +11,8 @@ using Quarter.UnitTest.TestUtils;
 
 namespace Quarter.UnitTest.Pages.Application.Manage;
 
-public abstract class ActivityModalTest
+[TestFixture]
+public class ActivityModalTest
 {
     public class WhenRenderingEmptyFormData : TestCase
     {

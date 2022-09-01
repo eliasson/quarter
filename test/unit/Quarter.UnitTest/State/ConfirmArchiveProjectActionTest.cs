@@ -10,6 +10,7 @@ using Quarter.State.ViewModels;
 
 namespace Quarter.UnitTest.State;
 
+[TestFixture]
 public class ConfirmArchiveProjectActionTest : ActionHandlerTestCase
 {
     private ApplicationState _state;

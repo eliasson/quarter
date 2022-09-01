@@ -10,6 +10,7 @@ using Quarter.UnitTest.TestUtils;
 
 namespace Quarter.UnitTest.State;
 
+[TestFixture]
 public class WhenDispatchingConfirmArchiveActivityActionTest : ActionHandlerTestCase
 {
     private IdOf<Project> _projectId;

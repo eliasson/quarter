@@ -10,7 +10,8 @@ using Quarter.State.ViewModels;
 
 namespace Quarter.UnitTest.State;
 
-public abstract class WhenDispatchingLoadProjectsActionTest
+[TestFixture]
+public class WhenDispatchingLoadProjectsActionTest
 {
     public class WithDefaultBehaviour : TestCase
     {

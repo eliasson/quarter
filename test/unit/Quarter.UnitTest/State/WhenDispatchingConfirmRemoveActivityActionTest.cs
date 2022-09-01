@@ -9,6 +9,7 @@ using Quarter.State.ViewModels;
 
 namespace Quarter.UnitTest.State;
 
+[TestFixture]
 public class WhenDispatchingConfirmRemoveActivityActionTest : ActionHandlerTestCase
 {
     private IdOf<Project> _projectId;

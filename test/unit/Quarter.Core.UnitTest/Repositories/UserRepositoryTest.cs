@@ -104,12 +104,14 @@ namespace Quarter.Core.UnitTest.Repositories
         }
     }
 
+    [TestFixture]
     public class InMemoryUserRepositoryTest : UserRepositoryTest
     {
         protected override IUserRepository Repository()
             => new InMemoryUserRepository();
     }
 
+    [TestFixture]
     [Category(TestCategories.DatabaseDependency)]
     public class PostgresUserRepositoryTest : UserRepositoryTest
     {

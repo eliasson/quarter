@@ -8,6 +8,7 @@ using Quarter.UnitTest.TestUtils;
 
 namespace Quarter.UnitTest.State;
 
+[TestFixture]
 public class WhenDispatchingAddProjectActionTest : ActionHandlerTestCase
 {
     [OneTimeSetUp]

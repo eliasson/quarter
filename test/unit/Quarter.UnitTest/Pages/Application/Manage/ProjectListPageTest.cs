@@ -12,7 +12,8 @@ using Quarter.Utils;
 
 namespace Quarter.UnitTest.Pages.Application.Manage;
 
-public abstract class ProjectListPageTest
+[TestFixture]
+public class ProjectListPageTest
 {
     [TestFixture]
     public class WhenRenderedEmpty : TestCase

@@ -7,7 +7,7 @@ using Quarter.Core.Utils;
 
 namespace Quarter.Core.UnitTest.Queries;
 
-public class QueryTestBase
+public abstract class QueryTestBase
 {
     protected readonly IQueryHandler QueryHandler;
     protected readonly InMemoryRepositoryFactory RepositoryFactory;

@@ -8,7 +8,8 @@ using Quarter.UnitTest.TestUtils;
 
 namespace Quarter.UnitTest.Components
 {
-    public abstract class ActionButtonTest
+    [TestFixture]
+    public class ActionButtonTest
     {
         public class WithIconAndLabel : TestCase
         {

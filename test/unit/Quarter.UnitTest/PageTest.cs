@@ -4,6 +4,7 @@ using NUnit.Framework;
 
 namespace Quarter.UnitTest
 {
+    [TestFixture]
     public class PageTest
     {
         public static IEnumerable<object[]> PageTests()

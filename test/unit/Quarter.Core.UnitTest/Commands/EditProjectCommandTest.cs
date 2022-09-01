@@ -8,6 +8,7 @@ using Quarter.Core.Models;
 
 namespace Quarter.Core.UnitTest.Commands;
 
+[TestFixture]
 public class EditProjectCommandTest : CommandTestBase
 {
     public class WhenProjectDoesNotExist : EditProjectCommandTest

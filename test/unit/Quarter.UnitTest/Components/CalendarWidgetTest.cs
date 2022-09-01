@@ -8,6 +8,7 @@ using Quarter.UnitTest.TestUtils;
 
 namespace Quarter.UnitTest.Components;
 
+[TestFixture]
 public abstract class CalendarWidgetTest
 {
     public class WhenRendered : TestCase

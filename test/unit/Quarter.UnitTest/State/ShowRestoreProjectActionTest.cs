@@ -9,6 +9,7 @@ using Quarter.UnitTest.TestUtils;
 
 namespace Quarter.UnitTest.State;
 
+[TestFixture]
 public class ShowRestoreProjectActionTest : ActionHandlerTestCase
 {
     private ApplicationState _state;

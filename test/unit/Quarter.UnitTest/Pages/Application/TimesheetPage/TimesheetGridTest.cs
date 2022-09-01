@@ -14,7 +14,8 @@ using Quarter.UnitTest.TestUtils;
 
 namespace Quarter.UnitTest.Pages.Application.TimesheetPage;
 
-public abstract class TimesheetGridTest
+[TestFixture]
+public class TimesheetGridTest
 {
     public class WhenEmpty : TestCase
     {

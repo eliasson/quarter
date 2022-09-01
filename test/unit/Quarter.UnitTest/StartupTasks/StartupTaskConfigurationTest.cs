@@ -7,6 +7,7 @@ using Quarter.StartupTasks;
 
 namespace Quarter.UnitTest.StartupTasks;
 
+[TestFixture]
 public class StartupTaskConfigurationTest
 {
     [Test]

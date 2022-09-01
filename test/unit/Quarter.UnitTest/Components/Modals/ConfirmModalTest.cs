@@ -8,7 +8,8 @@ using Quarter.UnitTest.TestUtils;
 
 namespace Quarter.UnitTest.Components.Modals;
 
-public abstract class ConfirmModalTest
+[TestFixture]
+public class ConfirmModalTest
 {
     public class WhenRendered : TestCase
     {

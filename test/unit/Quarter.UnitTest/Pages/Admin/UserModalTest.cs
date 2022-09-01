@@ -9,7 +9,8 @@ using Quarter.UnitTest.TestUtils;
 
 namespace Quarter.UnitTest.Pages.Admin;
 
-public abstract class UserModalTest
+[TestFixture]
+public class UserModalTest
 {
     public class WhenRenderingNewUserModal : TestCase
     {

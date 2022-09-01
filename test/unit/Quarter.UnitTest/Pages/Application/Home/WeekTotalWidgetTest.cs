@@ -11,7 +11,8 @@ using Quarter.UnitTest.TestUtils;
 
 namespace Quarter.UnitTest.Pages.Application.Home;
 
-public abstract class WeekTotalWidgetTest
+[TestFixture]
+public class WeekTotalWidgetTest
 {
     public class Default : TestCase
     {

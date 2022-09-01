@@ -168,11 +168,13 @@ public abstract class RepositoryAccessTestBase
         => Timesheet.CreateForDate(Date.Random());
 }
 
+[TestFixture]
 public class InMemoryRepositoryAccessTest : RepositoryAccessTestBase
 {
     protected override IRepositoryFactory Factory { get; } = new InMemoryRepositoryFactory();
 }
 
+[TestFixture]
 [Category(TestCategories.DatabaseDependency)]
 public class SqliteRepositoryAccessTest : RepositoryAccessTestBase
 {

@@ -8,6 +8,7 @@ using Quarter.UnitTest.TestUtils;
 
 namespace Quarter.UnitTest.State;
 
+[TestFixture]
 public class WhenDispatchingShowRemoveUserActionTest : ActionHandlerTestCase
 {
     private ApplicationState _state;

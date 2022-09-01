@@ -6,7 +6,8 @@ using Quarter.UnitTest.TestUtils;
 
 namespace Quarter.UnitTest.Components;
 
-public abstract class PageColumnTest
+[TestFixture]
+public class PageColumnTest
 {
     public class WhenAllColumnsAreUsed : TestCase
     {

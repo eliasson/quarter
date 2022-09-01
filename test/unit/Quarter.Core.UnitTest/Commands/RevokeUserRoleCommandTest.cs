@@ -8,7 +8,8 @@ using NUnit.Framework;
 
 namespace Quarter.Core.UnitTest.Commands
 {
-    public abstract class RevokeRoleCommandTest : CommandTestBase
+    [TestFixture]
+    public class RevokeRoleCommandTest : CommandTestBase
     {
         public class WhenUserDoesNotExist : RevokeRoleCommandTest
         {

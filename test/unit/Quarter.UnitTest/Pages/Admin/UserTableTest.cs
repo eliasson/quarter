@@ -13,7 +13,8 @@ using Quarter.UnitTest.TestUtils;
 
 namespace Quarter.UnitTest.Pages.Admin;
 
-public abstract class UserTableTest
+[TestFixture]
+public class UserTableTest
 {
     public class WhenMenuItemIsSelected : TestCase
     {

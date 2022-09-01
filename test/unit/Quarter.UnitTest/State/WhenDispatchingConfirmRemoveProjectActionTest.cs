@@ -9,6 +9,7 @@ using Quarter.UnitTest.TestUtils;
 
 namespace Quarter.UnitTest.State;
 
+[TestFixture]
 public class WhenDispatchingConfirmRemoveProjectActionTest : ActionHandlerTestCase
 {
     private IdOf<Project> _projectId;

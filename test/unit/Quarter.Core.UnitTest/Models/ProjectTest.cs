@@ -3,7 +3,8 @@ using Quarter.Core.Models;
 
 namespace Quarter.Core.UnitTest.Models
 {
-    public abstract class ProjectTest
+    [TestFixture]
+    public class ProjectTest
     {
         public class WhenConstructed
         {

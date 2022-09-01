@@ -12,6 +12,7 @@ using Quarter.UnitTest.TestUtils;
 
 namespace Quarter.UnitTest;
 
+[TestFixture]
 public class QuarterServiceConfigurationTest
 {
     [TestCase(typeof(IRepositoryFactory))]

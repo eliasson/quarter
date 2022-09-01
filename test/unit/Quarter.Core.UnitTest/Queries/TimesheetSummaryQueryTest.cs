@@ -9,7 +9,8 @@ using Quarter.Core.Utils;
 
 namespace Quarter.Core.UnitTest.Queries;
 
-public abstract class TimesheetSummaryQueryTest
+[TestFixture]
+public class TimesheetSummaryQueryTest
 {
     public class WhenConstructed : QueryTestBase
     {

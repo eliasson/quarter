@@ -21,7 +21,8 @@ using TestContext = Bunit.TestContext;
 
 namespace Quarter.UnitTest.Pages.Application.Reports;
 
-public abstract class WeeklyReportPageTest
+[TestFixture]
+public class WeeklyReportPageTest
 {
     public class WhenUrlParameterIsMissing : TestCase
     {

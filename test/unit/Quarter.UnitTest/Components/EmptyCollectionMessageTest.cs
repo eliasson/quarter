@@ -4,7 +4,8 @@ using Quarter.UnitTest.TestUtils;
 
 namespace Quarter.UnitTest.Components;
 
-public abstract class EmptyCollectionMessageTest
+[TestFixture]
+public class EmptyCollectionMessageTest
 {
     public class WhenRendered : TestCase
     {

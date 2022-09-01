@@ -5,6 +5,7 @@ using Quarter.Core.Utils;
 
 namespace Quarter.Core.UnitTest.Utils;
 
+[TestFixture]
 public class DateTest
 {
     [Test]

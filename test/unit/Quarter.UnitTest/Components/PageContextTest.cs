@@ -9,7 +9,8 @@ using Quarter.Utils;
 
 namespace Quarter.UnitTest.Components
 {
-    public abstract class PageContextTest
+    [TestFixture]
+    public class PageContextTest
     {
         public class WhenRendered : TestCase
         {

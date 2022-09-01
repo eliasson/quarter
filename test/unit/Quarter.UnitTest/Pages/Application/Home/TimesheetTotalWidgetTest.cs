@@ -12,7 +12,8 @@ using TestContext = Bunit.TestContext;
 
 namespace Quarter.UnitTest.Pages.Application.Home;
 
-public abstract class TimesheetTotalWidgetTest
+[TestFixture]
+public class TimesheetTotalWidgetTest
 {
     public class WhenRendered : TestCase
     {

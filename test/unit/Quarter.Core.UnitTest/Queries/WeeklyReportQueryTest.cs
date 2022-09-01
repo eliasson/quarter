@@ -8,7 +8,8 @@ using Quarter.Core.Utils;
 
 namespace Quarter.Core.UnitTest.Queries;
 
-public abstract class WeeklyReportQueryTest
+[TestFixture]
+public class WeeklyReportQueryTest
 {
     public class WhenNoTimeIsRegistered : QueryTestBase
     {

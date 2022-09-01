@@ -10,7 +10,8 @@ using Quarter.Core.Utils;
 
 namespace Quarter.Core.UnitTest.Commands;
 
-public abstract class RemoveProjectCommandTest : CommandTestBase
+[TestFixture]
+public class RemoveProjectCommandTest : CommandTestBase
 {
     public class WhenProjectDoesNotExist : RemoveProjectCommandTest
     {

@@ -6,7 +6,8 @@ using Quarter.UnitTest.TestUtils;
 
 namespace Quarter.UnitTest.Pages.Admin
 {
-    public abstract class UsersListPageTest
+    [TestFixture]
+    public class UsersListPageTest
     {
         public class WhenClickingAddUserButton : TestCase
         {

@@ -6,7 +6,8 @@ using Quarter.State;
 
 namespace Quarter.UnitTest.State;
 
-public abstract class WhenDispatchingLoadTimesheetActionTest
+[TestFixture]
+public class WhenDispatchingLoadTimesheetActionTest
 {
     public class WhenNoTimeIsRegistered : TestCase
     {

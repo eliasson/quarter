@@ -10,7 +10,8 @@ using Quarter.Core.UnitTest.TestUtils;
 
 namespace Quarter.Core.UnitTest.Commands
 {
-    public abstract class AddUserCommandTest : CommandTestBase
+    [TestFixture]
+    public class AddUserCommandTest : CommandTestBase
     {
         public class WhenUserDoesNotExist : AddUserCommandTest
         {

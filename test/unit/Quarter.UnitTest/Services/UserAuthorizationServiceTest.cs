@@ -12,7 +12,8 @@ using Quarter.UnitTest.TestUtils;
 
 namespace Quarter.UnitTest.Services;
 
-public abstract class UserAuthorizationServiceTest
+[TestFixture]
+public class UserAuthorizationServiceTest
 {
     public class WhenThereIsUserSession : TestCase
     {

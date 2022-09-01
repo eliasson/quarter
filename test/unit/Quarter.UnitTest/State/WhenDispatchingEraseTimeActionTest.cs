@@ -7,7 +7,8 @@ using Quarter.State;
 
 namespace Quarter.UnitTest.State;
 
-public abstract class WhenDispatchingEraseTimeActionTest
+[TestFixture]
+public class WhenDispatchingEraseTimeActionTest
 {
     public class WhenNoTimeIsRegistered : TestCase
     {

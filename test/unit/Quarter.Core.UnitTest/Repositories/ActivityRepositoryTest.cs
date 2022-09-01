@@ -51,12 +51,14 @@ namespace Quarter.Core.UnitTest.Repositories
         }
     }
 
+    [TestFixture]
     public class InMemoryActivityRepositoryTest : ActivityRepositoryTest
     {
         protected override IActivityRepository Repository()
             => new InMemoryActivityRepository();
     }
 
+    [TestFixture]
     [Category(TestCategories.DatabaseDependency)]
     public class PostgresActivityRepositoryTest : ActivityRepositoryTest
     {

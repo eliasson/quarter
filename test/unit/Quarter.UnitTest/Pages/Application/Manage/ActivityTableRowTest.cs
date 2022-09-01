@@ -12,7 +12,8 @@ using Quarter.UnitTest.TestUtils;
 
 namespace Quarter.UnitTest.Pages.Application.Manage;
 
-public abstract class ActivityTableRowTest
+[TestFixture]
+public class ActivityTableRowTest
 {
     public class WhenRendered : TestCase
     {

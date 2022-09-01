@@ -14,7 +14,8 @@ using Quarter.UnitTest.TestUtils;
 
 namespace Quarter.UnitTest.Pages.Application.TimesheetPage;
 
-public abstract class TimesheetSummaryWidgetTest
+[TestFixture]
+public class TimesheetSummaryWidgetTest
 {
     public class WhenNoTimesheetIsRegistered : TestCase
     {

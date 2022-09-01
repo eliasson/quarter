@@ -9,7 +9,8 @@ using Quarter.Core.Utils;
 
 namespace Quarter.Core.UnitTest.Commands;
 
-public abstract class RestoreActivityCommandTest : CommandTestBase
+[TestFixture]
+public class RestoreActivityCommandTest : CommandTestBase
 {
     public class WhenActivityDoesNotExist : EditActivityCommandTest
     {

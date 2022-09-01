@@ -5,7 +5,8 @@ using Quarter.UnitTest.TestUtils;
 
 namespace Quarter.UnitTest.Components.Navigation
 {
-    public abstract class AdminNavigationTest
+    [TestFixture]
+    public class AdminNavigationTest
     {
         public class WhenNavigating : TestCase
         {

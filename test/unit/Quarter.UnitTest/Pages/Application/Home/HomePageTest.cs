@@ -13,7 +13,8 @@ using TestContext = Bunit.TestContext;
 
 namespace Quarter.UnitTest.Pages.Application.Home;
 
-public abstract class HomePageTest
+[TestFixture]
+public class HomePageTest
 {
     public class WhenNoTimeRegistered : TestCase
     {

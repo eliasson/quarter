@@ -4,6 +4,7 @@ using NUnit.Framework;
 
 namespace Quarter.Core.UnitTest.Utils
 {
+    [TestFixture]
     public class EmailTest
     {
         [TestCase("")]

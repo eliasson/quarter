@@ -8,7 +8,8 @@ using Quarter.Core.Commands;
 
 namespace Quarter.Core.UnitTest.Commands
 {
-    public abstract class CommandTestBase
+    [TestFixture]
+    public class CommandTestBase
     {
         protected InMemoryRepositoryFactory RepositoryFactory;
         protected IUserRepository UserRepository;

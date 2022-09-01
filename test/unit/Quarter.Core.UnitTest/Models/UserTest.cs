@@ -5,7 +5,8 @@ using NUnit.Framework;
 
 namespace Quarter.Core.UnitTest.Models
 {
-    public abstract class UserTest
+    [TestFixture]
+    public class UserTest
     {
         public class WhenConstructed
         {

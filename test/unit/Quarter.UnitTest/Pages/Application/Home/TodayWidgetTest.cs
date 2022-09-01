@@ -5,7 +5,8 @@ using Quarter.UnitTest.TestUtils;
 
 namespace Quarter.UnitTest.Pages.Application.Home;
 
-public abstract class TodayWidgetTest
+[TestFixture]
+public class TodayWidgetTest
 {
     public class Default : TestCase
     {

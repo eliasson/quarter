@@ -10,7 +10,8 @@ using Quarter.UnitTest.TestUtils;
 
 namespace Quarter.UnitTest.Pages.Application.Manage;
 
-public abstract class ActivityTableTest
+[TestFixture]
+public class ActivityTableTest
 {
     public class WhenRenderedEmpty : TestCase
     {

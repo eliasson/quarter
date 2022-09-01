@@ -270,12 +270,14 @@ public abstract class TimesheetRepositoryTest : RepositoryTestBase<Timesheet, IT
     }
 }
 
+[TestFixture]
 public class InMemoryTimesheetRepositoryTest : TimesheetRepositoryTest
 {
     protected override ITimesheetRepository Repository()
         => new InMemoryTimesheetRepository();
 }
 
+[TestFixture]
 [Category(TestCategories.DatabaseDependency)]
 public class PostgresqlTimesheetRepositoryTest : TimesheetRepositoryTest
 {

@@ -6,7 +6,8 @@ using Quarter.UnitTest.TestUtils;
 
 namespace Quarter.UnitTest.Components.Navigation
 {
-    public abstract class PageNavigationTest
+    [TestFixture]
+    public class PageNavigationTest
     {
         public class WhenNavigating : TestCase
         {

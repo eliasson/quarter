@@ -10,7 +10,8 @@ using Quarter.Core.Utils;
 
 namespace Quarter.Core.UnitTest.Commands;
 
-public abstract class ArchiveActivityCommandTest : CommandTestBase
+[TestFixture]
+public class ArchiveActivityCommandTest : CommandTestBase
 {
     public class WhenActivityDoesNotExist : EditActivityCommandTest
     {

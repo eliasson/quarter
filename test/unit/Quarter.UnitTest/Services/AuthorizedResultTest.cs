@@ -5,9 +5,9 @@ using Quarter.Services;
 
 namespace Quarter.UnitTest.Services;
 
-public abstract class AuthorizedResultTest
+[TestFixture]
+public class AuthorizedResultTest
 {
-    [TestFixture]
     public class AnUnauthorizedUser
     {
         private readonly AuthorizedResult _result = AuthorizedResult.Unauthorized();
@@ -21,7 +21,6 @@ public abstract class AuthorizedResultTest
             => Assert.That(_result.Claims, Is.Empty);
     }
 
-    [TestFixture]
     public class AnAuthorizedUser
     {
         private readonly AuthorizedResult _result = AuthorizedResult.AuthorizedWith(
