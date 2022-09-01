@@ -11,8 +11,6 @@ to track your time.
 
 [![Build](https://github.com/eliasson/quarter/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/eliasson/quarter/actions/workflows/build.yml)
 
-**Under construction - Quarter is under construction might receive significant changes.**
-
 - [x] Authentication
 - [x] Manage projects
 - [x] Manage activities
