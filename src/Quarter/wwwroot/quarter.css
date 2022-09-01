@@ -1438,10 +1438,15 @@ table.qa-report-table tfoot tr td {
   padding: 0;
   margin: 0 30px 0 0;
 }
+.qa-widget-calendar table.qa-calendar-table thead td,
+.qa-widget-calendar table.qa-calendar-table thead th {
+  padding: 12px;
+}
 .qa-widget-calendar table.qa-calendar-table td,
 .qa-widget-calendar table.qa-calendar-table th {
   text-align: center;
   user-select: none;
+  padding: 0;
 }
 .qa-widget-calendar table.qa-calendar-table th, .qa-widget-calendar table.qa-calendar-table td {
   max-width: 30px;
@@ -1476,6 +1481,7 @@ table.qa-report-table tfoot tr td {
   text-decoration: none;
   font-weight: 200;
   display: block;
+  padding: 8px;
 }
 .qa-widget-calendar table.qa-calendar-table .qa-calendar-week {
   color: #bbbbbb;
