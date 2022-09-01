@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file. 
 
-## Pending
+## [0.2.1] - 2022-09-01
 - Change calendar appearance and highlight today 
 - Fix modal position
 
