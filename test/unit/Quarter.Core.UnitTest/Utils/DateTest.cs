@@ -130,8 +130,29 @@ public class DateTest
     public void ItShouldReturnEndOfWeek(string dateStr, string expectedDateStr)
     {
         var givenDate = FromDateString(dateStr);
-        var startDate = givenDate.EndOfWeek();
+        var endDate = givenDate.EndOfWeek();
+        Assert.That(endDate, Is.EqualTo(FromDateString(expectedDateStr)));
+    }
+
+    [TestCase("2021-11-01T00:00:00Z", "2021-11-01T00:00:00Z")]
+    [TestCase("2021-08-31T00:00:00Z", "2021-08-01T00:00:00Z")]
+    [TestCase("2020-02-29T00:00:00Z", "2020-02-01T00:00:00Z")]
+    public void ItShouldReturnStartOfMonth(string dateStr, string expectedDateStr)
+    {
+        var givenDate = FromDateString(dateStr);
+        var startDate = givenDate.StartOfMonth();
         Assert.That(startDate, Is.EqualTo(FromDateString(expectedDateStr)));
+    }
+
+    [TestCase("2021-11-01T00:00:00Z", "2021-11-30T00:00:00Z")]
+    [TestCase("2021-08-31T00:00:00Z", "2021-08-31T00:00:00Z")]
+    [TestCase("2020-02-10T00:00:00Z", "2020-02-29T00:00:00Z")]
+    [TestCase("2022-12-10T00:00:00Z", "2022-12-31T00:00:00Z")]
+    public void ItShouldReturnEndOfMonth(string dateStr, string expectedDateStr)
+    {
+        var givenDate = FromDateString(dateStr);
+        var endDate = givenDate.EndOfMonth();
+        Assert.That(endDate, Is.EqualTo(FromDateString(expectedDateStr)));
     }
 
     private static Date FromDateString(string dateString)
