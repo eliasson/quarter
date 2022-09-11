@@ -12,9 +12,9 @@ namespace Quarter.Core.Repositories;
 
 public record ActivityUsage(IdOf<Activity> ActivityId, int TotalMinutes, UtcDateTime LastUsed);
 
-public record ProjectTotalUsage(int TotalMinutes, List<ActivityUsage> Activities, UtcDateTime LastUsed)
+public record ProjectTotalUsage(IdOf<Project> ProjectId, int TotalMinutes, List<ActivityUsage> Activities, UtcDateTime LastUsed)
 {
-    public static readonly ProjectTotalUsage Zero = new (0, new List<ActivityUsage>(), UtcDateTime.MinValue);
+    public static readonly ProjectTotalUsage Zero = new (IdOf<Project>.None, 0, new List<ActivityUsage>(), UtcDateTime.MinValue);
 }
 
 public interface ITimesheetRepository : IRepository<Timesheet>
@@ -106,7 +106,7 @@ public class InMemoryTimesheetRepository : InMemoryRepositoryBase<Timesheet>, IT
             total += slot.Duration * 15;
         }
 
-        var result = new ProjectTotalUsage(total, activities.Values.ToList(), new UtcDateTime(soonestTimestamp));
+        var result = new ProjectTotalUsage(projectId, total, activities.Values.ToList(), new UtcDateTime(soonestTimestamp));
         return Task.FromResult(result);
     }
 }
@@ -226,7 +226,7 @@ public class PostgresTimesheetRepository : PostgresRepositoryBase<Timesheet>, IT
             total += duration * 15;
         }
 
-        return new ProjectTotalUsage(total, activities.Values.ToList(), new UtcDateTime(soonestTimestamp));
+        return new ProjectTotalUsage(projectId, total, activities.Values.ToList(), new UtcDateTime(soonestTimestamp));
     }
 
     private async Task StoreTimeSlotsForTimesheet(NpgsqlConnection connection, Timesheet timesheet, CancellationToken ct)
