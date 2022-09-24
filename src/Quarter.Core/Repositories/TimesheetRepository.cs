@@ -15,7 +15,21 @@ public record ActivityUsage(IdOf<Activity> ActivityId, int TotalMinutes, UtcDate
 public record ProjectTotalUsage(IdOf<Project> ProjectId, int TotalMinutes, List<ActivityUsage> Activities, UtcDateTime LastUsed)
 {
     public static readonly ProjectTotalUsage Zero = new (IdOf<Project>.None, 0, new List<ActivityUsage>(), UtcDateTime.MinValue);
+
+    public virtual bool Equals(ProjectTotalUsage? other)
+    {
+        if (ReferenceEquals(null, other)) return false;
+        if (ReferenceEquals(this, other)) return true;
+        return ProjectId.Equals(other.ProjectId) &&
+               TotalMinutes.Equals(TotalMinutes) &&
+               Activities.SequenceEqual(other.Activities);
+    }
+
+    public override int GetHashCode()
+        => HashCode.Combine(ProjectId);
 }
+
+public record UsageOverTime(IReadOnlyDictionary<Date, IList<ProjectTotalUsage>> Usage);
 
 public interface ITimesheetRepository : IRepository<Timesheet>
 {
@@ -24,6 +38,7 @@ public interface ITimesheetRepository : IRepository<Timesheet>
     Task<RemoveResult> RemoveSlotsForProjectAsync(IdOf<Project> projectId, CancellationToken ct);
     Task<RemoveResult> RemoveSlotsForActivityAsync(IdOf<Activity> activityId, CancellationToken ct);
     Task<ProjectTotalUsage> GetProjectTotalUsageAsync(IdOf<Project> projectId, CancellationToken ct);
+    Task<UsageOverTime> GetUsageForPeriodAsync(Date fromDate, Date toDate, CancellationToken ct);
 }
 
 public class InMemoryTimesheetRepository : InMemoryRepositoryBase<Timesheet>, ITimesheetRepository
@@ -107,6 +122,39 @@ public class InMemoryTimesheetRepository : InMemoryRepositoryBase<Timesheet>, IT
         }
 
         var result = new ProjectTotalUsage(projectId, total, activities.Values.ToList(), new UtcDateTime(soonestTimestamp));
+        return Task.FromResult(result);
+    }
+
+    public Task<UsageOverTime> GetUsageForPeriodAsync(Date fromDate, Date toDate, CancellationToken ct)
+    {
+        var usage = new Dictionary<Date, IList<ProjectTotalUsage>>();
+
+        foreach (var ts in Storage.Values)
+        {
+            if (ts.Date.DateTime < fromDate.DateTime || ts.Date.DateTime > toDate.DateTime) continue;
+
+            foreach (var summary in ts.Summarize())
+            {
+                var activityUsage = summary.Activities
+                    .Select(a => new ActivityUsage(a.ActivityId, a.Duration * 15, UtcDateTime.MinValue))
+                    .ToList();
+
+                if (usage.TryGetValue(ts.Date, out var existing))
+                {
+                    existing.Add(new ProjectTotalUsage(summary.ProjectId, summary.Duration * 15, activityUsage, UtcDateTime.MinValue));
+                }
+                else
+                {
+                    var projectUsage = new List<ProjectTotalUsage>
+                    {
+                        new(summary.ProjectId, summary.Duration * 15, activityUsage, UtcDateTime.MinValue)
+                    };
+                    usage.Add(ts.Date, projectUsage);
+                }
+            }
+        }
+
+        var result = new UsageOverTime(usage);
         return Task.FromResult(result);
     }
 }
@@ -235,6 +283,58 @@ public class PostgresTimesheetRepository : PostgresRepositoryBase<Timesheet>, IT
         }
 
         return new ProjectTotalUsage(projectId, total, activities.Values.ToList(), new UtcDateTime(soonestTimestamp));
+    }
+
+    public async Task<UsageOverTime> GetUsageForPeriodAsync(Date fromDate, Date toDate, CancellationToken ct)
+    {
+        await using var connection = await _connectionProvider.GetConnectionAsync(ct);
+        await using var command = connection.CreateCommand();
+        command.CommandText = $"SELECT projectId, activityid, duration, date_ts FROM {SlotTableName} WHERE {UserIdColumnName}=@userId AND date_ts >= @from_date AND date_ts <= @to_date;";
+        command.Parameters.AddRange(new []
+        {
+            new("from_date", fromDate.DateTime),
+            new("to_date", toDate.DateTime),
+            WithAccessCondition(),
+        });
+        await using var reader = await command.ExecuteReaderAsync(ct);
+
+        var usage = new Dictionary<Date, IList<ProjectTotalUsage>>();
+
+        var slots = new List<(Date Date, ActivityTimeSlot Slot)>();
+        while (await reader.ReadAsync(ct))
+        {
+            var projectId = IdOf<Project>.Of((Guid) reader[0]);
+            var activityId = IdOf<Activity>.Of((Guid) reader[1]);
+            var duration = Convert.ToInt32((short) reader[2]);
+            var date = new Date((DateTime) reader[3]);
+            slots.Add((date, new ActivityTimeSlot(projectId, activityId, 0, duration)));
+        }
+
+        foreach (var slotsForDay in slots.GroupBy(s => s.Date))
+        {
+            var projectUsages = new List<ProjectTotalUsage>();
+            var slotsPerProject = slotsForDay.Select(s => s.Slot).GroupBy(s => s.ProjectId);
+
+            foreach (var sp in slotsPerProject)
+            {
+                var activityUsages = new List<ActivityUsage>();
+                var perActivity = sp.GroupBy(a => a.ActivityId);
+                var projectTotal = 0;
+
+                foreach (var ap in perActivity)
+                {
+                    var activityTotal= ap.Aggregate(0, (acc, a) => acc + (a.Duration * 15));
+                    projectTotal += activityTotal;
+                    activityUsages.Add(new ActivityUsage(ap.Key, activityTotal, UtcDateTime.MinValue));
+                }
+
+                var projectUsage = new ProjectTotalUsage(sp.Key, projectTotal, activityUsages, UtcDateTime.MinValue);
+                projectUsages.Add(projectUsage);
+            }
+            usage.Add(slotsForDay.Key, projectUsages);
+        }
+
+        return new UsageOverTime(usage);
     }
 
     private async Task StoreTimeSlotsForTimesheet(NpgsqlConnection connection, Timesheet timesheet, CancellationToken ct)
