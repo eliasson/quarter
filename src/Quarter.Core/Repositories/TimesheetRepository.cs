@@ -128,6 +128,12 @@ public class PostgresTimesheetRepository : PostgresRepositoryBase<Timesheet>, IT
         _userId = userId;
     }
 
+    public override async Task Truncate(CancellationToken ct)
+    {
+        await base.Truncate(ct);
+        await TruncateTableAsync(SlotTableName, ct);
+    }
+
     protected override IEnumerable<string> AdditionalColumns()
         => new [] { UserIdColumnName, DateColumnName, DateTimestampColumnName };
 
