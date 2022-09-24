@@ -25,23 +25,6 @@ namespace Quarter.Core.UnitTest.Utils
         }
 
         [Test]
-        public void ItShouldBeEqual()
-        {
-            var nowInTest = DateTime.Now;
-
-            Assert.That(new UtcDateTime(nowInTest), Is.EqualTo(new UtcDateTime(nowInTest)));
-        }
-
-        [Test]
-        public void ItShouldNotBeEqual()
-        {
-            var now = new UtcDateTime(DateTime.Now);
-            var future = new UtcDateTime(DateTime.Now.AddMilliseconds(1));
-
-            Assert.That(now, Is.Not.EqualTo(future));
-        }
-
-        [Test]
         public void ItShouldBeDeserializable()
         {
             var json = @"{ ""DateTime"": ""2021-07-15T20:21:19.678629Z"" }";
@@ -54,5 +37,32 @@ namespace Quarter.Core.UnitTest.Utils
         [Test]
         public void ItShouldHaveAMinValue()
             => Assert.That(UtcDateTime.MinValue.DateTime, Is.EqualTo(DateTime.MinValue));
+
+        [Test]
+        public void ItShouldBeEqual()
+        {
+            var nowInTest = DateTime.Now;
+            var one = new UtcDateTime(nowInTest);
+            var two = new UtcDateTime(nowInTest);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(one == two, Is.True);
+                Assert.That(one.Equals(two), Is.True);
+            });
+        }
+
+        [Test]
+        public void ItShouldNotBeEqual()
+        {
+            var one = new UtcDateTime(DateTime.Now);
+            var two = new UtcDateTime(DateTime.Now);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(one != two, Is.True);
+                Assert.That(one.Equals(two), Is.False);
+            });
+        }
     }
 }

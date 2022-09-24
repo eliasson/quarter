@@ -28,5 +28,20 @@ namespace Quarter.Core.Utils
         /// </summary>
         public static UtcDateTime MinValue
             => new (DateTime.MinValue);
+
+        public bool Equals(UtcDateTime other)
+            => DateTime.Equals(other.DateTime);
+
+        public override bool Equals(object? obj)
+            => obj is UtcDateTime other && DateTime.Equals(other.DateTime);
+
+        public override int GetHashCode()
+            => DateTime.GetHashCode();
+
+        public static bool operator ==(UtcDateTime left, UtcDateTime right)
+            => left.DateTime.Equals(right.DateTime);
+
+        public static bool operator !=(UtcDateTime left, UtcDateTime right)
+            => !left.DateTime.Equals(right.DateTime);
     }
 }
