@@ -21,6 +21,12 @@ public class AddTimestampColumns : Migration
             .AsDateTime()
             .Indexed()
             .Nullable();
+
+        Alter.Table("timeslot")
+            .AddColumn("created_ts")
+            .AsDateTime()
+            .Indexed()
+            .Nullable();
     }
 
     public override void Down()

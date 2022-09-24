@@ -24,6 +24,13 @@ namespace Quarter.Core.Utils
             => new (DateTime.UtcNow);
 
         /// <summary>
+        /// Create a UtcDateTime instance from a date time that is known to be UTC. No control will be made.
+        /// </summary>
+        public static UtcDateTime FromUtcDateTime(DateTime timestamp)
+            => new(new DateTime(timestamp.Year, timestamp.Month, timestamp.Day,
+                timestamp.Hour, timestamp.Minute, timestamp.Second, DateTimeKind.Utc));
+
+        /// <summary>
         /// Get a UTC DateTime representing no time / empty / null
         /// </summary>
         public static UtcDateTime MinValue

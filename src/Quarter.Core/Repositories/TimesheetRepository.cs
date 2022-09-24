@@ -120,6 +120,7 @@ public class PostgresTimesheetRepository : PostgresRepositoryBase<Timesheet>, IT
     private const string AggregateName = "Timesheet";
     private const string UserIdColumnName = "userid";
     private const string DateColumnName = "date";
+    private const string DateTimestampColumnName = "date_ts";
 
     public PostgresTimesheetRepository(IPostgresConnectionProvider connectionProvider, IdOf<User> userId)
         : base(connectionProvider, TableName, AggregateName)
@@ -128,13 +129,14 @@ public class PostgresTimesheetRepository : PostgresRepositoryBase<Timesheet>, IT
     }
 
     protected override IEnumerable<string> AdditionalColumns()
-        => new [] { UserIdColumnName, DateColumnName };
+        => new [] { UserIdColumnName, DateColumnName, DateTimestampColumnName };
 
     protected override object AdditionalColumnValue(string columnName, Timesheet aggregate)
         => columnName switch
         {
             UserIdColumnName => _userId.Id,
             DateColumnName => aggregate.Date.IsoString(),
+            DateTimestampColumnName => aggregate.Date.DateTime,
             _ => throw new NotImplementedException($"Additional column named [{columnName}] is not implemented"),
         };
 
@@ -165,8 +167,8 @@ public class PostgresTimesheetRepository : PostgresRepositoryBase<Timesheet>, IT
     public async Task<Timesheet> GetByDateAsync(Date date, CancellationToken ct)
     {
         await using var connection = await _connectionProvider.GetConnectionAsync(ct);
-        var query = $"SELECT data FROM {TableName} WHERE date=@date AND {UserIdColumnName}=@userId";
-        var parameters = new List<NpgsqlParameter>{ new ("date", date.IsoString()), WithAccessCondition() };
+        var query = $"SELECT data FROM {TableName} WHERE date_ts=@date AND {UserIdColumnName}=@userId";
+        var parameters = new List<NpgsqlParameter>{ new ("date", date.DateTime), WithAccessCondition() };
         var result = await ExecuteQueryAsync(connection, query, ct, parameters).ToListAsync(ct);
 
         var timesheet = result.FirstOrThrow(new NotFoundException($"No timesheet for date {date.IsoString()} exists"));
@@ -199,7 +201,7 @@ public class PostgresTimesheetRepository : PostgresRepositoryBase<Timesheet>, IT
     {
         await using var connection = await _connectionProvider.GetConnectionAsync(ct);
         await using var command = connection.CreateCommand();
-        command.CommandText = $"SELECT activityid, duration, created FROM {SlotTableName} WHERE projectid=@projectId;";
+        command.CommandText = $"SELECT activityid, duration, created_ts FROM {SlotTableName} WHERE projectid=@projectId;";
         command.Parameters.AddRange(new NpgsqlParameter[]
         {
             new("projectid", projectId.Id)
@@ -213,9 +215,9 @@ public class PostgresTimesheetRepository : PostgresRepositoryBase<Timesheet>, IT
         {
             var activityId = IdOf<Activity>.Of((Guid) reader[0]);
             var duration = Convert.ToInt32((short) reader[1]);
-            var createdTimestamp = DateTime.Parse((string) reader[2]);
+            var createdTimestamp = (DateTime) reader[2];
 
-            var created = new UtcDateTime(createdTimestamp);
+            var created = UtcDateTime.FromUtcDateTime(createdTimestamp);
             if (createdTimestamp > soonestTimestamp)
                 soonestTimestamp = createdTimestamp;
 
@@ -239,16 +241,18 @@ public class PostgresTimesheetRepository : PostgresRepositoryBase<Timesheet>, IT
         foreach (var slot in timesheet.Slots())
         {
             await using var command = connection.CreateCommand();
-            command.CommandText = $"INSERT INTO {SlotTableName} (id, projectId, activityId, date, qoffset, duration, created, userid) VALUES (@id, @projectId, @activityId, @date, @qoffset, @duration, @created, @userid)";
+            command.CommandText = $"INSERT INTO {SlotTableName} (id, projectId, activityId, date, date_ts, qoffset, duration, created, created_ts, userid) VALUES (@id, @projectId, @activityId, @date, @date_ts, @qoffset, @duration, @created, @created_ts, @userid)";
             command.Parameters.AddRange(new NpgsqlParameter[]
             {
                 new("id", timesheet.Id.Id),
                 new("projectid", slot.ProjectId.Id),
                 new("activityid", slot.ActivityId.Id),
                 new("date", timesheet.Date.IsoString()),
+                new("date_ts", timesheet.Date.DateTime),
                 new("qoffset", slot.Offset),
                 new("duration", slot.Duration),
                 new("created", slot.Created.DateTime.ToString("yyyy-MM-ddTHH:mm:sszzz")),
+                new("created_ts", slot.Created.DateTime),
                 new(UserIdColumnName, _userId.Id)
             });
             await command.ExecuteNonQueryAsync(ct);
@@ -258,7 +262,7 @@ public class PostgresTimesheetRepository : PostgresRepositoryBase<Timesheet>, IT
     private async Task<IList<ActivityTimeSlot>> ReadTimeSlots(NpgsqlConnection connection, IdOf<Timesheet> id, CancellationToken ct)
     {
         await using var command = connection.CreateCommand();
-        command.CommandText = $"SELECT projectId, activityId, qoffset, duration, created FROM {SlotTableName} WHERE id=@id AND {UserIdColumnName}=@userId;";
+        command.CommandText = $"SELECT projectId, activityId, qoffset, duration, created_ts FROM {SlotTableName} WHERE id=@id AND {UserIdColumnName}=@userId;";
         command.Parameters.AddRange(new NpgsqlParameter[] { new("id", id.Id), WithAccessCondition() });
 
         var slots = new List<ActivityTimeSlot>();
@@ -270,7 +274,7 @@ public class PostgresTimesheetRepository : PostgresRepositoryBase<Timesheet>, IT
             var activityId = IdOf<Activity>.Of((Guid) reader[1]);
             var offset = Convert.ToInt32((short) reader[2]);
             var duration = Convert.ToInt32((short) reader[3]);
-            var created = new UtcDateTime(DateTime.Parse((string) reader[4]));
+            var created = new UtcDateTime((DateTime) reader[4]);
             slots.Add(new ActivityTimeSlot(projectId, activityId, offset, duration, created));
         }
 
