@@ -59,8 +59,7 @@ extract hours (reports and invoices), not input hours.
 So Quarter was a simple way to keep track of time spent on different projects on a daily
 basis. Then at the end of the week transcribe those hours into other time tracking tools.
 
-This is one of many rewrites, there is a version written in Python and Django from 2014
-still in use at [quarterapp.com](http://www.quarterapp.com). This is aimed to take its place once ready.
+This is one of many rewrites, there have been versions in Clojure, Python and Scala over the years.
 
 _The former name used to be QuarterApp, that name and its abbreviation QA is still around in a few places._
 
