@@ -20,4 +20,7 @@ public static class Page
 
     public static string WeekReport(DateTime date)
         => $"/app/reports/{date:yyyy-MM-dd}";
+
+    public static string MonthlyReport(DateTime date)
+        => $"/app/reports/month/{date:yyyy-MM-dd}";
 }

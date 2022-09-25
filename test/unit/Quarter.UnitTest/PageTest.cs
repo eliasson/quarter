@@ -39,4 +39,12 @@ public class PageTest
         var actual = Page.WeekReport(dt);
         Assert.That(actual, Is.EqualTo($"/app/reports/{dt:yyyy-MM-dd}"));
     }
+
+    [Test]
+    public void ItShouldResolveToMonthlyReportUrl()
+    {
+        var dt = DateTime.UtcNow;
+        var actual = Page.MonthlyReport(dt);
+        Assert.That(actual, Is.EqualTo($"/app/reports/month/{dt:yyyy-MM-dd}"));
+    }
 }
