@@ -53,13 +53,14 @@ public class WeeklyReportPageTest
             => Assert.That(SelectedDate(), Is.EqualTo(DateTime.Parse("2022-03-17T00:00:00Z")));
 
         [Test]
-        public void ItHasAProjectTab()
+        public void ItHasTabs()
         {
             var context = Component?.FindComponent<PageContext>();
 
             Assert.That(context?.Instance.Tabs, Is.EquivalentTo(new[]
                 {
-                    new TabData("Weekly", Page.WeeklyReport)
+                    new TabData("Weekly", Page.WeeklyReport),
+                    new TabData("Monthly", Page.MonhtlyReport),
                 }
             ));
         }
@@ -183,18 +184,6 @@ public class WeeklyReportPageTest
             });
 
             RenderWithResult(result);
-        }
-
-        [Test]
-        public void ItHasAProjectTab()
-        {
-            var context = Component?.FindComponent<PageContext>();
-
-            Assert.That(context?.Instance.Tabs, Is.EquivalentTo(new[]
-                {
-                    new TabData("Weekly", Page.WeeklyReport)
-                }
-            ));
         }
 
         [Test]
