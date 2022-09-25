@@ -60,7 +60,7 @@ public class WeeklyReportPageTest
             Assert.That(context?.Instance.Tabs, Is.EquivalentTo(new[]
                 {
                     new TabData("Weekly", Page.WeeklyReport),
-                    new TabData("Monthly", Page.MonhtlyReport),
+                    new TabData("Monthly", Page.MonthlyReport),
                 }
             ));
         }

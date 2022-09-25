@@ -58,7 +58,7 @@
     private readonly List<TabData> _tabs = new()
     {
         new TabData("Weekly", Page.WeeklyReport),
-        new TabData("Monthly", Page.MonhtlyReport),
+        new TabData("Monthly", Page.MonthlyReport),
     };
 
     private UsageOverTime? _usage;
@@ -104,8 +104,8 @@
         => new Date(SelectedDate ?? DateTime.UtcNow.Date).StartOfMonth();
 
     private void PreviousMonth()
-        => _navigationManager.NavigateTo(Page.MonthlyReport(StartOfMonth().DateTime.AddMonths(-1)));
+        => _navigationManager.NavigateTo(Page.MonthReport(StartOfMonth().DateTime.AddMonths(-1)));
 
     private void NextMonth()
-        => _navigationManager.NavigateTo(Page.MonthlyReport(StartOfMonth().DateTime.AddMonths(1)));
+        => _navigationManager.NavigateTo(Page.MonthReport(StartOfMonth().DateTime.AddMonths(1)));
 }

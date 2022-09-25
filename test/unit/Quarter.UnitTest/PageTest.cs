@@ -12,7 +12,7 @@ public class PageTest
         yield return new object[] { Page.Home, "/app"};
         yield return new object[] { Page.Manage, "/app/manage/projects"};
         yield return new object[] { Page.WeeklyReport, "/app/reports/week"};
-        yield return new object[] { Page.MonhtlyReport, "/app/reports/month"};
+        yield return new object[] { Page.MonthlyReport, "/app/reports/month"};
         yield return new object[] { Page.Profile, "/app/profile"};
         yield return new object[] { Page.AdminUsers, "/admin/users"};
         yield return new object[] { Page.Admin, "/admin"};
@@ -44,7 +44,7 @@ public class PageTest
     public void ItShouldResolveToMonthlyReportUrl()
     {
         var dt = DateTime.UtcNow;
-        var actual = Page.MonthlyReport(dt);
+        var actual = Page.MonthReport(dt);
         Assert.That(actual, Is.EqualTo($"/app/reports/month/{dt:yyyy-MM-dd}"));
     }
 }
