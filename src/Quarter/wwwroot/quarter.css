@@ -940,6 +940,7 @@ input[type=submit][disabled] {
   padding: 8px;
 }
 .qa-context-bar__tabs ul li + li {
+  margin-top: 0px;
   margin-left: 24px;
 }
 .qa-context-bar__tabs ul .qa-tab-item {
