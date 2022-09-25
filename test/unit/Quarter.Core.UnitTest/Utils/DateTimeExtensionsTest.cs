@@ -34,4 +34,12 @@ public class DateTimeExtensionsTest
         var d = DateTime.Parse($"{date}T00:00:00Z");
         Assert.That(d.Iso8601WeekNumber(), Is.EqualTo(expectedWeek));
     }
+
+    [TestCase("2020-12-31", "December 2020")]
+    [TestCase("2022-01-03", "January 2022")]
+    public void ItShouldGiveMonthAndYear(string date, string expected)
+    {
+        var d = DateTime.Parse($"{date}T00:00:00Z");
+        Assert.That(d.MonthAndYear(), Is.EqualTo(expected));
+    }
 }
