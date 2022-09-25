@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using Quarter.Core.Models;
 using Quarter.Core.Queries;
+using Quarter.Core.Repositories;
 using Quarter.Core.Utils;
 
 namespace Quarter.Core.UnitTest.Queries;
@@ -13,7 +14,7 @@ public class MonthlyReportQueryTest
     public class WhenNoTimeIsRegistered : QueryTestBase
     {
         private static readonly Date Today = Date.Today();
-        private MonthlyReportResult _result;
+        private UsageOverTime _result;
 
         [OneTimeSetUp]
         public async Task Setup()
@@ -22,11 +23,11 @@ public class MonthlyReportQueryTest
 
         [Test]
         public void ItShouldContainStartOfMonth()
-            => Assert.That(_result.StartOfMonth, Is.EqualTo(Today.StartOfMonth()));
+            => Assert.That(_result.From, Is.EqualTo(Today.StartOfMonth()));
 
         [Test]
         public void ItShouldContainEndOfMonth()
-            => Assert.That(_result.EndOfMonth, Is.EqualTo(Today.EndOfMonth()));
+            => Assert.That(_result.To, Is.EqualTo(Today.EndOfMonth()));
 
         [Test]
         public void ItShouldContainTotalMinutes()
@@ -49,7 +50,7 @@ public class MonthlyReportQueryTest
         private readonly IdOf<Activity> _activityIdTwo = IdOf<Activity>.Random();
         private readonly IdOf<Activity> _activityIdThree = IdOf<Activity>.Random();
 
-        private MonthlyReportResult _result;
+        private UsageOverTime _result;
 
         [OneTimeSetUp]
         public async Task Setup()
@@ -77,7 +78,7 @@ public class MonthlyReportQueryTest
                 CancellationToken.None);
         }
 
-        [Ignore("WIP"), Test]
+        [Test]
         public void ItShouldContainTotalMinutes()
             => Assert.That(_result?.TotalMinutes, Is.EqualTo(16 * 15));
     }

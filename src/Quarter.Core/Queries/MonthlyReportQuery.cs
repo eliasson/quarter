@@ -13,17 +13,3 @@ public class MonthlyReportQuery
         To = date.EndOfMonth();
     }
 }
-
-public class MonthlyReportResult
-{
-    public Date StartOfMonth { get; }
-    public Date EndOfMonth { get; }
-    public int TotalMinutes { get; }
-
-    public MonthlyReportResult(Date startOfMonth, Date endOfMonth)
-    {
-        StartOfMonth = startOfMonth;
-        EndOfMonth = endOfMonth;
-        TotalMinutes = 0;
-    }
-}
