@@ -59,7 +59,7 @@ public class WeeklyReportPageTest
 
             Assert.That(context?.Instance.Tabs, Is.EquivalentTo(new[]
                 {
-                    new TabData("Weekly", Page.Report)
+                    new TabData("Weekly", Page.WeeklyReport)
                 }
             ));
         }
@@ -192,7 +192,7 @@ public class WeeklyReportPageTest
 
             Assert.That(context?.Instance.Tabs, Is.EquivalentTo(new[]
                 {
-                    new TabData("Weekly", Page.Report)
+                    new TabData("Weekly", Page.WeeklyReport)
                 }
             ));
         }
