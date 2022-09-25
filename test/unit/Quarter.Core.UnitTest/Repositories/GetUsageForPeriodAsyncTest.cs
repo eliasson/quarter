@@ -63,6 +63,18 @@ public abstract class GetUsageForPeriodAsyncTest
         => Assert.False(_usage.Usage.ContainsKey(_afterDate));
 
     [Test]
+    public void ShouldContainUsageFromDate()
+        => Assert.That(_usage.From, Is.EqualTo(_fromDate));
+
+    [Test]
+    public void ShouldContainUsageToDate()
+        => Assert.That(_usage.To, Is.EqualTo(_toDate));
+
+    [Test]
+    public void ShouldContainUsageTotalMinutes()
+        => Assert.That(_usage.TotalMinutes, Is.EqualTo(30 * 15 * 3));
+
+    [Test]
     public void ShouldContainUsageForFromDate()
     {
         var actualUsage = _usage.Usage[_fromDate];

@@ -29,7 +29,21 @@ public record ProjectTotalUsage(IdOf<Project> ProjectId, int TotalMinutes, List<
         => HashCode.Combine(ProjectId);
 }
 
-public record UsageOverTime(IReadOnlyDictionary<Date, IList<ProjectTotalUsage>> Usage);
+public class UsageOverTime
+{
+    public Date From { get; }
+    public Date To { get; }
+    public int TotalMinutes { get; }
+    public IReadOnlyDictionary<Date, IList<ProjectTotalUsage>> Usage { get; }
+
+    public UsageOverTime(Date from, Date to, int totalMinutes, IReadOnlyDictionary<Date, IList<ProjectTotalUsage>> usage)
+    {
+        From = from;
+        To = to;
+        TotalMinutes = totalMinutes;
+        Usage = usage;
+    }
+}
 
 public interface ITimesheetRepository : IRepository<Timesheet>
 {
@@ -128,6 +142,7 @@ public class InMemoryTimesheetRepository : InMemoryRepositoryBase<Timesheet>, IT
     public Task<UsageOverTime> GetUsageForPeriodAsync(Date fromDate, Date toDate, CancellationToken ct)
     {
         var usage = new Dictionary<Date, IList<ProjectTotalUsage>>();
+        var total = 0;
 
         foreach (var ts in Storage.Values)
         {
@@ -151,10 +166,12 @@ public class InMemoryTimesheetRepository : InMemoryRepositoryBase<Timesheet>, IT
                     };
                     usage.Add(ts.Date, projectUsage);
                 }
+
+                total += summary.Duration * 15;
             }
         }
 
-        var result = new UsageOverTime(usage);
+        var result = new UsageOverTime(fromDate, toDate, total, usage);
         return Task.FromResult(result);
     }
 }
@@ -310,6 +327,7 @@ public class PostgresTimesheetRepository : PostgresRepositoryBase<Timesheet>, IT
             slots.Add((date, new ActivityTimeSlot(projectId, activityId, 0, duration)));
         }
 
+        var total = 0;
         foreach (var slotsForDay in slots.GroupBy(s => s.Date))
         {
             var projectUsages = new List<ProjectTotalUsage>();
@@ -330,11 +348,13 @@ public class PostgresTimesheetRepository : PostgresRepositoryBase<Timesheet>, IT
 
                 var projectUsage = new ProjectTotalUsage(sp.Key, projectTotal, activityUsages, UtcDateTime.MinValue);
                 projectUsages.Add(projectUsage);
+
+                total += projectTotal;
             }
             usage.Add(slotsForDay.Key, projectUsages);
         }
 
-        return new UsageOverTime(usage);
+        return new UsageOverTime(fromDate, toDate, total, usage);
     }
 
     private async Task StoreTimeSlotsForTimesheet(NpgsqlConnection connection, Timesheet timesheet, CancellationToken ct)
