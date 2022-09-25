@@ -80,6 +80,27 @@ table.qa-report-table
         td
             padding: $pillow-large $pillow-small
 
+
+
+table.qa-report-table__monthly
+    tr
+        th
+            font-weight: 600
+        th,
+        td
+            text-align: left
+            padding: $pillow-small
+
+        th:first-child,
+        td:first-child
+            word-break: keep-all
+            width: 1%
+
+        th:last-child,
+        td:last-child
+            text-align: right
+
+
 @media only screen and (max-width: 48em)
     table.qa-report-table
         overflow-x: auto
