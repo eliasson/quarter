@@ -93,14 +93,14 @@ public class WeeklyReportPageTest
         public void ItShouldNavigateToFirstDayInPreviousWeek()
         {
             GoToPreviousWeek();
-            Assert.That(LastNavigatedTo, Is.EqualTo("/app/reports/2022-03-07"));
+            Assert.That(LastNavigatedTo, Is.EqualTo("/app/reports/week/2022-03-07"));
         }
 
         [Test]
         public void ItShouldNavigateToFirstDayInNextWeek()
         {
             GoToNextWeek();
-            Assert.That(LastNavigatedTo, Is.EqualTo("/app/reports/2022-03-21"));
+            Assert.That(LastNavigatedTo, Is.EqualTo("/app/reports/week/2022-03-21"));
         }
     }
 

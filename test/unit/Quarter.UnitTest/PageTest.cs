@@ -11,7 +11,7 @@ public class PageTest
     {
         yield return new object[] { Page.Home, "/app"};
         yield return new object[] { Page.Manage, "/app/manage/projects"};
-        yield return new object[] { Page.WeeklyReport, "/app/reports"};
+        yield return new object[] { Page.WeeklyReport, "/app/reports/week"};
         yield return new object[] { Page.MonhtlyReport, "/app/reports/month"};
         yield return new object[] { Page.Profile, "/app/profile"};
         yield return new object[] { Page.AdminUsers, "/admin/users"};
@@ -37,7 +37,7 @@ public class PageTest
     {
         var dt = DateTime.UtcNow;
         var actual = Page.WeekReport(dt);
-        Assert.That(actual, Is.EqualTo($"/app/reports/{dt:yyyy-MM-dd}"));
+        Assert.That(actual, Is.EqualTo($"/app/reports/week/{dt:yyyy-MM-dd}"));
     }
 
     [Test]
