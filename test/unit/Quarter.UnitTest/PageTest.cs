@@ -12,6 +12,7 @@ namespace Quarter.UnitTest
             yield return new object[] { Page.Home, "/app"};
             yield return new object[] { Page.Manage, "/app/manage/projects"};
             yield return new object[] { Page.WeeklyReport, "/app/reports"};
+            yield return new object[] { Page.MonhtlyReport, "/app/reports/month"};
             yield return new object[] { Page.Profile, "/app/profile"};
             yield return new object[] { Page.AdminUsers, "/admin/users"};
             yield return new object[] { Page.Admin, "/admin"};

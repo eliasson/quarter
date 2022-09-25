@@ -8,6 +8,7 @@ namespace Quarter
         public static string TimesheetBase => "/app/timesheet/";
         public static string Manage => "/app/manage/projects";
         public static string WeeklyReport => "/app/reports";
+        public static string MonhtlyReport => "/app/reports/month";
         public static string Profile => "/app/profile";
         public static string Admin => "/admin";
         public static string AdminUsers => "/admin/users";
