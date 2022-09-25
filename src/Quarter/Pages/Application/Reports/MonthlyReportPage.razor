@@ -1,0 +1,184 @@
+@page "/app/reports/month/"
+@page "/app/reports/month/{SelectedDate:datetime}"
+@attribute [Authorize]
+
+@using Quarter.Components
+@using Quarter.Core.Models
+@using Quarter.Core.Queries
+@using Quarter.Core.Repositories
+@using Quarter.Core.Utils
+@using Quarter.Services
+@using Quarter.State
+@using Quarter.State.ViewModels
+@using Quarter.Utils
+
+<ApplicationPage>
+    <PageContent>
+        <PageContext Tabs="@_tabs"/>
+        <PageColumns>
+            <ContextContent>
+            </ContextContent>
+            <MainContent>
+                <div class="qa-report">
+                    <div class="qa-report__header">
+                        <div class="qa-report__header__title">
+                            <div class="qa-report__header__title__main" test="report-title">@ReportTitle</div>
+                            <div class="qa-report__header__title__sub" test="report-sub-title">@ReportSubTitle</div>
+                        </div>
+                        <div class="qa-report__header__actions">
+                            <ActionButton IconRef="#icon-chevron-left" OnAction="@PreviousMonth" />
+                            <ActionButton IconRef="#icon-chevron-right" OnAction="@NextMonth" />
+                        </div>
+                    </div>
+                    <div class="qa-report__summary">
+                        <div class="qa-report__summary__value" test="report-total-hours">@TotalHours</div>
+                        <div class="qa-report__summary__label">Hours</div>
+                    </div>
+                    <div class="qa-report__details">
+                        @if (IsEmpty())
+                        {
+                            <EmptyCollectionMessage Header="No registered time" Message="There are no registered time for this month." IconRef="#icon-manage"/>
+                        }
+                        else if(_usage is not null)
+                        {
+                            <table class="qa-report-table qa-report-table__monthly">
+                                <tbody>
+
+                                @foreach (var day in Days())
+                                {
+                                    @foreach (var project in day.Value)
+                                    {
+                                        <tr test="report-project-row">
+                                            <td test="row-date">@day.Key.IsoString()</td>
+                                            <th test="project-name">@LookupProjectName(@project.ProjectId)</th>
+                                            <th test="project-total">@project.TotalMinutes.MinutesAsHours()</th>
+                                        </tr>
+                                        @foreach (var activity in LookupActivityDetails(project))
+                                        {
+                                            <tr test="report-activity-row">
+                                                <td></td>
+                                                <td>
+                                                    <div class="qa-activity-marker" test="activity-item-marker" style="@activity.Style"></div>
+                                                    <div class="qa-activity-marker-title" test="activity-name">@activity.Name</div>
+                                                </td>
+                                                <td test="activity-total">@activity.Total</td>
+                                            </tr>
+                                        }
+                                    }
+                                }
+
+                                </tbody>
+                            </table>
+                        }
+                    </div>
+                </div>
+            </MainContent>
+            <ToolbarContent></ToolbarContent>
+        </PageColumns>
+    </PageContent>
+</ApplicationPage>
+
+@inherits Quarter.Core.UI.Components.QuarterComponent<Quarter.State.ApplicationState>
+@inject IQueryHandler _queryHandler
+@inject NavigationManager _navigationManager
+@inject IUserAuthorizationService _userAuthorizationService;
+
+@code {
+    [Parameter]
+    public DateTime? SelectedDate { get; set; }
+
+    private readonly List<TabData> _tabs = new()
+    {
+        new TabData("Weekly", Page.WeeklyReport),
+        new TabData("Monthly", Page.MonthlyReport),
+    };
+
+    private UsageOverTime? _usage;
+    private Dictionary<IdOf<Project>,string>? _projectNameLookup;
+    private Dictionary<IdOf<Activity>,ActivityViewModel>? _activityLookup;
+
+    private string ReportTitle
+        => _usage is null
+            ? ""
+            : _usage.From.DateTime.MonthAndYear();
+
+    private string ReportSubTitle
+        => _usage is null
+            ? ""
+            : $"{_usage.From.IsoString()} - {_usage.To.IsoString()}";
+
+    private string TotalHours
+        => _usage?.TotalMinutes.MinutesAsHours() ?? "";
+
+    private bool IsEmpty()
+        => _usage?.TotalMinutes == 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnParametersSetAsync();
+        await DispatchAsync(new LoadProjects());
+
+        SelectedDate ??= DateTime.UtcNow.Date;
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+        var oc = await OperationContextForCurrentUser();
+        _usage = await _queryHandler.ExecuteAsync(new MonthlyReportQuery(StartOfMonth()), oc, default);
+        _projectNameLookup = State?.Projects.ToDictionary(kv => kv.Id, kv => kv.Name);
+        _activityLookup = State?.Projects.SelectMany(p => p.Activities).ToDictionary(kv => kv.Id, kv => kv);
+    }
+
+    private async Task<OperationContext> OperationContextForCurrentUser()
+    {
+        var currentId = await _userAuthorizationService.CurrentUserId();
+        return new OperationContext(currentId);
+    }
+
+    private Date StartOfMonth()
+        => new Date(SelectedDate ?? DateTime.UtcNow.Date).StartOfMonth();
+
+    private void PreviousMonth()
+        => _navigationManager.NavigateTo(Page.MonthReport(StartOfMonth().DateTime.AddMonths(-1)));
+
+    private void NextMonth()
+        => _navigationManager.NavigateTo(Page.MonthReport(StartOfMonth().DateTime.AddMonths(1)));
+
+    private IEnumerable<(Date Key, IList<ProjectTotalUsage> Value)> Days()
+    {
+        if (_usage is null || State is null) return Enumerable.Empty<(Date Key, IList<ProjectTotalUsage> Value)>();
+        return _usage.Usage.OrderBy(kvp => kvp.Key.DateTime).Select(kvp => (kvp.Key, kvp.Value));
+    }
+
+    private const string Unknown = "Unknown";
+
+    private string LookupProjectName(IdOf<Project> projectId)
+    {
+        if (_projectNameLookup is null) return Unknown;
+        if (!_projectNameLookup.TryGetValue(projectId, out var projectName))
+            projectName = Unknown;
+        return projectName;
+    }
+
+    private IEnumerable<(string Name, string Style, string Total)> LookupActivityDetails(ProjectTotalUsage projectUsage)
+    {
+        if (_activityLookup is null) return Enumerable.Empty<(string Name, string Style, string Total)>();
+
+        var result = new List<(string Name, string Style, string Total)>();
+
+        foreach (var activity in projectUsage.Activities)
+        {
+            if (_activityLookup.TryGetValue(activity.ActivityId, out var activityVm))
+            {
+                result.Add((
+                    activityVm.Name,
+                    $"background-color: {activityVm.Color}; border-color: {activityVm.DarkerColor};",
+                    activity.TotalMinutes.MinutesAsHours()));
+            }
+        }
+
+        return result;
+    }
+}
+

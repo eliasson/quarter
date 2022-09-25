@@ -24,9 +24,31 @@ namespace Quarter.Core.Utils
             => new (DateTime.UtcNow);
 
         /// <summary>
+        /// Create a UtcDateTime instance from a date time that is known to be UTC. No control will be made.
+        /// </summary>
+        public static UtcDateTime FromUtcDateTime(DateTime timestamp)
+            => new(new DateTime(timestamp.Year, timestamp.Month, timestamp.Day,
+                timestamp.Hour, timestamp.Minute, timestamp.Second, DateTimeKind.Utc));
+
+        /// <summary>
         /// Get a UTC DateTime representing no time / empty / null
         /// </summary>
         public static UtcDateTime MinValue
             => new (DateTime.MinValue);
+
+        public bool Equals(UtcDateTime other)
+            => DateTime.Equals(other.DateTime);
+
+        public override bool Equals(object? obj)
+            => obj is UtcDateTime other && DateTime.Equals(other.DateTime);
+
+        public override int GetHashCode()
+            => DateTime.GetHashCode();
+
+        public static bool operator ==(UtcDateTime left, UtcDateTime right)
+            => left.DateTime.Equals(right.DateTime);
+
+        public static bool operator !=(UtcDateTime left, UtcDateTime right)
+            => !left.DateTime.Equals(right.DateTime);
     }
 }

@@ -1,5 +1,5 @@
-@page "/app/reports"
-@page "/app/reports/{SelectedDate:datetime}"
+@page "/app/reports/week"
+@page "/app/reports/week/{SelectedDate:datetime}"
 @attribute [Authorize]
 
 @using Quarter.Components
@@ -117,7 +117,8 @@
 
     private readonly List<TabData> _tabs = new()
     {
-        new TabData("Weekly", Page.Report),
+        new TabData("Weekly", Page.WeeklyReport),
+        new TabData("Monthly", Page.MonthlyReport),
     };
 
     private WeeklyReportResult? _report;

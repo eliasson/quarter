@@ -29,6 +29,12 @@ public static class DateTimeExtensions
         return CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(self, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
     }
 
+    public static string MonthAndYear(this DateTime self)
+    {
+        var nameOfMonth = self.ToString("MMMM", CultureInfo.InvariantCulture);
+        return $"{nameOfMonth} {self.Year}";
+    }
+
     public static DateTime WithoutMilliseconds(this DateTime self)
     {
         return new DateTime(self.Year, self.Month, self.Day, self.Hour, self.Minute, self.Second, 0,

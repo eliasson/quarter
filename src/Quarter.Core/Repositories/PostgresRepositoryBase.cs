@@ -222,9 +222,12 @@ public abstract class PostgresRepositoryBase<T> : IRepository<T> where T : IAggr
         }
     }
 
-    public async Task Truncate(CancellationToken ct)
+    public virtual Task Truncate(CancellationToken ct)
+        => TruncateTableAsync(_tableName, ct);
+
+    protected async Task TruncateTableAsync(string tableName, CancellationToken ct)
     {
-        var stmt = $"DELETE FROM {_tableName};";
+        var stmt = $"DELETE FROM {tableName};";
         await using var connection = await _connectionProvider.GetConnectionAsync(ct);
         _ = await ExecuteStatementAsync(connection, stmt, ct, Array.Empty<NpgsqlParameter>());
     }

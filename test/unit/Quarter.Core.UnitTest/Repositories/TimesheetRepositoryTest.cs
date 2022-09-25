@@ -143,6 +143,7 @@ public abstract class TimesheetRepositoryTest : RepositoryTestBase<Timesheet, IT
 
         Assert.Multiple(() =>
         {
+            Assert.That(usage.ProjectId, Is.EqualTo(_stableProjectId));
             Assert.That(usage.TotalMinutes, Is.Zero);
             Assert.That(usage.Activities, Is.Empty);
         });

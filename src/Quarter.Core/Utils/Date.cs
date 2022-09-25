@@ -94,12 +94,34 @@ public struct Date
         return new Date(DateTime.AddDays(-1 * dayOffset));
     }
 
-        /// <summary>
-        /// Get the date for the end of the week for the given date.
-        ///
-        /// NOTE: End of week is always a Sunday!
-        /// </summary>
-        /// <returns>The date representing end of the week</returns>
-        public Date EndOfWeek()
-            => new Date(StartOfWeek().DateTime.AddDays(6));
+    /// <summary>
+    /// Get the date for the end of the week for the given date.
+    ///
+    /// NOTE: End of week is always a Sunday!
+    /// </summary>
+    /// <returns>The date representing end of the week</returns>
+    public Date EndOfWeek()
+        => new Date(StartOfWeek().DateTime.AddDays(6));
+
+    /// <summary>
+    /// Get the start of the month for the current date.
+    /// </summary>
+    /// <returns>The date representing the start of the month</returns>
+    public Date StartOfMonth()
+        => new Date(new DateTime(DateTime.Year, DateTime.Month, 1, 0, 0, 0, DateTimeKind.Utc));
+
+    /// <summary>
+    /// Get the end of the month for the current date.
+    /// </summary>
+    /// <returns>The date representing the start of the month</returns>
+    public Date EndOfMonth()
+    {
+        var dt = new DateTime(DateTime.Year, DateTime.Month, 1, 0, 0, 0, DateTimeKind.Utc);
+        dt = dt.AddMonths(1);
+        dt = dt.Subtract(TimeSpan.FromDays(1));
+        return new Date(dt);
     }
+
+    public override string ToString()
+        => IsoString();
+}

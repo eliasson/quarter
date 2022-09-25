@@ -9,6 +9,7 @@ public interface IQueryHandler
 {
     Task<TimesheetSummaryQueryResult> ExecuteAsync(TimesheetSummaryQuery query, OperationContext oc, CancellationToken ct);
     Task<WeeklyReportResult> ExecuteAsync(WeeklyReportQuery query, OperationContext oc, CancellationToken ct);
+    Task<UsageOverTime> ExecuteAsync(MonthlyReportQuery query, OperationContext oc, CancellationToken ct);
 }
 
 public class QueryHandler : IQueryHandler
@@ -55,5 +56,11 @@ public class QueryHandler : IQueryHandler
         }
 
         return result;
+    }
+
+    public async Task<UsageOverTime> ExecuteAsync(MonthlyReportQuery query, OperationContext oc, CancellationToken ct)
+    {
+        var timesheetRepository = _repositoryFactory.TimesheetRepository(oc.UserId);
+        return await timesheetRepository.GetUsageForPeriodAsync(query.From, query.To, ct);
     }
 }

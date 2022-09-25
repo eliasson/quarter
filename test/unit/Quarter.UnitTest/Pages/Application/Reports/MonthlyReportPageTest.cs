@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using AngleSharp.Css.Dom;
 using Bunit;
-using Bunit.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using Quarter.Components;
 using Quarter.Core.Models;
 using Quarter.Core.Queries;
+using Quarter.Core.Repositories;
 using Quarter.Core.Utils;
 using Quarter.Pages.Application.Reports;
 using Quarter.Services;
@@ -22,7 +22,7 @@ using TestContext = Bunit.TestContext;
 namespace Quarter.UnitTest.Pages.Application.Reports;
 
 [TestFixture]
-public class WeeklyReportPageTest
+public class MonthlyReportPageTest
 {
     public class WhenUrlParameterIsMissing : TestCase
     {
@@ -41,8 +41,8 @@ public class WeeklyReportPageTest
         [OneTimeSetUp]
         public void Setup()
             => RenderWithEmptyResult(DateTime.Parse("2022-03-17T00:00:00Z"),
-                new Date(DateTime.Parse("2022-03-14T00:00:00Z")),
-                new Date(DateTime.Parse("2022-03-20T00:00:00Z")));
+                new Date(DateTime.Parse("2022-03-01T00:00:00Z")),
+                new Date(DateTime.Parse("2022-03-31T00:00:00Z")));
 
         [Test]
         public void ItShouldDispatchLoadProjectsAction()
@@ -66,12 +66,12 @@ public class WeeklyReportPageTest
         }
 
         [Test]
-        public void ItShouldRenderTheGivenWeekNumber()
-            => Assert.That(WeekNumber(), Is.EqualTo("Week 11"));
+        public void ItShouldRenderTheGivenMonth()
+            => Assert.That(ReportTitle(), Is.EqualTo("March 2022"));
 
         [Test]
         public void ItShouldRenderTheStartAndAEndDates()
-            => Assert.That(StartAndEndDate(), Is.EqualTo("2022-03-14 - 2022-03-20"));
+            => Assert.That(StartAndEndDate(), Is.EqualTo("2022-03-01 - 2022-03-31"));
 
         [Test]
         public void ItShouldRenderTotalHours()
@@ -85,22 +85,22 @@ public class WeeklyReportPageTest
             Assert.Multiple(() =>
             {
                 Assert.That(emptyComponent?.Header, Is.EqualTo("No registered time"));
-                Assert.That(emptyComponent?.Message, Is.EqualTo("There are no registered time for this week."));
+                Assert.That(emptyComponent?.Message, Is.EqualTo("There are no registered time for this month."));
             });
         }
 
         [Test]
-        public void ItShouldNavigateToFirstDayInPreviousWeek()
+        public void ItShouldNavigateToFirstDayInPreviousMonth()
         {
-            GoToPreviousWeek();
-            Assert.That(LastNavigatedTo, Is.EqualTo("/app/reports/week/2022-03-07"));
+            GoToPreviousMonth();
+            Assert.That(LastNavigatedTo, Is.EqualTo("/app/reports/month/2022-02-01"));
         }
 
         [Test]
-        public void ItShouldNavigateToFirstDayInNextWeek()
+        public void ItShouldNavigateToFirstDayInNextMonth()
         {
-            GoToNextWeek();
-            Assert.That(LastNavigatedTo, Is.EqualTo("/app/reports/week/2022-03-21"));
+            GoToNextMonth();
+            Assert.That(LastNavigatedTo, Is.EqualTo("/app/reports/month/2022-04-01"));
         }
     }
 
@@ -112,48 +112,14 @@ public class WeeklyReportPageTest
         private static readonly IdOf<Activity> AlphaActivityIdOne = IdOf<Activity>.Random();
         private static readonly IdOf<Activity> AlphaActivityIdTwo = IdOf<Activity>.Random();
         private static readonly IdOf<Activity> BravoActivityIdOne = IdOf<Activity>.Random();
+        private static readonly Date FromDate = new Date(DateTime.Parse("2022-03-01T00:00:00Z"));
+        private static readonly Date ToDate = new Date(DateTime.Parse("2022-03-31T00:00:00Z"));
 
         [OneTimeSetUp]
         public void Setup()
         {
-
-            var result = new WeeklyReportResult(
-                new Date(DateTime.Parse("2022-03-14T00:00:00Z")),
-                new Date(DateTime.Parse("2022-03-20T00:00:00Z")));
-
-            result.AddOrUpdate(new ProjectSummary
-            {
-                Activities = new ActivitySummary[]
-                {
-                    new ()
-                    {
-                        ActivityId = AlphaActivityIdOne,
-                        Duration = 2,
-                    },
-                    new ()
-                    {
-                        ActivityId = AlphaActivityIdTwo,
-                        Duration = 4,
-                    },
-                },
-                ProjectId = ProjectIdAlpha,
-                Duration = 6
-            }, 0); // Monday
-
-            result.AddOrUpdate(new ProjectSummary
-            {
-                Activities = new ActivitySummary[]
-                {
-                    new ()
-                    {
-                        ActivityId = BravoActivityIdOne,
-                        Duration = 96,
-                    },
-                },
-                ProjectId = ProjectIdBravo,
-                Duration = 96
-            }, 6); // Friday
-
+            //
+            // Setup the projects and activities that are referenced from the result
             StateManager.State.Projects.Add(new ProjectViewModel
             {
                 Id = ProjectIdAlpha,
@@ -183,50 +149,71 @@ public class WeeklyReportPageTest
                 }
             });
 
+            var usage = new Dictionary<Date, IList<ProjectTotalUsage>>
+            {
+                {FromDate, new List<ProjectTotalUsage>
+                    {
+                        new (ProjectIdAlpha,
+                        10 * 15,
+                        new List<ActivityUsage>()
+                        {
+                            new (AlphaActivityIdOne, 6 * 15, UtcDateTime.MinValue),
+                            new (AlphaActivityIdTwo, 4 * 15, UtcDateTime.MinValue),
+                        }, UtcDateTime.MinValue),
+                    }
+                },
+                {ToDate, new List<ProjectTotalUsage>
+                    {
+                        new (ProjectIdAlpha,
+                            10 * 15,
+                            new List<ActivityUsage>()
+                            {
+                                new (AlphaActivityIdOne, 6 * 15, UtcDateTime.MinValue),
+                                new (AlphaActivityIdTwo, 4 * 15, UtcDateTime.MinValue),
+                            }, UtcDateTime.MinValue),
+                        new (ProjectIdBravo, 20 * 15,
+                        new List<ActivityUsage>()
+                        {
+                            new (BravoActivityIdOne, 20 * 15, UtcDateTime.MinValue),
+                        }, UtcDateTime.MinValue)
+                    }
+                },
+            };
+            var result = new UsageOverTime(
+                FromDate,
+                ToDate,
+                120,
+                usage);
+
             RenderWithResult(result);
         }
 
         [Test]
-        public void ItShouldRenderTotalHours()
-            => Assert.That(TotalHours(), Is.EqualTo("25.50"));
-
-        [Test]
-        public void ItShouldNotRenderAnEmptyMessage()
-            => Assert.Throws<ComponentNotFoundException>(() => EmptyMessage());
-
-        [Test]
-        public void ItShouldRenderHeaderForWeek()
-            => Assert.That(HeaderColumns(), Is.EqualTo(new[]
-            {
-                "", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun", "Total"
-            }));
-
-        [Test]
         public void ItShouldRenderProjectRows()
-            => Assert.That(ProjectRows(), Is.EqualTo(new[] { "Alpha", "Bravo" }));
+            => Assert.That(ProjectRows(), Is.EqualTo(new[]
+            {
+                ("2022-03-01", "Alpha", "2.50"),
+                ("2022-03-31", "Alpha", "2.50"),
+                ("2022-03-31", "Bravo", "5.00"),
+            }));
 
         [Test]
         public void ItShouldRenderActivityRows()
-            => Assert.That(ActivityRows(), Is.EqualTo(new[]
+        => Assert.That(ActivityRows(), Is.EqualTo(new[]
             {
-                ("Alpha One", "rgba(170, 170, 170, 1)", "rgba(187, 187, 187, 1)", new [] {"0.50", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00"}, "0.50"),
-                ("Alpha Two", "rgba(204, 204, 204, 1)", "rgba(221, 221, 221, 1)", new [] {"1.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00"}, "1.00"),
-                ("Bravo One", "rgba(238, 238, 238, 1)", "rgba(255, 255, 255, 1)", new [] {"0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "24.00"}, "24.00"),
-            }));
-
-        [Test]
-        public void ItShouldRenderWeekdayTotals()
-            => Assert.That(WeekdayTotals(), Is.EqualTo(new[]
-            {
-                "1.50", "0.00", "0.00", "0.00", "0.00", "0.00", "24.00",
+                ("Alpha One", "rgba(170, 170, 170, 1)", "rgba(187, 187, 187, 1)", "1.50"),
+                ("Alpha Two", "rgba(204, 204, 204, 1)", "rgba(221, 221, 221, 1)", "1.00"),
+                ("Alpha One", "rgba(170, 170, 170, 1)", "rgba(187, 187, 187, 1)", "1.50"),
+                ("Alpha Two", "rgba(204, 204, 204, 1)", "rgba(221, 221, 221, 1)", "1.00"),
+                ("Bravo One", "rgba(238, 238, 238, 1)", "rgba(255, 255, 255, 1)", "5.00"),
             }));
     }
 
-    public class TestCase : BlazorComponentTestCase<WeeklyReportPage>
+    public class TestCase : BlazorComponentTestCase<MonthlyReportPage>
     {
-        private readonly TestQueryHandler _queryHandler = new TestQueryHandler();
+        private readonly TestQueryHandler _queryHandler = new ();
         private readonly IUserAuthorizationService _authService = new TestIUserAuthorizationService();
-        private readonly TestNavigationManager _testNavigationManager = new TestNavigationManager();
+        private readonly TestNavigationManager _testNavigationManager = new ();
 
         protected override void ConfigureTestContext(TestContext ctx)
         {
@@ -236,23 +223,23 @@ public class WeeklyReportPageTest
             Context.Services.AddSingleton<NavigationManager>(_testNavigationManager);
         }
 
-        protected void RenderWithEmptyResult(DateTime dateInTest, Date startOfWeek, Date endOfWeek)
+        protected void RenderWithEmptyResult(DateTime dateInTest, Date startOfMonth, Date endOfMonth)
         {
-            _queryHandler.FakeWeeklyReportResult = new WeeklyReportResult(startOfWeek, endOfWeek);
+            _queryHandler.FakeMonthlyReportResult = new UsageOverTime(startOfMonth, endOfMonth, 0, new Dictionary<Date, IList<ProjectTotalUsage>>());
             RenderWithParameters(pb =>
                 pb.Add(ps => ps.SelectedDate, dateInTest));
         }
 
-        protected void RenderWithResult(WeeklyReportResult result)
+        protected void RenderWithResult(UsageOverTime result)
         {
-            _queryHandler.FakeWeeklyReportResult = result;
+            _queryHandler.FakeMonthlyReportResult = result;
             Render();
         }
 
         protected DateTime? SelectedDate()
             => Component?.Instance.SelectedDate;
 
-        protected string WeekNumber()
+        protected string ReportTitle()
             => ComponentByTestAttribute("report-title").TextContent;
 
         protected string StartAndEndDate()
@@ -264,35 +251,37 @@ public class WeeklyReportPageTest
         protected EmptyCollectionMessage EmptyMessage()
             => Component?.FindComponent<EmptyCollectionMessage>().Instance;
 
-        protected IEnumerable<string> HeaderColumns()
-            => Component?.FindAll(".qa-report-table thead th").Select(elm => elm.TextContent);
+        protected void GoToPreviousMonth()
+            => Component?.FindAll("[test=action-button]").First().Click();
 
-        protected IEnumerable<string> ProjectRows()
-            => Component?.FindAll("th[test=project-name]").Select(elm => elm.TextContent);
+        protected void GoToNextMonth()
+            => Component?.FindAll("[test=action-button]").Last().Click();
 
-        protected IEnumerable<string> WeekdayTotals()
-            => Component?.FindAll("td[test=report-weekday-total]").Select(elm => elm.TextContent);
+        protected string LastNavigatedTo()
+            =>_testNavigationManager.LastNavigatedTo();
 
-        protected IEnumerable<(string name, string bgColor, string borderColor, string[] weekDays, string total)> ActivityRows()
+        protected IEnumerable<(string date, string name, string total)> ProjectRows()
+        {
+            return Component?.FindAll("[test=report-project-row]").Select(elm =>
+            {
+                var date = elm.QuerySelector("[test=row-date]")?.TextContent;
+                var name = elm.QuerySelector("[test=project-name]")?.TextContent;
+                var total = elm.QuerySelector("[test=project-total]")?.TextContent;
+
+                return (date, name, total);
+            });
+        }
+
+        protected IEnumerable<(string name, string bgColor, string borderColor,  string total)> ActivityRows()
         {
             return Component?.FindAll("[test=report-activity-row]").Select(elm =>
             {
                 var name = elm.QuerySelector("[test=activity-name]")?.TextContent;
                 var bgColor = elm.QuerySelector("[test=activity-item-marker]").GetStyle()["background-color"];
                 var borderColor = elm.QuerySelector("[test=activity-item-marker]").GetStyle()["border-color"];
-                var weekDays = elm.QuerySelectorAll("[test=report-activity-weekday]").Select(ielm => ielm.TextContent).ToArray();
-                var total = elm.QuerySelector("[test=report-activity-total]")?.TextContent;
-                return (name, bgColor, borderColor, weekDays, total);
+                var total = elm.QuerySelector("[test=activity-total]")?.TextContent;
+                return (name, bgColor, borderColor, total);
             });
         }
-
-        protected void GoToPreviousWeek()
-            => Component?.FindAll("[test=action-button]").First().Click();
-
-        protected void GoToNextWeek()
-            => Component?.FindAll("[test=action-button]").Last().Click();
-
-        protected string LastNavigatedTo()
-            =>_testNavigationManager.LastNavigatedTo();
     }
 }

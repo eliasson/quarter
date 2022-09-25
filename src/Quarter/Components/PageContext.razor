@@ -6,7 +6,7 @@
             @foreach (var tab in Tabs)
             {
                 <li>
-                    <NavLink ActiveClass="qa-is-active" Match="NavLinkMatch.All" href="@tab.Path" class="qa-tab-item" test="tab-item">
+                    <NavLink ActiveClass="qa-is-active" Match="NavLinkMatch.Prefix" href="@tab.Path" class="qa-tab-item" test="tab-item">
                         @tab.Title
                     </NavLink>
                 </li>

@@ -940,6 +940,7 @@ input[type=submit][disabled] {
   padding: 8px;
 }
 .qa-context-bar__tabs ul li + li {
+  margin-top: 0px;
   margin-left: 24px;
 }
 .qa-context-bar__tabs ul .qa-tab-item {
@@ -1181,6 +1182,24 @@ table.qa-report-table thead {
 table.qa-report-table tfoot tr th,
 table.qa-report-table tfoot tr td {
   padding: 24px 8px;
+}
+
+table.qa-report-table__monthly tr th {
+  font-weight: 600;
+}
+table.qa-report-table__monthly tr th,
+table.qa-report-table__monthly tr td {
+  text-align: left;
+  padding: 8px;
+}
+table.qa-report-table__monthly tr th:first-child,
+table.qa-report-table__monthly tr td:first-child {
+  word-break: keep-all;
+  width: 1%;
+}
+table.qa-report-table__monthly tr th:last-child,
+table.qa-report-table__monthly tr td:last-child {
+  text-align: right;
 }
 
 @media only screen and (max-width: 48em) {
