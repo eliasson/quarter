@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Quarter.Core\Quarter.Core.csproj" />
+  </ItemGroup>
+
 </Project>

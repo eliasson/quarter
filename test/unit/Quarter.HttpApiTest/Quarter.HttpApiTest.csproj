@@ -14,4 +14,9 @@
     <PackageReference Include="coverlet.collector" Version="3.1.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Quarter.Core\Quarter.Core.csproj" />
+    <ProjectReference Include="..\..\..\src\Quarter.HttpApi\Quarter.HttpApi.csproj" />
+  </ItemGroup>
+
 </Project>
