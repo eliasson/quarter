@@ -1,7 +1,7 @@
 using System.Security.Claims;
 using Quarter.Core.Models;
 
-namespace Quarter.Auth;
+namespace Quarter.Core.Auth;
 
 public static class ApplicationClaim
 {

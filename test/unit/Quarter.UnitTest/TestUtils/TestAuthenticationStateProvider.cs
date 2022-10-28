@@ -2,6 +2,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Authorization;
 using Quarter.Auth;
+using Quarter.Core.Auth;
 using Quarter.Core.Models;
 
 namespace Quarter.UnitTest.TestUtils;
