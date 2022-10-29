@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Quarter.Core\Quarter.Core.csproj" />
+    <ProjectReference Include="..\Quarter.HttpApi\Quarter.HttpApi.csproj" />
   </ItemGroup>
 
   <ItemGroup>

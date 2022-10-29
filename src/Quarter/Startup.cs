@@ -42,6 +42,7 @@ namespace Quarter
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddControllers(o => o.EnableEndpointRouting = false);
+            services.AddHttpContextAccessor();
             services.RegisterStartupTasks();
 
         }
