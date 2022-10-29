@@ -7,7 +7,7 @@ using Quarter.Core.Utils;
 namespace Quarter.HttpApi.UnitTest.Services;
 
 [TestFixture]
-public class ApiServiceTest
+public class GetProjectsTest
 {
     public class WhenNoProjectsExistForUser : TestCase
     {
