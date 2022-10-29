@@ -18,11 +18,14 @@ public class TestCase
         ApiService = new ApiService(_repositoryFactory);
     }
 
-    protected async Task AddProject(IdOf<User> userId, string name)
+    protected Task<Project> AddProject(IdOf<User> userId, string name)
     {
         var project = new Project(name, $"description:{name}");
-        await _repositoryFactory.ProjectRepository(userId).CreateAsync(project, CancellationToken.None);
+        return _repositoryFactory.ProjectRepository(userId).CreateAsync(project, CancellationToken.None);
     }
+
+    protected Task<Project> ReadProjectAsync(IdOf<User> userId, IdOf<Project> projectId)
+        => _repositoryFactory.ProjectRepository(userId).GetByIdAsync(projectId, CancellationToken.None);
 
     protected static OperationContext CreateOperationContext()
         => new (IdOf<User>.Random());
