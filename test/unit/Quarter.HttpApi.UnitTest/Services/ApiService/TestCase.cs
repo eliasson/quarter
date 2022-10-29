@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Quarter.Core.Commands;
@@ -29,6 +31,11 @@ public class TestCase
 
     protected Task<Project> ReadProjectAsync(IdOf<User> userId, IdOf<Project> projectId)
         => _repositoryFactory.ProjectRepository(userId).GetByIdAsync(projectId, CancellationToken.None);
+
+    protected ValueTask<List<Project>> ReadProjectsAsync(IdOf<User> userId)
+        => _repositoryFactory.ProjectRepository(userId)
+            .GetAllAsync(CancellationToken.None)
+            .ToListAsync(CancellationToken.None);
 
     protected static OperationContext CreateOperationContext()
         => new (IdOf<User>.Random());

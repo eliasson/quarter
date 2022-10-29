@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Quarter.Core.Models;
 
 namespace Quarter.HttpApi.Resources;
@@ -14,5 +15,22 @@ public record ProjectResourceOutput(string id, string name, string description)
     public static ProjectResourceOutput From(Project project)
     {
         return new ProjectResourceOutput(project.Id.AsString(), project.Name, project.Description);
+    }
+}
+
+public class ProjectResourceInput
+{
+    [Required]
+    public string? name { get; set; }
+
+    [Required]
+    public string? description { get; set; }
+
+    public IEnumerable<ValidationResult> Validate()
+    {
+        var validationContext = new ValidationContext(this);
+        var validationResults = new List<ValidationResult>();
+        _ = Validator.TryValidateObject(this, validationContext, validationResults);
+        return validationResults;
     }
 }

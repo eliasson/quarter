@@ -9,6 +9,7 @@ namespace Quarter.HttpApi.Services;
 public interface IApiService
 {
     IAsyncEnumerable<ProjectResourceOutput> ProjectsForUserAsync(OperationContext oc, CancellationToken ct);
+    Task CreateProjectAsync(ProjectResourceInput input, OperationContext oc, CancellationToken ct);
     Task DeleteProjectAsync(IdOf<Project> projectId, OperationContext oc, CancellationToken ct);
 }
 
@@ -27,6 +28,13 @@ public class ApiService : IApiService
     {
         var projectRepository = _repositoryFactory.ProjectRepository(oc.UserId);
         return projectRepository.GetAllAsync(ct).Select(ProjectResourceOutput.From);
+    }
+
+    public Task CreateProjectAsync(ProjectResourceInput input, OperationContext oc, CancellationToken ct)
+    {
+        // name and description are validated at controller
+        var command = new AddProjectCommand(input.name!, input.description!);
+        return _commandHandler.ExecuteAsync(command, oc, ct);
     }
 
     public Task DeleteProjectAsync(IdOf<Project> projectId, OperationContext oc, CancellationToken ct)
