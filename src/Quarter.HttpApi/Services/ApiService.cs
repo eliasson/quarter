@@ -1,4 +1,4 @@
-using Quarter.Core.Exceptions;
+using Quarter.Core.Commands;
 using Quarter.Core.Models;
 using Quarter.Core.Repositories;
 using Quarter.Core.Utils;
@@ -15,22 +15,20 @@ public interface IApiService
 public class ApiService : IApiService
 {
     private readonly IRepositoryFactory _repositoryFactory;
+    private readonly ICommandHandler _commandHandler;
 
-    public ApiService(IRepositoryFactory repositoryFactory)
+    public ApiService(IRepositoryFactory repositoryFactory, ICommandHandler commandHandler)
     {
         _repositoryFactory = repositoryFactory;
+        _commandHandler = commandHandler;
     }
+
     public IAsyncEnumerable<ProjectResourceOutput> AllForUserAsync(OperationContext oc, CancellationToken ct)
     {
         var projectRepository = _repositoryFactory.ProjectRepository(oc.UserId);
         return projectRepository.GetAllAsync(ct).Select(ProjectResourceOutput.From);
     }
 
-    public async Task DeleteProjectAsync(IdOf<Project> projectId, OperationContext oc, CancellationToken ct)
-    {
-        var projectRepository = _repositoryFactory.ProjectRepository(oc.UserId);
-        var result = await projectRepository.RemoveByIdAsync(projectId, ct);
-        if (result == RemoveResult.NotRemoved)
-            throw new NotFoundException($"Found no project with ID \"{projectId.AsString()}\"");
-    }
+    public Task DeleteProjectAsync(IdOf<Project> projectId, OperationContext oc, CancellationToken ct)
+        => _commandHandler.ExecuteAsync(new RemoveProjectCommand(projectId), oc, ct);
 }

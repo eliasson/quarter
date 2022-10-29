@@ -32,11 +32,7 @@ public class DeleteProjectTest
         private readonly OperationContext _oc = CreateOperationContext();
 
         [Test]
-        public void ItShouldThrowNotFoundError()
-        {
-            var projectId = IdOf<Project>.Random();
-            var ex = Assert.CatchAsync<NotFoundException>(() => ApiService.DeleteProjectAsync(projectId, _oc, CancellationToken.None));
-            Assert.That(ex?.Message, Does.Contain($"Found no project with ID \"{projectId.AsString()}\""));
-        }
+        public void ItShouldBeANoOp()
+            => Assert.DoesNotThrowAsync(() => ApiService.DeleteProjectAsync(IdOf<Project>.Random(), _oc, CancellationToken.None));
     }
 }
