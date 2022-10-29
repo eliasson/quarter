@@ -1,3 +1,4 @@
+using System.Net.Mime;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Quarter.Core.Models;
@@ -20,6 +21,19 @@ public class ProjectController : ApiControllerBase
         var oc = GetOperationContextForCurrentUser();
         var result = ApiService.ProjectsForUserAsync(oc, ct);
         return Ok(result);
+    }
+
+    [HttpPost]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    public async Task<ActionResult> CreateProjectAsync([FromBody] ProjectResourceInput input, CancellationToken ct)
+    {
+        var oc = GetOperationContextForCurrentUser();
+        await ApiService.CreateProjectAsync(input, oc, ct);
+        return Created("/project/foo", new
+        {
+            foo = "TODO"
+        }); // TODO: Return the created object
     }
 
     [HttpDelete("{id:guid}")]
