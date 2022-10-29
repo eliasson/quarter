@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace Quarter.UnitTest.TestUtils
 {
-    public static class HttpTestClient
+    public static class HttpTestSession
     {
         public static HttpClient HttpClient
             => _httpClient.Value;

@@ -63,6 +63,6 @@ namespace Quarter.UnitTest.Controllers
         }
 
         private Task<HttpResponseMessage> LoginAsync(string provider) =>
-            HttpTestClient.HttpClient.GetAsync($"/account/login/{provider}");
+            HttpTestSession.HttpClient.GetAsync($"/account/login/{provider}");
     }
 }
