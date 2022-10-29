@@ -16,7 +16,7 @@ public class ApiServiceTest
         [Test]
         public async Task ItShouldReturnAnEmptyResultForProjects()
         {
-            var projects = await ApiService.AllForUserAsync(_oc, CancellationToken.None).ToListAsync();
+            var projects = await ApiService.ProjectsForUserAsync(_oc, CancellationToken.None).ToListAsync();
             Assert.That(projects, Is.Empty);
         }
     }
@@ -34,7 +34,7 @@ public class ApiServiceTest
         [Test]
         public async Task ItShouldContainProject()
         {
-            var projectNames = await ApiService.AllForUserAsync(_oc, CancellationToken.None)
+            var projectNames = await ApiService.ProjectsForUserAsync(_oc, CancellationToken.None)
                 .Select(p => p.name)
                 .ToListAsync();
             Assert.That(projectNames, Does.Contain("Project alpha"));

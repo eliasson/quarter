@@ -18,7 +18,7 @@ public class ProjectController : ApiControllerBase
     public ActionResult<IAsyncEnumerable<ProjectResourceOutput>> All(CancellationToken ct)
     {
         var oc = GetOperationContextForCurrentUser();
-        var result = ApiService.AllForUserAsync(oc, ct);
+        var result = ApiService.ProjectsForUserAsync(oc, ct);
         return Ok(result);
     }
 

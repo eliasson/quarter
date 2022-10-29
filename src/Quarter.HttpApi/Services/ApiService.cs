@@ -8,7 +8,7 @@ namespace Quarter.HttpApi.Services;
 
 public interface IApiService
 {
-    IAsyncEnumerable<ProjectResourceOutput> AllForUserAsync(OperationContext oc, CancellationToken ct);
+    IAsyncEnumerable<ProjectResourceOutput> ProjectsForUserAsync(OperationContext oc, CancellationToken ct);
     Task DeleteProjectAsync(IdOf<Project> projectId, OperationContext oc, CancellationToken ct);
 }
 
@@ -23,7 +23,7 @@ public class ApiService : IApiService
         _commandHandler = commandHandler;
     }
 
-    public IAsyncEnumerable<ProjectResourceOutput> AllForUserAsync(OperationContext oc, CancellationToken ct)
+    public IAsyncEnumerable<ProjectResourceOutput> ProjectsForUserAsync(OperationContext oc, CancellationToken ct)
     {
         var projectRepository = _repositoryFactory.ProjectRepository(oc.UserId);
         return projectRepository.GetAllAsync(ct).Select(ProjectResourceOutput.From);
