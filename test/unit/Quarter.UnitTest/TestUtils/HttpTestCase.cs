@@ -29,6 +29,9 @@ public class HttpTestCase
     protected Task<HttpResponseMessage> GetAsync(string? requestUri)
         => HttpTestSession.HttpClient.GetAsync(requestUri);
 
+    protected Task<HttpResponseMessage> DeleteAsync(string? requestUri)
+        => HttpTestSession.HttpClient.DeleteAsync(requestUri);
+
     protected Task<Project> AddProjectAsync(IdOf<User> userId, string name)
     {
         var repoFactory = HttpTestSession.ResolveService<IRepositoryFactory>();
