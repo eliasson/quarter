@@ -70,7 +70,7 @@ namespace Quarter.Core.UnitTest.Utils
             var color = Color.FromHexString(hex);
             var darkerColor = color.Darken(0.10);
             var expectedColor = Color.FromHexString(darkerHex);
-            System.Console.Out.WriteLine(">> " + darkerColor.ToHex());
+
             Assert.That(darkerColor, Is.EqualTo(expectedColor));
         }
     }
