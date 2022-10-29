@@ -42,6 +42,7 @@ namespace Quarter
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddControllers(o => o.EnableEndpointRouting = false);
+            services.AddAuthorization();
             services.AddHttpContextAccessor();
             services.RegisterStartupTasks();
 
@@ -72,6 +73,18 @@ namespace Quarter
                     options.LoginPath = "/account/login";
                     options.LogoutPath = "/account/logout";
                     options.SlidingExpiration = true;
+
+                    var handle = options.Events.OnRedirectToLogin;
+                    options.Events.OnRedirectToLogin = async (ctx) =>
+                    {
+                        if (ctx.Request.Path.StartsWithSegments("/api", StringComparison.InvariantCulture))
+                        {
+                            ctx.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                            return;
+                        }
+                        await handle(ctx);
+                    };
+
                 })
                 .AddGoogle(options =>
                 {
