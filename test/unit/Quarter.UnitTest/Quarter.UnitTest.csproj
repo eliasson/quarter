@@ -1,8 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
-
         <IsPackable>false</IsPackable>
     </PropertyGroup>
 
@@ -18,5 +16,4 @@
     <ItemGroup>
       <ProjectReference Include="..\..\..\src\Quarter\Quarter.csproj" />
     </ItemGroup>
-
 </Project>

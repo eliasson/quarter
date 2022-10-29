@@ -1,14 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
-
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>Quarter</RootNamespace>
   </PropertyGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="wwwroot\css\bootstrap\bootstrap.min.css" />
-    <_ContentIncludedByDefault Remove="wwwroot\css\bootstrap\bootstrap.min.css.map" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Quarter.Core\Quarter.Core.csproj" />
@@ -28,5 +22,4 @@
       <_Parameter1>Quarter.UnitTest</_Parameter1>
     </AssemblyAttribute>
   </ItemGroup>
-
 </Project>

@@ -1,5 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
 
@@ -17,5 +16,4 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\Quarter.Core\Quarter.Core.csproj" />
   </ItemGroup>
-
 </Project>

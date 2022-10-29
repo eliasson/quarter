@@ -1,5 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
@@ -12,5 +11,4 @@
     <PackageReference Include="Npgsql" Version="6.0.2" />
     <PackageReference Include="System.Linq.Async" Version="5.0.0" />
   </ItemGroup>
-
 </Project>
