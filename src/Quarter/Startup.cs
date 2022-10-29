@@ -143,7 +143,9 @@ namespace Quarter
                 {
                     var feature = ctx.Features.Get<IExceptionHandlerPathFeature>();
                     ctx.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
-                    var exception = feature?.Error?.InnerException;
+
+                    // At least for integration-tests of controllers the outer exception is the UnauthorizedAccessException
+                    var exception = feature?.Error.InnerException ?? feature?.Error;
 
                     string message = "An unhandled error occured";
 

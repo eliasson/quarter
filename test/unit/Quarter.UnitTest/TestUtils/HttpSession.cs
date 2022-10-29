@@ -8,6 +8,7 @@ using System.Security.Claims;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
@@ -70,12 +71,22 @@ public class HttpSession
     {
         webHostBuilder.ConfigureTestServices(services =>
         {
-            // Inject the list of claims to make it available to FakeAuthenticationHandler
+            // Override the ordinary authentication setup in Startup with one that returns the injected
+            // list of claims for a fake user.
             services.AddSingleton<Func<Claim[]>>(() => _fakeUserClaims.ToArray());
+            services.AddAuthentication(options =>
+            {
+                var schemeBuilder = new AuthenticationSchemeBuilder(CookieAuthenticationDefaults.AuthenticationScheme)
+                {
+                    HandlerType = typeof(FakeAuthenticationHandler)
+                };
 
-            services
-                .AddAuthentication(IntegrationTestFakeAuthenticationScheme)
-                .AddScheme<AuthenticationSchemeOptions, FakeAuthenticationHandler>(IntegrationTestFakeAuthenticationScheme, options => { });
+                options.Schemes
+                    .First(s => s.Name == CookieAuthenticationDefaults.AuthenticationScheme)
+                    .HandlerType = typeof(FakeAuthenticationHandler);
+
+                options.SchemeMap[CookieAuthenticationDefaults.AuthenticationScheme] = schemeBuilder;
+            });
         });
     }
 }
