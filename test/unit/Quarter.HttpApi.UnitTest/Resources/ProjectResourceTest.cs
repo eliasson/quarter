@@ -2,7 +2,7 @@ using NUnit.Framework;
 using Quarter.Core.Models;
 using Quarter.HttpApi.Resources;
 
-namespace Quarter.HttpApiTest.Resources;
+namespace Quarter.HttpApi.UnitTest.Resources;
 
 [TestFixture]
 public class ProjectResourceTest

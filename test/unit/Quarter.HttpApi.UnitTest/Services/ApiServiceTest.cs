@@ -7,7 +7,7 @@ using Quarter.Core.Repositories;
 using Quarter.Core.Utils;
 using Quarter.HttpApi.Services;
 
-namespace Quarter.HttpApiTest.Services;
+namespace Quarter.HttpApi.UnitTest.Services;
 
 [TestFixture]
 public class ApiServiceTest

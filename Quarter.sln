@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quarter.UnitTest", "test\un
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quarter.HttpApi", "src\Quarter.HttpApi\Quarter.HttpApi.csproj", "{C82CDA8A-E3D9-4248-AB74-2409FE8ABEFE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quarter.HttpApiTest", "test\unit\Quarter.HttpApiTest\Quarter.HttpApiTest.csproj", "{14C7FB95-8850-4F6F-B082-65DD08FCC9BC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quarter.HttpApi.UnitTest", "test\unit\Quarter.HttpApi.UnitTest\Quarter.HttpApi.UnitTest.csproj", "{14C7FB95-8850-4F6F-B082-65DD08FCC9BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
