@@ -13,6 +13,7 @@ public class CreateProjectTest
     public class WhenInputIsValid : TestCase
     {
         private readonly OperationContext _oc = CreateOperationContext();
+        private ProjectResourceOutput? _output;
 
         [OneTimeSetUp]
         public async Task Setup()
@@ -22,8 +23,12 @@ public class CreateProjectTest
                 name = "Project alpha",
                 description = "Description alpha"
             };
-            await ApiService.CreateProjectAsync(input, _oc, CancellationToken.None);
+            _output = await ApiService.CreateProjectAsync(input, _oc, CancellationToken.None);
         }
+
+        [Test]
+        public void ItShouldReturnOutputResourceForProject()
+            => Assert.That(_output?.name, Is.EqualTo("Project alpha"));
 
         [Test]
         public async Task ItShouldHaveCreatedProject()
