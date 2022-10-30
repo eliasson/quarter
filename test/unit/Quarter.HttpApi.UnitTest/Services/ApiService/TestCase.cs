@@ -14,13 +14,11 @@ public class TestCase
 {
     protected readonly IApiService ApiService;
     private readonly InMemoryRepositoryFactory _repositoryFactory;
-    private readonly ICommandHandler _commandHandler;
 
     protected TestCase()
     {
         _repositoryFactory = new InMemoryRepositoryFactory();
-        _commandHandler = new CommandHandler(_repositoryFactory);
-        ApiService = new ApiService(_repositoryFactory, _commandHandler);
+        ApiService = new ApiService(_repositoryFactory);
     }
 
     protected Task<Project> AddProject(IdOf<User> userId, string name)
