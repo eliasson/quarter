@@ -29,11 +29,8 @@ public class ProjectController : ApiControllerBase
     public async Task<ActionResult> CreateProjectAsync([FromBody] ProjectResourceInput input, CancellationToken ct)
     {
         var oc = GetOperationContextForCurrentUser();
-        await ApiService.CreateProjectAsync(input, oc, ct);
-        return Created("/project/foo", new
-        {
-            foo = "TODO"
-        }); // TODO: Return the created object
+        var output = await ApiService.CreateProjectAsync(input, oc, ct);
+        return Created(output.Location(), output);
     }
 
     [HttpDelete("{id:guid}")]

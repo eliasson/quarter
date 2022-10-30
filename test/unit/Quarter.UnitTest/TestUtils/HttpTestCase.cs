@@ -1,5 +1,6 @@
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Quarter.Core.Models;
@@ -42,10 +43,18 @@ public class HttpTestCase
         var project = new Project(name, $"description:{name}");
         return repoFactory.ProjectRepository(userId).CreateAsync(project, CancellationToken.None);
     }
+
+
 }
 
 public static class HttpResponseMessageExtensions
 {
     public static string? ContentType(this HttpResponseMessage self)
         => self.Content.Headers.ContentType?.MediaType;
+
+    public static async Task<T?> AsPayload<T>(this HttpResponseMessage self)
+    {
+        var stream = await self.Content.ReadAsStreamAsync();
+        return JsonSerializer.Deserialize<T>(stream);
+    }
 }

@@ -2,6 +2,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using Quarter.HttpApi.Resources;
 using Quarter.UnitTest.TestUtils;
 
 namespace Quarter.UnitTest.HttpApi;
@@ -28,6 +29,20 @@ public class CreateProjectTest
         [Test]
         public void ItShouldReturnCreatedStatus()
             => Assert.That(_response?.StatusCode, Is.EqualTo(HttpStatusCode.Created));
+
+        [Test]
+        public async Task ItShouldReturnTheCreatedPayload()
+        {
+            var payload = await _response.AsPayload<ProjectResourceOutput>();
+            Assert.That(payload?.name, Is.EqualTo("Test name"));
+        }
+
+        [Test]
+        public async Task ItShouldReturnLocationToEntity()
+        {
+            var payload = await _response.AsPayload<ProjectResourceOutput>();
+            Assert.That(_response?.Headers.Location?.ToString(), Is.EqualTo($"/api/project/{payload?.id}"));
+        }
     }
 
     public class WhenInvalidPayload : HttpTestCase
