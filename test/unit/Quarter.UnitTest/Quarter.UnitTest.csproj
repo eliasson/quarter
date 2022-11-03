@@ -18,5 +18,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\src\Quarter\Quarter.csproj" />
+      <ProjectReference Include="..\Quarter.Core.UnitTest\Quarter.Core.UnitTest.csproj" />
     </ItemGroup>
 </Project>

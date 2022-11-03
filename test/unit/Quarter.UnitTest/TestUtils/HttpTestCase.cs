@@ -4,14 +4,17 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using NUnit.Framework;
 using Quarter.Core.Models;
 using Quarter.Core.Repositories;
+using Quarter.Core.UnitTest.TestUtils;
 using Quarter.Core.Utils;
 
 namespace Quarter.UnitTest.TestUtils;
 
 #nullable enable
 
+[Category(TestCategories.DatabaseDependency)]
 public class HttpTestCase
 {
     // This might be expensive, starting a new server for each test. But the way authentication is faked it is not
