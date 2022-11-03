@@ -27,9 +27,14 @@ public class ProjectResourceTest
         [Test]
         public void ItShouldMapName()
             => Assert.That(_output?.name, Is.EqualTo("Project name"));
+
         [Test]
         public void ItShouldMapDescription()
             => Assert.That(_output?.description, Is.EqualTo("Project description"));
+
+        [Test]
+        public void ItShouldMapIsArchived()
+            => Assert.That(_output?.isArchived, Is.False);
 
         [Test]
         public void ItShouldMapCreatedTimestamp()
@@ -50,8 +55,13 @@ public class ProjectResourceTest
         {
             _project = new Project("Project name", "Project description");
             _project.Updated = UtcDateTime.Now();
+            _project.Archive();
             _output = ProjectResourceOutput.From(_project);
         }
+
+        [Test]
+        public void ItShouldMapIsArchived()
+            => Assert.That(_output?.isArchived, Is.True);
 
         [Test]
         public void ItShouldMapUpdatedTimestamp()
