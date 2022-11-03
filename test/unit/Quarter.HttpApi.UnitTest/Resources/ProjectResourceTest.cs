@@ -34,5 +34,33 @@ public class ProjectResourceTest
         [Test]
         public void ItShouldMapCreatedTimestamp()
             => Assert.That(_output?.created, Is.EqualTo(_project?.Created.IsoString()));
+
+        [Test]
+        public void ItShouldLackUpdateTimestamp()
+            => Assert.That(_output?.updated, Is.Null);
+    }
+
+    public class WhenConstructingFullProjectOutput
+    {
+        private Project? _project;
+        private ProjectResourceOutput? _output;
+
+        [OneTimeSetUp]
+        public void Setup()
+        {
+            _project = new Project("Project name", "Project description");
+            _project.Updated = UtcDateTime.Now();
+            _output = ProjectResourceOutput.From(_project);
+        }
+
+        [Test]
+        public void ItShouldMapUpdatedTimestamp()
+        {
+            Assert.Multiple(() =>
+            {
+                Assert.That(_output?.updated, Is.EqualTo(_project?.Updated?.IsoString()));
+                Assert.That(_output?.updated, Is.Not.Null);
+            });
+        }
     }
 }
