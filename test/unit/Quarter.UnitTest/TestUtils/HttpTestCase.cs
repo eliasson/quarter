@@ -1,3 +1,4 @@
+using System.IO;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -55,6 +56,7 @@ public static class HttpResponseMessageExtensions
     public static async Task<T?> AsPayload<T>(this HttpResponseMessage self)
     {
         var stream = await self.Content.ReadAsStreamAsync();
+        stream.Seek(0, SeekOrigin.Begin);
         return JsonSerializer.Deserialize<T>(stream);
     }
 }
