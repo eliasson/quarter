@@ -33,6 +33,17 @@ public class ProjectController : ApiControllerBase
         return Created(output.Location(), output);
     }
 
+    [HttpPut("{id:guid}")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult> UpdateProjectAsync(Guid id, [FromBody] ProjectResourceInput input, CancellationToken ct)
+    {
+        var oc = GetOperationContextForCurrentUser();
+        var projectId = IdOf<Project>.Of(id);
+        var output = await ApiService.UpdateProjectAsync(projectId, input, oc, ct);
+        return Ok(output);
+    }
+
     [HttpDelete("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<ActionResult> DeleteProjectAsync(Guid id, CancellationToken ct)

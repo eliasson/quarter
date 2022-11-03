@@ -28,12 +28,4 @@ public class ProjectResourceInput
 
     [Required]
     public string? description { get; set; }
-
-    public IEnumerable<ValidationResult> Validate()
-    {
-        var validationContext = new ValidationContext(this);
-        var validationResults = new List<ValidationResult>();
-        _ = Validator.TryValidateObject(this, validationContext, validationResults);
-        return validationResults;
-    }
 }
