@@ -14,10 +14,14 @@ namespace Quarter.UnitTest.TestUtils;
 
 public class HttpTestCase
 {
+    // This might be expensive, starting a new server for each test. But the way authentication is faked it is not
+    // thread safe and tests interfere with each other
+    protected readonly HttpSession HttpTestSession = new HttpSession();
+
     protected Task<User> SetupUnauthenticatedUserAsync(string email)
     {
         var user = new User(new Email(email));
-        HttpTestSession.LogoutFakeUser();
+        HttpTestSession.ClearFakeUserClaims();
         return Task.FromResult(user);
     }
 

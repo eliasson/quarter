@@ -7,7 +7,7 @@ using Quarter.UnitTest.TestUtils;
 namespace Quarter.UnitTest.Controllers
 {
     [TestFixture]
-    public class AccountControllerTest
+    public class AccountControllerTest : HttpTestCase
     {
         public class WhenLoggingInUsingGitHub : AccountControllerTest
         {
