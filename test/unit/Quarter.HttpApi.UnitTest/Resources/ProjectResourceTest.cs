@@ -31,6 +31,7 @@ public class ProjectResourceTest
         public void ItShouldMapDescription()
             => Assert.That(_output?.description, Is.EqualTo("Project description"));
 
+        [Test]
         public void ItShouldMapCreatedTimestamp()
             => Assert.That(_output?.created, Is.EqualTo(_project?.Created.IsoString()));
     }
