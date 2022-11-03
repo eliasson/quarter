@@ -10,6 +10,10 @@ namespace Quarter.HttpApi.Resources;
 /// </summary>
 /// <param name="id">The ID of the project</param>
 /// <param name="name">The name of the project</param>
+/// <param name="description">The project description</param>
+/// <param name="isArchived">Whether or not the project is archived</param>
+/// <param name="created">Timestamp for when the project was created (ISO-8601)</param>
+/// <param name="updated">Timestamp for when the project was last updated, or null if it has never been updated (ISO-8601)</param>
 public record ProjectResourceOutput(string id, string name, string description, bool isArchived, string created, string? updated)
 {
     public Uri Location()
