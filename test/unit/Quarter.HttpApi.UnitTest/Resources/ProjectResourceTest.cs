@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using Quarter.Core.Models;
+using Quarter.Core.Utils;
 using Quarter.HttpApi.Resources;
 
 namespace Quarter.HttpApi.UnitTest.Resources;
@@ -29,5 +30,8 @@ public class ProjectResourceTest
         [Test]
         public void ItShouldMapDescription()
             => Assert.That(_output?.description, Is.EqualTo("Project description"));
+
+        public void ItShouldMapCreatedTimestamp()
+            => Assert.That(_output?.created, Is.EqualTo(_project?.Created.IsoString()));
     }
 }
