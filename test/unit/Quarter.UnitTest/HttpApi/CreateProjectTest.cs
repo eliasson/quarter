@@ -72,9 +72,13 @@ public class CreateProjectTest
         [OneTimeSetUp]
         public async Task SetUp()
         {
-            var user = await SetupUnauthenticatedUserAsync("john.doe@example.com");
-            var project = await AddProjectAsync(user.Id, "Project Alpha");
-            _response = await DeleteAsync($"/api/project/{project.Id.AsString()}");
+            await SetupUnauthenticatedUserAsync("john.doe@example.com");
+            var payload = new
+            {
+                name = "Test name",
+                description = "Test description",
+            };
+            _response = await PostAsync("/api/project/", payload);
         }
 
         [Test]
