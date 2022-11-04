@@ -55,7 +55,12 @@ public class HttpTestCase
         return repoFactory.ProjectRepository(userId).CreateAsync(project, CancellationToken.None);
     }
 
-
+    protected Task<Activity> AddActivityAsync(IdOf<User> userId, IdOf<Project> projectId, string name)
+    {
+        var repoFactory = HttpTestSession.ResolveService<IRepositoryFactory>();
+        var activity = new Activity(projectId, name, $"description:{name}", Color.FromHexString("#FFFFFF"));
+        return repoFactory.ActivityRepository(userId).CreateAsync(activity, CancellationToken.None);
+    }
 }
 
 public static class HttpResponseMessageExtensions
