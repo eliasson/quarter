@@ -27,6 +27,12 @@ public class TestCase
         return _repositoryFactory.ProjectRepository(userId).CreateAsync(project, CancellationToken.None);
     }
 
+    protected Task<Activity> AddActivity(IdOf<User> userId, IdOf<Project> projectId, string name)
+    {
+        var activity = new Activity(projectId, name, $"description:{name}", Color.FromHexString("#FFFFFF"));
+        return _repositoryFactory.ActivityRepository(userId).CreateAsync(activity, CancellationToken.None);
+    }
+
     protected Task<Project> ReadProjectAsync(IdOf<User> userId, IdOf<Project> projectId)
         => _repositoryFactory.ProjectRepository(userId).GetByIdAsync(projectId, CancellationToken.None);
 

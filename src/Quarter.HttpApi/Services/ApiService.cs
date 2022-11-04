@@ -11,6 +11,7 @@ public interface IApiService
     Task<ProjectResourceOutput> CreateProjectAsync(ProjectResourceInput input, OperationContext oc, CancellationToken ct);
     Task<ProjectResourceOutput> UpdateProjectAsync(IdOf<Project> projectId, ProjectResourceInput input, OperationContext oc, CancellationToken ct);
     Task DeleteProjectAsync(IdOf<Project> projectId, OperationContext oc, CancellationToken ct);
+    IAsyncEnumerable<ActivityResourceOutput> ActivitiesForProject(IdOf<Project> projectId, OperationContext oc, CancellationToken ct);
 }
 
 public class ApiService : IApiService
@@ -49,5 +50,11 @@ public class ApiService : IApiService
     public Task DeleteProjectAsync(IdOf<Project> projectId, OperationContext oc, CancellationToken ct)
     {
         return _repositoryFactory.ProjectRepository(oc.UserId).RemoveByIdAsync(projectId, ct);
+    }
+
+    public IAsyncEnumerable<ActivityResourceOutput> ActivitiesForProject(IdOf<Project> projectId, OperationContext oc, CancellationToken ct)
+    {
+        var activityRepository = _repositoryFactory.ActivityRepository(oc.UserId);
+        return activityRepository.GetAllAsync(ct).Select(ActivityResourceOutput.From);
     }
 }
