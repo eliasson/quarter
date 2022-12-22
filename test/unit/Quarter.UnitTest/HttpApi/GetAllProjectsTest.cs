@@ -21,7 +21,7 @@ public class GetAllProjectsTest
         {
             var user = await SetupAuthorizedUserAsync("john.doe@example.com");
             await AddProjectAsync(user.Id, "Project Alpha");
-            _response = await GetAsync("/api/project");
+            _response = await GetAsync("/api/projects");
         }
 
         [Test]
@@ -42,7 +42,7 @@ public class GetAllProjectsTest
         {
             var user = await SetupUnauthenticatedUserAsync("john.doe@example.com");
             await AddProjectAsync(user.Id, "Project Alpha");
-            _response = await GetAsync("/api/project");
+            _response = await GetAsync("/api/projects");
         }
 
         [Test]

@@ -23,7 +23,7 @@ public class CreateProjectTest
                 name = "Test name",
                 description = "Test description",
             };
-            _response = await PostAsync("/api/project/", payload);
+            _response = await PostAsync("/api/projects/", payload);
         }
 
         [Test]
@@ -41,7 +41,7 @@ public class CreateProjectTest
         public async Task ItShouldReturnLocationToEntity()
         {
             var payload = await _response.AsPayload<ProjectResourceOutput>();
-            Assert.That(_response?.Headers.Location?.ToString(), Is.EqualTo($"/api/project/{payload?.id}"));
+            Assert.That(_response?.Headers.Location?.ToString(), Is.EqualTo($"/api/projects/{payload?.id}"));
         }
     }
 
@@ -57,7 +57,7 @@ public class CreateProjectTest
             {
                 description = "Missing name"
             };
-            _response = await PostAsync("/api/project/", payload);
+            _response = await PostAsync("/api/projects/", payload);
         }
 
         [Test]
@@ -78,7 +78,7 @@ public class CreateProjectTest
                 name = "Test name",
                 description = "Test description",
             };
-            _response = await PostAsync("/api/project/", payload);
+            _response = await PostAsync("/api/projects/", payload);
         }
 
         [Test]

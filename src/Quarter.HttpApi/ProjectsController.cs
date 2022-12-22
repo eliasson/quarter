@@ -8,9 +8,9 @@ using Quarter.HttpApi.Services;
 namespace Quarter.HttpApi;
 
 [Route("api/[controller]")]
-public class ProjectController : ApiControllerBase
+public class ProjectsController : ApiControllerBase
 {
-    public ProjectController(IApiService apiService, IHttpContextAccessor httpContextAccessor)
+    public ProjectsController(IApiService apiService, IHttpContextAccessor httpContextAccessor)
         : base(apiService, httpContextAccessor)
     {
     }

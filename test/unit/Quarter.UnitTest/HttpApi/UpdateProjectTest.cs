@@ -24,7 +24,7 @@ public class UpdateProjectTest
                 name = "Project Alpha Updated",
                 description = "Updated description",
             };
-            _response = await PutAsync($"/api/project/{project.Id.AsString()}", payload);
+            _response = await PutAsync($"/api/projects/{project.Id.AsString()}", payload);
         }
 
         [Test]
@@ -52,7 +52,7 @@ public class UpdateProjectTest
             {
                 description = "Missing name"
             };
-            _response = await PutAsync($"/api/project/{project.Id.AsString()}", payload);
+            _response = await PutAsync($"/api/projects/{project.Id.AsString()}", payload);
         }
 
         [Test]
@@ -69,7 +69,7 @@ public class UpdateProjectTest
         {
             var user = await SetupUnauthenticatedUserAsync("john.doe@example.com");
             var project = await AddProjectAsync(user.Id, "Project Alpha");
-            _response = await PutAsync($"/api/project/{project.Id.AsString()}", project);
+            _response = await PutAsync($"/api/projects/{project.Id.AsString()}", project);
         }
 
         [Test]

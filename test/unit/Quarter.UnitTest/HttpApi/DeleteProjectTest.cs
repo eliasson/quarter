@@ -19,7 +19,7 @@ public class DeleteProjectTest
         {
             var user = await SetupAuthorizedUserAsync("john.doe@example.com");
             var project = await AddProjectAsync(user.Id, "Project Alpha");
-            _response = await DeleteAsync($"/api/project/{project.Id.AsString()}");
+            _response = await DeleteAsync($"/api/projects/{project.Id.AsString()}");
         }
 
         [Test]
@@ -35,7 +35,7 @@ public class DeleteProjectTest
         public async Task SetUp()
         {
             await SetupAuthorizedUserAsync("john.doe@example.com");
-            _response = await DeleteAsync($"/api/project/{IdOf<Project>.Random().AsString()}");
+            _response = await DeleteAsync($"/api/projects/{IdOf<Project>.Random().AsString()}");
         }
 
         [Test]
@@ -52,7 +52,7 @@ public class DeleteProjectTest
         {
             var user = await SetupUnauthenticatedUserAsync("john.doe@example.com");
             var project = await AddProjectAsync(user.Id, "Project Alpha");
-            _response = await DeleteAsync($"/api/project/{project.Id.AsString()}");
+            _response = await DeleteAsync($"/api/projects/{project.Id.AsString()}");
         }
 
         [Test]

@@ -21,7 +21,7 @@ public class GetActivitiesTest
             var project = await AddProjectAsync(user.Id, "Project Alpha");
             await AddActivityAsync(user.Id, project.Id, "Activity Alpha");
 
-            _response = await GetAsync($"/api/project/{project.Id}/activities");
+            _response = await GetAsync($"/api/projects/{project.Id}/activities");
         }
 
         [Test]
@@ -44,7 +44,7 @@ public class GetActivitiesTest
             var project = await AddProjectAsync(user.Id, "Project Alpha");
             await AddActivityAsync(user.Id, project.Id, "Activity Alpha");
 
-            _response = await GetAsync($"/api/project/{project.Id}/activities");
+            _response = await GetAsync($"/api/projects/{project.Id}/activities");
         }
 
         [Test]
