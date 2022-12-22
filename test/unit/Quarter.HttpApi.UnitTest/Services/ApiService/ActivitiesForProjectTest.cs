@@ -33,13 +33,15 @@ public class ActivitiesForProjectTest
     {
         private readonly OperationContext _oc = CreateOperationContext();
         private Project? _project;
-        private Activity? _activity;
+        private Project? _anotherProject;
 
         [OneTimeSetUp]
         public async Task Setup()
         {
             _project = await AddProject(_oc.UserId, "Project alpha");
-            _activity = await AddActivity(_oc.UserId, _project.Id, "Activity alpha");
+            _anotherProject = await AddProject(_oc.UserId, "Project bravo");
+            _ = await AddActivity(_oc.UserId, _project.Id, "Activity alpha");
+            _ = await AddActivity(_oc.UserId, _anotherProject.Id, "Activity bravo");
         }
 
         [Test]
@@ -48,7 +50,11 @@ public class ActivitiesForProjectTest
             var activityNames = await ApiService.ActivitiesForProject(_project!.Id, _oc, CancellationToken.None)
                 .Select(p => p.name)
                 .ToListAsync();
-            Assert.That(activityNames, Does.Contain("Activity alpha"));
+            Assert.Multiple(() =>
+            {
+                Assert.That(activityNames, Does.Contain("Activity alpha"));
+                Assert.That(activityNames, Does.Not.Contain("Activity bravo"));
+            });
         }
     }
 }

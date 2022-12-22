@@ -55,6 +55,6 @@ public class ApiService : IApiService
     public IAsyncEnumerable<ActivityResourceOutput> ActivitiesForProject(IdOf<Project> projectId, OperationContext oc, CancellationToken ct)
     {
         var activityRepository = _repositoryFactory.ActivityRepository(oc.UserId);
-        return activityRepository.GetAllAsync(ct).Select(ActivityResourceOutput.From);
+        return activityRepository.GetAllForProjectAsync(projectId, ct).Select(ActivityResourceOutput.From);
     }
 }
