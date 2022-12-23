@@ -52,14 +52,4 @@ public class ProjectsController : ApiControllerBase
         await ApiService.DeleteProjectAsync(IdOf<Project>.Of(id), oc, ct);
         return NoContent();
     }
-
-    [HttpGet("{id:guid}/activities")]
-    public ActionResult<IAsyncEnumerable<ProjectResourceOutput>> ActivitiesForProjectAsync(Guid id, CancellationToken ct)
-    {
-        var projectId = IdOf<Project>.Of(id);
-        var oc = GetOperationContextForCurrentUser();
-
-        var result = ApiService.ActivitiesForProject(projectId, oc, ct);
-        return Ok(result);
-    }
 }
