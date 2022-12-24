@@ -41,6 +41,11 @@ public class TestCase
             .GetAllAsync(CancellationToken.None)
             .ToListAsync(CancellationToken.None);
 
+    protected ValueTask<List<Activity>> ReadActivitiesAsync(IdOf<User> userId, IdOf<Project> projectId)
+        => _repositoryFactory.ActivityRepository(userId)
+            .GetAllForProjectAsync(projectId, CancellationToken.None)
+            .ToListAsync(CancellationToken.None);
+
     protected static OperationContext CreateOperationContext()
         => new (IdOf<User>.Random());
 }

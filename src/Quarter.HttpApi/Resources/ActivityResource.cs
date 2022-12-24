@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Quarter.Core.Models;
 
 namespace Quarter.HttpApi.Resources;
@@ -33,4 +34,16 @@ public record ActivityResourceOutput(string id, string projectId, string name, s
             activity.Created.IsoString(),
             activity.Updated?.IsoString());
     }
+}
+
+public class ActivityResourceInput
+{
+    [Required]
+    public string? name { get; set; }
+
+    [Required]
+    public string? description { get; set; }
+
+    [Required]
+    public string? color { get; set; }
 }
