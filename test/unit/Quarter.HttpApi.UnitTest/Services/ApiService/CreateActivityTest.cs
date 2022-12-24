@@ -2,6 +2,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using Quarter.Core.Exceptions;
 using Quarter.Core.Models;
 using Quarter.Core.Utils;
 using Quarter.HttpApi.Resources;
@@ -40,6 +41,42 @@ public class CreateActivityTest
             var activities = await ReadActivitiesAsync(_oc.UserId, _project!.Id);
             var activityNames = activities.Select(p => p.Name);
             Assert.That(activityNames, Is.EqualTo(new [] { "Activity alpha" }));
+        }
+    }
+
+    public class WhenProjectIsOwnedByOtherUser : TestCase
+    {
+        [Test]
+        public async Task ItShouldThrowNotFoundException()
+        {
+            var oc = CreateOperationContext();
+            var userId = IdOf<User>.Random();
+            var input = new ActivityResourceInput
+            {
+                name = "Activity alpha",
+                description = "Description alpha",
+                color = "#aabbcc",
+            };
+            var project = await AddProject(userId, "Project alpha");
+
+            Assert.CatchAsync<NotFoundException>(() => ApiService.CreateActivityAsync(project.Id, input, oc, CancellationToken.None));
+        }
+    }
+
+    public class WhenProjectIsMissing : TestCase
+    {
+        [Test]
+        public void ItShouldThrowNotFoundException()
+        {
+            var oc = CreateOperationContext();
+            var input = new ActivityResourceInput
+            {
+                name = "Activity alpha",
+                description = "Description alpha",
+                color = "#aabbcc",
+            };
+            Assert.CatchAsync<NotFoundException>(() =>
+                ApiService.CreateActivityAsync(IdOf<Project>.Random(), input, oc, CancellationToken.None));
         }
     }
 }

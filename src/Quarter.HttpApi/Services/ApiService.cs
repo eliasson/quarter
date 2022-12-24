@@ -62,6 +62,10 @@ public class ApiService : IApiService
     public async Task<ActivityResourceOutput> CreateActivityAsync(IdOf<Project> projectId, ActivityResourceInput input, OperationContext oc, CancellationToken ct)
     {
         var activityRepository = _repositoryFactory.ActivityRepository(oc.UserId);
+        var projectRepository = _repositoryFactory.ProjectRepository(oc.UserId);
+
+        // This will throw if the project does not exist (which is also the case if the user does not own the given project ID)
+        _ = await projectRepository.GetByIdAsync(projectId, ct);
 
         // TODO: Move this to ActivityResource?
         var activity = new Activity(projectId, input.name!, input.description!, Color.FromHexString(input.color!));
