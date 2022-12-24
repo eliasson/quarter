@@ -76,6 +76,36 @@ public class ActivityResourceTest
         }
     }
 
+    [TestFixture]
+    public class WhenConstructingActivityFromMinimalActivityInput : TestCase
+    {
+        private Activity? _activity;
+
+        [OneTimeSetUp]
+        public void Setup()
+        {
+            var input = new ActivityResourceInput
+            {
+                name = "Activity name",
+                description = "Activity description",
+                color = "#112233",
+            };
+            _activity = input.ToActivity(ProjectId);
+        }
+
+        [Test]
+        public void ItShouldMapName()
+            => Assert.That(_activity?.Name, Is.EqualTo("Activity name"));
+
+        [Test]
+        public void ItShouldMapDescription()
+            => Assert.That(_activity?.Description, Is.EqualTo("Activity description"));
+
+        [Test]
+        public void ItShouldMapColor()
+            => Assert.That(_activity?.Color.ToHex(), Is.EqualTo("#112233"));
+    }
+
     public class TestCase
     {
         protected readonly IdOf<Project> ProjectId = IdOf<Project>.Random();

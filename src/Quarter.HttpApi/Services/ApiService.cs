@@ -67,9 +67,7 @@ public class ApiService : IApiService
         // This will throw if the project does not exist (which is also the case if the user does not own the given project ID)
         _ = await projectRepository.GetByIdAsync(projectId, ct);
 
-        // TODO: Move this to ActivityResource?
-        var activity = new Activity(projectId, input.name!, input.description!, Color.FromHexString(input.color!));
-        activity = await activityRepository.CreateAsync(activity, ct);
+        var activity = await activityRepository.CreateAsync(input.ToActivity(projectId), ct);
         return ActivityResourceOutput.From(activity);
     }
 }

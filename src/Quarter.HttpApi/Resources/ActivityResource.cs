@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using Quarter.Core.Models;
+using Quarter.Core.Utils;
 
 namespace Quarter.HttpApi.Resources;
 
@@ -46,4 +47,12 @@ public class ActivityResourceInput
 
     [Required]
     public string? color { get; set; }
+
+    public Activity ToActivity(IdOf<Project> projectId)
+    {
+        if (name is null || description is null || color is null)
+            throw new InvalidOperationException("Input resource is not validated!");
+
+        return new Activity(projectId, name!, description!, Color.FromHexString(color!));
+    }
 }
