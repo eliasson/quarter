@@ -1,3 +1,4 @@
+using System.Net.Mime;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Quarter.Core.Models;
@@ -22,5 +23,17 @@ public class ActivitiesController  : ApiControllerBase
 
         var result = ApiService.ActivitiesForProject(projectId, oc, ct);
         return Ok(result);
+    }
+
+    [HttpPost]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    public async Task<ActionResult> CreateActivityAsync(Guid projectGuid, [FromBody] ActivityResourceInput input, CancellationToken ct)
+    {
+        var oc = GetOperationContextForCurrentUser();
+        var projectId = IdOf<Project>.Of(projectGuid);
+
+        var output = await ApiService.CreateActivityAsync(projectId, input, oc, ct);
+        return Created(output.Location(), output);
     }
 }
