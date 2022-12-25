@@ -46,6 +46,7 @@ public class ActivityResourceInput
     public string? description { get; set; }
 
     [Required]
+    [RegularExpression("^#([0-9a-fA-F]{3}){1,2}$", ErrorMessage = "The color field is invalid, must be a HEX value (e.g. #04a85b).")]
     public string? color { get; set; }
 
     public Activity ToActivity(IdOf<Project> projectId)

@@ -109,6 +109,30 @@ public class ActivityResourceTest
     }
 
     [TestFixture]
+    public class WhenConstructingActivityFromValidActivityInput : TestCase
+    {
+        public static IEnumerable<object[]> ValidResources()
+        {
+            yield return new object[] { new ActivityResourceInput { name = "OK", description = "OK", color = "#04a85b" } };
+            yield return new object[] { new ActivityResourceInput { name = "OK", description = "OK", color = "#aabbcc" } };
+            yield return new object[] { new ActivityResourceInput { name = "OK", description = "OK", color = "#abc" } };
+        }
+
+        [TestCaseSource(nameof(ValidResources))]
+        public void ItShouldBeValid(ActivityResourceInput input)
+        {
+            var result = ObjectValidator.IsValid(input, out var errors);
+            var errorMessages = errors.Select(_ => _.ErrorMessage);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(result, Is.True);
+                Assert.That(errorMessages, Is.Empty);
+            });
+        }
+    }
+
+    [TestFixture]
     public class WhenConstructingActivityFromInvalidActivityInput : TestCase
     {
         public static IEnumerable<object[]> InvalidResources()
@@ -119,6 +143,7 @@ public class ActivityResourceTest
             yield return new object[] { new ActivityResourceInput { description = "" }, "The description field is required." };
             yield return new object[] { new ActivityResourceInput { color = null! }, "The color field is required." };
             yield return new object[] { new ActivityResourceInput { color = "" }, "The color field is required." };
+            yield return new object[] { new ActivityResourceInput { color = "yellow" }, "The color field is invalid, must be a HEX value (e.g. #04a85b)." };
         }
 
         [TestCaseSource(nameof(InvalidResources))]
