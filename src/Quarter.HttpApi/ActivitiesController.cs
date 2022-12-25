@@ -36,4 +36,16 @@ public class ActivitiesController  : ApiControllerBase
         var output = await ApiService.CreateActivityAsync(projectId, input, oc, ct);
         return Created(output.Location(), output);
     }
+
+    [HttpDelete("{id:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    public async Task<ActionResult> DeleteActivityAsync(Guid projectGuid, Guid id, CancellationToken ct)
+    {
+        var oc = GetOperationContextForCurrentUser();
+        var projectId = IdOf<Project>.Of(projectGuid);
+        var activityId = IdOf<Activity>.Of(id);
+
+        await ApiService.DeleteActivityAsync(projectId, activityId, oc, ct);
+        return NoContent();
+    }
 }
