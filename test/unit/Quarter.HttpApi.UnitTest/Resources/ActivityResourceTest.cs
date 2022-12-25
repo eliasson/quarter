@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 using Quarter.Core.Models;
 using Quarter.Core.Utils;
@@ -104,6 +106,33 @@ public class ActivityResourceTest
         [Test]
         public void ItShouldMapColor()
             => Assert.That(_activity?.Color.ToHex(), Is.EqualTo("#112233"));
+    }
+
+    [TestFixture]
+    public class WhenConstructingActivityFromInvalidActivityInput : TestCase
+    {
+        public static IEnumerable<object[]> InvalidResources()
+        {
+            yield return new object[] { new ActivityResourceInput { name = null! }, "The name field is required." };
+            yield return new object[] { new ActivityResourceInput { name = "" }, "The name field is required." };
+            yield return new object[] { new ActivityResourceInput { name = null! }, "The description field is required." };
+            yield return new object[] { new ActivityResourceInput { description = "" }, "The description field is required." };
+            yield return new object[] { new ActivityResourceInput { color = null! }, "The color field is required." };
+            yield return new object[] { new ActivityResourceInput { color = "" }, "The color field is required." };
+        }
+
+        [TestCaseSource(nameof(InvalidResources))]
+        public void ItShouldNotBeValid(ActivityResourceInput input, string expectedError)
+        {
+            var result = ObjectValidator.IsValid(input, out var errors);
+            var errorMessages = errors.Select(_ => _.ErrorMessage);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(result, Is.False);
+                Assert.That(errorMessages, Does.Contain(expectedError));
+            });
+        }
     }
 
     public class TestCase
