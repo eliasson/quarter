@@ -13,6 +13,7 @@ public interface IApiService
     Task DeleteProjectAsync(IdOf<Project> projectId, OperationContext oc, CancellationToken ct);
     IAsyncEnumerable<ActivityResourceOutput> ActivitiesForProject(IdOf<Project> projectId, OperationContext oc, CancellationToken ct);
     Task<ActivityResourceOutput> CreateActivityAsync(IdOf<Project> projectId, ActivityResourceInput input, OperationContext oc, CancellationToken ct);
+    Task DeleteActivityAsync(IdOf<Project> projectId, IdOf<Activity> activityId, OperationContext oc, CancellationToken ct);
 }
 
 public class ApiService : IApiService
@@ -69,5 +70,16 @@ public class ApiService : IApiService
 
         var activity = await activityRepository.CreateAsync(input.ToActivity(projectId), ct);
         return ActivityResourceOutput.From(activity);
+    }
+
+    public async Task DeleteActivityAsync(IdOf<Project> projectId, IdOf<Activity> activityId, OperationContext oc, CancellationToken ct)
+    {
+        var activityRepository = _repositoryFactory.ActivityRepository(oc.UserId);
+        var projectRepository = _repositoryFactory.ProjectRepository(oc.UserId);
+
+        // This will throw if the project does not exist (which is also the case if the user does not own the given project ID)
+        _ = await projectRepository.GetByIdAsync(projectId, ct);
+
+        await activityRepository.RemoveByIdAsync(activityId, ct);
     }
 }

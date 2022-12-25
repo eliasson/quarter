@@ -41,6 +41,10 @@ public class TestCase
             .GetAllAsync(CancellationToken.None)
             .ToListAsync(CancellationToken.None);
 
+    protected Task<Activity> ReadActivityAsync(IdOf<User> userId, IdOf<Project> projectId, IdOf<Activity> activityId)
+        => _repositoryFactory.ActivityRepository(userId)
+            .GetByIdAsync(activityId, CancellationToken.None);
+
     protected ValueTask<List<Activity>> ReadActivitiesAsync(IdOf<User> userId, IdOf<Project> projectId)
         => _repositoryFactory.ActivityRepository(userId)
             .GetAllForProjectAsync(projectId, CancellationToken.None)
