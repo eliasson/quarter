@@ -57,3 +57,13 @@ public class ActivityResourceInput
         return new Activity(projectId, name!, description!, Color.FromHexString(color!));
     }
 }
+
+public class UpdateActivityResourceInput
+{
+    public string? name { get; set; }
+
+    public string? description { get; set; }
+
+    [RegularExpression("^#([0-9a-fA-F]{3}){1,2}$", ErrorMessage = "The color field is invalid, must be a HEX value (e.g. #04a85b).")]
+    public string? color { get; set; }
+}

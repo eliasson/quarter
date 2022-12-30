@@ -13,6 +13,7 @@ public interface IApiService
     Task DeleteProjectAsync(IdOf<Project> projectId, OperationContext oc, CancellationToken ct);
     IAsyncEnumerable<ActivityResourceOutput> ActivitiesForProject(IdOf<Project> projectId, OperationContext oc, CancellationToken ct);
     Task<ActivityResourceOutput> CreateActivityAsync(IdOf<Project> projectId, ActivityResourceInput input, OperationContext oc, CancellationToken ct);
+    Task<ActivityResourceOutput> UpdateActivityAsync(IdOf<Project> projectId, IdOf<Activity> activityId, UpdateActivityResourceInput input, OperationContext oc, CancellationToken ct);
     Task DeleteActivityAsync(IdOf<Project> projectId, IdOf<Activity> activityId, OperationContext oc, CancellationToken ct);
 }
 
@@ -69,6 +70,25 @@ public class ApiService : IApiService
         _ = await projectRepository.GetByIdAsync(projectId, ct);
 
         var activity = await activityRepository.CreateAsync(input.ToActivity(projectId), ct);
+        return ActivityResourceOutput.From(activity);
+    }
+
+    public async Task<ActivityResourceOutput> UpdateActivityAsync(IdOf<Project> projectId, IdOf<Activity> activityId, UpdateActivityResourceInput input, OperationContext oc, CancellationToken ct)
+    {
+        var activityRepository = _repositoryFactory.ActivityRepository(oc.UserId);
+        var projectRepository = _repositoryFactory.ProjectRepository(oc.UserId);
+
+        // This will throw if the project does not exist (which is also the case if the user does not own the given project ID)
+        _ = await projectRepository.GetByIdAsync(projectId, ct);
+
+        var activity = await activityRepository.UpdateByIdAsync(activityId, existing =>
+        {
+            if (input.name is not null) existing.Name = input.name;
+            if (input.description is not null) existing.Description = input.description;
+            if (input.color is not null) existing.Color = Color.FromHexString(input.color);
+            return existing;
+        }, ct);
+
         return ActivityResourceOutput.From(activity);
     }
 
