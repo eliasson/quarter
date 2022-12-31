@@ -33,7 +33,7 @@ public class ProjectsController : ApiControllerBase
         return Created(output.Location(), output);
     }
 
-    [HttpPut("{id:guid}")]
+    [HttpPatch("{id:guid}")]
     [Consumes(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult> UpdateProjectAsync(Guid id, [FromBody] UpdateProjectResourceInput input, CancellationToken ct)

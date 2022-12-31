@@ -10,6 +10,7 @@ namespace Quarter.UnitTest.HttpApi;
 [TestFixture]
 public class UpdateProjectTest
 {
+    [TestFixture]
     public class WhenPayloadIsValid : HttpTestCase
     {
         private HttpResponseMessage _response;
@@ -24,7 +25,7 @@ public class UpdateProjectTest
                 name = "Project Alpha Updated",
                 description = "Updated description",
             };
-            _response = await PutAsync($"/api/projects/{project.Id.AsString()}", payload);
+            _response = await PatchAsync($"/api/projects/{project.Id.AsString()}", payload);
         }
 
         [Test]
@@ -39,6 +40,7 @@ public class UpdateProjectTest
         }
     }
 
+    [TestFixture]
     public class WhenInvalidPayload : HttpTestCase
     {
         private HttpResponseMessage _response;
@@ -52,7 +54,7 @@ public class UpdateProjectTest
             {
                 description = "Missing name"
             };
-            _response = await PutAsync($"/api/projects/{project.Id.AsString()}", payload);
+            _response = await PatchAsync($"/api/projects/{project.Id.AsString()}", payload);
         }
 
         [Test]
@@ -60,6 +62,7 @@ public class UpdateProjectTest
             => Assert.That(_response?.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
     }
 
+    [TestFixture]
     public class WhenUserIsNotAuthenticated : HttpTestCase
     {
         private HttpResponseMessage _response;
@@ -69,7 +72,7 @@ public class UpdateProjectTest
         {
             var user = await SetupUnauthenticatedUserAsync("john.doe@example.com");
             var project = await AddProjectAsync(user.Id, "Project Alpha");
-            _response = await PutAsync($"/api/projects/{project.Id.AsString()}", project);
+            _response = await PatchAsync($"/api/projects/{project.Id.AsString()}", project);
         }
 
         [Test]
