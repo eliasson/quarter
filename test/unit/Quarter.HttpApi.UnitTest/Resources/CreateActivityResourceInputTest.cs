@@ -8,79 +8,12 @@ using Quarter.HttpApi.Resources;
 namespace Quarter.HttpApi.UnitTest.Resources;
 
 [TestFixture]
-public class ActivityResourceTest
+public class CreateActivityResourceInputTest
 {
-    public class WhenConstructingMinimalActivityOutput : TestCase
-    {
-        [OneTimeSetUp]
-        public void Setup()
-        {
-            Activity = new Activity(ProjectId, "Activity name", "Activity description", Color.FromHexString("#112233"));
-            Output = ActivityResourceOutput.From(Activity);
-        }
-
-        [Test]
-        public void ItShouldMapId()
-            => Assert.That(Output?.id, Is.EqualTo(Activity?.Id.Id.ToString()));
-
-        [Test]
-        public void ItShouldMapProjectId()
-            => Assert.That(Output?.projectId, Is.EqualTo(Activity?.ProjectId.Id.ToString()));
-
-        [Test]
-        public void ItShouldMapName()
-            => Assert.That(Output?.name, Is.EqualTo("Activity name"));
-
-        [Test]
-        public void ItShouldMapDescription()
-            => Assert.That(Output?.description, Is.EqualTo("Activity description"));
-
-        [Test]
-        public void ItShouldMapColor()
-            => Assert.That(Output?.color, Is.EqualTo("#112233"));
-
-        [Test]
-        public void ItShouldMapIsArchived()
-            => Assert.That(Output?.isArchived, Is.False);
-
-        [Test]
-        public void ItShouldMapCreatedTimestamp()
-            => Assert.That(Output?.created, Is.EqualTo(Activity?.Created.IsoString()));
-
-        [Test]
-        public void ItShouldLackUpdateTimestamp()
-            => Assert.That(Output?.updated, Is.Null);
-    }
-
-    public class WhenConstructingFullProjectOutput : TestCase
-    {
-        [OneTimeSetUp]
-        public void Setup()
-        {
-            Activity = new Activity(ProjectId, "Activity name", "Activity description", Color.FromHexString("#112233"));
-            Activity.Updated = UtcDateTime.Now();
-            Activity.Archive();
-            Output = ActivityResourceOutput.From(Activity);
-        }
-
-        [Test]
-        public void ItShouldMapIsArchived()
-            => Assert.That(Output?.isArchived, Is.True);
-
-        [Test]
-        public void ItShouldMapUpdatedTimestamp()
-        {
-            Assert.Multiple(() =>
-            {
-                Assert.That(Output?.updated, Is.EqualTo(Activity?.Updated?.IsoString()));
-                Assert.That(Output?.updated, Is.Not.Null);
-            });
-        }
-    }
-
     [TestFixture]
-    public class WhenConstructingActivityFromMinimalActivityInput : TestCase
+    public class WhenConstructingActivityFromMinimalActivityInput
     {
+        private readonly IdOf<Project> _projectId = IdOf<Project>.Random();
         private Activity? _activity;
 
         [OneTimeSetUp]
@@ -92,7 +25,7 @@ public class ActivityResourceTest
                 description = "Activity description",
                 color = "#112233",
             };
-            _activity = input.ToActivity(ProjectId);
+            _activity = input.ToActivity(_projectId);
         }
 
         [Test]
@@ -106,10 +39,14 @@ public class ActivityResourceTest
         [Test]
         public void ItShouldMapColor()
             => Assert.That(_activity?.Color.ToHex(), Is.EqualTo("#112233"));
+
+        [Test]
+        public void ItShouldSetProjectId()
+            => Assert.That(_activity?.ProjectId, Is.EqualTo(_projectId));
     }
 
     [TestFixture]
-    public class WhenConstructingActivityFromValidActivityInput : TestCase
+    public class WhenConstructingActivityFromValidActivityInput
     {
         public static IEnumerable<object[]> ValidResources()
         {
@@ -133,7 +70,7 @@ public class ActivityResourceTest
     }
 
     [TestFixture]
-    public class WhenConstructingActivityFromInvalidActivityInput : TestCase
+    public class WhenConstructingActivityFromInvalidActivityInput
     {
         public static IEnumerable<object[]> InvalidResources()
         {
@@ -158,12 +95,5 @@ public class ActivityResourceTest
                 Assert.That(errorMessages, Does.Contain(expectedError));
             });
         }
-    }
-
-    public class TestCase
-    {
-        protected readonly IdOf<Project> ProjectId = IdOf<Project>.Random();
-        protected Activity? Activity;
-        protected ActivityResourceOutput? Output;
     }
 }
