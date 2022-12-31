@@ -76,7 +76,7 @@ public class CreateActivityResourceInputTest
         {
             yield return new object[] { new CreateActivityResourceInput { name = null! }, "The name field is required." };
             yield return new object[] { new CreateActivityResourceInput { name = "" }, "The name field is required." };
-            yield return new object[] { new CreateActivityResourceInput { name = null! }, "The description field is required." };
+            yield return new object[] { new CreateActivityResourceInput { description = null! }, "The description field is required." };
             yield return new object[] { new CreateActivityResourceInput { description = "" }, "The description field is required." };
             yield return new object[] { new CreateActivityResourceInput { color = null! }, "The color field is required." };
             yield return new object[] { new CreateActivityResourceInput { color = "" }, "The color field is required." };
