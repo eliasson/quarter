@@ -6,8 +6,9 @@ using Quarter.HttpApi.Resources;
 namespace Quarter.HttpApi.UnitTest.Resources;
 
 [TestFixture]
-public class ProjectResourceTest
+public class ProjectResourceOutputTest
 {
+    [TestFixture]
     public class WhenConstructingMinimalProjectOutput
     {
         private Project? _project;
@@ -45,6 +46,7 @@ public class ProjectResourceTest
             => Assert.That(_output?.updated, Is.Null);
     }
 
+    [TestFixture]
     public class WhenConstructingFullProjectOutput
     {
         private Project? _project;
