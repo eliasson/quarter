@@ -86,7 +86,7 @@ public class ActivityResourceTest
         [OneTimeSetUp]
         public void Setup()
         {
-            var input = new ActivityResourceInput
+            var input = new CreateActivityResourceInput
             {
                 name = "Activity name",
                 description = "Activity description",
@@ -113,13 +113,13 @@ public class ActivityResourceTest
     {
         public static IEnumerable<object[]> ValidResources()
         {
-            yield return new object[] { new ActivityResourceInput { name = "OK", description = "OK", color = "#04a85b" } };
-            yield return new object[] { new ActivityResourceInput { name = "OK", description = "OK", color = "#aabbcc" } };
-            yield return new object[] { new ActivityResourceInput { name = "OK", description = "OK", color = "#abc" } };
+            yield return new object[] { new CreateActivityResourceInput { name = "OK", description = "OK", color = "#04a85b" } };
+            yield return new object[] { new CreateActivityResourceInput { name = "OK", description = "OK", color = "#aabbcc" } };
+            yield return new object[] { new CreateActivityResourceInput { name = "OK", description = "OK", color = "#abc" } };
         }
 
         [TestCaseSource(nameof(ValidResources))]
-        public void ItShouldBeValid(ActivityResourceInput input)
+        public void ItShouldBeValid(CreateActivityResourceInput input)
         {
             var result = ObjectValidator.IsValid(input, out var errors);
             var errorMessages = errors.Select(_ => _.ErrorMessage);
@@ -137,17 +137,17 @@ public class ActivityResourceTest
     {
         public static IEnumerable<object[]> InvalidResources()
         {
-            yield return new object[] { new ActivityResourceInput { name = null! }, "The name field is required." };
-            yield return new object[] { new ActivityResourceInput { name = "" }, "The name field is required." };
-            yield return new object[] { new ActivityResourceInput { name = null! }, "The description field is required." };
-            yield return new object[] { new ActivityResourceInput { description = "" }, "The description field is required." };
-            yield return new object[] { new ActivityResourceInput { color = null! }, "The color field is required." };
-            yield return new object[] { new ActivityResourceInput { color = "" }, "The color field is required." };
-            yield return new object[] { new ActivityResourceInput { color = "yellow" }, "The color field is invalid, must be a HEX value (e.g. #04a85b)." };
+            yield return new object[] { new CreateActivityResourceInput { name = null! }, "The name field is required." };
+            yield return new object[] { new CreateActivityResourceInput { name = "" }, "The name field is required." };
+            yield return new object[] { new CreateActivityResourceInput { name = null! }, "The description field is required." };
+            yield return new object[] { new CreateActivityResourceInput { description = "" }, "The description field is required." };
+            yield return new object[] { new CreateActivityResourceInput { color = null! }, "The color field is required." };
+            yield return new object[] { new CreateActivityResourceInput { color = "" }, "The color field is required." };
+            yield return new object[] { new CreateActivityResourceInput { color = "yellow" }, "The color field is invalid, must be a HEX value (e.g. #04a85b)." };
         }
 
         [TestCaseSource(nameof(InvalidResources))]
-        public void ItShouldNotBeValid(ActivityResourceInput input, string expectedError)
+        public void ItShouldNotBeValid(CreateActivityResourceInput input, string expectedError)
         {
             var result = ObjectValidator.IsValid(input, out var errors);
             var errorMessages = errors.Select(_ => _.ErrorMessage);

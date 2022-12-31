@@ -28,7 +28,7 @@ public class ActivitiesController  : ApiControllerBase
     [HttpPost]
     [Consumes(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    public async Task<ActionResult> CreateActivityAsync(Guid projectGuid, [FromBody] ActivityResourceInput input, CancellationToken ct)
+    public async Task<ActionResult> CreateActivityAsync(Guid projectGuid, [FromBody] CreateActivityResourceInput input, CancellationToken ct)
     {
         var oc = GetOperationContextForCurrentUser();
         var projectId = IdOf<Project>.Of(projectGuid);

@@ -12,7 +12,7 @@ public interface IApiService
     Task<ProjectResourceOutput> UpdateProjectAsync(IdOf<Project> projectId, ProjectResourceInput input, OperationContext oc, CancellationToken ct);
     Task DeleteProjectAsync(IdOf<Project> projectId, OperationContext oc, CancellationToken ct);
     IAsyncEnumerable<ActivityResourceOutput> ActivitiesForProject(IdOf<Project> projectId, OperationContext oc, CancellationToken ct);
-    Task<ActivityResourceOutput> CreateActivityAsync(IdOf<Project> projectId, ActivityResourceInput input, OperationContext oc, CancellationToken ct);
+    Task<ActivityResourceOutput> CreateActivityAsync(IdOf<Project> projectId, CreateActivityResourceInput input, OperationContext oc, CancellationToken ct);
     Task<ActivityResourceOutput> UpdateActivityAsync(IdOf<Project> projectId, IdOf<Activity> activityId, UpdateActivityResourceInput input, OperationContext oc, CancellationToken ct);
     Task DeleteActivityAsync(IdOf<Project> projectId, IdOf<Activity> activityId, OperationContext oc, CancellationToken ct);
 }
@@ -61,7 +61,7 @@ public class ApiService : IApiService
         return activityRepository.GetAllForProjectAsync(projectId, ct).Select(ActivityResourceOutput.From);
     }
 
-    public async Task<ActivityResourceOutput> CreateActivityAsync(IdOf<Project> projectId, ActivityResourceInput input, OperationContext oc, CancellationToken ct)
+    public async Task<ActivityResourceOutput> CreateActivityAsync(IdOf<Project> projectId, CreateActivityResourceInput input, OperationContext oc, CancellationToken ct)
     {
         var activityRepository = _repositoryFactory.ActivityRepository(oc.UserId);
         var projectRepository = _repositoryFactory.ProjectRepository(oc.UserId);

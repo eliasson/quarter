@@ -37,7 +37,7 @@ public record ActivityResourceOutput(string id, string projectId, string name, s
     }
 }
 
-public class ActivityResourceInput
+public class CreateActivityResourceInput
 {
     [Required]
     public string? name { get; set; }

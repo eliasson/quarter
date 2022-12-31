@@ -21,7 +21,7 @@ public class CreateActivityTest
         [OneTimeSetUp]
         public async Task Setup()
         {
-            var input = new ActivityResourceInput
+            var input = new CreateActivityResourceInput
             {
                 name = "Activity alpha",
                 description = "Description alpha",
@@ -51,7 +51,7 @@ public class CreateActivityTest
         {
             var oc = CreateOperationContext();
             var userId = IdOf<User>.Random();
-            var input = new ActivityResourceInput
+            var input = new CreateActivityResourceInput
             {
                 name = "Activity alpha",
                 description = "Description alpha",
@@ -69,7 +69,7 @@ public class CreateActivityTest
         public void ItShouldThrowNotFoundException()
         {
             var oc = CreateOperationContext();
-            var input = new ActivityResourceInput
+            var input = new CreateActivityResourceInput
             {
                 name = "Activity alpha",
                 description = "Description alpha",
