@@ -45,6 +45,9 @@ public class HttpTestCase
     protected Task<HttpResponseMessage> PutAsync(string requestUri, object payload)
         => HttpTestSession.HttpClient.PutAsync(requestUri, JsonContent.Create(payload));
 
+    protected Task<HttpResponseMessage> PatchAsync(string requestUri, object payload)
+        => HttpTestSession.HttpClient.PatchAsync(requestUri, JsonContent.Create(payload));
+
     protected Task<HttpResponseMessage> DeleteAsync(string? requestUri)
         => HttpTestSession.HttpClient.DeleteAsync(requestUri);
 

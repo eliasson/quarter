@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Quarter.Auth;
+using Quarter.Core.Exceptions;
 using Quarter.Core.Options;
 using Quarter.Services;
 using Quarter.StartupTasks;
@@ -154,6 +155,11 @@ namespace Quarter
                         case UnauthorizedAccessException uae:
                             message = uae.Message;
                             ctx.Response.StatusCode = (int) HttpStatusCode.Unauthorized;
+                            break;
+
+                        case NotFoundException nfe:
+                            message = nfe.Message;
+                            ctx.Response.StatusCode = (int) HttpStatusCode.NotFound;
                             break;
 
                         default:

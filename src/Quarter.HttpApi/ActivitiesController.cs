@@ -37,6 +37,19 @@ public class ActivitiesController  : ApiControllerBase
         return Created(output.Location(), output);
     }
 
+    [HttpPatch("{id:guid}")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult> UpdateActivityAsync(Guid projectGuid, Guid id, [FromBody] UpdateActivityResourceInput input, CancellationToken ct)
+    {
+        var oc = GetOperationContextForCurrentUser();
+        var projectId = IdOf<Project>.Of(projectGuid);
+        var activityId = IdOf<Activity>.Of(id);
+
+        var output = await ApiService.UpdateActivityAsync(projectId, activityId, input, oc, ct);
+        return Ok(output);
+    }
+
     [HttpDelete("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<ActionResult> DeleteActivityAsync(Guid projectGuid, Guid id, CancellationToken ct)
