@@ -41,28 +41,6 @@ public class UpdateProjectTest
     }
 
     [TestFixture]
-    public class WhenInvalidPayload : HttpTestCase
-    {
-        private HttpResponseMessage _response;
-
-        [OneTimeSetUp]
-        public async Task SetUp()
-        {
-            var user = await SetupAuthorizedUserAsync("john.doe@example.com");
-            var project = await AddProjectAsync(user.Id, "Project Alpha");
-            var payload = new
-            {
-                description = "Missing name"
-            };
-            _response = await PatchAsync($"/api/projects/{project.Id.AsString()}", payload);
-        }
-
-        [Test]
-        public void ItShouldReturnBadRequestStatus()
-            => Assert.That(_response?.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-    }
-
-    [TestFixture]
     public class WhenUserIsNotAuthenticated : HttpTestCase
     {
         private HttpResponseMessage _response;
