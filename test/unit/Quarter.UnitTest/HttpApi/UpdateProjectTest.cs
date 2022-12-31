@@ -2,6 +2,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using Quarter.Core.Models;
 using Quarter.HttpApi.Resources;
 using Quarter.UnitTest.TestUtils;
 
@@ -38,6 +39,27 @@ public class UpdateProjectTest
             var payload = await _response.AsPayload<ProjectResourceOutput>();
             Assert.That(payload?.name, Is.EqualTo("Project Alpha Updated"));
         }
+    }
+
+    [TestFixture]
+    public class WhenProjectIsMissing : HttpTestCase
+    {
+        private HttpResponseMessage _response;
+
+        [OneTimeSetUp]
+        public async Task SetUp()
+        {
+            await SetupAuthorizedUserAsync("john.doe@example.com");
+            var payload = new
+            {
+                name = "Project Alpha Updated",
+            };
+            _response = await PatchAsync($"/api/projects/{IdOf<Project>.Random().AsString()}", payload);
+        }
+
+        [Test]
+        public void ItShouldReturnNotFoundStatus()
+            => Assert.That(_response?.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
     }
 
     [TestFixture]
