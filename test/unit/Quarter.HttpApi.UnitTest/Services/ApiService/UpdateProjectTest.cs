@@ -19,7 +19,7 @@ public class UpdateProjectTest
         public async Task Setup()
         {
             var project = await AddProject(_oc.UserId, "Project Alpha");
-            var input = new ProjectResourceInput
+            var input = new UpdateProjectResourceInput
             {
                 name = "Project Alpha Updated",
                 description = "Updated Description Alpha"

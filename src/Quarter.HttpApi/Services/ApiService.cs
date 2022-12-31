@@ -8,8 +8,8 @@ namespace Quarter.HttpApi.Services;
 public interface IApiService
 {
     IAsyncEnumerable<ProjectResourceOutput> ProjectsForUserAsync(OperationContext oc, CancellationToken ct);
-    Task<ProjectResourceOutput> CreateProjectAsync(ProjectResourceInput input, OperationContext oc, CancellationToken ct);
-    Task<ProjectResourceOutput> UpdateProjectAsync(IdOf<Project> projectId, ProjectResourceInput input, OperationContext oc, CancellationToken ct);
+    Task<ProjectResourceOutput> CreateProjectAsync(CreateProjectResourceInput input, OperationContext oc, CancellationToken ct);
+    Task<ProjectResourceOutput> UpdateProjectAsync(IdOf<Project> projectId, UpdateProjectResourceInput input, OperationContext oc, CancellationToken ct);
     Task DeleteProjectAsync(IdOf<Project> projectId, OperationContext oc, CancellationToken ct);
     IAsyncEnumerable<ActivityResourceOutput> ActivitiesForProject(IdOf<Project> projectId, OperationContext oc, CancellationToken ct);
     Task<ActivityResourceOutput> CreateActivityAsync(IdOf<Project> projectId, CreateActivityResourceInput input, OperationContext oc, CancellationToken ct);
@@ -32,14 +32,14 @@ public class ApiService : IApiService
         return projectRepository.GetAllAsync(ct).Select(ProjectResourceOutput.From);
     }
 
-    public async Task<ProjectResourceOutput> CreateProjectAsync(ProjectResourceInput input, OperationContext oc, CancellationToken ct)
+    public async Task<ProjectResourceOutput> CreateProjectAsync(CreateProjectResourceInput input, OperationContext oc, CancellationToken ct)
     {
         var project = new Project(input.name!, input.description!);
         project =  await _repositoryFactory.ProjectRepository(oc.UserId).CreateAsync(project, ct);
         return ProjectResourceOutput.From(project);
     }
 
-    public async Task<ProjectResourceOutput> UpdateProjectAsync(IdOf<Project> projectId, ProjectResourceInput input, OperationContext oc, CancellationToken ct)
+    public async Task<ProjectResourceOutput> UpdateProjectAsync(IdOf<Project> projectId, UpdateProjectResourceInput input, OperationContext oc, CancellationToken ct)
     {
         var project =  await _repositoryFactory.ProjectRepository(oc.UserId).UpdateByIdAsync(projectId, existing =>
         {

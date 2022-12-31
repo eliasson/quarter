@@ -18,7 +18,7 @@ public class CreateProjectTest
         [OneTimeSetUp]
         public async Task Setup()
         {
-            var input = new ProjectResourceInput
+            var input = new CreateProjectResourceInput
             {
                 name = "Project alpha",
                 description = "Description alpha"

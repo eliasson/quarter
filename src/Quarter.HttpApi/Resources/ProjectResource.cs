@@ -25,7 +25,16 @@ public record ProjectResourceOutput(string id, string name, string description, 
     }
 }
 
-public class ProjectResourceInput
+public class CreateProjectResourceInput
+{
+    [Required]
+    public string? name { get; set; }
+
+    [Required]
+    public string? description { get; set; }
+}
+
+public class UpdateProjectResourceInput
 {
     [Required]
     public string? name { get; set; }

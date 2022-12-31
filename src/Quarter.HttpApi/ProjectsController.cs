@@ -26,7 +26,7 @@ public class ProjectsController : ApiControllerBase
     [HttpPost]
     [Consumes(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    public async Task<ActionResult> CreateProjectAsync([FromBody] ProjectResourceInput input, CancellationToken ct)
+    public async Task<ActionResult> CreateProjectAsync([FromBody] CreateProjectResourceInput input, CancellationToken ct)
     {
         var oc = GetOperationContextForCurrentUser();
         var output = await ApiService.CreateProjectAsync(input, oc, ct);
@@ -36,7 +36,7 @@ public class ProjectsController : ApiControllerBase
     [HttpPut("{id:guid}")]
     [Consumes(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult> UpdateProjectAsync(Guid id, [FromBody] ProjectResourceInput input, CancellationToken ct)
+    public async Task<ActionResult> UpdateProjectAsync(Guid id, [FromBody] UpdateProjectResourceInput input, CancellationToken ct)
     {
         var oc = GetOperationContextForCurrentUser();
         var projectId = IdOf<Project>.Of(id);
