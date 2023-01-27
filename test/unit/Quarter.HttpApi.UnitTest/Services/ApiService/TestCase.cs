@@ -50,6 +50,9 @@ public class TestCase
             .GetAllForProjectAsync(projectId, CancellationToken.None)
             .ToListAsync(CancellationToken.None);
 
+    protected Task AddTimesheetAsync(IdOf<User> userId, Timesheet timesheet)
+        => _repositoryFactory.TimesheetRepository(userId).CreateAsync(timesheet, CancellationToken.None);
+
     protected static OperationContext CreateOperationContext()
         => new (IdOf<User>.Random());
 }

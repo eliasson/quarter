@@ -15,6 +15,7 @@ public interface IApiService
     Task<ActivityResourceOutput> CreateActivityAsync(IdOf<Project> projectId, CreateActivityResourceInput input, OperationContext oc, CancellationToken ct);
     Task<ActivityResourceOutput> UpdateActivityAsync(IdOf<Project> projectId, IdOf<Activity> activityId, UpdateActivityResourceInput input, OperationContext oc, CancellationToken ct);
     Task DeleteActivityAsync(IdOf<Project> projectId, IdOf<Activity> activityId, OperationContext oc, CancellationToken ct);
+    Task<TimesheetResourceOutput> GetTimesheetAsync(Date date, OperationContext oc, CancellationToken ct);
 }
 
 public class ApiService : IApiService
@@ -101,5 +102,11 @@ public class ApiService : IApiService
         _ = await projectRepository.GetByIdAsync(projectId, ct);
 
         await activityRepository.RemoveByIdAsync(activityId, ct);
+    }
+
+    public async Task<TimesheetResourceOutput> GetTimesheetAsync(Date date, OperationContext oc, CancellationToken ct)
+    {
+        var timesheet = await _repositoryFactory.TimesheetRepository(oc.UserId).GetOrNewTimesheetAsync(date, ct);
+        return TimesheetResourceOutput.From(timesheet);
     }
 }
