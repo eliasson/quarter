@@ -3,17 +3,17 @@ using Quarter.Core.Models;
 
 namespace Quarter.HttpApi.Resources;
 
-public record TimeSlot(string projectId, string activityId, int offset, int duration)
+public record TimeSlotOutput(string projectId, string activityId, int offset, int duration)
 {
-    public static TimeSlot From(ActivityTimeSlot slot)
-        => new TimeSlot(slot.ProjectId.AsString(), slot.ActivityId.AsString(), slot.Offset, slot.Duration);
+    public static TimeSlotOutput From(ActivityTimeSlot slot)
+        => new TimeSlotOutput(slot.ProjectId.AsString(), slot.ActivityId.AsString(), slot.Offset, slot.Duration);
 }
 
-public record TimesheetResourceOutput(string date, int totalMinutes, IList<TimeSlot> timeSlots)
+public record TimesheetResourceOutput(string date, int totalMinutes, IList<TimeSlotOutput> timeSlots)
 {
     public static TimesheetResourceOutput From(Timesheet timesheet)
     {
-        var slots = timesheet.Slots().Select(TimeSlot.From).ToList();
+        var slots = timesheet.Slots().Select(TimeSlotOutput.From).ToList();
         return new TimesheetResourceOutput(timesheet.Date.IsoString(),
             timesheet.TotalMinutes(),
             slots);

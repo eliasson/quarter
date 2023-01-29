@@ -48,8 +48,8 @@ public class TimesheetResourceOutputTest
         {
             Assert.That(Resource.timeSlots, Is.EqualTo(new []
             {
-                new Quarter.HttpApi.Resources.TimeSlot(ProjectIdA.AsString(), ActivityIdA.AsString(), 4, 10),
-                new Quarter.HttpApi.Resources.TimeSlot(ProjectIdB.AsString(), ActivityIdB.AsString(), 50, 20),
+                new Quarter.HttpApi.Resources.TimeSlotOutput(ProjectIdA.AsString(), ActivityIdA.AsString(), 4, 10),
+                new Quarter.HttpApi.Resources.TimeSlotOutput(ProjectIdB.AsString(), ActivityIdB.AsString(), 50, 20),
             }));
         }
     }
