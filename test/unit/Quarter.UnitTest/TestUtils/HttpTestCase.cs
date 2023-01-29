@@ -64,6 +64,16 @@ public class HttpTestCase
         var activity = new Activity(projectId, name, $"description:{name}", Color.FromHexString("#FFFFFF"));
         return repoFactory.ActivityRepository(userId).CreateAsync(activity, CancellationToken.None);
     }
+
+    protected Task<Timesheet> AddTimesheetAsync(IdOf<User> userId, Date date, params ActivityTimeSlot[] timeSlots)
+    {
+        var timesheet = Timesheet.CreateForDate(date);
+        foreach (var slot in timeSlots)
+            timesheet.Register(slot);
+
+        var repoFactory = HttpTestSession.ResolveService<IRepositoryFactory>();
+        return repoFactory.TimesheetRepository(userId).CreateAsync(timesheet, CancellationToken.None);
+    }
 }
 
 public static class HttpResponseMessageExtensions
