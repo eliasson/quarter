@@ -155,6 +155,14 @@ public class DateTest
         Assert.That(endDate, Is.EqualTo(FromDateString(expectedDateStr)));
     }
 
+    [TestCase("2022-12-31")]
+    [TestCase("2023-01-28")]
+    public void ItShouldConstructFromIso8601String(string input)
+    {
+        var date = Date.From(input);
+        Assert.That(date.IsoString(), Is.EqualTo(input));
+    }
+
     private static Date FromDateString(string dateString)
         => new Date(DateTime.Parse(dateString));
 }
