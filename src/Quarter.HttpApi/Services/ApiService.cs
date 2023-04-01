@@ -11,12 +11,16 @@ public interface IApiService
     Task<ProjectResourceOutput> CreateProjectAsync(CreateProjectResourceInput input, OperationContext oc, CancellationToken ct);
     Task<ProjectResourceOutput> UpdateProjectAsync(IdOf<Project> projectId, UpdateProjectResourceInput input, OperationContext oc, CancellationToken ct);
     Task DeleteProjectAsync(IdOf<Project> projectId, OperationContext oc, CancellationToken ct);
+
     IAsyncEnumerable<ActivityResourceOutput> ActivitiesForProject(IdOf<Project> projectId, OperationContext oc, CancellationToken ct);
     Task<ActivityResourceOutput> CreateActivityAsync(IdOf<Project> projectId, CreateActivityResourceInput input, OperationContext oc, CancellationToken ct);
     Task<ActivityResourceOutput> UpdateActivityAsync(IdOf<Project> projectId, IdOf<Activity> activityId, UpdateActivityResourceInput input, OperationContext oc, CancellationToken ct);
     Task DeleteActivityAsync(IdOf<Project> projectId, IdOf<Activity> activityId, OperationContext oc, CancellationToken ct);
+
     Task<TimesheetResourceOutput> GetTimesheetAsync(Date date, OperationContext oc, CancellationToken ct);
     Task<TimesheetResourceOutput> UpdateTimesheetAsync(TimesheetResourceInput input, OperationContext oc, CancellationToken ct);
+
+    Task<ProjectAndActivitiesResourceOutput> GetAllProjectsAndActivitiesForUserAsync(OperationContext oc, CancellationToken ct);
 }
 
 public class ApiService : IApiService
@@ -125,5 +129,15 @@ public class ApiService : IApiService
         }, ct);
 
         return TimesheetResourceOutput.From(timesheet);
+    }
+
+    public async Task<ProjectAndActivitiesResourceOutput> GetAllProjectsAndActivitiesForUserAsync(OperationContext oc, CancellationToken ct)
+    {
+        var projects = await _repositoryFactory.ProjectRepository(oc.UserId).GetAllAsync(ct).ToListAsync(ct);
+        var activities = await _repositoryFactory.ActivityRepository(oc.UserId).GetAllAsync(ct).ToListAsync(ct);
+        var projectResources = projects.Select(ProjectResourceOutput.From).ToList();
+        var activitiesResources = activities.Select(ActivityResourceOutput.From).ToList();
+
+        return new ProjectAndActivitiesResourceOutput(projectResources, activitiesResources);
     }
 }
