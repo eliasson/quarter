@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Quarter.Core.Auth;
 using Quarter.Core.Models;
 using Quarter.Core.Utils;
 using Quarter.Services;

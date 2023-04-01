@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.Logging;
 using Quarter.Auth;
+using Quarter.Core.Auth;
 using Quarter.Core.Exceptions;
 using Quarter.Core.Models;
 using Quarter.Core.Repositories;

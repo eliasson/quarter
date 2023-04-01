@@ -6,6 +6,7 @@ using Quarter.Core.Commands;
 using Quarter.Core.Queries;
 using Quarter.Core.Repositories;
 using Quarter.Core.UI.State;
+using Quarter.HttpApi.Services;
 using Quarter.Services;
 using Quarter.State;
 using Quarter.UnitTest.TestUtils;
@@ -20,6 +21,7 @@ public class QuarterServiceConfigurationTest
     [TestCase(typeof(IQueryHandler))]
     [TestCase(typeof(IStateManager<ApplicationState>))]
     [TestCase(typeof(IUserAuthorizationService))]
+    [TestCase(typeof(IApiService))]
     public void HasRegisteredService(Type type)
     {
         var provider = CreateServiceProvider();

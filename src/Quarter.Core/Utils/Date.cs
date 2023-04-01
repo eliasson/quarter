@@ -43,6 +43,14 @@ public struct Date
     }
 
     /// <summary>
+    /// Returns a date parsed from the given input string
+    /// </summary>
+    /// <param name="date">The date as string (e.g. YYYY-MM-DD)</param>
+    /// <returns>A date</returns>
+    public static Date From(string date)
+        => new Date(System.DateTime.Parse(date));
+
+    /// <summary>
     /// Generate a sequence of N dates starting with the given date.
     /// </summary>
     /// <param name="start">The first date in the sequence</param>

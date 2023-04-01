@@ -16,6 +16,9 @@ namespace Quarter.Core.Utils
         public UtcDateTime(DateTime dateTime)
             => DateTime = dateTime.ToUniversalTime();
 
+        public string IsoString()
+            => DateTime.ToString("o");
+
         /// <summary>
         /// Get a UTC DateTime for the current time
         /// </summary>

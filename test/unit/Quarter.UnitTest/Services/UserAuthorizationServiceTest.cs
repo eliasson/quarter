@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging.Abstractions;
 using NUnit.Framework;
 using Quarter.Auth;
+using Quarter.Core.Auth;
 using Quarter.Core.Models;
 using Quarter.Core.Repositories;
 using Quarter.Core.Utils;

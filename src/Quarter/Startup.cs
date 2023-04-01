@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Quarter.Auth;
+using Quarter.Core.Exceptions;
 using Quarter.Core.Options;
 using Quarter.Services;
 using Quarter.StartupTasks;
@@ -42,6 +43,8 @@ namespace Quarter
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddControllers(o => o.EnableEndpointRouting = false);
+            services.AddAuthorization();
+            services.AddHttpContextAccessor();
             services.RegisterStartupTasks();
 
         }
@@ -71,6 +74,18 @@ namespace Quarter
                     options.LoginPath = "/account/login";
                     options.LogoutPath = "/account/logout";
                     options.SlidingExpiration = true;
+
+                    var handle = options.Events.OnRedirectToLogin;
+                    options.Events.OnRedirectToLogin = async (ctx) =>
+                    {
+                        if (ctx.Request.Path.StartsWithSegments("/api", StringComparison.InvariantCulture))
+                        {
+                            ctx.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                            return;
+                        }
+                        await handle(ctx);
+                    };
+
                 })
                 .AddGoogle(options =>
                 {
@@ -129,7 +144,9 @@ namespace Quarter
                 {
                     var feature = ctx.Features.Get<IExceptionHandlerPathFeature>();
                     ctx.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
-                    var exception = feature?.Error?.InnerException;
+
+                    // At least for integration-tests of controllers the outer exception is the UnauthorizedAccessException
+                    var exception = feature?.Error.InnerException ?? feature?.Error;
 
                     string message = "An unhandled error occured";
 
@@ -138,6 +155,11 @@ namespace Quarter
                         case UnauthorizedAccessException uae:
                             message = uae.Message;
                             ctx.Response.StatusCode = (int) HttpStatusCode.Unauthorized;
+                            break;
+
+                        case NotFoundException nfe:
+                            message = nfe.Message;
+                            ctx.Response.StatusCode = (int) HttpStatusCode.NotFound;
                             break;
 
                         default:

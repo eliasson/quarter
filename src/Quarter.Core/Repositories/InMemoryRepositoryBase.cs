@@ -31,7 +31,7 @@ namespace Quarter.Core.Repositories
         {
             return Storage.TryGetValue(id, out var user)
                 ? Task.FromResult(user)
-                : throw new NotFoundException($"Could not find {nameof(T)} {id.AsString()}");
+                : throw new NotFoundException($"Could not find {typeof(T).Name} {id.AsString()}");
         }
 
         public async Task<T> UpdateByIdAsync(IdOf<T> id, Func<T, T> mutator, CancellationToken ct)

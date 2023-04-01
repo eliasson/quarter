@@ -1,9 +1,9 @@
 using System.Security.Claims;
 using NUnit.Framework;
-using Quarter.Auth;
+using Quarter.Core.Auth;
 using Quarter.Core.Models;
 
-namespace Quarter.UnitTest.Auth;
+namespace Quarter.Core.UnitTest.Auth;
 
 [TestFixture]
 public class ApplicationClaimTest

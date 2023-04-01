@@ -5,6 +5,7 @@ using Quarter.Core.Commands;
 using Quarter.Core.Migrations;
 using Quarter.Core.Queries;
 using Quarter.Core.Repositories;
+using Quarter.HttpApi.Services;
 using Quarter.Services;
 
 namespace Quarter
@@ -45,6 +46,7 @@ namespace Quarter
                         new ActionHandler(repositoryFactory!, commandHandler!, authService!));
                 });
             serviceCollection.AddScoped<IUserAuthorizationService, UserAuthorizationService>();
+            serviceCollection.AddSingleton<IApiService, ApiService>();
         }
     }
 }

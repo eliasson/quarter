@@ -16,9 +16,12 @@ namespace Quarter.Core.UnitTest.Repositories
             => IdOf<Activity>.Random();
 
         protected override Activity ArbitraryAggregate()
+            => ArbitraryAggregate(IdOf<Project>.Random());
+
+        private Activity ArbitraryAggregate(IdOf<Project> projectId)
         {
             var id = Guid.NewGuid();
-            return new Activity(IdOf<Project>.Random(), $"Name {id}", $"Description {id}",
+            return new Activity(projectId, $"Name {id}", $"Description {id}",
                 Color.FromSystemColor(System.Drawing.Color.Aqua));
         }
 
@@ -47,6 +50,28 @@ namespace Quarter.Core.UnitTest.Repositories
                 Assert.That(activity.Name, Is.EqualTo("Your first activity"));
                 Assert.That(activity.Description, Is.EqualTo("An activity is used to register time. Each activity has a color to make it easier to associate to."));
                 Assert.That(activity.Color.ToHex(), Is.EqualTo("#4E4694"));
+            });
+        }
+
+        [Test]
+        public async Task ItShouldOnlyReadActivitiesForTheGivenProject()
+        {
+            var repository = Repository();
+            var projectIdOne = IdOf<Project>.Random();
+            var projectIdTwo = IdOf<Project>.Random();
+            var activityForProjectOne = ArbitraryAggregate(projectIdOne);
+            var activityForProjectTwo = ArbitraryAggregate(projectIdTwo);
+
+            await repository.CreateAsync(activityForProjectOne, CancellationToken.None);
+            await repository.CreateAsync(activityForProjectTwo, CancellationToken.None);
+
+            var allForOne =  await (repository.GetAllForProjectAsync(projectIdOne, CancellationToken.None).Select(a => a.Name).ToListAsync());
+            var allForTwo =  await (repository.GetAllForProjectAsync(projectIdTwo, CancellationToken.None).Select(a => a.Name).ToListAsync());
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(allForOne, Is.EqualTo(new [] { activityForProjectOne.Name }));
+                Assert.That(allForTwo, Is.EqualTo(new [] { activityForProjectTwo.Name }));
             });
         }
     }

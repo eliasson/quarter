@@ -34,6 +34,14 @@ namespace Quarter.Core.UnitTest.Utils
             Assert.That(result.DateTime.Day, Is.EqualTo(15));
         }
 
+        public void ItShouldOutputIso8601FormattedString()
+        {
+            var udt = UtcDateTime.FromUtcDateTime(DateTime.Parse("2021-07-15T20:21:19.678629Z"));
+
+            Assert.That(udt.IsoString(), Is.EqualTo("2021-07-15T20:21:19.678629Z"));
+        }
+
+
         [Test]
         public void ItShouldHaveAMinValue()
             => Assert.That(UtcDateTime.MinValue.DateTime, Is.EqualTo(DateTime.MinValue));

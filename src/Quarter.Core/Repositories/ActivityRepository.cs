@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Npgsql;
@@ -11,6 +12,14 @@ namespace Quarter.Core.Repositories
     public interface IActivityRepository : IRepository<Activity>
     {
         Task<Activity> CreateSandboxActivityAsync(IdOf<Project> projectId, CancellationToken ct);
+
+        /// <summary>
+        /// Retrieve all activities for a specific project
+        /// </summary>
+        /// <param name="projectId">The ID of the project to retrieve activities for</param>
+        /// <param name="ct">The cancellation token</param>
+        /// <returns>An enumerable of aggregates</returns>
+        IAsyncEnumerable<Activity> GetAllForProjectAsync(IdOf<Project> projectId, CancellationToken ct);
     }
 
     public static class ActivityRepository
@@ -30,6 +39,9 @@ namespace Quarter.Core.Repositories
     {
         public Task<Activity> CreateSandboxActivityAsync(IdOf<Project> projectId, CancellationToken ct)
             => ActivityRepository.CreateSandboxActivityAsync(this, projectId, ct);
+
+        public IAsyncEnumerable<Activity> GetAllForProjectAsync(IdOf<Project> projectId, CancellationToken ct)
+            => Storage.Values.Where(a => a.ProjectId == projectId).ToAsyncEnumerable();
     }
 
     public class PostgresActivityRepository : PostgresRepositoryBase<Activity>, IActivityRepository
@@ -60,5 +72,8 @@ namespace Quarter.Core.Repositories
 
         public Task<Activity> CreateSandboxActivityAsync(IdOf<Project> projectId, CancellationToken ct)
             => ActivityRepository.CreateSandboxActivityAsync(this, projectId, ct);
+
+        public IAsyncEnumerable<Activity> GetAllForProjectAsync(IdOf<Project> projectId, CancellationToken ct)
+            => GetAllAsync(ct).Where(a => a.ProjectId == projectId);
     }
 }
