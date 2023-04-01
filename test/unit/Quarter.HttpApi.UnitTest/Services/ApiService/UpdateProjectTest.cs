@@ -10,6 +10,7 @@ namespace Quarter.HttpApi.UnitTest.Services;
 [TestFixture]
 public class UpdateProjectTest
 {
+    [TestFixture]
     public class WhenInputIsValid : TestCase
     {
         private readonly OperationContext _oc = CreateOperationContext();

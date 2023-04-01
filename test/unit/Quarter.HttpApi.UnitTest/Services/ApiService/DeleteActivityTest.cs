@@ -10,6 +10,7 @@ namespace Quarter.HttpApi.UnitTest.Services;
 [TestFixture]
 public class DeleteActivityTest
 {
+    [TestFixture]
     public class WhenProjectIsOwnedUser : TestCase
     {
         private OperationContext? _oc;
@@ -31,6 +32,7 @@ public class DeleteActivityTest
             => Assert.ThrowsAsync<NotFoundException>(() => ReadActivityAsync(_oc!.UserId, _project!.Id, _activity!.Id));
     }
 
+    [TestFixture]
     public class WhenProjectIsOwnedByOtherUser : TestCase
     {
         [Test]
@@ -44,6 +46,7 @@ public class DeleteActivityTest
         }
     }
 
+    [TestFixture]
     public class WhenProjectIsMissing : TestCase
     {
         [Test]

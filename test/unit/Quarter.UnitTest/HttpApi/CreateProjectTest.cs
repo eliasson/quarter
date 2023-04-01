@@ -10,6 +10,7 @@ namespace Quarter.UnitTest.HttpApi;
 [TestFixture]
 public class CreateProjectTest
 {
+    [TestFixture]
     public class WhenPayloadIsValid : HttpTestCase
     {
         private HttpResponseMessage _response;
@@ -45,6 +46,7 @@ public class CreateProjectTest
         }
     }
 
+    [TestFixture]
     public class WhenInvalidPayload : HttpTestCase
     {
         private HttpResponseMessage _response;
@@ -65,6 +67,7 @@ public class CreateProjectTest
             => Assert.That(_response?.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
     }
 
+    [TestFixture]
     public class WhenUserIsNotAuthenticated : HttpTestCase
     {
         private HttpResponseMessage _response;

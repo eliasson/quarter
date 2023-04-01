@@ -10,6 +10,7 @@ namespace Quarter.UnitTest.HttpApi;
 [TestFixture]
 public class DeleteActivityTest
 {
+    [TestFixture]
     public class WhenActivityExist : HttpTestCase
     {
         private HttpResponseMessage _response;
@@ -28,6 +29,7 @@ public class DeleteActivityTest
             => Assert.That(_response?.StatusCode, Is.EqualTo(HttpStatusCode.NoContent));
     }
 
+    [TestFixture]
     public class WhenActivityDoesNotExist : HttpTestCase
     {
         private HttpResponseMessage _response;
@@ -46,6 +48,7 @@ public class DeleteActivityTest
             => Assert.That(_response?.StatusCode, Is.EqualTo(HttpStatusCode.NoContent));
     }
 
+    [TestFixture]
     public class WhenUserIsNotAuthenticated : HttpTestCase
     {
         private HttpResponseMessage _response;

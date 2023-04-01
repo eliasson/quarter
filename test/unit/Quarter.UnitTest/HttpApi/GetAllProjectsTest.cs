@@ -1,5 +1,3 @@
-using System;
-using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Net.Mime;
@@ -12,6 +10,7 @@ namespace Quarter.UnitTest.HttpApi;
 [TestFixture]
 public class GetAllProjectsTest
 {
+    [TestFixture]
     public class WhenValid : HttpTestCase
     {
         private HttpResponseMessage _response;
@@ -33,6 +32,7 @@ public class GetAllProjectsTest
             => Assert.That(_response?.ContentType(), Is.EqualTo(MediaTypeNames.Application.Json));
     }
 
+    [TestFixture]
     public class WhenUserIsNotAuthenticated : HttpTestCase
     {
         private HttpResponseMessage _response;

@@ -12,6 +12,7 @@ namespace Quarter.UnitTest.HttpApi;
 [TestFixture]
 public class GetAllProjectsAndActivitiesTest
 {
+    [TestFixture]
     public class WhenValid : HttpTestCase
     {
         private HttpResponseMessage _response;
@@ -53,6 +54,7 @@ public class GetAllProjectsAndActivitiesTest
         }
     }
 
+    [TestFixture]
     public class WhenUserIsNotAuthenticated : HttpTestCase
     {
         private HttpResponseMessage _response;

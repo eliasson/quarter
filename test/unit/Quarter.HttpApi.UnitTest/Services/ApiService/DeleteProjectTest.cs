@@ -10,6 +10,7 @@ namespace Quarter.HttpApi.UnitTest.Services;
 [TestFixture]
 public class DeleteProjectTest
 {
+    [TestFixture]
     public class WhenUserHasProjects : TestCase
     {
         private readonly OperationContext _oc = CreateOperationContext();
@@ -27,6 +28,7 @@ public class DeleteProjectTest
             => Assert.ThrowsAsync<NotFoundException>(() => ReadProjectAsync(_oc.UserId, _project!.Id));
     }
 
+    [TestFixture]
     public class WhenNoProjectsExistForUser : TestCase
     {
         private readonly OperationContext _oc = CreateOperationContext();

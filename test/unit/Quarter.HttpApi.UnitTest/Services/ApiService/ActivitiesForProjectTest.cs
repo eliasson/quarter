@@ -10,6 +10,7 @@ namespace Quarter.HttpApi.UnitTest.Services;
 [TestFixture]
 public class ActivitiesForProjectTest
 {
+    [TestFixture]
     public class WhenNoActivitiesExistsForProject : TestCase
     {
         private readonly OperationContext _oc = CreateOperationContext();
@@ -29,6 +30,7 @@ public class ActivitiesForProjectTest
         }
     }
 
+    [TestFixture]
     public class WhenActivitiesExist : TestCase
     {
         private readonly OperationContext _oc = CreateOperationContext();

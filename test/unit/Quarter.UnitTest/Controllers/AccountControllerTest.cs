@@ -9,6 +9,7 @@ namespace Quarter.UnitTest.Controllers;
 [TestFixture]
 public class AccountControllerTest : HttpTestCase
 {
+    [TestFixture]
     public class WhenLoggingInUsingGitHub : AccountControllerTest
     {
         private HttpResponseMessage _response;
@@ -28,6 +29,7 @@ public class AccountControllerTest : HttpTestCase
         }
     }
 
+    [TestFixture]
     public class WhenLoggingInUsingGoogle : AccountControllerTest
     {
         private HttpResponseMessage _response;
@@ -47,6 +49,7 @@ public class AccountControllerTest : HttpTestCase
         }
     }
 
+    [TestFixture]
     public class WhenLoggingInUsingUnknownProvider : AccountControllerTest
     {
         private HttpResponseMessage _response;

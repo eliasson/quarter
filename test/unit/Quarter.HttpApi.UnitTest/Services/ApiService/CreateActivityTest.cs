@@ -12,6 +12,7 @@ namespace Quarter.HttpApi.UnitTest.Services;
 [TestFixture]
 public class CreateActivityTest
 {
+    [TestFixture]
     public class WhenInputIsValid : TestCase
     {
         private readonly OperationContext _oc = CreateOperationContext();
@@ -44,6 +45,7 @@ public class CreateActivityTest
         }
     }
 
+    [TestFixture]
     public class WhenProjectIsOwnedByOtherUser : TestCase
     {
         [Test]
@@ -63,6 +65,7 @@ public class CreateActivityTest
         }
     }
 
+    [TestFixture]
     public class WhenProjectIsMissing : TestCase
     {
         [Test]

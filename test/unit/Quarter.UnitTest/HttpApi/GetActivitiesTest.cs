@@ -10,6 +10,7 @@ namespace Quarter.UnitTest.HttpApi;
 [TestFixture]
 public class GetActivitiesTest
 {
+    [TestFixture]
     public class WhenValid : HttpTestCase
     {
         private HttpResponseMessage _response;
@@ -33,6 +34,7 @@ public class GetActivitiesTest
             => Assert.That(_response?.ContentType(), Is.EqualTo(MediaTypeNames.Application.Json));
     }
 
+    [TestFixture]
     public class WhenUserIsNotAuthenticated : HttpTestCase
     {
         private HttpResponseMessage _response;
