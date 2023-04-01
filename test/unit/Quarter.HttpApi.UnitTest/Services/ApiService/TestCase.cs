@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Quarter.Core.Commands;
 using Quarter.Core.Models;
 using Quarter.Core.Repositories;
 using Quarter.Core.Utils;
@@ -52,6 +51,9 @@ public class TestCase
 
     protected Task AddTimesheetAsync(IdOf<User> userId, Timesheet timesheet)
         => _repositoryFactory.TimesheetRepository(userId).CreateAsync(timesheet, CancellationToken.None);
+
+    protected Task<Timesheet> ReadTimesheetAsync(IdOf<User> userId, Date date)
+        => _repositoryFactory.TimesheetRepository(userId).GetByDateAsync(date, CancellationToken.None);
 
     protected static OperationContext CreateOperationContext()
         => new (IdOf<User>.Random());
