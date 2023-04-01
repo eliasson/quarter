@@ -31,10 +31,8 @@ public class TimesheetResourceInput
 
 public class TimeSlotInput
 {
-    [Required]
     public string? projectId { get; set; }
 
-    [Required]
     public string? activityId { get; set; }
 
     [Range(0, 95)]
