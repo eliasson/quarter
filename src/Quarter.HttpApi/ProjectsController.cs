@@ -7,7 +7,7 @@ using Quarter.HttpApi.Services;
 
 namespace Quarter.HttpApi;
 
-[Route("api/[controller]")]
+[Route("api/projects")]
 public class ProjectsController : ApiControllerBase
 {
     public ProjectsController(IApiService apiService, IHttpContextAccessor httpContextAccessor)
@@ -51,5 +51,14 @@ public class ProjectsController : ApiControllerBase
         var oc = GetOperationContextForCurrentUser();
         await ApiService.DeleteProjectAsync(IdOf<Project>.Of(id), oc, ct);
         return NoContent();
+    }
+
+    [HttpGet("activities")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult> WithActivities(CancellationToken ct)
+    {
+        var oc = GetOperationContextForCurrentUser();
+        var result = await ApiService.GetAllProjectsAndActivitiesForUserAsync(oc, ct);
+        return Ok(result);
     }
 }
