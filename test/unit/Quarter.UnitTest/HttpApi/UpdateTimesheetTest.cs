@@ -25,10 +25,7 @@ public class UpdateTimesheetTest
             var user = await SetupAuthorizedUserAsync("john.doe@example.com");
             var project = await AddProjectAsync(user.Id, "Project Alpha");
             var activity = await AddActivityAsync(user.Id, project.Id, "Activity Alpha");
-/*
-            _ = await AddTimesheetAsync(user.Id, date,
-                new ActivityTimeSlot(project.Id, activity.Id, 10, 4));
-*/
+
             var payload = new
             {
                 date = date.IsoString(),
