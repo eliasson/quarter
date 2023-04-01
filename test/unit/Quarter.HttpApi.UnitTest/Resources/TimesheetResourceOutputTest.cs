@@ -1,3 +1,4 @@
+using System;
 using NUnit.Framework;
 using Quarter.Core.Models;
 using Quarter.Core.Utils;
@@ -25,6 +26,10 @@ public class TimesheetResourceOutputTest
         [Test]
         public void ItShouldMapTotal()
             => Assert.That(Resource.totalMinutes, Is.EqualTo(0));
+
+        [Test]
+        public void ItShouldHaveALocation()
+            => Assert.That(Resource.Location(), Is.EqualTo(new Uri($"/api/timesheets/{DateInTest.IsoString()}", UriKind.Relative)));
     }
 
     [TestFixture]
