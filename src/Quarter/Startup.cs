@@ -89,8 +89,8 @@ namespace Quarter
                 })
                 .AddGoogle(options =>
                 {
-                    options.ClientId = Configuration["Auth:Providers:Google:ClientId"];
-                    options.ClientSecret = Configuration["Auth:Providers:Google:ClientSecret"];
+                    options.ClientId = Configuration["Auth:Providers:Google:ClientId"] ?? "missing-config";
+                    options.ClientSecret = Configuration["Auth:Providers:Google:ClientSecret"] ?? "missing-config";
                     options.UserInformationEndpoint = "https://www.googleapis.com/oauth2/v2/userinfo";
                     options.ClaimActions.MapJsonKey(ClaimTypes.Name, "name");
                     options.ClaimActions.MapJsonKey(ClaimTypes.Email, "email");
@@ -101,8 +101,8 @@ namespace Quarter
                 })
                 .AddGitHub(options =>
                 {
-                    options.ClientId = Configuration["Auth:Providers:GitHub:ClientId"];
-                    options.ClientSecret = Configuration["Auth:Providers:GitHub:ClientSecret"];
+                    options.ClientId = Configuration["Auth:Providers:GitHub:ClientId"] ?? "missing-config";
+                    options.ClientSecret = Configuration["Auth:Providers:GitHub:ClientSecret"] ?? "missing-config";
                     options.Scope.Add("user:email");
                     options.Events = new OAuthEvents
                     {
@@ -140,7 +140,7 @@ namespace Quarter
 
             app.UseExceptionHandler(builder =>
             {
-                builder.Use(async (HttpContext ctx, RequestDelegate dg) =>
+                builder.Use(async (HttpContext ctx, RequestDelegate dg) =>  
                 {
                     var feature = ctx.Features.Get<IExceptionHandlerPathFeature>();
                     ctx.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
