@@ -2,9 +2,20 @@
 @using Quarter.Core.Queries
 @using Quarter.Core.Utils
 
-<div class="qa-widget qa-home-widget-summary">
-    <div class="qa-home-widget-summary--value" test="week-total">@Total</div>
-    <div class="qa-home-widget-summary--label">Current week</div>
+<div class="q-grouped-content">
+    <div class="q-grouped-content--title">
+        <h2 test="widget-title">Total this week</h2>
+    </div>
+    <div class="q-list q-dashboard-week-total">
+        <div class="q-list-item">
+            <div class="q-list-item__header">
+                <div class="q-list-item__sub-title q-statistics">
+                    <span class="q-statistics__value" test="week-total">@Total</span>
+                    <span class="q-statistics__unit" test="week-unit">hours</span>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 @code {
