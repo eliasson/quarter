@@ -9,13 +9,11 @@ namespace Quarter.UnitTest.Components.Navigation;
 [TestFixture]
 public class PageNavigationTest
 {
-    public class WhenNavigating : TestCase
+    public class WhenNavigating : BlazorComponentTestCase<PageNavigation>
     {
         [OneTimeSetUp]
         public void Setup()
-        {
-            Render();
-        }
+            => Render();
 
         public static IEnumerable<object[]> NavigationTests()
         {
@@ -61,7 +59,7 @@ public class PageNavigationTest
         }
     }
 
-    public class WhenUserIsAdmin : TestCase
+    public class WhenUserIsAdmin : BlazorComponentTestCase<PageNavigation>
     {
         [OneTimeSetUp]
         public void Setup()
@@ -82,9 +80,5 @@ public class PageNavigationTest
             else
                 Assert.Throws<ElementNotFoundException>(() => ComponentByTestAttribute(selector));
         }
-    }
-
-    public class TestCase : BlazorComponentTestCase<PageNavigation>
-    {
     }
 }
