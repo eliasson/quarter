@@ -29,8 +29,7 @@ public class PageNavigationTest
         [TestCaseSource(nameof(NavigationTests))]
         public void ItShouldNavigateToDestination(string selector, string expectedDestination, string _)
         {
-            var elm = ComponentByTestAttribute(selector);
-            var anchor = elm?.QuerySelector("a");
+            var anchor = ComponentByTestAttribute(selector);
 
             // NOTE:
             // Currently bunit cannot invoke a click on href, so there is no way to test that

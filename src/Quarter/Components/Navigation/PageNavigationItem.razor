@@ -1,6 +1,6 @@
-<NavLink ActiveClass="qa-is-active" Match="@Match" href="@Path" class="qa-page-nav__item">
+<NavLink ActiveClass="q-is-active" Match="@Match" href="@Path" class="q-navigation-item" @attributes="@InputAttributes">
     @Icon
-    <span class="qa-page-nav__item__label" test="nav-title">@Title</span>
+    <span class="q-label" test="nav-title">@Title</span>
 </NavLink>
 
 @code {
@@ -18,6 +18,9 @@
     [Parameter]
     public NavLinkMatch Match { get; set; } = NavLinkMatch.All;
 
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object> InputAttributes { get; set; } = new Dictionary<string, object>();
+
     private MarkupString Icon
-        => new MarkupString(@$"<svg class=""qa-page-nav__item__icon""><use xlink:href=""{IconRef}""></use></svg>");
+        => new MarkupString(@$"<svg class=""q-icon""><use xlink:href=""{IconRef}""></use></svg>");
 }
