@@ -56,6 +56,8 @@ namespace Quarter.Services
         /// </summary>
         /// <returns>The User ID or null</returns>
         Task<IdOf<User>> CurrentUserId();
+
+        Task<string> CurrentUsername();
     }
 
     public class UserAuthorizationService : IUserAuthorizationService
@@ -98,6 +100,12 @@ namespace Quarter.Services
             return userId == null
                 ? throw new UnauthorizedAccessException("No user found on session!")
                 : IdOf<User>.Of(userId.Value);
+        }
+
+        public async Task<string> CurrentUsername()
+        {
+            var state = await _authenticationStateProvider.GetAuthenticationStateAsync();
+            return state.User.Identity?.Name ?? "User";
         }
 
         private static IEnumerable<Claim> ClaimsForUser(User user)

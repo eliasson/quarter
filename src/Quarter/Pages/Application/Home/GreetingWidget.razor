@@ -1,7 +1,18 @@
+@using Quarter.Core.Utils
+@using Quarter.Services
+
 <div class="q-grouped-content">
-    <h1>Good evening, username!</h1>
+    <h1 test="greeting">Hello, @Username!</h1>
 </div>
 
-@code {
+@inject IUserAuthorizationService _userAuthorizationService;
 
+@code {
+    private string Username { get; set; } = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnParametersSetAsync();
+        Username = await _userAuthorizationService.CurrentUsername();
+    }
 }
