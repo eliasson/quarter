@@ -1,82 +1,33 @@
+@using Quarter.Core.Queries
+@using Quarter.Core.Models
+@using Quarter.Core.Utils
+
 <div class="q-grouped-content">
     <div class="q-grouped-content--title">
-        <h2>Your current week</h2>
+        <h2 test="widget-title">Your current week</h2>
     </div>
 
     <div class="q-list q-list--horizontal q-dashboard-week-summary">
-        <div class="q-list-item">
-            <div class="q-list-item__header">
-                <div class="q-list-item__title q-xs-only">Monday</div>
-                <div class="q-list-item__title q-l-only">Mon</div>
-                <div class="q-list-item__sub-title q-statistics">
-                    <div class="q-statistics__value">12.75</div>
-                    <div class="q-statistics__unit">hours</div>
+        @foreach (var timesheet in Timesheets())
+        {
+            <div class="q-list-item">
+                <div class="q-list-item__header">
+                    <div class="q-list-item__title q-xs-only" test="timesheet-day-long">@timesheet.Date.NameOfDay()</div>
+                    <div class="q-list-item__title q-l-only" test="timesheet-day-short">@timesheet.Date.NameOfDayShort()</div>
+                    <div class="q-list-item__sub-title q-statistics">
+                        <div class="q-statistics__value" test="timesheet-total">@timesheet.TotalMinutes().MinutesAsHours()</div>
+                        <div class="q-statistics__unit" test="timesheet-unit">hours</div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="q-list-item">
-            <div class="q-list-item__header">
-                <div class="q-list-item__title q-xs-only">Tuesday</div>
-                <div class="q-list-item__title q-l-only">Tus</div>
-                <div class="q-list-item__sub-title q-statistics">
-                    <div class="q-statistics__value">0</div>
-                    <div class="q-statistics__unit">hours</div>
-                </div>
-            </div>
-        </div>
-        <div class="q-list-item">
-            <div class="q-list-item__header">
-                <div class="q-list-item__title q-xs-only">Wednesday</div>
-                <div class="q-list-item__title q-l-only">Wen</div>
-                <div class="q-list-item__sub-title q-statistics">
-                    <div class="q-statistics__value">0</div>
-                    <div class="q-statistics__unit">hours</div>
-                </div>
-            </div>
-        </div>
-        <div class="q-list-item">
-            <div class="q-list-item__header">
-                <div class="q-list-item__title q-xs-only">Thursday</div>
-                <div class="q-list-item__title q-l-only">Thu</div>
-                <div class="q-list-item__sub-title q-statistics">
-                    <div class="q-statistics__value">0</div>
-                    <div class="q-statistics__unit">hours</div>
-                </div>
-            </div>
-        </div>
-        <div class="q-list-item">
-            <div class="q-list-item__header">
-                <div class="q-list-item__title q-xs-only">Friday</div>
-                <div class="q-list-item__title q-l-only">Fri</div>
-                <div class="q-list-item__sub-title q-statistics">
-                    <div class="q-statistics__value">0</div>
-                    <div class="q-statistics__unit">hours</div>
-                </div>
-            </div>
-        </div>
-        <div class="q-list-item">
-            <div class="q-list-item__header">
-                <div class="q-list-item__title q-xs-only">Saturday</div>
-                <div class="q-list-item__title q-l-only">Sat</div>
-                <div class="q-list-item__sub-title q-statistics">
-                    <div class="q-statistics__value">0</div>
-                    <div class="q-statistics__unit">hours</div>
-                </div>
-            </div>
-        </div>
-        <div class="q-list-item">
-            <div class="q-list-item__header">
-                <div class="q-list-item__title q-xs-only">Sunday</div>
-                <div class="q-list-item__title q-l-only">Sun</div>
-                <div class="q-list-item__sub-title q-statistics">
-                    <div class="q-statistics__value">0</div>
-                    <div class="q-statistics__unit">hours</div>
-                </div>
-            </div>
-        </div>
+        }
     </div>
 </div>
 
 @code {
+    [Parameter]
+    public TimesheetSummaryQueryResult? Summary { get; set; }
 
+    private IEnumerable<Timesheet> Timesheets()
+        => Summary?.Timesheets ?? Array.Empty<Timesheet>();
 }
