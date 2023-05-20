@@ -186,6 +186,10 @@ a:focus
         .q-list-item__sub-title
                 color: $color-white
 
+        .q-list-item__statistics
+            &__unit
+                color: $color-white
+
     &__header
         padding: 0.5rem
         display: flex
@@ -207,6 +211,24 @@ a:focus
             max-width: 1.5rem
             min-height: 1.5rem
             max-height: 1.5rem
+
+    // Context is used to display project statistics
+    &__statistics
+        display: flex
+        padding: 0.5rem
+        justify-content: space-evenly
+
+        &__category
+            text-align: center
+
+        &__unit
+            font-weight: 600
+            color: $color-text-light
+            padding: 4px
+
+        &__value
+            font-weight: 200
+            padding: $pillow-small 0 $pillow-medium 0
 
     &__content
         padding: 0.5rem
