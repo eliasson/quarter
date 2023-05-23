@@ -308,14 +308,18 @@ a:focus
         align-items: center
         justify-content: stretch
         width: 100%
+        gap: 0.5rem
 
         .q-project-title
             flex-grow: 2
             align-self: flex-start
+            display: flex
+            gap: 0.5rem
 
     .q-list-item__sub-title
         align-self: start
-        padding-left: 1.7rem
+        padding-top: 1rem
+        padding-left: 2.1rem
 
 .q-empty-collection
     margin: 2rem
@@ -335,6 +339,18 @@ a:focus
 .q-fine-print
     color: $color-gray-vdark
 
+.q-cursor--pointer
+    cursor: pointer
+
+.q-tag
+    margin: 0 $pillow-small
+    padding: $pillow-small * 0.5
+    background-color: #FDEDEC
+    border-radius: $std-border-radius
+    border: 1px solid $color-salmon-light
+    color: $color-salmon-light
+    font-size: $font-size-centi
+    align-self: center
 
 // Devices larger than 640px
 @media (min-width: 640px)

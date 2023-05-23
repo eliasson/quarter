@@ -461,14 +461,18 @@ a:focus {
   align-items: center;
   justify-content: stretch;
   width: 100%;
+  gap: 0.5rem;
 }
 .q-project-list-item .q-list-item__title .q-project-title {
   flex-grow: 2;
   align-self: flex-start;
+  display: flex;
+  gap: 0.5rem;
 }
 .q-project-list-item .q-list-item__sub-title {
   align-self: start;
-  padding-left: 1.7rem;
+  padding-top: 1rem;
+  padding-left: 2.1rem;
 }
 
 .q-empty-collection {
@@ -488,6 +492,21 @@ a:focus {
 
 .q-fine-print {
   color: #6f6f6f;
+}
+
+.q-cursor--pointer {
+  cursor: pointer;
+}
+
+.q-tag {
+  margin: 0 8px;
+  padding: 4px;
+  background-color: #FDEDEC;
+  border-radius: 4px;
+  border: 1px solid #ffa07a;
+  color: #ffa07a;
+  font-size: 14px;
+  align-self: center;
 }
 
 @media (min-width: 640px) {
