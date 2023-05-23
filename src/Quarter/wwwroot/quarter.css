@@ -1,3 +1,116 @@
+a.q-button,
+.q-button,
+button,
+input[type=button],
+input[type=submit] {
+  background-color: #252525;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  color: #ffffff;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: normal;
+  box-shadow: 4px 4px 4px -4px #14141e;
+}
+a.q-button:not([disabled]):hover,
+.q-button:not([disabled]):hover,
+button:not([disabled]):hover,
+input[type=button]:not([disabled]):hover,
+input[type=submit]:not([disabled]):hover {
+  background-color: #181818;
+  border: 2px solid transparent;
+  color: #ffffff;
+}
+a.q-button:focus,
+.q-button:focus,
+button:focus,
+input[type=button]:focus,
+input[type=submit]:focus {
+  border: 2px solid #252525;
+  outline: none;
+}
+a.q-button[disabled],
+.q-button[disabled],
+button[disabled],
+input[type=button][disabled],
+input[type=submit][disabled] {
+  cursor: default;
+  opacity: 0.5;
+}
+
+.q-button--ghost {
+  background-color: transparent;
+  color: #252525;
+  border-color: #252525;
+}
+.q-button--ghost:not([disabled]):hover {
+  background-color: transparent;
+  color: #252525;
+  border-color: #252525;
+}
+
+.q-button--icon {
+  padding: 4px 6px;
+}
+.q-button--icon.q-button--ghost {
+  background-color: transparent;
+  border-color: transparent;
+  color: #6f6f6f;
+  box-shadow: none;
+}
+.q-button--icon.q-button--ghost:not([disabled]):hover {
+  background-color: transparent;
+  border-color: transparent;
+  color: #252525;
+}
+.q-button--icon.q-button--ghost:focus {
+  color: #252525;
+}
+.q-button--icon.q-button--inverted {
+  color: #ffffff;
+  border-color: transparent;
+}
+.q-button--icon:not([disabled]):hover {
+  color: #ffffff;
+  border-color: transparent;
+}
+
+.q-button--label {
+  margin: 0 1rem;
+  font-weight: 600;
+}
+
+.q-button--cancel, .q-button--primary {
+  padding: 16px 16px;
+}
+.q-button--wide {
+  padding: 10px 48px;
+}
+.q-button--full {
+  width: 100%;
+}
+.q-button--full + .q-button--full {
+  margin-top: 16px;
+}
+.q-button--square {
+  min-width: 42px;
+  min-height: 42px;
+}
+.q-button--danger {
+  color: #ffffff;
+  background-color: #e72922;
+  border-color: #c11b15;
+}
+.q-button--danger:not([disabled]):hover {
+  background-color: #d81e17;
+  border-color: #c11b15;
+}
+
 .q-context-bar {
   display: flex;
   flex-direction: row;
@@ -274,10 +387,10 @@ a:focus {
 }
 
 .q-icon--s {
-  min-width: 1.5rem;
-  max-width: 1.5rem;
-  min-height: 1.5rem;
-  max-height: 1.5rem;
+  min-width: 2rem;
+  max-width: 2rem;
+  min-height: 2rem;
+  max-height: 2rem;
 }
 .q-icon--m {
   min-width: 4rem;

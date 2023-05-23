@@ -1,6 +1,6 @@
 @using Microsoft.Extensions.Logging
 
-<button class="qa-button qa-button--icon"
+<button class="q-button q-button--icon"
         test="action-button"
         type="button"
         @onclick="@OnClick"
@@ -8,7 +8,7 @@
     @Icon
     @if (Label != null)
     {
-        <span test="button-label">@Label</span>
+        <span class="q-button--label" test="button-label">@Label</span>
     }
 </button>
 
@@ -26,7 +26,7 @@
     private bool _inProgress;
 
     private MarkupString Icon
-        => new MarkupString(@$"<svg class=""qa-icon--medium"" test=""button-icon""><use xlink:href=""{IconRef}""></use></svg>");
+        => new MarkupString(@$"<svg class=""q-icon--s"" test=""button-icon""><use xlink:href=""{IconRef}""></use></svg>");
 
     // A button that wraps a Task result
     // Disable while task is in progress
