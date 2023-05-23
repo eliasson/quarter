@@ -1,19 +1,19 @@
 @using Quarter.Utils
 
-<div class="qa-context-bar">
-    <div class="qa-context-bar__tabs">
+<div class="q-context-bar">
+    <div class="q-context-bar__tabs">
         <ul>
             @foreach (var tab in Tabs)
             {
                 <li>
-                    <NavLink ActiveClass="qa-is-active" Match="NavLinkMatch.Prefix" href="@tab.Path" class="qa-tab-item" test="tab-item">
+                    <NavLink ActiveClass="q-is-active" Match="NavLinkMatch.Prefix" href="@tab.Path" class="q-tab-item" test="tab-item">
                         @tab.Title
                     </NavLink>
                 </li>
             }
         </ul>
     </div>
-    <div class="qa-context-bar__actions">
+    <div class="q-context-bar__actions">
         @ChildContent
     </div>
 </div>
