@@ -2,7 +2,6 @@
 @attribute [Authorize]
 
 @using Quarter.Components
-@using Quarter.Services
 @using Quarter.State
 @using Quarter.State.ViewModels
 @using Quarter.Utils
@@ -10,26 +9,18 @@
 <ApplicationPage>
     <PageContent>
         <PageContext Tabs="@_tabs">
-            <ActionButton IconRef="#icon-plus-sm" OnAction="@OnAddProject" />
+            <ActionButton IconRef="#icon-plus-sm" OnAction="@OnAddProject" Label="Add project"/>
         </PageContext>
 
-        <PageColumns>
-            <ContextContent></ContextContent>
-            <MainContent>
-                @if (NoProjects)
-                {
-                    <div class="qa-empty-collection--full">
-                        <EmptyCollectionMessage Header="No projects" Message="You have not created any projects yet." IconRef="#icon-manage" />
-                    </div>
-                }
+        @if (NoProjects)
+        {
+            <EmptyCollectionMessage Header="No projects" Message="You have not created any projects yet." IconRef="#icon-manage"/>
+        }
 
-                @foreach (var project in Projects)
-                {
-                    <ProjectListItem Project="project" />
-                }
-            </MainContent>
-            <ToolbarContent></ToolbarContent>
-        </PageColumns>
+        @foreach (var project in Projects)
+        {
+            <ProjectListItem Project="project" />
+        }
     </PageContent>
 </ApplicationPage>
 
