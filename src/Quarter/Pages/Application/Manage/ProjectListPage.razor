@@ -17,10 +17,14 @@
             <EmptyCollectionMessage Header="No projects" Message="You have not created any projects yet." IconRef="#icon-manage"/>
         }
 
-        @foreach (var project in Projects)
-        {
-            <ProjectListItem Project="project" />
-        }
+        <div class="q-grouped-content">
+            <div class="q-list">
+                @foreach (var project in Projects)
+                {
+                    <ProjectListItem Project="project"/>
+                }
+            </div>
+        </div>
     </PageContent>
 </ApplicationPage>
 

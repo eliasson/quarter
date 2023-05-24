@@ -19,6 +19,7 @@ namespace Quarter.UnitTest.Pages.Application.Manage;
 [TestFixture]
 public class ProjectListItemTest
 {
+    [TestFixture]
     public class WhenRenderMinimalProject : TestCase
     {
         private ProjectViewModel _projectViewModel;
@@ -65,6 +66,7 @@ public class ProjectListItemTest
             });
         }
 
+        [TestFixture]
         public class Initially : WhenRenderMinimalProject
         {
             [Test]
@@ -91,6 +93,7 @@ public class ProjectListItemTest
                 => Assert.That(ExpandIcon(), Is.Not.Null);
         }
 
+        [TestFixture]
         public class WhenSelectingRemoveProjectMenuItem : WhenRenderMinimalProject
         {
             [OneTimeSetUp]
@@ -102,6 +105,7 @@ public class ProjectListItemTest
                 => Assert.True(await EventuallyDispatchedAction(new ShowRemoveProjectAction(_projectViewModel.Id)));
         }
 
+        [TestFixture]
         public class WhenSelectingEditProjectMenuItem : WhenRenderMinimalProject
         {
             [OneTimeSetUp]
@@ -113,6 +117,7 @@ public class ProjectListItemTest
                 => Assert.True(await EventuallyDispatchedAction(new ShowEditProjectAction(_projectViewModel.Id)));
         }
 
+        [TestFixture]
         public class WhenSelectingArchiveProjectMenuItem : WhenRenderMinimalProject
         {
             [OneTimeSetUp]
@@ -124,6 +129,7 @@ public class ProjectListItemTest
                 => Assert.True(await EventuallyDispatchedAction(new ShowArchiveProjectAction(_projectViewModel.Id)));
         }
 
+        [TestFixture]
         public class WhenSelectingProject : WhenRenderMinimalProject
         {
             [OneTimeSetUp]
@@ -144,6 +150,7 @@ public class ProjectListItemTest
         }
     }
 
+    [TestFixture]
     public class WhenRenderFullProject : TestCase
     {
         private ProjectViewModel _projectViewModel;
@@ -186,6 +193,7 @@ public class ProjectListItemTest
         }
     }
 
+    [TestFixture]
     public class WhenRenderArchivedProject : TestCase
     {
         private ProjectViewModel _projectViewModel;
@@ -262,7 +270,7 @@ public class ProjectListItemTest
             if (Component is not null)
             {
                 var classes = ComponentByTestAttribute("project-list-item")?.ClassList;
-                return classes?.Contains("qa-list-item--is-active") ?? false;
+                return classes?.Contains("q-list-item--expanded") ?? false;
             }
             return false;
         }

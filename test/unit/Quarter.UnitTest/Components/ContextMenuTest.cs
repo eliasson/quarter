@@ -11,148 +11,152 @@ namespace Quarter.UnitTest.Components;
 [TestFixture]
 public class ContextMenuTest
 {
-     private static readonly List<ContextMenu.MenuItemVm> TestItems = new List<ContextMenu.MenuItemVm>
-        {
-            new("one", "One"),
-            new("two", "Two"),
-        };
+    private static readonly List<ContextMenu.MenuItemVm> TestItems = new List<ContextMenu.MenuItemVm>
+    {
+        new("one", "One"),
+        new("two", "Two"),
+    };
 
-        public class WhenCollapsed : TestCase
-        {
-            [OneTimeSetUp]
-            public void Setup()
-                => RenderWithParameters(pb =>
-                {
-                    pb.Add(p => p.Items, TestItems);
-                    pb.Add(p => p.ItemSelected, () => { });
-                });
-
-            [Test]
-            public void ItShouldRenderMenuLauncher()
-                => Assert.That(Launcher(), Is.Not.Null);
-
-            [Test]
-            public void ItShouldNotRenderTheMenu()
-                => Assert.Catch<ElementNotFoundException>(() => Menu());
-
-            [Test]
-            public void ItShouldRenderMenuLauncherNormally()
+    [TestFixture]
+    public class WhenCollapsed : TestCase
+    {
+        [OneTimeSetUp]
+        public void Setup()
+            => RenderWithParameters(pb =>
             {
-                var classes = Launcher()?.ClassList.Select(c => c);
-                Assert.That(classes, Does.Not.Contain("qa-button--inverted"));
-            }
+                pb.Add(p => p.Items, TestItems);
+                pb.Add(p => p.ItemSelected, () => { });
+            });
+
+        [Test]
+        public void ItShouldRenderMenuLauncher()
+            => Assert.That(Launcher(), Is.Not.Null);
+
+        [Test]
+        public void ItShouldNotRenderTheMenu()
+            => Assert.Catch<ElementNotFoundException>(() => Menu());
+
+        [Test]
+        public void ItShouldRenderMenuLauncherNormally()
+        {
+            var classes = Launcher()?.ClassList.Select(c => c);
+            Assert.That(classes, Does.Not.Contain("q-button--inverted"));
+        }
+    }
+
+    [TestFixture]
+    public class WhenOpened : TestCase
+    {
+        [OneTimeSetUp]
+        public void Setup()
+        {
+            RenderWithParameters(pb =>
+            {
+                pb.Add(p => p.Items, TestItems);
+                pb.Add(p => p.ItemSelected, (_) => { });
+            });
+            Launcher()?.Click();
         }
 
-        public class WhenOpened : TestCase
+        [Test]
+        public void ItShouldStillRenderMenuLauncher()
+            => Assert.That(Launcher(), Is.Not.Null);
+
+        [Test]
+        public void ItShouldRenderMenuItems()
         {
-            [OneTimeSetUp]
-            public void Setup()
-            {
-                RenderWithParameters(pb =>
-                {
-                    pb.Add(p => p.Items, TestItems);
-                    pb.Add(p => p.ItemSelected, (_) => { });
-                });
-                Launcher()?.Click();
-            }
+            var items = MenuItems();
+            var labels = items?.Select(elm => elm.QuerySelector("[test=menu-item-label]").TextContent);
+            Assert.That(labels, Is.EqualTo(new [] { "One", "Two" }));
+        }
+    }
 
-            [Test]
-            public void ItShouldStillRenderMenuLauncher()
-                => Assert.That(Launcher(), Is.Not.Null);
+    [TestFixture]
+    public class WhenSelectingAnItem : TestCase
+    {
+        private readonly List<ContextMenu.MenuItemVm> _selectedItems = new ();
 
-            [Test]
-            public void ItShouldRenderMenuItems()
+        [OneTimeSetUp]
+        public void Setup()
+        {
+            RenderWithParameters(pb =>
             {
-                var items = MenuItems();
-                var labels = items?.Select(elm => elm.QuerySelector("[test=menu-item-label]").TextContent);
-                Assert.That(labels, Is.EqualTo(new [] { "One", "Two" }));
-            }
+                pb.Add(p => p.Items, TestItems);
+                pb.Add(p => p.ItemSelected, (item) => _selectedItems.Add(item));
+            });
+            Launcher()?.Click();
+            var menuItem = MenuItems()?[1];
+            menuItem?.Click();
         }
 
-        public class WhenSelectingAnItem : TestCase
-        {
-            private readonly List<ContextMenu.MenuItemVm> _selectedItems = new ();
+        [Test]
+        public void ItShouldNoLongerRenderTheMenu()
+            => Assert.Catch<ElementNotFoundException>(() => Menu());
 
-            [OneTimeSetUp]
-            public void Setup()
+        [Test]
+        public void ItShouldTriggerEvent()
+            => Assert.That(_selectedItems, Is.EqualTo(new []
             {
-                RenderWithParameters(pb =>
-                {
-                    pb.Add(p => p.Items, TestItems);
-                    pb.Add(p => p.ItemSelected, (item) => _selectedItems.Add(item));
-                });
-                Launcher()?.Click();
-                var menuItem = MenuItems()?[1];
-                menuItem?.Click();
-            }
+                new ContextMenu.MenuItemVm("two", "Two")
+            }));
+    }
 
-            [Test]
-            public void ItShouldNoLongerRenderTheMenu()
-                => Assert.Catch<ElementNotFoundException>(() => Menu());
-
-            [Test]
-            public void ItShouldTriggerEvent()
-                => Assert.That(_selectedItems, Is.EqualTo(new []
-                {
-                    new ContextMenu.MenuItemVm("two", "Two")
-                }));
-        }
-
-        [Ignore("issue#14")]
-        public class WhenClickingOutsideMenu : TestCase
+    [Ignore("issue#14")]
+    public class WhenClickingOutsideMenu : TestCase
+    {
+        [OneTimeSetUp]
+        public void Setup()
         {
-            [OneTimeSetUp]
-            public void Setup()
+            RenderWithParameters(pb =>
             {
-                RenderWithParameters(pb =>
-                {
-                    pb.Add(p => p.Items, TestItems);
-                    pb.Add(p => p.ItemSelected, (_) => {});
-                });
-                Launcher()?.Click();
-                ElementOutsideMenu()?.Click();
-            }
-
-            [Test]
-            public void ItShouldNoLongerRenderTheMenu()
-                => Assert.Catch<ElementNotFoundException>(() => Menu());
+                pb.Add(p => p.Items, TestItems);
+                pb.Add(p => p.ItemSelected, (_) => {});
+            });
+            Launcher()?.Click();
+            ElementOutsideMenu()?.Click();
         }
 
-        public class WhenInverted : TestCase
-        {
-            [OneTimeSetUp]
-            public void Setup()
-                => RenderWithParameters(pb =>
-                {
-                    pb.Add(p => p.Items, TestItems);
-                    pb.Add(p => p.ItemSelected, () => { });
-                    pb.Add(p => p.IsInverted, true);
-                });
+        [Test]
+        public void ItShouldNoLongerRenderTheMenu()
+            => Assert.Catch<ElementNotFoundException>(() => Menu());
+    }
 
-            [Test]
-            public void ItShouldRenderMenuLauncherInverted()
+    [TestFixture]
+    public class WhenInverted : TestCase
+    {
+        [OneTimeSetUp]
+        public void Setup()
+            => RenderWithParameters(pb =>
             {
-                var classes = Launcher()?.ClassList.Select(c => c);
-                Assert.That(classes, Does.Contain("qa-button--inverted"));
-            }
+                pb.Add(p => p.Items, TestItems);
+                pb.Add(p => p.ItemSelected, () => { });
+                pb.Add(p => p.IsInverted, true);
+            });
 
-            [Test]
-            public void ItShouldNotRenderTheMenu()
-                => Assert.Catch<ElementNotFoundException>(() => Menu());
-        }
-
-        public class TestCase : BlazorComponentTestCase<ContextMenu>
+        [Test]
+        public void ItShouldRenderMenuLauncherInverted()
         {
-            protected IElement Launcher()
-                => ComponentByTestAttribute("menu-launcher");
-
-            protected IElement Menu()
-                => Component?.Find("menu");
-
-            protected IElement ElementOutsideMenu()
-                => ComponentByTestAttribute("menu-backdrop");
-
-            protected IRefreshableElementCollection<IElement> MenuItems()
-                => ComponentsByTestAttribute("menu-item");
+            var classes = Launcher()?.ClassList.Select(c => c);
+            Assert.That(classes, Does.Contain("q-button--inverted"));
         }
+
+        [Test]
+        public void ItShouldNotRenderTheMenu()
+            => Assert.Catch<ElementNotFoundException>(() => Menu());
+    }
+
+    public class TestCase : BlazorComponentTestCase<ContextMenu>
+    {
+        protected IElement Launcher()
+            => ComponentByTestAttribute("menu-launcher");
+
+        protected IElement Menu()
+            => Component?.Find("menu");
+
+        protected IElement ElementOutsideMenu()
+            => ComponentByTestAttribute("menu-backdrop");
+
+        protected IRefreshableElementCollection<IElement> MenuItems()
+            => ComponentsByTestAttribute("menu-item");
+    }
 }
