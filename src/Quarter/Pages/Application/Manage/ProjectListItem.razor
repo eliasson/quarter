@@ -7,8 +7,8 @@
 
 <div class="q-list-item q-project-list-item @((_isActive) ? "q-list-item--expanded" : "")" test="project-list-item">
     <div class="q-list-item__header">
-        <div class="q-list-item__title q-cursor--pointer">
-            <div @onclick="@ToggleActive" class="q-list-item__action">
+        <div class="q-list-item__title q-cursor--pointer" @onclick="@ToggleActive">
+            <div class="q-list-item__action">
                 @if (_isActive)
                 {
                     <span test="collapse-icon">@CollapseIcon</span>
@@ -18,7 +18,7 @@
                     <span test="expand-icon">@ExpandIcon</span>
                 }
             </div>
-            <div @onclick="@ToggleActive" class="q-project-title">
+            <div class="q-project-title">
                 <span test="project-title">@Project?.Name</span>
                 @if (Project?.IsArchived == true)
                 {

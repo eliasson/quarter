@@ -101,7 +101,8 @@ public class ContextMenuTest
             }));
     }
 
-    [Ignore("issue#14")]
+    //[Ignore("issue#14")]
+    [TestFixture]
     public class WhenClickingOutsideMenu : TestCase
     {
         [OneTimeSetUp]

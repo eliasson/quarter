@@ -1,4 +1,4 @@
-<button @onclick="@(ev => ToggleMenu(ev))"
+<button @onclick:stopPropagation="true" @onclick="@(ev => ToggleMenu(ev))"
         class="q-button q-button--icon q-button--ghost @(IsInverted ? "q-button--inverted" : "")"
         test="menu-launcher">
     <svg class="q-icon">
@@ -8,6 +8,11 @@
 
 @if (_isActive)
 {
+    <div
+        @onclick:stopPropagation="true"
+        @onclick="@(ev => ToggleMenu(ev))"
+        class="q-context-menu-backdrop" test="menu-backdrop"></div>
+
     <menu id="menu"
           class="q-context-menu qa-text-left"
           style="@MenuStyling()"
