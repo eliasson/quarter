@@ -507,7 +507,6 @@ a:focus {
 }
 .q-project-list-item .q-list-item__sub-title {
   align-self: start;
-  padding-top: 1rem;
   padding-left: 2.1rem;
 }
 .q-project-list-item .q-activity-table .q-icon {

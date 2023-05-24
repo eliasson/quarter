@@ -31,31 +31,34 @@
             </div>
         </div>
         <div class="q-list-item__sub-title" test="project-description">@Project?.Description</div>
-        <div class="q-list-item__statistics">
-            <div class="q-list-item__statistics__category" test="project-category">
-                <div class="q-list-item__statistics__unit" test="project-unit">Hours</div>
-                <div class="q-list-item__statistics__value" test="project-value">@Project?.TotalMinutes.MinutesAsHours()</div>
-            </div>
-            <div class="q-list-item__statistics__category" test="project-category">
-                <div class="q-list-item__statistics__unit" test="project-unit">Activities</div>
-                <div class="q-list-item__statistics__value" test="project-value">@ActivityCount</div>
-            </div>
-            <div class="q-list-item__statistics__category q-l-only" test="project-category">
-                <div class="q-list-item__statistics__unit" test="project-unit">Updated at</div>
-                <div class="q-list-item__statistics__value" test="project-value">@UpdatedAt</div>
-            </div>
-            <div class="q-list-item__statistics__category q-l-only" test="project-category">
-                <div class="q-list-item__statistics__unit" test="project-unit">Last used at</div>
-                <div class="q-list-item__statistics__value" test="project-value">@LastUsed</div>
-            </div>
-        </div>
-    </div>
-    <div class="q-list-item__content">
         @if (_isActive)
         {
-            <ActivityTable Project="Project" />
+            <div class="q-list-item__statistics">
+                <div class="q-list-item__statistics__category" test="project-category">
+                    <div class="q-list-item__statistics__unit" test="project-unit">Hours</div>
+                    <div class="q-list-item__statistics__value" test="project-value">@Project?.TotalMinutes.MinutesAsHours()</div>
+                </div>
+                <div class="q-list-item__statistics__category" test="project-category">
+                    <div class="q-list-item__statistics__unit" test="project-unit">Activities</div>
+                    <div class="q-list-item__statistics__value" test="project-value">@ActivityCount</div>
+                </div>
+                <div class="q-list-item__statistics__category q-l-only" test="project-category">
+                    <div class="q-list-item__statistics__unit" test="project-unit">Updated at</div>
+                    <div class="q-list-item__statistics__value" test="project-value">@UpdatedAt</div>
+                </div>
+                <div class="q-list-item__statistics__category q-l-only" test="project-category">
+                    <div class="q-list-item__statistics__unit" test="project-unit">Last used at</div>
+                    <div class="q-list-item__statistics__value" test="project-value">@LastUsed</div>
+                </div>
+            </div>
         }
     </div>
+    @if (_isActive)
+    {
+        <div class="q-list-item__content">
+            <ActivityTable Project="Project" />
+        </div>
+    }
 </div>
 
 @inherits Quarter.Core.UI.Components.QuarterComponent<Quarter.State.ApplicationState>
