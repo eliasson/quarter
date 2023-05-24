@@ -3,21 +3,21 @@
 @using Quarter.State
 @using Quarter.State.ViewModels
 
-<tr test="activity">
-    <td class="qa-activity-marker-column">
-        <div class="qa-activity-marker"
+<tr class="q-activity-table" test="activity">
+    <td class="q-activity-marker-column">
+        <div class="q-activity-marker"
              style="background-color: @Activity?.Color; border-color: @Activity?.DarkerColor"
              test="activity-color"></div>
     </td>
-    <td test="activity-name">
+    <td class="q-activity-name-column" test="activity-name">
         @Activity?.Name
         @if (Activity?.IsArchived == true)
         {
-            <span class="qa-tag" test="archived-tag">Archived</span>
+            <span class="q-tag" test="archived-tag">Archived</span>
         }
     </td>
-    <td class="qa-text-right" test="activity-usage">@Activity?.TotalMinutes.MinutesAsHours() h</td>
-    <td class="qa-activity-action-column">
+    <td test="activity-usage">@Activity?.TotalMinutes.MinutesAsHours() h</td>
+    <td class="q-activity-action-column">
         <ContextMenu Items="_menuItems" ItemSelected="OnMenuItem" />
     </td>
 </tr>

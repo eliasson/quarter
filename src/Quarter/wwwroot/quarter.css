@@ -159,6 +159,26 @@ input[type=submit][disabled] {
   color: #6f6f6f;
 }
 
+.q-activity-marker {
+  min-width: 24px;
+  max-width: 24px;
+  width: 24px;
+  min-height: 24px;
+  max-height: 24px;
+  height: 24px;
+  border-radius: 4px;
+  border: 2px solid transparent;
+  display: inline-block;
+}
+.q-activity-marker__small {
+  min-width: 8px;
+  max-width: 8px;
+  width: 8px;
+  min-height: 8px;
+  max-height: 8px;
+  height: 8px;
+}
+
 .q-l-only {
   display: none !important;
 }
@@ -361,6 +381,10 @@ a:focus {
   font-size: 16px;
   color: #333333;
 }
+.q-list-item__action {
+  display: flex;
+  height: 100%;
+}
 .q-list-item__action .q-icon {
   min-width: 1.5rem;
   max-width: 1.5rem;
@@ -386,6 +410,13 @@ a:focus {
 }
 .q-list-item__content {
   padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+}
+.q-list-item__content__actions {
+  margin-top: 8px;
+  align-self: flex-end;
+  padding: 16px;
 }
 
 .q-icon--s {
@@ -473,6 +504,25 @@ a:focus {
   align-self: start;
   padding-top: 1rem;
   padding-left: 2.1rem;
+}
+.q-project-list-item .q-activity-table .q-icon {
+  min-width: 1.5rem;
+  max-width: 1.5rem;
+  min-height: 1.5rem;
+  max-height: 1.5rem;
+}
+.q-project-list-item .q-activity-table td {
+  white-space: nowrap;
+}
+.q-project-list-item .q-activity-table .q-activity-marker-column .q-activity-marker {
+  margin-left: 12px;
+  margin-right: 12px;
+}
+.q-project-list-item .q-activity-table .q-activity-name-column {
+  width: 100%;
+}
+.q-project-list-item .q-activity-table .q-activity-action-column button {
+  margin-left: 12px;
 }
 
 .q-empty-collection {

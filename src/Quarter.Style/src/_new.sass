@@ -51,6 +51,29 @@
 .q-fine-print
     color: $color-gray-vdark
 
+$activity-marker-size: 24px
+$activity-marker-size-small: 8px
+
+.q-activity-marker
+    min-width: $activity-marker-size
+    max-width: $activity-marker-size
+    width: $activity-marker-size
+    min-height: $activity-marker-size
+    max-height: $activity-marker-size
+    height: $activity-marker-size
+    border-radius: 4px
+    border: 2px solid transparent
+    display: inline-block
+
+    &__small
+        min-width: $activity-marker-size-small
+        max-width: $activity-marker-size-small
+        width: $activity-marker-size-small
+        min-height: $activity-marker-size-small
+        max-height: $activity-marker-size-small
+        height: $activity-marker-size-small
+
+
 //
 // Utility classes
 
@@ -207,6 +230,9 @@ a:focus
         color: $color-text-light
 
     &__action
+        display: flex
+        height: 100%
+
         .q-icon
             min-width: 1.5rem
             max-width: 1.5rem
@@ -233,6 +259,13 @@ a:focus
 
     &__content
         padding: 0.5rem
+        display: flex
+        flex-direction: column
+
+        &__actions
+            margin-top: $pillow-small
+            align-self: flex-end
+            padding: $pillow-medium
 
 .q-icon
     &--s
@@ -320,6 +353,28 @@ a:focus
         align-self: start
         padding-top: 1rem
         padding-left: 2.1rem
+
+    .q-activity-table
+        .q-icon
+            min-width: 1.5rem
+            max-width: 1.5rem
+            min-height: 1.5rem
+            max-height: 1.5rem
+
+        td
+            white-space: nowrap
+
+        .q-activity-marker-column
+            .q-activity-marker
+                margin-left: 12px
+                margin-right: 12px
+
+        .q-activity-name-column
+            width: 100%
+
+        .q-activity-action-column
+            button
+                margin-left: 12px
 
 .q-empty-collection
     margin: 2rem
