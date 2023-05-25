@@ -1,62 +1,62 @@
-.qa-modal
-  top: 0
-  left: 0
-  width: 100%
-  height: 100%
-  position: fixed
-  padding: 0
-  margin: 0
-  background-color: transparent
-
-  &--backdrop
+.q-modal
+    top: 0
+    left: 0
     width: 100%
     height: 100%
-    z-index: 90
-    position: absolute
-    opacity: 30%
-    background-color: $color-goth
+    position: fixed
+    padding: 0
+    margin: 0
+    background-color: transparent
 
-  &--overlay
-    width: 100%
-    height: 100%
-    z-index: 100
-    display: flex
-    align-items: center
-    justify-content: center
+    &--backdrop
+        width: 100%
+        height: 100%
+        z-index: 90
+        position: absolute
+        opacity: 30%
+        background-color: $color-goth
 
-  &--container
-    margin-left: auto
-    margin-right: auto
-    max-width: 48rem
-    min-width: 22rem
-    z-index: 200
-    background-color: $color-white
-    border: 2px solid $color-text
-    border-radius: $std-border-radius
-    box-shadow: 4px 4px 4px 0 rgba(20, 20, 30, 1)
+    &--overlay
+        width: 100%
+        height: 100%
+        z-index: 100
+        display: flex
+        align-items: center
+        justify-content: center
 
-  &--header
-    padding: $pillow-medium
+    &--container
+        margin-left: auto
+        margin-right: auto
+        max-width: 48rem
+        min-width: 22rem
+        z-index: 200
+        background-color: $color-white
+        border: 2px solid $color-text
+        border-radius: $std-border-radius
+        box-shadow: 4px 4px 4px 0 rgba(20, 20, 30, 1)
 
-    &--title
-      display: flex
-      flex-direction: row
-      justify-content: center
+    &--header
+        padding: $pillow-medium
 
-      h1, h2, h3
-        flex-grow: 1
-        align-self: center
-        text-align: center
-        font-weight: 200
+        &--title
+            display: flex
+            flex-direction: row
+            justify-content: center
 
-      .qa-button--close
-        align-self: flex-end
+        h1, h2, h3
+            flex-grow: 1
+            align-self: center
+            text-align: center
+            font-weight: 200
 
-  &--content
-    padding: $pillow-medium
+        .q-button--close
+            align-self: flex-end
+
+    &--content
+        padding: $pillow-medium
 
 @media only screen and (max-width: 48em)
-  .qa-modal
-    &--container
-      max-width: 96%
-      min-width: 96%
+    .q-modal
+        &--container
+            max-width: 96%
+            min-width: 96%
