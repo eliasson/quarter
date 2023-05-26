@@ -166,6 +166,7 @@ input[type=submit][disabled] {
   align-self: center;
   text-align: center;
   font-weight: 200;
+  margin: 0;
 }
 .q-modal--header .q-button--close {
   align-self: flex-end;
@@ -559,6 +560,112 @@ a:focus {
   max-height: 6rem;
 }
 
+form,
+.q-form-pane {
+  display: flex;
+  flex-direction: column;
+}
+form fieldset,
+.q-form-pane fieldset {
+  display: flex;
+  flex-direction: column;
+  border: none;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+form fieldset label,
+.q-form-pane fieldset label {
+  font-weight: bold;
+}
+form fieldset .q-form-pane--controls input,
+form fieldset .q-form-pane--controls textarea,
+.q-form-pane fieldset .q-form-pane--controls input,
+.q-form-pane fieldset .q-form-pane--controls textarea {
+  width: calc(100% - 25px);
+}
+form fieldset.q-form-pane--actions,
+.q-form-pane fieldset.q-form-pane--actions {
+  gap: 1rem;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+::placeholder {
+  color: #bbbbbb;
+  font-weight: 200;
+}
+
+input[type=email],
+input[type=password],
+input[type=text],
+input[type=url],
+input[type=search],
+input,
+textarea,
+select {
+  background-color: #ffffff;
+  border: 2px solid #bbbbbb;
+  border-color: #252525;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 200;
+  font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+  padding: 10px;
+}
+input[type=email].q-is-invalid, input[type=email].invalid,
+input[type=password].q-is-invalid,
+input[type=password].invalid,
+input[type=text].q-is-invalid,
+input[type=text].invalid,
+input[type=url].q-is-invalid,
+input[type=url].invalid,
+input[type=search].q-is-invalid,
+input[type=search].invalid,
+input.q-is-invalid,
+input.invalid,
+textarea.q-is-invalid,
+textarea.invalid,
+select.q-is-invalid,
+select.invalid {
+  border-color: #e72922;
+}
+input[type=email]:-webkit-autofill,
+input[type=password]:-webkit-autofill,
+input[type=text]:-webkit-autofill,
+input[type=url]:-webkit-autofill,
+input[type=search]:-webkit-autofill,
+input:-webkit-autofill,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px white inset;
+}
+input[type=email]:focus, input[type=email].q-is-invalid:focus,
+input[type=password]:focus,
+input[type=password].q-is-invalid:focus,
+input[type=text]:focus,
+input[type=text].q-is-invalid:focus,
+input[type=url]:focus,
+input[type=url].q-is-invalid:focus,
+input[type=search]:focus,
+input[type=search].q-is-invalid:focus,
+input:focus,
+input.q-is-invalid:focus,
+textarea:focus,
+textarea.q-is-invalid:focus,
+select:focus,
+select.q-is-invalid:focus {
+  border-color: #252525;
+  outline: 0;
+}
+
+.q-error-message,
+.validation-message {
+  position: absolute;
+  color: #e72922;
+  padding: 8px 0 0 0;
+  text-align: left;
+}
+
 .q-dashboard-week-summary .q-list-item {
   flex-direction: row;
 }
@@ -796,6 +903,41 @@ a:focus {
 
   .q-dashboard-week-total .q-list-item {
     max-width: 20rem;
+  }
+
+  form,
+.q-form-pane {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-top: 1rem;
+  }
+  form fieldset,
+.q-form-pane fieldset {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    padding: 1rem;
+  }
+  form fieldset .q-form-pane--details,
+.q-form-pane fieldset .q-form-pane--details {
+    flex-grow: 1;
+  }
+  form fieldset .q-form-pane--controls,
+.q-form-pane fieldset .q-form-pane--controls {
+    min-width: 400px;
+  }
+  form fieldset .q-form-pane--controls input,
+form fieldset .q-form-pane--controls textarea,
+.q-form-pane fieldset .q-form-pane--controls input,
+.q-form-pane fieldset .q-form-pane--controls textarea {
+    width: calc(100% - 25px);
+  }
+  form fieldset.q-form-pane--actions,
+.q-form-pane fieldset.q-form-pane--actions {
+    display: flex;
+    justify-content: end;
+    gap: 1rem;
   }
 }
 

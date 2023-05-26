@@ -284,6 +284,74 @@ a:focus
         min-height: 6rem
         max-height: 6rem
 
+
+form,
+.q-form-pane
+    display: flex
+    flex-direction: column
+
+    fieldset
+        display: flex
+        flex-direction: column
+        border: none
+        gap: 1rem
+        margin: 1rem 0
+
+        label
+            font-weight: bold
+
+        .q-form-pane--controls
+            input,
+            textarea
+                width: calc(100% - 25px)
+
+        &.q-form-pane--actions
+            gap: 1rem
+            flex-direction: row
+            justify-content: space-evenly
+
+
+::placeholder
+    // Input fields with placeholder text
+    color: $color-gray-dark
+    font-weight: 200
+
+input[type='email'],
+input[type='password'],
+input[type='text'],
+input[type='url'],
+input[type='search'],
+input,
+textarea,
+select
+    background-color: $color-white
+    border: 2px solid $color-gray-dark
+    border-color: $color-text
+    border-radius: $std-border-radius
+    font-size: $font-size
+    font-weight: 200
+    font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif
+    padding: 10px
+
+    &.q-is-invalid,
+    &.invalid
+        border-color: $color-red
+
+    &:-webkit-autofill
+        -webkit-box-shadow: 0 0 0 1000px white inset
+
+    &:focus,
+    &.q-is-invalid:focus
+        border-color: $color-text
+        outline: 0
+
+.q-error-message,
+.validation-message
+    position: absolute // To avoid yanky height
+    color: $color-red
+    padding: $pillow-small 0 0 0
+    text-align: left
+
 .q-dashboard-week-summary
     // The dashboard weekly summary displaying 7 calendar like days
 
@@ -479,3 +547,34 @@ a:focus
     .q-dashboard-week-total
         .q-list-item
             max-width: 20rem
+
+    form,
+    .q-form-pane
+        display: flex
+        flex-direction: column
+        gap: 2rem
+        margin-top: 1rem
+
+        fieldset
+            display: flex
+            flex-direction: row
+            gap: 1rem
+            padding: 1rem
+
+            .q-form-pane--details
+                // The left column in the form that displays the label and description
+                flex-grow: 1
+
+            .q-form-pane--controls
+                // The right column used for the input control
+                min-width: 400px
+
+                input,
+                textarea
+                    width: calc(100% - 25px)
+
+            &.q-form-pane--actions
+                // When the entire fieldset is used for actions
+                display: flex
+                justify-content: end
+                gap: 1rem
