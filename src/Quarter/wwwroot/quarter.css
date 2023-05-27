@@ -577,17 +577,32 @@ form fieldset label,
 .q-form-pane fieldset label {
   font-weight: bold;
 }
+form fieldset .q-form-pane--controls,
+.q-form-pane fieldset .q-form-pane--controls {
+  display: flex;
+  flex-direction: column;
+}
 form fieldset .q-form-pane--controls input,
 form fieldset .q-form-pane--controls textarea,
 .q-form-pane fieldset .q-form-pane--controls input,
 .q-form-pane fieldset .q-form-pane--controls textarea {
-  width: calc(100% - 25px);
+  flex-grow: 1;
+}
+form fieldset .q-form-pane--controls .q-inline-controls,
+.q-form-pane fieldset .q-form-pane--controls .q-inline-controls {
+  flex-grow: 1;
+  display: flex;
+  gap: 0.5rem;
 }
 form fieldset.q-form-pane--actions,
 .q-form-pane fieldset.q-form-pane--actions {
   gap: 1rem;
   flex-direction: row;
   justify-content: space-evenly;
+}
+form fieldset.q-form-pane--actions .q-button,
+.q-form-pane fieldset.q-form-pane--actions .q-button {
+  min-width: 120px;
 }
 
 ::placeholder {
@@ -660,9 +675,8 @@ select.q-is-invalid:focus {
 
 .q-error-message,
 .validation-message {
-  position: absolute;
   color: #e72922;
-  padding: 8px 0 0 0;
+  padding: 8px 0 0 4px;
   text-align: left;
 }
 
@@ -784,6 +798,18 @@ select.q-is-invalid:focus {
   color: #ffa07a;
   font-size: 14px;
   align-self: center;
+}
+
+.q-color-input-marker {
+  width: 38px;
+  min-width: 38px;
+  max-width: 38px;
+  height: 38px;
+  min-height: 38px;
+  max-height: 38px;
+  border: 2px solid #bbbbbb;
+  border-color: #252525;
+  border-radius: 4px;
 }
 
 @media (min-width: 640px) {
@@ -936,8 +962,12 @@ form fieldset .q-form-pane--controls textarea,
   form fieldset.q-form-pane--actions,
 .q-form-pane fieldset.q-form-pane--actions {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     gap: 1rem;
+  }
+  form fieldset.q-form-pane--actions .q-button,
+.q-form-pane fieldset.q-form-pane--actions .q-button {
+    min-width: 180px;
   }
 }
 

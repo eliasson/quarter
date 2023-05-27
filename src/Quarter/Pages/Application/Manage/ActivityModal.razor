@@ -6,14 +6,14 @@
 @inherits Quarter.Core.UI.Components.QuarterComponent<Quarter.State.ApplicationState>
 
 <Modal Title="@ModalTitle">
-    <EditForm Model="@FormData" OnValidSubmit="@OnConfirm" class="qa-form-pane" test="add-activity-modal">
+    <EditForm Model="@FormData" OnValidSubmit="@OnConfirm" class="q-form-pane" test="add-activity-modal">
             <DataAnnotationsValidator/>
             <fieldset>
-                <div class="qa-form-pane--details">
+                <div class="q-form-pane--details">
                     <label for="activity-name">Name</label>
-                    <div class="qa-fine-print">The name that identifies the activity</div>
+                    <div class="q-fine-print">The name that identifies the activity</div>
                 </div>
-                <div class="qa-form-pane--controls qa-compensate-full-width">
+                <div class="q-form-pane--controls">
                     <InputText id="activity-name"
                                name="activity-name"
                                placeholder="Anything"
@@ -23,11 +23,11 @@
                 </div>
             </fieldset>
             <fieldset>
-                <div class="qa-form-pane--details">
+                <div class="q-form-pane--details">
                     <label for="activity-description">Description</label>
-                    <div class="qa-fine-print">A short description of the activity</div>
+                    <div class="q-fine-print">A short description of the activity</div>
                 </div>
-                <div class="qa-form-pane--controls qa-compensate-full-width">
+                <div class="q-form-pane--controls">
                     <InputTextArea id="activity-description"
                                    name="activity-description"
                                    placeholder="Something"
@@ -36,33 +36,30 @@
                 </div>
             </fieldset>
             <fieldset>
-                <div class="qa-form-pane--details">
+                <div class="q-form-pane--details">
                     <label for="activity-color">Color</label>
-                    <div class="qa-fine-print">A color that identifies the activity</div>
+                    <div class="q-fine-print">A color that identifies the activity</div>
                 </div>
-                <div class="qa-form-pane--controls">
-                    <div class="qa-inline-controls">
-                        <div class="qa-color-input-marker"
+                <div class="q-form-pane--controls">
+                    <div class="q-inline-controls">
+                        <div class="q-color-input-marker"
                              style="background-color: @FormData.Color"
                              test="activity-color-marker"></div>
                         <InputText id="activity-color" name="activity-color" placeholder="#ca1244" test="activity-color"
                                    @bind-Value="FormData.Color"/>
                         <ActionButton IconRef="#icon-refresh" OnAction="RandomColor"></ActionButton>
                     </div>
-                    <ValidationMessage For="@(() => FormData.Color)" test="activity-color-validation" />
+                    <ValidationMessage For="@(() => FormData.Color)" test="activity-color-validation"/>
                 </div>
             </fieldset>
-            <fieldset>
-                <div class="qa-form-pane--details"></div>
-                <div class="qa-form-pane--actions">
-                    <button type="button"
-                            class="qa-button qa-button--ghost qa-button--wide"
-                            test="cancel-button"
-                            @onclick="@OnCloseModal">Cancel</button>
-                    <button type="submit"
-                            class="qa-button qa-button--primary qa-button--wide"
-                            test="confirm-button">@(IsCreateMode() ? "Create" : "Save")</button>
-                </div>
+            <fieldset class="q-form-pane--actions">
+                <button type="button"
+                        class="q-button q-button--ghost"
+                        test="cancel-button"
+                        @onclick="@OnCloseModal">Cancel</button>
+                <button type="submit"
+                        class="q-button q-button--primary"
+                        test="confirm-button">@(IsCreateMode() ? "Create" : "Save")</button>
             </fieldset>
     </EditForm>
 </Modal>

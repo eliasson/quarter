@@ -301,14 +301,25 @@ form,
             font-weight: bold
 
         .q-form-pane--controls
+            display: flex
+            flex-direction: column
+
             input,
             textarea
-                width: calc(100% - 25px)
+                flex-grow: 1
+
+            .q-inline-controls
+                flex-grow: 1
+                display: flex
+                gap: 0.5rem
 
         &.q-form-pane--actions
             gap: 1rem
             flex-direction: row
             justify-content: space-evenly
+
+            .q-button
+                min-width: 120px
 
 
 ::placeholder
@@ -347,9 +358,8 @@ select
 
 .q-error-message,
 .validation-message
-    position: absolute // To avoid yanky height
     color: $color-red
-    padding: $pillow-small 0 0 0
+    padding: $pillow-small 0 0 $pillow-xsmall
     text-align: left
 
 .q-dashboard-week-summary
@@ -474,6 +484,20 @@ select
     font-size: $font-size-centi
     align-self: center
 
+//
+// Activity dialog
+$color-marker-size: 38px
+.q-color-input-marker
+    width: $color-marker-size
+    min-width: $color-marker-size
+    max-width: $color-marker-size
+    height: $color-marker-size
+    min-height: $color-marker-size
+    max-height: $color-marker-size
+    border: 2px solid $color-gray-dark
+    border-color: $color-text
+    border-radius: $std-border-radius
+
 // Devices larger than 640px
 @media (min-width: 640px)
     .q-xs-only
@@ -576,5 +600,9 @@ select
             &.q-form-pane--actions
                 // When the entire fieldset is used for actions
                 display: flex
-                justify-content: end
+                justify-content: flex-end
                 gap: 1rem
+
+
+                .q-button
+                    min-width: 180px
