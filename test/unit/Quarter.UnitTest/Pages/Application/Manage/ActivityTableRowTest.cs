@@ -35,7 +35,7 @@ public class ActivityTableRowTest
 
         [Test]
         public void ItShouldRenderActivityColor()
-            => Assert.That(ActivityColorStyle(), Is.EqualTo("background-color: #123456; border-color: #000000"));
+            => Assert.That(ActivityColorStyle(), Is.EqualTo("background-color: #123456; border-color: #000000;"));
 
         [Test]
         public void ItShouldRenderActivityName()
@@ -152,7 +152,7 @@ public class ActivityTableRowTest
         }
 
         protected string ActivityColorStyle()
-            => ComponentByTestAttribute("activity-color").Attributes["style"]?.Value;
+            => ComponentByTestAttribute("activity-item-marker--color").Attributes["style"]?.Value;
 
         protected string ActivityName()
             => ComponentByTestAttribute("activity-name").TextContent;

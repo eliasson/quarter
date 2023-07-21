@@ -5,9 +5,7 @@
 
 <tr class="q-activity-table" test="activity">
     <td class="q-activity-marker-column">
-        <div class="q-activity-marker"
-             style="background-color: @Activity?.Color; border-color: @Activity?.DarkerColor"
-             test="activity-color"></div>
+        <ActivityMarker Activity="Activity" />
     </td>
     <td class="q-activity-name-column" test="activity-name">
         @Activity?.Name

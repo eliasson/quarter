@@ -51,19 +51,27 @@
 .q-fine-print
     color: $color-gray-vdark
 
-$activity-marker-size: 24px
+$activity-marker-size: 20px
 $activity-marker-size-small: 8px
 
 .q-activity-marker
-    min-width: $activity-marker-size
-    max-width: $activity-marker-size
-    width: $activity-marker-size
-    min-height: $activity-marker-size
-    max-height: $activity-marker-size
-    height: $activity-marker-size
-    border-radius: 4px
-    border: 2px solid transparent
-    display: inline-block
+    display: flex
+    flex-direction: row
+    gap: 1rem
+
+    &--color
+        min-width: $activity-marker-size
+        max-width: $activity-marker-size
+        width: $activity-marker-size
+        min-height: $activity-marker-size
+        max-height: $activity-marker-size
+        height: $activity-marker-size
+        border-radius: 4px
+        border: 2px solid transparent
+        display: inline-block
+
+    &--title
+        align-self: center
 
     &__small
         min-width: $activity-marker-size-small
