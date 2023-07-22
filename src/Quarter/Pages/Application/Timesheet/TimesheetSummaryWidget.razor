@@ -5,27 +5,27 @@
 @using System.Net
 @using System.Globalization
 
-<div class="qa-widget qa-ts-widget-summary">
-    <div class="qa-widget-header">
-        <span class="qa-ts-summary-value" test="summary-total">@_summary.Total</span>
-        <span class="qa-ts-summary-unit">h</span>
+<div class="q-list-item q-ts-widget-summary">
+    <div class="q-list-item__header">
+        <span class="q-ts-summary-value" test="summary-total">@_summary.Total</span>
+        <span class="q-ts-summary-unit">h</span>
     </div>
     @if (_summary.ProjectSummaries.Count > 0)
     {
-        <div class="qa-widget-details">
+        <div class="q-list-item__content">
             <table>
                 <tbody>
                 @foreach (var project in _summary.ProjectSummaries)
                 {
                     <tr test="summary-project">
                         <th></th>
-                        <th class="qa-ts-summary-value-column" test="summary-total">@project.Total</th>
-                        <th class="qa-ts-summary-activity-column">
-                            <span class="qa-ts-summary-name" test="summary-name">@project.Name</span>
+                        <th class="q-ts-summary-value-column" test="summary-total">@project.Total</th>
+                        <th class="q-ts-summary-activity-column">
+                            <span class="q-ts-summary-name" test="summary-name">@project.Name</span>
                             @if(project.IsArchived)
                             {
-                                <span class="qa-ts-summary-archived" test="summary-archived">
-                                    <svg class="qa-icon--small">
+                                <span class="q-ts-summary-archived" test="summary-archived">
+                                    <svg class="q-icon--s">
                                         <use xlink:href="#icon-archive"></use>
                                     </svg>
                                 </span>
@@ -35,19 +35,19 @@
                     @foreach (var activity in project.Activities)
                     {
                         <tr test="summary-activity">
-                            <td class="qa-ts-summary-marker-column">
-                                <div class="qa-activity-marker qa-activity-marker__small"
+                            <td class="q-ts-summary-marker-column">
+                                <div class="q-activity-marker--color q-activity-marker__small"
                                      style="background-color: @activity.Color.BackgroundColor; border-color: @activity.Color.BorderColor;"
                                      test="activity-item-marker">
                                 </div>
                             </td>
-                            <td class="qa-ts-summary-value-column" test="summary-total">@activity.Total</td>
-                            <td class="qa-ts-summary-activity-column">
-                                <span class="qa-ts-summary-name" test="summary-name">@activity.Name</span>
+                            <td class="q-ts-summary-value-column" test="summary-total">@activity.Total</td>
+                            <td class="q-ts-summary-activity-column">
+                                <span class="q-ts-summary-name" test="summary-name">@activity.Name</span>
                                 @if (activity.IsArchived)
                                 {
-                                    <span class="qa-ts-summary-archived" test="summary-archived">
-                                        <svg class="qa-icon--small">
+                                    <span class="q-ts-summary-archived" test="summary-archived">
+                                        <svg class="q-icon--s">
                                             <use xlink:href="#icon-archive"></use>
                                         </svg>
                                     </span>

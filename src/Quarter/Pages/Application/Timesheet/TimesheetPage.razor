@@ -10,8 +10,12 @@
     <PageContent>
         <div class="q-timesheet--page">
             <div class="q-timesheet--context">
-                <CalendarWidget SelectedDate="SelectedDate" LinkGeneratorFn="@Page.Timesheet"/>
-                <TimesheetSummaryWidget/>
+                <div class="q-grouped-content">
+                    <div class="q-list">
+                         <CalendarWidget SelectedDate="SelectedDate" LinkGeneratorFn="@Page.Timesheet"/>
+                         <TimesheetSummaryWidget/>
+                    </div>
+                </div>
             </div>
             <div class="q-timesheet--sheet">
                 <TimesheetGrid/>

@@ -433,6 +433,70 @@ input[type=submit][disabled] {
   background-color: transparent;
 }
 
+.q-ts-widget-summary {
+  min-width: 298px;
+  max-width: 298px;
+  padding: 16px;
+}
+.q-ts-widget-summary .q-list-item__header {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: center;
+}
+.q-ts-widget-summary .q-ts-summary-value {
+  font-size: 36px;
+}
+.q-ts-widget-summary .q-ts-summary-unit {
+  font-size: 20px;
+  padding-left: 8px;
+}
+.q-ts-widget-summary .q-list-item__content table {
+  width: unset;
+}
+.q-ts-widget-summary .q-list-item__content table tbody::after {
+  height: 16px;
+  display: table-row;
+  content: "";
+}
+.q-ts-widget-summary .q-list-item__content table th.q-ts-summary-marker-column .qa-activity-marker,
+.q-ts-widget-summary .q-list-item__content table td.q-ts-summary-marker-column .qa-activity-marker {
+  margin-left: 16px;
+}
+.q-ts-widget-summary .q-list-item__content table th.q-ts-summary-value-column,
+.q-ts-widget-summary .q-list-item__content table td.q-ts-summary-value-column {
+  font-weight: 200;
+  text-align: right;
+  vertical-align: top;
+  color: #252525;
+}
+.q-ts-widget-summary .q-list-item__content table th.q-ts-summary-activity-column,
+.q-ts-widget-summary .q-list-item__content table td.q-ts-summary-activity-column {
+  font-weight: 200;
+  padding-left: 10px;
+  color: #252525;
+  display: flex;
+}
+.q-ts-widget-summary .q-list-item__content table th.q-ts-summary-activity-column .q-ts-summary-name,
+.q-ts-widget-summary .q-list-item__content table td.q-ts-summary-activity-column .q-ts-summary-name {
+  flex-grow: 1;
+}
+.q-ts-widget-summary .q-list-item__content table th.q-ts-summary-activity-column .q-ts-summary-archived,
+.q-ts-widget-summary .q-list-item__content table td.q-ts-summary-activity-column .q-ts-summary-archived {
+  justify-self: flex-end;
+}
+.q-ts-widget-summary .q-list-item__content table th {
+  padding-top: 16px;
+  text-align: left;
+  font-size: 16px;
+}
+.q-ts-widget-summary .q-list-item__content table th.q-ts-summary-value-column, .q-ts-widget-summary .q-list-item__content table th.q-ts-summary-activity-column {
+  font-weight: 600;
+}
+.q-ts-widget-summary .q-list-item__content table tr:last-of-type > td {
+  padding-bottom: 8px;
+}
+
 .q-empty-collection--full {
   margin-top: 25%;
 }
@@ -464,12 +528,12 @@ input[type=submit][disabled] {
   align-self: center;
 }
 .q-activity-marker__small {
-  min-width: 8px;
-  max-width: 8px;
-  width: 8px;
-  min-height: 8px;
-  max-height: 8px;
-  height: 8px;
+  min-width: 12px;
+  max-width: 12px;
+  width: 12px;
+  min-height: 12px;
+  max-height: 12px;
+  height: 12px;
 }
 
 .q-l-only {
