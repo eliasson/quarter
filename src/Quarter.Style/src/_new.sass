@@ -506,6 +506,73 @@ $color-marker-size: 38px
     border-color: $color-text
     border-radius: $std-border-radius
 
+.q-timesheet
+    &--page
+        display: flex
+        flex-direction: column
+
+    &--context
+        display: flex
+        flex-direction: column
+
+    &--sheet
+        display: flex
+
+    &--activities
+        display: flex
+        flex-direction: column
+
+        .q-list-item__header
+            cursor: pointer
+
+            .q-activity-marker
+                flex-grow: 1
+
+            .q-icon
+                width: 20px
+                height: 20px
+
+        .q-activity-list
+            display: none
+
+            &.qa-is-active
+                padding-top: 1rem
+                display: flex
+
+            &--project
+                font-weight: 600
+
+            ul
+                display: flex
+                flex-direction: column
+                list-style: none
+                padding: 0
+                margin: 16px 0
+
+                li
+                    padding: 0 0.5rem
+                    margin: 0.5rem 0
+                    text-align: left
+                    display: block
+                    cursor: pointer
+                    border-left: 4px solid transparent
+
+                    &.qa-is-active
+                        border-color: $color-primary
+
+                    .q-icon
+                        width: 20px
+                        height: 20px
+
+.q-widget
+    display: inline-block
+    background-color: $color-white
+    width: 100%
+    border-radius: $std-border-radius
+    border: 2px solid #252525
+    box-shadow: 4px 4px 4px -4px #14141e
+
+
 // Devices larger than 640px
 @media (min-width: 640px)
     .q-xs-only
@@ -579,6 +646,26 @@ $color-marker-size: 38px
     .q-dashboard-week-total
         .q-list-item
             max-width: 20rem
+
+    .q-timesheet
+        &--page
+            flex-direction: row
+
+        &--context
+            flex-grow: 2
+
+        &--sheet
+            flex-grow: 3
+
+        &--activities
+            flex-grow: 2
+
+            .q-list-item__header
+                display: none
+
+            .q-activity-list
+                display: flex
+
 
     form,
     .q-form-pane

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Quarter.Core.Models;
 using Quarter.Core.Utils;
 using Quarter.State.ViewModels;
@@ -47,5 +48,15 @@ namespace Quarter.State
 
         public void SafePopTopMostModal()
             => Modals.TryPop(out _);
+
+        public ActivityViewModel? GetSelectedActivity()
+        {
+            if (SelectedActivity is null) return null;
+
+            var project = Projects.Find(p => p.Id == SelectedActivity.ProjectId);
+            var activity = project?.Activities.ToList().Find(a => a.Id == SelectedActivity.ActivityId);
+
+            return activity;
+        }
     }
 }
