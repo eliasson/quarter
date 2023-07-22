@@ -4,56 +4,57 @@
 @using Quarter.State
 @using Quarter.State.ViewModels
 
-<div class="qa-widget qa-timesheet" xmlns="http://www.w3.org/1999/html">
-    <div class="qa-timesheet-scroll qa-timesheet-scroll--sod">
-        <button class="qa-button qa-button--icon qa-button--ghost"
-                @onclick="OnStartOfDay"
-                disabled="@_dayStart.LimitReached()"
-                test="start-of-day-action">
-            <svg class="qa-icon--medium">
-                <use xlink:href="#icon-double-up"></use>
-            </svg>
-        </button>
-    </div>
+<div class="q-grouped-content">
+    <div class="q-widget q-timesheet">
+        <div class="q-timesheet-scroll q-timesheet-scroll--sod">
+            <button class="q-button q-button--icon q-button--ghost"
+                    @onclick="OnStartOfDay"
+                    disabled="@_dayStart.LimitReached()"
+                    test="start-of-day-action">
+                <svg class="q-icon--s">
+                    <use xlink:href="#icon-double-up"></use>
+                </svg>
+            </button>
+        </div>
 
-    <table id="qa-timesheet-sheet" class="qa-sheet-table">
-        <tbody>
-        @foreach (var hour in Hours())
-        {
-            if (hour.Index < _dayStart.Value || hour.Index > _dayEnd.Value) continue;
+        <table id="q-timesheet-sheet" class="q-sheet-table">
+            <tbody>
+            @foreach (var hour in Hours())
+            {
+                if (hour.Index < _dayStart.Value || hour.Index > _dayEnd.Value) continue;
 
-            <tr test="hour-row">
-                <th class="qa-timesheet__time">@hour.Label</th>
-                @foreach (var quarter in hour.Quarters)
-                {
-                    <td class="qa-timesheet__cell"
-                        @onmouseup="@(() => OnMouseUp(quarter))"
-                        @onmousedown="@(() => OnMouseDown(quarter))"
-                        @onmouseover="@(() => OnMouseOver(quarter))"
-                        test="timesheet-cell">
-                        <span class="qa-timesheet__activity @QuarterClasses(quarter)"
-                              style="@QuarterStyling(quarter)"
-                              test="timesheet-cell-activity"></span>
-                    </td>
-                }
-                <th class="qa-timesheet__time"></th>
-            </tr>
-        }
-        </tbody>
-    </table>
+                <tr test="hour-row">
+                    <th class="q-timesheet__time">@hour.Label</th>
+                    @foreach (var quarter in hour.Quarters)
+                    {
+                        <td class="q-timesheet__cell"
+                            @onmouseup="@(() => OnMouseUp(quarter))"
+                            @onmousedown="@(() => OnMouseDown(quarter))"
+                            @onmouseover="@(() => OnMouseOver(quarter))"
+                            test="timesheet-cell">
+                            <span class="q-timesheet__activity @QuarterClasses(quarter)"
+                                  style="@QuarterStyling(quarter)"
+                                  test="timesheet-cell-activity"></span>
+                        </td>
+                    }
+                    <th class="q-timesheet__time"></th>
+                </tr>
+            }
+            </tbody>
+        </table>
 
-    <div class="qa-timesheet-scroll qa-timesheet-scroll--eod">
-        <button class="qa-button qa-button--icon qa-button--ghost"
-                @onclick="OnEndOfDay"
-                disabled="@_dayEnd.LimitReached()"
-                test="end-of-day-action">
-            <svg class="qa-icon--medium">
-                <use xlink:href="#icon-double-down"></use>
-            </svg>
-        </button>
+        <div class="q-timesheet-scroll q-timesheet-scroll--eod">
+            <button class="q-button q-button--icon q-button--ghost"
+                    @onclick="OnEndOfDay"
+                    disabled="@_dayEnd.LimitReached()"
+                    test="end-of-day-action">
+                <svg class="q-icon--s">
+                    <use xlink:href="#icon-double-down"></use>
+                </svg>
+            </button>
+        </div>
     </div>
 </div>
-
 @inherits Quarter.Core.UI.Components.QuarterComponent<Quarter.State.ApplicationState>
 
 @code {

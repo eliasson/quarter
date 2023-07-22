@@ -7,133 +7,127 @@ $sheet-color-border: $color-gray-dark
 $sheet-color-background: $color-gray-light
 
 @keyframes animate-stripes
-  from
-    background-position: 0 0
-  to
-    background-position: -50px 0
+    from
+        background-position: 0 0
+    to
+        background-position: -50px 0
 
-.qa-timesheet
-  display: block
-  margin: 0 auto
-  min-width: 320px // Since no padding
-  max-width: 320px
-  cursor: default
-  user-select: none
-  -webkit-user-select: none
-  -moz-user-select: none
-
-  .qa-timesheet-scroll
-    width: 100%
-    display: flex
-    flex-direction: column
-
-    &--sod
-      padding: $pillow-medium 0 0 0
-
-    &--eod
-      padding: 0 0 $pillow-medium 0
-
-    &:hover
-      cursor: pointer
-      color: darken($color-primary, 10%)
-
-    &.qa-disabled
-      cursor: default
-      color: $color-gray-dark
-
-  table.qa-sheet-table
-    border-spacing: 0
+.q-timesheet
+    display: block
+    margin: 0 auto
+    max-width: 444px
+    cursor: default
     user-select: none
     -webkit-user-select: none
     -moz-user-select: none
-    font-size: $font-size
-    width: 100%
 
-    tbody
-      border: none
+    .q-timesheet-scroll
+        width: 100%
+        display: flex
+        flex-direction: column
 
-    th,
-    td
-      border: none
-      cursor: pointer
-      user-select: none
-      -webkit-user-select: none
-      -moz-user-select: none
+        &--sod
+            padding: $pillow-medium 0 0 0
 
-    tbody tr
-      height: $sheet-cell-height + $sheet-cell-border-size
-      min-height: $sheet-cell-height + $sheet-cell-border-size
+        &--eod
+            padding: 0 0 $pillow-medium 0
 
-    tbody th
-      text-align: center
+        &:hover
+            cursor: pointer
+            color: darken($color-primary, 10%)
 
-    tbody tr td
-      padding: 5px 0
-      cursor: pointer
-      user-select: none
-      -webkit-user-select: none
-      -moz-user-select: none
+        &.q-disabled
+            cursor: default
+            color: $color-gray-dark
 
-    tbody tr td,
-    tbody th
-      min-width: calc($sheet-cell-width / 2)
-      width: $sheet-cell-width
-      min-height: $sheet-cell-height
-      height: $sheet-cell-height
-      font-weight: 200
-      font-size: $font-size-centi
+    table.q-sheet-table
+        border-spacing: 0
+        user-select: none
+        -webkit-user-select: none
+        -moz-user-select: none
+        font-size: $font-size
+        width: 100%
 
-    tbody tr td span.qa-timesheet__activity
-      position: relative
-      border-top: $sheet-cell-border-size $sheet-cell-border-style $sheet-color-border
-      border-bottom: $sheet-cell-border-size $sheet-cell-border-style $sheet-color-border
-      min-height: $sheet-cell-height
-      height: $sheet-cell-height
-      display: block
+        tbody
+            border: none
 
-      &.qa-is-pending
-        background-image: linear-gradient(-45deg, rgba(0, 0, 0, .10) 25%, transparent 25%, transparent 50%, rgba(0, 0, 0, .10) 50%, rgba(0, 0, 0, .10) 75%, transparent 75%, transparent)
-        background-size: 50px 50px
-        animation: animate-stripes 2s linear infinite
+        th,
+        td
+            border: none
+            cursor: pointer
+            user-select: none
+            -webkit-user-select: none
+            -moz-user-select: none
 
-    tbody tr td span.qa-timesheet__activity:nth-child(odd)
-      border-left: $sheet-cell-border-size $sheet-cell-border-style $sheet-color-border
+        tbody tr
+            height: $sheet-cell-height + $sheet-cell-border-size
+            min-height: $sheet-cell-height + $sheet-cell-border-size
 
-    tbody tr td span.qa-timesheet__activity:nth-child(even)
-      border-right: $sheet-cell-border-size $sheet-cell-border-style $sheet-color-border
+        tbody th
+            text-align: center
 
-    tbody tr td:first-of-type span.qa-timesheet__activity
-      border-left: $sheet-cell-border-size $sheet-cell-border-style $sheet-color-border
-      border-top-left-radius: $std-border-radius
-      border-bottom-left-radius: $std-border-radius
-      -webkit-border-top-left-radius: $std-border-radius
-      -webkit-border-bottom-left-radius: $std-border-radius
-      -moz-border-radius-topleft: $std-border-radius
-      -moz-border-radius-bottomleft: $std-border-radius
+        tbody tr td
+            padding: 5px 0
+            cursor: pointer
+            user-select: none
+            -webkit-user-select: none
+            -moz-user-select: none
 
-    tbody tr td:last-of-type span.qa-timesheet__activity
-      border-right: $sheet-cell-border-size $sheet-cell-border-style $sheet-color-border
-      border-top-right-radius: $std-border-radius
-      border-bottom-right-radius: $std-border-radius
-      -webkit-border-top-right-radius: $std-border-radius
-      -webkit-border-bottom-right-radius: $std-border-radius
-      -moz-border-radius-topright: $std-border-radius
-      -moz-border-radius-bottomright: $std-border-radius
+        tbody tr td,
+        tbody th
+            min-width: calc($sheet-cell-width / 2)
+            width: $sheet-cell-width
+            min-height: $sheet-cell-height
+            height: $sheet-cell-height
+            font-weight: 200
+            font-size: $font-size-centi
 
-    tbody tr td span.qa-timesheet__activity.used
-      border-top: $sheet-cell-border-size solid $sheet-color-border
-      border-bottom: $sheet-cell-border-size solid $sheet-color-border
-      border-left: $sheet-cell-border-size solid $sheet-color-border
-      border-right: $sheet-cell-border-size solid $sheet-color-border
+        tbody tr td span.q-timesheet__activity
+            position: relative
+            border-top: $sheet-cell-border-size $sheet-cell-border-style $sheet-color-border
+            border-bottom: $sheet-cell-border-size $sheet-cell-border-style $sheet-color-border
+            min-height: $sheet-cell-height
+            height: $sheet-cell-height
+            display: block
 
-    tbody tr td:first-of-type span.qa-timesheet__activity.used
-      border-left: $sheet-cell-border-size solid $sheet-color-border
+            &.q-is-pending
+                background-image: linear-gradient(-45deg, rgba(0, 0, 0, .10) 25%, transparent 25%, transparent 50%, rgba(0, 0, 0, .10) 50%, rgba(0, 0, 0, .10) 75%, transparent 75%, transparent)
+                background-size: 50px 50px
+                animation: animate-stripes 2s linear infinite
 
-    tbody tr td:last-of-type span.qa-timesheet__activity.used
-      border-right: $sheet-cell-border-size solid $sheet-color-border
+        tbody tr td span.q-timesheet__activity:nth-child(odd)
+            border-left: $sheet-cell-border-size $sheet-cell-border-style $sheet-color-border
 
-// Devices larger than 640px
-@media (min-width: 640px)
-  .qa-timesheet
-    max-width: 500px
-    min-width: 500px
+        tbody tr td span.q-timesheet__activity:nth-child(even)
+            border-right: $sheet-cell-border-size $sheet-cell-border-style $sheet-color-border
+
+        tbody tr td:first-of-type span.q-timesheet__activity
+            border-left: $sheet-cell-border-size $sheet-cell-border-style $sheet-color-border
+            border-top-left-radius: $std-border-radius
+            border-bottom-left-radius: $std-border-radius
+            -webkit-border-top-left-radius: $std-border-radius
+            -webkit-border-bottom-left-radius: $std-border-radius
+            -moz-border-radius-topleft: $std-border-radius
+            -moz-border-radius-bottomleft: $std-border-radius
+
+        tbody tr td:last-of-type span.q-timesheet__activity
+            border-right: $sheet-cell-border-size $sheet-cell-border-style $sheet-color-border
+            border-top-right-radius: $std-border-radius
+            border-bottom-right-radius: $std-border-radius
+            -webkit-border-top-right-radius: $std-border-radius
+            -webkit-border-bottom-right-radius: $std-border-radius
+            -moz-border-radius-topright: $std-border-radius
+            -moz-border-radius-bottomright: $std-border-radius
+
+        tbody tr td span.q-timesheet__activity.used
+            border-top: $sheet-cell-border-size solid $sheet-color-border
+            border-bottom: $sheet-cell-border-size solid $sheet-color-border
+            border-left: $sheet-cell-border-size solid $sheet-color-border
+            border-right: $sheet-cell-border-size solid $sheet-color-border
+
+        tbody tr td:first-of-type span.q-timesheet__activity.used
+            border-left: $sheet-cell-border-size solid $sheet-color-border
+
+        tbody tr td:last-of-type span.q-timesheet__activity.used
+            border-right: $sheet-cell-border-size solid $sheet-color-border
+
