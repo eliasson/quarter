@@ -181,6 +181,169 @@ input[type=submit][disabled] {
     min-width: 96%;
   }
 }
+@keyframes animate-stripes {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: -50px 0;
+  }
+}
+.q-timesheet {
+  display: block;
+  margin: 0 auto;
+  max-width: 444px;
+  cursor: default;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+}
+.q-timesheet .q-timesheet-scroll {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.q-timesheet .q-timesheet-scroll--sod {
+  padding: 16px 0 0 0;
+}
+.q-timesheet .q-timesheet-scroll--eod {
+  padding: 0 0 16px 0;
+}
+.q-timesheet .q-timesheet-scroll:hover {
+  cursor: pointer;
+  color: #0c0c0c;
+}
+.q-timesheet .q-timesheet-scroll.q-disabled {
+  cursor: default;
+  color: #bbbbbb;
+}
+.q-timesheet table.q-sheet-table {
+  border-spacing: 0;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  font-size: 16px;
+  width: 100%;
+}
+.q-timesheet table.q-sheet-table tbody {
+  border: none;
+}
+.q-timesheet table.q-sheet-table th,
+.q-timesheet table.q-sheet-table td {
+  border: none;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+}
+.q-timesheet table.q-sheet-table tbody tr {
+  height: 37px;
+  min-height: 37px;
+}
+.q-timesheet table.q-sheet-table tbody th {
+  text-align: center;
+}
+.q-timesheet table.q-sheet-table tbody tr td {
+  padding: 5px 0;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+}
+.q-timesheet table.q-sheet-table tbody tr td,
+.q-timesheet table.q-sheet-table tbody th {
+  min-width: 35px;
+  width: 70px;
+  min-height: 36px;
+  height: 36px;
+  font-weight: 200;
+  font-size: 14px;
+}
+.q-timesheet table.q-sheet-table tbody tr td span.q-timesheet__activity {
+  position: relative;
+  border-top: 1px solid #bbbbbb;
+  border-bottom: 1px solid #bbbbbb;
+  min-height: 36px;
+  height: 36px;
+  display: block;
+}
+.q-timesheet table.q-sheet-table tbody tr td span.q-timesheet__activity.q-is-pending {
+  background-image: linear-gradient(-45deg, rgba(0, 0, 0, 0.1) 25%, transparent 25%, transparent 50%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.1) 75%, transparent 75%, transparent);
+  background-size: 50px 50px;
+  animation: animate-stripes 2s linear infinite;
+}
+.q-timesheet table.q-sheet-table tbody tr td span.q-timesheet__activity:nth-child(odd) {
+  border-left: 1px solid #bbbbbb;
+}
+.q-timesheet table.q-sheet-table tbody tr td span.q-timesheet__activity:nth-child(even) {
+  border-right: 1px solid #bbbbbb;
+}
+.q-timesheet table.q-sheet-table tbody tr td:first-of-type span.q-timesheet__activity {
+  border-left: 1px solid #bbbbbb;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  -webkit-border-top-left-radius: 4px;
+  -webkit-border-bottom-left-radius: 4px;
+  -moz-border-radius-topleft: 4px;
+  -moz-border-radius-bottomleft: 4px;
+}
+.q-timesheet table.q-sheet-table tbody tr td:last-of-type span.q-timesheet__activity {
+  border-right: 1px solid #bbbbbb;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  -webkit-border-top-right-radius: 4px;
+  -webkit-border-bottom-right-radius: 4px;
+  -moz-border-radius-topright: 4px;
+  -moz-border-radius-bottomright: 4px;
+}
+.q-timesheet table.q-sheet-table tbody tr td span.q-timesheet__activity.used {
+  border-top: 1px solid #bbbbbb;
+  border-bottom: 1px solid #bbbbbb;
+  border-left: 1px solid #bbbbbb;
+  border-right: 1px solid #bbbbbb;
+}
+.q-timesheet table.q-sheet-table tbody tr td:first-of-type span.q-timesheet__activity.used {
+  border-left: 1px solid #bbbbbb;
+}
+.q-timesheet table.q-sheet-table tbody tr td:last-of-type span.q-timesheet__activity.used {
+  border-right: 1px solid #bbbbbb;
+}
+
+.q-landing-page {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  gap: 1rem;
+}
+.q-landing-page__column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#q-timesheet-extend-sod,
+#q-timesheet-extend-eod {
+  padding: 16px 0;
+  align-self: center;
+}
+
+@media (min-width: 640px) {
+  .q-landing-page {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    width: 100%;
+    max-width: 1200px;
+  }
+  .q-landing-page__column {
+    flex: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}
 .q-context-bar {
   display: flex;
   flex-direction: row;
@@ -350,6 +513,23 @@ a:focus {
   font-weight: 200;
   color: #252525;
   border: none;
+}
+
+a.q-href,
+a.q-href:active,
+a.q-href:link {
+  color: #252525;
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+a.q-href:hover {
+  color: #252525;
+  text-decoration: underline;
+}
+
+a.q-href:focus {
+  outline: 0;
 }
 
 .q-content {
@@ -823,6 +1003,7 @@ select.q-is-invalid:focus {
 .q-timesheet--page {
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
 }
 .q-timesheet--context {
   display: flex;

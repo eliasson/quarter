@@ -1,14 +1,32 @@
-.qa-landing-page
-  display: flex
-  height: 100vh
-
-  &__column
-    flex: 50%
+.q-landing-page
     display: flex
     flex-direction: column
-    align-items: center
-    justify-content: center
+    padding: 1rem
+    gap: 1rem
 
-#qa-timesheet-extend-sod,
-#qa-timesheet-extend-eod
-  align-self: center
+    &__column
+        display: flex
+        flex-direction: column
+        align-items: center
+        justify-content: center
+
+#q-timesheet-extend-sod,
+#q-timesheet-extend-eod
+    padding: 16px 0
+    align-self: center
+
+// Devices larger than 640px
+@media (min-width: 640px)
+    .q-landing-page
+        display: flex
+        flex-direction: row
+        height: 100vh
+        width: 100%
+        max-width: 1200px
+
+        &__column
+            flex: 50%
+            display: flex
+            flex-direction: column
+            align-items: center
+            justify-content: center
