@@ -1,47 +1,47 @@
 @using System.Globalization
 @using Quarter.Core.Utils
 
-<div class="qa-widget qa-widget-calendar">
-    <ul class="qa-calendar-navigation">
-        <li class="qa-navigation-item">
-            <button class="qa-button qa-button--icon qa-button--ghost" test="calendar-previous-month"
+<div class="q-list-item q-widget-calendar">
+    <ul class=" q-list-item__header q-calendar-navigation">
+        <li class="q-navigation-item">
+            <button class="q-button q-button--icon q-button--ghost" test="calendar-previous-month"
                     @onclick="PreviousMonth">
-                <svg class="qa-icon--small">
+                <svg class="q-icon--s">
                     <use xlink:href="#icon-chevron-left"></use>
                 </svg>
             </button>
         </li>
-        <li class="qa-navigation-month" test="calendar-month">@_monthName @_year</li>
-        <li class="qa-navigation-item">
-            <button class="qa-button qa-button--icon qa-button--ghost" test="calendar-next-month"
+        <li class="q-navigation-month" test="calendar-month">@_monthName @_year</li>
+        <li class="q-navigation-item">
+            <button class="q-button q-button--icon q-button--ghost" test="calendar-next-month"
                     @onclick="NextMonth">
-                <svg class="qa-icon--small">
+                <svg class="q-icon--s">
                     <use xlink:href="#icon-chevron-right"></use>
                 </svg>
             </button>
         </li>
     </ul>
-    <table class="qa-calendar-table">
+    <table class="q-calendar-table">
         <thead>
-            <tr>
-                <th class="qa-is-hidden"></th>
-                <th test="calendar-day-name">Mo</th>
-                <th test="calendar-day-name">Tu</th>
-                <th test="calendar-day-name">We</th>
-                <th test="calendar-day-name">Th</th>
-                <th test="calendar-day-name">Fr</th>
-                <th test="calendar-day-name">Sa</th>
-                <th test="calendar-day-name">Su</th>
-            </tr>
+        <tr>
+            <th class="q-is-hidden"></th>
+            <th test="calendar-day-name">Mo</th>
+            <th test="calendar-day-name">Tu</th>
+            <th test="calendar-day-name">We</th>
+            <th test="calendar-day-name">Th</th>
+            <th test="calendar-day-name">Fr</th>
+            <th test="calendar-day-name">Sa</th>
+            <th test="calendar-day-name">Su</th>
+        </tr>
         </thead>
         <tbody>
         @foreach (var week in _weeks)
         {
             <tr test="calendar-week">
-                <td class="qa-calendar-week qa-is-hidden" test="calendar-week-number">@week.Number</td>
+                <td class="q-calendar-week qa-is-hidden" test="calendar-week-number">@week.Number</td>
                 @foreach (var day in week.Days)
                 {
-                    <td class="qa-calendar-link @((day.IsToday) ? "qa-calendar-today" : "") @((day.IsSelected) ? "qa-calendar-selected" : "") @((day.IsAdjacentMonth) ? "qa-calendar-adjacent" : "")"
+                    <td class="q-calendar-link @((day.IsToday) ? "q-calendar-today" : "") @((day.IsSelected) ? "q-calendar-selected" : "") @((day.IsAdjacentMonth) ? "q-calendar-adjacent" : "")"
                         test="calendar-day">
                         <NavLink href="@day.Link">@day.Number</NavLink>
                     </td>

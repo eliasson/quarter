@@ -1,130 +1,130 @@
-.qa-widget-calendar
-  min-width: $widget-width
-  max-width: $widget-width
+.q-widget-calendar
+    min-width: $widget-width
+    max-width: $widget-width
 
-  ul li
-    margin: 0
-
-  .qa-calendar-navigation
-    display: flex
-    list-style: none
-    padding: 0
-    width: 100%
-
-    .qa-navigation-month
-      flex-grow: 1
-      text-align: center
-      align-self: center
-      font-weight: 600
-
-    .qa-navigation-item
-      display: inline-block
-
+    ul li
       margin: 0
 
-      &:first-child
-        text-align: left
-        align-self: start
+    .q-calendar-navigation
+        display: flex
+        flex-direction: row
+        list-style: none
+        padding: 0
 
-      &:last-child
-        text-align: right
-        align-self: end
+        .q-navigation-month
+            flex-grow: 1
+            text-align: center
+            align-self: center
+            font-weight: 600
 
-      a,
-      span
-        border: none
-        color: $color-text
-        display: inline-block
-        padding: 0.5*$pillow-small 1*$pillow-small
-        text-decoration: none
+        .q-navigation-item
+            display: inline-block
 
-  table.qa-calendar-table
-    border: 0
-    border-collapse: collapse
-    border-spacing: 0
-    padding: 0
-    margin: 0 30px 0 0 // Balance for week number column
+            margin: 0
 
-    thead
-      td,
-      th
-        padding: 12px
+            &:first-child
+                text-align: left
+                align-self: start
 
-    td,
-    th
-      text-align: center
-      user-select: none
-      padding: 0
+            &:last-child
+                text-align: right
+                align-self: end
 
-    th, td
-      max-width: 30px
-      max-height: 30px
+            a,
+            span
+                border: none
+                color: $color-text
+                display: inline-block
+                padding: 0.5*$pillow-small 1*$pillow-small
+                text-decoration: none
 
-      &.qa-calendar-today
-        color: $color-red
-        font-weight: bold
+    table.q-calendar-table
+        border: 0
+        border-collapse: collapse
+        border-spacing: 0
+        padding: 0
+        margin: 0 30px 0 0 // Balance for week number column
 
-      &.qa-calendar-selected
-        background-color: $color-primary
-        color: $color-white
-        font-weight: 200
+        thead
+            td,
+            th
+                padding: 12px
 
-        a,
-        a:active,
-        a:hover,
-        a:visited,
-        a:focus
-          color: $color-white
-          font-weight: 200
+        td,
+        th
+            text-align: center
+            user-select: none
+            padding: 0
 
-    a,
-    a:active,
-    a:hover,
-    a:visited,
-    a:focus
-      text-decoration: none
-      font-weight: 200
-      display: block
-      padding: 8px
+        th, td
+            max-width: 30px
+            max-height: 30px
 
-    .qa-calendar-week
-      color: $color-gray-dark
-      vertical-align: middle
-      font-size: $font-size-milli
+            &.q-calendar-today
+                color: $color-red
+                font-weight: bold
 
-    .qa-calendar-link
-      color: $color-text
+            &.q-calendar-selected
+                background-color: $color-primary
+                color: $color-white
+                font-weight: 200
 
-      &:hover
-        background-color: $color-text
-        color: $color-white
-        cursor: pointer
+                a,
+                a:active,
+                a:hover,
+                a:visited,
+                a:focus
+                    color: $color-white
+                    font-weight: 200
 
         a,
         a:active,
         a:hover,
         a:visited,
         a:focus
-          text-decoration: none
-          font-weight: 200
-          color: $color-white
+            text-decoration: none
+            font-weight: 200
+            display: block
+            padding: 8px
 
-    .qa-calendar-selected
-      background-color: $color-primary
-      color: $color-white
+        .q-calendar-week
+            color: $color-gray-dark
+            vertical-align: middle
+            font-size: $font-size-milli
 
-      &:hover
-        background-color: $color-text
-        color: $color-white
-        cursor: pointer
+        .q-calendar-link
+            color: $color-text
 
-    .qa-calendar-today
-      border-bottom: 2px solid $color-red
+            &:hover
+                background-color: $color-text
+                color: $color-white
+                cursor: pointer
 
-    .qa-calendar-adjacent
-      a,
-      a:active,
-      a:hover,
-      a:visited,
-      a:focus
-        color: $color-gray-dark
+                a,
+                a:active,
+                a:hover,
+                a:visited,
+                a:focus
+                    text-decoration: none
+                    font-weight: 200
+                    color: $color-white
+
+            .q-calendar-selected
+                background-color: $color-primary
+                color: $color-white
+
+                &:hover
+                    background-color: $color-text
+                    color: $color-white
+                    cursor: pointer
+
+        .q-calendar-today
+            border-bottom: 2px solid $color-red
+
+        .q-calendar-adjacent
+            a,
+            a:active,
+            a:hover,
+            a:visited,
+            a:focus
+                color: $color-gray-dark

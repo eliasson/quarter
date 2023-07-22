@@ -497,6 +497,139 @@ input[type=submit][disabled] {
   padding-bottom: 8px;
 }
 
+.q-widget-calendar {
+  min-width: 330px;
+  max-width: 330px;
+}
+.q-widget-calendar ul li {
+  margin: 0;
+}
+.q-widget-calendar .q-calendar-navigation {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  padding: 0;
+}
+.q-widget-calendar .q-calendar-navigation .q-navigation-month {
+  flex-grow: 1;
+  text-align: center;
+  align-self: center;
+  font-weight: 600;
+}
+.q-widget-calendar .q-calendar-navigation .q-navigation-item {
+  display: inline-block;
+  margin: 0;
+}
+.q-widget-calendar .q-calendar-navigation .q-navigation-item:first-child {
+  text-align: left;
+  align-self: start;
+}
+.q-widget-calendar .q-calendar-navigation .q-navigation-item:last-child {
+  text-align: right;
+  align-self: end;
+}
+.q-widget-calendar .q-calendar-navigation .q-navigation-item a,
+.q-widget-calendar .q-calendar-navigation .q-navigation-item span {
+  border: none;
+  color: #252525;
+  display: inline-block;
+  padding: 4px 8px;
+  text-decoration: none;
+}
+.q-widget-calendar table.q-calendar-table {
+  border: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
+  padding: 0;
+  margin: 0 30px 0 0;
+}
+.q-widget-calendar table.q-calendar-table thead td,
+.q-widget-calendar table.q-calendar-table thead th {
+  padding: 12px;
+}
+.q-widget-calendar table.q-calendar-table td,
+.q-widget-calendar table.q-calendar-table th {
+  text-align: center;
+  user-select: none;
+  padding: 0;
+}
+.q-widget-calendar table.q-calendar-table th, .q-widget-calendar table.q-calendar-table td {
+  max-width: 30px;
+  max-height: 30px;
+}
+.q-widget-calendar table.q-calendar-table th.q-calendar-today, .q-widget-calendar table.q-calendar-table td.q-calendar-today {
+  color: #e72922;
+  font-weight: bold;
+}
+.q-widget-calendar table.q-calendar-table th.q-calendar-selected, .q-widget-calendar table.q-calendar-table td.q-calendar-selected {
+  background-color: #252525;
+  color: #ffffff;
+  font-weight: 200;
+}
+.q-widget-calendar table.q-calendar-table th.q-calendar-selected a,
+.q-widget-calendar table.q-calendar-table th.q-calendar-selected a:active,
+.q-widget-calendar table.q-calendar-table th.q-calendar-selected a:hover,
+.q-widget-calendar table.q-calendar-table th.q-calendar-selected a:visited,
+.q-widget-calendar table.q-calendar-table th.q-calendar-selected a:focus, .q-widget-calendar table.q-calendar-table td.q-calendar-selected a,
+.q-widget-calendar table.q-calendar-table td.q-calendar-selected a:active,
+.q-widget-calendar table.q-calendar-table td.q-calendar-selected a:hover,
+.q-widget-calendar table.q-calendar-table td.q-calendar-selected a:visited,
+.q-widget-calendar table.q-calendar-table td.q-calendar-selected a:focus {
+  color: #ffffff;
+  font-weight: 200;
+}
+.q-widget-calendar table.q-calendar-table a,
+.q-widget-calendar table.q-calendar-table a:active,
+.q-widget-calendar table.q-calendar-table a:hover,
+.q-widget-calendar table.q-calendar-table a:visited,
+.q-widget-calendar table.q-calendar-table a:focus {
+  text-decoration: none;
+  font-weight: 200;
+  display: block;
+  padding: 8px;
+}
+.q-widget-calendar table.q-calendar-table .q-calendar-week {
+  color: #bbbbbb;
+  vertical-align: middle;
+  font-size: 10px;
+}
+.q-widget-calendar table.q-calendar-table .q-calendar-link {
+  color: #252525;
+}
+.q-widget-calendar table.q-calendar-table .q-calendar-link:hover {
+  background-color: #252525;
+  color: #ffffff;
+  cursor: pointer;
+}
+.q-widget-calendar table.q-calendar-table .q-calendar-link:hover a,
+.q-widget-calendar table.q-calendar-table .q-calendar-link:hover a:active,
+.q-widget-calendar table.q-calendar-table .q-calendar-link:hover a:hover,
+.q-widget-calendar table.q-calendar-table .q-calendar-link:hover a:visited,
+.q-widget-calendar table.q-calendar-table .q-calendar-link:hover a:focus {
+  text-decoration: none;
+  font-weight: 200;
+  color: #ffffff;
+}
+.q-widget-calendar table.q-calendar-table .q-calendar-link .q-calendar-selected {
+  background-color: #252525;
+  color: #ffffff;
+}
+.q-widget-calendar table.q-calendar-table .q-calendar-link .q-calendar-selected:hover {
+  background-color: #252525;
+  color: #ffffff;
+  cursor: pointer;
+}
+.q-widget-calendar table.q-calendar-table .q-calendar-today {
+  border-bottom: 2px solid #e72922;
+}
+.q-widget-calendar table.q-calendar-table .q-calendar-adjacent a,
+.q-widget-calendar table.q-calendar-table .q-calendar-adjacent a:active,
+.q-widget-calendar table.q-calendar-table .q-calendar-adjacent a:hover,
+.q-widget-calendar table.q-calendar-table .q-calendar-adjacent a:visited,
+.q-widget-calendar table.q-calendar-table .q-calendar-adjacent a:focus {
+  color: #bbbbbb;
+}
+
 .q-empty-collection--full {
   margin-top: 25%;
 }

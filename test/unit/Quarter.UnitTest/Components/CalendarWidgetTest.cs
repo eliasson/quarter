@@ -9,7 +9,7 @@ using Quarter.UnitTest.TestUtils;
 namespace Quarter.UnitTest.Components;
 
 [TestFixture]
-public abstract class CalendarWidgetTest
+public class CalendarWidgetTest
 {
     public class WhenRendered : TestCase
     {
@@ -235,10 +235,10 @@ public abstract class CalendarWidgetTest
                ?? Array.Empty<string>();
 
         protected IElement SelectedDay()
-            => Component?.Find(".qa-calendar-selected");
+            => Component?.Find(".q-calendar-selected");
 
         protected IElement[] AdjacentDays()
-            => Component?.FindAll(".qa-calendar-adjacent").ToArray()
+            => Component?.FindAll(".q-calendar-adjacent").ToArray()
                ?? Array.Empty<IElement>();
 
         protected IElement PreviousMonth()
