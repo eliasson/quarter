@@ -636,11 +636,9 @@ a.q-href:focus {
 }
 
 .q-grouped-content {
-  flex-grow: 1;
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  margin-bottom: 4rem;
 }
 .q-grouped-content--title h1, .q-grouped-content--title h2, .q-grouped-content--title h3 {
   color: #333333;
