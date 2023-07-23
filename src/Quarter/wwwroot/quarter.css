@@ -438,6 +438,9 @@ input[type=submit][disabled] {
   max-width: 298px;
   padding: 16px;
 }
+.q-ts-widget-summary .q-empty-collection {
+  margin: 0;
+}
 .q-ts-widget-summary .q-list-item__header {
   display: flex;
   flex-direction: row;
@@ -634,7 +637,9 @@ input[type=submit][disabled] {
   margin-top: 25%;
 }
 .q-empty-collection--message {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .q-fine-print {
