@@ -1,6 +1,4 @@
 .q-ts-widget-summary
-    min-width: $widget-width - (2 * $pillow-medium)
-    max-width: $widget-width - (2 * $pillow-medium)
     padding:  $pillow-medium
 
     .q-empty-collection
@@ -64,3 +62,7 @@
 
             tr:last-of-type > td
                 padding-bottom: $pillow-small
+
+@media (min-width: 640px)
+    .q-ts-widget-summary
+        max-width: $widget-width - (2 * $pillow-medium)

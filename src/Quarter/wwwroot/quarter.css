@@ -192,7 +192,6 @@ input[type=submit][disabled] {
 .q-timesheet {
   display: block;
   margin: 0 auto;
-  max-width: 444px;
   cursor: default;
   user-select: none;
   -webkit-user-select: none;
@@ -223,7 +222,6 @@ input[type=submit][disabled] {
   -webkit-user-select: none;
   -moz-user-select: none;
   font-size: 16px;
-  width: 100%;
 }
 .q-timesheet table.q-sheet-table tbody {
   border: none;
@@ -434,8 +432,6 @@ input[type=submit][disabled] {
 }
 
 .q-ts-widget-summary {
-  min-width: 298px;
-  max-width: 298px;
   padding: 16px;
 }
 .q-ts-widget-summary .q-empty-collection {
@@ -500,9 +496,10 @@ input[type=submit][disabled] {
   padding-bottom: 8px;
 }
 
-.q-widget-calendar {
-  min-width: 330px;
-  max-width: 330px;
+@media (min-width: 640px) {
+  .q-ts-widget-summary {
+    max-width: 311px;
+  }
 }
 .q-widget-calendar ul li {
   margin: 0;
@@ -544,7 +541,6 @@ input[type=submit][disabled] {
   border-collapse: collapse;
   border-spacing: 0;
   padding: 0;
-  margin: 0 30px 0 0;
 }
 .q-widget-calendar table.q-calendar-table thead td,
 .q-widget-calendar table.q-calendar-table thead th {
@@ -633,6 +629,11 @@ input[type=submit][disabled] {
   color: #bbbbbb;
 }
 
+@media (min-width: 640px) {
+  .q-widget-calendar {
+    max-width: 343px;
+  }
+}
 .q-empty-collection--full {
   margin-top: 25%;
 }
@@ -675,6 +676,10 @@ input[type=submit][disabled] {
 }
 
 .q-l-only {
+  display: none !important;
+}
+
+.q-is-hidden {
   display: none !important;
 }
 
@@ -1211,6 +1216,7 @@ select.q-is-invalid:focus {
 }
 .q-timesheet--sheet {
   display: flex;
+  flex-direction: column;
 }
 .q-timesheet--activities {
   display: flex;
@@ -1395,6 +1401,7 @@ select.q-is-invalid:focus {
   }
   .q-timesheet--sheet {
     flex-grow: 3;
+    flex-direction: row;
   }
   .q-timesheet--activities {
     flex-grow: 2;

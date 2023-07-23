@@ -90,6 +90,9 @@ $activity-marker-size-small: 12px
 .q-l-only
     display: none !important
 
+.q-is-hidden
+    display: none !important
+
 html
     background-color: $color-page-content-bg
     color: $color-text
@@ -532,6 +535,7 @@ $color-marker-size: 38px
 
     &--sheet
         display: flex
+        flex-direction: column
 
     &--activities
         display: flex
@@ -671,6 +675,7 @@ $color-marker-size: 38px
 
         &--sheet
             flex-grow: 3
+            flex-direction: row
 
         &--activities
             flex-grow: 2

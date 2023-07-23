@@ -1,6 +1,6 @@
 
 $sheet-cell-height: 36px
-$sheet-cell-width: 70px
+$sheet-cell-width-s: 70px
 $sheet-cell-border-size: 1px
 $sheet-cell-border-style: solid
 $sheet-color-border: $color-gray-dark
@@ -15,7 +15,6 @@ $sheet-color-background: $color-gray-light
 .q-timesheet
     display: block
     margin: 0 auto
-    max-width: 444px
     cursor: default
     user-select: none
     -webkit-user-select: none
@@ -46,7 +45,6 @@ $sheet-color-background: $color-gray-light
         -webkit-user-select: none
         -moz-user-select: none
         font-size: $font-size
-        width: 100%
 
         tbody
             border: none
@@ -75,8 +73,8 @@ $sheet-color-background: $color-gray-light
 
         tbody tr td,
         tbody th
-            min-width: calc($sheet-cell-width / 2)
-            width: $sheet-cell-width
+            min-width: calc($sheet-cell-width-s / 2)
+            width: $sheet-cell-width-s
             min-height: $sheet-cell-height
             height: $sheet-cell-height
             font-weight: 200
@@ -130,4 +128,3 @@ $sheet-color-background: $color-gray-light
 
         tbody tr td:last-of-type span.q-timesheet__activity.used
             border-right: $sheet-cell-border-size solid $sheet-color-border
-

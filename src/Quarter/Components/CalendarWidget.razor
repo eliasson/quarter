@@ -38,7 +38,7 @@
         @foreach (var week in _weeks)
         {
             <tr test="calendar-week">
-                <td class="q-calendar-week qa-is-hidden" test="calendar-week-number">@week.Number</td>
+                <td class="q-calendar-week q-is-hidden" test="calendar-week-number">@week.Number</td>
                 @foreach (var day in week.Days)
                 {
                     <td class="q-calendar-link @((day.IsToday) ? "q-calendar-today" : "") @((day.IsSelected) ? "q-calendar-selected" : "") @((day.IsAdjacentMonth) ? "q-calendar-adjacent" : "")"
