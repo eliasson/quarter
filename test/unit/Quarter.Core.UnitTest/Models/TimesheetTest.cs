@@ -1027,6 +1027,39 @@ public class TimesheetTest
                 => Assert.That(_tc?.Timesheet.LastHourInUse, Is.EqualTo(19));
         }
 
+        public class WhenErasingHeadAndTail
+        {
+            private TestContext _tc;
+
+            [OneTimeSetUp]
+            public void Setup()
+            {
+                _tc = new TestContext();
+                _tc?.Timesheet.Register(new ActivityTimeSlot(_tc.ProjectId, _tc.ActivityIdOne, 0, 96));
+                _tc?.Timesheet.Register(new EraseTimeSlot(0, 12));
+                _tc?.Timesheet.Register(new EraseTimeSlot(84, 12));
+            }
+
+            [Test]
+            public void ItShouldBeReflectedInTotalMinutes()
+                => Assert.That(_tc?.Timesheet.TotalMinutes(), Is.EqualTo(18 * 4 * 15));
+
+            [Test]
+            public void ItShouldHaveSingleSlot()
+                => Assert.That(_tc?.Slots, Is.EqualTo(new[]
+                {
+                    (_activityIdOne: _tc?.ActivityIdOne, 12, 18 * 4),
+                }));
+
+            [Test]
+            public void ItShouldReturnTheFirstHourUsed()
+                => Assert.That(_tc?.Timesheet.FirstHourInUse, Is.EqualTo(3));
+
+            [Test]
+            public void ItShouldReturnTheLastHourUsed()
+                => Assert.That(_tc?.Timesheet.LastHourInUse, Is.EqualTo(21));
+        }
+
         public class WhenRegisteringMultipleProjects
         {
             private TestContext _tc;

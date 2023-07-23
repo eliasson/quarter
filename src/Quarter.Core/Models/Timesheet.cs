@@ -200,15 +200,10 @@ public class Timesheet : IAggregate<Timesheet>
         else
         {
             var firstSlot = _slots.First();
-
-            var firstProspect = firstSlot.Offset / 4;
-            if (firstProspect < FirstHourInUse || !FirstHourInUse.HasValue)
-                FirstHourInUse = firstProspect;
+            FirstHourInUse = firstSlot.Offset / 4;
 
             var lastSlot = _slots.Last();
-            var lastProspect = (lastSlot.Offset + lastSlot.Duration) / 4;
-            if (lastProspect > LastHourInUse || !LastHourInUse.HasValue)
-                LastHourInUse = lastProspect;
+            LastHourInUse = (lastSlot.Offset + lastSlot.Duration) / 4;
         }
     }
 
