@@ -1406,6 +1406,7 @@ select.q-is-invalid:focus {
   .q-timesheet--sheet {
     flex-grow: 3;
     flex-direction: row;
+    justify-content: center;
   }
   .q-timesheet--activities {
     flex-grow: 2;
