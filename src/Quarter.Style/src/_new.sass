@@ -150,6 +150,7 @@ a.q-href:focus
     padding: 1rem
     display: flex
     flex-direction: column
+    margin-bottom: 0
 
 .q-top-area
     display: flex
@@ -190,6 +191,10 @@ a.q-href:focus
     flex-direction: row
     align-items: center
     justify-content: space-around
+    position: sticky
+    bottom: 0
+    background-color: $color-page-content-bg
+    z-index: 10
 
     .q-navigation-item
         @include navigational-item
@@ -586,7 +591,7 @@ $color-marker-size: 38px
 .q-widget
     display: inline-block
     background-color: $color-white
-    width: 100%
+
     border-radius: $std-border-radius
     border: 2px solid #252525
     box-shadow: 4px 4px 4px -4px #14141e
