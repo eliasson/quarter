@@ -4,7 +4,7 @@
 @using Quarter.Core.Repositories
 @using Quarter.State
 
-<table class="qa-widget">
+<table class="q-table">
     <thead>
     <tr>
         <th>E-mail</th>
@@ -16,7 +16,7 @@
     {
         <tr>
             <td test="user-email">@user.Email</td>
-            <td class="qa-end">
+            <td>
                 <ContextMenu Items="@user.MenuItems" ItemSelected="OnUserMenuItem" />
             </td>
         </tr>
