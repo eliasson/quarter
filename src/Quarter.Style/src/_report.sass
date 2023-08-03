@@ -50,7 +50,36 @@
         color: $color-text
         padding: $pillow-large 0
 
-table.qa-report-table
+.q-report
+    .q-list-item
+        &__header
+            background-color: $color-goth
+            color: $color-white
+
+        &__title
+            display: flex
+            flex-direction: row
+
+        &__action
+            display: flex
+            flex-direction: row
+            gap: 0.5rem
+
+        &__sub-title
+            color: $color-white
+
+        &__statistics__unit
+            font-weight: 200
+            color: $color-white
+
+        &__statistics__value
+            font-size: $font-size-peta
+            font-weight: 600
+
+    .q-report__title
+        flex-grow: 1
+
+table.q-report-table
     tr
         th
             font-weight: 600
@@ -68,7 +97,7 @@ table.qa-report-table
 
     tbody
         tr
-            th.qa-project-title
+            th.q-project-title
                 padding: $pillow-large $pillow-small $pillow-small $pillow-small
 
     thead
@@ -82,7 +111,7 @@ table.qa-report-table
 
 
 
-table.qa-report-table__monthly
+table.q-report-table__monthly
     tr
         th
             font-weight: 600
@@ -93,6 +122,7 @@ table.qa-report-table__monthly
 
         th:first-child,
         td:first-child
+            white-space: nowrap
             word-break: keep-all
             width: 1%
 
@@ -102,11 +132,7 @@ table.qa-report-table__monthly
 
 
 @media only screen and (max-width: 48em)
-    table.qa-report-table
+    table.q-report-table
         overflow-x: auto
         display: block
 
-@media only screen and (min-width: 48em)
-    .qa-report
-        &__details
-            min-width: 650px

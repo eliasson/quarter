@@ -431,6 +431,141 @@ input[type=submit][disabled] {
   background-color: transparent;
 }
 
+.qa-report {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  margin-bottom: 24px;
+  border-radius: 4px;
+  border: 2px solid #252525;
+  box-shadow: 4px 4px 4px -4px #14141e;
+}
+.qa-report__header {
+  display: flex;
+  flex-direction: row;
+  justify-items: left;
+  padding: 16px;
+  background-color: #252525;
+  color: #ffffff;
+}
+.qa-report__header__title {
+  flex-grow: 1;
+}
+.qa-report__header__title__main {
+  font-size: 20px;
+  font-weight: 400;
+}
+.qa-report__header__title__sub {
+  font-size: 14px;
+  font-weight: 200;
+  margin-top: 8px;
+}
+.qa-report__header__actions {
+  align-self: flex-end;
+  display: flex;
+}
+.qa-report__summary {
+  text-align: center;
+  background-color: #252525;
+  color: #ffffff;
+  padding: 24px;
+}
+.qa-report__summary__value {
+  font-size: 64px;
+  font-weight: 600;
+}
+.qa-report__summary__label {
+  font-size: 20px;
+  font-weight: 200;
+}
+.qa-report__details {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  color: #252525;
+  padding: 24px 0;
+}
+
+.q-report .q-list-item__header {
+  background-color: #252525;
+  color: #ffffff;
+}
+.q-report .q-list-item__title {
+  display: flex;
+  flex-direction: row;
+}
+.q-report .q-list-item__action {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+.q-report .q-list-item__sub-title {
+  color: #ffffff;
+}
+.q-report .q-list-item__statistics__unit {
+  font-weight: 200;
+  color: #ffffff;
+}
+.q-report .q-list-item__statistics__value {
+  font-size: 48px;
+  font-weight: 600;
+}
+.q-report .q-report__title {
+  flex-grow: 1;
+}
+
+table.q-report-table tr th {
+  font-weight: 600;
+}
+table.q-report-table tr th,
+table.q-report-table tr td {
+  text-align: right;
+  padding: 8px;
+}
+table.q-report-table tr th:first-child,
+table.q-report-table tr td:first-child {
+  text-align: left;
+}
+table.q-report-table tr td.is-total {
+  font-weight: 600;
+}
+table.q-report-table tbody tr th.q-project-title {
+  padding: 24px 8px 8px 8px;
+}
+table.q-report-table thead {
+  background-color: #ffffff;
+  color: #252525;
+}
+table.q-report-table tfoot tr th,
+table.q-report-table tfoot tr td {
+  padding: 24px 8px;
+}
+
+table.q-report-table__monthly tr th {
+  font-weight: 600;
+}
+table.q-report-table__monthly tr th,
+table.q-report-table__monthly tr td {
+  text-align: left;
+  padding: 8px;
+}
+table.q-report-table__monthly tr th:first-child,
+table.q-report-table__monthly tr td:first-child {
+  white-space: nowrap;
+  word-break: keep-all;
+  width: 1%;
+}
+table.q-report-table__monthly tr th:last-child,
+table.q-report-table__monthly tr td:last-child {
+  text-align: right;
+}
+
+@media only screen and (max-width: 48em) {
+  table.q-report-table {
+    overflow-x: auto;
+    display: block;
+  }
+}
 .q-ts-widget-summary {
   padding: 16px;
 }

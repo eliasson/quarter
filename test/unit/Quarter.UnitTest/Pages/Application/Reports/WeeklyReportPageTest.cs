@@ -265,7 +265,7 @@ public class WeeklyReportPageTest
             => Component?.FindComponent<EmptyCollectionMessage>().Instance;
 
         protected IEnumerable<string> HeaderColumns()
-            => Component?.FindAll(".qa-report-table thead th").Select(elm => elm.TextContent);
+            => Component?.FindAll(".q-report-table thead th").Select(elm => elm.TextContent);
 
         protected IEnumerable<string> ProjectRows()
             => Component?.FindAll("th[test=project-name]").Select(elm => elm.TextContent);
