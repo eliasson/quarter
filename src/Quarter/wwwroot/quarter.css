@@ -1215,6 +1215,7 @@ select.q-is-invalid:focus {
 
 .q-dashboard-week-summary .q-list-item {
   flex-direction: row;
+  cursor: pointer;
 }
 .q-dashboard-week-summary .q-list-item__header {
   flex-direction: row;

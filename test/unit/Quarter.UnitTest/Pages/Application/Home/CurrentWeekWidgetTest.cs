@@ -1,11 +1,16 @@
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using Bunit;
+using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using Quarter.Core.Models;
 using Quarter.Core.Queries;
 using Quarter.Core.Utils;
 using Quarter.Pages.Application.Home;
 using Quarter.UnitTest.TestUtils;
+using TestContext = Bunit.TestContext;
 
 namespace Quarter.UnitTest.Pages.Application.Home;
 
@@ -57,15 +62,33 @@ public class CurrentWeekWidgetTest
             var units = Units().ToHashSet();
             Assert.That(units, Is.EqualTo(new [] { "hours" }));
         }
+
+        [Test]
+        public void ItShouldLinkToTimesheetPage()
+        {
+            Component?.Find(".q-list-item").Click();
+            var expectedDate = TodayInTest.StartOfWeek().DateTime.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+            var expectedUrl = $"/app/timesheet/{expectedDate}";
+
+            Assert.That(LastNavigatedTo, Is.EqualTo(expectedUrl));
+        }
     }
 
     public abstract class TestCase : BlazorComponentTestCase<CurrentWeekWidget>
     {
+        private readonly TestNavigationManager _testNavigationManager = new TestNavigationManager();
         protected TimesheetSummaryQueryResult SummaryQueryResult;
+        protected Date TodayInTest = Date.Today();
+
+        protected override void ConfigureTestContext(TestContext ctx)
+        {
+            base.ConfigureTestContext(ctx);
+            ctx.Services.AddSingleton<NavigationManager>(_testNavigationManager);
+        }
 
         protected void SetupTimesheets(params int[] quartersPerDay)
         {
-            var startOfWeek = Date.Today().StartOfWeek().DateTime;
+            var startOfWeek = TodayInTest.StartOfWeek().DateTime;
             var dataToRegister = quartersPerDay.Zip(Date.Sequence(new Date(startOfWeek), quartersPerDay.Length));
             var result = new TimesheetSummaryQueryResult();
 
@@ -93,5 +116,8 @@ public class CurrentWeekWidgetTest
 
         protected IEnumerable<string> Units()
             => ComponentsByTestAttribute("timesheet-unit").Select(e => e.TextContent);
+
+        protected string LastNavigatedTo()
+            =>_testNavigationManager.LastNavigatedTo();
     }
 }

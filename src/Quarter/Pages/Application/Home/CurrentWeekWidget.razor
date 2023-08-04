@@ -10,7 +10,7 @@
     <div class="q-list q-list--horizontal q-dashboard-week-summary">
         @foreach (var timesheet in Timesheets())
         {
-            <div class="q-list-item">
+            <div class="q-list-item"  @onclick="() => GoToTimesheet(timesheet)">
                 <div class="q-list-item__header">
                     <div class="q-list-item__title q-xs-only" test="timesheet-day-long">@timesheet.Date.NameOfDay()</div>
                     <div class="q-list-item__title q-l-only" test="timesheet-day-short">@timesheet.Date.NameOfDayShort()</div>
@@ -24,10 +24,15 @@
     </div>
 </div>
 
+@inject NavigationManager _navigationManager
+
 @code {
     [Parameter]
     public TimesheetSummaryQueryResult? Summary { get; set; }
 
     private IEnumerable<Timesheet> Timesheets()
         => Summary?.Timesheets ?? Array.Empty<Timesheet>();
+
+    private void GoToTimesheet(Timesheet timesheet)
+        => _navigationManager.NavigateTo(Page.Timesheet(timesheet.Date.DateTime));
 }
