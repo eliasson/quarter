@@ -327,7 +327,7 @@ input[type=submit][disabled] {
   align-self: center;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 900px) {
   .q-landing-page {
     display: flex;
     flex-direction: row;
@@ -631,7 +631,7 @@ table.q-report-table__monthly tr td:last-child {
   padding-bottom: 8px;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 900px) {
   .q-ts-widget-summary {
     max-width: 311px;
   }
@@ -764,7 +764,7 @@ table.q-report-table__monthly tr td:last-child {
   color: #bbbbbb;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 900px) {
   .q-widget-calendar {
     max-width: 343px;
   }
@@ -1428,7 +1428,31 @@ table.q-table .q-icon {
   max-height: 1.5rem;
 }
 
-@media (min-width: 640px) {
+.q-oss-message {
+  background: #252525;
+  color: #ffffff;
+  box-shadow: none;
+  display: flex;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 1rem;
+}
+.q-oss-message .q-list-item__header {
+  font-weight: 600;
+}
+.q-oss-message a,
+.q-oss-message a:active,
+.q-oss-message a:link {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 600;
+}
+.q-oss-message a:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+@media (min-width: 900px) {
   .q-xs-only {
     display: none !important;
   }
@@ -1543,8 +1567,16 @@ table.q-table .q-icon {
     gap: 0;
   }
 
+  .q-dashboard-week-total {
+    display: flex;
+    flex-direction: row;
+  }
   .q-dashboard-week-total .q-list-item {
-    max-width: 20rem;
+    max-width: 24rem;
+    min-width: 24rem;
+  }
+  .q-dashboard-week-total .q-list-item__header {
+    justify-content: center;
   }
 
   .q-timesheet--page {

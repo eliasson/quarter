@@ -610,8 +610,30 @@ table.q-table
         min-height: 1.5rem
         max-height: 1.5rem
 
-// Devices larger than 640px
-@media (min-width: 640px)
+.q-oss-message
+    background: $color-goth
+    color: $color-white
+    box-shadow: none
+    display: flex
+    align-items: center !important
+    justify-content: center !important
+    padding: 1rem
+
+    .q-list-item__header
+        font-weight: 600
+
+    a,
+    a:active,
+    a:link
+        color: $color-white
+        text-decoration: none
+        font-weight: 600
+
+    a:hover
+        color: $color-white
+        text-decoration: underline
+
+@media (min-width: 900px)
     .q-xs-only
         display: none !important
 
@@ -681,8 +703,15 @@ table.q-table
             gap: 0
 
     .q-dashboard-week-total
+        display: flex
+        flex-direction: row
+
         .q-list-item
-            max-width: 20rem
+            max-width: 24rem
+            min-width: 24rem
+
+        .q-list-item__header
+            justify-content: center
 
     .q-timesheet
         &--page
