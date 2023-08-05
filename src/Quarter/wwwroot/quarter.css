@@ -319,6 +319,10 @@ input[type=submit][disabled] {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  text-align: center;
+}
+.q-landing-page__column ul {
+  text-align: left;
 }
 
 #q-timesheet-extend-sod,
@@ -845,6 +849,21 @@ body {
   width: 100%;
 }
 
+h1 {
+  font-size: 24px;
+  font-weight: 400;
+}
+
+h2 {
+  font-size: 20px;
+  font-weight: 400;
+}
+
+h3 {
+  font-size: 16px;
+  font-weight: 400;
+}
+
 a,
 a:active,
 a:link,
@@ -861,7 +880,7 @@ a.q-href,
 a.q-href:active,
 a.q-href:link {
   color: #252525;
-  text-decoration: underline;
+  text-decoration: none;
   font-weight: 600;
 }
 
