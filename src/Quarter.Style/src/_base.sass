@@ -1,5 +1,3 @@
-// Only style plain HTML elements in here, no custom components
-
 html
     background-color: $color-page-content-bg
     color: $color-text
@@ -10,6 +8,31 @@ body
     font-weight: 200
     padding: 0
     margin: 0
+    display: flex
+    flex-direction: column
+    height: 100vh
+    min-height: 100vh
+    align-items: center
+
+.q-body
+    display: flex
+    flex-direction: column
+    height: 100vh
+    min-height: 100vh
+    max-width: 1600px
+    width: 100%
+
+h1
+    font-size: 24px
+    font-weight: 400
+
+h2
+    font-size: 20px
+    font-weight: 400
+
+h3
+    font-size: 16px
+    font-weight: 400
 
 a,
 a:active,
@@ -22,65 +45,30 @@ a:focus
     color: $color-text
     border: none
 
-a.qa-href,
-a.qa-href:active,
-a.qa-href:link
+a.q-href,
+a.q-href:active,
+a.q-href:link
     color: $color-link
-    text-decoration: underline
+    text-decoration: none
     font-weight: 600
 
-a.qa-href:hover
+a.q-href:hover
     color: $color-link
     text-decoration: underline
 
-a.qa-href:focus
+a.q-href:focus
     outline: 0
 
-h1,h2,h3,h4,h5,h6
-    margin: 0
-    font-weight: 600
+table.q-table
+    text-align: left
 
-h1
-    font-size: 24px
-h2
-    font-size: 20px
-h3
-    font-size: 16px
+    .q-icon
+        min-width: 1.5rem
+        max-width: 1.5rem
+        min-height: 1.5rem
+        max-height: 1.5rem
 
-ul
-    li + li
-        margin-top: $pillow-small
-
-table
-    border-spacing: 0
-    width: 100%
-
-    &.qa-widget
-        display: table
-
-    thead
-        font-weight: 600
-        background-color: $color-goth
-        color: $color-white
-
-        tr
-            td,
-            th
-                text-align: left
-                padding: $pillow-medium $pillow-small
-                font-weight: 200
-
-                &:first-child,
-                &:last-child
-                    padding: $pillow-medium
-
-    tbody
-        tr
-            td,
-            th
-                text-align: left
-                padding: $pillow-small $pillow-small
-
-                &:first-child,
-                &:last-child
-                    padding: $pillow-small $pillow-medium
+@media (min-width: 900px)
+    body.q-body
+        height: 100vh
+        min-height: 100vh

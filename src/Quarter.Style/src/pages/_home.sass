@@ -1,0 +1,94 @@
+.q-dashboard-week-summary
+    .q-list-item
+        flex-direction: row
+        cursor: pointer
+
+        &__header
+            flex-direction: row
+            align-items: center
+            min-width: 4rem
+            min-height: 4rem
+            gap: 1rem
+
+        &__title
+            font-weight: 200
+
+    .q-statistics
+        display: flex
+        flex-direction: row
+        flex-grow: 1
+        align-items: center
+        justify-content: flex-end
+        gap: 0.5rem
+
+        &__unit
+            color: $color-text-light
+            font-size: $font-size-centi
+
+        &__value
+            font-weight: 600
+
+.q-dashboard-week-total
+    .q-statistics
+        display: flex
+        flex-direction: row
+        justify-content: center
+        align-items: baseline
+
+        &__unit
+            color: $color-text-light
+            font-size: 1.5rem
+            margin-left: 0.3rem
+
+        &__value
+            font-weight: 600
+            font-size: 4rem
+
+.q-oss-message
+    background: $color-goth
+    color: $color-white
+    box-shadow: none
+    display: flex
+    align-items: center !important
+    justify-content: center !important
+    padding: 1rem
+
+    .q-list-item__header
+        font-weight: 600
+
+    a,
+    a:active,
+    a:link
+        color: $color-white
+        text-decoration: none
+        font-weight: 600
+
+    a:hover
+        color: $color-white
+        text-decoration: underline
+
+@media (min-width: 900px)
+    .q-dashboard-week-summary
+        .q-list-item
+            &__header
+                flex-direction: column
+                min-width: 4rem
+                min-height: 4rem
+                gap: 1rem
+
+        .q-statistics
+            flex-direction: column
+            flex-grow: 1
+            align-items: center
+            gap: 0
+
+    .q-dashboard-week-total
+        display: flex
+        flex-direction: row
+
+        .q-list-item
+            max-width: 24rem
+            min-width: 24rem
+
+        .q-list-item__header
+            justify-content: center

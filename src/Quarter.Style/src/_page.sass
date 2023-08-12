@@ -1,0 +1,90 @@
+.q-content
+    overflow-y: scroll
+    flex-grow: 1
+    padding: 1rem
+    display: flex
+    flex-direction: column
+    margin-bottom: 0
+
+.q-top-area
+    display: flex
+    flex-direction: row
+    min-height: 3rem
+
+    &__logo
+        display: flex
+        align-items: center
+        justify-content: center
+        flex-grow: 0
+        width: 3rem
+
+    &__user
+        display: flex
+        flex-direction: row-reverse
+        flex-grow: 1
+        align-items: center
+        gap: 1rem
+
+        &:last-child
+            margin-right: 1rem
+
+        .q-navigation-item
+            @include navigational-item(24px)
+
+    .q-icon
+        width: 24px
+        height: 24px
+
+.q-main-area
+    display: flex
+    flex-direction: column-reverse
+    flex-grow: 1
+
+.q-navigation
+    display: flex
+    flex-direction: row
+    align-items: center
+    justify-content: space-around
+    position: sticky
+    bottom: 0
+    background-color: $color-page-content-bg
+    z-index: 10
+
+    .q-navigation-item
+        @include navigational-item
+        display: flex
+        flex-direction: column
+        align-items: center
+        cursor: pointer
+        width: 4rem
+        height: 4rem
+        justify-content: center
+
+
+@media (min-width: 900px)
+    .q-top-area
+        min-height: 5rem
+
+        &__logo
+            width: 5rem
+
+        .q-navigation-item
+            @include navigational-item(24px)
+
+    .q-main-area
+        flex-direction: row
+
+    .q-navigation
+        flex-direction: column
+        align-items: center
+        justify-content: start
+        width: 5rem
+        gap: 1rem
+
+        .q-navigation-item
+            @include navigational-item(32px)
+            width: 100%
+            border-bottom: 0
+
+    .q-content
+        padding-top: 0

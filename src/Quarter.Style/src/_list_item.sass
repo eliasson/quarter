@@ -1,94 +1,96 @@
-.qa-empty-collection
-  &--full
-    margin-top: 25%
 
-  &--message
-    text-align: center
-
-.qa-list-item
-  display: flex
-  flex-direction: column
-  background-color: $color-white
-  margin-bottom: $pillow-large
-  border-radius: $std-border-radius
-  border: 2px solid #252525
-  box-shadow: 4px 4px 4px -4px #14141e
-
-  &--is-active
-    border-color: $color-primary
-    background-color: $color-primary
-    color: $color-white
-    box-shadow: 4px 4px 4px -4px #14141e
-
-    .qa-list-item__statistics__unit
-      color: $color-white
-
-    .qa-list-item__main__sub
-      color: $color-white
-
-  &__main
-    display: flex
-    flex-direction: row
-    justify-items: left
-    padding: $pillow-medium
-
-    &__title
-      flex-grow: 1
-      font-size: $font-size-kilo
-
-    &__text
-      cursor: pointer
-      font-weight: 600
-
-    &__chevron
-      margin-right: $pillow-small
-
-    &__sub
-      font-weight: 200
-      margin-top: $pillow-xsmall
-      margin-left: $pillow-small + 16px // for expand/collapse icon
-      font-size: $font-size
-      color: $color-text-light
-
-  &__statistics
-    display: flex
-    justify-content: space-evenly
-
-    &__category
-      text-align: center
-
-    &__unit
-      font-weight: 600
-      color: $color-text-light
-      padding: 4px
-
-    &__value
-      font-weight: 200
-      padding: $pillow-small 0 $pillow-medium 0
-
-  &__details
+.q-list
     display: flex
     flex-direction: column
-    background-color: $color-white
-    color: $color-text
+    gap: 1rem
 
-    .qa-empty-collection--message
-      margin-top: $pillow-large
+    &--horizontal
+        flex-direction: column
 
-  &__actions
-    margin-top: $pillow-small
-    align-self: flex-end
-    padding: $pillow-medium
+.q-list-item
+    @include bordered-box
+    display: flex
+    flex-direction: column
 
-$activity-marker-size: 14px
-$activity-marker-size-small: 8px
+    &--expanded
+        .q-list-item__header
+            border-color: $color-primary
+            background-color: $color-primary
+            color: $color-white
+            box-shadow: 4px 4px 4px -4px #14141e
 
-.qa-activity-marker-column
-  min-width: $activity-marker-size + $pillow-medium
-  max-width: $activity-marker-size + $pillow-medium
-  width: $activity-marker-size + $pillow-medium
+        .q-list-item__sub-title
+            color: $color-white
 
-.qa-activity-action-column
-  min-width: 40px
-  max-width: 40px
-  width: 40px
+        .q-list-item__statistics
+            &__unit
+                color: $color-white
+
+    &__header
+        padding: 0.5rem
+        display: flex
+        flex-direction: column
+        flex-grow: 1
+
+    &__title
+        font-size: $font-size-kilo
+        font-weight: 600
+
+    &__sub-title
+        font-weight: 200
+        font-size: $font-size
+        color: $color-text-light
+
+    &__action
+        display: flex
+        height: 100%
+
+        .q-icon
+            min-width: 1.5rem
+            max-width: 1.5rem
+            min-height: 1.5rem
+            max-height: 1.5rem
+
+    // Context is used to display project statistics
+    &__statistics
+        display: flex
+        padding: 0.5rem
+        justify-content: space-evenly
+
+        &__category
+            text-align: center
+
+        &__unit
+            font-weight: 600
+            color: $color-text-light
+            padding: 4px
+
+        &__value
+            font-weight: 200
+            padding: $pillow-small 0 $pillow-medium 0
+
+    &__content
+        padding: 0.5rem
+        display: flex
+        flex-direction: column
+
+        &__actions
+            margin-top: $pillow-small
+            align-self: flex-end
+            padding: $pillow-medium
+
+@media (min-width: 900px)
+    .q-list
+        &--horizontal
+            flex-direction: row
+
+    .q-list-item
+        flex-direction: column
+
+        justify-content: space-between
+
+        &__header
+            padding: 1rem
+
+        &__content
+            padding: 1rem

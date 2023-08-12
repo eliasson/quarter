@@ -1,0 +1,45 @@
+.q-project-list-item
+    flex-direction: column
+
+    .q-list-item__title
+        display: flex
+        flex-direction: row
+        align-items: center
+        justify-content: stretch
+        width: 100%
+        gap: 0.5rem
+
+        .q-project-title
+            flex-grow: 2
+            align-self: flex-start
+            display: flex
+            gap: 0.5rem
+
+    .q-list-item__sub-title
+        align-self: start
+        padding-left: 2.1rem
+
+    .q-activity-table
+        overflow-x: auto
+        display: block
+
+        .q-icon
+            min-width: 1.5rem
+            max-width: 1.5rem
+            min-height: 1.5rem
+            max-height: 1.5rem
+
+        td
+            white-space: nowrap
+
+        .q-activity-marker-column
+            .q-activity-marker
+                margin-left: 12px
+                margin-right: 12px
+
+        .q-activity-name-column
+            width: 100%
+
+        .q-activity-action-column
+            button
+                margin-left: 12px
