@@ -155,7 +155,7 @@ public class ActivityTableRowTest
             => ComponentByTestAttribute("activity-item-marker--color").Attributes["style"]?.Value;
 
         protected string ActivityName()
-            => ComponentByTestAttribute("activity-name").TextContent;
+            => ComponentByTestAttribute("activity-item-title").TextContent;
 
         protected string ArchivedTag()
             => ComponentByTestAttribute("archived-tag").TextContent;
