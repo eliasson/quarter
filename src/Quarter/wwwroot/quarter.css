@@ -1300,6 +1300,25 @@ input[type=submit][disabled] {
     max-width: 343px;
   }
 }
+.q-login {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0.5rem;
+}
+.q-login .q-list-item__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  row-gap: 1rem;
+}
+.q-login .q-self-host-message {
+  margin-top: 4rem;
+}
+
 .q-dashboard-week-summary .q-list-item {
   flex-direction: row;
   cursor: pointer;
