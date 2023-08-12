@@ -18,6 +18,65 @@
 </head>
 <body>
     <component type="typeof(App)" render-mode="ServerPrerendered" />
-    <script src="_framework/blazor.server.js"></script>
+
+    <div id="reconnect-modal" class="q-is-hidden">
+        <div class="q-modal">
+            <div class="q-modal--backdrop"></div>
+            <div class="q-modal--overlay">
+                <div class="q-modal--container">
+                    <div class="q-modal--header">
+                        <div class="q-modal--header--title">
+                            <h1>Connection lost</h1>
+                        </div>
+                    </div>
+                    <div class="q-modal--content">
+                        <p>Trying to reconnect to server...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script autostart="false" src="_framework/blazor.server.js"></script>
+    <script>
+        const dialog = document.getElementById("reconnect-modal");
+        let connectionRetriesLeft = 100;
+        const reconnectIntervalMillis = 2000;
+
+        const startBlazor = () => Blazor.start({
+            reconnectionHandler: {
+                onConnectionDown: () => {
+                    dialog.className = "";
+
+                    const tryReconnect = async () => {
+                        console.info("Trying to re-connect");
+                        try {
+                            connectionRetriesLeft--;
+                            const reconnected = await Blazor.reconnect(); // bool
+                            if (!reconnected) {
+                                console.info("Re-connect failed. Server app rejected reconnection")
+                                location.reload();
+                            }
+                        }
+                        catch(error) {
+                            if (connectionRetriesLeft === 0) {
+                                location.reload();
+                                return;
+                            }
+                            console.error("Re-connect failed. Could not reach server app", error);
+                            setTimeout(tryReconnect, reconnectIntervalMillis);
+                        }
+                    };
+                    tryReconnect();
+                },
+                onConnectionUp: () => {
+                    console.info("Re-connection succesfull")
+                    dialog.className = "qa-is-hidden";
+                }
+            }
+        });
+        startBlazor();
+    </script>
+
 </body>
 </html>
