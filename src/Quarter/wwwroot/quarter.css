@@ -844,45 +844,6 @@ input[type=submit][disabled] {
   border-right: 1px solid #bbbbbb;
 }
 
-.q-landing-page {
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
-  gap: 1rem;
-}
-.q-landing-page__column {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-.q-landing-page__column ul {
-  text-align: left;
-}
-
-#q-timesheet-extend-sod,
-#q-timesheet-extend-eod {
-  padding: 16px 0;
-  align-self: center;
-}
-
-@media (min-width: 900px) {
-  .q-landing-page {
-    display: flex;
-    flex-direction: row;
-    height: 100vh;
-    width: 100%;
-    max-width: 1200px;
-  }
-  .q-landing-page__column {
-    flex: 50%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-}
 .q-context-bar {
   display: flex;
   flex-direction: row;
@@ -1298,6 +1259,45 @@ input[type=submit][disabled] {
 @media (min-width: 900px) {
   .q-widget-calendar {
     max-width: 343px;
+  }
+}
+.q-landing-page {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  gap: 1rem;
+}
+.q-landing-page__column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.q-landing-page__column ul {
+  text-align: left;
+}
+
+#q-timesheet-extend-sod,
+#q-timesheet-extend-eod {
+  padding: 16px 0;
+  align-self: center;
+}
+
+@media (min-width: 900px) {
+  .q-landing-page {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    width: 100%;
+    max-width: 1200px;
+  }
+  .q-landing-page__column {
+    flex: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 }
 .q-login {
