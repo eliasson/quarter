@@ -1,0 +1,36 @@
+.q-landing-page
+    display: flex
+    flex-direction: column
+    padding: 1rem
+    gap: 1rem
+
+    &__column
+        display: flex
+        flex-direction: column
+        align-items: center
+        justify-content: center
+        text-align: center
+
+        ul
+            text-align: left
+
+#q-timesheet-extend-sod,
+#q-timesheet-extend-eod
+    padding: 16px 0
+    align-self: center
+
+
+@media (min-width: 900px)
+    .q-landing-page
+        display: flex
+        flex-direction: row
+        height: 100vh
+        width: 100%
+        max-width: 1200px
+
+        &__column
+            flex: 50%
+            display: flex
+            flex-direction: column
+            align-items: center
+            justify-content: center

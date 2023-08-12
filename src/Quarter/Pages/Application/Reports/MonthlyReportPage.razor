@@ -14,34 +14,34 @@
 
 <ApplicationPage>
     <PageContent>
-        <PageContext Tabs="@_tabs"/>
-        <PageColumns>
-            <ContextContent>
-            </ContextContent>
-            <MainContent>
-                <div class="qa-report">
-                    <div class="qa-report__header">
-                        <div class="qa-report__header__title">
-                            <div class="qa-report__header__title__main" test="report-title">@ReportTitle</div>
-                            <div class="qa-report__header__title__sub" test="report-sub-title">@ReportSubTitle</div>
+        <PageContext Tabs="@_tabs" />
+        <div class="q-report q-grouped-content">
+            <div class="q-list">
+                <div class="q-list-item">
+                    <div class="q-list-item__header">
+                        <div class="q-list-item__title">
+                            <div class="q-report__title" test="report-title">@ReportTitle</div>
+                            <div class="q-list-item__action">
+                                <ActionButton IconRef="#icon-chevron-left" OnAction="@PreviousMonth"/>
+                                <ActionButton IconRef="#icon-chevron-right" OnAction="@NextMonth"/>
+                            </div>
                         </div>
-                        <div class="qa-report__header__actions">
-                            <ActionButton IconRef="#icon-chevron-left" OnAction="@PreviousMonth" />
-                            <ActionButton IconRef="#icon-chevron-right" OnAction="@NextMonth" />
+                        <div class="q-list-item__sub-title" test="report-sub-title">@ReportSubTitle</div>
+                        <div class="q-list-item__statistics">
+                            <div class="q-list-item__statistics__category">
+                                <div class="q-list-item__statistics__value" test="report-total-hours">@TotalHours</div>
+                                <div class="q-list-item__statistics__unit">Hours</div>
+                            </div>
                         </div>
                     </div>
-                    <div class="qa-report__summary">
-                        <div class="qa-report__summary__value" test="report-total-hours">@TotalHours</div>
-                        <div class="qa-report__summary__label">Hours</div>
-                    </div>
-                    <div class="qa-report__details">
+                    <div class="q-list-item__content">
                         @if (IsEmpty())
                         {
                             <EmptyCollectionMessage Header="No registered time" Message="There are no registered time for this month." IconRef="#icon-manage"/>
                         }
-                        else if(_usage is not null)
+                        else if (_usage is not null)
                         {
-                            <table class="qa-report-table qa-report-table__monthly">
+                            <table class="q-report-table q-report-table__monthly">
                                 <tbody>
 
                                 @foreach (var day in Days())
@@ -58,23 +58,23 @@
                                             <tr test="report-activity-row">
                                                 <td></td>
                                                 <td>
-                                                    <div class="qa-activity-marker" test="activity-item-marker" style="@activity.Style"></div>
-                                                    <div class="qa-activity-marker-title" test="activity-name">@activity.Name</div>
+                                                    <div class="q-activity-marker">
+                                                        <div class="q-activity-marker--color" test="activity-item-marker" style="@activity.Style;"></div>
+                                                        <div class="a-activity-marker-title" test="activity-name">@activity.Name</div>
+                                                    </div>
                                                 </td>
                                                 <td test="activity-total">@activity.Total</td>
                                             </tr>
                                         }
                                     }
                                 }
-
                                 </tbody>
                             </table>
                         }
                     </div>
                 </div>
-            </MainContent>
-            <ToolbarContent></ToolbarContent>
-        </PageColumns>
+            </div>
+        </div>
     </PageContent>
 </ApplicationPage>
 

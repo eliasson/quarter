@@ -1,0 +1,96 @@
+.q-list
+    display: flex
+    flex-direction: column
+    gap: 1rem
+
+    &--horizontal
+        flex-direction: column
+
+.q-list-item
+    @include bordered-box
+    display: flex
+    flex-direction: column
+
+    &--expanded
+        .q-list-item__header
+            border-color: $color-primary
+            background-color: $color-primary
+            color: $color-white
+            box-shadow: 4px 4px 4px -4px #14141e
+
+        .q-list-item__sub-title
+            color: $color-white
+
+        .q-list-item__statistics
+            &__unit
+                color: $color-white
+
+    &__header
+        padding: 0.5rem
+        display: flex
+        flex-direction: column
+        flex-grow: 1
+
+    &__title
+        font-size: $font-size-kilo
+        font-weight: 600
+
+    &__sub-title
+        font-weight: 200
+        font-size: $font-size
+        color: $color-text-light
+
+    &__action
+        display: flex
+        height: 100%
+
+        .q-icon
+            min-width: 1.5rem
+            max-width: 1.5rem
+            min-height: 1.5rem
+            max-height: 1.5rem
+
+    // Context is used to display project statistics
+    &__statistics
+        display: flex
+        padding: 0.5rem
+        justify-content: space-evenly
+
+        &__category
+            text-align: center
+
+        &__unit
+            font-weight: 600
+            color: $color-text-light
+            padding: 4px
+
+        &__value
+            font-weight: 200
+            padding: $pillow-small 0 $pillow-medium 0
+
+    &__content
+        padding: 0.5rem
+        display: flex
+        flex-direction: column
+
+        &__actions
+            margin-top: $pillow-small
+            align-self: flex-end
+            padding: $pillow-medium
+
+
+@media (min-width: 900px)
+    .q-list
+        &--horizontal
+            flex-direction: row
+
+    .q-list-item
+        flex-direction: column
+
+        justify-content: space-between
+
+        &__header
+            padding: 1rem
+
+        &__content
+            padding: 1rem

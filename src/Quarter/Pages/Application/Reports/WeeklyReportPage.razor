@@ -4,7 +4,6 @@
 
 @using Quarter.Components
 @using Quarter.Core.Queries
-@using Quarter.Core.UI.State
 @using Quarter.Core.Utils
 @using Quarter.Services
 @using Quarter.State
@@ -12,52 +11,54 @@
 
 <ApplicationPage>
     <PageContent>
-        <PageContext Tabs="@_tabs"/>
-        <PageColumns>
-            <ContextContent>
-            </ContextContent>
-            <MainContent>
-                <div class="qa-report">
-                    <div class="qa-report__header">
-                        <div class="qa-report__header__title">
-                            <div class="qa-report__header__title__main" test="report-title">@ReportTitle</div>
-                            <div class="qa-report__header__title__sub" test="report-sub-title">@ReportSubTitle</div>
+        <PageContext Tabs="@_tabs" />
+        <div class="q-report q-grouped-content">
+            <div class="q-list">
+                <div class="q-list-item">
+                    <div class="q-list-item__header">
+                        <div class="q-list-item__title">
+                            <div class="q-report__title" test="report-title">@ReportTitle</div>
+                            <div class="q-list-item__action">
+                                <ActionButton IconRef="#icon-chevron-left" OnAction="@PreviousWeek"/>
+                                <ActionButton IconRef="#icon-chevron-right" OnAction="@NextWeek"/>
+                            </div>
                         </div>
-                        <div class="qa-report__header__actions">
-                            <ActionButton IconRef="#icon-chevron-left" OnAction="@PreviousWeek" />
-                            <ActionButton IconRef="#icon-chevron-right" OnAction="@NextWeek" />
+
+                        <div class="q-list-item__sub-title" test="report-sub-title">@ReportSubTitle</div>
+                        <div class="q-list-item__statistics">
+                            <div class="q-list-item__statistics__category">
+                                <div class="q-list-item__statistics__value" test="report-total-hours">@TotalHours</div>
+                                <div class="q-list-item__statistics__unit">Hours</div>
+                            </div>
                         </div>
                     </div>
-                    <div class="qa-report__summary">
-                        <div class="qa-report__summary__value" test="report-total-hours">@TotalHours</div>
-                        <div class="qa-report__summary__label">Hours</div>
-                    </div>
-                    <div class="qa-report__details">
+
+                    <div class="q-list-item__content">
                         @if (IsEmpty())
                         {
                             <EmptyCollectionMessage Header="No registered time" Message="There are no registered time for this week." IconRef="#icon-manage"/>
                         }
-                        else if(_report is not null)
+                        else if (_report is not null)
                         {
-                            <table class="qa-report-table">
+                            <table class="q-report-table">
                                 <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>Mon</th>
-                                        <th>Tue</th>
-                                        <th>Wed</th>
-                                        <th>Thu</th>
-                                        <th>Fri</th>
-                                        <th>Sat</th>
-                                        <th>Sun</th>
-                                        <th>Total</th>
-                                    </tr>
+                                <tr>
+                                    <th></th>
+                                    <th>Mon</th>
+                                    <th>Tue</th>
+                                    <th>Wed</th>
+                                    <th>Thu</th>
+                                    <th>Fri</th>
+                                    <th>Sat</th>
+                                    <th>Sun</th>
+                                    <th>Total</th>
+                                </tr>
                                 </thead>
                                 <tbody>
                                 @foreach (var project in Usage())
                                 {
                                     <tr test="report-project-row">
-                                        <th class="qa-project-title" test="project-name">@project.Name</th>
+                                        <th class="q-project-title" test="project-name">@project.Name</th>
                                         <th></th>
                                         <th></th>
                                         <th></th>
@@ -71,8 +72,10 @@
                                     {
                                         <tr test="report-activity-row">
                                             <td>
-                                                <div class="qa-activity-marker" test="activity-item-marker" style="background-color: @activity.Color; border-color: @activity.DarkerColor;"></div>
-                                                <div class="qa-activity-marker-title" test="activity-name">@activity.Name</div>
+                                                <div class="q-activity-marker">
+                                                    <div class="q-activity-marker--color" test="activity-item-marker" style="background-color: @activity.Color; border-color: @activity.DarkerColor;"></div>
+                                                    <div class="a-activity-marker-title" test="activity-name">@activity.Name</div>
+                                                </div>
                                             </td>
                                             @foreach (var weekDay in activity.Usage)
                                             {
@@ -84,22 +87,21 @@
                                 }
                                 </tbody>
                                 <tfoot>
-                                    <tr>
-                                        <td></td>
-                                        @foreach (var weekdayTotal in WeekdayTotal())
-                                        {
-                                            <td test="report-weekday-total" class="is-total">@weekdayTotal</td>
-                                        }
-                                        <td></td>
-                                    </tr>
+                                <tr>
+                                    <td></td>
+                                    @foreach (var weekdayTotal in WeekdayTotal())
+                                    {
+                                        <td test="report-weekday-total" class="is-total">@weekdayTotal</td>
+                                    }
+                                    <td></td>
+                                </tr>
                                 </tfoot>
                             </table>
                         }
                     </div>
                 </div>
-            </MainContent>
-            <ToolbarContent></ToolbarContent>
-        </PageColumns>
+            </div>
+        </div>
     </PageContent>
 </ApplicationPage>
 

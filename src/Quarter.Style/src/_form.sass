@@ -1,110 +1,44 @@
-::placeholder
-  color: $color-gray-dark
-  font-weight: 200
-
-form
-  text-align: left
-
-  label
-    display: block
-    margin-bottom: .5*$pillow-small
-
-    .is-mandatory
-      color: $color-red
-      font-size: $font-size-centi
-
-  fieldset
-    border: none
-
-.qa-form-pane
-  display: flex
-  flex-direction: column
-  flex-basis: 100%
-
-  fieldset
+form,
+.q-form-pane
     display: flex
-    flex-direction: column
-    border: none
-    padding: $pillow-small
-    margin-bottom: $pillow-medium
-
-  label
-    font-weight: bold
-
-  .qa-form-pane
-    display: flex
-    flex-direction: row
-
-    &--controls
-      flex-grow: 1
-      margin-top: 2*$pillow-medium
-      padding-right: $pillow-medium
-
-      .qa-inline-controls
-        display: flex
-
-    &--controls.qa-compensate-full-width
-      padding-right: 26px
-
-  .qa-button + .qa-button
-    margin-top: $pillow-small
-
-  .qa-button--wide
-    width: 100%
-
-
-@media (min-width: 640px)
-  .qa-form-pane
     flex-direction: column
 
     fieldset
-      flex-direction: row
-
-    .qa-form-pane
-      flex-grow: 1
-      margin-top: 2*$pillow-medium
-      padding-right: $pillow-medium
-      min-width: 260px
-
-      &--details
-        flex-grow: 1
-        padding: $pillow-medium
-        max-width: 240px
-        min-width: 240px
-
-      &--controls
-        flex-grow: 1
-        min-width: 260px
-
-        .qa-inline-controls
-          display: flex
-
-        input
-          flex-grow: 1
-
-      &--actions
-        flex-grow: 1
-        min-width: 260px
         display: flex
-        flex-direction: row
-        margin-top: $pillow-small
+        flex-direction: column
+        border: none
+        gap: 1rem
+        margin: 1rem 0
 
-    &--single
-      display: flex
-      flex-direction: row
-      justify-content: center
-      padding: $pillow-small
+        label
+            font-weight: bold
 
-      .qa-button + .qa-button
-        margin-left: $pillow-medium
+        .q-form-pane--controls
+            display: flex
+            flex-direction: column
 
-    .qa-button--wide
-      width: unset
+            input,
+            textarea
+                flex-grow: 1
 
-    .qa-button + .qa-button
-      margin-top: unset
-      margin-left: $pillow-small
+            .q-inline-controls
+                flex-grow: 1
+                display: flex
+                gap: 0.5rem
 
+        &.q-form-pane--actions
+            gap: 1rem
+            flex-direction: row
+            justify-content: space-evenly
+
+            .q-button
+                min-width: 120px
+
+
+::placeholder
+    // Input fields with placeholder text
+    color: $color-gray-dark
+    font-weight: 200
 
 input[type='email'],
 input[type='password'],
@@ -114,45 +48,78 @@ input[type='search'],
 input,
 textarea,
 select
-  background-color: $color-white
-  border: 2px solid $color-gray-dark
-  border-color: $color-text
-  border-radius: $std-border-radius
-  font-size: $font-size
-  font-weight: 200
-  font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif
-  padding: 10px
-  width: 100%
-
-  &.qa-is-invalid,
-  &.invalid
-    border-color: $color-red
-
-  &:-webkit-autofill
-    -webkit-box-shadow: 0 0 0 1000px white inset
-
-  &:focus,
-  &.qa-is-invalid:focus
+    background-color: $color-white
+    border: 2px solid $color-gray-dark
     border-color: $color-text
-    outline: 0
+    border-radius: $std-border-radius
+    font-size: $font-size
+    font-weight: 200
+    font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif
+    padding: 10px
 
-.qa-error-message,
+    &.q-is-invalid,
+    &.invalid
+        border-color: $color-red
+
+    &:-webkit-autofill
+        -webkit-box-shadow: 0 0 0 1000px white inset
+
+    &:focus,
+    &.q-is-invalid:focus
+        border-color: $color-text
+        outline: 0
+
+.q-error-message,
 .validation-message
-  position: absolute // To avoid yanky height
-  color: $color-red
-  padding: $pillow-small 0 0 0
-  text-align: left
+    color: $color-red
+    padding: $pillow-small 0 0 $pillow-xsmall
+    text-align: left
 
 $color-marker-size: 38px
+.q-color-input-marker
+    width: $color-marker-size
+    min-width: $color-marker-size
+    max-width: $color-marker-size
+    height: $color-marker-size
+    min-height: $color-marker-size
+    max-height: $color-marker-size
+    border: 2px solid $color-gray-dark
+    border-color: $color-text
+    border-radius: $std-border-radius
 
-.qa-color-input-marker
-  width: $color-marker-size
-  min-width: $color-marker-size
-  max-width: $color-marker-size
-  height: $color-marker-size
-  min-height: $color-marker-size
-  max-height: $color-marker-size
-  border: 2px solid $color-gray-dark
-  border-color: $color-text
-  border-radius: $std-border-radius
-  margin: 2px 4px 0 0
+
+@media (min-width: 900px)
+    form,
+    .q-form-pane
+        display: flex
+        flex-direction: column
+        gap: 2rem
+        margin-top: 1rem
+
+        fieldset
+            display: flex
+            flex-direction: row
+            gap: 1rem
+            padding: 1rem
+
+            .q-form-pane--details
+                // The left column in the form that displays the label and description
+                flex-grow: 1
+
+            .q-form-pane--controls
+                // The right column used for the input control
+                min-width: 400px
+
+                input,
+                textarea
+                    width: calc(100% - 25px)
+
+            &.q-form-pane--actions
+                // When the entire fieldset is used for actions
+                display: flex
+                justify-content: flex-end
+                gap: 1rem
+
+
+                .q-button
+                    min-width: 180px

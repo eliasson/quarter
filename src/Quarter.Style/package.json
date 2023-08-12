@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "private": "true",
   "scripts": {
-    "build": "sass src/quarter.sass ../Quarter/wwwroot/quarter.css"
+    "build": "sass src/quarter.sass ../Quarter/wwwroot/quarter.css",
+    "watch": "sass --watch src/quarter.sass ../Quarter/wwwroot/quarter.css"
   },
   "dependencies": {
     "sass": "^1.32.8"

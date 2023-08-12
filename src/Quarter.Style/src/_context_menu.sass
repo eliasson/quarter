@@ -1,51 +1,51 @@
-.qa-context-menu
-  display: block
-  background-color: $color-white
-  border-radius: $std-border-radius
-  border: 2px solid $color-primary
-  box-shadow: 4px 4px 4px -4px #14141e
-  padding-left: 0
-  margin-block-start: 0
-  margin-block-end: 0
-  position: absolute
-  transition: all 0.5s ease
-  right: 50px
-  // If changing this width, ContextMenu component also need change
-  width: 256px
-  max-width: 256px
+.q-context-menu
+    display: block
+    background-color: $color-white
+    border-radius: $std-border-radius
+    border: 2px solid $color-primary
+    box-shadow: 4px 4px 4px -4px #14141e
+    padding-left: 0
+    margin-block-start: 0
+    margin-block-end: 0
+    position: absolute
+    transition: all 0.5s ease
+    right: 50px
+    // If changing this width, ContextMenu component also need change
+    width: 256px
+    max-width: 256px
 
-  li.qa-context-menu-item
-    list-style-type: none
-    display: inline-block
-    width: 100%
-    line-height: $std-control-height
-    height: $std-control-height
-    min-height: $std-control-height
-    max-height: $std-control-height
-    text-overflow: ellipsis
-    overflow: hidden
-    cursor: pointer
-    z-index: 100
+    li.q-context-menu-item
+        list-style-type: none
+        width: 100%
+        line-height: $std-control-height
+        height: $std-control-height
+        min-height: $std-control-height
+        max-height: $std-control-height
+        text-overflow: ellipsis
+        overflow: hidden
+        cursor: pointer
+        z-index: 100
 
-    &:hover
-      background-color: $color-goth
-      color: $color-white
+        &:hover
+            background-color: $color-goth
+            color: $color-white
 
-    .qa-context-menu-item__label
-      padding: 0 8px
-      color: $color-text
+        .q-context-menu-item__label
+            padding: 0 12px
+            color: $color-text
+            font-weight: 200
 
-    &:hover
-      .qa-context-menu-item__label
-        color: $color-white
+        &:hover
+            .q-context-menu-item__label
+                color: $color-white
 
 // Backdrop that covers everything, used to capture click outside the menu
-.qa-context-menu-backdrop
-  top: 0
-  left: 0
-  width: 100%
-  height: 100%
-  position: absolute
-  padding: 0
-  margin: 0
-  background-color: transparent
+.q-context-menu-backdrop
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    position: absolute
+    padding: 0
+    margin: 0
+    background-color: transparent

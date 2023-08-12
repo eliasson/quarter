@@ -7,6 +7,7 @@ namespace Quarter.UnitTest.Components;
 [TestFixture]
 public class EmptyCollectionMessageTest
 {
+    [TestFixture]
     public class WhenRendered : TestCase
     {
         [OneTimeSetUp]
@@ -27,6 +28,7 @@ public class EmptyCollectionMessageTest
             => Assert.That(Message(), Is.EqualTo("You have not created any projects yet."));
     }
 
+    [TestFixture]
     public class TestCase : BlazorComponentTestCase<EmptyCollectionMessage>
     {
         protected string Header()

@@ -46,7 +46,8 @@ public class TimesheetActivitySelectorWidgetTest
         public void ItShouldRenderAllNonArchivedActivities()
         {
             var projectNames = ActivityTitles()?.Select(p => p.TextContent);
-            Assert.That(projectNames, Is.EqualTo(new[] { "P1A", "P2A", "P2B" }));
+            // The first "Erase activity" is the small screen header (based on media queries)
+            Assert.That(projectNames, Is.EqualTo(new[] { "Erase activity", "P1A", "P2A", "P2B", "Erase activity" }));
         }
 
         [Test]
@@ -153,8 +154,8 @@ public class TimesheetActivitySelectorWidgetTest
             return Component?.FindAll("[test=activity-item]").Select(item =>
             {
                 var title = item.QuerySelector("[test=activity-item-title]")?.TextContent;
-                var bgColor = item.QuerySelector("[test=activity-item-marker]").GetStyle()["background-color"];
-                var borderColor = item.QuerySelector("[test=activity-item-marker]").GetStyle()["border-color"];
+                var bgColor = item.QuerySelector("[test=activity-item-marker--color]").GetStyle()["background-color"];
+                var borderColor = item.QuerySelector("[test=activity-item-marker--color]").GetStyle()["border-color"];
                 return (title, bgColor, borderColor);
             });
         }

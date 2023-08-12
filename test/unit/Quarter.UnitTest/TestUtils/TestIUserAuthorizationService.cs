@@ -11,6 +11,8 @@ public class TestIUserAuthorizationService : IUserAuthorizationService
 {
     public IdOf<User> UserId { get; set; }
 
+    public string Username { get; set; } = "Unit user";
+
     public Task<AuthorizedResult> IsUserAuthorized(string email, CancellationToken ct)
     {
         var result = UserId == null
@@ -21,4 +23,7 @@ public class TestIUserAuthorizationService : IUserAuthorizationService
 
     public Task<IdOf<User>> CurrentUserId()
         => Task.FromResult(UserId);
+
+    public Task<string> CurrentUsername()
+        => Task.FromResult(Username);
 }

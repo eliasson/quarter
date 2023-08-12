@@ -4,14 +4,14 @@
 @inherits Quarter.Core.UI.Components.QuarterComponent<Quarter.State.ApplicationState>
 
 <Modal Title="Add user">
-    <EditForm Model="@FormData" OnValidSubmit="@OnConfirm" class="qa-form-pane" test="add-user-modal">
+    <EditForm Model="@FormData" OnValidSubmit="@OnConfirm" class="q-form-pane" test="add-user-modal">
         <DataAnnotationsValidator/>
         <fieldset>
-            <div class="qa-form-pane--details">
+            <div class="q-form-pane--details">
                 <label for="user-email">E-mail:</label>
-                <div class="qa-fine-print">The user e-mail address</div>
+                <div class="q-fine-print">The user e-mail address</div>
             </div>
-            <div class="qa-form-pane--controls qa-compensate-full-width">
+            <div class="q-form-pane--controls">
                 <InputText id="user-email"
                            name="user-email"
                            placeholder="jane.doe@example.com"
@@ -20,17 +20,14 @@
                 <ValidationMessage For="@(() => FormData.Email)" test="user-email-validation"/>
             </div>
         </fieldset>
-        <fieldset>
-            <div class="qa-form-pane--details"></div>
-            <div class="qa-form-pane--actions">
-                <button type="button"
-                        class="qa-button qa-button--ghost qa-button--wide"
-                        test="cancel-button"
-                        @onclick="@OnCloseModal">Cancel</button>
-                <button type="submit"
-                        class="qa-button qa-button--primary qa-button--wide"
-                        test="confirm-button">Create</button>
-            </div>
+        <fieldset class="q-form-pane--actions">
+            <button type="button"
+                    class="q-button q-button--ghost"
+                    test="cancel-button"
+                    @onclick="@OnCloseModal">Cancel</button>
+            <button type="submit"
+                    class="q-button q-button--primary"
+                    test="confirm-button">Create</button>
         </fieldset>
     </EditForm>
 </Modal>

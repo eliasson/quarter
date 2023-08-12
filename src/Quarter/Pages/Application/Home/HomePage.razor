@@ -2,26 +2,15 @@
 @attribute [Authorize]
 
 @using Quarter.Components
-@using Quarter.Core.Models
 @using Quarter.Core.Queries
 @using Quarter.Core.Utils
 @using Quarter.Services
 
 <ApplicationPage>
     <PageContent>
-        <PageColumns>
-            <ContextContent></ContextContent>
-            <MainContent>
-                @foreach (var timesheet in Timesheets())
-                {
-                    <TimesheetTotalWidget Timesheet="timesheet"/>
-                }
-            </MainContent>
-            <ToolbarContent>
-                <TodayWidget CurrentDate="DateTime.Today" />
-                <WeekTotalWidget Summary="_summaryViewModel" />
-            </ToolbarContent>
-        </PageColumns>
+        <GreetingWidget />
+        <CurrentWeekWidget Summary="_summaryViewModel" />
+        <WeekTotalWidget Summary="_summaryViewModel" />
     </PageContent>
 </ApplicationPage>
 
@@ -31,9 +20,6 @@
 @code
 {
     private TimesheetSummaryQueryResult? _summaryViewModel;
-
-    private IEnumerable<Timesheet> Timesheets()
-        => _summaryViewModel?.Timesheets ?? Array.Empty<Timesheet>();
 
     protected override async Task OnInitializedAsync()
     {

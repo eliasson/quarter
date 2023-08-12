@@ -19,6 +19,7 @@ namespace Quarter.UnitTest.Pages.Application.Manage;
 [TestFixture]
 public class ProjectListItemTest
 {
+    [TestFixture]
     public class WhenRenderMinimalProject : TestCase
     {
         private ProjectViewModel _projectViewModel;
@@ -48,23 +49,7 @@ public class ProjectListItemTest
         public void ItShouldNotRenderArchivedTag()
             => Assert.Throws<ElementNotFoundException>(() => ArchivedTag());
 
-        [TestCase(0, "Hours", "0.00")]
-        [TestCase(1, "Activities", "0")]
-        [TestCase(2, "Updated at", "-")]
-        [TestCase(3, "Last used at", "-")]
-        public void ItShouldRenderProjectStats(int index, string expectedUnit, string expectedValue)
-        {
-            var category = CategoryByIndex(index);
-            var unit = category?.QuerySelector("[test=project-unit]")?.TextContent;
-            var value = category?.QuerySelector("[test=project-value]")?.TextContent;
-
-            Assert.Multiple(() =>
-            {
-                Assert.That(unit, Is.EqualTo(expectedUnit));
-                Assert.That(value, Is.EqualTo(expectedValue));
-            });
-        }
-
+        [TestFixture]
         public class Initially : WhenRenderMinimalProject
         {
             [Test]
@@ -91,6 +76,7 @@ public class ProjectListItemTest
                 => Assert.That(ExpandIcon(), Is.Not.Null);
         }
 
+        [TestFixture]
         public class WhenSelectingRemoveProjectMenuItem : WhenRenderMinimalProject
         {
             [OneTimeSetUp]
@@ -102,6 +88,7 @@ public class ProjectListItemTest
                 => Assert.True(await EventuallyDispatchedAction(new ShowRemoveProjectAction(_projectViewModel.Id)));
         }
 
+        [TestFixture]
         public class WhenSelectingEditProjectMenuItem : WhenRenderMinimalProject
         {
             [OneTimeSetUp]
@@ -113,6 +100,7 @@ public class ProjectListItemTest
                 => Assert.True(await EventuallyDispatchedAction(new ShowEditProjectAction(_projectViewModel.Id)));
         }
 
+        [TestFixture]
         public class WhenSelectingArchiveProjectMenuItem : WhenRenderMinimalProject
         {
             [OneTimeSetUp]
@@ -124,6 +112,7 @@ public class ProjectListItemTest
                 => Assert.True(await EventuallyDispatchedAction(new ShowArchiveProjectAction(_projectViewModel.Id)));
         }
 
+        [TestFixture]
         public class WhenSelectingProject : WhenRenderMinimalProject
         {
             [OneTimeSetUp]
@@ -133,6 +122,23 @@ public class ProjectListItemTest
             [Test]
             public void ItShouldBeActive()
                 => Assert.That(IsActive(), Is.True);
+
+            [TestCase(0, "Hours", "0.00")]
+            [TestCase(1, "Activities", "0")]
+            [TestCase(2, "Updated at", "-")]
+            [TestCase(3, "Last used at", "-")]
+            public void ItShouldRenderProjectStats(int index, string expectedUnit, string expectedValue)
+            {
+                var category = CategoryByIndex(index);
+                var unit = category?.QuerySelector("[test=project-unit]")?.TextContent;
+                var value = category?.QuerySelector("[test=project-value]")?.TextContent;
+
+                Assert.Multiple(() =>
+                {
+                    Assert.That(unit, Is.EqualTo(expectedUnit));
+                    Assert.That(value, Is.EqualTo(expectedValue));
+                });
+            }
 
             [Test]
             public void ItShouldShowAnActivityTable()
@@ -144,6 +150,7 @@ public class ProjectListItemTest
         }
     }
 
+    [TestFixture]
     public class WhenRenderFullProject : TestCase
     {
         private ProjectViewModel _projectViewModel;
@@ -166,6 +173,7 @@ public class ProjectListItemTest
             };
             RenderWithParameters(pb => pb.Add(
                 ps => ps.Project, _projectViewModel));
+            SelectProjectItem();
         }
 
         [TestCase(0, "Hours", "1.50")]
@@ -186,6 +194,7 @@ public class ProjectListItemTest
         }
     }
 
+    [TestFixture]
     public class WhenRenderArchivedProject : TestCase
     {
         private ProjectViewModel _projectViewModel;
@@ -262,7 +271,7 @@ public class ProjectListItemTest
             if (Component is not null)
             {
                 var classes = ComponentByTestAttribute("project-list-item")?.ClassList;
-                return classes?.Contains("qa-list-item--is-active") ?? false;
+                return classes?.Contains("q-list-item--expanded") ?? false;
             }
             return false;
         }

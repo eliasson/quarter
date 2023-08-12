@@ -1,25 +1,30 @@
-<button @onclick="@(ev => ToggleMenu(ev))"
-        class="qa-button qa-button--icon qa-button--ghost @(IsInverted ? "qa-button--inverted" : "")"
+<button @onclick:stopPropagation="true" @onclick="@(ev => ToggleMenu(ev))"
+        class="q-button q-button--icon q-button--ghost @(IsInverted ? "q-button--inverted" : "")"
         test="menu-launcher">
-    <svg class="qa-icon--medium">
+    <svg class="q-icon">
         <use xlink:href="#icon-dots-horizontal"></use>
     </svg>
 </button>
 
 @if (_isActive)
 {
+    <div
+        @onclick:stopPropagation="true"
+        @onclick="@(ev => ToggleMenu(ev))"
+        class="q-context-menu-backdrop" test="menu-backdrop"></div>
+
     <menu id="menu"
-          class="qa-context-menu qa-text-left"
+          class="q-context-menu qa-text-left"
           style="@MenuStyling()"
           @onclick:stopPropagation="true"
           @onclick:preventDefault="true">
         @foreach (var item in Items)
         {
             <li @onclick="(ev) => SelectItem(item)"
-                class="qa-context-menu-item"
+                class="q-context-menu-item"
                 test-menu="@item.Title"
                 test="menu-item">
-                <span class="qa-context-menu-item__label" test="menu-item-label">@item.Title</span>
+                <span class="q-context-menu-item__label" test="menu-item-label">@item.Title</span>
             </li>
         }
     </menu>

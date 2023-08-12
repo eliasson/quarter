@@ -258,7 +258,7 @@ public class TimesheetGridTest
             => Component?.FindAll("[test=hour-row]");
 
         protected IEnumerable<string> RenderedHours()
-            => HourRows()?.Select(row => row.QuerySelector(".qa-timesheet__time")?.TextContent);
+            => HourRows()?.Select(row => row.QuerySelector(".q-timesheet__time")?.TextContent);
 
         protected IRefreshableElementCollection<IElement> Cells()
             => Component?.FindAll("[test=timesheet-cell-activity]");

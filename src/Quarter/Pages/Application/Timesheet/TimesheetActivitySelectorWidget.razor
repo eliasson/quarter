@@ -1,46 +1,69 @@
-<div class="qa-widget qa-activity-list">
-    <div class="qa-activity-list-project">
-        @foreach (var project in Projects())
-        {
-            @if (project.IsArchived) continue;
-            @if (project.AllActivitiesAreArchived) continue;
+<div class="q-grouped-content">
+    <div class="q-list">
+        <div class="q-list-item @(_isActive ? "q-list-item--expanded" : "")" >
+            <div class="q-list-item__header" @onclick="@ToggleActive">
+                <div class="q-activity-marker">
+                    @{
+                        var selectedActivity = SelectedActivity();
+                        if (selectedActivity is not null)
+                        {
+                            <ActivityMarker Activity="selectedActivity"/>
+                        }
+                        else
+                        {
+                            <div class="q-activity-marker">
+                                <div class="q-activity-marker--color"
+                                     test="activity-item-marker--color">
+                                    <svg class="q-icon">
+                                        <use xlink:href="#icon-trash"></use>
+                                    </svg>
+                                </div>
+                                <div class="q-activity-marker--title" test="activity-item-title">Erase activity</div>
+                            </div>
+                        }
+                    }
+                </div>
 
-            <div class="qa-activity-list-project-item">
-                <span class="qa-activity-list-project-title" test="project-item">@project.Name</span>
-                <span class="qa-activity-list-project-action"></span>
             </div>
-            <ul>
-                @foreach (var activity in project.Activities)
+            <div class="q-list-item__content q-activity-list @(_isActive ? "qa-is-active" : "")">
+                @foreach (var project in Projects())
                 {
-                    @if (activity.IsArchived) continue;
+                    @if (project.IsArchived) continue;
+                    @if (project.AllActivitiesAreArchived) continue;
 
-                    <li @onclick="(() => SelectActivity(project.Id, activity.Id))"
-                        class="@(IsActivitySelected(activity.Id) ? "qa-is-active" : "")"
-                        test="activity-item">
-                        <div class="qa-activity-list-activity-item">
-                            <ActivityMarker Activity="activity" />
+                    <div class="q-activity-list--project" test="project-item">@project.Name</div>
+
+                    <ul class="q-activity-list--activities">
+                        @foreach (var activity in project.Activities)
+                        {
+                            @if (activity.IsArchived) continue;
+
+                            <li @onclick="(() => SelectActivity(project.Id, activity.Id))"
+                                class="@(IsActivitySelected(activity.Id) ? "qa-is-active" : "")"
+                                test="activity-item">
+                                <ActivityMarker Activity="activity" />
+                            </li>
+                        }
+                    </ul>
+                }
+
+                <ul class="q-activity-list--activities">
+                    <li @onclick="SelectEraser"
+                        class="@(State?.SelectedActivity is null ? "qa-is-active" : "")"
+                        test="erase-item">
+                        <div class="q-activity-marker">
+                            <div class="q-activity-marker--color"
+                                 test="activity-item-marker--color">
+                                <svg class="q-icon">
+                                    <use xlink:href="#icon-trash"></use>
+                                </svg>
+                            </div>
+                            <div class="q-activity-marker--title" test="activity-item-title">Erase activity</div>
                         </div>
                     </li>
-                }
-            </ul>
-        }
-    </div>
-
-    <div class="qa-activity-list-action">
-        <ul>
-            <li @onclick="SelectEraser"
-                class="@(State?.SelectedActivity is null ? "qa-is-active" : "")"
-                test="erase-item">
-                <div class="qa-activity-list-activity-item">
-                    <div class="qa-activity-list-action-marker">
-                        <svg class="qa-icon--small">
-                            <use xlink:href="#icon-trash"></use>
-                        </svg>
-                    </div>
-                    <div class="qa-activity-list-action-title">Erase</div>
-                </div>
-            </li>
-        </ul>
+                </ul>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -52,6 +75,13 @@
 @inherits Quarter.Core.UI.Components.QuarterComponent<Quarter.State.ApplicationState>
 
 @code {
+    // The mobile view / toggle is not unit-tested!
+
+    private bool _isActive = false;
+
+    private ActivityViewModel? SelectedActivity()
+        => State?.GetSelectedActivity();
+
     private IEnumerable<ProjectViewModel> Projects()
     {
         var projects = State?.Projects ?? new List<ProjectViewModel>();
@@ -62,8 +92,17 @@
         => activityId.Equals(State?.SelectedActivity?.ActivityId);
 
     private Task SelectActivity(IdOf<Project> projectId, IdOf<Activity> activityId)
-        => DispatchAsync(new SelectActivityAction(new SelectedActivity(projectId, activityId)));
+    {
+        _isActive = false;
+        return DispatchAsync(new SelectActivityAction(new SelectedActivity(projectId, activityId)));
+    }
 
     private Task SelectEraser()
-        => DispatchAsync(new SelectEraseActivityAction());
+    {
+        _isActive = false;
+        return DispatchAsync(new SelectEraseActivityAction());
+    }
+
+    private void ToggleActive()
+        => _isActive = !_isActive;
 }

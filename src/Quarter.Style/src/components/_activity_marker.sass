@@ -1,23 +1,29 @@
-.qa-activity-marker
-  min-width: $activity-marker-size
-  max-width: $activity-marker-size
-  width: $activity-marker-size
-  min-height: $activity-marker-size
-  max-height: $activity-marker-size
-  height: $activity-marker-size
-  border-radius: 4px
-  border: 2px solid transparent
-  display: inline-block
+$activity-marker-size: 20px
+$activity-marker-size-small: 12px
 
-  &__small
-    min-width: $activity-marker-size-small
-    max-width: $activity-marker-size-small
-    width: $activity-marker-size-small
-    min-height: $activity-marker-size-small
-    max-height: $activity-marker-size-small
-    height: $activity-marker-size-small
+.q-activity-marker
+      display: flex
+      flex-direction: row
+      gap: 1rem
 
-.qa-activity-marker-title
-  display: inline-block
-  vertical-align: top
-  margin-left: $pillow-xsmall
+      &--color
+            min-width: $activity-marker-size
+            max-width: $activity-marker-size
+            width: $activity-marker-size
+            min-height: $activity-marker-size
+            max-height: $activity-marker-size
+            height: $activity-marker-size
+            border-radius: 4px
+            border: 2px solid transparent
+            display: inline-block
+
+      &--title
+            align-self: center
+
+      &__small
+            min-width: $activity-marker-size-small
+            max-width: $activity-marker-size-small
+            width: $activity-marker-size-small
+            min-height: $activity-marker-size-small
+            max-height: $activity-marker-size-small
+            height: $activity-marker-size-small

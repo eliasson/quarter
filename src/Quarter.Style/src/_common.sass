@@ -1,71 +1,122 @@
 // Common styles or mixins. Avoid components unless very small.
 
-@media only screen and (max-width: 48em)
-  .qa-not-xs
+@mixin bordered-box
+    background-color: $color-white
+    border-radius: $std-border-radius
+    border: 2px solid #252525
+    box-shadow: 4px 4px 4px -4px #14141e
+
+@mixin navigational-item($icon-size: 32px)
+    //
+    // Navigational items are links that might have a image and/or label
+    //
+    &:hover,
+    &:hover.q-is-active
+        .q-icon
+            color: $color-black
+
+        .q-label
+            color: $color-black
+
+    &.q-is-active
+        .q-icon
+            color: $color-black
+
+        .q-label
+            color: $color-black
+
+    .q-icon
+        width: $icon-size
+        height: $icon-size
+        color: $color-gray-vdark
+
+    .q-label
+        font-weight: 200
+        text-decoration: none
+        font-size: $font-size-centi
+        color: $color-gray-vdark
+
+.q-l-only
     display: none !important
 
-@media only screen and (min-width: 48em)
-  .qa-only-xs
+.q-is-hidden
     display: none !important
 
-.qa-no-air
-  padding: 0
-  margin: 0
+.q-icon
+    &--s
+        min-width: 2rem
+        max-width: 2rem
+        min-height: 2rem
+        max-height: 2rem
+    &--m
+        min-width: 4rem
+        max-width: 4rem
+        min-height: 4rem
+        max-height: 4rem
+    &--l
+        min-width: 6rem
+        max-width: 6rem
+        min-height: 6rem
+        max-height: 6rem
 
-.qa-is-hidden
-  display: none !important
+.q-grouped-content
+    display: flex
+    flex-direction: column
+    gap: 1rem
 
-.qa-text-left
-  text-align: left
+    &--title
+        h1, h2, h3
+            color: $color-text-light
+            font-weight: 200
 
-.qa-text-right
-  text-align: right
+.q-fine-print
+    color: $color-gray-vdark
 
-.qa-text-center
-  text-align: center
+.q-empty-collection
+    margin: 2rem
+    display: flex
+    flex-direction: column
+    flex-grow: 1
+    justify-content: center
 
-.qa-fine-print
-  color: $color-gray-vdark
+    &--full
+        margin-top: 25%
 
-.qa-important
-  font-weight: 400
+    &__message
+        display: flex
+        flex-direction: column
+        justify-content: center
+        align-items: center
+        text-align: center
 
-.qa-end
-  display: flex
-  justify-content: end
+.q-fine-print
+    color: $color-gray-vdark
 
-.qa-icon
-  &--small
-    width: 16px
-    height: 16px
+.q-cursor--pointer
+    cursor: pointer
 
-  &--medium
-    width: 24px
-    height: 24px
+.q-tag
+    margin: 0 $pillow-small
+    padding: $pillow-small * 0.5
+    background-color: #FDEDEC
+    border-radius: $std-border-radius
+    border: 1px solid $color-salmon-light
+    color: $color-salmon-light
+    font-size: $font-size-centi
+    align-self: center
 
-  &--large
-    width: 48px
-    height: 48px
+.q-widget
+    display: inline-block
+    background-color: $color-white
 
-  &--x-large
-    width: 64px
-    height: 64px
+    border-radius: $std-border-radius
+    border: 2px solid #252525
+    box-shadow: 4px 4px 4px -4px #14141e
 
-  &--xx-large
-    width: 72px
-    height: 72px
 
-.qa-empty-collection
-  &--full
-    margin-top: 25%
+@media (min-width: 900px)
+    .q-xs-only
+        display: none !important
 
-  &--message
-    text-align: center
-
-.qa-tag
-  margin: 0 $pillow-small
-  padding: $pillow-small * 0.5
-  border-radius: $std-border-radius
-  border: 1px solid $color-gray-dark
-  color: $color-gray-dark
-  font-size: $font-size-centi
+    .q-l-only
+        display: unset !important

@@ -26,4 +26,14 @@ public class SelectEraseActivityActionTest : ActionHandlerTestCase
 
         Assert.DoesNotThrowAsync(async () => await ActionHandler.HandleAsync(state, new SelectEraseActivityAction(), CancellationToken.None));
     }
+
+    [Test]
+    public async Task ItShouldReturnNullForSelectedProjectAndActivity()
+    {
+        var state = NewState();
+        state.SelectedActivity = new SelectedActivity(IdOf<Project>.Random(), IdOf<Activity>.Random());
+        state = await ActionHandler.HandleAsync(state, new SelectEraseActivityAction(), CancellationToken.None);
+
+        Assert.That(state.GetSelectedActivity(), Is.Null);
+    }
 }

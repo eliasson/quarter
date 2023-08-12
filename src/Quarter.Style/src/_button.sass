@@ -1,95 +1,104 @@
 $button-border-size:        2px
 
-a.qa-button,
-.qa-button,
+a.q-button,
+.q-button,
 button,
 input[type="button"],
 input[type="submit"]
-  background-color: $color-primary
-  border: $button-border-size solid transparent
-  border-radius: $std-border-radius
-  color: $color-white
-  box-sizing: border-box
-  cursor: pointer
-  display: flex
-  align-items: center
-  justify-content: center
-  text-decoration: none
-  font-size: $font-size
-  font-weight: normal
-  box-shadow: 4px 4px 4px -4px #14141e
-
-  &:not([disabled]):hover
-    background-color: darken($color-primary, 5%)
+    background-color: $color-primary
     border: $button-border-size solid transparent
+    border-radius: $std-border-radius
     color: $color-white
+    box-sizing: border-box
+    cursor: pointer
+    display: flex
+    align-items: center
+    justify-content: center
+    text-decoration: none
+    font-size: $font-size
+    font-weight: normal
+    box-shadow: 4px 4px 4px -4px #14141e
 
-  &:focus
-    border: $button-border-size solid $color-text
-    outline: none
+    &:not([disabled]):hover
+        background-color: darken($color-primary, 5%)
+        border: $button-border-size solid transparent
+        color: $color-white
 
-  &[disabled]
-    cursor: default
-    opacity: .5
+    &:focus
+        border: $button-border-size solid $color-text
+        outline: none
 
-.qa-button--ghost
-  background-color: transparent
-  color: $color-text
-  border-color: $color-text
+    &[disabled]
+        cursor: default
+        opacity: .5
 
-  &:not([disabled]):hover
+.q-button--ghost
     background-color: transparent
     color: $color-text
     border-color: $color-text
 
-.qa-button--icon
-  padding: $pillow-small*0.5 $pillow-small*0.75
+    &:not([disabled]):hover
+        background-color: transparent
+        color: $color-text
+        border-color: $color-text
 
-  &.qa-button--ghost
-    background-color: transparent
-    border-color: transparent
-    color: $color-gray-vdark
-    box-shadow: none
+.q-button--icon
+    padding: $pillow-small*0.5 $pillow-small*0.75
+
+    &.q-button--ghost
+        background-color: transparent
+        border-color: transparent
+        color: $color-gray-vdark
+        box-shadow: none
+
+        &:not([disabled]):hover
+            background-color: transparent
+            border-color: transparent
+            color: $color-text
+
+        &:focus
+            color: $color-text
+
+    &.q-button--inverted
+        color: $color-white
+        border-color: transparent
+
+        &:not([disabled]):hover
+            background-color: transparent
+            border-color: transparent
+            color: $color-white
 
     &:not([disabled]):hover
-      background-color: transparent
-      border-color: transparent
-      color: $color-text
+        color: $color-white
+        border-color: transparent
 
-    &:focus
-      color: $color-text
+.q-button--label
+    margin: 0 1rem
+    font-weight: 600
 
-  &.qa-button--inverted
-    color: $color-white
-    border-color: transparent
+.q-button
+    &--cancel,
+    &--primary
+        padding: $pillow-medium $pillow-medium
 
-    &:not([disabled]):hover
-      color: $color-white
-      border-color: transparent
+    &--wide
+        padding: 10px 2*$pillow-large
 
-.qa-button
-  &--cancel,
-  &--primary
-    padding: $pillow-medium $pillow-medium
+    &--full
+        width: 100%
 
-  &--wide
-    padding: 10px 2*$pillow-large
+    &--full + &--full
+        margin-top: $pillow-medium
 
-  &--full
-    width: 100%
+    &--square
+        min-width: 42px
+        min-height: 42px
 
-  &--full + &--full
-    margin-top: $pillow-medium
+    &--danger
+        color: $color-white
+        background-color: $color-red
+        border-color: darken($color-red, 10%)
 
-  &--square
-    min-width: 42px
-    min-height: 42px
-
-  &--danger
-    color: $color-white
-    background-color: $color-red
-    border-color: darken($color-red, 10%)
-
-    &:not([disabled]):hover
-      background-color: darken($color-red, 5%)
-      border-color: darken($color-red, 10%)
+        &:not([disabled]):hover
+          background-color: darken($color-red, 5%)
+          border-color: darken($color-red, 10%)

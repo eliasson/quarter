@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace Quarter.Core.Utils;
 
@@ -129,6 +130,12 @@ public struct Date
         dt = dt.Subtract(TimeSpan.FromDays(1));
         return new Date(dt);
     }
+
+    public string NameOfDay()
+        => DateTime.ToString("dddd", CultureInfo.InvariantCulture);
+
+    public string NameOfDayShort()
+        => DateTime.ToString("ddd", CultureInfo.InvariantCulture);
 
     public override string ToString()
         => IsoString();

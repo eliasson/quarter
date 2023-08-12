@@ -1,0 +1,38 @@
+@using Quarter.Core.Queries
+@using Quarter.Core.Models
+@using Quarter.Core.Utils
+
+<div class="q-grouped-content">
+    <div class="q-grouped-content--title">
+        <h2 test="widget-title">Your current week</h2>
+    </div>
+
+    <div class="q-list q-list--horizontal q-dashboard-week-summary">
+        @foreach (var timesheet in Timesheets())
+        {
+            <div class="q-list-item"  @onclick="() => GoToTimesheet(timesheet)">
+                <div class="q-list-item__header">
+                    <div class="q-list-item__title q-xs-only" test="timesheet-day-long">@timesheet.Date.NameOfDay()</div>
+                    <div class="q-list-item__title q-l-only" test="timesheet-day-short">@timesheet.Date.NameOfDayShort()</div>
+                    <div class="q-list-item__sub-title q-statistics">
+                        <div class="q-statistics__value" test="timesheet-total">@timesheet.TotalMinutes().MinutesAsHours()</div>
+                        <div class="q-statistics__unit" test="timesheet-unit">hours</div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@inject NavigationManager _navigationManager
+
+@code {
+    [Parameter]
+    public TimesheetSummaryQueryResult? Summary { get; set; }
+
+    private IEnumerable<Timesheet> Timesheets()
+        => Summary?.Timesheets ?? Array.Empty<Timesheet>();
+
+    private void GoToTimesheet(Timesheet timesheet)
+        => _navigationManager.NavigateTo(Page.Timesheet(timesheet.Date.DateTime));
+}

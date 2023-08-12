@@ -1,11 +1,5 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Bunit;
 using NUnit.Framework;
-using Quarter.Core.Models;
 using Quarter.Core.Queries;
-using Quarter.Core.Utils;
 using Quarter.Pages.Application.Home;
 using Quarter.UnitTest.TestUtils;
 
@@ -29,13 +23,26 @@ public class WeekTotalWidgetTest
         }
 
         [Test]
+        public void ItShouldHaveTitle()
+            => Assert.That(Title(), Is.EqualTo("Total this week"));
+        [Test]
         public void ItShouldDisplayTotal()
             => Assert.That(Total(), Is.EqualTo("1.50"));
+
+        [Test]
+        public void ItShouldDisplayUnit()
+            => Assert.That(Unit(), Is.EqualTo("hours"));
     }
 
     public class TestCase : BlazorComponentTestCase<WeekTotalWidget>
     {
+        protected string Title()
+            => ComponentByTestAttribute("widget-title")?.TextContent;
+
         protected string Total()
             => ComponentByTestAttribute("week-total")?.TextContent;
+
+        protected string Unit()
+            => ComponentByTestAttribute("week-unit")?.TextContent;
     }
 }
