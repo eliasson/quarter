@@ -93,6 +93,10 @@ table.q-table .q-icon {
   display: none !important;
 }
 
+.q-center-text {
+  text-align: center;
+}
+
 .q-icon--s {
   min-width: 2rem;
   max-width: 2rem;
