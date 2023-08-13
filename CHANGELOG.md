@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file. 
 
+## Pending
+- Improved look-and-feel in reconnect dialog (@cederstrom)
+- Layout issues
+- Phrasing
+
 ## [0.4.0] - 2023-08-12
 - Update look-and-feel with better small screen supprot
 
