@@ -1442,7 +1442,6 @@ input[type=submit][disabled] {
 }
 .q-project-list-item .q-activity-table {
   overflow-x: auto;
-  display: block;
 }
 .q-project-list-item .q-activity-table .q-icon {
   min-width: 1.5rem;
@@ -1453,12 +1452,12 @@ input[type=submit][disabled] {
 .q-project-list-item .q-activity-table td {
   white-space: nowrap;
 }
+.q-project-list-item .q-activity-table .q-activity-marker-column {
+  width: 100%;
+}
 .q-project-list-item .q-activity-table .q-activity-marker-column .q-activity-marker {
   margin-left: 12px;
   margin-right: 12px;
-}
-.q-project-list-item .q-activity-table .q-activity-name-column {
-  width: 100%;
 }
 .q-project-list-item .q-activity-table .q-activity-action-column button {
   margin-left: 12px;
