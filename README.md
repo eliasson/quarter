@@ -23,7 +23,7 @@ to track your time.
 - [x] Summarize current week at start page
 - [x] Weekly report
 - [x] Archive projects and activities
-- [ ] HTTP API
+- [x] HTTP API
 - [ ] Export data
     
 ## Getting started
@@ -39,9 +39,9 @@ dotnet run --project src/Quarter
 
 See [getting-started.md](docs/getting-started.md) for more details.
 
-## What features will it support
+## What features does it support?
 
-The prime use-case for Quarter is to offer a convenient way to input hours on a daily basis. It should
+The primary use-case for Quarter is to offer a convenient way to input hours on a daily basis. It should
 also be possible to render reports that aggregates per day or week. All other features are second to that.
 
 - Input time using the unit quarters of an hour
