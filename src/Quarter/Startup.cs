@@ -33,9 +33,9 @@ namespace Quarter
 
         public void ConfigureServices(IServiceCollection services)
         {
-            // TODO: Should these be moved to UserQuarter?
             services.Configure<InitialUserOptions>(Configuration.GetSection("InitialUser"));
             services.Configure<StorageOptions>(Configuration.GetSection("Storage"));
+            services.Configure<AuthOptions>(Configuration.GetSection("Auth"));
             services.UseQuarter();
             ConfigureAuth(services);
 

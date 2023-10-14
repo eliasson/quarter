@@ -1,8 +1,10 @@
 using System;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using NUnit.Framework;
 using Quarter.Core.Commands;
+using Quarter.Core.Options;
 using Quarter.Core.Queries;
 using Quarter.Core.Repositories;
 using Quarter.Core.UI.State;
@@ -22,6 +24,7 @@ public class QuarterServiceConfigurationTest
     [TestCase(typeof(IStateManager<ApplicationState>))]
     [TestCase(typeof(IUserAuthorizationService))]
     [TestCase(typeof(IApiService))]
+    [TestCase(typeof(IOptions<AuthOptions>))]
     public void HasRegisteredService(Type type)
     {
         var provider = CreateServiceProvider();
