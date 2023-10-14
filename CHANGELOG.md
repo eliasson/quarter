@@ -2,6 +2,8 @@
 All notable changes to this project will be documented in this file. 
 
 ## Pending
+
+## [0.4.2] - 2023-10-14
 - Replace favicon to use new logo.
 - Improved look-and-feel in reconnect dialog. (@cederstrom)
 - Layout issues.
