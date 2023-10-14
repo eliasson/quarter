@@ -25,6 +25,7 @@ public class QuarterServiceConfigurationTest
     [TestCase(typeof(IUserAuthorizationService))]
     [TestCase(typeof(IApiService))]
     [TestCase(typeof(IOptions<AuthOptions>))]
+    [TestCase(typeof(IAdminService))]
     public void HasRegisteredService(Type type)
     {
         var provider = CreateServiceProvider();

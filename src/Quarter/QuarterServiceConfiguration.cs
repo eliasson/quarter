@@ -47,6 +47,7 @@ namespace Quarter
                 });
             serviceCollection.AddScoped<IUserAuthorizationService, UserAuthorizationService>();
             serviceCollection.AddSingleton<IApiService, ApiService>();
+            serviceCollection.AddSingleton<IAdminService, AdminService>();
         }
     }
 }
