@@ -2,9 +2,17 @@
 @attribute [Authorize(Roles = "administrator")]
 
 @using Quarter.Components
+@using Quarter.Pages.Admin.Settings
 
 <AdminPage>
     <PageContent>
-        <h1>Administration</h1>
+        <div class="q-grouped-content">
+            <div class="q-grouped-content--title">
+                <h1 test="widget-title">Settings</h1>
+            </div>
+            <div class="q-list q-list--admin">
+                <UserRegistration />
+            </div>
+        </div>
     </PageContent>
 </AdminPage>

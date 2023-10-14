@@ -1,0 +1,42 @@
+﻿@using Quarter.Components.IconsCatalog
+
+<div class="q-list-item q-list-item--horizontal q-admin-setting">
+    <div class="q-admin-setting__description">
+        <div class="q-list-item__header">
+            <div class="q-list-item__title" test="admin-setting-title">@Title</div>
+        </div>
+        <div class="q-list-item__content ">
+            <span class="q-fine-print" test="admin-setting-message">@Message</span>
+        </div>
+    </div>
+
+     @if (Icon == IconType.Active)
+    {
+        <div class="q-admin-setting__state q-admin-setting__active" test="setting-icon">
+            <CheckCircleIcon />
+        </div>
+    }
+    else if(Icon == IconType.Inactive)
+    {
+        <div class="q-admin-setting__state q-admin-setting__inactive" test="setting-icon">
+            <NoCheckCircle />
+        </div>
+    }
+</div>
+
+@code {
+    public enum IconType
+    {
+        Active,
+        Inactive
+    }
+
+    [Parameter]
+    public string Title { get; set; } = string.Empty;
+
+    [Parameter]
+    public string Message { get; set; } = string.Empty;
+
+    [Parameter]
+    public IconType Icon { get; set; } = IconType.Inactive;
+}

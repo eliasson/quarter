@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Options;
+﻿ using Microsoft.Extensions.Options;
 using Quarter.Core.Options;
 
 namespace Quarter.Services;
@@ -18,5 +18,5 @@ public class AdminService : IAdminService
     }
 
     public bool IsUserRegistrationOpen()
-        =>_options.Value.OpenRegistration;
+        => _options?.Value.OpenRegistration ?? false;
 }
