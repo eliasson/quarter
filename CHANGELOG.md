@@ -2,19 +2,20 @@
 All notable changes to this project will be documented in this file. 
 
 ## Pending
-- Improved look-and-feel in reconnect dialog (@cederstrom)
-- Layout issues
-- Phrasing
+- Replace favicon to use new logo.
+- Improved look-and-feel in reconnect dialog. (@cederstrom)
+- Layout issues.
+- Phrasing.
 
 ## [0.4.0] - 2023-08-12
-- Update look-and-feel with better small screen supprot
+- Update look-and-feel with better small screen support.
 
 ## [0.3.0] - 2022-09-25
-- Monthly report
+- Monthly report.
 
 ## [0.2.1] - 2022-09-01
-- Change calendar appearance and highlight today 
-- Fix modal position
+- Change calendar appearance and highlight today. 
+- Fix modal position.
 
 ## [0.2.0] - 2022-06-26
 - Add archive support for project and activity.
