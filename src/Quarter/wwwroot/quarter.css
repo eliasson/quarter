@@ -475,7 +475,7 @@ input[type=submit][disabled] {
 }
 
 .q-content {
-  overflow-y: scroll;
+  overflow-y: auto;
   flex-grow: 1;
   padding: 1rem;
   display: flex;
