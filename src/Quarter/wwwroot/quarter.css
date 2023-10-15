@@ -1573,6 +1573,11 @@ table.q-report-table__monthly tr td:last-child {
   width: 20px;
   height: 20px;
 }
+.q-timesheet--activities .q-activity-list--header {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
 .q-timesheet--activities .q-activity-list {
   display: none;
 }
