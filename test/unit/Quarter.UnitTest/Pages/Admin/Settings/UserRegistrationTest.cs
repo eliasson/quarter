@@ -56,7 +56,6 @@ public class UserRegistrationTest
 
         protected void SetOpenRegistration(bool openRegistration)
         {
-            // _authOptions = Options.Create(new AuthOptions { OpenRegistration = openRegistration });
             _authOptions.Value.OpenUserRegistration = openRegistration;
         }
 

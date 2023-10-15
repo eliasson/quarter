@@ -76,22 +76,5 @@ public class AdminServiceTest
                 await _repositoryFactory.UserRepository().CreateAsync(user, CancellationToken.None);
             }
         }
-
-        protected async Task AddProjectsAndActivitiesAsync(uint numberOfProjects, uint numberOfActivitiesPerProject)
-        {
-            var user = new User();
-            for (var i = 0; i < numberOfProjects; i++)
-            {
-                var project = new Project("Arbitrary", "");
-                _ = await _repositoryFactory.ProjectRepository(user.Id).CreateAsync(project, CancellationToken.None);
-                for (var j = 0; j < numberOfActivitiesPerProject; j++)
-                {
-                    var activity = new Activity(IdOf<Project>.Random(), "Arbitrary", "",
-                        Color.FromSystemColor(System.Drawing.Color.Violet));
-                    _ = await _repositoryFactory.ActivityRepository(user.Id).CreateAsync(activity, CancellationToken.None);
-                }
-            }
-
-        }
     }
 }
