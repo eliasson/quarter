@@ -6,11 +6,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Quarter.Auth;
 using Quarter.Core.Auth;
 using Quarter.Core.Exceptions;
 using Quarter.Core.Models;
+using Quarter.Core.Options;
 using Quarter.Core.Repositories;
+using Quarter.Core.Utils;
 
 namespace Quarter.Services
 {
@@ -43,13 +46,18 @@ namespace Quarter.Services
     public interface IUserAuthorizationService
     {
         /// <summary>
-        /// Check if there is a user existing with the given email address. For non-existing
-        /// users this will return an unauthorized result.
+        /// Authorize any existing users with their given claim.
+        ///
+        /// If the user does not exist it will either be created (as a standard user), or an unauthorized result
+        /// will be returned.
+        ///
+        /// The above behaviour is determined on whether or not the user registration is open or closed (configurable
+        /// in AuthOptions).
         /// </summary>
         /// <param name="email">The potential user email</param>
         /// <param name="ct">The cancellation token</param>
         /// <returns>A result indicating authorization state</returns>
-        Task<AuthorizedResult> IsUserAuthorized(string email, CancellationToken ct);
+        Task<AuthorizedResult> AuthorizeOrCreateUserAsync(string email, CancellationToken ct);
 
         /// <summary>
         /// Get the currently logged in user ID if there is a known user for the current session.
@@ -65,18 +73,21 @@ namespace Quarter.Services
         private readonly IUserRepository _userRepository;
         private readonly AuthenticationStateProvider _authenticationStateProvider;
         private readonly ILogger<UserAuthorizationService> _logger;
+        private readonly IOptions<AuthOptions> _authOptions;
 
         public UserAuthorizationService(
             AuthenticationStateProvider authenticationStateProvider,
             IRepositoryFactory repositoryFactory,
-            ILogger<UserAuthorizationService> logger)
+            ILogger<UserAuthorizationService> logger,
+            IOptions<AuthOptions> authOptions)
         {
             _userRepository = repositoryFactory.UserRepository();
             _authenticationStateProvider = authenticationStateProvider;
             _logger = logger;
+            _authOptions = authOptions;
         }
 
-        public async Task<AuthorizedResult> IsUserAuthorized(string email, CancellationToken ct)
+        public async Task<AuthorizedResult> AuthorizeOrCreateUserAsync(string email, CancellationToken ct)
         {
             try
             {
@@ -86,8 +97,17 @@ namespace Quarter.Services
             }
             catch (NotFoundException)
             {
-                _logger.LogInformation("Unauthorized user {Email} tried to login", email);
-                return AuthorizedResult.Unauthorized();
+                if (!_authOptions.Value.OpenRegistration)
+                {
+                    _logger.LogInformation("Unauthorized user {Email} tried to login and user registration is closed", email);
+                    return AuthorizedResult.Unauthorized();
+                }
+
+                _logger.LogInformation("Unauthorized user {Email} tried to login, creating new user and granting access", email);
+                var user = User.StandardUser(new Email(email));
+                user = await _userRepository.CreateAsync(user, ct);
+                return AuthorizedResult.AuthorizedWith(ClaimsForUser(user).ToArray());
+
             }
         }
 
