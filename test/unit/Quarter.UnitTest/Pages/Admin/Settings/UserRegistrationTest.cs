@@ -63,7 +63,7 @@ public class UserRegistrationTest
         protected override void ConfigureTestContext(TestContext ctx)
         {
             base.ConfigureTestContext(ctx);
-            var adminService = new AdminService(_authOptions);
+            var adminService = new AdminService(_authOptions, RepositoryFactory);
             Context.Services.AddSingleton<IAdminService>(adminService);
         }
 

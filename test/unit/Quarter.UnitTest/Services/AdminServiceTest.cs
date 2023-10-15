@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using NUnit.Framework;
 using Quarter.Core.Options;
+using Quarter.Core.Repositories;
 using Quarter.Services;
 
 namespace Quarter.UnitTest.Services;
@@ -9,34 +10,39 @@ namespace Quarter.UnitTest.Services;
 public class AdminServiceTest
 {
     [TestFixture]
-    public class WhenUserRegistrationIsNotConfigured
+    public class WhenUserRegistrationIsNotConfigured : TestCase
     {
-        private AdminService _service;
-
         [OneTimeSetUp]
         public void Setup()
-        {
-            _service = new AdminService(Options.Create(new AuthOptions()));
-        }
+            => SetupTestCase(openRegistration: false);
 
         [Test]
         public void ItShouldBeDisabled()
-            => Assert.That(_service.IsUserRegistrationOpen(), Is.False);
+            => Assert.That(Service.IsUserRegistrationOpen(), Is.False);
     }
 
     [TestFixture]
-    public class WhenUserRegistrationIsConfiguredToBeOpen
+    public class WhenUserRegistrationIsConfiguredToBeOpen : TestCase
     {
-        private AdminService _service;
-
         [OneTimeSetUp]
         public void Setup()
-        {
-            _service = new AdminService(Options.Create(new AuthOptions { OpenRegistration = true }));
-        }
+           => SetupTestCase(openRegistration: true);
 
         [Test]
         public void ItShouldBeEnabled()
-            => Assert.That(_service.IsUserRegistrationOpen(), Is.True);
+            => Assert.That(Service.IsUserRegistrationOpen(), Is.True);
+    }
+
+    public abstract class TestCase
+    {
+        protected AdminService Service;
+        private readonly InMemoryRepositoryFactory _repositoryFactory = new ();
+
+        protected void SetupTestCase(bool openRegistration)
+        {
+            Service = new AdminService(
+                Options.Create(new AuthOptions { OpenRegistration = openRegistration }),
+                _repositoryFactory);
+        }
     }
 }

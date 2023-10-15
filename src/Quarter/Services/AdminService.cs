@@ -1,5 +1,6 @@
-﻿ using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using Quarter.Core.Options;
+using Quarter.Core.Repositories;
 
 namespace Quarter.Services;
 
@@ -12,7 +13,8 @@ public class AdminService : IAdminService
 {
     private readonly IOptions<AuthOptions> _options;
 
-    public AdminService(IOptions<AuthOptions> options)
+    public AdminService(IOptions<AuthOptions> options,
+        IRepositoryFactory repositoryFactory)
     {
         _options = options;
     }
