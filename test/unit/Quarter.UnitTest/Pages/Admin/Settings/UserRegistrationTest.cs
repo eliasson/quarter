@@ -72,11 +72,5 @@ public class UserRegistrationTest
 
         protected string Message()
             => ComponentByTestAttribute("admin-setting-message").TextContent;
-
-        protected bool HasActiveIcon()
-            => ComponentByTestAttribute("setting-icon").InnerHtml.Contains("icon-check-circle");
-
-        protected bool HasInActiveIcon()
-            => ComponentByTestAttribute("setting-icon").InnerHtml.Contains("icon-x-circle");
     }
 }
