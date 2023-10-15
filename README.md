@@ -10,7 +10,7 @@ to track your time.
 ![Manage project](docs/screenshots/01-manage-projects.png)
 ![Edit activity](docs/screenshots/02-edit-activity.png)
 ![Timesheet](docs/screenshots/03-timesheet.png)
-![Reoirt](docs/screenshots/04-report.png)
+![Report](docs/screenshots/04-report.png)
 
 ## Current state
 
@@ -26,6 +26,16 @@ to track your time.
 - [x] HTTP API
 - [ ] Export data
     
+
+## Can I get an account?
+
+Maybe. I allow new accounts to be created while there's capacity on my $5 VPS, if the capacity is starting to run low
+I will disable open registrations (basically I need a server for my own use and you're free to join me as long as I
+do not have to upgrade the server).
+
+Also, I take no responsibility on the hosted service. I might shut it down (although not likely), I might loose data,
+etc. Use it at your own risk, if the risk is too high consider hosting it yourself.
+
 ## Getting started
 
 TL;DR
