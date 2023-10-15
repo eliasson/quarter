@@ -1,0 +1,45 @@
+﻿.q-list--admin
+    display: flex
+    flex-direction: row
+    justify-content: space-between
+
+    .q-list-item
+        flex-grow: 1
+
+        .q-statistics
+            display: flex
+            flex-direction: row
+            justify-content: center
+            align-items: baseline
+
+            &__unit
+                color: $color-text-light
+                font-size: 1.5rem
+                margin-left: 0.3rem
+
+            &__value
+                font-weight: 600
+                font-size: 4rem
+
+        &.q-admin-setting
+            flex-direction: row
+            gap: 1rem
+
+            .q-admin-setting__description
+                flex-grow: 4
+
+            .q-admin-setting__state
+                flex-grow: 1
+                align-self: center
+                text-align: right
+                padding-right: $pillow-small
+
+                svg
+                    width: $std-control-height
+                    height: $std-control-height
+
+                &.q-admin-setting__active
+                    color: $color-green
+
+                &.q-admin-setting__inactive
+                    color: $color-red

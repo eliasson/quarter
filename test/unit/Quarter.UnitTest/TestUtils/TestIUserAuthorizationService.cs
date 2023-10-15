@@ -13,7 +13,7 @@ public class TestIUserAuthorizationService : IUserAuthorizationService
 
     public string Username { get; set; } = "Unit user";
 
-    public Task<AuthorizedResult> IsUserAuthorized(string email, CancellationToken ct)
+    public Task<AuthorizedResult> AuthorizeOrCreateUserAsync(string email, CancellationToken ct)
     {
         var result = UserId == null
             ? AuthorizedResult.Unauthorized()

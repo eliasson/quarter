@@ -33,9 +33,9 @@ namespace Quarter
 
         public void ConfigureServices(IServiceCollection services)
         {
-            // TODO: Should these be moved to UserQuarter?
             services.Configure<InitialUserOptions>(Configuration.GetSection("InitialUser"));
             services.Configure<StorageOptions>(Configuration.GetSection("Storage"));
+            services.Configure<AuthOptions>(Configuration.GetSection("Auth"));
             services.UseQuarter();
             ConfigureAuth(services);
 
@@ -121,7 +121,7 @@ namespace Quarter
                 var emailClaim = context.Principal?.Claims.First(c => c.Type == ClaimTypes.Email);
                 if (emailClaim is { })
                 {
-                    var authResult = await authService.IsUserAuthorized(emailClaim.Value, CancellationToken.None);
+                    var authResult = await authService.AuthorizeOrCreateUserAsync(emailClaim.Value, CancellationToken.None);
                     if (authResult.State == AuthorizedState.Authorized)
                     {
                         context.Principal?.AddIdentity(new ClaimsIdentity(authResult.Claims));

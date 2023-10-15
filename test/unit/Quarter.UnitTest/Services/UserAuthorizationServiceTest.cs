@@ -2,10 +2,12 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.Extensions.Options;
 using NUnit.Framework;
-using Quarter.Auth;
 using Quarter.Core.Auth;
+using Quarter.Core.Exceptions;
 using Quarter.Core.Models;
+using Quarter.Core.Options;
 using Quarter.Core.Repositories;
 using Quarter.Core.Utils;
 using Quarter.Services;
@@ -16,6 +18,7 @@ namespace Quarter.UnitTest.Services;
 [TestFixture]
 public class UserAuthorizationServiceTest
 {
+    [TestFixture]
     public class WhenThereIsUserSession : TestCase
     {
         private User _standardUser;
@@ -35,6 +38,7 @@ public class UserAuthorizationServiceTest
         }
     }
 
+    [TestFixture]
     public class WithLocalUsers : TestCase
     {
         private User _standardUser;
@@ -50,7 +54,7 @@ public class UserAuthorizationServiceTest
         [Test]
         public async Task ItShouldReturnAuthorizedResult()
         {
-            var result = await Service.IsUserAuthorized(_standardUser!.Email.Value, default);
+            var result = await Service.AuthorizeOrCreateUserAsync(_standardUser!.Email.Value, default);
 
             Assert.That(result.State,Is.EqualTo(AuthorizedState.Authorized));
         }
@@ -58,7 +62,7 @@ public class UserAuthorizationServiceTest
         [Test]
         public async Task ItShouldHaveUserIdClaim()
         {
-            var result = await Service.IsUserAuthorized(_standardUser!.Email.Value, default);
+            var result = await Service.AuthorizeOrCreateUserAsync(_standardUser!.Email.Value, default);
             var claims = result.Claims.Select(c => (c.Type, c.Value));
 
             Assert.That(claims, Is.EquivalentTo(new []
@@ -70,7 +74,7 @@ public class UserAuthorizationServiceTest
         [Test]
         public async Task ItShouldHaveAdminClaim()
         {
-            var result = await Service.IsUserAuthorized(_adminUser!.Email.Value, default);
+            var result = await Service.AuthorizeOrCreateUserAsync(_adminUser!.Email.Value, default);
             var claims = result.Claims.Select(c => (c.Type, c.Value));
 
             Assert.That(claims, Is.EquivalentTo(new []
@@ -81,14 +85,44 @@ public class UserAuthorizationServiceTest
         }
     }
 
-    public class WhenThereIsNoUser : TestCase
+    [TestFixture]
+    public class WhenThereIsNoRegisteredUserAndRegistrationIsClosed : TestCase
     {
         [Test]
         public async Task ItShouldReturnUnauthenticated()
         {
-            var result = await Service.IsUserAuthorized("jane.doe@example.com", default);
+            SetOpenRegistration(false);
+            var result = await Service.AuthorizeOrCreateUserAsync("jane.doe@example.com", default);
 
             Assert.That(result.State, Is.EqualTo(AuthorizedState.NotAuthorized));
+        }
+
+        [Test]
+        public void ItShouldNotCreateUser()
+            => Assert.ThrowsAsync<NotFoundException>(() => GetUser("jane.doe@examepl.com"));
+    }
+
+    [TestFixture]
+    public class WhenThereIsNoRegisteredUserAndRegistrationIsOpen : TestCase
+    {
+        private AuthorizedResult _result;
+
+        [OneTimeSetUp]
+        public async Task Setup()
+        {
+            SetOpenRegistration(true);
+            _result = await Service.AuthorizeOrCreateUserAsync("jane.doe@example.com", default);
+        }
+
+        [Test]
+        public void ItShouldReturnAuthenticatedResult()
+            => Assert.That(_result.State, Is.EqualTo(AuthorizedState.Authorized));
+
+        [Test]
+        public async Task ItShouldCreateUser()
+        {
+            var user = await GetUser("jane.doe@example.com");
+            Assert.That(user, Is.Not.Null);
         }
     }
 
@@ -98,12 +132,19 @@ public class UserAuthorizationServiceTest
         private readonly IRepositoryFactory _repositoryFactory = new InMemoryRepositoryFactory();
         protected readonly UserAuthorizationService Service;
         private readonly TestAuthenticationStateProvider _authenticationStateProvider;
+        private readonly AuthOptions _authOptions = new () { OpenUserRegistration = false };
 
         protected TestCase()
         {
             _authenticationStateProvider= new TestAuthenticationStateProvider();
-            Service = new UserAuthorizationService(_authenticationStateProvider, _repositoryFactory, NullLogger<UserAuthorizationService>.Instance);
+            Service = new UserAuthorizationService(_authenticationStateProvider,
+                _repositoryFactory,
+                NullLogger<UserAuthorizationService>.Instance,
+                Options.Create(_authOptions));
         }
+
+        protected void SetOpenRegistration(bool openRegistration)
+            => _authOptions.OpenUserRegistration = openRegistration;
 
         protected void SetCurrentUser(User loggedInUser)
             => _authenticationStateProvider.SetCurrentUser(loggedInUser.Id);
@@ -113,6 +154,9 @@ public class UserAuthorizationServiceTest
 
         protected Task<User> AddAdminUser(string email)
             => AddUser(User.AdminUser(new Email(email)));
+
+        protected Task<User> GetUser(string email)
+            => _repositoryFactory.UserRepository().GetUserByEmailAsync(email, default);
 
         private async Task<User> AddUser(User user)
         {

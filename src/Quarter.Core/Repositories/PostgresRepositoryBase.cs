@@ -225,6 +225,18 @@ public abstract class PostgresRepositoryBase<T> : IRepository<T> where T : IAggr
     public virtual Task Truncate(CancellationToken ct)
         => TruncateTableAsync(_tableName, ct);
 
+    public async Task<int> TotalCountAsync(CancellationToken ct)
+    {
+        var query = $"SELECT COUNT(*) FROM {_tableName};";
+
+        await using var conn = await _connectionProvider.GetConnectionAsync(ct);
+
+        var command = conn.CreateCommand();
+        command.CommandText = query;
+
+        return Convert.ToInt32(await command.ExecuteScalarAsync(ct));
+    }
+
     protected async Task TruncateTableAsync(string tableName, CancellationToken ct)
     {
         var stmt = $"DELETE FROM {tableName};";

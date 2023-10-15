@@ -827,6 +827,9 @@ input[type=submit][disabled] {
   display: flex;
   flex-direction: column;
 }
+.q-list-item--horizontal {
+  flex-direction: row;
+}
 .q-list-item--expanded .q-list-item__header {
   border-color: #252525;
   background-color: #252525;
@@ -1624,6 +1627,52 @@ table.q-report-table__monthly tr td:last-child {
   .q-timesheet--activities .q-activity-list {
     display: flex;
   }
+}
+.q-list--admin {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.q-list--admin .q-list-item {
+  flex-grow: 1;
+}
+.q-list--admin .q-list-item .q-statistics {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: baseline;
+}
+.q-list--admin .q-list-item .q-statistics__unit {
+  color: #333333;
+  font-size: 1.5rem;
+  margin-left: 0.3rem;
+}
+.q-list--admin .q-list-item .q-statistics__value {
+  font-weight: 600;
+  font-size: 4rem;
+}
+.q-list--admin .q-list-item.q-admin-setting {
+  flex-direction: row;
+  gap: 1rem;
+}
+.q-list--admin .q-list-item.q-admin-setting .q-admin-setting__description {
+  flex-grow: 4;
+}
+.q-list--admin .q-list-item.q-admin-setting .q-admin-setting__state {
+  flex-grow: 1;
+  align-self: center;
+  text-align: right;
+  padding-right: 8px;
+}
+.q-list--admin .q-list-item.q-admin-setting .q-admin-setting__state svg {
+  width: 40px;
+  height: 40px;
+}
+.q-list--admin .q-list-item.q-admin-setting .q-admin-setting__state.q-admin-setting__active {
+  color: #04a85b;
+}
+.q-list--admin .q-list-item.q-admin-setting .q-admin-setting__state.q-admin-setting__inactive {
+  color: #e72922;
 }
 
 /*# sourceMappingURL=quarter.css.map */

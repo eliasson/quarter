@@ -26,7 +26,7 @@ public class LocalAuthorizationService : IUserAuthorizationService
     public Task<string> CurrentUsername()
         => Task.FromResult("User");
 
-    public Task<AuthorizedResult> IsUserAuthorized(string email, CancellationToken ct)
+    public Task<AuthorizedResult> AuthorizeOrCreateUserAsync(string email, CancellationToken ct)
         => Task.FromResult(AuthorizedResult.AuthorizedWith(LocalUser.Claims));
 }
 

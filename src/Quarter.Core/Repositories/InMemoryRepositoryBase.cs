@@ -62,5 +62,10 @@ namespace Quarter.Core.Repositories
             Storage.Clear();
             return Task.CompletedTask;
         }
+
+        public Task<int> TotalCountAsync(CancellationToken ct)
+        {
+            return Task.FromResult(Storage.Count);
+        }
     }
 }

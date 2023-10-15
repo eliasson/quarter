@@ -1,0 +1,16 @@
+﻿<div class="q-list-item">
+    <div class="q-list-item__header">
+        <div class="q-list-item__sub-title q-statistics">
+            <span class="q-statistics__value" test="metric-value">@Value</span>
+            <span class="q-statistics__unit" test="metric-unit">@Unit</span>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public double Value { get; set; }
+
+    [Parameter]
+    public string Unit { get; set; } = string.Empty;
+}

@@ -1,0 +1,31 @@
+﻿@using Quarter.Core.Options
+@using Quarter.Components.IconsCatalog
+@using Quarter.Pages.Admin.Settings
+
+@using Microsoft.Extensions.Options
+@using Quarter.Services
+
+<AppSetting Title="@Title" Message="@Message" Icon="@IconType" />
+
+@inject IAdminService AdminService;
+
+@code {
+    private bool IsUserRegistrationOpen
+        => AdminService.IsUserRegistrationOpen();
+
+    private string Title
+        => IsUserRegistrationOpen
+            ? "User registration is open"
+            : "User registration is closed";
+
+    private string Message
+        => IsUserRegistrationOpen
+            ? "When user registration is open anyone with an account at the configured Identity Providers (GitHub, Google) can login and use the application."
+            : "When user registration is closed only existing users can login.";
+
+    private AppSetting.IconType IconType
+        => IsUserRegistrationOpen
+            ? AppSetting.IconType.Active
+            : AppSetting.IconType.Inactive;
+
+}
