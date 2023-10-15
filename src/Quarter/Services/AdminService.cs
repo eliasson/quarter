@@ -33,7 +33,7 @@ public class AdminService : IAdminService
     }
 
     public bool IsUserRegistrationOpen()
-        => _options?.Value.OpenRegistration ?? false;
+        => _options?.Value.OpenUserRegistration ?? false;
 
     public async Task<SystemMetrics> GetSystemMetricsAsync(CancellationToken ct)
     {

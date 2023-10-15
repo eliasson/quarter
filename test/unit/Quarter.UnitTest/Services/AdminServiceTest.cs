@@ -64,7 +64,7 @@ public class AdminServiceTest
         protected void SetupTestCase(bool openRegistration = false)
         {
             Service = new AdminService(
-                Options.Create(new AuthOptions { OpenRegistration = openRegistration }),
+                Options.Create(new AuthOptions { OpenUserRegistration = openRegistration }),
                 _repositoryFactory);
         }
 

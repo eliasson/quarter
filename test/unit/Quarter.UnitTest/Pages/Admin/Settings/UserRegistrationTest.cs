@@ -52,12 +52,12 @@ public class UserRegistrationTest
 
     public abstract class TestCase : BlazorComponentTestCase<UserRegistration>
     {
-        private readonly IOptions<AuthOptions> _authOptions = Options.Create(new AuthOptions { OpenRegistration = false });
+        private readonly IOptions<AuthOptions> _authOptions = Options.Create(new AuthOptions { OpenUserRegistration = false });
 
         protected void SetOpenRegistration(bool openRegistration)
         {
             // _authOptions = Options.Create(new AuthOptions { OpenRegistration = openRegistration });
-            _authOptions.Value.OpenRegistration = openRegistration;
+            _authOptions.Value.OpenUserRegistration = openRegistration;
         }
 
         protected override void ConfigureTestContext(TestContext ctx)

@@ -97,7 +97,7 @@ namespace Quarter.Services
             }
             catch (NotFoundException)
             {
-                if (!_authOptions.Value.OpenRegistration)
+                if (!_authOptions.Value.OpenUserRegistration)
                 {
                     _logger.LogInformation("Unauthorized user {Email} tried to login and user registration is closed", email);
                     return AuthorizedResult.Unauthorized();

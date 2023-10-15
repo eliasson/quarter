@@ -132,7 +132,7 @@ public class UserAuthorizationServiceTest
         private readonly IRepositoryFactory _repositoryFactory = new InMemoryRepositoryFactory();
         protected readonly UserAuthorizationService Service;
         private readonly TestAuthenticationStateProvider _authenticationStateProvider;
-        private readonly AuthOptions _authOptions = new () { OpenRegistration = false };
+        private readonly AuthOptions _authOptions = new () { OpenUserRegistration = false };
 
         protected TestCase()
         {
@@ -144,7 +144,7 @@ public class UserAuthorizationServiceTest
         }
 
         protected void SetOpenRegistration(bool openRegistration)
-            => _authOptions.OpenRegistration = openRegistration;
+            => _authOptions.OpenUserRegistration = openRegistration;
 
         protected void SetCurrentUser(User loggedInUser)
             => _authenticationStateProvider.SetCurrentUser(loggedInUser.Id);
