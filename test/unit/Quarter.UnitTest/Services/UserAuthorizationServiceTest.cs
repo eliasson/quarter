@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using NUnit.Framework;
 using Quarter.Core.Auth;
+using Quarter.Core.Commands;
 using Quarter.Core.Exceptions;
 using Quarter.Core.Models;
 using Quarter.Core.Options;
@@ -128,7 +129,6 @@ public class UserAuthorizationServiceTest
 
     public class TestCase
     {
-
         private readonly IRepositoryFactory _repositoryFactory = new InMemoryRepositoryFactory();
         protected readonly UserAuthorizationService Service;
         private readonly TestAuthenticationStateProvider _authenticationStateProvider;
@@ -136,11 +136,14 @@ public class UserAuthorizationServiceTest
 
         protected TestCase()
         {
+            var commandHandler = new CommandHandler(_repositoryFactory);
             _authenticationStateProvider= new TestAuthenticationStateProvider();
+
             Service = new UserAuthorizationService(_authenticationStateProvider,
                 _repositoryFactory,
-                NullLogger<UserAuthorizationService>.Instance,
-                Options.Create(_authOptions));
+                commandHandler,
+                Options.Create(_authOptions),
+                NullLogger<UserAuthorizationService>.Instance);
         }
 
         protected void SetOpenRegistration(bool openRegistration)

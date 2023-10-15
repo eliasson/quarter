@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Quarter.Auth;
 using Quarter.Core.Auth;
+using Quarter.Core.Commands;
 using Quarter.Core.Exceptions;
 using Quarter.Core.Models;
 using Quarter.Core.Options;
@@ -73,17 +73,20 @@ namespace Quarter.Services
         private readonly IUserRepository _userRepository;
         private readonly AuthenticationStateProvider _authenticationStateProvider;
         private readonly ILogger<UserAuthorizationService> _logger;
+        private readonly ICommandHandler _commandHandler;
         private readonly IOptions<AuthOptions> _authOptions;
 
         public UserAuthorizationService(
             AuthenticationStateProvider authenticationStateProvider,
             IRepositoryFactory repositoryFactory,
-            ILogger<UserAuthorizationService> logger,
-            IOptions<AuthOptions> authOptions)
+            ICommandHandler commandHandler,
+            IOptions<AuthOptions> authOptions,
+            ILogger<UserAuthorizationService> logger)
         {
             _userRepository = repositoryFactory.UserRepository();
             _authenticationStateProvider = authenticationStateProvider;
             _logger = logger;
+            _commandHandler = commandHandler;
             _authOptions = authOptions;
         }
 
@@ -91,9 +94,7 @@ namespace Quarter.Services
         {
             try
             {
-                var user = await _userRepository.GetUserByEmailAsync(email, ct);
-                _logger.LogInformation("Successfully authorized user {Email} at login", email);
-                return AuthorizedResult.AuthorizedWith(ClaimsForUser(user).ToArray());
+                return await tryWithExistingUser();
             }
             catch (NotFoundException)
             {
@@ -104,10 +105,18 @@ namespace Quarter.Services
                 }
 
                 _logger.LogInformation("Unauthorized user {Email} tried to login, creating new user and granting access", email);
-                var user = User.StandardUser(new Email(email));
-                user = await _userRepository.CreateAsync(user, ct);
-                return AuthorizedResult.AuthorizedWith(ClaimsForUser(user).ToArray());
 
+                var command = new AddUserCommand(new Email(email), ArraySegment<UserRole>.Empty);
+
+                await _commandHandler.ExecuteAsync(command, OperationContext.None, ct);
+                return await tryWithExistingUser();
+            }
+
+            async Task<AuthorizedResult> tryWithExistingUser()
+            {
+                var user = await _userRepository.GetUserByEmailAsync(email, ct);
+                _logger.LogInformation("Successfully authorized user {Email} at login", email);
+                return AuthorizedResult.AuthorizedWith(ClaimsForUser(user).ToArray());
             }
         }
 
