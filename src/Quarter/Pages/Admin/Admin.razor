@@ -2,17 +2,39 @@
 @attribute [Authorize(Roles = "administrator")]
 
 @using Quarter.Components
+@using Quarter.Pages.Admin.Metrics
 @using Quarter.Pages.Admin.Settings
+@using Quarter.Services
+@using System.Threading
 
 <AdminPage>
     <PageContent>
         <div class="q-grouped-content">
+            <div class="q-list q-list--admin">
+                <AdminMetric Value="@UserCount" Unit="Users" />
+            </div>
             <div class="q-grouped-content--title">
                 <h1 test="widget-title">Settings</h1>
             </div>
             <div class="q-list q-list--admin">
-                <UserRegistration />
+                <UserRegistration/>
             </div>
         </div>
     </PageContent>
 </AdminPage>
+
+@inject IAdminService AdminService;
+
+@code {
+    // NOTE: Not unit-tested
+
+    private SystemMetrics? _metrics;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _metrics = await AdminService.GetSystemMetricsAsync(CancellationToken.None);
+    }
+
+    public int UserCount =>
+        _metrics?.NumberOfUsers ?? 0;
+}
