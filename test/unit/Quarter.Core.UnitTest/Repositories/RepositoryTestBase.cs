@@ -210,5 +210,19 @@ namespace Quarter.Core.UnitTest.Repositories
 
             Assert.That(all, Does.Not.Contain(agg));
         }
+
+        [Test]
+        public async Task CanCountTotalAggregates()
+        {
+            var repository = Repository();
+            var aggOne = ArbitraryAggregate();
+            var aggTwo = ArbitraryAggregate();
+
+            await repository.CreateAsync(aggOne, CancellationToken.None);
+            await repository.CreateAsync(aggTwo, CancellationToken.None);
+
+            var count = await repository.TotalCountAsync(CancellationToken.None);
+            Assert.That(count, Is.EqualTo(2));
+        }
     }
 }

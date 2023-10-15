@@ -54,5 +54,12 @@ namespace Quarter.Core.Repositories
         /// </summary>
         /// <param name="ct">The cancellation token</param>
         Task Truncate(CancellationToken ct);
+
+        /// <summary>
+        /// Counts all aggregates of the given type.
+        /// </summary>
+        /// <param name="ct">The cancellation token</param>
+        /// <returns>The total number of aggregates</returns>
+        Task<int> TotalCountAsync(CancellationToken ct);
     }
 }
