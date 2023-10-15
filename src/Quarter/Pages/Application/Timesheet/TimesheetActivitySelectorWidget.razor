@@ -2,6 +2,7 @@
     <div class="q-list">
         <div class="q-list-item @(_isActive ? "q-list-item--expanded" : "")" >
             <div class="q-list-item__header" @onclick="@ToggleActive">
+                <div class="q-activity-list--header">Current activity:</div>
                 <div class="q-activity-marker">
                     @{
                         var selectedActivity = SelectedActivity();
