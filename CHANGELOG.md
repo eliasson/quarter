@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## Pending
 
+## [0.5.1] - 2023-10-15
+- Improve first login with default project and activity
+- Add header for current activity when viewing timesheet on small screens.
+- 
 ## [0.5.0] - 2023-10-15
 - Enable open user registration.
 
