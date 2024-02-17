@@ -27,7 +27,7 @@ public class Email
     }
 
     public override int GetHashCode()
-        => Value?.GetHashCode() ?? 0;
+        => Value.GetHashCode();
 
     public string AsString()
         => Value;

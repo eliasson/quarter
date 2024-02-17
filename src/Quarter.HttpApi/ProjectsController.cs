@@ -8,13 +8,9 @@ using Quarter.HttpApi.Services;
 namespace Quarter.HttpApi;
 
 [Route("api/projects")]
-public class ProjectsController : ApiControllerBase
+public class ProjectsController(IApiService apiService, IHttpContextAccessor httpContextAccessor)
+    : ApiControllerBase(apiService, httpContextAccessor)
 {
-    public ProjectsController(IApiService apiService, IHttpContextAccessor httpContextAccessor)
-        : base(apiService, httpContextAccessor)
-    {
-    }
-
     [HttpGet]
     public ActionResult<IAsyncEnumerable<ProjectResourceOutput>> All(CancellationToken ct)
     {

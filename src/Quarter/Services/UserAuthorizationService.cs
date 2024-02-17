@@ -68,27 +68,15 @@ public interface IUserAuthorizationService
     Task<string> CurrentUsername();
 }
 
-public class UserAuthorizationService : IUserAuthorizationService
+public class UserAuthorizationService(
+    AuthenticationStateProvider authenticationStateProvider,
+    IRepositoryFactory repositoryFactory,
+    ICommandHandler commandHandler,
+    IOptions<AuthOptions> authOptions,
+    ILogger<UserAuthorizationService> logger)
+    : IUserAuthorizationService
 {
-    private readonly IUserRepository _userRepository;
-    private readonly AuthenticationStateProvider _authenticationStateProvider;
-    private readonly ILogger<UserAuthorizationService> _logger;
-    private readonly ICommandHandler _commandHandler;
-    private readonly IOptions<AuthOptions> _authOptions;
-
-    public UserAuthorizationService(
-        AuthenticationStateProvider authenticationStateProvider,
-        IRepositoryFactory repositoryFactory,
-        ICommandHandler commandHandler,
-        IOptions<AuthOptions> authOptions,
-        ILogger<UserAuthorizationService> logger)
-    {
-        _userRepository = repositoryFactory.UserRepository();
-        _authenticationStateProvider = authenticationStateProvider;
-        _logger = logger;
-        _commandHandler = commandHandler;
-        _authOptions = authOptions;
-    }
+    private readonly IUserRepository _userRepository = repositoryFactory.UserRepository();
 
     public async Task<AuthorizedResult> AuthorizeOrCreateUserAsync(string email, CancellationToken ct)
     {
@@ -98,31 +86,31 @@ public class UserAuthorizationService : IUserAuthorizationService
         }
         catch (NotFoundException)
         {
-            if (!_authOptions.Value.OpenUserRegistration)
+            if (!authOptions.Value.OpenUserRegistration)
             {
-                _logger.LogInformation("Unauthorized user {Email} tried to login and user registration is closed", email);
+                logger.LogInformation("Unauthorized user {Email} tried to login and user registration is closed", email);
                 return AuthorizedResult.Unauthorized();
             }
 
-            _logger.LogInformation("Unauthorized user {Email} tried to login, creating new user and granting access", email);
+            logger.LogInformation("Unauthorized user {Email} tried to login, creating new user and granting access", email);
 
             var command = new AddUserCommand(new Email(email), ArraySegment<UserRole>.Empty);
 
-            await _commandHandler.ExecuteAsync(command, OperationContext.None, ct);
+            await commandHandler.ExecuteAsync(command, OperationContext.None, ct);
             return await tryWithExistingUser();
         }
 
         async Task<AuthorizedResult> tryWithExistingUser()
         {
             var user = await _userRepository.GetUserByEmailAsync(email, ct);
-            _logger.LogInformation("Successfully authorized user {Email} at login", email);
+            logger.LogInformation("Successfully authorized user {Email} at login", email);
             return AuthorizedResult.AuthorizedWith(ClaimsForUser(user).ToArray());
         }
     }
 
     public async Task<IdOf<User>> CurrentUserId()
     {
-        var state = await _authenticationStateProvider.GetAuthenticationStateAsync();
+        var state = await authenticationStateProvider.GetAuthenticationStateAsync();
         var userId = state.User.Claims
             .FirstOrDefault(c => c.Type == ApplicationClaim.QuarterUserIdClaimType);
 
@@ -133,7 +121,7 @@ public class UserAuthorizationService : IUserAuthorizationService
 
     public async Task<string> CurrentUsername()
     {
-        var state = await _authenticationStateProvider.GetAuthenticationStateAsync();
+        var state = await authenticationStateProvider.GetAuthenticationStateAsync();
         return state.User.Identity?.Name ?? "User";
     }
 

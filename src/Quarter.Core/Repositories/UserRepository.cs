@@ -33,16 +33,12 @@ public class InMemoryUserRepository : InMemoryRepositoryBase<User>, IUserReposit
     }
 }
 
-public class PostgresUserRepository : PostgresRepositoryBase<User>, IUserRepository
+public class PostgresUserRepository(IPostgresConnectionProvider connectionProvider)
+    : PostgresRepositoryBase<User>(connectionProvider, TableName, AggregateName), IUserRepository
 {
     private const string TableName = "quser"; // "users" is reserved word in Postgres
     private const string AggregateName = "User";
     private const string EmailColumnName = "email";
-
-    public PostgresUserRepository(IPostgresConnectionProvider connectionProvider)
-        : base(connectionProvider, TableName, AggregateName)
-    {
-    }
 
     protected override IEnumerable<string> AdditionalColumns()
         => new[] { EmailColumnName };

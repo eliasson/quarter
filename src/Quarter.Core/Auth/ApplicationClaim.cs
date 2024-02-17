@@ -8,5 +8,5 @@ public static class ApplicationClaim
     public const string QuarterUserIdClaimType = "quarter-user-id";
 
     public static Claim FromUserId(IdOf<User> userId)
-        => new Claim(QuarterUserIdClaimType, userId.AsString());
+        => new(QuarterUserIdClaimType, userId.AsString());
 }

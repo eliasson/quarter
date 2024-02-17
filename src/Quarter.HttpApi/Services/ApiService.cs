@@ -23,31 +23,24 @@ public interface IApiService
     Task<ProjectAndActivitiesResourceOutput> GetAllProjectsAndActivitiesForUserAsync(OperationContext oc, CancellationToken ct);
 }
 
-public class ApiService : IApiService
+public class ApiService(IRepositoryFactory repositoryFactory) : IApiService
 {
-    private readonly IRepositoryFactory _repositoryFactory;
-
-    public ApiService(IRepositoryFactory repositoryFactory)
-    {
-        _repositoryFactory = repositoryFactory;
-    }
-
     public IAsyncEnumerable<ProjectResourceOutput> ProjectsForUserAsync(OperationContext oc, CancellationToken ct)
     {
-        var projectRepository = _repositoryFactory.ProjectRepository(oc.UserId);
+        var projectRepository = repositoryFactory.ProjectRepository(oc.UserId);
         return projectRepository.GetAllAsync(ct).Select(ProjectResourceOutput.From);
     }
 
     public async Task<ProjectResourceOutput> CreateProjectAsync(CreateProjectResourceInput input, OperationContext oc, CancellationToken ct)
     {
         var project = new Project(input.name!, input.description!);
-        project = await _repositoryFactory.ProjectRepository(oc.UserId).CreateAsync(project, ct);
+        project = await repositoryFactory.ProjectRepository(oc.UserId).CreateAsync(project, ct);
         return ProjectResourceOutput.From(project);
     }
 
     public async Task<ProjectResourceOutput> UpdateProjectAsync(IdOf<Project> projectId, UpdateProjectResourceInput input, OperationContext oc, CancellationToken ct)
     {
-        var project = await _repositoryFactory.ProjectRepository(oc.UserId).UpdateByIdAsync(projectId, existing =>
+        var project = await repositoryFactory.ProjectRepository(oc.UserId).UpdateByIdAsync(projectId, existing =>
         {
             if (input.name is not null) existing.Name = input.name;
             if (input.description is not null) existing.Description = input.description;
@@ -58,19 +51,19 @@ public class ApiService : IApiService
 
     public Task DeleteProjectAsync(IdOf<Project> projectId, OperationContext oc, CancellationToken ct)
     {
-        return _repositoryFactory.ProjectRepository(oc.UserId).RemoveByIdAsync(projectId, ct);
+        return repositoryFactory.ProjectRepository(oc.UserId).RemoveByIdAsync(projectId, ct);
     }
 
     public IAsyncEnumerable<ActivityResourceOutput> ActivitiesForProject(IdOf<Project> projectId, OperationContext oc, CancellationToken ct)
     {
-        var activityRepository = _repositoryFactory.ActivityRepository(oc.UserId);
+        var activityRepository = repositoryFactory.ActivityRepository(oc.UserId);
         return activityRepository.GetAllForProjectAsync(projectId, ct).Select(ActivityResourceOutput.From);
     }
 
     public async Task<ActivityResourceOutput> CreateActivityAsync(IdOf<Project> projectId, CreateActivityResourceInput input, OperationContext oc, CancellationToken ct)
     {
-        var activityRepository = _repositoryFactory.ActivityRepository(oc.UserId);
-        var projectRepository = _repositoryFactory.ProjectRepository(oc.UserId);
+        var activityRepository = repositoryFactory.ActivityRepository(oc.UserId);
+        var projectRepository = repositoryFactory.ProjectRepository(oc.UserId);
 
         // This will throw if the project does not exist (which is also the case if the user does not own the given project ID)
         _ = await projectRepository.GetByIdAsync(projectId, ct);
@@ -81,8 +74,8 @@ public class ApiService : IApiService
 
     public async Task<ActivityResourceOutput> UpdateActivityAsync(IdOf<Project> projectId, IdOf<Activity> activityId, UpdateActivityResourceInput input, OperationContext oc, CancellationToken ct)
     {
-        var activityRepository = _repositoryFactory.ActivityRepository(oc.UserId);
-        var projectRepository = _repositoryFactory.ProjectRepository(oc.UserId);
+        var activityRepository = repositoryFactory.ActivityRepository(oc.UserId);
+        var projectRepository = repositoryFactory.ProjectRepository(oc.UserId);
 
         // This will throw if the project does not exist (which is also the case if the user does not own the given project ID)
         _ = await projectRepository.GetByIdAsync(projectId, ct);
@@ -100,8 +93,8 @@ public class ApiService : IApiService
 
     public async Task DeleteActivityAsync(IdOf<Project> projectId, IdOf<Activity> activityId, OperationContext oc, CancellationToken ct)
     {
-        var activityRepository = _repositoryFactory.ActivityRepository(oc.UserId);
-        var projectRepository = _repositoryFactory.ProjectRepository(oc.UserId);
+        var activityRepository = repositoryFactory.ActivityRepository(oc.UserId);
+        var projectRepository = repositoryFactory.ProjectRepository(oc.UserId);
 
         // This will throw if the project does not exist (which is also the case if the user does not own the given project ID)
         _ = await projectRepository.GetByIdAsync(projectId, ct);
@@ -111,14 +104,14 @@ public class ApiService : IApiService
 
     public async Task<TimesheetResourceOutput> GetTimesheetAsync(Date date, OperationContext oc, CancellationToken ct)
     {
-        var timesheet = await _repositoryFactory.TimesheetRepository(oc.UserId).GetOrNewTimesheetAsync(date, ct);
+        var timesheet = await repositoryFactory.TimesheetRepository(oc.UserId).GetOrNewTimesheetAsync(date, ct);
         return TimesheetResourceOutput.From(timesheet);
     }
 
     public async Task<TimesheetResourceOutput> UpdateTimesheetAsync(TimesheetResourceInput input, OperationContext oc, CancellationToken ct)
     {
         var date = input.ToDate();
-        var repository = _repositoryFactory.TimesheetRepository(oc.UserId);
+        var repository = repositoryFactory.TimesheetRepository(oc.UserId);
         var timesheet = await repository.GetOrNewTimesheetAsync(date, ct);
         timesheet = await repository.UpdateByIdAsync(timesheet.Id, ts =>
         {
@@ -133,8 +126,8 @@ public class ApiService : IApiService
 
     public async Task<ProjectAndActivitiesResourceOutput> GetAllProjectsAndActivitiesForUserAsync(OperationContext oc, CancellationToken ct)
     {
-        var projects = await _repositoryFactory.ProjectRepository(oc.UserId).GetAllAsync(ct).ToListAsync(ct);
-        var activities = await _repositoryFactory.ActivityRepository(oc.UserId).GetAllAsync(ct).ToListAsync(ct);
+        var projects = await repositoryFactory.ProjectRepository(oc.UserId).GetAllAsync(ct).ToListAsync(ct);
+        var activities = await repositoryFactory.ActivityRepository(oc.UserId).GetAllAsync(ct).ToListAsync(ct);
         var projectResources = projects.Select(ProjectResourceOutput.From).ToList();
         var activitiesResources = activities.Select(ActivityResourceOutput.From).ToList();
 

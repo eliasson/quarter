@@ -7,15 +7,8 @@ namespace Quarter.Controllers;
 
 // Authentication is manually tested.
 [Route("[controller]")]
-public class AccountController : Controller
+public class AccountController(ILogger<AccountController> logger) : Controller
 {
-    private readonly ILogger<AccountController> _logger;
-
-    public AccountController(ILogger<AccountController> logger)
-    {
-        _logger = logger;
-    }
-
     [HttpGet("login")]
     public IActionResult LoginAsync()
         => View("Login");
@@ -23,14 +16,14 @@ public class AccountController : Controller
     [HttpGet("login/github")]
     public IActionResult LoginGitHub()
     {
-        _logger.LogInformation("Redirecting visitor to GitHub login");
+        logger.LogInformation("Redirecting visitor to GitHub login");
         return Challenge(new AuthenticationProperties { RedirectUri = "/app" }, "GitHub");
     }
 
     [HttpGet("login/google")]
     public IActionResult LoginGoogleAsync()
     {
-        _logger.LogInformation("Redirecting visitor to Google login");
+        logger.LogInformation("Redirecting visitor to Google login");
         return Challenge(new AuthenticationProperties { RedirectUri = "/app" }, "Google");
     }
 

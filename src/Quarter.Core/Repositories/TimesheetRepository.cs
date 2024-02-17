@@ -29,20 +29,16 @@ public record ProjectTotalUsage(IdOf<Project> ProjectId, int TotalMinutes, List<
         => HashCode.Combine(ProjectId);
 }
 
-public class UsageOverTime
+public class UsageOverTime(
+    Date from,
+    Date to,
+    int totalMinutes,
+    IReadOnlyDictionary<Date, IList<ProjectTotalUsage>> usage)
 {
-    public Date From { get; }
-    public Date To { get; }
-    public int TotalMinutes { get; }
-    public IReadOnlyDictionary<Date, IList<ProjectTotalUsage>> Usage { get; }
-
-    public UsageOverTime(Date from, Date to, int totalMinutes, IReadOnlyDictionary<Date, IList<ProjectTotalUsage>> usage)
-    {
-        From = from;
-        To = to;
-        TotalMinutes = totalMinutes;
-        Usage = usage;
-    }
+    public Date From { get; } = from;
+    public Date To { get; } = to;
+    public int TotalMinutes { get; } = totalMinutes;
+    public IReadOnlyDictionary<Date, IList<ProjectTotalUsage>> Usage { get; } = usage;
 }
 
 public interface ITimesheetRepository : IRepository<Timesheet>
@@ -176,22 +172,15 @@ public class InMemoryTimesheetRepository : InMemoryRepositoryBase<Timesheet>, IT
     }
 }
 
-public class PostgresTimesheetRepository : PostgresRepositoryBase<Timesheet>, ITimesheetRepository
+public class PostgresTimesheetRepository(IPostgresConnectionProvider connectionProvider, IdOf<User> userId)
+    : PostgresRepositoryBase<Timesheet>(connectionProvider, TableName, AggregateName), ITimesheetRepository
 {
-    private readonly IdOf<User> _userId;
-
     private const string TableName = "timesheet";
     private const string SlotTableName = "timeslot";
     private const string AggregateName = "Timesheet";
     private const string UserIdColumnName = "userid";
     private const string DateColumnName = "date";
     private const string DateTimestampColumnName = "date_ts";
-
-    public PostgresTimesheetRepository(IPostgresConnectionProvider connectionProvider, IdOf<User> userId)
-        : base(connectionProvider, TableName, AggregateName)
-    {
-        _userId = userId;
-    }
 
     public override async Task Truncate(CancellationToken ct)
     {
@@ -205,14 +194,14 @@ public class PostgresTimesheetRepository : PostgresRepositoryBase<Timesheet>, IT
     protected override object AdditionalColumnValue(string columnName, Timesheet aggregate)
         => columnName switch
         {
-            UserIdColumnName => _userId.Id,
+            UserIdColumnName => userId.Id,
             DateColumnName => aggregate.Date.IsoString(),
             DateTimestampColumnName => aggregate.Date.DateTime,
             _ => throw new NotImplementedException($"Additional column named [{columnName}] is not implemented"),
         };
 
     protected override NpgsqlParameter WithAccessCondition()
-        => new NpgsqlParameter(UserIdColumnName, _userId.Id);
+        => new(UserIdColumnName, userId.Id);
 
     protected override Task PostCreateAsync(NpgsqlConnection connection, Timesheet timesheet, CancellationToken ct)
         => StoreTimeSlotsForTimesheet(connection, timesheet, ct);
@@ -379,7 +368,7 @@ public class PostgresTimesheetRepository : PostgresRepositoryBase<Timesheet>, IT
                 new("duration", slot.Duration),
                 new("created", slot.Created.DateTime.ToString("yyyy-MM-ddTHH:mm:sszzz")),
                 new("created_ts", slot.Created.DateTime),
-                new(UserIdColumnName, _userId.Id)
+                new(UserIdColumnName, userId.Id)
             });
             await command.ExecuteNonQueryAsync(ct);
         }

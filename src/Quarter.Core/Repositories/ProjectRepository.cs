@@ -27,19 +27,12 @@ public class InMemoryProjectRepository : InMemoryRepositoryBase<Project>, IProje
         => ProjectRepository.CreateSandboxProjectAsync(this, ct);
 }
 
-public class PostgresProjectRepository : PostgresRepositoryBase<Project>, IProjectRepository
+public class PostgresProjectRepository(IPostgresConnectionProvider connectionProvider, IdOf<User> userId)
+    : PostgresRepositoryBase<Project>(connectionProvider, TableName, AggregateName), IProjectRepository
 {
-    private readonly IdOf<User> _userId;
-
     private const string TableName = "project";
     private const string AggregateName = "Project";
     private const string UserIdColumnName = "userid";
-
-    public PostgresProjectRepository(IPostgresConnectionProvider connectionProvider, IdOf<User> userId)
-        : base(connectionProvider, TableName, AggregateName)
-    {
-        _userId = userId;
-    }
 
     protected override IEnumerable<string> AdditionalColumns()
         => new[] { UserIdColumnName };
@@ -47,12 +40,12 @@ public class PostgresProjectRepository : PostgresRepositoryBase<Project>, IProje
     protected override object AdditionalColumnValue(string columnName, Project aggregate)
         => columnName switch
         {
-            UserIdColumnName => _userId.Id,
+            UserIdColumnName => userId.Id,
             _ => throw new NotImplementedException($"Additional column named [{columnName}] is not implemented"),
         };
 
     protected override NpgsqlParameter? WithAccessCondition()
-        => new NpgsqlParameter(UserIdColumnName, _userId.Id);
+        => new(UserIdColumnName, userId.Id);
 
     public Task<Project> CreateSandboxProjectAsync(CancellationToken ct)
         => ProjectRepository.CreateSandboxProjectAsync(this, ct);

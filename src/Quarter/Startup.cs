@@ -22,14 +22,9 @@ using Quarter.StartupTasks;
 
 namespace Quarter;
 
-public class Startup
+public class Startup(IConfiguration configuration)
 {
-    private IConfiguration Configuration { get; }
-
-    public Startup(IConfiguration configuration)
-    {
-        Configuration = configuration;
-    }
+    private IConfiguration Configuration { get; } = configuration;
 
     public void ConfigureServices(IServiceCollection services)
     {
@@ -46,7 +41,6 @@ public class Startup
         services.AddAuthorization();
         services.AddHttpContextAccessor();
         services.RegisterStartupTasks();
-
     }
 
     private void ConfigureAuth(IServiceCollection services)

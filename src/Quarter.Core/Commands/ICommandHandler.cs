@@ -4,9 +4,7 @@ using Quarter.Core.Utils;
 
 namespace Quarter.Core.Commands;
 
-public interface ICommand
-{
-}
+public interface ICommand;
 
 public interface ICommandHandler
 {

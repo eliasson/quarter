@@ -17,22 +17,12 @@ using Quarter.State.ViewModels;
 
 namespace Quarter.State;
 
-public class ActionHandler : IActionHandler<ApplicationState>
+public class ActionHandler(
+    IRepositoryFactory repositoryFactory,
+    ICommandHandler commandHandler,
+    IUserAuthorizationService userAuthorizationService)
+    : IActionHandler<ApplicationState>
 {
-    private readonly IRepositoryFactory _repositoryFactory;
-    private readonly ICommandHandler _commandHandler;
-    private readonly IUserAuthorizationService _userAuthorizationService;
-
-    public ActionHandler(
-        IRepositoryFactory repositoryFactory,
-        ICommandHandler commandHandler,
-        IUserAuthorizationService userAuthorizationService)
-    {
-        _repositoryFactory = repositoryFactory;
-        _commandHandler = commandHandler;
-        _userAuthorizationService = userAuthorizationService;
-    }
-
     public async Task<ApplicationState> HandleAsync(ApplicationState currentState, IAction action, CancellationToken ct)
     {
         currentState.StateChanges += 1;
@@ -130,7 +120,7 @@ public class ActionHandler : IActionHandler<ApplicationState>
     {
         var oc = await OperationContextForCurrentUser();
         var command = new RemoveUserCommand(IdOf<User>.Of(action.UserId));
-        await _commandHandler.ExecuteAsync(command, oc, ct);
+        await commandHandler.ExecuteAsync(command, oc, ct);
 
         currentState.SafePopTopMostModal();
         return currentState;
@@ -144,7 +134,7 @@ public class ActionHandler : IActionHandler<ApplicationState>
 
         var oc = await OperationContextForCurrentUser();
         var command = new AddUserCommand(new Email(action.FormData.Email), roles);
-        await _commandHandler.ExecuteAsync(command, oc, ct);
+        await commandHandler.ExecuteAsync(command, oc, ct);
 
         currentState.SafePopTopMostModal();
         return currentState;
@@ -156,10 +146,10 @@ public class ActionHandler : IActionHandler<ApplicationState>
             return currentState;
 
         var oc = await OperationContextForCurrentUser();
-        var projectRepository = _repositoryFactory.ProjectRepository(oc.UserId);
+        var projectRepository = repositoryFactory.ProjectRepository(oc.UserId);
         var projects = await projectRepository.GetAllAsync(ct).ToListAsync(ct);
         var activitiesPerProject = await GetActivitiesPerProjectAsync(oc.UserId, ct);
-        var timesheetRepository = _repositoryFactory.TimesheetRepository(oc.UserId);
+        var timesheetRepository = repositoryFactory.TimesheetRepository(oc.UserId);
 
         var vms = new List<ProjectViewModel>();
         foreach (var project in projects)
@@ -189,7 +179,7 @@ public class ActionHandler : IActionHandler<ApplicationState>
     {
         var oc = await OperationContextForCurrentUser();
         var command = new AddProjectCommand(action.FormData.Name, action.FormData.Description);
-        await _commandHandler.ExecuteAsync(command, oc, ct);
+        await commandHandler.ExecuteAsync(command, oc, ct);
 
         // This is a bit ugly, but there is (currently) no way to get the ID of the project just created (this is
         // required for sub-sequent actions as edit, delete, add activity).
@@ -201,7 +191,7 @@ public class ActionHandler : IActionHandler<ApplicationState>
         // For now, just fetch all projects and add the new one(s), since these are new there cannot be any related activities.
         // Manually tested!!
         var existingIds = currentState.Projects.Select(p => p.Id).ToHashSet();
-        var allProjects = await _repositoryFactory.ProjectRepository(oc.UserId).GetAllAsync(ct)
+        var allProjects = await repositoryFactory.ProjectRepository(oc.UserId).GetAllAsync(ct)
             .ToListAsync(ct);
         var noActivities = new Dictionary<IdOf<Project>, IList<Activity>>();
         foreach (var project in allProjects)
@@ -235,7 +225,7 @@ public class ActionHandler : IActionHandler<ApplicationState>
     {
         var oc = await OperationContextForCurrentUser();
         var command = new RemoveProjectCommand(action.ProjectId);
-        await _commandHandler.ExecuteAsync(command, oc, ct);
+        await commandHandler.ExecuteAsync(command, oc, ct);
 
         var project = currentState.Projects.First(p => Equals(p.Id, command.ProjectId));
         currentState.Projects.Remove(project);
@@ -247,7 +237,7 @@ public class ActionHandler : IActionHandler<ApplicationState>
     private async Task<ApplicationState> HandleAsync(ApplicationState currentState, ShowEditProjectAction action, CancellationToken ct)
     {
         var oc = await OperationContextForCurrentUser();
-        var project = await _repositoryFactory.ProjectRepository(oc.UserId)
+        var project = await repositoryFactory.ProjectRepository(oc.UserId)
             .GetByIdAsync(action.ProjectId, ct);
         currentState.Modals.Push(
             new ModalState(typeof(ProjectModal), new Dictionary<string, object>
@@ -269,7 +259,7 @@ public class ActionHandler : IActionHandler<ApplicationState>
     {
         var oc = await OperationContextForCurrentUser();
         var command = new EditProjectCommand(action.ProjectId, action.FormData.Name, action.FormData.Description);
-        await _commandHandler.ExecuteAsync(command, oc, ct);
+        await commandHandler.ExecuteAsync(command, oc, ct);
 
         // Update the project in place to avoid re-reading
         var project = currentState.Projects.Single(p => p.Id == action.ProjectId);
@@ -280,7 +270,7 @@ public class ActionHandler : IActionHandler<ApplicationState>
         return currentState;
     }
 
-    private Task<ApplicationState> HandleAsync(ApplicationState currentState, ShowArchiveProjectAction action, CancellationToken ct)
+    private static Task<ApplicationState> HandleAsync(ApplicationState currentState, ShowArchiveProjectAction action, CancellationToken ct)
     {
         currentState.Modals.Push(
             new ModalState(typeof(ConfirmModal), new Dictionary<string, object>
@@ -302,7 +292,7 @@ public class ActionHandler : IActionHandler<ApplicationState>
     {
         var oc = await OperationContextForCurrentUser();
         var command = new ArchiveProjectCommand(action.ProjectId);
-        await _commandHandler.ExecuteAsync(command, oc, ct);
+        await commandHandler.ExecuteAsync(command, oc, ct);
 
         // Update the project in place to avoid re-reading
         var project = currentState.Projects.Single(p => p.Id == action.ProjectId);
@@ -312,7 +302,7 @@ public class ActionHandler : IActionHandler<ApplicationState>
         return currentState;
     }
 
-    private Task<ApplicationState> HandleAsync(ApplicationState currentState, ShowRestoreProjectAction action, CancellationToken ct)
+    private static Task<ApplicationState> HandleAsync(ApplicationState currentState, ShowRestoreProjectAction action, CancellationToken ct)
     {
         currentState.Modals.Push(
             new ModalState(typeof(ConfirmModal), new Dictionary<string, object>
@@ -334,7 +324,7 @@ public class ActionHandler : IActionHandler<ApplicationState>
     {
         var oc = await OperationContextForCurrentUser();
         var command = new RestoreProjectCommand(action.ProjectId);
-        await _commandHandler.ExecuteAsync(command, oc, ct);
+        await commandHandler.ExecuteAsync(command, oc, ct);
 
         // Update the project in place to avoid re-reading
         var project = currentState.Projects.Single(p => p.Id == action.ProjectId);
@@ -363,7 +353,7 @@ public class ActionHandler : IActionHandler<ApplicationState>
         var command = new AddActivityCommand(action.ProjectId, action.FormData.Name, action.FormData.Description,
             color);
 
-        await _commandHandler.ExecuteAsync(command, oc, ct);
+        await commandHandler.ExecuteAsync(command, oc, ct);
 
         // This is the same ugly workaround as in `HandleAddProjectAction`.
         // The activity ID is unknown, hence we must re-read all activities and add the new one(s) to the given project
@@ -404,7 +394,7 @@ public class ActionHandler : IActionHandler<ApplicationState>
     {
         var oc = await OperationContextForCurrentUser();
         var command = new RemoveActivityCommand(action.ActivityId);
-        await _commandHandler.ExecuteAsync(command, oc, ct);
+        await commandHandler.ExecuteAsync(command, oc, ct);
 
         // TODO: Add projectId to the action to make this lookup faster
         foreach (var p in currentState.Projects)
@@ -426,7 +416,7 @@ public class ActionHandler : IActionHandler<ApplicationState>
     private async Task<ApplicationState> HandleAsync(ApplicationState currentState, ShowEditActivityAction action, CancellationToken ct)
     {
         var oc = await OperationContextForCurrentUser();
-        var activity = await _repositoryFactory.ActivityRepository(oc.UserId)
+        var activity = await repositoryFactory.ActivityRepository(oc.UserId)
             .GetByIdAsync(action.ActivityId, ct);
         currentState.Modals.Push(
             new ModalState(typeof(ActivityModal), new Dictionary<string, object>
@@ -450,7 +440,7 @@ public class ActionHandler : IActionHandler<ApplicationState>
     {
         var oc = await OperationContextForCurrentUser();
         var command = new EditActivityCommand(action.ActivityId, action.FormData.Name, action.FormData.Description, Color.FromHexString(action.FormData.Color));
-        await _commandHandler.ExecuteAsync(command, oc, ct);
+        await commandHandler.ExecuteAsync(command, oc, ct);
 
         // Update the activity in place to avoid re-reading
         var activity = currentState.Projects.Single(p => p.Id == action.ProjectId)
@@ -485,7 +475,7 @@ public class ActionHandler : IActionHandler<ApplicationState>
     {
         var oc = await OperationContextForCurrentUser();
         var command = new ArchiveActivityCommand(action.ActivityId);
-        await _commandHandler.ExecuteAsync(command, oc, ct);
+        await commandHandler.ExecuteAsync(command, oc, ct);
 
         // TODO: Add projectId to the action to make this lookup faster
         foreach (var p in currentState.Projects)
@@ -526,7 +516,7 @@ public class ActionHandler : IActionHandler<ApplicationState>
     {
         var oc = await OperationContextForCurrentUser();
         var command = new RestoreActivityCommand(action.ActivityId);
-        await _commandHandler.ExecuteAsync(command, oc, ct);
+        await commandHandler.ExecuteAsync(command, oc, ct);
 
         // TODO: Add projectId to the action to make this lookup faster
         foreach (var p in currentState.Projects)
@@ -548,7 +538,7 @@ public class ActionHandler : IActionHandler<ApplicationState>
     private async Task<ApplicationState> HandleAsync(ApplicationState currentState, LoadTimesheetAction action, CancellationToken ct)
     {
         var oc = await OperationContextForCurrentUser();
-        var timesheetRepository = _repositoryFactory.TimesheetRepository(oc.UserId);
+        var timesheetRepository = repositoryFactory.TimesheetRepository(oc.UserId);
         var timesheet = await timesheetRepository.GetOrNewTimesheetAsync(action.Date, ct);
 
         currentState.SelectedTimesheet = timesheet;
@@ -560,7 +550,7 @@ public class ActionHandler : IActionHandler<ApplicationState>
     private async Task<ApplicationState> HandleAsync(ApplicationState currentState, TimeAction action, CancellationToken ct)
     {
         var oc = await OperationContextForCurrentUser();
-        var timesheetRepository = _repositoryFactory.TimesheetRepository(oc.UserId);
+        var timesheetRepository = repositoryFactory.TimesheetRepository(oc.UserId);
         var timesheet = await timesheetRepository.GetOrNewTimesheetAsync(action.Date, ct);
         timesheet.Register(action.Slot);
         await timesheetRepository.UpdateByIdAsync(timesheet.Id, old => timesheet, ct);
@@ -571,13 +561,13 @@ public class ActionHandler : IActionHandler<ApplicationState>
 
     private async Task<OperationContext> OperationContextForCurrentUser()
     {
-        var currentId = await _userAuthorizationService.CurrentUserId();
+        var currentId = await userAuthorizationService.CurrentUserId();
         return new OperationContext(currentId);
     }
 
     private async Task<IDictionary<IdOf<Project>, IList<Activity>>> GetActivitiesPerProjectAsync(IdOf<User> userId, CancellationToken ct)
     {
-        var activityRepository = _repositoryFactory.ActivityRepository(userId);
+        var activityRepository = repositoryFactory.ActivityRepository(userId);
         var activities = await activityRepository.GetAllAsync(ct)
             .ToListAsync(ct);
         var activitiesPerProject = activities.Aggregate(new Dictionary<IdOf<Project>, IList<Activity>>(),

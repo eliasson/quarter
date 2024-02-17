@@ -8,13 +8,9 @@ using Quarter.HttpApi.Services;
 namespace Quarter.HttpApi;
 
 [Route("api/timesheets")]
-public class TimesheetController : ApiControllerBase
+public class TimesheetController(IApiService apiService, IHttpContextAccessor httpContextAccessor)
+    : ApiControllerBase(apiService, httpContextAccessor)
 {
-    public TimesheetController(IApiService apiService, IHttpContextAccessor httpContextAccessor)
-        : base(apiService, httpContextAccessor)
-    {
-    }
-
     [HttpGet("{isoDate:regex(^\\d{{4}}-\\d{{2}}-\\d{{2}}$)}")]
     public async Task<ActionResult<TimesheetResourceOutput>> Timesheet(string isoDate, CancellationToken ct)
     {

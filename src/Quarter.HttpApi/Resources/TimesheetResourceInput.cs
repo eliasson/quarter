@@ -4,6 +4,8 @@ using Quarter.Core.Utils;
 
 namespace Quarter.HttpApi.Resources;
 
+// ReSharper disable InconsistentNaming
+
 public class TimesheetResourceInput
 {
     [Required]
