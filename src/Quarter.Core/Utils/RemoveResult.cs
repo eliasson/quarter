@@ -1,8 +1,7 @@
-namespace Quarter.Core.Utils
+namespace Quarter.Core.Utils;
+
+public enum RemoveResult
 {
-    public enum RemoveResult
-    {
-        Removed = 1,
-        NotRemoved = 0,
-    }
+    Removed = 1,
+    NotRemoved = 0,
 }

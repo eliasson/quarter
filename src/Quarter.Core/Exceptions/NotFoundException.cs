@@ -1,9 +1,8 @@
-namespace Quarter.Core.Exceptions
+namespace Quarter.Core.Exceptions;
+
+public class NotFoundException : System.Exception
 {
-    public class NotFoundException : System.Exception
+    public NotFoundException(string reason) : base(reason)
     {
-        public NotFoundException(string reason) : base(reason)
-        {
-        }
     }
 }
