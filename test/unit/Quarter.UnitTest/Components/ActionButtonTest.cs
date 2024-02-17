@@ -26,7 +26,7 @@ public class ActionButtonTest
         public void ItShouldRenderIcon()
         {
             var elm = ComponentByTestAttribute("button-icon");
-            Assert.NotNull(elm);
+            Assert.That(elm, Is.Not.Null);
         }
 
         [Test]
@@ -38,7 +38,7 @@ public class ActionButtonTest
 
         [Test]
         public void ItShouldBeEnabled()
-            => Assert.True(Button().IsEnabled());
+            => Assert.That(Button().IsEnabled(), Is.True);
 
         [Test]
         public void ItShouldBeAButtonTypeButton()
@@ -59,7 +59,7 @@ public class ActionButtonTest
         public void ItShouldRenderIcon()
         {
             var elm = ComponentByTestAttribute("button-icon");
-            Assert.NotNull(elm);
+            Assert.That(elm, Is.Not.Null);
         }
 
         [Test]
@@ -86,7 +86,7 @@ public class ActionButtonTest
 
         [Test]
         public void ItShouldBeDisabled()
-            => Assert.True(Button().IsDisabled());
+            => Assert.That(Button().IsDisabled(), Is.True);
     }
 
     [TestFixture]
@@ -109,7 +109,7 @@ public class ActionButtonTest
 
         [Test, Ignore("Flaky under .NET 6")]
         public void ItShouldBeEnabled()
-            => Assert.True(Button().IsEnabled());
+            => Assert.That(Button().IsEnabled(), Is.True);
     }
 
     [TestFixture]
@@ -132,7 +132,7 @@ public class ActionButtonTest
 
         [Test, Ignore("Behaves different under test that IRL")]
         public void ItShouldBeEnabled()
-            => Assert.True(Button().IsEnabled());
+            => Assert.That(Button().IsEnabled(), Is.True);
     }
 
     [TestFixture]

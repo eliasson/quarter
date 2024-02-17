@@ -68,7 +68,7 @@ public class ActivityTableRowTest
 
             [Test]
             public async Task ItShouldDispatchAction()
-                => Assert.True(await EventuallyDispatchedAction(new ShowEditActivityAction(_activityViewModel.ProjectId, _activityViewModel.Id)));
+                => Assert.That(await EventuallyDispatchedAction(new ShowEditActivityAction(_activityViewModel.ProjectId, _activityViewModel.Id)), Is.True);
         }
 
         public class WhenSelectingArchiveMenuItem : WhenRendered
@@ -79,7 +79,7 @@ public class ActivityTableRowTest
 
             [Test]
             public async Task ItShouldDispatchAction()
-                => Assert.True(await EventuallyDispatchedAction(new ShowArchiveActivityAction(_activityViewModel.Id)));
+                => Assert.That(await EventuallyDispatchedAction(new ShowArchiveActivityAction(_activityViewModel.Id)), Is.True);
         }
 
         public class WhenSelectingRemoveMenuItem : WhenRendered
@@ -90,7 +90,7 @@ public class ActivityTableRowTest
 
             [Test]
             public async Task ItShouldDispatchAction()
-                => Assert.True(await EventuallyDispatchedAction(new ShowRemoveActivityAction(_activityViewModel.Id)));
+                => Assert.That(await EventuallyDispatchedAction(new ShowRemoveActivityAction(_activityViewModel.Id)), Is.True);
         }
     }
 
@@ -136,7 +136,7 @@ public class ActivityTableRowTest
 
             [Test]
             public async Task ItShouldDispatchAction()
-                => Assert.True(await EventuallyDispatchedAction(new ShowRestoreActivityAction(_activityViewModel.Id)));
+                => Assert.That(await EventuallyDispatchedAction(new ShowRestoreActivityAction(_activityViewModel.Id)), Is.True);
         }
     }
 

@@ -213,7 +213,7 @@ public class TimesheetGridTest
         [Test]
         public void ItShouldDispatchEraseAction()
         {
-            Assert.True(DidDispatchAction(new EraseTimeAction(_dateInTest, new EraseTimeSlot(8, 3))));
+            Assert.That(DidDispatchAction(new EraseTimeAction(_dateInTest, new EraseTimeSlot(8, 3))), Is.True);
         }
     }
 
@@ -243,7 +243,7 @@ public class TimesheetGridTest
 
         [Test]
         public void ItShouldDispatchEraseAction()
-            => Assert.True(DidDispatchAction(new RegisterTimeAction(_dateInTest, new ActivityTimeSlot(_projectId, _activityId, 8, 3))));
+            => Assert.That(DidDispatchAction(new RegisterTimeAction(_dateInTest, new ActivityTimeSlot(_projectId, _activityId, 8, 3))), Is.True);
     }
 
     public class TestCase : BlazorComponentTestCase<TimesheetGrid>

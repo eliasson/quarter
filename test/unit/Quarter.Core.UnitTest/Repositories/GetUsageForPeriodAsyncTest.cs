@@ -56,11 +56,11 @@ public abstract class GetUsageForPeriodAsyncTest
 
     [Test]
     public void ShouldNotContainUsageForBeforeDate()
-        => Assert.False(_usage.Usage.ContainsKey(_beforeDate));
+        => Assert.That(_usage.Usage.ContainsKey(_beforeDate), Is.False);
 
     [Test]
     public void ShouldNotContainUsageForAfterDate()
-        => Assert.False(_usage.Usage.ContainsKey(_afterDate));
+        => Assert.That(_usage.Usage.ContainsKey(_afterDate), Is.False);
 
     [Test]
     public void ShouldContainUsageFromDate()

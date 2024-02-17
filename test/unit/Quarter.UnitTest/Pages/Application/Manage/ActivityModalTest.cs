@@ -191,7 +191,7 @@ public class ActivityModalTest
                 ? new AddActivityAction(ProjectId, expectedFormData)
                 : new EditActivityAction(ProjectId, _activityId, expectedFormData);
 
-            Assert.True(DidDispatchAction(expectedAction));
+            Assert.That(DidDispatchAction(expectedAction), Is.True);
         }
 
         [Test]

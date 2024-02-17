@@ -32,7 +32,7 @@ public class UserTableTest
 
         [Test, Ignore("TODO")]
         public async Task ShouldDispatchShowRemoveUserAction()
-            => Assert.True(await EventuallyDispatchedAction(new ShowRemoveUserAction(_userAlpha.Id.AsString())));
+            => Assert.That(await EventuallyDispatchedAction(new ShowRemoveUserAction(_userAlpha.Id.AsString())), Is.True);
     }
 
     public class WhenThereAreUsers : TestCase

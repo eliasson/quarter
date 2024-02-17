@@ -11,7 +11,7 @@ public class OperationContextTest
     public void ItShouldBeNone()
     {
         var oc = OperationContext.None;
-        Assert.True(oc.IsNone);
+        Assert.That(oc.IsNone, Is.True);
     }
 
     [Test]

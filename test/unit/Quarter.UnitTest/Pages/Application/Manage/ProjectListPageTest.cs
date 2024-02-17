@@ -81,7 +81,7 @@ public class ProjectListPageTest
 
         [Test]
         public void ShouldDispatchAction()
-            => Assert.True(DidDispatchAction(new ShowAddProjectAction()));
+            => Assert.That(DidDispatchAction(new ShowAddProjectAction()), Is.True);
     }
 
     public abstract class TestCase : BlazorComponentTestCase<ProjectListPage>

@@ -48,7 +48,7 @@ namespace Quarter.UnitTest.Components
 
             [Test]
             public void ItDispatchCloseModalAction()
-                => Assert.True(DidDispatchAction(typeof(CloseModalAction)));
+                => Assert.That(DidDispatchAction(typeof(CloseModalAction)), Is.True);
         }
 
         public class TestCase : BlazorComponentTestCase<Modal>

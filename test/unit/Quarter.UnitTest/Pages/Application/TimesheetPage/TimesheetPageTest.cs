@@ -42,11 +42,11 @@ public class TimesheetPageTest
 
         [Test]
         public void ItShouldDispatchActionToLoadProjects()
-            => Assert.True(DidDispatchAction(new LoadProjects()));
+            => Assert.That(DidDispatchAction(new LoadProjects()), Is.True);
 
         [Test]
         public void ItShouldDispatchActionToLoadTimesheet()
-            => Assert.True(DidDispatchAction(new LoadTimesheetAction(new Date(TestDate))));
+            => Assert.That(DidDispatchAction(new LoadTimesheetAction(new Date(TestDate))), Is.True);
 
         [Test]
         public void ItShouldHaveATimesheetSummaryWidget()

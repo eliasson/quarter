@@ -85,7 +85,7 @@ public class ProjectListItemTest
 
             [TestCase]
             public async Task ItShouldDispatchShowRemoveProjectAction()
-                => Assert.True(await EventuallyDispatchedAction(new ShowRemoveProjectAction(_projectViewModel.Id)));
+                => Assert.That(await EventuallyDispatchedAction(new ShowRemoveProjectAction(_projectViewModel.Id)), Is.True);
         }
 
         [TestFixture]
@@ -97,7 +97,7 @@ public class ProjectListItemTest
 
             [Test]
             public async Task ItShouldDispatchShowEditProjectAction()
-                => Assert.True(await EventuallyDispatchedAction(new ShowEditProjectAction(_projectViewModel.Id)));
+                => Assert.That(await EventuallyDispatchedAction(new ShowEditProjectAction(_projectViewModel.Id)), Is.True);
         }
 
         [TestFixture]
@@ -109,7 +109,7 @@ public class ProjectListItemTest
 
             [TestCase]
             public async Task ItShouldDispatchShowArchiveProjectAction()
-                => Assert.True(await EventuallyDispatchedAction(new ShowArchiveProjectAction(_projectViewModel.Id)));
+                => Assert.That(await EventuallyDispatchedAction(new ShowArchiveProjectAction(_projectViewModel.Id)), Is.True);
         }
 
         [TestFixture]
@@ -236,7 +236,7 @@ public class ProjectListItemTest
 
             [TestCase]
             public async Task ItShouldDispatchShowRestoreProjectAction()
-                => Assert.True(await EventuallyDispatchedAction(new ShowRestoreProjectAction(_projectViewModel.Id)));
+                => Assert.That(await EventuallyDispatchedAction(new ShowRestoreProjectAction(_projectViewModel.Id)), Is.True);
         }
     }
 

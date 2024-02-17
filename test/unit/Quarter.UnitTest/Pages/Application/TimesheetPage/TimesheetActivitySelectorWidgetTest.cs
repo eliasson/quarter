@@ -83,7 +83,7 @@ public class TimesheetActivitySelectorWidgetTest
 
         [Test]
         public void ItShouldDispatchAction()
-            => Assert.True(DidDispatchAction(new SelectEraseActivityAction()));
+            => Assert.That(DidDispatchAction(new SelectEraseActivityAction()), Is.True);
     }
 
     public class WhenSelectingActivity : TestCase
@@ -100,7 +100,7 @@ public class TimesheetActivitySelectorWidgetTest
         public void ItShouldDispatchAction()
         {
             var selectedActivity = new SelectedActivity(ListOfProjects[1].Id, ListOfProjects[1].Activities[0].Id);
-            Assert.True(DidDispatchAction(new SelectActivityAction(selectedActivity)));
+            Assert.That(DidDispatchAction(new SelectActivityAction(selectedActivity)), Is.True);
         }
     }
 

@@ -92,7 +92,7 @@ public class ActivityTableTest
 
         [Test]
         public void ItShouldDispatchAction()
-            => Assert.True(DidDispatchAction(new ShowAddActivityAction(_projectViewModel.Id)));
+            => Assert.That(DidDispatchAction(new ShowAddActivityAction(_projectViewModel.Id)), Is.True);
     }
 
     public class TestCase : BlazorComponentTestCase<ActivityTable>

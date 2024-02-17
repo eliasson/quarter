@@ -74,7 +74,7 @@ public class ConfirmModalTest
 
         [Test]
         public void ItShouldDispatchOnConfirmAction()
-            => Assert.IsTrue(DidDispatchAction(new UnitTestAction()));
+            => Assert.That(DidDispatchAction(new UnitTestAction()), Is.True);
     }
 
     public class WhenCancelling : TestCase
@@ -90,7 +90,7 @@ public class ConfirmModalTest
 
         [Test]
         public void ItShouldDispatchCloeModalAction()
-            => Assert.True(DidDispatchAction(new CloseModalAction()));
+            => Assert.That(DidDispatchAction(new CloseModalAction()), Is.True);
     }
 
     public class TestCase : BlazorModalTestCase<ConfirmModal>

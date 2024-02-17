@@ -20,7 +20,7 @@ namespace Quarter.UnitTest.Pages.Admin
 
             [Test]
             public void ItShouldDispatchAction()
-                => Assert.True(DidDispatchAction(new ShowAddUserAction()));
+                => Assert.That(DidDispatchAction(new ShowAddUserAction()), Is.True);
         }
 
         public class TestCase : BlazorComponentTestCase<UsersListPage>

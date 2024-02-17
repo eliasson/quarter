@@ -93,7 +93,7 @@ public class ProjectModalTest
                 ? new AddProjectAction(expectedFormData)
                 : new EditProjectAction(_projectId, expectedFormData);
 
-            Assert.True(DidDispatchAction(expectedAction));
+            Assert.That(DidDispatchAction(expectedAction), Is.True);
         }
 
         [Test]

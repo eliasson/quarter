@@ -85,7 +85,7 @@ public class UserModalTest
         public void ItShouldDispatchAction()
         {
             var expectedFormData = new UserFormData { Email = "jane.doe@example.com" };
-            Assert.True(DidDispatchAction(new AddUserAction(expectedFormData)));
+            Assert.That(DidDispatchAction(new AddUserAction(expectedFormData)), Is.True);
         }
     }
 
