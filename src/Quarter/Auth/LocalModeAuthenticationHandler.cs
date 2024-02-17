@@ -38,7 +38,8 @@ public class LocalModeAuthenticationHandler : AuthenticationHandler<LocalModeAut
     {
     }
 
-    protected override Task<AuthenticateResult> HandleAuthenticateAsync() {
+    protected override Task<AuthenticateResult> HandleAuthenticateAsync()
+    {
         var identity = new ClaimsIdentity(LocalUser.Claims, nameof(LocalModeAuthenticationHandler));
         var ticket = new AuthenticationTicket(new ClaimsPrincipal(identity), Scheme.Name);
 
@@ -58,7 +59,7 @@ public static class LocalUser
 
     static LocalUser()
     {
-        User = new User(new Email("local@quarterapp.com"), new [] { UserRole.Administrator })
+        User = new User(new Email("local@quarterapp.com"), new[] { UserRole.Administrator })
         {
             Id = UserId
         };

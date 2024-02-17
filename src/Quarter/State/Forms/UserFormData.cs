@@ -17,7 +17,7 @@ public class UserFormData
         if (ReferenceEquals(this, obj)) return true;
         if (obj.GetType() != GetType()) return false;
 
-        var other = (UserFormData) obj;
+        var other = (UserFormData)obj;
         return Email == other.Email && IsAdmin == other.IsAdmin;
     }
 

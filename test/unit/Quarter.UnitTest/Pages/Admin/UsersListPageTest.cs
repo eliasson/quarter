@@ -26,7 +26,7 @@ namespace Quarter.UnitTest.Pages.Admin
         public class TestCase : BlazorComponentTestCase<UsersListPage>
         {
             protected void ClickActionButton()
-                =>ComponentByTestAttribute("action-button")?.Click();
+                => ComponentByTestAttribute("action-button")?.Click();
         }
     }
 }

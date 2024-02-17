@@ -49,6 +49,6 @@ public class TimeSlotInput
         if (projectId is null || activityId is null)
             return new EraseTimeSlot(offset.Value, duration.Value);
 
-        return  new ActivityTimeSlot(IdOf<Project>.Of(projectId), IdOf<Activity>.Of(activityId), offset.Value, duration.Value);
+        return new ActivityTimeSlot(IdOf<Project>.Of(projectId), IdOf<Activity>.Of(activityId), offset.Value, duration.Value);
     }
 }

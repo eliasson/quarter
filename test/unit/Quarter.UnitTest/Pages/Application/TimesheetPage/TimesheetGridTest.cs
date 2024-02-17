@@ -39,7 +39,7 @@ public class TimesheetGridTest
         {
             var hours = RenderedHours();
 
-            Assert.That(hours, Is.EqualTo(new []
+            Assert.That(hours, Is.EqualTo(new[]
             {
                 "06:00", "07:00", "08:00", "09:00", "10:00", "11:00",
                 "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00",
@@ -146,7 +146,7 @@ public class TimesheetGridTest
                 .Select(elm =>
                     (elm.GetStyle()["background-color"], elm.GetStyle()["border-color"]));
 
-            Assert.That(colors, Is.EqualTo(new []
+            Assert.That(colors, Is.EqualTo(new[]
             {
                 ("rgba(17, 17, 17, 1)", "rgba(34, 34, 34, 1)"),
                 ("rgba(17, 17, 17, 1)", "rgba(34, 34, 34, 1)"),

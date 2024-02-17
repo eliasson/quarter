@@ -57,13 +57,13 @@ namespace Quarter.Core.UnitTest.Models
                 {
                     var user = User.AdminUser(new Email("foo@example.com"));
 
-                    Assert.That(user.Roles, Is.EqualTo(new [] {UserRole.Administrator}));
+                    Assert.That(user.Roles, Is.EqualTo(new[] { UserRole.Administrator }));
                 }
 
                 [Test]
                 public void ItShouldBeAdmin()
                 {
-                    var user = new User(new Email("foo@example.com"), new [] {UserRole.Administrator}.ToList());
+                    var user = new User(new Email("foo@example.com"), new[] { UserRole.Administrator }.ToList());
 
                     Assert.That(user.IsAdmin(), Is.True);
                 }
@@ -75,7 +75,7 @@ namespace Quarter.Core.UnitTest.Models
                 var user = User.StandardUser(new Email("foo@example.com"));
                 user.AssignRole(UserRole.Administrator);
 
-                Assert.That(user.Roles, Is.EqualTo(new [] { UserRole.Administrator }));
+                Assert.That(user.Roles, Is.EqualTo(new[] { UserRole.Administrator }));
             }
 
             [Test]
@@ -85,13 +85,13 @@ namespace Quarter.Core.UnitTest.Models
                 user.AssignRole(UserRole.Administrator);
                 user.AssignRole(UserRole.Administrator);
 
-                Assert.That(user.Roles, Is.EqualTo(new [] { UserRole.Administrator }));
+                Assert.That(user.Roles, Is.EqualTo(new[] { UserRole.Administrator }));
             }
 
             [Test]
             public void ItShouldRevokeExistingRole()
             {
-                var user = new User(new Email("foo@example.com"), new [] {UserRole.Administrator}.ToList());
+                var user = new User(new Email("foo@example.com"), new[] { UserRole.Administrator }.ToList());
                 user.RevokeRole(UserRole.Administrator);
 
                 Assert.That(user.Roles, Is.Empty);
@@ -100,7 +100,7 @@ namespace Quarter.Core.UnitTest.Models
             [Test]
             public void ItShouldBeNoopToRevokeNotExistingRole()
             {
-                var user = new User(new Email("foo@example.com"), new [] {UserRole.Administrator}.ToList());
+                var user = new User(new Email("foo@example.com"), new[] { UserRole.Administrator }.ToList());
                 user.RevokeRole(UserRole.Administrator);
                 user.RevokeRole(UserRole.Administrator);
 

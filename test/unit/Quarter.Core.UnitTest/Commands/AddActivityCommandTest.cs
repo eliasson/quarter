@@ -28,7 +28,7 @@ public class AddActivityCommandTest : CommandTestBase
                 .Select(a => a.Name)
                 .ToListAsync();
 
-            Assert.That(activities, Is.EquivalentTo(new [] { "Sample activity" }));
+            Assert.That(activities, Is.EquivalentTo(new[] { "Sample activity" }));
         }
     }
 }

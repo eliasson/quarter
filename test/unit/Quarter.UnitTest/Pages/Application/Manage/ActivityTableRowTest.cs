@@ -52,7 +52,7 @@ public class ActivityTableRowTest
         [Test]
         public void ItShouldHaveActivityMenuItems()
         {
-            Assert.That(MenuItems(), Is.EqualTo(new []
+            Assert.That(MenuItems(), Is.EqualTo(new[]
             {
                 ("edit", "Edit activity"),
                 ("archive", "Archive activity"),
@@ -120,7 +120,7 @@ public class ActivityTableRowTest
         [Test]
         public void ItShouldHaveActivityMenuItems()
         {
-            Assert.That(MenuItems(), Is.EqualTo(new []
+            Assert.That(MenuItems(), Is.EqualTo(new[]
             {
                 ("edit", "Edit activity"),
                 ("restore", "Restore activity"),
@@ -148,7 +148,7 @@ public class ActivityTableRowTest
         protected IEnumerable<(string, string)> MenuItems()
         {
             var menu = ContextMenu();
-            return  menu?.Instance.Items.Select(item => (item.Type, item.Title));
+            return menu?.Instance.Items.Select(item => (item.Type, item.Title));
         }
 
         protected string ActivityColorStyle()

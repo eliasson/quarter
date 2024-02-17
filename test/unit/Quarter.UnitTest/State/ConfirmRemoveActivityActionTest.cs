@@ -47,7 +47,7 @@ public class ConfirmRemoveActivityActionTest : ActionHandlerTestCase
     public void ItShouldNoLongerIncludeActivityInState()
     {
         var activityNames = _state.Projects.First().Activities?.Select(a => a.Name);
-        Assert.That(activityNames, Is.EqualTo(new [] { "Two" }));
+        Assert.That(activityNames, Is.EqualTo(new[] { "Two" }));
     }
 
     [Test]

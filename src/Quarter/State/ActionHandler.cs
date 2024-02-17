@@ -49,7 +49,7 @@ namespace Quarter.State
                 // Project related actions
                 LoadProjects a => HandleAsync(currentState, a, ct),
                 ShowAddProjectAction a => HandleAsync(currentState, a, ct),
-                AddProjectAction a =>  HandleAsync(currentState, a, ct),
+                AddProjectAction a => HandleAsync(currentState, a, ct),
                 ShowRemoveProjectAction a => HandleAsync(currentState, a, ct),
                 ConfirmRemoveProjectAction a => HandleAsync(currentState, a, ct),
                 ShowEditProjectAction a => HandleAsync(currentState, a, ct),

@@ -21,7 +21,7 @@ namespace Quarter.HttpApi.Resources;
 public record ActivityResourceOutput(string id, string projectId, string name, string description, string color, bool isArchived, string created, string? updated)
 {
     public Uri Location()
-        => new ($"/api/projects/{projectId}/activities/{id}", UriKind.Relative);
+        => new($"/api/projects/{projectId}/activities/{id}", UriKind.Relative);
 
     public static ActivityResourceOutput From(Activity activity)
     {

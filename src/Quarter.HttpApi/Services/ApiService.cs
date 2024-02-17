@@ -41,13 +41,13 @@ public class ApiService : IApiService
     public async Task<ProjectResourceOutput> CreateProjectAsync(CreateProjectResourceInput input, OperationContext oc, CancellationToken ct)
     {
         var project = new Project(input.name!, input.description!);
-        project =  await _repositoryFactory.ProjectRepository(oc.UserId).CreateAsync(project, ct);
+        project = await _repositoryFactory.ProjectRepository(oc.UserId).CreateAsync(project, ct);
         return ProjectResourceOutput.From(project);
     }
 
     public async Task<ProjectResourceOutput> UpdateProjectAsync(IdOf<Project> projectId, UpdateProjectResourceInput input, OperationContext oc, CancellationToken ct)
     {
-        var project =  await _repositoryFactory.ProjectRepository(oc.UserId).UpdateByIdAsync(projectId, existing =>
+        var project = await _repositoryFactory.ProjectRepository(oc.UserId).UpdateByIdAsync(projectId, existing =>
         {
             if (input.name is not null) existing.Name = input.name;
             if (input.description is not null) existing.Description = input.description;

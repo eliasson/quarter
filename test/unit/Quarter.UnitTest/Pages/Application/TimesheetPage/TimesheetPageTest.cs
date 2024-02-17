@@ -65,7 +65,7 @@ public class TimesheetPageTest
     {
         protected readonly DateTime TestDate = DateTime.UtcNow.Date.AddDays(1); // Not today is the only important criteria
 
-        private readonly TestQueryHandler _queryHandler = new ();
+        private readonly TestQueryHandler _queryHandler = new();
 
         protected override void ConfigureTestContext(TestContext ctx)
         {

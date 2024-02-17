@@ -179,7 +179,7 @@ public class Timesheet : IAggregate<Timesheet>
                     var initialDuration = current.Duration;
                     current.Duration = slot.Offset - current.Offset;
                     var tailDuration = initialDuration - current.Duration - slot.Duration;
-                    var tailSlot  = new ActivityTimeSlot(current.ProjectId, current.ActivityId, slot.EndsAt, tailDuration);
+                    var tailSlot = new ActivityTimeSlot(current.ProjectId, current.ActivityId, slot.EndsAt, tailDuration);
                     updated.Add(tailSlot);
                 }
             }

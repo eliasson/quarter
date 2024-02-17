@@ -65,13 +65,13 @@ namespace Quarter.Core.UnitTest.Repositories
             await repository.CreateAsync(activityForProjectOne, CancellationToken.None);
             await repository.CreateAsync(activityForProjectTwo, CancellationToken.None);
 
-            var allForOne =  await (repository.GetAllForProjectAsync(projectIdOne, CancellationToken.None).Select(a => a.Name).ToListAsync());
-            var allForTwo =  await (repository.GetAllForProjectAsync(projectIdTwo, CancellationToken.None).Select(a => a.Name).ToListAsync());
+            var allForOne = await (repository.GetAllForProjectAsync(projectIdOne, CancellationToken.None).Select(a => a.Name).ToListAsync());
+            var allForTwo = await (repository.GetAllForProjectAsync(projectIdTwo, CancellationToken.None).Select(a => a.Name).ToListAsync());
 
             Assert.Multiple(() =>
             {
-                Assert.That(allForOne, Is.EqualTo(new [] { activityForProjectOne.Name }));
-                Assert.That(allForTwo, Is.EqualTo(new [] { activityForProjectTwo.Name }));
+                Assert.That(allForOne, Is.EqualTo(new[] { activityForProjectOne.Name }));
+                Assert.That(allForTwo, Is.EqualTo(new[] { activityForProjectTwo.Name }));
             });
         }
     }

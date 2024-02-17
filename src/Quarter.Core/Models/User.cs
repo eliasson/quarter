@@ -13,7 +13,7 @@ namespace Quarter.Core.Models
 
     public class User : IAggregate<User>
     {
-        public static readonly List<UserRole> NoRoles = new ();
+        public static readonly List<UserRole> NoRoles = new();
 
         [JsonConverter(typeof(IdOfJsonConverter<User>))]
         public IdOf<User> Id { get; set; }
@@ -59,10 +59,10 @@ namespace Quarter.Core.Models
         }
 
         public static User StandardUser(Email email)
-            => new (email, NoRoles);
+            => new(email, NoRoles);
 
         public static User AdminUser(Email email)
-            => new (email, new [] {UserRole.Administrator}.ToList());
+            => new(email, new[] { UserRole.Administrator }.ToList());
 
         public override bool Equals(object? obj)
         {
@@ -70,9 +70,9 @@ namespace Quarter.Core.Models
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
 
-            var other = (User) obj;
+            var other = (User)obj;
             return Id.Equals(other.Id) &&
-                   Email.Equals( other.Email) &&
+                   Email.Equals(other.Email) &&
                    Roles.SequenceEqual(other.Roles);
         }
 

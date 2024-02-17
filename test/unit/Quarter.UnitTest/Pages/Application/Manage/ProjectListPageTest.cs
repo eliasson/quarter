@@ -29,7 +29,7 @@ public class ProjectListPageTest
         {
             var context = Component?.FindComponent<PageContext>();
 
-            Assert.That(context?.Instance.Tabs, Is.EquivalentTo(new [] {
+            Assert.That(context?.Instance.Tabs, Is.EquivalentTo(new[] {
                 new TabData ("Projects", Page.Manage)}
             ));
         }
@@ -63,7 +63,7 @@ public class ProjectListPageTest
 
         [Test]
         public void ItShouldListAllProjects()
-            => Assert.That(ProjectNames(),Is.EqualTo(new [] { "Alpha", "Bravo", "Charlie" }));
+            => Assert.That(ProjectNames(), Is.EqualTo(new[] { "Alpha", "Bravo", "Charlie" }));
 
         [Test]
         public void ItShouldNotShowAnEmptyMessage()

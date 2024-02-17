@@ -18,7 +18,7 @@ public class WeeklyReportQueryTest
 
         [OneTimeSetUp]
         public async Task Setup()
-            => _result =  await QueryHandler.ExecuteAsync(new WeeklyReportQuery(Today), OperationContext(), CancellationToken.None);
+            => _result = await QueryHandler.ExecuteAsync(new WeeklyReportQuery(Today), OperationContext(), CancellationToken.None);
 
         [Test]
         public void ItShouldContainStartOfWeek()
@@ -130,7 +130,7 @@ public class WeeklyReportQueryTest
         public void ItShouldContainWeekdayTotalMinutesPerProject()
         {
             var projectWeekdayUsage = _result.Usage.Values.Select(pu => pu.WeekdayTotals);
-            Assert.That(projectWeekdayUsage, Is.EqualTo(new [] {
+            Assert.That(projectWeekdayUsage, Is.EqualTo(new[] {
                     new [] { 2 * 15, 0, 0, 0, 0, 0, 8 * 15 },
                     new [] { 6 * 15, 0, 0, 0, 0, 0, 0 },
             }));
@@ -138,6 +138,6 @@ public class WeeklyReportQueryTest
 
         [Test]
         public void ItShouldContainWeekdayTotalMinutes()
-            => Assert.That(_result?.WeekdayTotals, Is.EqualTo(new [] { 8 * 15, 0, 0, 0, 0, 0, 8*15 }));
+            => Assert.That(_result?.WeekdayTotals, Is.EqualTo(new[] { 8 * 15, 0, 0, 0, 0, 0, 8 * 15 }));
     }
 }

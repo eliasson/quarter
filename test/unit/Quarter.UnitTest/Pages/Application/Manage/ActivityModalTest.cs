@@ -90,7 +90,7 @@ public class ActivityModalTest
 
         [Test]
         public void ItShouldShowValidationErrorForName()
-            => Assert.That(NameFieldValidationMessage().Text() , Is.EqualTo("Name is required"));
+            => Assert.That(NameFieldValidationMessage().Text(), Is.EqualTo("Name is required"));
 
         [Test]
         public void ItShouldShowValidationErrorForColor()

@@ -76,7 +76,7 @@ public class ArchiveProjectCommandTest : CommandTestBase
         {
             var ts = await GetTimesheetAsync(_dateInTest);
             var slotProjects = ts.Slots().Select(s => s.ProjectId);
-            Assert.That(slotProjects, Is.EqualTo(new [] { _projectOne.Id, _projectTwo.Id }));
+            Assert.That(slotProjects, Is.EqualTo(new[] { _projectOne.Id, _projectTwo.Id }));
         }
     }
 }

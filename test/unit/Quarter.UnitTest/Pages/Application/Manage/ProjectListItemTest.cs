@@ -59,7 +59,7 @@ public class ProjectListItemTest
             [Test]
             public void ItShouldHaveProjectMenuItems()
             {
-                Assert.That(MenuItems(), Is.EqualTo(new []
+                Assert.That(MenuItems(), Is.EqualTo(new[]
                 {
                     ("edit", "Edit project"),
                     ("archive", "Archive project"),
@@ -216,7 +216,7 @@ public class ProjectListItemTest
         [Test]
         public void ItShouldHaveProjectMenuItems()
         {
-            Assert.That(MenuItems(), Is.EqualTo(new []
+            Assert.That(MenuItems(), Is.EqualTo(new[]
             {
                 ("edit", "Edit project"),
                 ("restore", "Restore project"),
@@ -279,7 +279,7 @@ public class ProjectListItemTest
         protected IEnumerable<(string, string)> MenuItems()
         {
             var menu = ProjectContextMenu();
-            return  menu?.Instance.Items.Select(item => (item.Type, item.Title));
+            return menu?.Instance.Items.Select(item => (item.Type, item.Title));
         }
 
         protected IElement MenuItem(string title)

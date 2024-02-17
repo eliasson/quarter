@@ -16,7 +16,7 @@ namespace Quarter.Core.Models
         }
 
         public static IdOf<TAggregate> Of(Guid id)
-            => new (id);
+            => new(id);
 
         public static IdOf<TAggregate> Of(string value)
         {
@@ -26,9 +26,9 @@ namespace Quarter.Core.Models
         }
 
         public static IdOf<TAggregate> Random()
-            => new (Guid.NewGuid());
+            => new(Guid.NewGuid());
 
-        public static IdOf<TAggregate> None = new (Guid.Empty);
+        public static IdOf<TAggregate> None = new(Guid.Empty);
 
         public string AsString()
             => Id.ToString();

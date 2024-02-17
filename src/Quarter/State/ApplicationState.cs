@@ -10,7 +10,7 @@ namespace Quarter.State
     public record ModalState(Type ModalType, Dictionary<string, object> Parameters)
     {
         public static ModalState ParameterLess(Type modalType)
-            => new (modalType, new Dictionary<string, object>());
+            => new(modalType, new Dictionary<string, object>());
     }
 
     public record SelectedActivity(IdOf<Project> ProjectId, IdOf<Activity> ActivityId);
@@ -32,7 +32,7 @@ namespace Quarter.State
         public const int DefaultStartHour = 6;
         public const int DefaultEndHour = 18;
 
-        public Stack<ModalState> Modals { get; } = new ();
+        public Stack<ModalState> Modals { get; } = new();
 
         public List<ProjectViewModel> Projects { get; set; } = new();
 

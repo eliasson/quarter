@@ -26,7 +26,7 @@ public class AddProjectCommandTest : CommandTestBase
                 .Select(p => p.Name)
                 .ToListAsync();
 
-            Assert.That(projects, Is.EquivalentTo(new [] { "Sample project" }));
+            Assert.That(projects, Is.EquivalentTo(new[] { "Sample project" }));
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Quarter.Core.Options;
+namespace Quarter.Core.Options;
 
 public class AuthOptions
 {

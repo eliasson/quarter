@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
@@ -59,7 +59,7 @@ public class AdminServiceTest
     public abstract class TestCase
     {
         protected AdminService Service;
-        private readonly InMemoryRepositoryFactory _repositoryFactory = new ();
+        private readonly InMemoryRepositoryFactory _repositoryFactory = new();
 
         protected void SetupTestCase(bool openRegistration = false)
         {

@@ -22,8 +22,8 @@ public abstract class GetUsageForPeriodAsyncTest
     private readonly Date _afterDate = new Date(NowInTest);
     private readonly IdOf<Project> _projectIdA = IdOf<Project>.Random();
     private readonly IdOf<Project> _projectIdB = IdOf<Project>.Random();
-    private readonly IdOf<Activity> _activityAa= IdOf<Activity>.Random();
-    private readonly IdOf<Activity> _activityAb= IdOf<Activity>.Random();
+    private readonly IdOf<Activity> _activityAa = IdOf<Activity>.Random();
+    private readonly IdOf<Activity> _activityAb = IdOf<Activity>.Random();
     private readonly IdOf<Activity> _activityBa = IdOf<Activity>.Random();
 
     private ITimesheetRepository _repository;

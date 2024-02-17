@@ -12,7 +12,7 @@ namespace Quarter.Core.Models
         [JsonConverter(typeof(IdOfJsonConverter<Project>))]
         public IdOf<Project> ProjectId { get; set; }
 
-        public UtcDateTime Created { get; set;  }
+        public UtcDateTime Created { get; set; }
         public UtcDateTime? Updated { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
@@ -48,14 +48,14 @@ namespace Quarter.Core.Models
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
 
-            var other = (Activity) obj;
+            var other = (Activity)obj;
             return Id.Equals(other.Id) &&
                 Name == other.Name &&
                    Description == other.Description &&
                    Created.DateTime == other.Created.DateTime &&
                    Updated?.DateTime == other.Updated?.DateTime &&
                    Color.Equals(other.Color) &&
-                   IsArchived== other.IsArchived;
+                   IsArchived == other.IsArchived;
         }
 
         public override int GetHashCode()

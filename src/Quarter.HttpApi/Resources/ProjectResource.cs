@@ -17,7 +17,7 @@ namespace Quarter.HttpApi.Resources;
 public record ProjectResourceOutput(string id, string name, string description, bool isArchived, string created, string? updated)
 {
     public Uri Location()
-        => new ($"/api/projects/{id}", UriKind.Relative);
+        => new($"/api/projects/{id}", UriKind.Relative);
 
     public static ProjectResourceOutput From(Project project)
     {

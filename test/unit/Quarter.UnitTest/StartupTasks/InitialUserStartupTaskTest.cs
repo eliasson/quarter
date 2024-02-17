@@ -45,7 +45,7 @@ public class InitialUserStartupTaskTest
             Assert.Multiple(() =>
             {
                 Assert.That(cmd.Email.Value, Is.EqualTo("initial@example.com"));
-                Assert.That(cmd.Roles, Is.EqualTo(new [] { UserRole.Administrator }));
+                Assert.That(cmd.Roles, Is.EqualTo(new[] { UserRole.Administrator }));
             });
         }
     }

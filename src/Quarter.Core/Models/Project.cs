@@ -41,12 +41,12 @@ namespace Quarter.Core.Models
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
 
-            var other = (Project) obj;
+            var other = (Project)obj;
             return Name == other.Name &&
                    Description == other.Description &&
                    Created.DateTime == other.Created.DateTime &&
                    Updated?.DateTime == other.Updated?.DateTime &&
-                   IsArchived== other.IsArchived;
+                   IsArchived == other.IsArchived;
         }
 
         public override int GetHashCode()

@@ -10,7 +10,7 @@ namespace Quarter.Core.UnitTest.Models
         public class WhenConstructed
         {
             private static readonly IdOf<Project> ProjectId = IdOf<Project>.Random();
-            private readonly Activity _activity = new (ProjectId, "Alpha", "Alpha:Description", Color.FromHexString("#112233"));
+            private readonly Activity _activity = new(ProjectId, "Alpha", "Alpha:Description", Color.FromHexString("#112233"));
 
             [Test]
             public void ItShouldHaveProjectId()

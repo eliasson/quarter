@@ -56,7 +56,7 @@ public class ProjectModalTest
 
         [Test]
         public void ItShouldShowValidationErrorForName()
-            => Assert.That(NameFieldValidationMessage().Text() , Is.EqualTo("Name is required"));
+            => Assert.That(NameFieldValidationMessage().Text(), Is.EqualTo("Name is required"));
     }
 
     [TestFixture(false)]

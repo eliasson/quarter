@@ -38,7 +38,7 @@ namespace Quarter.Core.UnitTest.Commands
                 var projects = await projectRepositoryForUser.GetAllAsync(CancellationToken.None).ToListAsync(CancellationToken.None);
                 var names = projects.Select(p => p.Name);
 
-                Assert.That(names, Is.EqualTo(new [] { "Your first project" }));
+                Assert.That(names, Is.EqualTo(new[] { "Your first project" }));
             }
 
             [Test]
@@ -49,7 +49,7 @@ namespace Quarter.Core.UnitTest.Commands
                 var activities = await projectRepositoryForUser.GetAllAsync(CancellationToken.None).ToListAsync(CancellationToken.None);
                 var names = activities.Select(p => p.Name);
 
-                Assert.That(names, Is.EqualTo(new [] { "Your first activity" }));
+                Assert.That(names, Is.EqualTo(new[] { "Your first activity" }));
             }
 
         }

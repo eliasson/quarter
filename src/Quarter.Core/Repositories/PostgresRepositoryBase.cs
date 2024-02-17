@@ -130,7 +130,7 @@ public abstract class PostgresRepositoryBase<T> : IRepository<T> where T : IAggr
 
         var query = $"SELECT data FROM {_tableName} WHERE (id)=@id {accessClaus};";
 
-        var parameters = new List<NpgsqlParameter> { new ("id", id.Id) };
+        var parameters = new List<NpgsqlParameter> { new("id", id.Id) };
         if (accessCondition is not null)
             parameters.Add(accessCondition);
 
@@ -192,7 +192,7 @@ public abstract class PostgresRepositoryBase<T> : IRepository<T> where T : IAggr
             ? string.Empty
             : $"AND ({accessCondition.ParameterName})=@{accessCondition.ParameterName}";
 
-        var parameters = new List<NpgsqlParameter> { new ("id", id.Id) };
+        var parameters = new List<NpgsqlParameter> { new("id", id.Id) };
         if (accessCondition is not null)
             parameters.Add(accessCondition);
 
@@ -293,7 +293,7 @@ public abstract class PostgresRepositoryBase<T> : IRepository<T> where T : IAggr
     {
         var additional = AdditionalColumns()
             .Select(column => new NpgsqlParameter($"{column}", AdditionalColumnValue(column, aggregate)));
-        return  parameters.Concat(additional).ToList();
+        return parameters.Concat(additional).ToList();
     }
 
     private static async Task<string> Serialize(T aggregate)

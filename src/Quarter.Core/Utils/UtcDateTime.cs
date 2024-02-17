@@ -24,7 +24,7 @@ namespace Quarter.Core.Utils
         /// </summary>
         /// <returns>The UTC date time</returns>
         public static UtcDateTime Now()
-            => new (DateTime.UtcNow);
+            => new(DateTime.UtcNow);
 
         /// <summary>
         /// Create a UtcDateTime instance from a date time that is known to be UTC. No control will be made.
@@ -37,7 +37,7 @@ namespace Quarter.Core.Utils
         /// Get a UTC DateTime representing no time / empty / null
         /// </summary>
         public static UtcDateTime MinValue
-            => new (DateTime.MinValue);
+            => new(DateTime.MinValue);
 
         public bool Equals(UtcDateTime other)
             => DateTime.Equals(other.DateTime);

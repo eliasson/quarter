@@ -42,7 +42,7 @@ public class GetAllProjectsAndActivitiesTest
         {
             var resource = await _response.AsPayload<ProjectAndActivitiesResourceOutput>();
             var projects = resource?.projects.Select(p => p.name);
-            Assert.That(projects, Is.EquivalentTo(new [] { "Project Alpha", "Project Bravo" }));
+            Assert.That(projects, Is.EquivalentTo(new[] { "Project Alpha", "Project Bravo" }));
         }
 
         [Test]
@@ -50,7 +50,7 @@ public class GetAllProjectsAndActivitiesTest
         {
             var resource = await _response.AsPayload<ProjectAndActivitiesResourceOutput>();
             var activities = resource?.activities.Select(a => a.name);
-            Assert.That(activities, Is.EquivalentTo(new [] { "Activity Alpha", "Activity Bravo" }));
+            Assert.That(activities, Is.EquivalentTo(new[] { "Activity Alpha", "Activity Bravo" }));
         }
     }
 

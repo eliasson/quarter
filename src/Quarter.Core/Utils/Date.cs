@@ -4,7 +4,7 @@ using System.Globalization;
 
 namespace Quarter.Core.Utils;
 
- /// <summary>
+/// <summary>
 /// A date only version of a DateTime.
 ///
 /// This class does not use any culture setting!
@@ -79,7 +79,7 @@ public struct Date
     {
         if (!(end.DateTime > start.DateTime)) throw new ArgumentException("End date must be greater than start date to return a sequence");
         var span = end.DateTime - start.DateTime;
-        return Sequence(start, (int) span.TotalDays + 1); // Inclusive start date
+        return Sequence(start, (int)span.TotalDays + 1); // Inclusive start date
     }
 
     /// <summary>
@@ -99,7 +99,7 @@ public struct Date
     {
         var dayOffset = DateTime.DayOfWeek == DayOfWeek.Sunday
             ? 6
-            : (int) DateTime.DayOfWeek - 1;
+            : (int)DateTime.DayOfWeek - 1;
         return new Date(DateTime.AddDays(-1 * dayOffset));
     }
 

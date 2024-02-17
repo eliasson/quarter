@@ -58,7 +58,7 @@ namespace Quarter.Core.Repositories
         }
 
         protected override IEnumerable<string> AdditionalColumns()
-            => new [] { UserIdColumnName };
+            => new[] { UserIdColumnName };
 
         protected override object AdditionalColumnValue(string columnName, Activity aggregate)
             => columnName switch

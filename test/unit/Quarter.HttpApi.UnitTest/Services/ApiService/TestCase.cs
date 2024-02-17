@@ -56,5 +56,5 @@ public class TestCase
         => _repositoryFactory.TimesheetRepository(userId).GetByDateAsync(date, CancellationToken.None);
 
     protected static OperationContext CreateOperationContext()
-        => new (IdOf<User>.Random());
+        => new(IdOf<User>.Random());
 }

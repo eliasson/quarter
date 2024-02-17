@@ -211,9 +211,9 @@ public class MonthlyReportPageTest
 
     public class TestCase : BlazorComponentTestCase<MonthlyReportPage>
     {
-        private readonly TestQueryHandler _queryHandler = new ();
+        private readonly TestQueryHandler _queryHandler = new();
         private readonly IUserAuthorizationService _authService = new TestIUserAuthorizationService();
-        private readonly TestNavigationManager _testNavigationManager = new ();
+        private readonly TestNavigationManager _testNavigationManager = new();
 
         protected override void ConfigureTestContext(TestContext ctx)
         {
@@ -258,7 +258,7 @@ public class MonthlyReportPageTest
             => Component?.FindAll("[test=action-button]").Last().Click();
 
         protected string LastNavigatedTo()
-            =>_testNavigationManager.LastNavigatedTo();
+            => _testNavigationManager.LastNavigatedTo();
 
         protected IEnumerable<(string date, string name, string total)> ProjectRows()
         {
@@ -272,7 +272,7 @@ public class MonthlyReportPageTest
             });
         }
 
-        protected IEnumerable<(string name, string bgColor, string borderColor,  string total)> ActivityRows()
+        protected IEnumerable<(string name, string bgColor, string borderColor, string total)> ActivityRows()
         {
             return Component?.FindAll("[test=report-activity-row]").Select(elm =>
             {

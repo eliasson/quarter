@@ -140,26 +140,26 @@ namespace Quarter
 
             app.UseExceptionHandler(builder =>
             {
-                builder.Use(async (HttpContext ctx, RequestDelegate dg) =>  
+                builder.Use(async (HttpContext ctx, RequestDelegate dg) =>
                 {
                     var feature = ctx.Features.Get<IExceptionHandlerPathFeature>();
-                    ctx.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
+                    ctx.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
                     // At least for integration-tests of controllers the outer exception is the UnauthorizedAccessException
                     var exception = feature?.Error.InnerException ?? feature?.Error;
 
                     string message = "An unhandled error occured";
 
-                    switch(exception)
+                    switch (exception)
                     {
                         case UnauthorizedAccessException uae:
                             message = uae.Message;
-                            ctx.Response.StatusCode = (int) HttpStatusCode.Unauthorized;
+                            ctx.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                             break;
 
                         case NotFoundException nfe:
                             message = nfe.Message;
-                            ctx.Response.StatusCode = (int) HttpStatusCode.NotFound;
+                            ctx.Response.StatusCode = (int)HttpStatusCode.NotFound;
                             break;
 
                         default:
@@ -190,8 +190,8 @@ namespace Quarter
             {
                 endpoints.MapControllers();
                 endpoints.MapBlazorHub();
-                endpoints.MapFallbackToPage("/app/{**segment}","/Application/_ApplicationHost");
-                endpoints.MapFallbackToPage("/admin/{**segment}","/Admin/_AdminHost");
+                endpoints.MapFallbackToPage("/app/{**segment}", "/Application/_ApplicationHost");
+                endpoints.MapFallbackToPage("/admin/{**segment}", "/Admin/_AdminHost");
             });
         }
     }

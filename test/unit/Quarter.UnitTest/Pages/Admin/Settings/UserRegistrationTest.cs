@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using NUnit.Framework;
 using Quarter.Core.Options;
@@ -32,7 +32,7 @@ public class UserRegistrationTest
     }
 
     [TestFixture]
-    public class WhenUserRegistrationIsNotOpen  : TestCase
+    public class WhenUserRegistrationIsNotOpen : TestCase
     {
         [OneTimeSetUp]
         public void StartUp()

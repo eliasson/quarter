@@ -16,7 +16,7 @@ public class StartupTaskConfigurationTest
         var provider = CreateServiceProvider();
         var startupTasks = provider.GetServices<IStartupTask>()
             .Select(t => t.GetType());
-        Assert.That(startupTasks, Is.EquivalentTo(new []
+        Assert.That(startupTasks, Is.EquivalentTo(new[]
         {
             typeof(InitialUserStartupTask)
         }));

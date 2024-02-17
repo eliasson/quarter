@@ -12,7 +12,7 @@ public record TimeSlotOutput(string projectId, string activityId, int offset, in
 public record TimesheetResourceOutput(string date, int totalMinutes, IList<TimeSlotOutput> timeSlots)
 {
     public Uri Location()
-        => new ($"/api/timesheets/{date}", UriKind.Relative);
+        => new($"/api/timesheets/{date}", UriKind.Relative);
 
     public static TimesheetResourceOutput From(Timesheet timesheet)
     {

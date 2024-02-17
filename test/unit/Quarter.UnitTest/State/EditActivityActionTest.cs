@@ -26,7 +26,7 @@ public class EditActivityActionTest : ActionHandlerTestCase
         var activities = new List<ActivityViewModel> { new() { Id = _activityId, Name = "Old" } };
 
         _state = NewState();
-        _state.Projects = new List<ProjectViewModel> { new () { Id = _projectId, Activities = activities }};
+        _state.Projects = new List<ProjectViewModel> { new() { Id = _projectId, Activities = activities } };
         _state.Modals.Push(ModalState.ParameterLess(typeof(FakeModal)));
 
         var formData = new ActivityFormData { Name = "Alpha", Description = "Activity A", Color = "#112233" };

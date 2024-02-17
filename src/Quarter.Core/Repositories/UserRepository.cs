@@ -15,7 +15,7 @@ namespace Quarter.Core.Repositories
         Task<User> GetUserByEmailAsync(string email, CancellationToken ct);
     }
 
-    public class InMemoryUserRepository :InMemoryRepositoryBase<User>,  IUserRepository
+    public class InMemoryUserRepository : InMemoryRepositoryBase<User>, IUserRepository
     {
         public Task<User> GetUserByEmailAsync(string email, CancellationToken ct)
         {
@@ -45,7 +45,7 @@ namespace Quarter.Core.Repositories
         }
 
         protected override IEnumerable<string> AdditionalColumns()
-            => new [] { EmailColumnName };
+            => new[] { EmailColumnName };
 
         protected override object AdditionalColumnValue(string columnName, User aggregate)
             => columnName switch

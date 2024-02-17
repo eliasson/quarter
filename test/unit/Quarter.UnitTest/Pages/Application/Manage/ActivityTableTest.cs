@@ -53,7 +53,7 @@ public class ActivityTableTest
             {
                 Id = IdOf<Project>.Random(),
                 Name = "Project X",
-                Activities = new []
+                Activities = new[]
                 {
                     new ActivityViewModel { Name = "Activity One", TotalMinutes = 120, Color = "#123456", DarkerColor = "#000000" },
                     new ActivityViewModel { Name = "Activity Two", TotalMinutes = 0, Color = "#FFFFFF", DarkerColor = "#000000" },
@@ -69,7 +69,7 @@ public class ActivityTableTest
             var activities = Component?.FindComponents<ActivityTableRow>()
                 .Select(tr => tr.Instance.Activity?.Name);
 
-            Assert.That(activities, Is.EqualTo(new [] { "Activity One", "Activity Two" }));
+            Assert.That(activities, Is.EqualTo(new[] { "Activity One", "Activity Two" }));
         }
     }
 

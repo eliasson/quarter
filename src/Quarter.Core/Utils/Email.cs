@@ -22,12 +22,12 @@ namespace Quarter.Core.Utils
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            var other = (Email) obj;
+            var other = (Email)obj;
             return Value == other.Value;
         }
 
         public override int GetHashCode()
-            =>  Value?.GetHashCode() ?? 0;
+            => Value?.GetHashCode() ?? 0;
 
         public string AsString()
             => Value;

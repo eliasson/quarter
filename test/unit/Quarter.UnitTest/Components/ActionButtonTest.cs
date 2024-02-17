@@ -74,7 +74,7 @@ public class ActionButtonTest
         public void Setup()
         {
             RenderWithParameters(pb => pb
-                .Add(c  => c.Label, "Hello")
+                .Add(c => c.Label, "Hello")
                 .Add(c => c.IconRef, "some-icon")
                 .Add(c => c.OnAction, OnAction));
             Button().Click();
@@ -96,7 +96,7 @@ public class ActionButtonTest
         public void Setup()
         {
             RenderWithParameters(pb => pb
-                .Add(c  => c.Label, "Hello")
+                .Add(c => c.Label, "Hello")
                 .Add(c => c.IconRef, "some-icon")
                 .Add(c => c.OnAction, OnAction));
             Button().Click();
@@ -119,7 +119,7 @@ public class ActionButtonTest
         public void Setup()
         {
             RenderWithParameters(pb => pb
-                .Add(c  => c.Label, "Hello")
+                .Add(c => c.Label, "Hello")
                 .Add(c => c.IconRef, "some-icon")
                 .Add(c => c.OnAction, OnAction));
             Button().Click();

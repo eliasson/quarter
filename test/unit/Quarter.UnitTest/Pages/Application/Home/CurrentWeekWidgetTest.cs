@@ -35,7 +35,7 @@ public class CurrentWeekWidgetTest
         [Test]
         public void ItShouldRenderAllDaysOfWeek()
         {
-            Assert.That(LongDayNames(), Is.EqualTo(new []
+            Assert.That(LongDayNames(), Is.EqualTo(new[]
             {
                 "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
             }));
@@ -44,7 +44,7 @@ public class CurrentWeekWidgetTest
         [Test]
         public void ItShouldRenderAllDaysOfWeekWithShortName()
         {
-            Assert.That(ShortDayNames(), Is.EqualTo(new []
+            Assert.That(ShortDayNames(), Is.EqualTo(new[]
             {
                 "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"
             }));
@@ -53,14 +53,14 @@ public class CurrentWeekWidgetTest
         [Test]
         public void ItShouldRenderTotalHoursForAllTimesheets()
         {
-            Assert.That(TotalHours(), Is.EqualTo(new [] { "0.25", "0.50", "0.75", "1.00", "1.25", "1.50", "1.75" }));
+            Assert.That(TotalHours(), Is.EqualTo(new[] { "0.25", "0.50", "0.75", "1.00", "1.25", "1.50", "1.75" }));
         }
 
         [Test]
         public void ItShouldUseSameUnitForAllHours()
         {
             var units = Units().ToHashSet();
-            Assert.That(units, Is.EqualTo(new [] { "hours" }));
+            Assert.That(units, Is.EqualTo(new[] { "hours" }));
         }
 
         [Test]
@@ -118,6 +118,6 @@ public class CurrentWeekWidgetTest
             => ComponentsByTestAttribute("timesheet-unit").Select(e => e.TextContent);
 
         protected string LastNavigatedTo()
-            =>_testNavigationManager.LastNavigatedTo();
+            => _testNavigationManager.LastNavigatedTo();
     }
 }

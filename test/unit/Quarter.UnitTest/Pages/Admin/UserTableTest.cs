@@ -47,7 +47,7 @@ public class UserTableTest
 
         [Test]
         public void ItShouldListUsers()
-            => Assert.That(Users(), Is.EquivalentTo(new [] {"alpha@example.com", "bravo@example.com" }));
+            => Assert.That(Users(), Is.EquivalentTo(new[] { "alpha@example.com", "bravo@example.com" }));
     }
 
     public class TestCase : BlazorComponentTestCase<UsersTable>

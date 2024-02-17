@@ -24,7 +24,7 @@ public class AddActivityActionTest : ActionHandlerTestCase
         var formData = new ActivityFormData { Name = "Alpha", Description = "Activity A", Color = "#123" };
         _projectId = IdOf<Project>.Random();
         state.Modals.Push(ModalState.ParameterLess(typeof(FakeModal)));
-        state.Projects.Add(new ProjectViewModel { Id = _projectId, Name =" Project A"});
+        state.Projects.Add(new ProjectViewModel { Id = _projectId, Name = " Project A" });
 
         _state = await ActionHandler.HandleAsync(state, new AddActivityAction(_projectId, formData), CancellationToken.None);
     }

@@ -40,10 +40,10 @@ namespace Quarter.Core.Utils
         {
             var amount = 1 - percentage;
             var c = System.Drawing.Color.FromArgb(Argb);
-            var r = Math.Min(255, (int) (c.R * amount));
-            var g = Math.Min(255, (int) (c.G * amount));
-            var b = Math.Min(255, (int) (c.B * amount));
-            var argb = System.Drawing.Color.FromArgb(c.A,r,g,b).ToArgb();
+            var r = Math.Min(255, (int)(c.R * amount));
+            var g = Math.Min(255, (int)(c.G * amount));
+            var b = Math.Min(255, (int)(c.B * amount));
+            var argb = System.Drawing.Color.FromArgb(c.A, r, g, b).ToArgb();
             return new Color(argb);
         }
 

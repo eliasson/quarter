@@ -66,13 +66,13 @@ public abstract class TimesheetRepositoryTest : RepositoryTestBase<Timesheet, IT
     {
         var repository = Repository();
         var agg = ArbitraryAggregate();
-        agg.Register(new ActivityTimeSlot(_stableProjectId,_stableActivityId, 0, 2));
-        agg.Register(new ActivityTimeSlot(_stableProjectId,_stableActivityId, 4, 2));
+        agg.Register(new ActivityTimeSlot(_stableProjectId, _stableActivityId, 0, 2));
+        agg.Register(new ActivityTimeSlot(_stableProjectId, _stableActivityId, 4, 2));
 
         var storedAgg = await repository.CreateAsync(agg, CancellationToken.None);
         var readAgg = await repository.GetByDateAsync(storedAgg.Date, CancellationToken.None);
 
-        Assert.That(readAgg.Slots, Is.EqualTo(new []
+        Assert.That(readAgg.Slots, Is.EqualTo(new[]
         {
             new ActivityTimeSlot(_stableProjectId,_stableActivityId, 0, 2),
             new ActivityTimeSlot(_stableProjectId,_stableActivityId, 4, 2),
@@ -86,15 +86,15 @@ public abstract class TimesheetRepositoryTest : RepositoryTestBase<Timesheet, IT
         var agg = ArbitraryAggregate();
 
         var storedAgg = await repository.CreateAsync(agg, CancellationToken.None);
-        _ = await repository.UpdateByIdAsync(agg.Id,timesheet =>
+        _ = await repository.UpdateByIdAsync(agg.Id, timesheet =>
         {
-            timesheet.Register(new ActivityTimeSlot(_stableProjectId,_stableActivityId, 0, 2));
-            timesheet.Register(new ActivityTimeSlot(_stableProjectId,_stableActivityId, 4, 2));
+            timesheet.Register(new ActivityTimeSlot(_stableProjectId, _stableActivityId, 0, 2));
+            timesheet.Register(new ActivityTimeSlot(_stableProjectId, _stableActivityId, 4, 2));
             return timesheet;
         }, CancellationToken.None);
         var readAgg = await repository.GetByDateAsync(storedAgg.Date, CancellationToken.None);
 
-        Assert.That(readAgg.Slots().OrderBy(_ => _.Offset), Is.EqualTo(new []
+        Assert.That(readAgg.Slots().OrderBy(_ => _.Offset), Is.EqualTo(new[]
         {
             new ActivityTimeSlot(_stableProjectId,_stableActivityId, 0, 2),
             new ActivityTimeSlot(_stableProjectId,_stableActivityId, 4, 2),
@@ -112,7 +112,7 @@ public abstract class TimesheetRepositoryTest : RepositoryTestBase<Timesheet, IT
         _ = await repository.CreateAsync(agg, CancellationToken.None);
         var all = repository.GetAllAsync(CancellationToken.None);
         var readAgg = await all.FirstAsync();
-        Assert.That(readAgg.Slots, Is.EqualTo(new []
+        Assert.That(readAgg.Slots, Is.EqualTo(new[]
         {
             new ActivityTimeSlot(_stableProjectId,_stableActivityId, 0, 2),
             new ActivityTimeSlot(_stableProjectId,_stableActivityId, 4, 2),
@@ -125,7 +125,7 @@ public abstract class TimesheetRepositoryTest : RepositoryTestBase<Timesheet, IT
         var repository = Repository();
         var agg = ArbitraryAggregate();
         var registerTimestamp = DateTime.UtcNow;
-        agg.Register(new ActivityTimeSlot(_stableProjectId,_stableActivityId, 0, 2));
+        agg.Register(new ActivityTimeSlot(_stableProjectId, _stableActivityId, 0, 2));
 
         await Task.Delay(100);
         _ = await repository.CreateAsync(agg, CancellationToken.None);
@@ -160,7 +160,7 @@ public abstract class TimesheetRepositoryTest : RepositoryTestBase<Timesheet, IT
         _ = await repository.CreateAsync(agg, CancellationToken.None);
         var usage = await repository.GetProjectTotalUsageAsync(_stableProjectId, CancellationToken.None);
 
-        Assert.That(usage.TotalMinutes, Is.EqualTo(2 * 15  + 4 * 15));
+        Assert.That(usage.TotalMinutes, Is.EqualTo(2 * 15 + 4 * 15));
     }
 
     [Test]
@@ -175,7 +175,7 @@ public abstract class TimesheetRepositoryTest : RepositoryTestBase<Timesheet, IT
         _ = await repository.CreateAsync(agg, CancellationToken.None);
         var usage = await repository.GetProjectTotalUsageAsync(_stableProjectId, CancellationToken.None);
         var activityUsage = usage.Activities.Select(u => u.TotalMinutes);
-        Assert.That(activityUsage, Is.EqualTo(new [] { 6 * 15 }));
+        Assert.That(activityUsage, Is.EqualTo(new[] { 6 * 15 }));
     }
 
     [Test]
@@ -223,7 +223,7 @@ public abstract class TimesheetRepositoryTest : RepositoryTestBase<Timesheet, IT
         Assert.Multiple(() =>
         {
             Assert.That(removeResult, Is.EqualTo(RemoveResult.Removed));
-            Assert.That(slotProjects, Is.EqualTo(new [] { projectIdTwo }));
+            Assert.That(slotProjects, Is.EqualTo(new[] { projectIdTwo }));
         });
     }
 
@@ -257,7 +257,7 @@ public abstract class TimesheetRepositoryTest : RepositoryTestBase<Timesheet, IT
         Assert.Multiple(() =>
         {
             Assert.That(removeResult, Is.EqualTo(RemoveResult.Removed));
-            Assert.That(slotProjects, Is.EqualTo(new [] { activityTwo }));
+            Assert.That(slotProjects, Is.EqualTo(new[] { activityTwo }));
         });
     }
 

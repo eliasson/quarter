@@ -16,7 +16,7 @@ public class ProjectFormData
         if (ReferenceEquals(this, obj)) return true;
         if (obj.GetType() != GetType()) return false;
 
-        var other = (ProjectFormData) obj;
+        var other = (ProjectFormData)obj;
         return Name == other.Name && Description == other.Description;
     }
 

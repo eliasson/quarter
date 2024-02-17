@@ -41,7 +41,7 @@ public class CreateActivityTest
         {
             var activities = await ReadActivitiesAsync(_oc.UserId, _project!.Id);
             var activityNames = activities.Select(p => p.Name);
-            Assert.That(activityNames, Is.EqualTo(new [] { "Activity alpha" }));
+            Assert.That(activityNames, Is.EqualTo(new[] { "Activity alpha" }));
         }
     }
 

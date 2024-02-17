@@ -12,7 +12,7 @@ namespace Quarter.Core.Repositories
 {
     public abstract class InMemoryRepositoryBase<T> : IRepository<T> where T : IAggregate<T>
     {
-        protected readonly ConcurrentDictionary<IdOf<T>, T> Storage = new ();
+        protected readonly ConcurrentDictionary<IdOf<T>, T> Storage = new();
 
         protected virtual void CheckConstraints(T aggregate)
         {

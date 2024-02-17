@@ -17,7 +17,7 @@ public class ConfirmModalTest
         public void Setup()
         {
             RenderWithParameters(pb => pb
-                .Add(c => c.Title,  "Some title")
+                .Add(c => c.Title, "Some title")
                 .Add(c => c.Message, "Some message")
                 .Add(c => c.ConfirmText, "Confirm"));
         }
@@ -49,7 +49,7 @@ public class ConfirmModalTest
         public void Setup()
         {
             RenderWithParameters(pb => pb
-                .Add(c => c.Title,  "Some title")
+                .Add(c => c.Title, "Some title")
                 .Add(c => c.Message, "Some message")
                 .Add(c => c.ConfirmText, "Confirm")
                 .Add(c => c.IsDangerous, true));
@@ -83,7 +83,7 @@ public class ConfirmModalTest
         public void Setup()
         {
             RenderWithParameters(pb => pb
-                .Add(c => c.Title,  "Some title")
+                .Add(c => c.Title, "Some title")
                 .Add(c => c.Message, "Some message"));
             CancelButton().Click();
         }

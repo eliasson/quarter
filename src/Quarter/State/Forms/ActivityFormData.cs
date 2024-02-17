@@ -20,7 +20,7 @@ public class ActivityFormData
         if (ReferenceEquals(this, obj)) return true;
         if (obj.GetType() != GetType()) return false;
 
-        var other = (ActivityFormData) obj;
+        var other = (ActivityFormData)obj;
         return Name == other.Name && Description == other.Description && Color == other.Color;
     }
 
