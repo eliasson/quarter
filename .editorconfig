@@ -1,0 +1,17 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+indent_style = space
+indent_size = 4
+max_line_length = 119
+
+[package.json]
+indent_size = 2
+
+[*.cs]
+#
+# Description for individual rules can be found at https://github.com/dotnet/docs/blob/main/docs/fundamentals/code-analysis/quality-rules/
+dotnet_diagnostic.CS0618.severity = none
