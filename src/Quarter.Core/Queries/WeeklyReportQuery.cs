@@ -16,21 +16,13 @@ public class WeeklyReportQuery
     }
 }
 
-public class WeeklyReportResult
+public class WeeklyReportResult(Date startOfWeek, Date endOfWeek)
 {
-    public Date StartOfWeek { get; private set; }
-    public Date EndOfWeek { get; private set; }
-    public IDictionary<IdOf<Project>, ProjectWeekUsage> Usage { get; private set; }
+    public Date StartOfWeek { get; private set; } = startOfWeek;
+    public Date EndOfWeek { get; private set; } = endOfWeek;
+    public IDictionary<IdOf<Project>, ProjectWeekUsage> Usage { get; private set; } = new Dictionary<IdOf<Project>, ProjectWeekUsage>();
     public int TotalMinutes { get; private set; }
-    public int[] WeekdayTotals { get; private set; }
-
-    public WeeklyReportResult(Date startOfWeek, Date endOfWeek)
-    {
-        StartOfWeek = startOfWeek;
-        EndOfWeek = endOfWeek;
-        Usage = new Dictionary<IdOf<Project>, ProjectWeekUsage>();
-        WeekdayTotals = new int[7];
-    }
+    public int[] WeekdayTotals { get; private set; } = new int[7];
 
     public void AddOrUpdate(ProjectSummary projectSummary, int weekDayIndex)
     {
@@ -50,18 +42,12 @@ public class WeeklyReportResult
     }
 }
 
-public class ProjectWeekUsage
+public class ProjectWeekUsage(IdOf<Project> projectId)
 {
-    public IdOf<Project> ProjectId { get; private set; }
+    public IdOf<Project> ProjectId { get; private set; } = projectId;
     public readonly IDictionary<IdOf<Activity>, ActivityWeekUsage> Usage = new Dictionary<IdOf<Activity>, ActivityWeekUsage>();
     public int TotalMinutes;
-    public int[] WeekdayTotals { get; private set; }
-
-    public ProjectWeekUsage(IdOf<Project> projectId)
-    {
-        ProjectId = projectId;
-        WeekdayTotals = new int[7];
-    }
+    public int[] WeekdayTotals { get; private set; } = new int[7];
 
     public void AddOrUpdate(ActivitySummary activitySummary, int weekDayIndex)
     {
@@ -79,17 +65,11 @@ public class ProjectWeekUsage
     }
 }
 
-public class ActivityWeekUsage
+public class ActivityWeekUsage(IdOf<Activity> activityId)
 {
-    public IdOf<Activity> ActivityId { get; private set; }
-    public readonly int[] DurationPerWeekDay;
+    public IdOf<Activity> ActivityId { get; private set; } = activityId;
+    public readonly int[] DurationPerWeekDay = new int[7];
     public int TotalMinutes;
-
-    public ActivityWeekUsage(IdOf<Activity> activityId)
-    {
-        ActivityId = activityId;
-        DurationPerWeekDay = new int[7];
-    }
 
     public void AddOrUpdate(ActivitySummary activitySummary, int weekDayIndex)
     {

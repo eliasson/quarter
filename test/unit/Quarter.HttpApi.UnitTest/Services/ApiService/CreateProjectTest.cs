@@ -36,7 +36,7 @@ public class CreateProjectTest
         {
             var projects = await ReadProjectsAsync(_oc.UserId);
             var projectNames = projects.Select(p => p.Name);
-            Assert.That(projectNames, Is.EqualTo(new [] { "Project alpha" }));
+            Assert.That(projectNames, Is.EqualTo(new[] { "Project alpha" }));
         }
     }
 }

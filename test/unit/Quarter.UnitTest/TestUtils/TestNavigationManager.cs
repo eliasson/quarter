@@ -14,7 +14,7 @@ public class TestNavigationManager : NavigationManager
     private readonly IList<string> _performedNavigations = new List<string>();
 
     public TestNavigationManager()
-        => Initialize(_baseUri,_baseUri);
+        => Initialize(_baseUri, _baseUri);
 
     public string LastNavigatedTo()
         => _performedNavigations.Last();

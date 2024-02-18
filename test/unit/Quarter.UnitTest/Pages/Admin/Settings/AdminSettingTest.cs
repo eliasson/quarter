@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 using Quarter.Pages.Admin.Settings;
 using Quarter.UnitTest.TestUtils;
 

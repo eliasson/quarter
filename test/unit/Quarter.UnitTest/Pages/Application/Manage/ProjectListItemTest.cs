@@ -59,7 +59,7 @@ public class ProjectListItemTest
             [Test]
             public void ItShouldHaveProjectMenuItems()
             {
-                Assert.That(MenuItems(), Is.EqualTo(new []
+                Assert.That(MenuItems(), Is.EqualTo(new[]
                 {
                     ("edit", "Edit project"),
                     ("archive", "Archive project"),
@@ -85,7 +85,7 @@ public class ProjectListItemTest
 
             [TestCase]
             public async Task ItShouldDispatchShowRemoveProjectAction()
-                => Assert.True(await EventuallyDispatchedAction(new ShowRemoveProjectAction(_projectViewModel.Id)));
+                => Assert.That(await EventuallyDispatchedAction(new ShowRemoveProjectAction(_projectViewModel.Id)), Is.True);
         }
 
         [TestFixture]
@@ -97,7 +97,7 @@ public class ProjectListItemTest
 
             [Test]
             public async Task ItShouldDispatchShowEditProjectAction()
-                => Assert.True(await EventuallyDispatchedAction(new ShowEditProjectAction(_projectViewModel.Id)));
+                => Assert.That(await EventuallyDispatchedAction(new ShowEditProjectAction(_projectViewModel.Id)), Is.True);
         }
 
         [TestFixture]
@@ -109,7 +109,7 @@ public class ProjectListItemTest
 
             [TestCase]
             public async Task ItShouldDispatchShowArchiveProjectAction()
-                => Assert.True(await EventuallyDispatchedAction(new ShowArchiveProjectAction(_projectViewModel.Id)));
+                => Assert.That(await EventuallyDispatchedAction(new ShowArchiveProjectAction(_projectViewModel.Id)), Is.True);
         }
 
         [TestFixture]
@@ -216,7 +216,7 @@ public class ProjectListItemTest
         [Test]
         public void ItShouldHaveProjectMenuItems()
         {
-            Assert.That(MenuItems(), Is.EqualTo(new []
+            Assert.That(MenuItems(), Is.EqualTo(new[]
             {
                 ("edit", "Edit project"),
                 ("restore", "Restore project"),
@@ -236,7 +236,7 @@ public class ProjectListItemTest
 
             [TestCase]
             public async Task ItShouldDispatchShowRestoreProjectAction()
-                => Assert.True(await EventuallyDispatchedAction(new ShowRestoreProjectAction(_projectViewModel.Id)));
+                => Assert.That(await EventuallyDispatchedAction(new ShowRestoreProjectAction(_projectViewModel.Id)), Is.True);
         }
     }
 
@@ -279,7 +279,7 @@ public class ProjectListItemTest
         protected IEnumerable<(string, string)> MenuItems()
         {
             var menu = ProjectContextMenu();
-            return  menu?.Instance.Items.Select(item => (item.Type, item.Title));
+            return menu?.Instance.Items.Select(item => (item.Type, item.Title));
         }
 
         protected IElement MenuItem(string title)

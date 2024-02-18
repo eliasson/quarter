@@ -4,53 +4,52 @@ using System.Threading.Tasks;
 using Quarter.Core.UI.State;
 using Microsoft.AspNetCore.Components;
 
-namespace Quarter.Core.UI.Components
+namespace Quarter.Core.UI.Components;
+
+public abstract class QuarterComponent<TState> : ComponentBase, IDisposable
 {
-    public abstract class QuarterComponent<TState> : ComponentBase, IDisposable
+    protected TState? State { get; private set; }
+
+    [Inject]
+    protected IStateManager<TState>? StateManager { get; set; }
+
+    public override async Task SetParametersAsync(ParameterView parameters)
     {
-        protected TState? State { get; private set; }
+        if (StateManager is null) throw new ArgumentException("No StateManager injected");
 
-        [Inject]
-        protected IStateManager<TState>? StateManager { get; set; }
+        State = StateManager.State;
+        StateManager.OnChange += OnStateChange;
 
-        public override async Task SetParametersAsync(ParameterView parameters)
-        {
-            if (StateManager is null) throw new ArgumentException("No StateManager injected");
+        await base.SetParametersAsync(parameters);
+    }
 
-            State = StateManager.State;
-            StateManager.OnChange += OnStateChange;
+    private void OnStateChange(object? sender, EventArgs e)
+        => OnApplicationStateChange();
 
-            await base.SetParametersAsync(parameters);
-        }
+    protected virtual void OnApplicationStateChange()
+    {
+        // This is part of the poor mans state-manager. Whenever the application state changes, pretend that the
+        // component was just recreated.
+        // This is obviously costly, when it start to hurt make it opt-in (override) by those children that want it.
+        // When that is starting to hurt, find a better solution.
 
-        private void OnStateChange(object? sender, EventArgs e)
-            => OnApplicationStateChange();
+        OnParametersSet();
+        _ = InvokeAsync(StateHasChanged);
+    }
 
-        protected virtual void OnApplicationStateChange()
-        {
-            // This is part of the poor mans state-manager. Whenever the application state changes, pretend that the
-            // component was just recreated.
-            // This is obviously costly, when it start to hurt make it opt-in (override) by those children that want it.
-            // When that is starting to hurt, find a better solution.
+    protected Task DispatchAsync(IAction action)
+        => DispatchAsync(action, CancellationToken.None);
 
-            OnParametersSet();
-            _ = InvokeAsync(StateHasChanged);
-        }
+    protected async Task DispatchAsync(IAction action, CancellationToken ct)
+    {
+        if (StateManager is null) throw new ArgumentException("No StateManager injected");
 
-        protected Task DispatchAsync(IAction action)
-            => DispatchAsync(action, CancellationToken.None);
+        await StateManager.DispatchAsync(action, ct);
+    }
 
-        protected async Task DispatchAsync(IAction action, CancellationToken ct)
-        {
-            if (StateManager is null) throw new ArgumentException("No StateManager injected");
-
-            await StateManager.DispatchAsync(action, ct);
-        }
-
-        public virtual void Dispose()
-        {
-            if (StateManager is not null)
-                StateManager.OnChange -= OnStateChange;
-        }
+    public virtual void Dispose()
+    {
+        if (StateManager is not null)
+            StateManager.OnChange -= OnStateChange;
     }
 }

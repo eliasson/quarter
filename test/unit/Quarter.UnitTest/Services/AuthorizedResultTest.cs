@@ -35,7 +35,7 @@ public class AuthorizedResultTest
         public void ItShouldHaveGivenClaims()
         {
             var claims = _result.Claims.Select(c => c.Value);
-            Assert.That(claims, Is.EquivalentTo(new [] {"a", "b"}));
+            Assert.That(claims, Is.EquivalentTo(new[] { "a", "b" }));
         }
     }
 }

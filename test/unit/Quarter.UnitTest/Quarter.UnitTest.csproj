@@ -1,23 +1,23 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <IsPackable>false</IsPackable>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="bunit" Version="1.19.14" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
-        <PackageReference Include="NUnit" Version="3.13.3" />
-        <PackageReference Include="NUnit3TestAdapter" Version="4.4.2" />
+        <PackageReference Include="bunit" Version="1.19.14"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0"/>
+        <PackageReference Include="NUnit" Version="3.14.0"/>
+        <PackageReference Include="NUnit3TestAdapter" Version="3.17.0"/>
         <PackageReference Include="coverlet.collector" Version="3.2.0">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="7.0.5" />
+        <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="8.0.2"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\..\src\Quarter\Quarter.csproj" />
-      <ProjectReference Include="..\Quarter.Core.UnitTest\Quarter.Core.UnitTest.csproj" />
+        <ProjectReference Include="..\..\..\src\Quarter\Quarter.csproj"/>
+        <ProjectReference Include="..\Quarter.Core.UnitTest\Quarter.Core.UnitTest.csproj"/>
     </ItemGroup>
 </Project>

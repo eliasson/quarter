@@ -9,15 +9,15 @@ public class PageTest
 {
     public static IEnumerable<object[]> PageTests()
     {
-        yield return new object[] { Page.Home, "/app"};
-        yield return new object[] { Page.Manage, "/app/manage/projects"};
-        yield return new object[] { Page.WeeklyReport, "/app/reports/week"};
-        yield return new object[] { Page.MonthlyReport, "/app/reports/month"};
-        yield return new object[] { Page.Profile, "/app/profile"};
-        yield return new object[] { Page.AdminUsers, "/admin/users"};
-        yield return new object[] { Page.Admin, "/admin"};
-        yield return new object[] { Page.Logout, "/account/logout"};
-        yield return new object[] { Page.Login, "/account/login"};
+        yield return new object[] { Page.Home, "/app" };
+        yield return new object[] { Page.Manage, "/app/manage/projects" };
+        yield return new object[] { Page.WeeklyReport, "/app/reports/week" };
+        yield return new object[] { Page.MonthlyReport, "/app/reports/month" };
+        yield return new object[] { Page.Profile, "/app/profile" };
+        yield return new object[] { Page.AdminUsers, "/admin/users" };
+        yield return new object[] { Page.Admin, "/admin" };
+        yield return new object[] { Page.Logout, "/account/logout" };
+        yield return new object[] { Page.Login, "/account/login" };
     }
 
     [TestCaseSource(nameof(PageTests))]

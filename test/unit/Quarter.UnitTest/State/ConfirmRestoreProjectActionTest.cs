@@ -21,7 +21,7 @@ public class ConfirmRestoreProjectActionTest : ActionHandlerTestCase
     {
         _state = NewState();
         _projectId = IdOf<Project>.Random();
-        _state.Projects = new List<ProjectViewModel> { new() { Id = _projectId, Name = "Alpha", IsArchived = true} };
+        _state.Projects = new List<ProjectViewModel> { new() { Id = _projectId, Name = "Alpha", IsArchived = true } };
         _state = await ActionHandler.HandleAsync(_state, new ConfirmRestoreProjectAction(_projectId), CancellationToken.None);
     }
 

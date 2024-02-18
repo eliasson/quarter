@@ -67,14 +67,14 @@ public class ContextMenuTest
         {
             var items = MenuItems();
             var labels = items?.Select(elm => elm.QuerySelector("[test=menu-item-label]").TextContent);
-            Assert.That(labels, Is.EqualTo(new [] { "One", "Two" }));
+            Assert.That(labels, Is.EqualTo(new[] { "One", "Two" }));
         }
     }
 
     [TestFixture]
     public class WhenSelectingAnItem : TestCase
     {
-        private readonly List<ContextMenu.MenuItemVm> _selectedItems = new ();
+        private readonly List<ContextMenu.MenuItemVm> _selectedItems = new();
 
         [OneTimeSetUp]
         public void Setup()
@@ -95,7 +95,7 @@ public class ContextMenuTest
 
         [Test]
         public void ItShouldTriggerEvent()
-            => Assert.That(_selectedItems, Is.EqualTo(new []
+            => Assert.That(_selectedItems, Is.EqualTo(new[]
             {
                 new ContextMenu.MenuItemVm("two", "Two")
             }));
@@ -111,7 +111,7 @@ public class ContextMenuTest
             RenderWithParameters(pb =>
             {
                 pb.Add(p => p.Items, TestItems);
-                pb.Add(p => p.ItemSelected, (_) => {});
+                pb.Add(p => p.ItemSelected, (_) => { });
             });
             Launcher()?.Click();
             ElementOutsideMenu()?.Click();

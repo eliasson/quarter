@@ -56,7 +56,7 @@ public class ProjectModalTest
 
         [Test]
         public void ItShouldShowValidationErrorForName()
-            => Assert.That(NameFieldValidationMessage().Text() , Is.EqualTo("Name is required"));
+            => Assert.That(NameFieldValidationMessage().Text(), Is.EqualTo("Name is required"));
     }
 
     [TestFixture(false)]
@@ -93,7 +93,7 @@ public class ProjectModalTest
                 ? new AddProjectAction(expectedFormData)
                 : new EditProjectAction(_projectId, expectedFormData);
 
-            Assert.True(DidDispatchAction(expectedAction));
+            Assert.That(DidDispatchAction(expectedAction), Is.True);
         }
 
         [Test]

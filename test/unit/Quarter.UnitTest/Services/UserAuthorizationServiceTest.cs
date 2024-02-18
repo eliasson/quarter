@@ -57,7 +57,7 @@ public class UserAuthorizationServiceTest
         {
             var result = await Service.AuthorizeOrCreateUserAsync(_standardUser!.Email.Value, default);
 
-            Assert.That(result.State,Is.EqualTo(AuthorizedState.Authorized));
+            Assert.That(result.State, Is.EqualTo(AuthorizedState.Authorized));
         }
 
         [Test]
@@ -66,7 +66,7 @@ public class UserAuthorizationServiceTest
             var result = await Service.AuthorizeOrCreateUserAsync(_standardUser!.Email.Value, default);
             var claims = result.Claims.Select(c => (c.Type, c.Value));
 
-            Assert.That(claims, Is.EquivalentTo(new []
+            Assert.That(claims, Is.EquivalentTo(new[]
             {
                 (ApplicationClaim.QuarterUserIdClaimType, _standardUser.Id.AsString()),
             }));
@@ -78,7 +78,7 @@ public class UserAuthorizationServiceTest
             var result = await Service.AuthorizeOrCreateUserAsync(_adminUser!.Email.Value, default);
             var claims = result.Claims.Select(c => (c.Type, c.Value));
 
-            Assert.That(claims, Is.EquivalentTo(new []
+            Assert.That(claims, Is.EquivalentTo(new[]
             {
                 (ApplicationClaim.QuarterUserIdClaimType, _adminUser.Id.AsString()),
                 (ClaimTypes.Role, "administrator"),
@@ -132,12 +132,12 @@ public class UserAuthorizationServiceTest
         private readonly IRepositoryFactory _repositoryFactory = new InMemoryRepositoryFactory();
         protected readonly UserAuthorizationService Service;
         private readonly TestAuthenticationStateProvider _authenticationStateProvider;
-        private readonly AuthOptions _authOptions = new () { OpenUserRegistration = false };
+        private readonly AuthOptions _authOptions = new() { OpenUserRegistration = false };
 
         protected TestCase()
         {
             var commandHandler = new CommandHandler(_repositoryFactory);
-            _authenticationStateProvider= new TestAuthenticationStateProvider();
+            _authenticationStateProvider = new TestAuthenticationStateProvider();
 
             Service = new UserAuthorizationService(_authenticationStateProvider,
                 _repositoryFactory,

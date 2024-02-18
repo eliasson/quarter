@@ -17,7 +17,7 @@ public class ConfirmModalTest
         public void Setup()
         {
             RenderWithParameters(pb => pb
-                .Add(c => c.Title,  "Some title")
+                .Add(c => c.Title, "Some title")
                 .Add(c => c.Message, "Some message")
                 .Add(c => c.ConfirmText, "Confirm"));
         }
@@ -49,7 +49,7 @@ public class ConfirmModalTest
         public void Setup()
         {
             RenderWithParameters(pb => pb
-                .Add(c => c.Title,  "Some title")
+                .Add(c => c.Title, "Some title")
                 .Add(c => c.Message, "Some message")
                 .Add(c => c.ConfirmText, "Confirm")
                 .Add(c => c.IsDangerous, true));
@@ -74,7 +74,7 @@ public class ConfirmModalTest
 
         [Test]
         public void ItShouldDispatchOnConfirmAction()
-            => Assert.IsTrue(DidDispatchAction(new UnitTestAction()));
+            => Assert.That(DidDispatchAction(new UnitTestAction()), Is.True);
     }
 
     public class WhenCancelling : TestCase
@@ -83,14 +83,14 @@ public class ConfirmModalTest
         public void Setup()
         {
             RenderWithParameters(pb => pb
-                .Add(c => c.Title,  "Some title")
+                .Add(c => c.Title, "Some title")
                 .Add(c => c.Message, "Some message"));
             CancelButton().Click();
         }
 
         [Test]
         public void ItShouldDispatchCloeModalAction()
-            => Assert.True(DidDispatchAction(new CloseModalAction()));
+            => Assert.That(DidDispatchAction(new CloseModalAction()), Is.True);
     }
 
     public class TestCase : BlazorModalTestCase<ConfirmModal>

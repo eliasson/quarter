@@ -73,7 +73,7 @@ public class ArchiveActivityCommandTest : CommandTestBase
             var ts = await GetTimesheetAsync(_dateInTest);
             var slotActivities = ts.Slots().Select(s => s.ActivityId);
 
-            Assert.That(slotActivities, Is.EqualTo(new [] { _activityOne.Id, _activityTwo.Id }));
+            Assert.That(slotActivities, Is.EqualTo(new[] { _activityOne.Id, _activityTwo.Id }));
         }
     }
 }

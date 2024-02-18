@@ -29,7 +29,7 @@ public class UpdateTimesheetTest
             var payload = new
             {
                 date = date.IsoString(),
-                timeSlots = new []
+                timeSlots = new[]
                 {
                     new
                     {
@@ -76,7 +76,7 @@ public class UpdateTimesheetTest
             var payload = new
             {
                 date = date.IsoString(),
-                timeSlots = new []
+                timeSlots = new[]
                 {
                     new
                     {
@@ -138,7 +138,7 @@ public class UpdateTimesheetTest
             var payload = new
             {
                 date,
-                timeSlots = new []
+                timeSlots = new[]
                 {
                     new
                     {

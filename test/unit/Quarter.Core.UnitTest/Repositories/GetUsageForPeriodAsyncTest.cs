@@ -22,8 +22,8 @@ public abstract class GetUsageForPeriodAsyncTest
     private readonly Date _afterDate = new Date(NowInTest);
     private readonly IdOf<Project> _projectIdA = IdOf<Project>.Random();
     private readonly IdOf<Project> _projectIdB = IdOf<Project>.Random();
-    private readonly IdOf<Activity> _activityAa= IdOf<Activity>.Random();
-    private readonly IdOf<Activity> _activityAb= IdOf<Activity>.Random();
+    private readonly IdOf<Activity> _activityAa = IdOf<Activity>.Random();
+    private readonly IdOf<Activity> _activityAb = IdOf<Activity>.Random();
     private readonly IdOf<Activity> _activityBa = IdOf<Activity>.Random();
 
     private ITimesheetRepository _repository;
@@ -56,11 +56,11 @@ public abstract class GetUsageForPeriodAsyncTest
 
     [Test]
     public void ShouldNotContainUsageForBeforeDate()
-        => Assert.False(_usage.Usage.ContainsKey(_beforeDate));
+        => Assert.That(_usage.Usage.ContainsKey(_beforeDate), Is.False);
 
     [Test]
     public void ShouldNotContainUsageForAfterDate()
-        => Assert.False(_usage.Usage.ContainsKey(_afterDate));
+        => Assert.That(_usage.Usage.ContainsKey(_afterDate), Is.False);
 
     [Test]
     public void ShouldContainUsageFromDate()

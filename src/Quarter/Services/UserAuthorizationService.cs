@@ -15,136 +15,123 @@ using Quarter.Core.Options;
 using Quarter.Core.Repositories;
 using Quarter.Core.Utils;
 
-namespace Quarter.Services
+namespace Quarter.Services;
+
+public enum AuthorizedState
 {
-    public enum AuthorizedState
+    NotAuthorized,
+    Authorized,
+}
+
+public record AuthorizedResult(AuthorizedState State, List<Claim> Claims)
+{
+    public static AuthorizedResult Unauthorized()
+        => new AuthorizedResult(AuthorizedState.NotAuthorized, new List<Claim>());
+
+    public static AuthorizedResult AuthorizedWith(params Claim[] claims)
+        => new AuthorizedResult(AuthorizedState.Authorized, claims.ToList());
+
+    public virtual bool Equals(AuthorizedResult? other)
     {
-        NotAuthorized,
-        Authorized,
+        if (ReferenceEquals(null, other)) return false;
+        if (ReferenceEquals(this, other)) return true;
+        return State.Equals(other.State)
+               && Claims.SequenceEqual(other.Claims);
     }
 
-    public record AuthorizedResult(AuthorizedState State, List<Claim> Claims)
+    public override int GetHashCode()
+        => HashCode.Combine(State, Claims);
+}
+
+public interface IUserAuthorizationService
+{
+    /// <summary>
+    /// Authorize any existing users with their given claim.
+    ///
+    /// If the user does not exist it will either be created (as a standard user), or an unauthorized result
+    /// will be returned.
+    ///
+    /// The above behaviour is determined on whether or not the user registration is open or closed (configurable
+    /// in AuthOptions).
+    /// </summary>
+    /// <param name="email">The potential user email</param>
+    /// <param name="ct">The cancellation token</param>
+    /// <returns>A result indicating authorization state</returns>
+    Task<AuthorizedResult> AuthorizeOrCreateUserAsync(string email, CancellationToken ct);
+
+    /// <summary>
+    /// Get the currently logged in user ID if there is a known user for the current session.
+    /// </summary>
+    /// <returns>The User ID or null</returns>
+    Task<IdOf<User>> CurrentUserId();
+
+    Task<string> CurrentUsername();
+}
+
+public class UserAuthorizationService(
+    AuthenticationStateProvider authenticationStateProvider,
+    IRepositoryFactory repositoryFactory,
+    ICommandHandler commandHandler,
+    IOptions<AuthOptions> authOptions,
+    ILogger<UserAuthorizationService> logger)
+    : IUserAuthorizationService
+{
+    private readonly IUserRepository _userRepository = repositoryFactory.UserRepository();
+
+    public async Task<AuthorizedResult> AuthorizeOrCreateUserAsync(string email, CancellationToken ct)
     {
-        public static AuthorizedResult Unauthorized()
-            => new AuthorizedResult(AuthorizedState.NotAuthorized, new List<Claim>());
-
-        public static AuthorizedResult AuthorizedWith(params Claim[] claims)
-            => new AuthorizedResult(AuthorizedState.Authorized, claims.ToList());
-
-        public virtual bool Equals(AuthorizedResult? other)
+        try
         {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            return State.Equals(other.State)
-                   && Claims.SequenceEqual(other.Claims);
+            return await tryWithExistingUser();
+        }
+        catch (NotFoundException)
+        {
+            if (!authOptions.Value.OpenUserRegistration)
+            {
+                logger.LogInformation("Unauthorized user {Email} tried to login and user registration is closed", email);
+                return AuthorizedResult.Unauthorized();
+            }
+
+            logger.LogInformation("Unauthorized user {Email} tried to login, creating new user and granting access", email);
+
+            var command = new AddUserCommand(new Email(email), ArraySegment<UserRole>.Empty);
+
+            await commandHandler.ExecuteAsync(command, OperationContext.None, ct);
+            return await tryWithExistingUser();
         }
 
-        public override int GetHashCode()
-            => HashCode.Combine(State, Claims);
+        async Task<AuthorizedResult> tryWithExistingUser()
+        {
+            var user = await _userRepository.GetUserByEmailAsync(email, ct);
+            logger.LogInformation("Successfully authorized user {Email} at login", email);
+            return AuthorizedResult.AuthorizedWith(ClaimsForUser(user).ToArray());
+        }
     }
 
-    public interface IUserAuthorizationService
+    public async Task<IdOf<User>> CurrentUserId()
     {
-        /// <summary>
-        /// Authorize any existing users with their given claim.
-        ///
-        /// If the user does not exist it will either be created (as a standard user), or an unauthorized result
-        /// will be returned.
-        ///
-        /// The above behaviour is determined on whether or not the user registration is open or closed (configurable
-        /// in AuthOptions).
-        /// </summary>
-        /// <param name="email">The potential user email</param>
-        /// <param name="ct">The cancellation token</param>
-        /// <returns>A result indicating authorization state</returns>
-        Task<AuthorizedResult> AuthorizeOrCreateUserAsync(string email, CancellationToken ct);
+        var state = await authenticationStateProvider.GetAuthenticationStateAsync();
+        var userId = state.User.Claims
+            .FirstOrDefault(c => c.Type == ApplicationClaim.QuarterUserIdClaimType);
 
-        /// <summary>
-        /// Get the currently logged in user ID if there is a known user for the current session.
-        /// </summary>
-        /// <returns>The User ID or null</returns>
-        Task<IdOf<User>> CurrentUserId();
-
-        Task<string> CurrentUsername();
+        return userId == null
+            ? throw new UnauthorizedAccessException("No user found on session!")
+            : IdOf<User>.Of(userId.Value);
     }
 
-    public class UserAuthorizationService : IUserAuthorizationService
+    public async Task<string> CurrentUsername()
     {
-        private readonly IUserRepository _userRepository;
-        private readonly AuthenticationStateProvider _authenticationStateProvider;
-        private readonly ILogger<UserAuthorizationService> _logger;
-        private readonly ICommandHandler _commandHandler;
-        private readonly IOptions<AuthOptions> _authOptions;
+        var state = await authenticationStateProvider.GetAuthenticationStateAsync();
+        return state.User.Identity?.Name ?? "User";
+    }
 
-        public UserAuthorizationService(
-            AuthenticationStateProvider authenticationStateProvider,
-            IRepositoryFactory repositoryFactory,
-            ICommandHandler commandHandler,
-            IOptions<AuthOptions> authOptions,
-            ILogger<UserAuthorizationService> logger)
-        {
-            _userRepository = repositoryFactory.UserRepository();
-            _authenticationStateProvider = authenticationStateProvider;
-            _logger = logger;
-            _commandHandler = commandHandler;
-            _authOptions = authOptions;
-        }
+    private static IEnumerable<Claim> ClaimsForUser(User user)
+    {
+        var claims = new List<Claim>();
+        claims.Add(ApplicationClaim.FromUserId(user.Id));
 
-        public async Task<AuthorizedResult> AuthorizeOrCreateUserAsync(string email, CancellationToken ct)
-        {
-            try
-            {
-                return await tryWithExistingUser();
-            }
-            catch (NotFoundException)
-            {
-                if (!_authOptions.Value.OpenUserRegistration)
-                {
-                    _logger.LogInformation("Unauthorized user {Email} tried to login and user registration is closed", email);
-                    return AuthorizedResult.Unauthorized();
-                }
-
-                _logger.LogInformation("Unauthorized user {Email} tried to login, creating new user and granting access", email);
-
-                var command = new AddUserCommand(new Email(email), ArraySegment<UserRole>.Empty);
-
-                await _commandHandler.ExecuteAsync(command, OperationContext.None, ct);
-                return await tryWithExistingUser();
-            }
-
-            async Task<AuthorizedResult> tryWithExistingUser()
-            {
-                var user = await _userRepository.GetUserByEmailAsync(email, ct);
-                _logger.LogInformation("Successfully authorized user {Email} at login", email);
-                return AuthorizedResult.AuthorizedWith(ClaimsForUser(user).ToArray());
-            }
-        }
-
-        public async Task<IdOf<User>> CurrentUserId()
-        {
-            var state = await _authenticationStateProvider.GetAuthenticationStateAsync();
-            var userId = state.User.Claims
-                .FirstOrDefault(c => c.Type == ApplicationClaim.QuarterUserIdClaimType);
-
-            return userId == null
-                ? throw new UnauthorizedAccessException("No user found on session!")
-                : IdOf<User>.Of(userId.Value);
-        }
-
-        public async Task<string> CurrentUsername()
-        {
-            var state = await _authenticationStateProvider.GetAuthenticationStateAsync();
-            return state.User.Identity?.Name ?? "User";
-        }
-
-        private static IEnumerable<Claim> ClaimsForUser(User user)
-        {
-            var claims = new List<Claim>();
-            claims.Add(ApplicationClaim.FromUserId(user.Id));
-
-            if (user.IsAdmin())
-                claims.Add(new Claim(ClaimTypes.Role, "administrator"));
-            return claims;
-        }
+        if (user.IsAdmin())
+            claims.Add(new Claim(ClaimTypes.Role, "administrator"));
+        return claims;
     }
 }

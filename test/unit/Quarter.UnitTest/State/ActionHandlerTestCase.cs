@@ -43,7 +43,7 @@ public abstract class ActionHandlerTestCase
     protected Task<Timesheet> AddTimesheet(IdOf<User> userId, Date date, int offset, int duration)
         => AddTimesheet(userId, date, IdOf<Project>.Random(), IdOf<Activity>.Random(), offset, duration);
 
-    protected async Task<Timesheet> AddTimesheet(IdOf<User> userId, Date date, IdOf<Project> projectId, IdOf<Activity> activityId,  int offset, int duration)
+    protected async Task<Timesheet> AddTimesheet(IdOf<User> userId, Date date, IdOf<Project> projectId, IdOf<Activity> activityId, int offset, int duration)
     {
         var repo = RepositoryFactory.TimesheetRepository(userId);
         var ts = Timesheet.CreateForDate(date);

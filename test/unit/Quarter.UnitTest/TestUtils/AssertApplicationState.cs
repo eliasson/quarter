@@ -11,6 +11,6 @@ public static class AssertApplicationState
     public static void AssertPushedNewModal(this ApplicationState state, Type modalType)
     {
         var modalTypes = state.Modals.Select(m => m.ModalType);
-        Assert.That(modalTypes, Is.EqualTo(new [] { modalType }));
+        Assert.That(modalTypes, Is.EqualTo(new[] { modalType }));
     }
 }

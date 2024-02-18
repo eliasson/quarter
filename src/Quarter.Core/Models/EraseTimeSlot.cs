@@ -3,15 +3,10 @@ using System.Text.Json.Serialization;
 
 namespace Quarter.Core.Models;
 
-public class EraseTimeSlot : TimeSlot
+public class EraseTimeSlot(int offset, int duration) : TimeSlot(offset, duration)
 {
     [JsonConstructor]
-    public EraseTimeSlot() : base(0, 0)
-    {
-    }
-
-    public EraseTimeSlot(int offset, int duration)
-        : base(offset, duration)
+    public EraseTimeSlot() : this(0, 0)
     {
     }
 

@@ -14,25 +14,15 @@ namespace Quarter.StartupTasks;
 /// <summary>
 /// Create the initial user at application startup (if configured).
 /// </summary>
-public class InitialUserStartupTask : IStartupTask
+public class InitialUserStartupTask(
+    ILogger<InitialUserStartupTask> logger,
+    IOptions<InitialUserOptions> options,
+    IRepositoryFactory repositoryFactory,
+    ICommandHandler commandHandler)
+    : IStartupTask
 {
-    private readonly ILogger<InitialUserStartupTask> _logger;
-    private readonly IUserRepository _userRepository;
-    private readonly ICommandHandler _commandHandler;
-    private readonly InitialUserOptions? _options;
-
-    public InitialUserStartupTask(
-        ILogger<InitialUserStartupTask> logger,
-        IOptions<InitialUserOptions> options,
-        IRepositoryFactory repositoryFactory,
-        ICommandHandler commandHandler
-    )
-    {
-        _logger = logger;
-        _userRepository = repositoryFactory.UserRepository();
-        _commandHandler = commandHandler;
-        _options = options.Value;
-    }
+    private readonly IUserRepository _userRepository = repositoryFactory.UserRepository();
+    private readonly InitialUserOptions? _options = options.Value;
 
     public async Task ExecuteAsync()
     {
@@ -42,18 +32,18 @@ public class InitialUserStartupTask : IStartupTask
             try
             {
                 await _userRepository.GetUserByEmailAsync(_options.Email, CancellationToken.None);
-                _logger.LogInformation("Initial user is existing");
+                logger.LogInformation("Initial user is existing");
             }
             catch (NotFoundException)
             {
                 var cmd = new AddUserCommand(new Email(_options.Email), new[] { UserRole.Administrator });
-                await _commandHandler.ExecuteAsync(cmd, OperationContext.None, CancellationToken.None);
-                _logger.LogDebug("Created initial user with email {Email}", _options.Email);
+                await commandHandler.ExecuteAsync(cmd, OperationContext.None, CancellationToken.None);
+                logger.LogDebug("Created initial user with email {Email}", _options.Email);
             }
         }
         else
         {
-            _logger.LogInformation("No initial user configured");
+            logger.LogInformation("No initial user configured");
         }
 
     }

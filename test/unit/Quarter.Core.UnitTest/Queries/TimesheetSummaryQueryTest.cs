@@ -52,7 +52,7 @@ public class TimesheetSummaryQueryTest
 
             var result = _vm?.Timesheets.Select(t => (t.Date.IsoString(), t.TotalMinutes()));
 
-            Assert.That(result, Is.EqualTo(new []
+            Assert.That(result, Is.EqualTo(new[]
             {
                 (dayOne, 0),
                 (dayTwo, 0),

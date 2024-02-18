@@ -13,7 +13,7 @@ public class TestAuthenticationStateProvider : AuthenticationStateProvider
 
     public void SetCurrentUser(IdOf<User> userId)
     {
-        if (userId is {})
+        if (userId is { })
             _claim = ApplicationClaim.FromUserId(userId);
     }
 
@@ -21,7 +21,7 @@ public class TestAuthenticationStateProvider : AuthenticationStateProvider
     {
         var claimsPrincipal = new ClaimsPrincipal();
         if (_claim is { })
-            claimsPrincipal.AddIdentity(new ClaimsIdentity(new [] { _claim }));
+            claimsPrincipal.AddIdentity(new ClaimsIdentity(new[] { _claim }));
         var state = new AuthenticationState(claimsPrincipal);
         return Task.FromResult(state);
     }

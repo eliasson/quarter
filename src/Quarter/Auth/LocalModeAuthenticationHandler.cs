@@ -30,15 +30,15 @@ public class LocalAuthorizationService : IUserAuthorizationService
         => Task.FromResult(AuthorizedResult.AuthorizedWith(LocalUser.Claims));
 }
 
-public class LocalModeAuthenticationHandler : AuthenticationHandler<LocalModeAuthenticationOptions>
+public class LocalModeAuthenticationHandler(
+    IOptionsMonitor<LocalModeAuthenticationOptions> options,
+    ILoggerFactory logger,
+    UrlEncoder encoder,
+    ISystemClock clock)
+    : AuthenticationHandler<LocalModeAuthenticationOptions>(options, logger, encoder, clock)
 {
-    public LocalModeAuthenticationHandler(IOptionsMonitor<LocalModeAuthenticationOptions> options,
-        ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock)
-        : base(options, logger, encoder, clock)
+    protected override Task<AuthenticateResult> HandleAuthenticateAsync()
     {
-    }
-
-    protected override Task<AuthenticateResult> HandleAuthenticateAsync() {
         var identity = new ClaimsIdentity(LocalUser.Claims, nameof(LocalModeAuthenticationHandler));
         var ticket = new AuthenticationTicket(new ClaimsPrincipal(identity), Scheme.Name);
 
@@ -58,7 +58,7 @@ public static class LocalUser
 
     static LocalUser()
     {
-        User = new User(new Email("local@quarterapp.com"), new [] { UserRole.Administrator })
+        User = new User(new Email("local@quarterapp.com"), new[] { UserRole.Administrator })
         {
             Id = UserId
         };
@@ -71,6 +71,4 @@ public static class LocalUser
     };
 }
 
-public class LocalModeAuthenticationOptions : AuthenticationSchemeOptions
-{
-}
+public class LocalModeAuthenticationOptions : AuthenticationSchemeOptions;

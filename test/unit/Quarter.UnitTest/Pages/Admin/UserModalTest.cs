@@ -50,7 +50,7 @@ public class UserModalTest
 
         [Test]
         public void ItShouldShowValidationErrorForName()
-            => Assert.That(EmailFieldValidationMessage().Text() , Is.EqualTo("Email is required"));
+            => Assert.That(EmailFieldValidationMessage().Text(), Is.EqualTo("Email is required"));
     }
 
     public class WhenSubmittingInvalidEmailField : TestCase
@@ -66,7 +66,7 @@ public class UserModalTest
 
         [Test]
         public void ItShouldShowValidationErrorForName()
-            => Assert.That(EmailFieldValidationMessage().Text() , Is.EqualTo("The Email field is not a valid e-mail address."));
+            => Assert.That(EmailFieldValidationMessage().Text(), Is.EqualTo("The Email field is not a valid e-mail address."));
     }
 
     [TestFixture]
@@ -85,7 +85,7 @@ public class UserModalTest
         public void ItShouldDispatchAction()
         {
             var expectedFormData = new UserFormData { Email = "jane.doe@example.com" };
-            Assert.True(DidDispatchAction(new AddUserAction(expectedFormData)));
+            Assert.That(DidDispatchAction(new AddUserAction(expectedFormData)), Is.True);
         }
     }
 

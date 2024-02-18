@@ -22,7 +22,7 @@ public class AddUserActionWithAdminRoleTest : ActionHandlerTestCase
     [Test]
     public void ItShouldIssueCommand()
     {
-        var expectedCommand = new AddUserCommand(new Email("janet.doe@example.com"), new [] { UserRole.Administrator });
+        var expectedCommand = new AddUserCommand(new Email("janet.doe@example.com"), new[] { UserRole.Administrator });
         AssertIssuedCommand(expectedCommand);
     }
 }

@@ -12,19 +12,12 @@ public interface IQueryHandler
     Task<UsageOverTime> ExecuteAsync(MonthlyReportQuery query, OperationContext oc, CancellationToken ct);
 }
 
-public class QueryHandler : IQueryHandler
+public class QueryHandler(IRepositoryFactory repositoryFactory) : IQueryHandler
 {
-    private readonly IRepositoryFactory _repositoryFactory;
-
-    public QueryHandler(IRepositoryFactory repositoryFactory)
-    {
-        _repositoryFactory = repositoryFactory;
-    }
-
     public async Task<TimesheetSummaryQueryResult> ExecuteAsync(TimesheetSummaryQuery query, OperationContext oc, CancellationToken ct)
     {
-        var timesheetRepository = _repositoryFactory.TimesheetRepository(oc.UserId);
-        var vm =  new TimesheetSummaryQueryResult();
+        var timesheetRepository = repositoryFactory.TimesheetRepository(oc.UserId);
+        var vm = new TimesheetSummaryQueryResult();
 
         // This is inefficient but I currently cannot be bothered to add a repository method to do this in a single
         // query right now.
@@ -39,12 +32,12 @@ public class QueryHandler : IQueryHandler
 
     public async Task<WeeklyReportResult> ExecuteAsync(WeeklyReportQuery query, OperationContext oc, CancellationToken ct)
     {
-        var result  = new WeeklyReportResult(query.From, query.To);
+        var result = new WeeklyReportResult(query.From, query.To);
 
         // This is just a basic version,inefficient but good enough to get all parts in place and to try it out.
         // It should be replaced with a new repository function that aggregates the timeslot table directly.
 
-        var timesheetRepository = _repositoryFactory.TimesheetRepository(oc.UserId);
+        var timesheetRepository = repositoryFactory.TimesheetRepository(oc.UserId);
         var weekDayIndex = 0;
         foreach (var date in Date.Sequence(query.From, query.To))
         {
@@ -60,7 +53,7 @@ public class QueryHandler : IQueryHandler
 
     public async Task<UsageOverTime> ExecuteAsync(MonthlyReportQuery query, OperationContext oc, CancellationToken ct)
     {
-        var timesheetRepository = _repositoryFactory.TimesheetRepository(oc.UserId);
+        var timesheetRepository = repositoryFactory.TimesheetRepository(oc.UserId);
         return await timesheetRepository.GetUsageForPeriodAsync(query.From, query.To, ct);
     }
 }

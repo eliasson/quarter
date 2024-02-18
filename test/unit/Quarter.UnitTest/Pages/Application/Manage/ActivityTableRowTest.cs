@@ -52,7 +52,7 @@ public class ActivityTableRowTest
         [Test]
         public void ItShouldHaveActivityMenuItems()
         {
-            Assert.That(MenuItems(), Is.EqualTo(new []
+            Assert.That(MenuItems(), Is.EqualTo(new[]
             {
                 ("edit", "Edit activity"),
                 ("archive", "Archive activity"),
@@ -68,7 +68,7 @@ public class ActivityTableRowTest
 
             [Test]
             public async Task ItShouldDispatchAction()
-                => Assert.True(await EventuallyDispatchedAction(new ShowEditActivityAction(_activityViewModel.ProjectId, _activityViewModel.Id)));
+                => Assert.That(await EventuallyDispatchedAction(new ShowEditActivityAction(_activityViewModel.ProjectId, _activityViewModel.Id)), Is.True);
         }
 
         public class WhenSelectingArchiveMenuItem : WhenRendered
@@ -79,7 +79,7 @@ public class ActivityTableRowTest
 
             [Test]
             public async Task ItShouldDispatchAction()
-                => Assert.True(await EventuallyDispatchedAction(new ShowArchiveActivityAction(_activityViewModel.Id)));
+                => Assert.That(await EventuallyDispatchedAction(new ShowArchiveActivityAction(_activityViewModel.Id)), Is.True);
         }
 
         public class WhenSelectingRemoveMenuItem : WhenRendered
@@ -90,7 +90,7 @@ public class ActivityTableRowTest
 
             [Test]
             public async Task ItShouldDispatchAction()
-                => Assert.True(await EventuallyDispatchedAction(new ShowRemoveActivityAction(_activityViewModel.Id)));
+                => Assert.That(await EventuallyDispatchedAction(new ShowRemoveActivityAction(_activityViewModel.Id)), Is.True);
         }
     }
 
@@ -120,7 +120,7 @@ public class ActivityTableRowTest
         [Test]
         public void ItShouldHaveActivityMenuItems()
         {
-            Assert.That(MenuItems(), Is.EqualTo(new []
+            Assert.That(MenuItems(), Is.EqualTo(new[]
             {
                 ("edit", "Edit activity"),
                 ("restore", "Restore activity"),
@@ -136,7 +136,7 @@ public class ActivityTableRowTest
 
             [Test]
             public async Task ItShouldDispatchAction()
-                => Assert.True(await EventuallyDispatchedAction(new ShowRestoreActivityAction(_activityViewModel.Id)));
+                => Assert.That(await EventuallyDispatchedAction(new ShowRestoreActivityAction(_activityViewModel.Id)), Is.True);
         }
     }
 
@@ -148,7 +148,7 @@ public class ActivityTableRowTest
         protected IEnumerable<(string, string)> MenuItems()
         {
             var menu = ContextMenu();
-            return  menu?.Instance.Items.Select(item => (item.Type, item.Title));
+            return menu?.Instance.Items.Select(item => (item.Type, item.Title));
         }
 
         protected string ActivityColorStyle()

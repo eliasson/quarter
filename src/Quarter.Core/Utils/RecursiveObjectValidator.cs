@@ -1,14 +1,10 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
-using FluentMigrator.Runner.Generators.Postgres;
 
 namespace Quarter.Core.Utils;
-
-#nullable enable
 
 /// <summary>
 /// Validates an object with DataAnnotations recursively (the default ObjectValidator is not recursive)

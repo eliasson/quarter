@@ -225,7 +225,7 @@ public class LoadProjectsActionTest
             _activity = await AddActivity(ActingUserId, project.Id, "Activity One", "Some activity",
                 Color.FromHexString("#333"));
             _activity = await UpdateActivity(ActingUserId, _activity.Id);
-            await AddTimesheet(ActingUserId, _dateInTest,project.Id, _activity.Id,  0, 6);
+            await AddTimesheet(ActingUserId, _dateInTest, project.Id, _activity.Id, 0, 6);
 
             _activity.Archive();
             _activity = await UpdateActivity(ActingUserId, _activity.Id);

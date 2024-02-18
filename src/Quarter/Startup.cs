@@ -20,179 +20,172 @@ using Quarter.Core.Options;
 using Quarter.Services;
 using Quarter.StartupTasks;
 
-namespace Quarter
+namespace Quarter;
+
+public class Startup(IConfiguration configuration)
 {
-    public class Startup
+    private IConfiguration Configuration { get; } = configuration;
+
+    public void ConfigureServices(IServiceCollection services)
     {
-        private IConfiguration Configuration { get; }
+        services.Configure<InitialUserOptions>(Configuration.GetSection("InitialUser"));
+        services.Configure<StorageOptions>(Configuration.GetSection("Storage"));
+        services.Configure<AuthOptions>(Configuration.GetSection("Auth"));
+        services.UseQuarter();
+        ConfigureAuth(services);
 
-        public Startup(IConfiguration configuration)
+        services.AddRouting();
+        services.AddRazorPages();
+        services.AddServerSideBlazor();
+        services.AddControllers(o => o.EnableEndpointRouting = false);
+        services.AddAuthorization();
+        services.AddHttpContextAccessor();
+        services.RegisterStartupTasks();
+    }
+
+    private void ConfigureAuth(IServiceCollection services)
+    {
+        // NOTE: The authentication wiring is manually tested!
+        var localMode = Configuration.GetValue<bool>("LocalMode");
+        if (localMode)
         {
-            Configuration = configuration;
+            services.AddScoped<IUserAuthorizationService, LocalAuthorizationService>();
+            services.AddAuthentication(nameof(LocalModeAuthenticationHandler))
+                .AddScheme<LocalModeAuthenticationOptions, LocalModeAuthenticationHandler>(
+                    nameof(LocalModeAuthenticationHandler),
+                    _ => { });
+            return;
         }
 
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.Configure<InitialUserOptions>(Configuration.GetSection("InitialUser"));
-            services.Configure<StorageOptions>(Configuration.GetSection("Storage"));
-            services.Configure<AuthOptions>(Configuration.GetSection("Auth"));
-            services.UseQuarter();
-            ConfigureAuth(services);
-
-            services.AddRouting();
-            services.AddRazorPages();
-            services.AddServerSideBlazor();
-            services.AddControllers(o => o.EnableEndpointRouting = false);
-            services.AddAuthorization();
-            services.AddHttpContextAccessor();
-            services.RegisterStartupTasks();
-
-        }
-
-        private void ConfigureAuth(IServiceCollection services)
-        {
-            // NOTE: The authentication wiring is manually tested!
-            var localMode = Configuration.GetValue<bool>("LocalMode");
-            if (localMode)
+        services.AddAuthentication(options =>
             {
-                services.AddScoped<IUserAuthorizationService, LocalAuthorizationService>();
-                services.AddAuthentication(nameof(LocalModeAuthenticationHandler))
-                    .AddScheme<LocalModeAuthenticationOptions, LocalModeAuthenticationHandler>(
-                        nameof(LocalModeAuthenticationHandler),
-                        _ => { });
-                return;
-            }
-
-            services.AddAuthentication(options =>
-                {
-                    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                })
-                .AddCookie(options =>
-                {
-                    options.LoginPath = "/account/login";
-                    options.LogoutPath = "/account/logout";
-                    options.SlidingExpiration = true;
-
-                    var handle = options.Events.OnRedirectToLogin;
-                    options.Events.OnRedirectToLogin = async (ctx) =>
-                    {
-                        if (ctx.Request.Path.StartsWithSegments("/api", StringComparison.InvariantCulture))
-                        {
-                            ctx.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                            return;
-                        }
-                        await handle(ctx);
-                    };
-
-                })
-                .AddGoogle(options =>
-                {
-                    options.ClientId = Configuration["Auth:Providers:Google:ClientId"] ?? "missing-config";
-                    options.ClientSecret = Configuration["Auth:Providers:Google:ClientSecret"] ?? "missing-config";
-                    options.UserInformationEndpoint = "https://www.googleapis.com/oauth2/v2/userinfo";
-                    options.ClaimActions.MapJsonKey(ClaimTypes.Name, "name");
-                    options.ClaimActions.MapJsonKey(ClaimTypes.Email, "email");
-                    options.Events = new OAuthEvents
-                    {
-                        OnCreatingTicket = OnCreatingTicket()
-                    };
-                })
-                .AddGitHub(options =>
-                {
-                    options.ClientId = Configuration["Auth:Providers:GitHub:ClientId"] ?? "missing-config";
-                    options.ClientSecret = Configuration["Auth:Providers:GitHub:ClientSecret"] ?? "missing-config";
-                    options.Scope.Add("user:email");
-                    options.Events = new OAuthEvents
-                    {
-                        OnCreatingTicket = OnCreatingTicket()
-                    };
-                });
-        }
-
-        private static Func<OAuthCreatingTicketContext, Task> OnCreatingTicket()
-        {
-            return async context =>
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            })
+            .AddCookie(options =>
             {
-                var authService = context.HttpContext.RequestServices.GetService<IUserAuthorizationService>();
-                if (authService is null) return;
+                options.LoginPath = "/account/login";
+                options.LogoutPath = "/account/logout";
+                options.SlidingExpiration = true;
 
-                var emailClaim = context.Principal?.Claims.First(c => c.Type == ClaimTypes.Email);
-                if (emailClaim is { })
+                var handle = options.Events.OnRedirectToLogin;
+                options.Events.OnRedirectToLogin = async (ctx) =>
                 {
-                    var authResult = await authService.AuthorizeOrCreateUserAsync(emailClaim.Value, CancellationToken.None);
-                    if (authResult.State == AuthorizedState.Authorized)
+                    if (ctx.Request.Path.StartsWithSegments("/api", StringComparison.InvariantCulture))
                     {
-                        context.Principal?.AddIdentity(new ClaimsIdentity(authResult.Claims));
+                        ctx.Response.StatusCode = StatusCodes.Status401Unauthorized;
                         return;
                     }
+                    await handle(ctx);
+                };
+
+            })
+            .AddGoogle(options =>
+            {
+                options.ClientId = Configuration["Auth:Providers:Google:ClientId"] ?? "missing-config";
+                options.ClientSecret = Configuration["Auth:Providers:Google:ClientSecret"] ?? "missing-config";
+                options.UserInformationEndpoint = "https://www.googleapis.com/oauth2/v2/userinfo";
+                options.ClaimActions.MapJsonKey(ClaimTypes.Name, "name");
+                options.ClaimActions.MapJsonKey(ClaimTypes.Email, "email");
+                options.Events = new OAuthEvents
+                {
+                    OnCreatingTicket = OnCreatingTicket()
+                };
+            })
+            .AddGitHub(options =>
+            {
+                options.ClientId = Configuration["Auth:Providers:GitHub:ClientId"] ?? "missing-config";
+                options.ClientSecret = Configuration["Auth:Providers:GitHub:ClientSecret"] ?? "missing-config";
+                options.Scope.Add("user:email");
+                options.Events = new OAuthEvents
+                {
+                    OnCreatingTicket = OnCreatingTicket()
+                };
+            });
+    }
+
+    private static Func<OAuthCreatingTicketContext, Task> OnCreatingTicket()
+    {
+        return async context =>
+        {
+            var authService = context.HttpContext.RequestServices.GetService<IUserAuthorizationService>();
+            if (authService is null) return;
+
+            var emailClaim = context.Principal?.Claims.First(c => c.Type == ClaimTypes.Email);
+            if (emailClaim is { })
+            {
+                var authResult = await authService.AuthorizeOrCreateUserAsync(emailClaim.Value, CancellationToken.None);
+                if (authResult.State == AuthorizedState.Authorized)
+                {
+                    context.Principal?.AddIdentity(new ClaimsIdentity(authResult.Claims));
+                    return;
+                }
+            }
+
+            throw new UnauthorizedAccessException(
+                $"User with email {emailClaim?.Value} does not have access to this service");
+        };
+    }
+
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+        // Use a separate pipeline for handling the error
+
+        app.UseExceptionHandler(builder =>
+        {
+            builder.Use(async (HttpContext ctx, RequestDelegate dg) =>
+            {
+                var feature = ctx.Features.Get<IExceptionHandlerPathFeature>();
+                ctx.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+
+                // At least for integration-tests of controllers the outer exception is the UnauthorizedAccessException
+                var exception = feature?.Error.InnerException ?? feature?.Error;
+
+                string message = "An unhandled error occured";
+
+                switch (exception)
+                {
+                    case UnauthorizedAccessException uae:
+                        message = uae.Message;
+                        ctx.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                        break;
+
+                    case NotFoundException nfe:
+                        message = nfe.Message;
+                        ctx.Response.StatusCode = (int)HttpStatusCode.NotFound;
+                        break;
+
+                    default:
+                        message = "An unhandled error occured";
+                        break;
                 }
 
-                throw new UnauthorizedAccessException(
-                    $"User with email {emailClaim?.Value} does not have access to this service");
-            };
-        }
+                await ctx.Response.WriteAsync(message);
+                // await dg.Invoke();
+            });
+        });
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        app.UseForwardedHeaders(new ForwardedHeadersOptions
         {
-            // Use a separate pipeline for handling the error
+            ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+        });
 
-            app.UseExceptionHandler(builder =>
-            {
-                builder.Use(async (HttpContext ctx, RequestDelegate dg) =>  
-                {
-                    var feature = ctx.Features.Get<IExceptionHandlerPathFeature>();
-                    ctx.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
+        app.UseHsts();
+        app.UseHttpsRedirection();
+        app.UseStaticFiles();
+        app.UseRouting();
+        app.UseCookiePolicy();
+        app.UseAuthentication();
+        app.UseAuthorization();
+        app.UseMvc();
 
-                    // At least for integration-tests of controllers the outer exception is the UnauthorizedAccessException
-                    var exception = feature?.Error.InnerException ?? feature?.Error;
-
-                    string message = "An unhandled error occured";
-
-                    switch(exception)
-                    {
-                        case UnauthorizedAccessException uae:
-                            message = uae.Message;
-                            ctx.Response.StatusCode = (int) HttpStatusCode.Unauthorized;
-                            break;
-
-                        case NotFoundException nfe:
-                            message = nfe.Message;
-                            ctx.Response.StatusCode = (int) HttpStatusCode.NotFound;
-                            break;
-
-                        default:
-                            message = "An unhandled error occured";
-                            break;
-                    }
-
-                    await ctx.Response.WriteAsync(message);
-                    // await dg.Invoke();
-                });
-            });
-
-            app.UseForwardedHeaders(new ForwardedHeadersOptions
-            {
-                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
-            });
-
-            app.UseHsts();
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseRouting();
-            app.UseCookiePolicy();
-            app.UseAuthentication();
-            app.UseAuthorization();
-            app.UseMvc();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-                endpoints.MapBlazorHub();
-                endpoints.MapFallbackToPage("/app/{**segment}","/Application/_ApplicationHost");
-                endpoints.MapFallbackToPage("/admin/{**segment}","/Admin/_AdminHost");
-            });
-        }
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+            endpoints.MapBlazorHub();
+            endpoints.MapFallbackToPage("/app/{**segment}", "/Application/_ApplicationHost");
+            endpoints.MapFallbackToPage("/admin/{**segment}", "/Admin/_AdminHost");
+        });
     }
 }

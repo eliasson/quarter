@@ -14,7 +14,7 @@ public record ActivityUsage(IdOf<Activity> ActivityId, int TotalMinutes, UtcDate
 
 public record ProjectTotalUsage(IdOf<Project> ProjectId, int TotalMinutes, List<ActivityUsage> Activities, UtcDateTime LastUsed)
 {
-    public static readonly ProjectTotalUsage Zero = new (IdOf<Project>.None, 0, new List<ActivityUsage>(), UtcDateTime.MinValue);
+    public static readonly ProjectTotalUsage Zero = new(IdOf<Project>.None, 0, new List<ActivityUsage>(), UtcDateTime.MinValue);
 
     public virtual bool Equals(ProjectTotalUsage? other)
     {
@@ -29,20 +29,16 @@ public record ProjectTotalUsage(IdOf<Project> ProjectId, int TotalMinutes, List<
         => HashCode.Combine(ProjectId);
 }
 
-public class UsageOverTime
+public class UsageOverTime(
+    Date from,
+    Date to,
+    int totalMinutes,
+    IReadOnlyDictionary<Date, IList<ProjectTotalUsage>> usage)
 {
-    public Date From { get; }
-    public Date To { get; }
-    public int TotalMinutes { get; }
-    public IReadOnlyDictionary<Date, IList<ProjectTotalUsage>> Usage { get; }
-
-    public UsageOverTime(Date from, Date to, int totalMinutes, IReadOnlyDictionary<Date, IList<ProjectTotalUsage>> usage)
-    {
-        From = from;
-        To = to;
-        TotalMinutes = totalMinutes;
-        Usage = usage;
-    }
+    public Date From { get; } = from;
+    public Date To { get; } = to;
+    public int TotalMinutes { get; } = totalMinutes;
+    public IReadOnlyDictionary<Date, IList<ProjectTotalUsage>> Usage { get; } = usage;
 }
 
 public interface ITimesheetRepository : IRepository<Timesheet>
@@ -176,22 +172,15 @@ public class InMemoryTimesheetRepository : InMemoryRepositoryBase<Timesheet>, IT
     }
 }
 
-public class PostgresTimesheetRepository : PostgresRepositoryBase<Timesheet>, ITimesheetRepository
+public class PostgresTimesheetRepository(IPostgresConnectionProvider connectionProvider, IdOf<User> userId)
+    : PostgresRepositoryBase<Timesheet>(connectionProvider, TableName, AggregateName), ITimesheetRepository
 {
-    private readonly IdOf<User> _userId;
-
     private const string TableName = "timesheet";
     private const string SlotTableName = "timeslot";
     private const string AggregateName = "Timesheet";
     private const string UserIdColumnName = "userid";
     private const string DateColumnName = "date";
     private const string DateTimestampColumnName = "date_ts";
-
-    public PostgresTimesheetRepository(IPostgresConnectionProvider connectionProvider, IdOf<User> userId)
-        : base(connectionProvider, TableName, AggregateName)
-    {
-        _userId = userId;
-    }
 
     public override async Task Truncate(CancellationToken ct)
     {
@@ -200,19 +189,19 @@ public class PostgresTimesheetRepository : PostgresRepositoryBase<Timesheet>, IT
     }
 
     protected override IEnumerable<string> AdditionalColumns()
-        => new [] { UserIdColumnName, DateColumnName, DateTimestampColumnName };
+        => new[] { UserIdColumnName, DateColumnName, DateTimestampColumnName };
 
     protected override object AdditionalColumnValue(string columnName, Timesheet aggregate)
         => columnName switch
         {
-            UserIdColumnName => _userId.Id,
+            UserIdColumnName => userId.Id,
             DateColumnName => aggregate.Date.IsoString(),
             DateTimestampColumnName => aggregate.Date.DateTime,
             _ => throw new NotImplementedException($"Additional column named [{columnName}] is not implemented"),
         };
 
     protected override NpgsqlParameter WithAccessCondition()
-        => new NpgsqlParameter(UserIdColumnName, _userId.Id);
+        => new(UserIdColumnName, userId.Id);
 
     protected override Task PostCreateAsync(NpgsqlConnection connection, Timesheet timesheet, CancellationToken ct)
         => StoreTimeSlotsForTimesheet(connection, timesheet, ct);
@@ -239,7 +228,7 @@ public class PostgresTimesheetRepository : PostgresRepositoryBase<Timesheet>, IT
     {
         await using var connection = await _connectionProvider.GetConnectionAsync(ct);
         var query = $"SELECT data FROM {TableName} WHERE date_ts=@date AND {UserIdColumnName}=@userId";
-        var parameters = new List<NpgsqlParameter>{ new ("date", date.DateTime), WithAccessCondition() };
+        var parameters = new List<NpgsqlParameter> { new("date", date.DateTime), WithAccessCondition() };
         var result = await ExecuteQueryAsync(connection, query, ct, parameters).ToListAsync(ct);
 
         var timesheet = result.FirstOrThrow(new NotFoundException($"No timesheet for date {date.IsoString()} exists"));
@@ -284,9 +273,9 @@ public class PostgresTimesheetRepository : PostgresRepositoryBase<Timesheet>, IT
         var soonestTimestamp = DateTime.MinValue;
         while (await reader.ReadAsync(ct))
         {
-            var activityId = IdOf<Activity>.Of((Guid) reader[0]);
-            var duration = Convert.ToInt32((short) reader[1]);
-            var createdTimestamp = (DateTime) reader[2];
+            var activityId = IdOf<Activity>.Of((Guid)reader[0]);
+            var duration = Convert.ToInt32((short)reader[1]);
+            var createdTimestamp = (DateTime)reader[2];
 
             var created = UtcDateTime.FromUtcDateTime(createdTimestamp);
             if (createdTimestamp > soonestTimestamp)
@@ -307,7 +296,7 @@ public class PostgresTimesheetRepository : PostgresRepositoryBase<Timesheet>, IT
         await using var connection = await _connectionProvider.GetConnectionAsync(ct);
         await using var command = connection.CreateCommand();
         command.CommandText = $"SELECT projectId, activityid, duration, date_ts FROM {SlotTableName} WHERE {UserIdColumnName}=@userId AND date_ts >= @from_date AND date_ts <= @to_date;";
-        command.Parameters.AddRange(new []
+        command.Parameters.AddRange(new[]
         {
             new("from_date", fromDate.DateTime),
             new("to_date", toDate.DateTime),
@@ -320,10 +309,10 @@ public class PostgresTimesheetRepository : PostgresRepositoryBase<Timesheet>, IT
         var slots = new List<(Date Date, ActivityTimeSlot Slot)>();
         while (await reader.ReadAsync(ct))
         {
-            var projectId = IdOf<Project>.Of((Guid) reader[0]);
-            var activityId = IdOf<Activity>.Of((Guid) reader[1]);
-            var duration = Convert.ToInt32((short) reader[2]);
-            var date = new Date((DateTime) reader[3]);
+            var projectId = IdOf<Project>.Of((Guid)reader[0]);
+            var activityId = IdOf<Activity>.Of((Guid)reader[1]);
+            var duration = Convert.ToInt32((short)reader[2]);
+            var date = new Date((DateTime)reader[3]);
             slots.Add((date, new ActivityTimeSlot(projectId, activityId, 0, duration)));
         }
 
@@ -341,7 +330,7 @@ public class PostgresTimesheetRepository : PostgresRepositoryBase<Timesheet>, IT
 
                 foreach (var ap in perActivity)
                 {
-                    var activityTotal= ap.Aggregate(0, (acc, a) => acc + (a.Duration * 15));
+                    var activityTotal = ap.Aggregate(0, (acc, a) => acc + (a.Duration * 15));
                     projectTotal += activityTotal;
                     activityUsages.Add(new ActivityUsage(ap.Key, activityTotal, UtcDateTime.MinValue));
                 }
@@ -379,7 +368,7 @@ public class PostgresTimesheetRepository : PostgresRepositoryBase<Timesheet>, IT
                 new("duration", slot.Duration),
                 new("created", slot.Created.DateTime.ToString("yyyy-MM-ddTHH:mm:sszzz")),
                 new("created_ts", slot.Created.DateTime),
-                new(UserIdColumnName, _userId.Id)
+                new(UserIdColumnName, userId.Id)
             });
             await command.ExecuteNonQueryAsync(ct);
         }
@@ -396,11 +385,11 @@ public class PostgresTimesheetRepository : PostgresRepositoryBase<Timesheet>, IT
 
         while (await reader.ReadAsync(ct))
         {
-            var projectId = IdOf<Project>.Of((Guid) reader[0]);
-            var activityId = IdOf<Activity>.Of((Guid) reader[1]);
-            var offset = Convert.ToInt32((short) reader[2]);
-            var duration = Convert.ToInt32((short) reader[3]);
-            var created = new UtcDateTime((DateTime) reader[4]);
+            var projectId = IdOf<Project>.Of((Guid)reader[0]);
+            var activityId = IdOf<Activity>.Of((Guid)reader[1]);
+            var offset = Convert.ToInt32((short)reader[2]);
+            var duration = Convert.ToInt32((short)reader[3]);
+            var created = new UtcDateTime((DateTime)reader[4]);
             slots.Add(new ActivityTimeSlot(projectId, activityId, offset, duration, created));
         }
 

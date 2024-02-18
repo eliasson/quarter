@@ -70,7 +70,7 @@ namespace Quarter.Core.UnitTest.Repositories
             var userB = new User(new Email("jane.doe@example.com"));
             await repository.CreateAsync(userA, default);
 
-            var ex = Assert.CatchAsync<ArgumentException>(() =>repository.CreateAsync(userB, default));
+            var ex = Assert.CatchAsync<ArgumentException>(() => repository.CreateAsync(userB, default));
             Assert.That(ex?.Message, Does.Contain("Could not store"));
         }
 

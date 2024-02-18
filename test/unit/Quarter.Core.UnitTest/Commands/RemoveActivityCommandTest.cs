@@ -70,7 +70,7 @@ public class RemoveActivityCommandTest : CommandTestBase
             var ts = await GetTimesheetAsync(_dateInTest);
             var slotActivities = ts.Slots().Select(s => s.ActivityId);
 
-            Assert.That(slotActivities, Is.EqualTo(new [] { _activityTwo.Id }));
+            Assert.That(slotActivities, Is.EqualTo(new[] { _activityTwo.Id }));
         }
     }
 }

@@ -37,7 +37,7 @@ public class UpdateProjectTest
         {
             var projects = await ReadProjectsAsync(_oc.UserId);
             var projectNames = projects.Select(p => p.Name);
-            Assert.That(projectNames, Is.EqualTo(new [] { "Project Alpha Updated" }));
+            Assert.That(projectNames, Is.EqualTo(new[] { "Project Alpha Updated" }));
         }
     }
 }

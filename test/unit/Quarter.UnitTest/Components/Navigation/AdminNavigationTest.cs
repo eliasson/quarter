@@ -18,10 +18,10 @@ namespace Quarter.UnitTest.Components.Navigation
 
             public static IEnumerable<object[]> NavigationTests()
             {
-                yield return new object[]{ "nav-admin", Page.Admin, "Admin" };
-                yield return new object[]{ "nav-users", Page.AdminUsers, "Users" };
-                yield return new object[]{ "nav-home", Page.Home, "Application" };
-                yield return new object[]{ "nav-logout", Page.Logout, "Logout" };
+                yield return new object[] { "nav-admin", Page.Admin, "Admin" };
+                yield return new object[] { "nav-users", Page.AdminUsers, "Users" };
+                yield return new object[] { "nav-home", Page.Home, "Application" };
+                yield return new object[] { "nav-logout", Page.Logout, "Logout" };
             }
 
             [TestCaseSource(nameof(NavigationTests))]

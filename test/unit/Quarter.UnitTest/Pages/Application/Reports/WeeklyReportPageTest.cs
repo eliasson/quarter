@@ -293,6 +293,6 @@ public class WeeklyReportPageTest
             => Component?.FindAll("[test=action-button]").Last().Click();
 
         protected string LastNavigatedTo()
-            =>_testNavigationManager.LastNavigatedTo();
+            => _testNavigationManager.LastNavigatedTo();
     }
 }

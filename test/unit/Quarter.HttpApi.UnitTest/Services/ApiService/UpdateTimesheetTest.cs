@@ -52,7 +52,7 @@ public class UpdateTimesheetTest
             var timesheet = await ReadTimesheetAsync(_oc.UserId, _today);
             var slots = timesheet.Slots().Select(s => (s.ProjectId, s.ActivityId, s.Offset, s.Duration));
 
-            Assert.That(slots, Is.EqualTo(new []
+            Assert.That(slots, Is.EqualTo(new[]
             {
                 (_project.Id, _activity.Id, 10, 2),
             }));
@@ -106,7 +106,7 @@ public class UpdateTimesheetTest
             var timesheet = await ReadTimesheetAsync(_oc.UserId, _today);
             var slots = timesheet.Slots().Select(s => (s.ProjectId, s.ActivityId, s.Offset, s.Duration));
 
-            Assert.That(slots, Is.EqualTo(new []
+            Assert.That(slots, Is.EqualTo(new[]
             {
                 (_project.Id, _activity.Id, 0, 4),
                 (_project.Id, _activity.Id, 8, 4),
