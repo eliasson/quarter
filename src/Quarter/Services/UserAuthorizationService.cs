@@ -73,6 +73,7 @@ public class UserAuthorizationService(
     IRepositoryFactory repositoryFactory,
     ICommandHandler commandHandler,
     IOptions<AuthOptions> authOptions,
+    TimeProvider timeProvider,
     ILogger<UserAuthorizationService> logger)
     : IUserAuthorizationService
 {
@@ -103,6 +104,12 @@ public class UserAuthorizationService(
         async Task<AuthorizedResult> tryWithExistingUser()
         {
             var user = await _userRepository.GetUserByEmailAsync(email, ct);
+            await _userRepository.UpdateByIdAsync(user.Id, u =>
+            {
+                u.LastLogin = new UtcDateTime(timeProvider.GetUtcNow().DateTime);
+                return u;
+            }, ct);
+
             logger.LogInformation("Successfully authorized user {Email} at login", email);
             return AuthorizedResult.AuthorizedWith(ClaimsForUser(user).ToArray());
         }

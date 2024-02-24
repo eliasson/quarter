@@ -1,3 +1,4 @@
+using System;
 using Quarter.Core.UI.State;
 using Quarter.State;
 using Microsoft.Extensions.DependencyInjection;
@@ -48,5 +49,6 @@ public static class QuarterServiceConfiguration
         serviceCollection.AddScoped<IUserAuthorizationService, UserAuthorizationService>();
         serviceCollection.AddSingleton<IApiService, ApiService>();
         serviceCollection.AddSingleton<IAdminService, AdminService>();
+        serviceCollection.AddSingleton(TimeProvider.System);
     }
 }

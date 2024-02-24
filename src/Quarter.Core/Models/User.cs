@@ -22,6 +22,11 @@ public class User : IAggregate<User>
     public Email Email { get; set; }
     public IList<UserRole> Roles { get; set; }
 
+    /// <summary>
+    /// The last time the user logged in, if this is missing the user has not logged in since it was created.
+    /// </summary>
+    public UtcDateTime? LastLogin { get; set;  }
+
     public User(Email email) : this(email, new List<UserRole>())
     {
     }

@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -84,6 +85,15 @@ public class UserAuthorizationServiceTest
                 (ClaimTypes.Role, "administrator"),
             }));
         }
+
+        [Test]
+        public async Task ItShouldSetTheLastLoginForUser()
+        {
+            await Service.AuthorizeOrCreateUserAsync(_standardUser!.Email.Value, default);
+            var user = await GetUser("jane.doe@example.com");
+            var lastLogin = user?.LastLogin?.DateTime;
+            Assert.That(lastLogin, Is.EqualTo(NowInTest()).Within(TimeSpan.FromMilliseconds(200)));
+        }
     }
 
     [TestFixture]
@@ -127,24 +137,29 @@ public class UserAuthorizationServiceTest
         }
     }
 
-    public class TestCase
+    public abstract class TestCase
     {
         private readonly IRepositoryFactory _repositoryFactory = new InMemoryRepositoryFactory();
         protected readonly UserAuthorizationService Service;
         private readonly TestAuthenticationStateProvider _authenticationStateProvider;
         private readonly AuthOptions _authOptions = new() { OpenUserRegistration = false };
+        private readonly TimeProvider _timeProvider;
 
         protected TestCase()
         {
             var commandHandler = new CommandHandler(_repositoryFactory);
             _authenticationStateProvider = new TestAuthenticationStateProvider();
-
+            _timeProvider = TimeProvider.System;
             Service = new UserAuthorizationService(_authenticationStateProvider,
                 _repositoryFactory,
                 commandHandler,
                 Options.Create(_authOptions),
+                _timeProvider,
                 NullLogger<UserAuthorizationService>.Instance);
         }
+
+        protected DateTime NowInTest()
+            => _timeProvider.GetUtcNow().DateTime.ToUniversalTime();
 
         protected void SetOpenRegistration(bool openRegistration)
             => _authOptions.OpenUserRegistration = openRegistration;
