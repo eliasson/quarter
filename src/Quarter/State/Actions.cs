@@ -210,4 +210,9 @@ public record RegisterTimeAction(Date Date, TimeSlot Slot) : TimeAction(Date, Sl
 /// <param name="Slot">The time slot to erase</param>
 public record EraseTimeAction(Date Date, TimeSlot Slot) : TimeAction(Date, Slot);
 
+/// <summary>
+/// Extending the start of day with one hour, which is to move the start of day one hour earlier (if possible).
+/// </summary>
+public record ExtendStartOfDay : IAction;
+
 #endregion
