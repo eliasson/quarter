@@ -8,7 +8,7 @@
     <div class="q-widget q-timesheet">
         <div class="q-timesheet-scroll q-timesheet-scroll--sod">
             <button class="q-button q-button--icon q-button--ghost"
-                    @onclick="OnStartOfDay"
+                    @onclick="OnStartOfDayAsync"
                     disabled="@_dayStart.LimitReached()"
                     test="start-of-day-action">
                 <svg class="q-icon--s">
@@ -45,7 +45,7 @@
 
         <div class="q-timesheet-scroll q-timesheet-scroll--eod">
             <button class="q-button q-button--icon q-button--ghost"
-                    @onclick="OnEndOfDay"
+                    @onclick="OnEndOfDayAsync"
                     disabled="@_dayEnd.LimitReached()"
                     test="end-of-day-action">
                 <svg class="q-icon--s">
@@ -82,17 +82,24 @@
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
+
+        if (State is not null)
+        {
+            _dayStart = new DayLimit(State.StartHourOfDay, 0, true);
+            _dayEnd = new DayLimit(State.EndHourOfDay, 23, false);
+        }
+
         GenerateHours();
     }
 
     internal IEnumerable<Hour> Hours()
         => _hours ?? GenerateHours();
 
-    private void OnStartOfDay()
-        => _dayStart.Extend();
+    private async Task OnStartOfDayAsync()
+        => await DispatchAsync(new ExtendStartOfDay());
 
-    private void OnEndOfDay()
-        => _dayEnd.Extend();
+    private async Task OnEndOfDayAsync()
+        => await DispatchAsync(new ExtendEndOfDay());
 
     internal void OnMouseDown(QuarterViewModel quarter)
     {
@@ -238,13 +245,13 @@
     {
         if (timesheet.FirstHourInUse is { } startHour)
         {
-            var hour = Math.Min(startHour, ApplicationState.DefaultStartHour);
+            var hour = Math.Min(startHour, State?.StartHourOfDay ?? 0);
             _dayStart = new DayLimit(hour, 0, true);
         }
 
         if (timesheet.LastHourInUse is { } endHour)
         {
-            var hour = Math.Max(endHour, ApplicationState.DefaultEndHour);
+            var hour = Math.Max(endHour, State?.EndHourOfDay ?? 0);
             _dayEnd = new DayLimit(hour, 23, false);
         }
     }
