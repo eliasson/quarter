@@ -64,8 +64,8 @@
     // automated.
 
     // The timesheet limits the day view with actions to extend that perspective
-    private DayLimit _dayStart = new DayLimit(ApplicationState.DefaultStartHour, 0, true);
-    private DayLimit _dayEnd = new DayLimit(ApplicationState.DefaultEndHour, 23, false);
+    private DayLimit _dayStart = new(ApplicationState.DefaultStartHour, 0, true);
+    private DayLimit _dayEnd = new(ApplicationState.DefaultEndHour, 23, false);
 
     // The hours to render. These are reflecting the grids drawing state
     private Hour[]? _hours;
@@ -117,7 +117,7 @@
         else if (_selectedQuartersHead.Index < quarter.Index) // Going downwards
             SelectedQuarterIdRange = Enumerable.Range(_selectedQuartersHead.Index, quarter.Index - _selectedQuartersHead.Index + 1).ToArray();
         else
-            SelectedQuarterIdRange = new[] { quarter.Index };
+            SelectedQuarterIdRange = [quarter.Index];
 
         ClearStyleFromQuarters(previousRange);
         StyleSelectedQuarter(SelectedQuarterIdRange);
