@@ -32,6 +32,28 @@ public class ApplicationState
     public const int DefaultStartHour = 6;
     public const int DefaultEndHour = 18;
 
+    public int StartHourOfDay
+    {
+        get => _startHourOfDay;
+        set
+        {
+            if (value < 0) throw new ArgumentException("Start of day cannot be before midnight!");
+            if (value >= EndHourOfDay) throw new ArgumentException("Start of day must be before end of day!");
+            _startHourOfDay = value;
+        }
+    }
+
+    public int EndHourOfDay
+    {
+        get => _endHourOfDay;
+        set
+        {
+            if (value > 23) throw new ArgumentException("End of day cannot be after 11:th hour");
+            if (value <= StartHourOfDay) throw new ArgumentException("End of day must be after start of day!");
+            _endHourOfDay = value;
+        }
+    }
+
     public Stack<ModalState> Modals { get; } = new();
 
     public List<ProjectViewModel> Projects { get; set; } = new();
@@ -45,6 +67,9 @@ public class ApplicationState
     /// Usable during debugging
     /// </summary>
     public long StateChanges { get; set; }
+
+    private int _startHourOfDay = DefaultStartHour;
+    private int _endHourOfDay = DefaultEndHour;
 
     public void SafePopTopMostModal()
         => Modals.TryPop(out _);

@@ -13,7 +13,7 @@ public enum UserRole
 
 public class User : IAggregate<User>
 {
-    public static readonly List<UserRole> NoRoles = new();
+    public static readonly List<UserRole> NoRoles = [];
 
     [JsonConverter(typeof(IdOfJsonConverter<User>))]
     public IdOf<User> Id { get; set; }

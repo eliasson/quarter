@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AngleSharp.Css.Dom;
 using AngleSharp.Dom;
 using Bunit;
+using Microsoft.AspNetCore.Components.Web;
 using NUnit.Framework;
 using Quarter.Core.Models;
 using Quarter.Core.Utils;
@@ -63,18 +64,20 @@ public class TimesheetGridTest
 
         [Test]
         public void ItShouldStartOneHourEarlierThanDefault()
-            => Assert.That(RenderedHours()?.First(), Is.EqualTo("05:00"));
+        {
+            var action = StateManager.DispatchedActions.Single();
+            Assert.That(action, Is.InstanceOf(typeof(ExtendStartOfDay)));
+        }
     }
 
-    public class WhenClickingStartOfDayManyTimes : TestCase
+    public class WhenStartOfDayIsAtMinimumValue : TestCase
     {
         [OneTimeSetUp]
         public void Setup()
         {
             StateManager.State.SelectedTimesheet = Timesheet.CreateForDate(Date.Random());
+            StateManager.State.StartHourOfDay = 0;
             Render();
-            foreach (var _ in Enumerable.Range(0, 24))
-                StartOfDayAction()?.Click();
         }
 
         [Test]
@@ -98,18 +101,20 @@ public class TimesheetGridTest
 
         [Test]
         public void ItShouldEndOneHourLaterThanDefault()
-            => Assert.That(RenderedHours()?.Last(), Is.EqualTo("19:00"));
+        {
+            var action = StateManager.DispatchedActions.Single();
+            Assert.That(action, Is.InstanceOf(typeof(ExtendEndOfDay)));
+        }
     }
 
-    public class WhenClickingEndOfDayManyTimes : TestCase
+    public class WhenEndOfDayIsAtMaximumValue : TestCase
     {
         [OneTimeSetUp]
         public void Setup()
         {
             StateManager.State.SelectedTimesheet = Timesheet.CreateForDate(Date.Random());
+            StateManager.State.EndHourOfDay = 23;
             Render();
-            foreach (var _ in Enumerable.Range(0, 24))
-                EndOfDayAction()?.Click();
         }
 
         [Test]
