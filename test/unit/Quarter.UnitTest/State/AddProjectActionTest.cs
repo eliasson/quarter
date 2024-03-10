@@ -1,3 +1,5 @@
+#nullable enable
+
 using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
@@ -27,13 +29,13 @@ public class AddProjectActionTest : ActionHandlerTestCase
     }
 
     [Test]
-    public void ItShouldPopTopMostModal()
+    public async Task ItShouldPopTopMostModal()
     {
         var state = NewState();
         state.Modals.Push(ModalState.ParameterLess(typeof(FakeModal)));
 
         var formData = new ProjectFormData { Name = "Alpha", Description = "Project A" };
-        ActionHandler.HandleAsync(state, new AddProjectAction(formData), CancellationToken.None);
+        _ = await ActionHandler.HandleAsync(state, new AddProjectAction(formData), CancellationToken.None);
 
         Assert.That(state.Modals, Is.Empty);
     }
