@@ -215,4 +215,9 @@ public record EraseTimeAction(Date Date, TimeSlot Slot) : TimeAction(Date, Slot)
 /// </summary>
 public record ExtendStartOfDay : IAction;
 
+/// <summary>
+/// Extending the end of day with one hour, which is to move the end of day one hour later (if possible).
+/// </summary>
+public record ExtendEndOfDay : IAction;
+
 #endregion

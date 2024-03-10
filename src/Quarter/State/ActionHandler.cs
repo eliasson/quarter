@@ -67,6 +67,7 @@ public class ActionHandler(
             SelectActivityAction a => HandleAsync(currentState, a, ct),
             TimeAction a => HandleAsync(currentState, a, ct),
             ExtendStartOfDay a => HandleAsync(currentState, a, ct),
+            ExtendEndOfDay a => HandleAsync(currentState, a, ct),
 
             _ => Task.FromResult(currentState) // This should be exhaustive - why is this required!
         };
@@ -565,6 +566,13 @@ public class ActionHandler(
     {
         if (currentState.StartHourOfDay > 0)
             currentState.StartHourOfDay -= 1;
+        return Task.FromResult(currentState);
+    }
+
+    private static Task<ApplicationState> HandleAsync(ApplicationState currentState, ExtendEndOfDay action, CancellationToken ct)
+    {
+        if (currentState.EndHourOfDay < 23)
+            currentState.EndHourOfDay += 1;
         return Task.FromResult(currentState);
     }
 
