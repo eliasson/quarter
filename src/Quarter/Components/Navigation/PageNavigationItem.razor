@@ -19,7 +19,7 @@
     public NavLinkMatch Match { get; set; } = NavLinkMatch.All;
 
     [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object> InputAttributes { get; set; } = new Dictionary<string, object>();
+    public Dictionary<string, object?> InputAttributes { get; set; } = new Dictionary<string, object?>();
 
     private MarkupString Icon
         => new MarkupString(@$"<svg class=""q-icon""><use xlink:href=""{IconRef}""></use></svg>");
