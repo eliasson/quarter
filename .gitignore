@@ -4,6 +4,8 @@ obj/
 node_modules/
 docker/data/
 db/
+dist/
+coverage/
 .DS_Store
 
 *.DotSettings.user

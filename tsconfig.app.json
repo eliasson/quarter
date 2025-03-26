@@ -1,0 +1,12 @@
+{
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "include": ["env.d.ts", "src/Quarter.Web/**/*", "src/Quarter.Web/**/*.vue"],
+  "exclude": ["src/Quarter.Web/**/__tests__/*"],
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+
+    "paths": {
+      "@/*": ["./src/Quarter.Web/*"]
+    }
+  }
+}

@@ -16,6 +16,7 @@
 
     <ItemGroup>
         <Folder Include="Views"/>
+        <Folder Include="wwwroot\app\" />
     </ItemGroup>
 
     <ItemGroup>
