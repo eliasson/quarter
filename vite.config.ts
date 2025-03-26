@@ -8,7 +8,7 @@ import path from 'path'
 // https://vite.dev/config/
 export default defineConfig({
     root: "./src/Quarter.Web",
-    base: "app",
+    base: "ui",
     build: {
         outDir: path.resolve(__dirname, "dist")
     },
