@@ -10,7 +10,7 @@ export default defineConfig({
     root: "./src/Quarter.Web",
     base: "app",
     build: {
-        outDir: path.resolve(__dirname, "src/Quarter/wwwroot/app")
+        outDir: path.resolve(__dirname, "dist")
     },
     plugins: [
         vue(),
