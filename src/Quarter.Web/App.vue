@@ -4,6 +4,7 @@
         <nav>
             <RouterLink to="/">Home</RouterLink>
             <RouterLink to="/about">About</RouterLink>
+            <RouterLink to="/admin/users">Users</RouterLink>
         </nav>
         <main>
             <RouterView/>
