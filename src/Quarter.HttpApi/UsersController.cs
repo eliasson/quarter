@@ -12,12 +12,14 @@ public class UsersController(IApiService apiService, IRepositoryFactory reposito
     : ApiControllerBase(apiService, repositoryFactory, httpContextAccessor)
 {
     [HttpGet]
-    public ActionResult<IAsyncEnumerable<UserResourceOutput>> All(CancellationToken ct)
+    public async Task<ActionResult<IEnumerable<UserResourceOutput>>> All(CancellationToken ct)
     {
-        // TODO Ensure user is admin
         var oc = GetOperationContextForCurrentUser();
-        if (!oc.Roles.Contains(UserRole.Administrator))
+        var user = await GetCurrentUserAsync(oc, ct);
+        if (!user.Roles.Contains(UserRole.Administrator)) // TODO Add HasRole
             return Forbid();
-        return Ok(new object());
+
+        var users = ApiService.GetAllUsersAsync(oc, ct);
+        return Ok(users);
     }
 }

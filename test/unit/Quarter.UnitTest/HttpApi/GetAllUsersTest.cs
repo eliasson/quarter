@@ -20,8 +20,8 @@ public class GetAllUsersTest
         public async Task SetUp()
         {
             _ = await SetupAuthorizedUserAsync("john.doe@example.com", u => u.AssignRole(UserRole.Administrator));
-            await AddUserAsync("one@example.com");
-            await AddUserAsync("two@example.com");
+            await AddUserAsync("lotta@example.com");
+            await AddUserAsync("sven@example.com");
             _response = await GetAsync("/api/users");
         }
 
@@ -43,8 +43,6 @@ public class GetAllUsersTest
         public async Task SetUp()
         {
             _ = await SetupAuthorizedUserAsync("john.doe@example.com");
-            await AddUserAsync("one@example.com");
-            await AddUserAsync("two@example.com");
             _response = await GetAsync("/api/users");
         }
 
