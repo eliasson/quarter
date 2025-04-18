@@ -2,14 +2,15 @@ using System.Net.Mime;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Quarter.Core.Models;
+using Quarter.Core.Repositories;
 using Quarter.HttpApi.Resources;
 using Quarter.HttpApi.Services;
 
 namespace Quarter.HttpApi;
 
 [Route("api/projects")]
-public class ProjectsController(IApiService apiService, IHttpContextAccessor httpContextAccessor)
-    : ApiControllerBase(apiService, httpContextAccessor)
+public class ProjectsController(IApiService apiService, IRepositoryFactory repositoryFactory, IHttpContextAccessor httpContextAccessor)
+    : ApiControllerBase(apiService, repositoryFactory, httpContextAccessor)
 {
     [HttpGet]
     public ActionResult<IAsyncEnumerable<ProjectResourceOutput>> All(CancellationToken ct)

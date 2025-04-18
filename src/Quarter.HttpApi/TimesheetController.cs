@@ -1,6 +1,7 @@
 using System.Net.Mime;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Quarter.Core.Repositories;
 using Quarter.Core.Utils;
 using Quarter.HttpApi.Resources;
 using Quarter.HttpApi.Services;
@@ -8,8 +9,8 @@ using Quarter.HttpApi.Services;
 namespace Quarter.HttpApi;
 
 [Route("api/timesheets")]
-public class TimesheetController(IApiService apiService, IHttpContextAccessor httpContextAccessor)
-    : ApiControllerBase(apiService, httpContextAccessor)
+public class TimesheetController(IApiService apiService, IRepositoryFactory repositoryFactory, IHttpContextAccessor httpContextAccessor)
+    : ApiControllerBase(apiService, repositoryFactory, httpContextAccessor)
 {
     [HttpGet("{isoDate:regex(^\\d{{4}}-\\d{{2}}-\\d{{2}}$)}")]
     public async Task<ActionResult<TimesheetResourceOutput>> Timesheet(string isoDate, CancellationToken ct)

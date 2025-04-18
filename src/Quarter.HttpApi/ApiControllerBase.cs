@@ -10,7 +10,7 @@ namespace Quarter.HttpApi;
 
 [Authorize]
 [ApiController]
-public class ApiControllerBase(IApiService apiService, IHttpContextAccessor httpContextAccessor)
+public class ApiControllerBase(IApiService apiService, IRepositoryFactory repositoryFactory, IHttpContextAccessor httpContextAccessor)
     : ControllerBase
 {
     protected readonly IApiService ApiService = apiService;
