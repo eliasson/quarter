@@ -17,7 +17,7 @@ public class TimesheetController(IApiService apiService, IRepositoryFactory repo
     {
         var dt = DateTime.Parse(isoDate);
         var date = new Date(dt);
-        var oc = GetOperationContextForCurrentUser();
+        var oc = await GetOperationContextForCurrentUserAsync(ct);
 
         var resource = await ApiService.GetTimesheetAsync(date, oc, ct);
         return Ok(resource);
@@ -28,7 +28,7 @@ public class TimesheetController(IApiService apiService, IRepositoryFactory repo
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult> RegisterTimeAsync(string isoDate, [FromBody] TimesheetResourceInput input, CancellationToken ct)
     {
-        var oc = GetOperationContextForCurrentUser();
+        var oc = await GetOperationContextForCurrentUserAsync(ct);
         var date = Date.From(isoDate);
 
         // TODO: Assert that date from path is same as date in input

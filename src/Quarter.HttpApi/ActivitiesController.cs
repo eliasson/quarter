@@ -13,10 +13,10 @@ public class ActivitiesController(IApiService apiService, IRepositoryFactory rep
     : ApiControllerBase(apiService, repositoryFactory, httpContextAccessor)
 {
     [HttpGet]
-    public ActionResult<IAsyncEnumerable<ProjectResourceOutput>> ActivitiesForProjectAsync(Guid projectGuid, CancellationToken ct)
+    public async Task<ActionResult<IAsyncEnumerable<ProjectResourceOutput>>> ActivitiesForProjectAsync(Guid projectGuid, CancellationToken ct)
     {
         var projectId = IdOf<Project>.Of(projectGuid);
-        var oc = GetOperationContextForCurrentUser();
+        var oc = await GetOperationContextForCurrentUserAsync(ct);
 
         var result = ApiService.ActivitiesForProject(projectId, oc, ct);
         return Ok(result);
@@ -27,7 +27,7 @@ public class ActivitiesController(IApiService apiService, IRepositoryFactory rep
     [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<ActionResult> CreateActivityAsync(Guid projectGuid, [FromBody] CreateActivityResourceInput input, CancellationToken ct)
     {
-        var oc = GetOperationContextForCurrentUser();
+        var oc = await GetOperationContextForCurrentUserAsync(ct);
         var projectId = IdOf<Project>.Of(projectGuid);
 
         var output = await ApiService.CreateActivityAsync(projectId, input, oc, ct);
@@ -39,7 +39,7 @@ public class ActivitiesController(IApiService apiService, IRepositoryFactory rep
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult> UpdateActivityAsync(Guid projectGuid, Guid id, [FromBody] UpdateActivityResourceInput input, CancellationToken ct)
     {
-        var oc = GetOperationContextForCurrentUser();
+        var oc = await GetOperationContextForCurrentUserAsync(ct);
         var projectId = IdOf<Project>.Of(projectGuid);
         var activityId = IdOf<Activity>.Of(id);
 
@@ -51,7 +51,7 @@ public class ActivitiesController(IApiService apiService, IRepositoryFactory rep
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<ActionResult> DeleteActivityAsync(Guid projectGuid, Guid id, CancellationToken ct)
     {
-        var oc = GetOperationContextForCurrentUser();
+        var oc = await GetOperationContextForCurrentUserAsync(ct);
         var projectId = IdOf<Project>.Of(projectGuid);
         var activityId = IdOf<Activity>.Of(id);
 

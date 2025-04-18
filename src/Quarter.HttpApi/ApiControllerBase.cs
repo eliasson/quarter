@@ -16,7 +16,7 @@ public class ApiControllerBase(IApiService apiService, IRepositoryFactory reposi
 {
     protected readonly IApiService ApiService = apiService;
 
-    protected OperationContext GetOperationContextForCurrentUser()
+    protected async Task<OperationContext> GetOperationContextForCurrentUserAsync(CancellationToken ct)
     {
         var principal = httpContextAccessor.HttpContext?.User;
         if (principal == null) throw new UnauthorizedAccessException("No principal found on request");
@@ -25,6 +25,8 @@ public class ApiControllerBase(IApiService apiService, IRepositoryFactory reposi
         if (idClaim == null) throw new UnauthorizedAccessException($"Could not find claim of type ({ApplicationClaim.QuarterUserIdClaimType}) on principal");
 
         var userId = IdOf<User>.Of(Guid.Parse(idClaim.Value));
+
+        await Task.CompletedTask;
 
         return new OperationContext(userId, []);
     }
