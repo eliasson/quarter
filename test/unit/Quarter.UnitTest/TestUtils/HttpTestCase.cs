@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -28,9 +29,10 @@ public class HttpTestCase
         return Task.FromResult(user);
     }
 
-    protected Task<User> SetupAuthorizedUserAsync(string email)
+    protected Task<User> SetupAuthorizedUserAsync(string email, Action<User>? configure = null)
     {
         var user = new User(new Email(email));
+        configure?.Invoke(user);
         // TODO: Store user
         HttpTestSession.FakeUserSession(user);
         return Task.FromResult(user);
@@ -73,6 +75,15 @@ public class HttpTestCase
 
         var repoFactory = HttpTestSession.ResolveService<IRepositoryFactory>();
         return repoFactory.TimesheetRepository(userId).CreateAsync(timesheet, CancellationToken.None);
+    }
+
+    protected Task<User> AddUserAsync(string email, Action<User>? configure = null)
+    {
+        var user = new User(new Email(email));
+        configure?.Invoke(user);
+
+        var repoFactory = HttpTestSession.ResolveService<IRepositoryFactory>();
+        return repoFactory.UserRepository().CreateAsync(user, CancellationToken.None);
     }
 }
 

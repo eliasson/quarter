@@ -21,6 +21,8 @@ public interface IApiService
     Task<TimesheetResourceOutput> UpdateTimesheetAsync(TimesheetResourceInput input, OperationContext oc, CancellationToken ct);
 
     Task<ProjectAndActivitiesResourceOutput> GetAllProjectsAndActivitiesForUserAsync(OperationContext oc, CancellationToken ct);
+
+    IAsyncEnumerable<UserResourceOutput> GetAllUsersAsync(OperationContext oc, CancellationToken ct);
 }
 
 public class ApiService(IRepositoryFactory repositoryFactory) : IApiService
@@ -132,5 +134,10 @@ public class ApiService(IRepositoryFactory repositoryFactory) : IApiService
         var activitiesResources = activities.Select(ActivityResourceOutput.From).ToList();
 
         return new ProjectAndActivitiesResourceOutput(projectResources, activitiesResources);
+    }
+
+    public IAsyncEnumerable<UserResourceOutput> GetAllUsersAsync(OperationContext oc, CancellationToken ct)
+    {
+        return repositoryFactory.UserRepository().GetAllAsync(ct).Select(UserResourceOutput.From);
     }
 }
