@@ -22,6 +22,13 @@ public class HttpTestCase
     // thread safe and tests interfere with each other
     protected readonly HttpSession HttpTestSession = new HttpSession();
 
+    [OneTimeSetUp]
+    protected Task ClearDatabase()
+    {
+        var repoFactory = HttpTestSession.ResolveService<IRepositoryFactory>();
+        return repoFactory.TruncateAll();
+    }
+
     protected Task<User> SetupUnauthenticatedUserAsync(string email)
     {
         var user = new User(new Email(email));
@@ -29,13 +36,11 @@ public class HttpTestCase
         return Task.FromResult(user);
     }
 
-    protected Task<User> SetupAuthorizedUserAsync(string email, Action<User>? configure = null)
+    protected async Task<User> SetupAuthorizedUserAsync(string email, Action<User>? configure = null)
     {
-        var user = new User(new Email(email));
-        configure?.Invoke(user);
-        // TODO: Store user
+        var user = await AddUserAsync(email, configure);
         HttpTestSession.FakeUserSession(user);
-        return Task.FromResult(user);
+        return user;
     }
 
     protected Task<HttpResponseMessage> GetAsync(string? requestUri)
