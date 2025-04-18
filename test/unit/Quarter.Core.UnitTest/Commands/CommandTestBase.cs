@@ -28,7 +28,7 @@ namespace Quarter.Core.UnitTest.Commands
             => UserRepository.CreateAsync(new User(email, roles), CancellationToken.None);
 
         protected OperationContext OperationContext()
-            => new OperationContext(ActingUser);
+            => new OperationContext(ActingUser, []);
 
         protected Task<Project> CreateProjectAsync(string name)
         {

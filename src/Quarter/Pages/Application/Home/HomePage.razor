@@ -30,6 +30,6 @@
     private async Task<OperationContext> OperationContextForCurrentUser()
     {
         var currentId = await _userAuthorizationService.CurrentUserId();
-        return new OperationContext(currentId);
+        return new OperationContext(currentId, []);
     }
 }

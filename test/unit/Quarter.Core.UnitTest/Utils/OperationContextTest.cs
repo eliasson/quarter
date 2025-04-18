@@ -18,8 +18,8 @@ public class OperationContextTest
     public void ItShouldBeEqual()
     {
         var userId = IdOf<User>.Random();
-        var ocOne = new OperationContext(userId);
-        var ocTwo = new OperationContext(userId);
+        var ocOne = new OperationContext(userId, [UserRole.Administrator]);
+        var ocTwo = new OperationContext(userId, [UserRole.Administrator]);
 
         Assert.That(ocOne, Is.EqualTo(ocTwo));
     }

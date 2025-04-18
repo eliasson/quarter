@@ -579,7 +579,7 @@ public class ActionHandler(
     private async Task<OperationContext> OperationContextForCurrentUser()
     {
         var currentId = await userAuthorizationService.CurrentUserId();
-        return new OperationContext(currentId);
+        return new OperationContext(currentId, []);
     }
 
     private async Task<IDictionary<IdOf<Project>, IList<Activity>>> GetActivitiesPerProjectAsync(IdOf<User> userId, CancellationToken ct)
