@@ -66,4 +66,7 @@ public class TestCase
 
     protected static OperationContext CreateOperationContext()
         => new(IdOf<User>.Random(),[]);
+
+    protected static OperationContext CreateOperationContext(User user)
+        => new(user.Id, user.Roles.AsReadOnly());
 }
