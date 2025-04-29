@@ -47,7 +47,7 @@ public class GetAllUsersTest
         }
 
         [Test]
-        public void ItShouldReturnSuccessfulStatus()
+        public void ItShouldReturnForbiddenStatus()
             => Assert.That(_response?.StatusCode, Is.EqualTo(HttpStatusCode.Forbidden));
     }
 
