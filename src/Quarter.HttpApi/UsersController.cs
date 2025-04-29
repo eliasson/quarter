@@ -21,4 +21,13 @@ public class UsersController(IApiService apiService, IRepositoryFactory reposito
         var users = ApiService.GetAllUsersAsync(oc, ct);
         return Ok(users);
     }
+
+    [HttpGet("self")]
+    public async Task<ActionResult<UserResourceOutput>> GetSelfAsync(CancellationToken ct)
+    {
+        var oc = await GetOperationContextForCurrentUserAsync(ct);
+
+        var user = await ApiService.GetCurrentUserAsync(oc, ct);
+        return Ok(user);
+    }
 }
