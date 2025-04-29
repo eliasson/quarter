@@ -15,8 +15,7 @@ public class UsersController(IApiService apiService, IRepositoryFactory reposito
     public async Task<ActionResult<IEnumerable<UserResourceOutput>>> All(CancellationToken ct)
     {
         var oc = await GetOperationContextForCurrentUserAsync(ct);
-        var user = await GetCurrentUserAsync(oc, ct);
-        if (!user.Roles.Contains(UserRole.Administrator)) // TODO Add HasRole
+        if (!oc.HasRole(UserRole.Administrator))
             return Forbid();
 
         var users = ApiService.GetAllUsersAsync(oc, ct);

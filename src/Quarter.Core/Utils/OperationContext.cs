@@ -16,6 +16,8 @@ public record OperationContext(IdOf<User> UserId, IReadOnlyCollection<UserRole> 
 
     public bool IsNone => UserId.Id == Guid.Empty;
 
+    public bool HasRole(UserRole role) => Roles.Contains(role);
+
     public virtual bool Equals(OperationContext? other)
     {
         if (other is null) return false;

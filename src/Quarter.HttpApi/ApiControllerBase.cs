@@ -26,12 +26,8 @@ public class ApiControllerBase(IApiService apiService, IRepositoryFactory reposi
 
         var userId = IdOf<User>.Of(Guid.Parse(idClaim.Value));
 
-        await Task.CompletedTask;
+        var user = await repositoryFactory.UserRepository().GetByIdAsync(userId, ct);
 
-        return new OperationContext(userId, []);
+        return new OperationContext(userId, user.Roles.AsReadOnly());
     }
-
-    // TODO Should we do this in a middleware or something instead?
-    protected Task<User> GetCurrentUserAsync(OperationContext oc, CancellationToken ct)
-        => repositoryFactory.UserRepository().GetByIdAsync(oc.UserId, ct);
 }
