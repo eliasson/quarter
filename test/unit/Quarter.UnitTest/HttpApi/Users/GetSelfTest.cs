@@ -15,7 +15,7 @@ public class GetSelfTest
     [TestFixture]
     public class WhenUserIsAuthenticated : HttpTestCase
     {
-        private HttpResponseMessage _response;
+        private HttpResponseMessage _response = null!;
 
         [OneTimeSetUp]
         public async Task SetUp()
@@ -36,7 +36,7 @@ public class GetSelfTest
     [TestFixture]
     public class WhenUserIsNotAuthenticated : HttpTestCase
     {
-        private HttpResponseMessage _response;
+        private HttpResponseMessage _response = null!;
 
         [OneTimeSetUp]
         public async Task SetUp()
