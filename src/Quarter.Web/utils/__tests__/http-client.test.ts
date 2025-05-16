@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi, type Mock } from "vitest"
 import { type FetchFunction, HttpClient, HttpError } from "@/utils/http-client.ts"
-import { fakeResponse } from "@/utils/test-utils.ts"
+import { fakeResponse } from "@/utils/test-utils/test-utils.ts"
 
 /** The Content-Type header returned by quarter backend for JSON responses. */
 const JsonContentType = "application/json; charset=utf-8";
