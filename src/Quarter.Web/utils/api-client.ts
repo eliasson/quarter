@@ -1,4 +1,4 @@
-import type { IHttpClient } from "@/utils/http-client.ts"
+import { HttpClient, type IHttpClient } from "@/utils/http-client.ts"
 import { User } from "@/models/user.ts"
 
 export interface IApiClient {
@@ -6,7 +6,15 @@ export interface IApiClient {
 }
 
 export class ApiClient implements IApiClient {
-    constructor(private readonly http: IHttpClient) {}
+    private readonly http: IHttpClient
+
+    /**
+     * Construct a new API client using a default HTTP client.
+     * @param http Optional, the HTTP client to use (intended for testing, by default a fetch-based client will be used).
+     */
+    constructor(http?: IHttpClient) {
+        this.http = http ?? new HttpClient()
+    }
 
     async getCurrentUser(): Promise<User> {
         const resource = await this.http.get<UserResourceOutput>("/api/users/self")
