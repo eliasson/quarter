@@ -22,7 +22,7 @@ export class HttpClient implements IHttpClient {
     private readonly fetcher: FetchFunction
 
     constructor(fetcher?: FetchFunction) {
-        this.fetcher = fetcher ?? window.fetch
+        this.fetcher = fetcher ?? ((input, init) => window.fetch(input, init))
     }
 
     async get<T>(url: string): Promise<T> {
