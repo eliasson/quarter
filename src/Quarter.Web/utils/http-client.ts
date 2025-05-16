@@ -14,7 +14,11 @@ export class HttpError extends Error {
     }
 }
 
-export class HttpClient {
+export interface IHttpClient {
+    get<T>(url: string): Promise<T>
+}
+
+export class HttpClient implements IHttpClient {
     private readonly fetcher: FetchFunction
 
     constructor(fetcher?: FetchFunction) {
