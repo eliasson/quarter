@@ -23,5 +23,15 @@ describe('useCurrentUser', () => {
         it("should have the default anonymous user as current user", () => {
             expect(composable.currentUser).toEqual(AnonymousUserIdentity)
         })
+
+        describe("when initializing", () => {
+            beforeEach(async () => {
+                // TODO Fake the api client
+                await composable.initialize()
+            })
+            it("should be initialized", () => {
+                expect((composable as any).isInitialized).toBe(true)
+            })
+        })
     })
 })
