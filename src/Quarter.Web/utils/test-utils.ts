@@ -34,3 +34,8 @@ export function fakeResponse(options: FakResponseOptions): Response {
 
     return fake as any as Response
 }
+
+export function successful<T>(o: T): Promise<T> {
+    return Promise.resolve(o)
+}
+
