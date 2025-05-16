@@ -1,16 +1,16 @@
 import { describe, it, expect, beforeEach } from "vitest"
-import { ClientApi, type IClientApi, type UserResourceOutput } from "@/utils/client-api.ts"
+import { ApiClient, type IApiClient, type UserResourceOutput } from "@/utils/api-client.ts"
 import { User } from "@/models/user.ts"
 import { FakeHttpClient } from "@/utils/test-utils/fake-http-client.ts"
 import { successful } from "@/utils/test-utils.ts"
 
-describe("ClientApi", () => {
-    let client: IClientApi
+describe("ApiClient", () => {
+    let client: IApiClient
     let httpClient: FakeHttpClient
 
     beforeEach(() => {
         httpClient = new FakeHttpClient()
-        client = new ClientApi(httpClient)
+        client = new ApiClient(httpClient)
     })
 
     describe("getCurrentUser", () => {

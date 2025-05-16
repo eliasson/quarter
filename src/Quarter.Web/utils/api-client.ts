@@ -1,11 +1,11 @@
 import type { IHttpClient } from "@/utils/http-client.ts"
 import { User } from "@/models/user.ts"
 
-export interface IClientApi {
+export interface IApiClient {
     getCurrentUser(): Promise<User>
 }
 
-export class ClientApi implements IClientApi {
+export class ApiClient implements IApiClient {
     constructor(private readonly http: IHttpClient) {}
 
     async getCurrentUser(): Promise<User> {
