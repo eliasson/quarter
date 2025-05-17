@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "test": "vitest run",
     "build-only": "vite build",
+    "watch": "vite build --watch",
     "type-check": "vue-tsc --build",
     "lint": "eslint . --fix"
   },
