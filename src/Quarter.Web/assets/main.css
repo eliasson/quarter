@@ -3,28 +3,58 @@
 body {
     display: flex;
     place-items: center;
+    margin: 0;
+    padding: 0;
 }
 
 /** The view app that mounts quarter. This is the outer most container inside body. */
 #app {
     display: flex;
     margin: 0 auto;
+
+    height: 100vh;
+    max-height: 100vh;
+
+    width: 100vw;
+    max-width: 100vw;
 }
 
-/** The application that sets up a fairly small container to limit the UI inside. */
 #q-app {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 2rem;
+    flex-grow: 1;
     font-weight: normal;
-    border: 1px solid hotpink;
+    display: flex;
+    flex-direction: column;
+}
+
+.q-card {
+    padding: 0 2rem;
+}
+
+.q-button {
+    padding: 0;
+}
+
+.q-button__ghost {
+    background-color: transparent;
+    border: 0;
+    color: var(--color-text);
+}
+
+/** Round button is used when there is only an icon. */
+.q-button__round {
+    background-color: transparent;
+    border-radius: 50%;
+    border: 1px solid transparent;
+
+    width: 40px;
+    height: 40px;
 }
 
 @media (min-width: 1024px) {  /** Large screens */
-
+    /** The application that sets up a fairly small container to limit the UI inside. */
     #q-app {
+        background-color: #4e4694;
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        padding: 0 2rem;
+        border: 1px solid lightskyblue;
     }
 }

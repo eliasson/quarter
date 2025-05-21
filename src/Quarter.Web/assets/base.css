@@ -8,19 +8,20 @@
     --color-blackish: #232323;
     --color-red: #e6352b;
     --color-white: #fff;
+    --color-gray-1000: #f1f3f4;
     --color-whiteish: #efefef;
     --color-gray: #808080;
     --color-gray-vlight: #c3c3c3;
     --color-gray-dark: #1f1b1a;
 
-    --color-background: var(--color-white);
+    --color-background: var(--color-gray-1000);
     --color-text: var(--color-blackish);
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
         --color-background: var(--color-gray-dark);
-        --color-text: #b8b8b8;
+        --color-text: var(--color-whiteish);
     }
 }
 
