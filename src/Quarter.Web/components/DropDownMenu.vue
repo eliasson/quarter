@@ -1,7 +1,9 @@
 ﻿<template>
     <div data-testid="drop-down-menu">
-        <slot name="trigger"></slot>
-        <div v-if="isVisible" class="q-drop-down-menu" data-testid="drop-down-menu-modal"></div>
+        <slot name="trigger" :trigger="toggle"></slot>
+        <div v-if="isVisible" class="q-drop-down-menu" data-testid="drop-down-menu-modal">
+
+        </div>
     </div>
 </template>
 
@@ -14,6 +16,9 @@ defineProps<{
 }>()
 
 const isVisible = ref(false)
+
+const toggle = () => isVisible.value = !isVisible.value
+
 </script>
 
 <style scoped>

@@ -19,12 +19,21 @@ describe('useCurrentUser', () => {
             const content = ui().menu().html()
             expect(content).toContain("TRIGGER")
         })
+
+        describe("when triggered", () => {
+            beforeEach(() => ui().triggerMenu())
+
+            it("should rendered the menu", () => {
+                expect(ui().menu().modal().exists()).toBe(true)
+            })
+        })
     })
 
     function ui() {
         const menu = new DropDownMenuViewObject(wrapper)
         return {
             menu: () => menu,
+            triggerMenu: () => wrapper.find("button").trigger("click")
         }
     }
 
@@ -32,8 +41,9 @@ describe('useCurrentUser', () => {
         const props = {
             items: []
         }
+
         const slots = {
-            trigger: "<button type=button>TRIGGER</button>"
+            trigger: `<button type="button" @click="trigger">TRIGGER</button>`
         }
 
         return mount(DropDownMenu, { props, slots })
