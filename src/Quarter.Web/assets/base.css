@@ -22,6 +22,7 @@
     :root {
         --color-background: var(--color-gray-dark);
         --color-text: var(--color-whiteish);
+        --color-icon: var(--color-whiteish);
     }
 }
 
