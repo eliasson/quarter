@@ -50,11 +50,71 @@ body {
     height: 40px;
 }
 
+.q-drop-down-menu {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    z-index: 100;
+    background-color: var(--color-background);
+
+    left: 0;
+    right: 0;
+    transition: all 0.5s ease;
+
+    border-radius: 0 0 0.5rem 0.5rem;
+
+    /* x, y, spread, blur */
+    box-shadow: 0 8px 8px -8px #14141e;
+}
+
+.q-drop-down-menu .q-menu-item {
+    display: flex;
+    flex-direction: row;
+    padding: 0.5rem 1rem;
+    gap: 1rem;
+}
+
+.q-drop-down-menu a.q-menu-item:hover {
+    background-color: var(--color-gray-1000);
+}
+
+.q-drop-down-menu a.q-menu-item  {
+    text-decoration: none;
+    color: var(--color-text);
+}
+
+.q-drop-down-menu .q-menu-item {
+    display: flex;
+    flex-direction: row;
+    padding: 0.5rem 1rem;
+    gap: 1rem;
+}
+
+.q-drop-down-menu .q-menu-item--content {
+    display: flex;
+    flex-direction: column;
+}
+
+.q-drop-down-menu .q-menu-item--icon {
+    align-self: center;
+}
+
+.q-drop-down-menu .q-menu-item--title {
+    font-weight: 900;
+}
+
+.q-drop-down-menu .q-menu-item--sub-title {}
+
 @media (min-width: 1024px) {  /** Large screens */
     /** The application that sets up a fairly small container to limit the UI inside. */
     #q-app {
         background-color: #4e4694;
         display: grid;
         border: 1px solid lightskyblue;
+    }
+
+    .q-drop-down-menu {
+        max-width: 320px;
+        border-radius: 0 0 0;
     }
 }

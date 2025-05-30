@@ -6,33 +6,45 @@
                     <use xlink:href="#icon-menu"></use>
                 </svg>
             </button>
-            <!-- div class="q-drop-down-menu">
-
-                <div class="q-menu-item">
-                    <RouterLink to="/">
-                        <div class="q-menu-item--icon"></div>
+            <div class="q-drop-down-menu">
+                <RouterLink to="/" class="q-menu-item">
+                    <div class="q-menu-item--icon">
+                        <svg class="q-icon">
+                            <use xlink:href="#icon-timesheet"></use>
+                        </svg>
+                    </div>
+                    <div class="q-menu-item--content">
                         <div class="q-menu-item--title">Timesheet</div>
                         <div class="q-menu-item--sub-title">Register activity for a day.</div>
-                    </RouterLink>
-                </div>
+                    </div>
+                </RouterLink>
 
-                <div class="q-menu-item">
-                    <RouterLink to="/admin/users">
-                        <div class="q-menu-item--icon"></div>
+                <RouterLink to="/admin/users" class="q-menu-item">
+                    <div class="q-menu-item--icon">
+                        <svg class="q-icon">
+                            <use xlink:href="#icon-users"></use>
+                        </svg>
+                    </div>
+                    <div class="q-menu-item--content">
                         <div class="q-menu-item--title">Users</div>
                         <div class="q-menu-item--sub-title">Manage registered users.</div>
-                    </RouterLink>
-                </div>
+                    </div>
+                </RouterLink>
 
-                <div class="q-menu-item">
-                    <RouterLink to="/about">
-                        <div class="q-menu-item--icon"></div>
+                <RouterLink to="/about" class="q-menu-item">
+                    <div class="q-menu-item--icon">
+                        <svg class="q-icon">
+                            <use xlink:href="#icon-info"></use>
+                        </svg>
+                    </div>
+                    <div class="q-menu-item--content">
                         <div class="q-menu-item--title">About</div>
-                        <div class="q-menu-item--sub-title">Test page</div>
-                    </RouterLink>
-                </div>
-            </div -->
+                        <div class="q-menu-item--sub-title">Test page.</div>
+                    </div>
+                </RouterLink>
+            </div>
         </div>
+
         <div class="q-main-navigation--item">
             <button type="button" class="q-button q-button__round" title="Main menu">
                 <svg class="q-icon">
@@ -61,5 +73,4 @@ import {RouterLink} from "vue-router";
     .q-main-navigation--item:last-of-type {
         justify-self: end;
     }
-
 </style>
