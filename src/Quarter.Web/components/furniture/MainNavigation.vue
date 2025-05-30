@@ -1,12 +1,12 @@
 ﻿<template>
     <nav class="q-main-navigation">
         <div class="q-main-navigation--item">
-            <button type="button" class="q-button q-button__round" title="Main menu">
-                <svg class="q-icon">
-                    <use xlink:href="#icon-menu"></use>
-                </svg>
-            </button>
-            <div class="q-drop-down-menu">
+            <drop-down-menu
+                trigger-icon="icon-menu"
+                trigger-title="Main menu"
+                :items="[]">
+            </drop-down-menu>
+            <div v-if="false" class="q-drop-down-menu">
                 <RouterLink to="/" class="q-menu-item">
                     <div class="q-menu-item--icon">
                         <svg class="q-icon">
@@ -57,6 +57,7 @@
 
 <script setup lang="ts">
 import {RouterLink} from "vue-router";
+import DropDownMenu from "@/components/DropDownMenu.vue";
 </script>
 
 <style scoped>

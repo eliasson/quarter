@@ -16,12 +16,16 @@ describe('useCurrentUser', () => {
         })
 
         it("should render the trigger slot", () => {
-            const content = ui().menu().html()
-            expect(content).toContain("TRIGGER")
+            const trigger = ui().menu().trigger()
+            expect(trigger.exists()).toBe(true)
+        })
+
+        it("should use ", () => {
+            ui().menu()
         })
 
         describe("when triggered", () => {
-            beforeEach(() => ui().triggerMenu())
+            beforeEach(() => ui().menu().trigger().click())
 
             it("should rendered the menu", () => {
                 expect(ui().menu().modal().exists()).toBe(true)
@@ -33,19 +37,16 @@ describe('useCurrentUser', () => {
         const menu = new DropDownMenuViewObject(wrapper)
         return {
             menu: () => menu,
-            triggerMenu: () => wrapper.find("button").trigger("click")
         }
     }
 
     function mountComponent() {
         const props = {
-            items: []
+            triggerIcon: "unit-test",
+            triggerTitle: "TRIGGER",
+            items: [],
         }
 
-        const slots = {
-            trigger: `<button type="button" @click="trigger">TRIGGER</button>`
-        }
-
-        return mount(DropDownMenu, { props, slots })
+        return mount(DropDownMenu, { props })
     }
 })
