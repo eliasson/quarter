@@ -1,4 +1,4 @@
-﻿import { describe, it, expect, beforeEach, vi } from "vitest"
+﻿import { describe, it, expect, beforeEach } from "vitest"
 import { mount, VueWrapper } from "@vue/test-utils"
 import DropDownMenu from "@/components/DropDownMenu.vue"
 import { DropDownMenuViewObject } from "@/utils/test-utils/view-models/DropDownMenuViewObject.ts"
@@ -6,7 +6,7 @@ import { MenuItem } from "@/models/ui.ts"
 import { createRouter, createWebHistory } from "vue-router"
 import EmptyComponent from "@/utils/test-utils/EmptyComponent.vue"
 
-describe('useCurrentUser', () => {
+describe("<drop-down-menu>", () => {
     let wrapper: VueWrapper
     let router: any
 
@@ -22,7 +22,7 @@ describe('useCurrentUser', () => {
 
         router.push('/')
         await router.isReady()
-    });
+    })
 
     beforeEach(() => {
         wrapper = mountComponent({
