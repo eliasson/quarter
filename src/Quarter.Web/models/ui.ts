@@ -1,4 +1,4 @@
-﻿export type Icon = "icon-timesheet" | "icon-user"
+﻿export type Icon = "icon-menu" | "icon-user" | "icon-timesheet" | "icon-users" | "icon-info"
 
 export class MenuItem {
     constructor(

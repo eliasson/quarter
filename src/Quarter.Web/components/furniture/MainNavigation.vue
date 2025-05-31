@@ -27,7 +27,7 @@ import { computed } from "vue"
 const applicationMenuItems = computed(() => [
     new MenuItem("Timesheets", "Register activity for a day.", "icon-timesheet"),
     new MenuItem("Users", "Manage registered users.", "icon-user"),
-    new MenuItem("Test", "Test page.", "icon-user"),
+    new MenuItem("Test", "Test page.", "icon-info"),
 ])
 
 </script>
