@@ -1,13 +1,36 @@
-﻿import { describe, it, expect, beforeEach } from "vitest"
+﻿import { describe, it, expect, beforeEach, vi } from "vitest"
 import { mount, VueWrapper } from "@vue/test-utils"
 import DropDownMenu from "@/components/DropDownMenu.vue"
 import { DropDownMenuViewObject } from "@/utils/test-utils/view-models/DropDownMenuViewObject.ts"
+import { MenuItem } from "@/models/ui.ts"
+import { createRouter, createWebHistory } from "vue-router"
+import EmptyComponent from "@/utils/test-utils/EmptyComponent.vue"
 
 describe('useCurrentUser', () => {
     let wrapper: VueWrapper
+    let router: any
+
+    beforeEach(async () => {
+        router = createRouter({
+            history: createWebHistory(),
+            routes: [{
+                path: "/",
+                name: "root",
+                component: EmptyComponent
+            }]
+        })
+
+        router.push('/')
+        await router.isReady()
+    });
 
     beforeEach(() => {
-        wrapper = mountComponent()
+        wrapper = mountComponent({
+            items: [
+                new MenuItem("Alpha", "The alpha option", "icon-user"),
+                new MenuItem("Bravo", "The bravo option", "icon-timesheet"),
+            ]
+        })
     })
 
     describe("initially", () => {
@@ -20,15 +43,19 @@ describe('useCurrentUser', () => {
             expect(trigger.exists()).toBe(true)
         })
 
-        it("should use ", () => {
-            ui().menu()
-        })
-
         describe("when triggered", () => {
             beforeEach(() => ui().menu().trigger().click())
 
             it("should rendered the menu", () => {
                 expect(ui().menu().modal().exists()).toBe(true)
+            })
+
+            it("should render the menu items", () => {
+                const items = ui().menu().items().map(i => [i.title(), i.subTitle(), i.icon().icon()])
+                expect(items).toEqual([
+                    ["Alpha", "The alpha option", "icon-user"],
+                    ["Bravo", "The bravo option", "icon-timesheet"],
+                ])
             })
         })
     })
@@ -40,13 +67,16 @@ describe('useCurrentUser', () => {
         }
     }
 
-    function mountComponent() {
+    type TestOptions = { items: MenuItem[] }
+
+    function mountComponent(options: TestOptions) {
         const props = {
             triggerIcon: "unit-test",
             triggerTitle: "TRIGGER",
-            items: [],
+            items: options.items,
         }
 
-        return mount(DropDownMenu, { props })
+        const plugins = [router]
+        return mount(DropDownMenu, { props, global: { plugins } })
     }
 })

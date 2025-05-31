@@ -5,4 +5,8 @@ export class MenuItem {
         public title: string,
         public subTitle: string,
         public icon: Icon) { }
+
+    href(): string {
+        return `#${this.icon}`;
+    }
 }

@@ -4,45 +4,8 @@
             <drop-down-menu
                 trigger-icon="icon-menu"
                 trigger-title="Main menu"
-                :items="[]">
+                :items="applicationMenuItems">
             </drop-down-menu>
-            <div v-if="false" class="q-drop-down-menu">
-                <RouterLink to="/" class="q-menu-item">
-                    <div class="q-menu-item--icon">
-                        <svg class="q-icon">
-                            <use xlink:href="#icon-timesheet"></use>
-                        </svg>
-                    </div>
-                    <div class="q-menu-item--content">
-                        <div class="q-menu-item--title">Timesheet</div>
-                        <div class="q-menu-item--sub-title">Register activity for a day.</div>
-                    </div>
-                </RouterLink>
-
-                <RouterLink to="/admin/users" class="q-menu-item">
-                    <div class="q-menu-item--icon">
-                        <svg class="q-icon">
-                            <use xlink:href="#icon-users"></use>
-                        </svg>
-                    </div>
-                    <div class="q-menu-item--content">
-                        <div class="q-menu-item--title">Users</div>
-                        <div class="q-menu-item--sub-title">Manage registered users.</div>
-                    </div>
-                </RouterLink>
-
-                <RouterLink to="/about" class="q-menu-item">
-                    <div class="q-menu-item--icon">
-                        <svg class="q-icon">
-                            <use xlink:href="#icon-info"></use>
-                        </svg>
-                    </div>
-                    <div class="q-menu-item--content">
-                        <div class="q-menu-item--title">About</div>
-                        <div class="q-menu-item--sub-title">Test page.</div>
-                    </div>
-                </RouterLink>
-            </div>
         </div>
 
         <div class="q-main-navigation--item">
@@ -56,8 +19,17 @@
 </template>
 
 <script setup lang="ts">
-import {RouterLink} from "vue-router";
-import DropDownMenu from "@/components/DropDownMenu.vue";
+import DropDownMenu from "@/components/DropDownMenu.vue"
+import { MenuItem } from "@/models/ui.ts"
+import { computed } from "vue"
+
+// The menu items should be based on the users access rights. Not everyone should see the administrative options.
+const applicationMenuItems = computed(() => [
+    new MenuItem("Timesheets", "Register activity for a day.", "icon-timesheet"),
+    new MenuItem("Users", "Manage registered users.", "icon-user"),
+    new MenuItem("Test", "Test page.", "icon-user"),
+])
+
 </script>
 
 <style scoped>

@@ -12,14 +12,27 @@
             </button>
         </slot>
         <div v-if="isVisible" class="q-drop-down-menu" data-testid="drop-down-menu-modal">
-            <!-- Render menu items -->
+            <template v-for="item in items">
+                <RouterLink to="/" class="q-menu-item" data-testid="menu-item">
+                    <div class="q-menu-item--icon" data-testid="menu-icon">
+                        <svg class="q-icon">
+                            <use :xlink:href="item.href()"></use>
+                        </svg>
+                    </div>
+                    <div class="q-menu-item--content">
+                        <div class="q-menu-item--title" data-testid="menu-title">{{ item.title }}</div>
+                        <div class="q-menu-item--sub-title" data-testid="menu-sub-title">{{ item.subTitle }}</div>
+                    </div>
+                </RouterLink>
+            </template>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
 import { MenuItem } from "@/models/ui.ts"
-import {computed, ref} from "vue"
+import { computed, ref } from "vue"
+import { RouterLink } from "vue-router"
 
 const props = defineProps<{
     triggerIcon: string
@@ -31,6 +44,7 @@ const isVisible = ref(false)
 
 const toggle = () => isVisible.value = !isVisible.value
 const iconHref = computed(() => `#${props.triggerIcon}`)
+
 </script>
 
 <style scoped>
