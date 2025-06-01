@@ -108,9 +108,7 @@ body {
 @media (min-width: 1024px) {  /** Large screens */
     /** The application that sets up a fairly small container to limit the UI inside. */
     #q-app {
-        background-color: #4e4694;
         display: grid;
-        border: 1px solid lightskyblue;
     }
 
     .q-drop-down-menu {
