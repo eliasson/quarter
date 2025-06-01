@@ -24,6 +24,7 @@ describe("<main-navigation>", () => {
                 [i.title, i.subTitle, i.icon, i.link])
 
             expect(actual).toEqual([
+                ["Overview", "Overview of the current month.", "icon-info", AppPaths.Home],
                 ["Timesheets", "Register activity for a day.", "icon-timesheet", AppPaths.Timesheets],
                 ["Projects", "Manage your projects and activities.", "icon-info", AppPaths.Projects],
                 ["Users", "Manage registered users.", "icon-user", AppPaths.Users],

@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router"
-import HomeView from "../views/HomeView.vue"
+import HomeView from "@/views/HomeView.vue"
+import TimesheetsView from "@/views/TimesheetsView.vue"
+import ProjectView from "@/views/ProjectsView.vue"
 import UsersView from "@/views/admin/UsersView.vue"
 
 export const AppPaths = {
@@ -16,6 +18,16 @@ const router = createRouter({
             path: AppPaths.Home,
             name: "home",
             component: HomeView,
+        },
+        {
+            path: AppPaths.Timesheets,
+            name: "timesheets",
+            component: TimesheetsView,
+        },
+        {
+            path: AppPaths.Projects,
+            name: "projects",
+            component: ProjectView,
         },
         {
             path: AppPaths.Users,

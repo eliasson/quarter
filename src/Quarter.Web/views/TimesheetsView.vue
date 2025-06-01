@@ -3,6 +3,6 @@
 
 <template>
     <div class="q-card">
-        <h2>Home</h2>
+        <h2>Timesheet</h2>
     </div>
 </template>
