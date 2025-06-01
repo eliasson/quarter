@@ -11,4 +11,8 @@ export class ViewObject {
     html(): string {
         return this.wrapper.html()
     }
+
+    async click(): Promise<void> {
+        return this.wrapper.trigger("click")
+    }
 }

@@ -8,8 +8,4 @@ export class ButtonViewObject extends ViewObject {
         const target = w.find(`[data-testid=${testId}]`)
         super(target)
     }
-
-    async click(): Promise<void> {
-        return this.wrapper.trigger("click")
-    }
 }
