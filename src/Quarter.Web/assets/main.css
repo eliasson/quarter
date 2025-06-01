@@ -63,8 +63,14 @@ body {
 
     border-radius: 0 0 0.5rem 0.5rem;
 
-    /* x, y, spread, blur */
-    box-shadow: 0 8px 8px -8px #14141e;
+    /*
+    x, y, spread, blur
+    */
+    box-shadow: 0 8px 8px -8px var(--grayscale-800);
+}
+
+.q-drop-down-menu--trigger {
+    cursor: pointer;
 }
 
 .q-drop-down-menu .q-menu-item {
@@ -75,12 +81,12 @@ body {
 }
 
 .q-drop-down-menu a.q-menu-item:hover {
-    background-color: var(--color-gray-1000);
+    background-color: var(--blue-50);
 }
 
 .q-drop-down-menu a.q-menu-item  {
     text-decoration: none;
-    color: var(--color-text);
+    color: var(--color-link);
 }
 
 .q-drop-down-menu .q-menu-item {
@@ -96,14 +102,21 @@ body {
 }
 
 .q-drop-down-menu .q-menu-item--icon {
-    align-self: center;
+    display: flex;
+    justify-content: center;
+    align-items: self-end;
+    width: 40px;
+    min-width: 40px;
+    height: 40px;
 }
 
 .q-drop-down-menu .q-menu-item--title {
     font-weight: 900;
 }
 
-.q-drop-down-menu .q-menu-item--sub-title {}
+.q-drop-down-menu .q-menu-item--sub-title {
+    color: var(--color-text);
+}
 
 @media (min-width: 1024px) {  /** Large screens */
     /** The application that sets up a fairly small container to limit the UI inside. */
@@ -112,7 +125,14 @@ body {
     }
 
     .q-drop-down-menu {
+        position: relative;
         max-width: 320px;
         border-radius: 0 0 0;
+
+        border: 1px solid var(--grayscale-400);
+        /*
+         x, y, spread, blur
+        */
+        box-shadow: 0 8px 8px -8px var(--grayscale-800);
     }
 }

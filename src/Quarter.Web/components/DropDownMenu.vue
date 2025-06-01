@@ -2,7 +2,7 @@
     <div data-testid="drop-down-menu">
         <slot name="trigger" :trigger="toggle">
             <button type="button"
-                    class="q-button q-button__round"
+                    class="q-button q-button__round q-drop-down-menu--trigger"
                     :title="triggerTitle"
                     @click="toggle"
                     data-testid="trigger">

@@ -14,8 +14,37 @@
     --color-gray-vlight: #c3c3c3;
     --color-gray-dark: #1f1b1a;
 
-    --color-background: var(--color-gray-1000);
-    --color-text: var(--color-blackish);
+    --color-background: var(--color-white);
+    --color-text: var(--grayscale-1100);
+    --color-link: var(--blue-800);
+
+    /* Grayscale Design palette: https://grayscale.design/app?lums=93.87,82.28,68.67,49.10,40.20,32.78,13.29,9.31,6.30,2.62,1.30,0.52&palettes=4e4694&filters=0%7C0&names=&labels= */
+    --grayscale-50: rgb(248, 248, 248);
+    --grayscale-100: rgb(234, 234, 234);
+    --grayscale-200: rgb(216, 216, 216);
+    --grayscale-300: rgb(186, 186, 186);
+    --grayscale-400: rgb(170, 170, 170);
+    --grayscale-500: rgb(155, 155, 155);
+    --grayscale-600: rgb(102, 102, 102);
+    --grayscale-700: rgb(86, 86, 86);
+    --grayscale-800: rgb(71, 71, 71);
+    --grayscale-900: rgb(45, 45, 45);
+    --grayscale-1000: rgb(30, 30, 30);
+    --grayscale-1100: rgb(16, 16, 16);
+
+    --blue-50: rgb(248, 248, 251);
+    --blue-100: rgb(234, 233, 244);
+    --blue-200: rgb(216, 214, 235);
+    --blue-300: rgb(186, 182, 221);
+    --blue-400: rgb(170, 165, 212);
+    --blue-500: rgb(154, 149, 205);
+    --blue-600: rgb(99, 91, 177);
+    --blue-700: rgb(83, 75, 158);
+    --blue-800: rgb(68, 62, 130);
+    --blue-900: rgb(44, 39, 84);
+    --blue-1000: rgb(29, 26, 56);
+    --blue-1100: rgb(16, 14, 30);
+
 }
 
 @media (prefers-color-scheme: dark) {
