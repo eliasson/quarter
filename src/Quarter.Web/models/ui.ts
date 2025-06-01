@@ -6,7 +6,7 @@ export class MenuItem {
         public subTitle: string,
         public icon: Icon) { }
 
-    href(): string {
+    iconHref(): string {
         return `#${this.icon}`;
     }
 }

@@ -16,7 +16,7 @@
                 <RouterLink to="/" class="q-menu-item" data-testid="menu-item">
                     <div class="q-menu-item--icon" data-testid="menu-icon">
                         <svg class="q-icon">
-                            <use :xlink:href="item.href()"></use>
+                            <use :xlink:href="item.iconHref()"></use>
                         </svg>
                     </div>
                     <div class="q-menu-item--content">
