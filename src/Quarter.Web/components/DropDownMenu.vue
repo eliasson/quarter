@@ -31,8 +31,8 @@
 
 <script setup lang="ts">
 import { MenuItem } from "@/models/ui.ts"
-import { computed, ref } from "vue"
-import { RouterLink } from "vue-router"
+import { computed, ref, watch } from "vue"
+import { RouterLink, useRoute } from "vue-router"
 
 const props = defineProps<{
     triggerIcon: string
@@ -40,10 +40,17 @@ const props = defineProps<{
     items: Array<MenuItem>
 }>()
 
+const route = useRoute()
+
 const isVisible = ref(false)
 
 const toggle = () => isVisible.value = !isVisible.value
 const iconHref = computed(() => `#${props.triggerIcon}`)
+
+watch(() => route.path, () => {
+    // Navigation and closing on click is not unit-tested.
+    isVisible.value = false
+}, { immediate: true })
 
 </script>
 
