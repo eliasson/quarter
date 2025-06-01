@@ -45,6 +45,10 @@ export class DropDownMenuItemViewObject extends ViewObject {
     subTitle(): string {
         return this.wrapper.find("[data-testid=menu-sub-title]").text()
     }
+
+    link(): string {
+        return String(this.wrapper.attributes("href"))
+    }
 }
 
 export class IconViewObject extends ViewObject {

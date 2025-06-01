@@ -13,7 +13,7 @@
         </slot>
         <div v-if="isVisible" class="q-drop-down-menu" data-testid="drop-down-menu-modal">
             <template v-for="item in items">
-                <RouterLink to="/" class="q-menu-item" data-testid="menu-item">
+                <RouterLink :to="item.link" class="q-menu-item" data-testid="menu-item">
                     <div class="q-menu-item--icon" data-testid="menu-icon">
                         <svg class="q-icon">
                             <use :xlink:href="item.iconHref()"></use>

@@ -1,18 +1,25 @@
 import { createRouter, createWebHistory } from "vue-router"
-import HomeView from '../views/HomeView.vue'
+import HomeView from "../views/HomeView.vue"
 import UsersView from "@/views/admin/UsersView.vue"
+
+export const AppPaths = {
+    Home: "/",
+    Timesheets: "/timesheets",
+    Projects: "/projects",
+    Users: "/admin/users",
+}
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
         {
-            path: '/',
-            name: 'home',
+            path: AppPaths.Home,
+            name: "home",
             component: HomeView,
         },
         {
-            path: '/admin/users',
-            name: 'users',
+            path: AppPaths.Users,
+            name: "users",
             component: UsersView,
         },
     ],

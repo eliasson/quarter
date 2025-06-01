@@ -17,6 +17,14 @@ describe("<drop-down-menu>", () => {
                 path: "/",
                 name: "root",
                 component: EmptyComponent
+            },{
+                path: "/alpha",
+                name: "alpha",
+                component: EmptyComponent
+            },{
+                path: "/bravo",
+                name: "bravo",
+                component: EmptyComponent
             }]
         })
 
@@ -27,8 +35,8 @@ describe("<drop-down-menu>", () => {
     beforeEach(() => {
         wrapper = mountComponent({
             items: [
-                new MenuItem("Alpha", "The alpha option", "icon-user"),
-                new MenuItem("Bravo", "The bravo option", "icon-timesheet"),
+                new MenuItem("Alpha", "The alpha option", "icon-user", "/alpha"),
+                new MenuItem("Bravo", "The bravo option", "icon-timesheet", "/bravo"),
             ]
         })
     })
@@ -51,10 +59,12 @@ describe("<drop-down-menu>", () => {
             })
 
             it("should render the menu items", () => {
-                const items = ui().menu().items().map(i => [i.title(), i.subTitle(), i.icon().icon()])
+                const items = ui().menu().items().map(i =>
+                    [i.title(), i.subTitle(), i.icon().icon(), i.link()])
+
                 expect(items).toEqual([
-                    ["Alpha", "The alpha option", "icon-user"],
-                    ["Bravo", "The bravo option", "icon-timesheet"],
+                    ["Alpha", "The alpha option", "#icon-user", "/alpha"],
+                    ["Bravo", "The bravo option", "#icon-timesheet", "/bravo"],
                 ])
             })
         })

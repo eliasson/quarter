@@ -4,7 +4,8 @@ export class MenuItem {
     constructor(
         public title: string,
         public subTitle: string,
-        public icon: Icon) { }
+        public icon: Icon,
+        public link: string) { }
 
     iconHref(): string {
         return `#${this.icon}`;

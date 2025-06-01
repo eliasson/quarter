@@ -22,12 +22,13 @@
 import DropDownMenu from "@/components/DropDownMenu.vue"
 import { MenuItem } from "@/models/ui.ts"
 import { computed } from "vue"
+import { AppPaths } from "@/router"
 
 // The menu items should be based on the users access rights. Not everyone should see the administrative options.
 const applicationMenuItems = computed(() => [
-    new MenuItem("Timesheets", "Register activity for a day.", "icon-timesheet"),
-    new MenuItem("Users", "Manage registered users.", "icon-user"),
-    new MenuItem("Test", "Test page.", "icon-info"),
+    new MenuItem("Timesheets", "Register activity for a day.", "icon-timesheet", AppPaths.Timesheets),
+    new MenuItem("Projects", "Manage your projects and activities.", "icon-info", AppPaths.Projects),
+    new MenuItem("Users", "Manage registered users.", "icon-user", AppPaths.Users),
 ])
 
 </script>
