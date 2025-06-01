@@ -1,5 +1,7 @@
 ﻿<template>
     <div data-testid="drop-down-menu">
+        <div v-if="isVisible" class="q-drop-down-menu--back-drop" @click="onBackDropClick" data-testid="back-drop"></div>
+
         <slot name="trigger" :trigger="toggle">
             <button type="button"
                     class="q-button q-button__round q-drop-down-menu--trigger"
@@ -11,6 +13,7 @@
                 </svg>
             </button>
         </slot>
+
         <div v-if="isVisible" class="q-drop-down-menu" data-testid="drop-down-menu-modal">
             <template v-for="item in items">
                 <RouterLink :to="item.link" class="q-menu-item" data-testid="menu-item">
@@ -47,9 +50,11 @@ const isVisible = ref(false)
 const toggle = () => isVisible.value = !isVisible.value
 const iconHref = computed(() => `#${props.triggerIcon}`)
 
+const onBackDropClick = () => isVisible.value = false
+
 watch(() => route.path, () => {
     // Navigation and closing on click is not unit-tested.
-    isVisible.value = false
+    onBackDropClick()
 }, { immediate: true })
 
 </script>

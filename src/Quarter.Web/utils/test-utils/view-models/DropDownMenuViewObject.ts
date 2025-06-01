@@ -27,6 +27,10 @@ export class DropDownMenuViewObject extends ViewObject {
         return result
             .map((w: VueWrapper) => new DropDownMenuItemViewObject(w))
     }
+
+    backDrop(): ViewObject {
+        return new ViewObject(this.wrapper.find("[data-testid=back-drop]"))
+    }
 }
 
 export class DropDownMenuItemViewObject extends ViewObject {

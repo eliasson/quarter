@@ -67,6 +67,14 @@ describe("<drop-down-menu>", () => {
                     ["Bravo", "The bravo option", "#icon-timesheet", "/bravo"],
                 ])
             })
+
+            describe("when clicking on the back-drop", () => {
+                beforeEach(() => ui().menu().backDrop().click())
+
+                it("should not rendered the menu", () => {
+                    expect(ui().menu().modal().exists()).toBe(false)
+                })
+            })
         })
     })
 

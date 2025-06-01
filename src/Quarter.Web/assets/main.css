@@ -69,6 +69,19 @@ body {
     box-shadow: 0 8px 8px -8px var(--grayscale-800);
 }
 
+.q-drop-down-menu--back-drop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    max-height: 100vh;
+    width: 100vw;
+    max-width: 100vw;
+
+    background-color: transparent;
+    z-index: 80;
+}
+
 .q-drop-down-menu--trigger {
     cursor: pointer;
 }
@@ -125,7 +138,6 @@ body {
     }
 
     .q-drop-down-menu {
-        position: relative;
         max-width: 320px;
         border-radius: 0 0 0;
 
