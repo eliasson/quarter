@@ -2,7 +2,7 @@ import { ref } from "vue"
 import { defineStore } from "pinia"
 import type { Ref } from "vue"
 import { AnonymousUserIdentity, type UserIdentity } from "@/models/user.ts"
-import { ApiClientKey, injectOrThrow } from "@/injections.ts"
+import type {IApiClient} from "@/utils/api-client.ts"
 
 export interface UseCurrentUserState {
     /** The current user will always be set. If no user is logged in this will be an anonymous user object. */
@@ -20,16 +20,16 @@ The current user store should contain:
 - Indicate if authenticated or demo mode.
 - Functions to check capabilities.
  */
-export const useCurrentUser = defineStore("currentUser", (): UseCurrentUserState => {
-    const client = injectOrThrow(ApiClientKey)
+export function useCurrentUser(apiClient: IApiClient) {
+    return defineStore("currentUser", (): UseCurrentUserState => {
+        const currentUser = ref<UserIdentity>(AnonymousUserIdentity)
+        const isInitialized = ref<boolean>(false)
 
-    const currentUser = ref<UserIdentity>(AnonymousUserIdentity)
-    const isInitialized = ref<boolean>(false)
+        async function initialize(): Promise<void> {
+            currentUser.value = await apiClient.getCurrentUser()
+            isInitialized.value = true
+        }
 
-    async function initialize(): Promise<void>  {
-        currentUser.value = await client.getCurrentUser()
-        isInitialized.value = true
-    }
-
-    return { currentUser, isInitialized, initialize }
-})
+        return { currentUser, isInitialized, initialize }
+    })()
+}

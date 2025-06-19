@@ -1,6 +1,4 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import * as injections from '@/injections.ts'
-import { ApiClientKey, type QInjectionKey } from "@/injections.ts"
 import { setActivePinia, createPinia } from 'pinia'
 import { useCurrentUser} from "@/stores/use-current-user.ts"
 import { AnonymousUserIdentity } from "@/models/user.ts"
@@ -12,17 +10,13 @@ describe('useCurrentUser', () => {
     beforeEach(() => {
         apiClientMock  = new FakeApiClient()
         setActivePinia(createPinia())
-        vi.spyOn(injections, 'injectOrThrow').mockImplementation((key: QInjectionKey<any>) => {
-            if (key === ApiClientKey) return apiClientMock
-            return undefined
-        })
     })
 
     describe("initially", () => {
         let composable: ReturnType<typeof useCurrentUser>
 
         beforeEach(() => {
-            composable = useCurrentUser()
+            composable = useCurrentUser(apiClientMock)
         })
 
         it("should not be initialized", () => {

@@ -13,9 +13,12 @@ import { RouterView } from "vue-router"
 import { useCurrentUser } from "@/stores/use-current-user.ts"
 import MainNavigation from "@/components/furniture/MainNavigation.vue"
 import Icons from "@/components/furniture/Icons.vue"
+import { ApiClient } from "@/utils/api-client.ts"
 
-const currentUser = useCurrentUser()
+const apiClient = new ApiClient()
 
-// Trigger the initialize, fire and forget
+const currentUser = useCurrentUser(apiClient)
+
+// Trigger the initialization of the current user, fire and forget
 void currentUser.initialize()
 </script>
