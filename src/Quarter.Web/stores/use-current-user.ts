@@ -7,7 +7,7 @@ import { ApiClient } from "@/utils/api-client.ts"
 export interface UseCurrentUserState {
     /** The current user will always be set. If no user is logged in this will be an anonymous user object. */
     currentUser: Ref<UserIdentity>
-    /** When initialized the user has been fetched (or failed due to unauthenticated). */
+    /** When initialized, the user has been fetched (or failed due to unauthenticated). */
     isInitialized: Ref<boolean>
     /** Try to initialize the store by fetching details from backend. */
     initialize(): Promise<void>
