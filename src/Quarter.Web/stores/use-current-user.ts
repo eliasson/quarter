@@ -2,7 +2,7 @@ import { ref } from "vue"
 import { defineStore } from "pinia"
 import type { Ref } from "vue"
 import { AnonymousUserIdentity, type UserIdentity } from "@/models/user.ts"
-import { ApiClient } from "@/utils/api-client.ts"
+import { ApiClientKey, injectOrThrow } from "@/injections.ts"
 
 export interface UseCurrentUserState {
     /** The current user will always be set. If no user is logged in this will be an anonymous user object. */
@@ -21,10 +21,10 @@ The current user store should contain:
 - Functions to check capabilities.
  */
 export const useCurrentUser = defineStore("currentUser", (): UseCurrentUserState => {
+    const client = injectOrThrow(ApiClientKey)
+
     const currentUser = ref<UserIdentity>(AnonymousUserIdentity)
     const isInitialized = ref<boolean>(false)
-    // TODO Need to be able to inject a HTTP client (or API client) from tests.
-    const client = new ApiClient()
 
     async function initialize(): Promise<void>  {
         currentUser.value = await client.getCurrentUser()
