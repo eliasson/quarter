@@ -1,4 +1,5 @@
 .idea/
+.data/
 bin/
 obj/
 node_modules/
