@@ -14,11 +14,15 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Quarter.Auth;
 using Quarter.Core.Exceptions;
 using Quarter.Core.Options;
 using Quarter.Services;
 using Quarter.StartupTasks;
+using Quarter.Utils;
 
 namespace Quarter;
 
@@ -128,7 +132,7 @@ public class Startup(IConfiguration configuration)
         };
     }
 
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
     {
         // Use a separate pipeline for handling the error
 
@@ -173,6 +177,7 @@ public class Startup(IConfiguration configuration)
 
         app.UseHsts();
         app.UseHttpsRedirection();
+        ConfigureStaticFiles(app, env, logger);
         app.UseStaticFiles();
         app.UseRouting();
         app.UseCookiePolicy();
@@ -186,6 +191,43 @@ public class Startup(IConfiguration configuration)
             endpoints.MapBlazorHub();
             endpoints.MapFallbackToPage("/app/{**segment}", "/Application/_ApplicationHost");
             endpoints.MapFallbackToPage("/admin/{**segment}", "/Admin/_AdminHost");
+
+            // This route needs to be very last as it will serve any file requested from /app with the index.html
+            // to enable HTML routing (e.g. reload /app/projects page in browser).
+            endpoints.MapControllerRoute(
+                name: "uiRoute",
+                pattern: "ui/{*uiRoute}",
+                defaults: new
+                {
+                    controller = "App",
+                    action = "Index"
+                });
         });
+    }
+
+    private void ConfigureStaticFiles(IApplicationBuilder app, IHostEnvironment env, ILogger logger)
+    {
+        var staticPath = Configuration.GetStaticPath(env.ContentRootPath);
+
+        app.UseFileServer(new FileServerOptions
+        {
+            FileProvider = new PhysicalFileProvider(staticPath),
+            RequestPath = "/ui",
+            StaticFileOptions =
+            {
+                OnPrepareResponse = ctx =>
+                {
+                    if (ctx.File.Name != "index.html") return;
+
+                    // Do not cache the file since there is no cache bust when a new version is generated.
+                    ctx.Context.Response.Headers.Append("Cache-Control", "no-cache, no-store");
+                    ctx.Context.Response.Headers.Append("Pragma", "no-cache");
+                    ctx.Context.Response.Headers.Append("Expires", "-1");
+                    ctx.Context.Response.Headers.Append("X-Service", "quarter");
+                }
+            }
+        });
+
+        logger.LogInformation("Static path: {StaticPath}", staticPath);
     }
 }
