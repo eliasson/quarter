@@ -23,8 +23,6 @@ fn update(
   msg: message.Msg,
 ) -> #(model.Model, Effect(message.Msg)) {
   case msg {
-    message.Incr -> #(model, effect.none())
-    message.Decr -> #(model, effect.none())
     message.OnRouteChange(r) -> #(model.navigate_to(model, r), effect.none())
   }
 }
