@@ -1,7 +1,10 @@
+import gleam/uri.{type Uri}
 import lustre
 import lustre/effect.{type Effect}
 import message
 import model
+import modem
+import route
 import view
 
 pub fn main() {
@@ -12,7 +15,7 @@ pub fn main() {
 }
 
 fn init(_args) -> #(model.Model, Effect(message.Msg)) {
-  #(model.initial_model(), effect.none())
+  #(model.initial_model(), modem.init(on_url_change))
 }
 
 fn update(
@@ -22,5 +25,10 @@ fn update(
   case msg {
     message.Incr -> #(model, effect.none())
     message.Decr -> #(model, effect.none())
+    message.OnRouteChange(r) -> #(model.navigate_to(model, r), effect.none())
   }
+}
+
+fn on_url_change(uri: Uri) -> message.Msg {
+  route.identify(uri) |> message.OnRouteChange()
 }
