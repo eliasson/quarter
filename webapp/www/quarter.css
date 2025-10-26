@@ -147,8 +147,10 @@ body {
 }
 
 .main-navigation-item:hover {
-    /* Scale up the icon on hover */
+    /* Scale up the icon on hover
     transform: scale(1.1);
+    */
+
     /* Optional: Add a shadow for extra effect
     filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.8));
     */
@@ -238,4 +240,89 @@ a:hover {
 }
 
 .calendar-month-day .reported {
+}
+
+/** drop down menu **********************************************************/
+.drop-down-menu-back-drop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    max-height: 100vh;
+    width: 100vw;
+    max-width: 100vw;
+
+    background-color: rgba(1, 1, 1, 0.1);
+    z-index: 80;
+}
+
+.drop-down-initiator {
+    position: relative;
+    overflow: visible;
+}
+
+.drop-down-menu {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    z-index: 100;
+    background-color: var(--gray-2);
+
+    left: 0;
+    right: 0;
+    transition: all 0.5s ease;
+
+    border-radius: 0 0 0.5rem 0.5rem;
+
+    /* x, y, spread, blur */
+    box-shadow: 0 8px 8px -8px var(--gray-8);
+}
+
+.drop-down-menu-item {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+}
+
+.drop-down-menu-item:hover {
+    background-color: var(--gray-3);
+}
+
+.separator {
+    color: var(--gray-3);
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+.drop-down-menu-item .content {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.drop-down-menu-item .appendix {
+    font-size: var(--font-size-s);
+    color: var(--gray-5);
+    /* icon width + gap */
+    margin-left: calc(1.75rem + 1rem);
+}
+
+@media (min-width: 1024px) {
+    /** Large screens */
+    .drop-down-menu {
+        min-width: 320px;
+        max-width: 320px;
+
+        border-radius: 0.5rem;
+        border: 2px solid var(--gray-9);
+
+        /* x, y, spread, blur */
+        box-shadow: 0 8px 8px -8px var(--gray-8);
+
+        left: unset;
+        right: 1rem;
+        top: 1rem;
+    }
 }
