@@ -1,3 +1,4 @@
+import gleam/io
 import gleam/uri.{type Uri}
 import lustre
 import lustre/effect.{type Effect}
@@ -17,7 +18,15 @@ pub fn main() {
 }
 
 fn init(_args) -> #(Model, Effect(Msg)) {
-  #(initial_model(), modem.init(on_url_change))
+  // Get the inital URL to match the route to set in the model. This is when a deep-link or
+  // page refresh occurs.
+  let initial_route = case modem.initial_uri() {
+    Ok(uri) -> route.identify(uri)
+    _ -> route.Home
+  }
+
+  let m = initial_model() |> navigate_to(initial_route)
+  #(m, modem.init(on_url_change))
 }
 
 /// The orchestration of the application. All user actions, HTTP responses, etc. is dispatched
