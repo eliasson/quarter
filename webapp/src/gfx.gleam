@@ -2,9 +2,9 @@ pub const icon_logo = "logo"
 
 pub const icon_timesheet = "calendar"
 
-pub const icon_manage = "chart-bar"
+pub const icon_manage = "table"
 
-pub const icon_report = "table"
+pub const icon_report = "chart-bar"
 
 pub const icon_users = "users"
 
