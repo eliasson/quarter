@@ -16,6 +16,20 @@ pub type Route {
   AdministerSystemFeatures
 }
 
+pub const home_url = "/ui"
+
+pub const timesheet_url = "/ui/timesheet"
+
+pub const manage_url = "/ui/manage"
+
+pub const report_url = "/ui/report"
+
+pub const logout_url = "/logout"
+
+pub const admin_users_url = "/ui/admin/users"
+
+pub const admin_features_url = "/ui/admin/features"
+
 /// Describe the route in text.
 pub fn describe(route: Route) -> String {
   case route {
