@@ -25,7 +25,10 @@ fn init(_args) -> #(Model, Effect(Msg)) {
 /// Perform updates to the model and triggers optional HTTP requests, etc. as effects.
 pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
   case msg {
-    OnRouteChange(r) -> #(navigate_to(model, r), effect.none())
+    OnRouteChange(r) -> {
+      let m = model |> close_modal |> navigate_to(r)
+      #(m, effect.none())
+    }
     OpenMainMenu -> #(open_main_menu(model), effect.none())
     BackdropClick -> #(close_modal(model), effect.none())
   }

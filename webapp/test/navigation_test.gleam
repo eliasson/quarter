@@ -1,0 +1,17 @@
+import gleeunit/should
+import message
+import model
+import route
+import util.{first}
+import webapp
+
+pub fn when_navigating_with_open_main_menu_test() {
+  let m =
+    model.initial_model()
+    |> webapp.update(message.OpenMainMenu)
+    |> first
+    |> webapp.update(message.OnRouteChange(route.Report))
+    |> first
+
+  should.equal(m.dropdowns, [])
+}
