@@ -71,7 +71,14 @@ fn main_drop_down_menu(model: model.Model) {
 /// (such as drop-downs, dialogs, etc) if open.
 fn drop_down_back_drop(model: model.Model) {
   case model.dropdowns {
-    [_] -> html.div([att.class("drop-down-menu-back-drop")], [])
+    [_] ->
+      html.div(
+        [
+          att.class("drop-down-menu-back-drop"),
+          event.on_click(message.BackdropClick),
+        ],
+        [],
+      )
     _ -> html.div([], [])
   }
 }

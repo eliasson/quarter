@@ -1,4 +1,5 @@
 import gleam/list
+import listext
 import route
 
 pub type Model {
@@ -26,6 +27,12 @@ pub fn navigate_to(m: Model, route: route.Route) -> Model {
 
 pub fn open_main_menu(m: Model) -> Model {
   m |> close_all_drop_downs |> open_drop_down(MainMenu)
+}
+
+/// Close the top most modal (e.g. drop-down menu or dialog).
+pub fn close_modal(m: Model) {
+  let dropdowns = listext.drop_last(m.dropdowns)
+  Model(..m, dropdowns: dropdowns)
 }
 
 fn open_drop_down(m: Model, menu: DropDownMenu) {

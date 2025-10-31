@@ -1,8 +1,10 @@
 import gleam/uri.{type Uri}
 import lustre
 import lustre/effect.{type Effect}
-import message.{type Msg, OnRouteChange, OpenMainMenu}
-import model.{type Model, initial_model, navigate_to, open_main_menu}
+import message.{type Msg, BackdropClick, OnRouteChange, OpenMainMenu}
+import model.{
+  type Model, close_modal, initial_model, navigate_to, open_main_menu,
+}
 import modem
 import route
 import view
@@ -25,6 +27,7 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
   case msg {
     OnRouteChange(r) -> #(navigate_to(model, r), effect.none())
     OpenMainMenu -> #(open_main_menu(model), effect.none())
+    BackdropClick -> #(close_modal(model), effect.none())
   }
 }
 
