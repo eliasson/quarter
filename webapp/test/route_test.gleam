@@ -9,6 +9,10 @@ pub fn should_identify_uri_test() {
     #("", route.Home),
     #("/timesheet", route.Home),
     #("/ui/timesheet", route.Timesheet),
+    #("/ui/manage", route.Manage),
+    #("/ui/report", route.Report),
+    #("/ui/admin/users", route.AdministerSystemUsers),
+    #("/ui/admin/features", route.AdministerSystemFeatures),
   ]
 
   list.each(tests, fn(t) { should.equal(route.identify(new_uri(t.0)), t.1) })
