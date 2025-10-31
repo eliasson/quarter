@@ -41,65 +41,37 @@ fn nav_menu() {
 }
 
 fn main_drop_down_menu(model: model.Model) {
-  let drop_down_item = fn(
-    url: String,
-    icon: String,
-    text: String,
-    appendix: Option(String),
-  ) {
-    let appendix_elm = case appendix {
-      option.Some(t) -> html.div([att.class("appendix")], [html.text(t)])
-      option.None -> element.none()
-    }
-
-    html.div([att.class("drop-down-menu-item")], [
-      html.div([att.class("content")], [
-        ui.icon(icon),
-        html.a([att.href(url)], [html.text(text)]),
-      ]),
-      appendix_elm,
-    ])
-  }
-
-  let separator_menu_item = html.hr([att.class("separator")])
-
   // The menu if open.
   let menu = case model.dropdowns {
     [model.MainMenu] ->
       html.div([att.class("drop-down-menu")], [
-        drop_down_item(
+        ui.drop_down_item_extended(
           route.timesheet_url,
           gfx.icon_timesheet,
           "Timesheet",
-          option.Some("Register time per day"),
+          "Register time per day",
         ),
-        drop_down_item(
+        ui.drop_down_item_extended(
           route.report_url,
           gfx.icon_report,
           "Report",
-          option.Some("Generate and export reports"),
+          "Generate and export reports",
         ),
-        drop_down_item(
+        ui.drop_down_item_extended(
           route.manage_url,
           gfx.icon_manage,
           "Manage",
-          option.Some("Manage project and activities"),
+          "Manage project and activities",
         ),
-        separator_menu_item,
-        drop_down_item(
-          route.admin_users_url,
-          gfx.icon_users,
-          "Users",
-          option.None,
-        ),
-        drop_down_item(
+        ui.separator_menu_item(),
+        ui.drop_down_item(route.admin_users_url, gfx.icon_users, "Users"),
+        ui.drop_down_item(
           route.admin_features_url,
           gfx.icon_features,
           "Features",
-          option.None,
         ),
-        separator_menu_item,
-        drop_down_item(route.logout_url, gfx.icon_logout, "Logout", option.None),
+        ui.separator_menu_item(),
+        ui.drop_down_item(route.logout_url, gfx.icon_logout, "Logout"),
       ])
 
     _ -> element.none()
