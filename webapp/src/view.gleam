@@ -32,25 +32,38 @@ fn nav_menu() {
   }
 
   ul([], [
-    item("ellipsis-horizontal-circle", "Timesheet", "/ui/timesheet"),
-    item("chart-bar", "Report", "/ui/report"),
-    item("table", "Manage", "/ui/manage"),
+    item("ellipsis-horizontal-circle", "Timesheet", route.timesheet_url),
+    item("chart-bar", "Report", route.report_url),
+    item("table", "Manage", route.manage_url),
   ])
 }
 
 fn main_drop_down_menu(model: model.Model) {
+  let drop_down_item = fn(url: String, text: String) {
+    html.div([att.class("drop-down-menu-item")], [
+      html.div([att.class("content")], [
+        ui.icon("table"),
+        html.a([att.href(url)], [html.text(text)]),
+      ]),
+    ])
+  }
+
+  let separator_menu_item = html.hr([att.class("separator")])
+
   // The menu if open.
   let menu = case model.dropdowns {
     [model.MainMenu] ->
       html.div([att.class("drop-down-menu")], [
-        // A drop down menu item
-        html.div([att.class("drop-down-menu-item")], [
-          html.div([att.class("content")], [
-            ui.icon("table"),
-            html.a([att.href("#")], [html.text("Menu item A")]),
-          ]),
-        ]),
+        drop_down_item(route.timesheet_url, "Timesheet"),
+        drop_down_item(route.report_url, "Report"),
+        drop_down_item(route.manage_url, "Manage"),
+        separator_menu_item,
+        drop_down_item(route.admin_users_url, "Users (Admin)"),
+        drop_down_item(route.admin_features_url, "Features (Admin)"),
+        separator_menu_item,
+        drop_down_item(route.logout_url, "Logout"),
       ])
+
     _ -> element.none()
   }
 
