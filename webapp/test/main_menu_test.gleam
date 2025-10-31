@@ -9,7 +9,7 @@ pub fn when_opening_main_menu_test() {
     |> webapp.update(message.OpenMainMenu)
     |> first
 
-  should.be_true(m.menu_main_open)
+  should.equal(m.dropdowns, [model.MainMenu])
 }
 
 fn first(t: #(a, b)) {

@@ -1,12 +1,23 @@
+import gleam/list
 import route
 
 pub type Model {
-  Model(is_authenticated: Bool, route: route.Route, menu_main_open: Bool)
+  Model(
+    is_authenticated: Bool,
+    route: route.Route,
+    /// The open drop down menus, a list to allow for nested menus.
+    dropdowns: List(DropDownMenu),
+  )
+}
+
+pub type DropDownMenu {
+  /// The main menu is the one opened from the main navigation.
+  MainMenu
 }
 
 /// Creates a new model with the initial fields all set.
 pub fn initial_model() -> Model {
-  Model(is_authenticated: False, route: route.Home, menu_main_open: False)
+  Model(is_authenticated: False, route: route.Home, dropdowns: [])
 }
 
 pub fn navigate_to(m: Model, route: route.Route) -> Model {
@@ -14,5 +25,13 @@ pub fn navigate_to(m: Model, route: route.Route) -> Model {
 }
 
 pub fn open_main_menu(m: Model) -> Model {
-  Model(..m, menu_main_open: True)
+  m |> close_all_drop_downs |> open_drop_down(MainMenu)
+}
+
+fn open_drop_down(m: Model, menu: DropDownMenu) {
+  Model(..m, dropdowns: list.append(m.dropdowns, [menu]))
+}
+
+fn close_all_drop_downs(m: Model) -> Model {
+  Model(..m, dropdowns: [])
 }
