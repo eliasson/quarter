@@ -1,3 +1,4 @@
+import gfx
 import lustre/attribute as att
 import lustre/element.{type Element}
 import lustre/element/html.{div, li, nav, ul}
@@ -20,7 +21,7 @@ fn main_navigation(model: model.Model) -> Element(message.Msg) {
 }
 
 fn nav_logo() {
-  div([att.class("main-navigation-item")], [ui.icon("logo")])
+  div([att.class("main-navigation-item")], [ui.icon(gfx.icon_logo)])
 }
 
 fn nav_menu() {
@@ -32,17 +33,17 @@ fn nav_menu() {
   }
 
   ul([], [
-    item("ellipsis-horizontal-circle", "Timesheet", route.timesheet_url),
-    item("chart-bar", "Report", route.report_url),
-    item("table", "Manage", route.manage_url),
+    item(gfx.icon_timesheet, "Timesheet", route.timesheet_url),
+    item(gfx.icon_report, "Report", route.report_url),
+    item(gfx.icon_manage, "Manage", route.manage_url),
   ])
 }
 
 fn main_drop_down_menu(model: model.Model) {
-  let drop_down_item = fn(url: String, text: String) {
+  let drop_down_item = fn(url: String, icon: String, text: String) {
     html.div([att.class("drop-down-menu-item")], [
       html.div([att.class("content")], [
-        ui.icon("table"),
+        ui.icon(icon),
         html.a([att.href(url)], [html.text(text)]),
       ]),
     ])
@@ -54,14 +55,14 @@ fn main_drop_down_menu(model: model.Model) {
   let menu = case model.dropdowns {
     [model.MainMenu] ->
       html.div([att.class("drop-down-menu")], [
-        drop_down_item(route.timesheet_url, "Timesheet"),
-        drop_down_item(route.report_url, "Report"),
-        drop_down_item(route.manage_url, "Manage"),
+        drop_down_item(route.timesheet_url, gfx.icon_timesheet, "Timesheet"),
+        drop_down_item(route.report_url, gfx.icon_report, "Report"),
+        drop_down_item(route.manage_url, gfx.icon_manage, "Manage"),
         separator_menu_item,
-        drop_down_item(route.admin_users_url, "Users (Admin)"),
-        drop_down_item(route.admin_features_url, "Features (Admin)"),
+        drop_down_item(route.admin_users_url, gfx.icon_users, "Users"),
+        drop_down_item(route.admin_features_url, gfx.icon_features, "Features"),
         separator_menu_item,
-        drop_down_item(route.logout_url, "Logout"),
+        drop_down_item(route.logout_url, gfx.icon_logout, "Logout"),
       ])
 
     _ -> element.none()
@@ -74,7 +75,7 @@ fn main_drop_down_menu(model: model.Model) {
       event.on_click(message.OpenMainMenu),
     ],
     [
-      ui.icon("ellipsis-horizontal-circle"),
+      ui.icon(gfx.icon_more),
       menu,
     ],
   )
