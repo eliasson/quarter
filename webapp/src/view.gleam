@@ -1,4 +1,5 @@
 import gfx
+import gleam/option.{type Option}
 import lustre/attribute as att
 import lustre/element.{type Element}
 import lustre/element/html.{div, li, nav, ul}
@@ -40,12 +41,23 @@ fn nav_menu() {
 }
 
 fn main_drop_down_menu(model: model.Model) {
-  let drop_down_item = fn(url: String, icon: String, text: String) {
+  let drop_down_item = fn(
+    url: String,
+    icon: String,
+    text: String,
+    appendix: Option(String),
+  ) {
+    let appendix_elm = case appendix {
+      option.Some(t) -> html.div([att.class("appendix")], [html.text(t)])
+      option.None -> element.none()
+    }
+
     html.div([att.class("drop-down-menu-item")], [
       html.div([att.class("content")], [
         ui.icon(icon),
         html.a([att.href(url)], [html.text(text)]),
       ]),
+      appendix_elm,
     ])
   }
 
@@ -55,14 +67,39 @@ fn main_drop_down_menu(model: model.Model) {
   let menu = case model.dropdowns {
     [model.MainMenu] ->
       html.div([att.class("drop-down-menu")], [
-        drop_down_item(route.timesheet_url, gfx.icon_timesheet, "Timesheet"),
-        drop_down_item(route.report_url, gfx.icon_report, "Report"),
-        drop_down_item(route.manage_url, gfx.icon_manage, "Manage"),
+        drop_down_item(
+          route.timesheet_url,
+          gfx.icon_timesheet,
+          "Timesheet",
+          option.Some("Register time per day"),
+        ),
+        drop_down_item(
+          route.report_url,
+          gfx.icon_report,
+          "Report",
+          option.Some("Generate and export reports"),
+        ),
+        drop_down_item(
+          route.manage_url,
+          gfx.icon_manage,
+          "Manage",
+          option.Some("Manage project and activities"),
+        ),
         separator_menu_item,
-        drop_down_item(route.admin_users_url, gfx.icon_users, "Users"),
-        drop_down_item(route.admin_features_url, gfx.icon_features, "Features"),
+        drop_down_item(
+          route.admin_users_url,
+          gfx.icon_users,
+          "Users",
+          option.None,
+        ),
+        drop_down_item(
+          route.admin_features_url,
+          gfx.icon_features,
+          "Features",
+          option.None,
+        ),
         separator_menu_item,
-        drop_down_item(route.logout_url, gfx.icon_logout, "Logout"),
+        drop_down_item(route.logout_url, gfx.icon_logout, "Logout", option.None),
       ])
 
     _ -> element.none()
