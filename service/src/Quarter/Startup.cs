@@ -199,7 +199,7 @@ public class Startup(IConfiguration configuration)
                 pattern: "ui/{*uiRoute}",
                 defaults: new
                 {
-                    controller = "App",
+                    controller = "WebApp",
                     action = "Index"
                 });
         });
