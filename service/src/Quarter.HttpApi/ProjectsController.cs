@@ -13,9 +13,9 @@ public class ProjectsController(IApiService apiService, IRepositoryFactory repos
     : ApiControllerBase(apiService, repositoryFactory, httpContextAccessor)
 {
     [HttpGet]
-    public ActionResult<IAsyncEnumerable<ProjectResourceOutput>> All(CancellationToken ct)
+    public async Task<ActionResult<IAsyncEnumerable<ProjectResourceOutput>>> All(CancellationToken ct)
     {
-        var oc = GetOperationContextForCurrentUser();
+        var oc = await GetOperationContextForCurrentUserAsync(ct);
         var result = ApiService.ProjectsForUserAsync(oc, ct);
         return Ok(result);
     }
@@ -25,7 +25,7 @@ public class ProjectsController(IApiService apiService, IRepositoryFactory repos
     [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<ActionResult> CreateProjectAsync([FromBody] CreateProjectResourceInput input, CancellationToken ct)
     {
-        var oc = GetOperationContextForCurrentUser();
+        var oc = await GetOperationContextForCurrentUserAsync(ct);
         var output = await ApiService.CreateProjectAsync(input, oc, ct);
         return Created(output.Location(), output);
     }
@@ -35,7 +35,7 @@ public class ProjectsController(IApiService apiService, IRepositoryFactory repos
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult> UpdateProjectAsync(Guid id, [FromBody] UpdateProjectResourceInput input, CancellationToken ct)
     {
-        var oc = GetOperationContextForCurrentUser();
+        var oc = await GetOperationContextForCurrentUserAsync(ct);
         var projectId = IdOf<Project>.Of(id);
         var output = await ApiService.UpdateProjectAsync(projectId, input, oc, ct);
         return Ok(output);
@@ -45,7 +45,7 @@ public class ProjectsController(IApiService apiService, IRepositoryFactory repos
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<ActionResult> DeleteProjectAsync(Guid id, CancellationToken ct)
     {
-        var oc = GetOperationContextForCurrentUser();
+        var oc = await GetOperationContextForCurrentUserAsync(ct);
         await ApiService.DeleteProjectAsync(IdOf<Project>.Of(id), oc, ct);
         return NoContent();
     }
@@ -54,7 +54,7 @@ public class ProjectsController(IApiService apiService, IRepositoryFactory repos
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult> WithActivities(CancellationToken ct)
     {
-        var oc = GetOperationContextForCurrentUser();
+        var oc = await GetOperationContextForCurrentUserAsync(ct);
         var result = await ApiService.GetAllProjectsAndActivitiesForUserAsync(oc, ct);
         return Ok(result);
     }

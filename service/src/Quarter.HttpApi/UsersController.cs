@@ -13,8 +13,7 @@ public class UsersController(IApiService apiService, IRepositoryFactory reposito
     [HttpGet]
     public async Task<ActionResult<IEnumerable<UserResourceOutput>>> All(CancellationToken ct)
     {
-        // TODO Ensure user is admin
-        var oc = GetOperationContextForCurrentUser();
+        var oc = await GetOperationContextForCurrentUserAsync(ct);
 
         var user = await GetCurrentUserAsync(oc, ct);
         if (!user.Roles.Contains(UserRole.Administrator)) // TODO Add HasRole
