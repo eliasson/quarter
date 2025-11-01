@@ -38,7 +38,11 @@ pub fn drop_down_header() -> element.Element(a) {
   ])
 }
 
-pub fn drop_down_item_impl(
+pub fn separator_menu_item() {
+  html.hr([att.class("separator")])
+}
+
+fn drop_down_item_impl(
   url: String,
   icon ico: String,
   text text: String,
@@ -56,10 +60,6 @@ pub fn drop_down_item_impl(
     ]),
     appendix_elm,
   ])
-}
-
-pub fn separator_menu_item() {
-  html.hr([att.class("separator")])
 }
 
 fn close_button() -> element.Element(a) {
