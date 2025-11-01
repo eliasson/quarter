@@ -20,7 +20,7 @@ public abstract class QueryTestBase
     }
 
     protected OperationContext OperationContext()
-        => new OperationContext(ActingUser);
+        => new OperationContext(ActingUser, []);
 
     protected async Task StoreTimesheet(IdOf<User> userId, Timesheet timesheet)
     {

@@ -24,6 +24,6 @@ public class ApiControllerBase(IApiService apiService, IHttpContextAccessor http
         if (idClaim == null) throw new UnauthorizedAccessException($"Could not find claim of type ({ApplicationClaim.QuarterUserIdClaimType}) on principal");
 
         var userId = IdOf<User>.Of(Guid.Parse(idClaim.Value));
-        return new OperationContext(userId);
+        return new OperationContext(userId, []);
     }
 }
