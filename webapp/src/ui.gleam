@@ -4,6 +4,7 @@ import lustre/attribute as att
 import lustre/element
 import lustre/element/html
 import lustre/element/svg
+import lustre/event
 
 pub fn icon(icon_name: String) {
   // I did not manage to produce an attribute using xlink:href, but only href
@@ -32,9 +33,12 @@ pub fn drop_down_item_extended(
   drop_down_item_impl(url, ico, text, option.Some(appendix))
 }
 
-pub fn drop_down_header() -> element.Element(a) {
+pub fn drop_down_header(on_close: msg) -> element.Element(msg) {
   html.div([att.class("drop-down-menu-header")], [
-    html.div([att.class("content")], [icon(gfx.icon_logo), close_button()]),
+    html.div([att.class("content")], [
+      icon(gfx.icon_logo),
+      close_button(on_close),
+    ]),
   ])
 }
 
@@ -62,8 +66,14 @@ fn drop_down_item_impl(
   ])
 }
 
-fn close_button() -> element.Element(a) {
-  html.button([att.class("ghost")], [
-    icon(gfx.icon_close),
-  ])
+fn close_button(on_click: msg) -> element.Element(msg) {
+  html.button(
+    [
+      att.class("ghost"),
+      event.on_click(on_click),
+    ],
+    [
+      icon(gfx.icon_close),
+    ],
+  )
 }

@@ -1,4 +1,6 @@
 import gfx
+import gleam/int
+import gleam/list
 import lustre/attribute as att
 import lustre/element.{type Element}
 import lustre/element/html.{div, li, nav, ul}
@@ -44,7 +46,7 @@ fn main_drop_down_menu(model: model.Model) {
   let menu = case model.dropdowns {
     [model.MainMenu] ->
       html.div([att.class("drop-down-menu")], [
-        ui.drop_down_header(),
+        ui.drop_down_header(message.CloseModal),
         ui.drop_down_item_extended(
           route.timesheet_url,
           gfx.icon_timesheet,
