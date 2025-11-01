@@ -7,8 +7,6 @@ using Quarter.Core.Repositories;
 using Quarter.Core.Utils;
 using Quarter.HttpApi.Services;
 
-#pragma warning disable CS9113 // Parameter is unread.
-
 namespace Quarter.HttpApi;
 
 [Authorize]
@@ -29,4 +27,8 @@ public class ApiControllerBase(IApiService apiService, IRepositoryFactory reposi
         var userId = IdOf<User>.Of(Guid.Parse(idClaim.Value));
         return new OperationContext(userId, []);
     }
+
+    // TODO Should we do this in a middleware or something instead?
+    protected Task<User> GetCurrentUserAsync(OperationContext oc, CancellationToken ct)
+        => repositoryFactory.UserRepository().GetByIdAsync(oc.UserId, ct);
 }
