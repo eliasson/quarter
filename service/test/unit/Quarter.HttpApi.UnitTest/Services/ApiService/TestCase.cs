@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -20,6 +21,13 @@ public class TestCase
         ApiService = new ApiService(_repositoryFactory);
     }
 
+    protected Task<User> AddUser(string email, Action<User>? configure = null)
+    {
+        var user = new User(new Email(email));
+        configure?.Invoke(user);
+
+        return _repositoryFactory.UserRepository().CreateAsync(user, CancellationToken.None);
+    }
     protected Task<Project> AddProject(IdOf<User> userId, string name)
     {
         var project = new Project(name, $"description:{name}");
