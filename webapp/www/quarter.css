@@ -21,6 +21,7 @@
     --red-6: #1a0000;
     --red-7: #000000;
 
+    /** Vivid nightfall */
     --violet-0: #e0aaff;
     --violet-1: #c77dff;
     --violet-2: #9d4edd;
@@ -102,48 +103,28 @@ body {
 }
 
 .application {
-    max-width: 900px;
-
+    width: 100%;
     margin: 0 auto;
-    margin-top: 96px;
 }
 
 /** main navigation  ********************************************************/
 .main-navigation {
-    border: 2px solid var(--border-color);
     display: flex;
     justify-content: space-between;
 
-    border: 2px solid var(--border-color);
-    box-shadow: 4px 4px 0 var(--shadow);
-
     padding: 0.5rem;
-    border-radius: 2rem;
 
     font-family: sans-serif;
 }
 
 .main-navigation ul {
-    display: flex;
-    gap: 5rem;
-}
-
-.main-navigation ul li {
-    list-style: none;
+    display: none;
 }
 
 .main-navigation-item {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-}
-
-/** icons *******************************************************************/
-.icon {
-    color: var(color-text);
-    display: block;
-    width: 1.75rem;
-    height: 1.75rem;
 }
 
 .main-navigation-item:hover {
@@ -154,6 +135,14 @@ body {
     /* Optional: Add a shadow for extra effect
     filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.8));
     */
+}
+
+/** icons *******************************************************************/
+.icon {
+    color: var(color-text);
+    display: block;
+    width: 1.75rem;
+    height: 1.75rem;
 }
 
 /** text ********************************************************************/
@@ -179,6 +168,15 @@ a:visited {
 a:hover {
     color: var(--violet-7);
     text-decoration: none;
+}
+
+/** buttons *****************************************************************/
+button {
+}
+
+button.ghost {
+    border: none;
+    background-color: transparent;
 }
 
 /** calendar month **********************************************************/
@@ -251,13 +249,14 @@ a:hover {
     max-height: 100vh;
     width: 100vw;
     max-width: 100vw;
-
-    background-color: rgba(1, 1, 1, 0.1);
     z-index: 80;
+
+    /** Useful for debugging
+    background-color: rgba(1, 1, 1, 0.1);
+    */
 }
 
 .drop-down-initiator {
-    position: relative;
     overflow: visible;
 }
 
@@ -265,27 +264,29 @@ a:hover {
     display: flex;
     flex-direction: column;
     position: absolute;
-    z-index: 100;
-    background-color: var(--gray-2);
 
+    background-color: var(--gray-1);
+
+    top: 0;
     left: 0;
-    right: 0;
     transition: all 0.5s ease;
 
-    border-radius: 0 0 0.5rem 0.5rem;
-
-    /* x, y, spread, blur */
-    box-shadow: 0 8px 8px -8px var(--gray-8);
+    height: 100vh;
+    width: 100vw;
 
     z-index: 100;
 }
 
-.drop-down-menu-item {
+.drop-down-menu-item,
+.drop-down-menu-header {
     display: flex;
     flex-direction: column;
     align-items: start;
 
-    padding: 0.5rem 1rem;
+    padding: 1rem 1rem;
+}
+
+.drop-down-menu-item {
     cursor: pointer;
 }
 
@@ -298,7 +299,8 @@ a:hover {
     color: var(--gray-3);
 }
 
-.drop-down-menu-item .content {
+.drop-down-menu-item .content,
+.drop-down-menu-header .content {
     display: flex;
     flex-direction: row;
     gap: 1rem;
@@ -311,11 +313,51 @@ a:hover {
     margin-left: calc(1.75rem + 1rem);
 }
 
+.drop-down-menu-header .content {
+    justify-content: space-between;
+    width: 100%;
+}
+
 @media (min-width: 1024px) {
     /** Large screens */
+
+    .application {
+        max-width: 900px;
+
+        margin: 0 auto;
+        margin-top: 96px;
+    }
+
+    .main-navigation {
+        border: 2px solid var(--border-color);
+        display: flex;
+        justify-content: space-between;
+
+        border: 2px solid var(--border-color);
+        box-shadow: 4px 4px 0 var(--shadow);
+
+        padding: 0.5rem;
+        border-radius: 2rem;
+    }
+
+    .main-navigation ul {
+        display: flex;
+        gap: 5rem;
+    }
+
+    .main-navigation ul li {
+        list-style: none;
+    }
+
+    .drop-down-initiator {
+        position: relative;
+    }
+
     .drop-down-menu {
         min-width: 320px;
         max-width: 320px;
+
+        height: unset;
 
         border-radius: 0.5rem;
         border: 2px solid var(--gray-9);
@@ -326,5 +368,10 @@ a:hover {
         left: unset;
         right: 1rem;
         top: 1rem;
+    }
+
+    /** Drop-down menus does not need the header on large screens. */
+    .drop-down-menu-header {
+        display: none;
     }
 }
