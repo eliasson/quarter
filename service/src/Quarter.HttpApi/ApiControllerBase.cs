@@ -27,7 +27,10 @@ public class ApiControllerBase(IApiService apiService, IRepositoryFactory reposi
         if (idClaim == null) throw new UnauthorizedAccessException($"Could not find claim of type ({ApplicationClaim.QuarterUserIdClaimType}) on principal");
 
         var userId = IdOf<User>.Of(Guid.Parse(idClaim.Value));
-        return new OperationContext(userId, []);
+
+        var user = await repositoryFactory.UserRepository().GetByIdAsync(userId, ct);
+
+        return new OperationContext(userId, user.Roles.AsReadOnly());
     }
 
     // TODO Should we do this in a middleware or something instead?
