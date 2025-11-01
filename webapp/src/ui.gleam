@@ -1,3 +1,4 @@
+import gfx
 import gleam/option.{type Option}
 import lustre/attribute as att
 import lustre/element
@@ -31,6 +32,12 @@ pub fn drop_down_item_extended(
   drop_down_item_impl(url, ico, text, option.Some(appendix))
 }
 
+pub fn drop_down_header() -> element.Element(a) {
+  html.div([att.class("drop-down-menu-header")], [
+    html.div([att.class("content")], [icon(gfx.icon_logo), close_button()]),
+  ])
+}
+
 pub fn drop_down_item_impl(
   url: String,
   icon ico: String,
@@ -53,4 +60,10 @@ pub fn drop_down_item_impl(
 
 pub fn separator_menu_item() {
   html.hr([att.class("separator")])
+}
+
+fn close_button() -> element.Element(a) {
+  html.button([att.class("ghost")], [
+    icon(gfx.icon_close),
+  ])
 }

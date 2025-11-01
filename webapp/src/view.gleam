@@ -44,6 +44,7 @@ fn main_drop_down_menu(model: model.Model) {
   let menu = case model.dropdowns {
     [model.MainMenu] ->
       html.div([att.class("drop-down-menu")], [
+        ui.drop_down_header(),
         ui.drop_down_item_extended(
           route.timesheet_url,
           gfx.icon_timesheet,
@@ -83,7 +84,7 @@ fn main_drop_down_menu(model: model.Model) {
       event.on_click(message.OpenMainMenu),
     ],
     [
-      ui.icon(gfx.icon_more),
+      ui.icon(gfx.icon_menu),
       menu,
     ],
   )
