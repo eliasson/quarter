@@ -107,5 +107,9 @@ fn drop_down_back_drop(model: model.Model) {
 }
 
 fn debug(m: model.Model) {
-  html.pre([], [html.text("Route: " <> route.describe(m.route))])
+  html.pre([], [
+    html.text("Route: " <> route.describe(m.route)),
+    html.br([]),
+    html.text("Modal count: " <> int.to_string(list.length(m.dropdowns))),
+  ])
 }
