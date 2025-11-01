@@ -61,7 +61,7 @@ public class Startup(IConfiguration configuration)
             return;
         }
 
-        services.AddAuthentication(options =>
+        var authBuilder = services.AddAuthentication(options =>
             {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -84,8 +84,11 @@ public class Startup(IConfiguration configuration)
                     await handle(ctx);
                 };
 
-            })
-            .AddGoogle(options =>
+            });
+
+        if (Configuration.GetValue<string?>("Auth:Providers:Google:ClientId") is { Length: > 0 })
+        {
+            authBuilder.AddGoogle(options =>
             {
                 options.ClientId = Configuration["Auth:Providers:Google:ClientId"] ?? "missing-config";
                 options.ClientSecret = Configuration["Auth:Providers:Google:ClientSecret"] ?? "missing-config";
@@ -96,8 +99,13 @@ public class Startup(IConfiguration configuration)
                 {
                     OnCreatingTicket = OnCreatingTicket()
                 };
-            })
-            .AddGitHub(options =>
+            });
+        }
+
+
+        if (Configuration.GetValue<string?>("Auth:Providers:GitHub:ClientId") is { Length: > 0 })
+        {
+            authBuilder.AddGitHub(options =>
             {
                 options.ClientId = Configuration["Auth:Providers:GitHub:ClientId"] ?? "missing-config";
                 options.ClientSecret = Configuration["Auth:Providers:GitHub:ClientSecret"] ?? "missing-config";
@@ -107,6 +115,8 @@ public class Startup(IConfiguration configuration)
                     OnCreatingTicket = OnCreatingTicket()
                 };
             });
+
+        }
     }
 
     private static Func<OAuthCreatingTicketContext, Task> OnCreatingTicket()
