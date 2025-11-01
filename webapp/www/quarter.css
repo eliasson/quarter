@@ -115,6 +115,8 @@ body {
     padding: 0.5rem;
 
     font-family: sans-serif;
+
+    user-select: none;
 }
 
 .main-navigation ul {
