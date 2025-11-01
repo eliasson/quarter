@@ -1,4 +1,3 @@
-import gleam/io
 import gleam/uri.{type Uri}
 import lustre
 import lustre/effect.{type Effect}

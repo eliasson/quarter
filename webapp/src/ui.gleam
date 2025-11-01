@@ -1,6 +1,6 @@
 import gleam/option.{type Option}
 import lustre/attribute as att
-import lustre/element.{type Element}
+import lustre/element
 import lustre/element/html
 import lustre/element/svg
 

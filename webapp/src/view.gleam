@@ -1,5 +1,4 @@
 import gfx
-import gleam/option.{type Option}
 import lustre/attribute as att
 import lustre/element.{type Element}
 import lustre/element/html.{div, li, nav, ul}
