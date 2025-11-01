@@ -1,7 +1,7 @@
 import gleam/uri.{type Uri}
 import lustre
 import lustre/effect.{type Effect}
-import message.{type Msg, BackdropClick, OnRouteChange, OpenMainMenu}
+import message.{type Msg, CloseModal, OnRouteChange, OpenMainMenu}
 import model.{
   type Model, close_modal, initial_model, navigate_to, open_main_menu,
 }
@@ -38,7 +38,7 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       #(m, effect.none())
     }
     OpenMainMenu -> #(open_main_menu(model), effect.none())
-    BackdropClick -> #(close_modal(model), effect.none())
+    CloseModal -> #(close_modal(model), effect.none())
   }
 }
 

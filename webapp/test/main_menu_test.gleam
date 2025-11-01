@@ -18,7 +18,7 @@ pub fn when_closing_main_menu_test() {
     model.initial_model()
     |> webapp.update(message.OpenMainMenu)
     |> first
-    |> webapp.update(message.BackdropClick)
+    |> webapp.update(message.CloseModal)
     |> first
 
   should.equal(m.dropdowns, [])

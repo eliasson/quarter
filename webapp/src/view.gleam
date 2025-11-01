@@ -98,7 +98,7 @@ fn drop_down_back_drop(model: model.Model) {
       html.div(
         [
           att.class("drop-down-menu-back-drop"),
-          event.on_click(message.BackdropClick),
+          event.on_click(message.CloseModal),
         ],
         [],
       )

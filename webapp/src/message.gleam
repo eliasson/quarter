@@ -7,6 +7,6 @@ pub type Msg {
   /// Open the main navigation menu.
   OpenMainMenu
 
-  ///When the modal backdrop is clicked.
-  BackdropClick
+  ///When the modal backdrop is clicked, menu closed, etc.
+  CloseModal
 }
