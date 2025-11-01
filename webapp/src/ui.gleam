@@ -14,7 +14,11 @@ pub fn icon(icon_name: String) {
   ])
 }
 
-pub fn drop_down_item(url: String, icon ico: String, text text: String) {
+pub fn drop_down_item(
+  url: String,
+  icon ico: String,
+  text text: String,
+) -> element.Element(a) {
   drop_down_item_impl(url, ico, text, option.None)
 }
 
@@ -23,7 +27,7 @@ pub fn drop_down_item_extended(
   icon ico: String,
   text text: String,
   appendix appendix: String,
-) {
+) -> element.Element(a) {
   drop_down_item_impl(url, ico, text, option.Some(appendix))
 }
 
