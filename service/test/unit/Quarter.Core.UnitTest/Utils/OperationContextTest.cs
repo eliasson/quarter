@@ -24,4 +24,15 @@ public class OperationContextTest
 
         Assert.That(ocOne, Is.EqualTo(ocTwo));
     }
+
+    [TestCase(UserRole.Administrator, true)]
+    [TestCase(UserRole.Administrator, false)]
+    public void ItShouldHaveRole(UserRole role, bool expected)
+    {
+        var oc = expected
+            ? new OperationContext(IdOf<User>.Random(), [UserRole.Administrator])
+            : new OperationContext(IdOf<User>.Random(), []);
+
+        Assert.That(oc.HasRole(role), Is.EqualTo(expected));
+    }
 }
