@@ -3,14 +3,17 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Quarter.Core.Auth;
 using Quarter.Core.Models;
+using Quarter.Core.Repositories;
 using Quarter.Core.Utils;
 using Quarter.HttpApi.Services;
+
+#pragma warning disable CS9113 // Parameter is unread.
 
 namespace Quarter.HttpApi;
 
 [Authorize]
 [ApiController]
-public class ApiControllerBase(IApiService apiService, IHttpContextAccessor httpContextAccessor)
+public class ApiControllerBase(IApiService apiService, IRepositoryFactory repositoryFactory, IHttpContextAccessor httpContextAccessor)
     : ControllerBase
 {
     protected readonly IApiService ApiService = apiService;
