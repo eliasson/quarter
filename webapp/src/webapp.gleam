@@ -1,11 +1,16 @@
+import gleam/dynamic/decode.{type Decoder}
 import gleam/uri.{type Uri}
 import lustre
 import lustre/effect.{type Effect}
-import message.{type Msg, CloseModal, OnRouteChange, OpenMainMenu}
+import message.{
+  type Msg, CloseModal, CurrentUserResult, OnRouteChange, OpenMainMenu,
+}
 import model.{
   type Model, close_modal, initial_model, navigate_to, open_main_menu,
+  set_current_user,
 }
 import modem
+import protocol
 import route
 import view
 
@@ -24,8 +29,17 @@ fn init(_args) -> #(Model, Effect(Msg)) {
     _ -> route.Home
   }
 
-  let m = initial_model() |> navigate_to(initial_route)
-  #(m, modem.init(on_url_change))
+  let model = initial_model() |> navigate_to(initial_route)
+
+  // At load we need to trigger two effects. One for setting up the URL routing and one to fetch
+  // the current users to see if this user is authenticated or not.
+  let init_effects =
+    effect.batch([
+      modem.init(on_url_change),
+      protocol.get_current_user(message.CurrentUserResult),
+    ])
+
+  #(model, init_effects)
 }
 
 /// The orchestration of the application. All user actions, HTTP responses, etc. is dispatched
@@ -39,6 +53,8 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
     }
     OpenMainMenu -> #(open_main_menu(model), effect.none())
     CloseModal -> #(close_modal(model), effect.none())
+    CurrentUserResult(Ok(u)) -> #(set_current_user(model, u), effect.none())
+    CurrentUserResult(Error(_)) -> #(model, effect.none())
   }
 }
 

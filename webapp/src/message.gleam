@@ -1,4 +1,6 @@
 import route.{type Route}
+import rsvp
+import user
 
 pub type Msg {
   /// When a page navigation takes place.
@@ -9,4 +11,10 @@ pub type Msg {
 
   ///When the modal backdrop is clicked, menu closed, etc.
   CloseModal
+
+  //
+  // Protocol messages
+  //
+  //
+  CurrentUserResult(Result(user.CurrentUser, rsvp.Error))
 }

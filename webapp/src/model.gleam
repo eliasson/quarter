@@ -1,6 +1,7 @@
 import gleam/list
 import listext
 import route
+import user
 
 pub type Model {
   Model(
@@ -33,6 +34,10 @@ pub fn open_main_menu(m: Model) -> Model {
 pub fn close_modal(m: Model) {
   let dropdowns = listext.drop_last(m.dropdowns)
   Model(..m, dropdowns: dropdowns)
+}
+
+pub fn set_current_user(m: Model, _user: user.CurrentUser) {
+  Model(..m, is_authenticated: True)
 }
 
 fn open_drop_down(m: Model, menu: DropDownMenu) {
