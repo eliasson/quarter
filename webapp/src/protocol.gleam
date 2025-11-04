@@ -1,6 +1,5 @@
 import gleam/dynamic/decode
-import gleam/io
-import gleam/option
+import gleam/option.{type Option, None, Some}
 import gleam/time/timestamp
 import lustre/effect.{type Effect}
 import message
@@ -52,26 +51,21 @@ fn decode_timestamp() -> decode.Decoder(timestamp.Timestamp) {
 
   case timestamp.parse_rfc3339(ts_str) {
     Ok(ts) -> decode.success(ts)
-    _ ->
-      decode.failure(
-        util.timestamp_zero(),
-        "Could not parse the \"created\" timestamp",
-      )
+    _ -> decode.failure(util.timestamp_zero(), "Could not parse timestamp")
   }
 }
 
-fn decode_optional_timestamp() -> decode.Decoder(
-  option.Option(timestamp.Timestamp),
-) {
+/// Decode an optional ISO-8601 / RFC-3339 timestamp from a string.
+fn decode_optional_timestamp() -> decode.Decoder(Option(timestamp.Timestamp)) {
   use ts_str <- decode.then(decode.optional(decode.string))
 
   case ts_str {
-    option.Some(ts) -> {
+    Some(ts) ->
       case timestamp.parse_rfc3339(ts) {
-        Ok(t) -> decode.success(option.Some(t))
-        _ -> decode.success(option.None)
+        Ok(t) -> decode.success(Some(t))
+        _ -> decode.failure(None, "Could not parse timestamp")
       }
-    }
-    option.None -> decode.success(option.None)
+
+    None -> decode.success(None)
   }
 }
