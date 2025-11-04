@@ -16,7 +16,7 @@ public class UsersController(IApiService apiService, IRepositoryFactory reposito
         var oc = await GetOperationContextForCurrentUserAsync(ct);
 
         if (!oc.HasRole(UserRole.Administrator))
-            return Forbid();
+            return StatusCode(StatusCodes.Status403Forbidden);
 
         var users = ApiService.GetAllUsersAsync(oc, ct);
         return Ok(users);
