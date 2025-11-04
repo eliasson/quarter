@@ -35,8 +35,11 @@ fn init(_args) -> #(Model, Effect(Msg)) {
   // the current users to see if this user is authenticated or not.
   let init_effects =
     effect.batch([
+      // Setup the router to monitor for URL changes.
       modem.init(on_url_change),
+      // Load the current user.
       protocol.get_current_user(message.CurrentUserResult),
+      // Load any additional data based on route.
       effect_on_route_loaded(initial_route),
     ])
 
