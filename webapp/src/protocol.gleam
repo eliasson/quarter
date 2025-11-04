@@ -15,9 +15,9 @@ pub fn get_current_user(
   rsvp.get(url, handler)
 }
 
-fn user_resource_decoder() {
+pub fn user_resource_decoder() {
   use id <- decode.field("id", decode.string)
-  use email <- decode.field("title", decode.string)
+  use email <- decode.field("email", decode.string)
 
   decode.success(user.CurrentUser(id:, email:))
 }
