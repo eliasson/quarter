@@ -1,4 +1,5 @@
 import gleam/dynamic/decode
+import gleam/time/timestamp
 import lustre/effect.{type Effect}
 import message
 import rsvp
@@ -29,9 +30,24 @@ pub fn get_system_users(
   rsvp.get(url, handler)
 }
 
-pub fn user_resource_decoder() {
+pub fn user_resource_decoder() -> decode.Decoder(user.User) {
   use id <- decode.field("id", decode.string)
   use email <- decode.field("email", decode.string)
+  use ts <- decode.field("created", decode_timestamp())
 
-  decode.success(user.User(id:, email:))
+  decode.success(user.User(id:, email:, created: ts))
+}
+
+/// Decode a ISO-8601 / RFC-3339 timestamp from a string.
+fn decode_timestamp() -> decode.Decoder(timestamp.Timestamp) {
+  use ts_str <- decode.then(decode.string)
+
+  case timestamp.parse_rfc3339(ts_str) {
+    Ok(ts) -> decode.success(ts)
+    _ ->
+      decode.failure(
+        timestamp.from_unix_seconds(0),
+        "Could not parse the \"created\" timestamp",
+      )
+  }
 }
