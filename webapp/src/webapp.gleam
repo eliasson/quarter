@@ -37,6 +37,7 @@ fn init(_args) -> #(Model, Effect(Msg)) {
     effect.batch([
       modem.init(on_url_change),
       protocol.get_current_user(message.CurrentUserResult),
+      effect_on_route_loaded(initial_route),
     ])
 
   #(model, init_effects)
@@ -49,12 +50,7 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
   case msg {
     OnRouteChange(r) -> {
       let m = model |> close_modal |> navigate_to(r)
-
-      let e = case r {
-        route.AdministerSystemUsers ->
-          protocol.get_system_users(message.SystemUsersResult)
-        _ -> effect.none()
-      }
+      let e = effect_on_route_loaded(r)
 
       #(m, e)
     }
@@ -69,4 +65,13 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
 
 fn on_url_change(uri: Uri) -> Msg {
   route.identify(uri) |> OnRouteChange()
+}
+
+/// Get the efffect (if any) to apply when loading a route.
+fn effect_on_route_loaded(r: route.Route) {
+  case r {
+    route.AdministerSystemUsers ->
+      protocol.get_system_users(message.SystemUsersResult)
+    _ -> effect.none()
+  }
 }
