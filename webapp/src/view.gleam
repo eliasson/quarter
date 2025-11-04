@@ -9,9 +9,22 @@ import message
 import model
 import route
 import ui
+import views/system_users
 
 pub fn view(model: model.Model) -> Element(message.Msg) {
-  div([], [drop_down_back_drop(model), main_navigation(model), debug(model)])
+  div([], [
+    drop_down_back_drop(model),
+    main_navigation(model),
+    route_view(model),
+    debug(model),
+  ])
+}
+
+fn route_view(model: model.Model) {
+  case model.route {
+    route.AdministerSystemUsers -> system_users.view(model)
+    _ -> element.none()
+  }
 }
 
 fn main_navigation(model: model.Model) -> Element(message.Msg) {
