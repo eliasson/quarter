@@ -4,6 +4,7 @@ import lustre/effect.{type Effect}
 import message
 import rsvp
 import user
+import util
 
 /// Get the currently logged in user, if logged in.
 pub fn get_current_user(
@@ -46,7 +47,7 @@ fn decode_timestamp() -> decode.Decoder(timestamp.Timestamp) {
     Ok(ts) -> decode.success(ts)
     _ ->
       decode.failure(
-        timestamp.from_unix_seconds(0),
+        util.timestamp_zero(),
         "Could not parse the \"created\" timestamp",
       )
   }
