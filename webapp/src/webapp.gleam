@@ -1,13 +1,13 @@
-import gleam/dynamic/decode.{type Decoder}
 import gleam/uri.{type Uri}
 import lustre
 import lustre/effect.{type Effect}
 import message.{
   type Msg, CloseModal, CurrentUserResult, OnRouteChange, OpenMainMenu,
+  SystemUsersResult,
 }
 import model.{
   type Model, close_modal, initial_model, navigate_to, open_main_menu,
-  set_current_user,
+  set_current_user, set_users,
 }
 import modem
 import protocol
@@ -49,12 +49,21 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
   case msg {
     OnRouteChange(r) -> {
       let m = model |> close_modal |> navigate_to(r)
-      #(m, effect.none())
+
+      let e = case r {
+        route.AdministerSystemUsers ->
+          protocol.get_system_users(message.SystemUsersResult)
+        _ -> effect.none()
+      }
+
+      #(m, e)
     }
     OpenMainMenu -> #(open_main_menu(model), effect.none())
     CloseModal -> #(close_modal(model), effect.none())
     CurrentUserResult(Ok(u)) -> #(set_current_user(model, u), effect.none())
     CurrentUserResult(Error(_)) -> #(model, effect.none())
+    SystemUsersResult(Ok(users)) -> #(set_users(model, users), effect.none())
+    SystemUsersResult(Error(_)) -> #(model, effect.none())
   }
 }
 

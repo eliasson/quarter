@@ -11,6 +11,6 @@ pub fn decode_minimal_user_test() {
     }"
     |> json.parse(protocol.user_resource_decoder())
 
-  let expected = Ok(user.CurrentUser("001", "alice@example.com"))
+  let expected = Ok(user.User("001", "alice@example.com"))
   should.equal(result, expected)
 }

@@ -15,6 +15,6 @@ pub type Msg {
   //
   // Protocol messages
   //
-  //
-  CurrentUserResult(Result(user.CurrentUser, rsvp.Error))
+  CurrentUserResult(Result(user.User, rsvp.Error))
+  SystemUsersResult(Result(List(user.User), rsvp.Error))
 }

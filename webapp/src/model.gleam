@@ -9,6 +9,8 @@ pub type Model {
     route: route.Route,
     /// The open drop down menus, a list to allow for nested menus.
     dropdowns: List(DropDownMenu),
+    /// The list of all system users if loaded (for admin).
+    users: List(user.User),
   )
 }
 
@@ -19,7 +21,7 @@ pub type DropDownMenu {
 
 /// Creates a new model with the initial fields all set.
 pub fn initial_model() -> Model {
-  Model(is_authenticated: False, route: route.Home, dropdowns: [])
+  Model(is_authenticated: False, route: route.Home, dropdowns: [], users: [])
 }
 
 pub fn navigate_to(m: Model, route: route.Route) -> Model {
@@ -36,8 +38,12 @@ pub fn close_modal(m: Model) {
   Model(..m, dropdowns: dropdowns)
 }
 
-pub fn set_current_user(m: Model, _user: user.CurrentUser) {
+pub fn set_current_user(m: Model, _user: user.User) {
   Model(..m, is_authenticated: True)
+}
+
+pub fn set_users(m: Model, users: List(user.User)) {
+  Model(..m, users: users)
 }
 
 fn open_drop_down(m: Model, menu: DropDownMenu) {

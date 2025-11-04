@@ -4,6 +4,6 @@ pub type UserId =
 pub type Email =
   String
 
-pub type CurrentUser {
-  CurrentUser(id: UserId, email: Email)
+pub type User {
+  User(id: UserId, email: Email)
 }
