@@ -2,7 +2,7 @@ import gleeunit/should
 import message
 import model
 import route
-import util.{first}
+import test_util.{first}
 import webapp
 
 pub fn when_navigating_with_open_main_menu_test() {

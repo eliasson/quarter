@@ -1,7 +1,7 @@
 import gleeunit/should
 import message
 import model
-import util.{first}
+import test_util.{first}
 import webapp
 
 pub fn when_opening_main_menu_test() {
