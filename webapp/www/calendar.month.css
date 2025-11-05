@@ -1,0 +1,62 @@
+@import "./definitions.css";
+
+/** calendar month **********************************************************/
+.calendar-month {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+}
+
+.calendar-month h1 {
+    font-weight: 900;
+    font-size: var(--font-size-5xl);
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+}
+
+.calendar-month h1 .year {
+    font-weight: 200;
+}
+
+.calendar-month-day {
+    display: flex;
+    flex-direction: row;
+
+    border-bottom: 1px solid var(--soft-border-color);
+    align-items: center;
+    gap: 1rem;
+
+    cursor: pointer;
+}
+
+.calendar-month-day .date {
+    min-width: 3rem;
+    max-width: 3rem;
+    min-height: 3rem;
+    max-height: 3rem;
+
+    margin: 0.5rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+}
+
+.calendar-month-day .date.today {
+    color: var(--white);
+    background-color: var(--red-0);
+    border-radius: 50%;
+}
+
+.calendar-month-day .holiday {
+    color: var(--red-0);
+}
+
+.calendar-month-day .day {
+    flex-grow: 1;
+}
+
+.calendar-month-day .reported {
+}

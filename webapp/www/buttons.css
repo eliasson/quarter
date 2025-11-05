@@ -1,0 +1,8 @@
+/** buttons *****************************************************************/
+button {
+}
+
+button.ghost {
+    border: none;
+    background-color: transparent;
+}

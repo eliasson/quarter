@@ -1,0 +1,105 @@
+:root {
+    --color-bg: #ffffff;
+    --color-text: #0f172a;
+
+    --value--color: var(--color-text);
+    --unit--color: var(--color-text);
+
+    --border-color: #1a1a1a;
+    --soft-border-color: #b8b8a8;
+
+    --shadow: rgba(4, 4, 3, 0.89);
+
+    --white: #fff;
+
+    --red-0: #fe5656;
+    --red-1: #de0000;
+    --red-2: #b30000;
+    --red-3: #800000;
+    --red-4: #550000;
+    --red-5: #330000;
+    --red-6: #1a0000;
+    --red-7: #000000;
+
+    /** Vivid nightfall */
+    --violet-0: #e0aaff;
+    --violet-1: #c77dff;
+    --violet-2: #9d4edd;
+    --violet-3: #7b2cbf;
+    --violet-4: #5a189a;
+    --violet-5: #3c096c;
+    --violet-6: #240046;
+    --violet-7: #10002b;
+    --yellow-1: #ffd500;
+    --yellow-2: #fdc500;
+
+    --gray-0: #ffffff;
+    --gray-1: #f9fafb;
+    --gray-2: #f3f4f6;
+    --gray-3: #e5e7eb;
+    --gray-4: #d1d5db;
+    --gray-5: #9ca3af;
+    --gray-6: #6b7280;
+    --gray-7: #4b5563;
+    --gray-8: #374151;
+    --gray-9: #1f2937;
+    --gray-10: #111827;
+
+    /* Typography */
+    --font-family: serif, monospace;
+    --font-size-xs: 0.75rem;
+    --font-size-sm: 0.875rem;
+    --font-size-base: 1rem;
+    --font-size-lg: 1.125rem;
+    --font-size-xl: 1.25rem;
+    --font-size-2xl: 1.5rem;
+    --font-size-3xl: 1.875rem;
+    --font-size-4xl: 2.25rem;
+    --font-size-5xl: 3rem;
+
+    /* Spacing */
+    --spacing-1: 0.25rem;
+    --spacing-2: 0.5rem;
+    --spacing-3: 0.75rem;
+    --spacing-4: 1rem;
+    --spacing-5: 1.25rem;
+    --spacing-6: 1.5rem;
+    --spacing-8: 2rem;
+    --spacing-10: 2.5rem;
+    --spacing-12: 3rem;
+    --spacing-16: 4rem;
+    --spacing-20: 5rem;
+    --spacing-24: 6rem;
+
+    --grayscale-50: rgb(248, 248, 248);
+    --grayscale-100: rgb(234, 234, 234);
+    --grayscale-200: rgb(216, 216, 216);
+    --grayscale-300: rgb(186, 186, 186);
+    --grayscale-400: rgb(170, 170, 170);
+    --grayscale-500: rgb(155, 155, 155);
+    --grayscale-600: rgb(102, 102, 102);
+    --grayscale-700: rgb(86, 86, 86);
+    --grayscale-800: rgb(71, 71, 71);
+    --grayscale-900: rgb(45, 45, 45);
+    --grayscale-1000: rgb(30, 30, 30);
+    --grayscale-1100: rgb(16, 16, 16);
+
+    --blue-50: rgb(248, 248, 251);
+    --blue-100: rgb(234, 233, 244);
+    --blue-200: rgb(216, 214, 235);
+    --blue-300: rgb(186, 182, 221);
+    --blue-400: rgb(170, 165, 212);
+    --blue-500: rgb(154, 149, 205);
+    --blue-600: rgb(99, 91, 177);
+    --blue-700: rgb(83, 75, 158);
+    --blue-800: rgb(68, 62, 130);
+    --blue-900: rgb(44, 39, 84);
+    --blue-1000: rgb(29, 26, 56);
+    --blue-1100: rgb(16, 14, 30);
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+    --color-bg: #0f172a;
+    --color-text: #f8fafc;
+}
