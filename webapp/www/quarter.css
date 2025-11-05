@@ -1,7 +1,8 @@
 @import "./definitions.css";
+@import "./buttons.css";
+@import "./form.css";
 @import "./navigation.css";
 @import "./drop-down-menu.css";
-@import "./buttons.css";
 @import "./calendar.month.css";
 
 *,
@@ -65,11 +66,75 @@ a:hover {
     text-decoration: none;
 }
 
+.content {
+    display: flex;
+    flex-direction: column;
+}
+
+.content h1 {
+    font-weight: 900;
+    font-size: var(--font-size-5xl);
+    margin-top: var(--spacing-16);
+    margin-bottom: var(--spacing-8);
+}
+
+.table-wrapper {
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+    overflow-x: auto; /* Enables horizontal scrolling */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+thead {
+    background-color: var(--gray-1);
+    border-bottom: 1px solid var(--gray-3);
+    color: var(--blue-700);
+}
+
+tbody tr:not(:last-child) {
+    border-bottom: 1px solid var(--gray-3);
+}
+
+tbody tr:hover {
+    background-color: var(--gray-1);
+}
+
+th,
+td {
+    padding: var(--spacing-2);
+    border: 0;
+
+    text-align: left;
+}
+
+td.action:last-child {
+    padding: 0;
+}
+
 @media (min-width: 1024px) {
     .application {
         max-width: 900px;
 
         margin: 0 auto;
         margin-top: 96px;
+    }
+
+    table {
+        width: 100%;
+    }
+
+    th,
+    td {
+        padding: var(--spacing-3);
+        border: 0;
+
+        text-align: left;
     }
 }

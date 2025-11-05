@@ -18,6 +18,11 @@
     overflow: visible;
 }
 
+.drop-down-initiator,
+.drop-down-initiator button {
+    cursor: pointer;
+}
+
 .drop-down-menu {
     display: flex;
     flex-direction: column;

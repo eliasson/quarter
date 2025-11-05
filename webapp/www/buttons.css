@@ -5,4 +5,11 @@ button {
 button.ghost {
     border: none;
     background-color: transparent;
+    color: var(--blue-700);
+}
+
+button:focus {
+    outline-style: solid;
+    outline-width: 4px;
+    outline-color: var(--blue-700);
 }
