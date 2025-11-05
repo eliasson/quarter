@@ -30,7 +30,7 @@ fn user_table(m: model.Model) {
         [],
         list.map(m.users, fn(u) {
           tr([], [
-            td([], []),
+            td([], [ui.checkbox()]),
             td([], [html.text(u.email)]),
             td([], [ui.timestamp(u.created)]),
             td([], [

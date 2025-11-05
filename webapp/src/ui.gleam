@@ -71,6 +71,10 @@ pub fn timestamp(ts: timestamp.Timestamp) -> element.Element(msg) {
   html.time([], [html.text(value)])
 }
 
+pub fn checkbox() -> element.Element(msg) {
+  html.label([att.class("checkbox")], [html.input([att.type_("checkbox")])])
+}
+
 fn drop_down_item_impl(
   url: String,
   icon ico: String,
