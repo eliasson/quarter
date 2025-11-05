@@ -17,3 +17,7 @@ pub const icon_more = "ellipsis-horizontal-circle"
 pub const icon_close = "x-mark"
 
 pub const icon_menu = "bars-3"
+
+pub const icon_context_menu = "ellipsis-vertical"
+
+pub const icon_add_user = "user-plus"

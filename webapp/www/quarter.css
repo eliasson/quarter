@@ -31,6 +31,15 @@ body {
 .application {
     width: 100%;
     margin: 0 auto;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.application-layout {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
 }
 
 /** icons *******************************************************************/
@@ -69,6 +78,7 @@ a:hover {
 .content {
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
 }
 
 .content h1 {
@@ -81,6 +91,7 @@ a:hover {
 .table-wrapper {
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
 
     width: 100%;
     overflow-x: auto; /* Enables horizontal scrolling */
@@ -123,7 +134,7 @@ td.action:last-child {
         max-width: 900px;
 
         margin: 0 auto;
-        margin-top: 96px;
+        padding-top: 96px;
     }
 
     table {

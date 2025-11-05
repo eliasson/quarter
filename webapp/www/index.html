@@ -13,40 +13,41 @@
 
     <body>
         <div class="application" id="quarter">
-            <!-- The main navigation is present on all pages -->
-            <nav class="main-navigation">
-                <div class="main-navigation-item">
-                    <svg class="icon">
-                        <use xlink:href="#logo"></use>
-                    </svg>
-                </div>
-                <ul>
-                    <li class="main-navigation-item">
+            <div class="application-layout">
+                <!-- The main navigation is present on all pages -->
+                <nav class="main-navigation">
+                    <div class="main-navigation-item">
                         <svg class="icon">
-                            <use xlink:href="#calendar"></use>
+                            <use xlink:href="#logo"></use>
                         </svg>
-                        <a href="#">Timesheet</a>
-                    </li>
-                    <li class="main-navigation-item">
-                        <svg class="icon">
-                            <use xlink:href="#chart-bar"></use>
-                        </svg>
-                        <a href="#">Reports</a>
-                    </li>
-                    <li class="main-navigation-item">
-                        <svg class="icon">
-                            <use xlink:href="#table"></use>
-                        </svg>
-                        <a href="#">Manage</a>
-                    </li>
-                </ul>
-                <div class="main-navigation-item">
-                    <div class="drop-down-initiator">
-                        <svg class="icon">
-                            <use xlink:href="#ellipsis-horizontal-circle"></use>
-                        </svg>
+                    </div>
+                    <ul>
+                        <li class="main-navigation-item">
+                            <svg class="icon">
+                                <use xlink:href="#calendar"></use>
+                            </svg>
+                            <a href="#">Timesheet</a>
+                        </li>
+                        <li class="main-navigation-item">
+                            <svg class="icon">
+                                <use xlink:href="#chart-bar"></use>
+                            </svg>
+                            <a href="#">Reports</a>
+                        </li>
+                        <li class="main-navigation-item">
+                            <svg class="icon">
+                                <use xlink:href="#table"></use>
+                            </svg>
+                            <a href="#">Manage</a>
+                        </li>
+                    </ul>
+                    <div class="main-navigation-item">
+                        <div class="drop-down-initiator">
+                            <svg class="icon">
+                                <use xlink:href="#ellipsis-horizontal-circle"></use>
+                            </svg>
 
-                        <!-- div class="drop-down-menu">
+                            <!-- div class="drop-down-menu">
                             <div class="drop-down-menu-header">
                                 <div class="content">
                                     <svg class="icon">
@@ -94,72 +95,72 @@
                                 <div class="appendix">Some extra text for a menu item</div>
                             </div>
                         </div -->
+                        </div>
+                    </div>
+                </nav>
+
+                <div class="content">
+                    <h1>System users</h1>
+
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>E-mail</th>
+                                    <th>Joined</th>
+                                    <th>Updated</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <label class="checkbox">
+                                            <input type="checkbox" />
+                                        </label>
+                                    </td>
+                                    <td>alice@example.com</td>
+                                    <td>
+                                        <time>2024-12-24 15:00:00</time>
+                                    </td>
+                                    <td><time>2024-12-24 15:00:00</time></td>
+                                    <td class="action">
+                                        <div class="drop-down-initiator">
+                                            <button class="ghost">
+                                                <svg class="icon">
+                                                    <use xlink:href="#ellipsis-vertical"></use>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <label class="checkbox">
+                                            <input type="checkbox" />
+                                        </label>
+                                    </td>
+                                    <td>something.a.bit.longer@example.example.com</td>
+                                    <td><time>2024-12-24 15:00:00</time></td>
+                                    <td></td>
+                                    <td class="action">
+                                        <div class="drop-down-initiator">
+                                            <button class="ghost">
+                                                <svg class="icon">
+                                                    <use xlink:href="#ellipsis-vertical"></use>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-            </nav>
 
-            <div class="content">
-                <h1>System users</h1>
-
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>E-mail</th>
-                                <th>Joined</th>
-                                <th>Updated</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <label class="checkbox">
-                                        <input type="checkbox" />
-                                    </label>
-                                </td>
-                                <td>alice@example.com</td>
-                                <td>
-                                    <time>2024-12-24 15:00:00</time>
-                                </td>
-                                <td><time>2024-12-24 15:00:00</time></td>
-                                <td class="action">
-                                    <div class="drop-down-initiator">
-                                        <button class="ghost">
-                                            <svg class="icon">
-                                                <use xlink:href="#ellipsis-vertical"></use>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <label class="checkbox">
-                                        <input type="checkbox" />
-                                    </label>
-                                </td>
-                                <td>something.a.bit.longer@example.example.com</td>
-                                <td><time>2024-12-24 15:00:00</time></td>
-                                <td></td>
-                                <td class="action">
-                                    <div class="drop-down-initiator">
-                                        <button class="ghost">
-                                            <svg class="icon">
-                                                <use xlink:href="#ellipsis-vertical"></use>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- div class="calendar-month">
+                <!-- div class="calendar-month">
                 <h1>October <span class="year">2025</pan></h1>
                 <div class="calendar-month-day">
                     <div class="date">1</div>
@@ -210,8 +211,8 @@
                     </div>
                 </div>
             </div -->
+            </div>
         </div>
-
         <script type="module" src="./quarter.js"></script>
 
         <!-- All icons used in quarter comes from heroicons.com -->
@@ -359,6 +360,14 @@
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                />
+            </symbol>
+
+            <symbol id="user-plus" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z"
                 />
             </symbol>
         </svg>

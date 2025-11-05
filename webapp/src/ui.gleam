@@ -75,6 +75,10 @@ pub fn checkbox() -> element.Element(msg) {
   html.label([att.class("checkbox")], [html.input([att.type_("checkbox")])])
 }
 
+pub fn ghost_button(icon ico: String) {
+  html.button([att.class("ghost")], [icon(ico)])
+}
+
 fn drop_down_item_impl(
   url: String,
   icon ico: String,

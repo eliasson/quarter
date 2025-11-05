@@ -12,7 +12,7 @@ import ui
 import views/system_users
 
 pub fn view(model: model.Model) -> Element(message.Msg) {
-  div([], [
+  div([att.class("application-layout ")], [
     drop_down_back_drop(model),
     main_navigation(model),
     route_view(model),

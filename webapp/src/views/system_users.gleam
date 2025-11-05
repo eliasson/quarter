@@ -1,8 +1,10 @@
+import gfx
 import gleam/list
 import gleam/option.{None, Some}
 import lustre/attribute as att
 import lustre/element.{type Element}
 import lustre/element/html.{div, h1, table, tbody, td, th, thead, tr}
+import lustre/event
 import message
 import model
 import ui
@@ -39,10 +41,31 @@ fn user_table(m: model.Model) {
                 None -> element.none()
               },
             ]),
-            td([], []),
+            td([att.class("action")], [manage_action()]),
           ])
         }),
       ),
     ]),
   ])
+}
+
+fn manage_action() {
+  let menu =
+    html.div([att.class("drop-down-menu")], [
+      ui.drop_down_header(message.CloseModal),
+      ui.drop_down_item_extended(
+        "#TODO",
+        gfx.icon_add_user,
+        "Add user",
+        "Add a new standard user.",
+      ),
+    ])
+
+  div(
+    [
+      att.class("drop-down-initiator"),
+      event.on_click(message.OpenMainMenu),
+    ],
+    [ui.ghost_button(gfx.icon_context_menu), menu],
+  )
 }
