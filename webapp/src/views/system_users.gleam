@@ -1,28 +1,48 @@
-import gleam/int
 import gleam/list
-import gleam/time/calendar
-import gleam/time/timestamp
-
+import gleam/option.{None, Some}
+import lustre/attribute as att
 import lustre/element.{type Element}
-import lustre/element/html.{div}
+import lustre/element/html.{div, h1, table, tbody, td, th, thead, tr}
 import message
 import model
+import ui
 
 pub fn view(m: model.Model) -> Element(message.Msg) {
-  div([], list_users(m))
+  div([att.class("content")], [
+    h1([], [html.text("System users")]),
+    user_table(m),
+  ])
 }
 
-fn list_users(m: model.Model) {
-  list.map(m.users, fn(u) {
-    div([], [html.text(u.email), html.text(timestamp_to_string(u.created))])
-  })
-}
-
-fn timestamp_to_string(ts: timestamp.Timestamp) -> String {
-  let c = timestamp.to_calendar(ts, calendar.utc_offset)
-
-  ""
-  <> int.to_string({ c.0 }.year)
-  <> int.to_string(calendar.month_to_int({ c.0 }.month))
-  <> int.to_string({ c.0 }.day)
+fn user_table(m: model.Model) {
+  div([att.class("table-wrapper")], [
+    table([], [
+      thead([], [
+        tr([], [
+          th([], [html.text("")]),
+          th([], [html.text("E-mail")]),
+          th([], [html.text("Joined")]),
+          th([], [html.text("Updated")]),
+          th([], [html.text("")]),
+        ]),
+      ]),
+      tbody(
+        [],
+        list.map(m.users, fn(u) {
+          tr([], [
+            td([], []),
+            td([], [html.text(u.email)]),
+            td([], [ui.timestamp(u.created)]),
+            td([], [
+              case u.updated {
+                Some(ts) -> ui.timestamp(ts)
+                None -> element.none()
+              },
+            ]),
+            td([], []),
+          ])
+        }),
+      ),
+    ]),
+  ])
 }
