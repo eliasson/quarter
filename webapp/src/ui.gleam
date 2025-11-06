@@ -9,12 +9,23 @@ import lustre/element/html
 import lustre/element/svg
 import lustre/event
 
-pub fn icon(icon_name: String) {
+pub type Size {
+  SmallSize
+  MediumSize
+}
+
+pub fn icon(icon_name: String, size: Size) {
   // I did not manage to produce an attribute using xlink:href, but only href
   // seems to work fine in Firefox at least.
   //
   // NOTE lustre/eleemnt have namespaced function, try that!
-  html.svg([att.class("icon")], [
+
+  let size_class = case size {
+    SmallSize -> " small"
+    _ -> ""
+  }
+
+  html.svg([att.class("icon" <> size_class)], [
     svg.use_([att.attribute("href", "#" <> icon_name)]),
   ])
 }
@@ -39,7 +50,7 @@ pub fn drop_down_item_extended(
 pub fn drop_down_header(on_close: msg) -> element.Element(msg) {
   html.div([att.class("drop-down-menu-header")], [
     html.div([att.class("content")], [
-      icon(gfx.icon_logo),
+      icon(gfx.icon_logo, MediumSize),
       close_button(on_close),
     ]),
   ])
@@ -76,7 +87,15 @@ pub fn checkbox() -> element.Element(msg) {
 }
 
 pub fn ghost_button(icon ico: String) {
-  html.button([att.class("ghost")], [icon(ico)])
+  html.button([att.class("ghost")], [icon(ico, MediumSize)])
+}
+
+pub fn outline_button(text: String, icon ico: String) {
+  html.button([att.class("ghost")], [html.text(text), icon(ico, SmallSize)])
+}
+
+pub fn toolbar(children: List(element.Element(msg))) {
+  html.div([att.class("toolbar")], children)
 }
 
 fn drop_down_item_impl(
@@ -92,7 +111,7 @@ fn drop_down_item_impl(
 
   html.div([att.class("drop-down-menu-item")], [
     html.div([att.class("content")], [
-      icon(ico),
+      icon(ico, MediumSize),
       html.a([att.href(url)], [html.text(text)]),
     ]),
     appendix_elm,
@@ -106,7 +125,7 @@ fn close_button(on_click: msg) -> element.Element(msg) {
       event.on_click(on_click),
     ],
     [
-      icon(gfx.icon_close),
+      icon(gfx.icon_close, MediumSize),
     ],
   )
 }

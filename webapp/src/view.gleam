@@ -36,13 +36,15 @@ fn main_navigation(model: model.Model) -> Element(message.Msg) {
 }
 
 fn nav_logo() {
-  div([att.class("main-navigation-item")], [ui.icon(gfx.icon_logo)])
+  div([att.class("main-navigation-item")], [
+    ui.icon(gfx.icon_logo, ui.MediumSize),
+  ])
 }
 
 fn nav_menu() {
   let item = fn(icon: String, label: String, path: String) {
     li([att.class("main-navigation-item")], [
-      ui.icon(icon),
+      ui.icon(icon, ui.MediumSize),
       html.a([att.href(path)], [html.text(label)]),
     ])
   }
@@ -99,7 +101,7 @@ fn main_drop_down_menu(model: model.Model) {
       event.on_click(message.OpenMainMenu),
     ],
     [
-      ui.icon(gfx.icon_menu),
+      ui.icon(gfx.icon_menu, ui.MediumSize),
       menu,
     ],
   )

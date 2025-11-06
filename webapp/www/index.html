@@ -12,7 +12,7 @@
     </head>
 
     <body>
-        <div class="application" id="quarter">
+        <div class="application" id="_quarter">
             <div class="application-layout">
                 <!-- The main navigation is present on all pages -->
                 <nav class="main-navigation">
@@ -44,7 +44,9 @@
                     <div class="main-navigation-item">
                         <div class="drop-down-initiator">
                             <svg class="icon">
-                                <use xlink:href="#ellipsis-horizontal-circle"></use>
+                                <use
+                                    xlink:href="#ellipsis-horizontal-circle"
+                                ></use>
                             </svg>
 
                             <!-- div class="drop-down-menu">
@@ -101,6 +103,16 @@
 
                 <div class="content">
                     <h1>System users</h1>
+                    <div class="toolbar">
+                        <div class="drop-down-initiator">
+                            <button class="outline">
+                                <div>Manage</div>
+                                <svg class="icon small">
+                                    <use xlink:href="#chevron-down"></use>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
 
                     <div class="table-wrapper">
                         <table>
@@ -129,7 +141,9 @@
                                         <div class="drop-down-initiator">
                                             <button class="ghost">
                                                 <svg class="icon">
-                                                    <use xlink:href="#ellipsis-vertical"></use>
+                                                    <use
+                                                        xlink:href="#ellipsis-vertical"
+                                                    ></use>
                                                 </svg>
                                             </button>
                                         </div>
@@ -142,14 +156,18 @@
                                             <input type="checkbox" />
                                         </label>
                                     </td>
-                                    <td>something.a.bit.longer@example.example.com</td>
+                                    <td>
+                                        something.a.bit.longer@example.example.com
+                                    </td>
                                     <td><time>2024-12-24 15:00:00</time></td>
                                     <td></td>
                                     <td class="action">
                                         <div class="drop-down-initiator">
                                             <button class="ghost">
                                                 <svg class="icon">
-                                                    <use xlink:href="#ellipsis-vertical"></use>
+                                                    <use
+                                                        xlink:href="#ellipsis-vertical"
+                                                    ></use>
                                                 </svg>
                                             </button>
                                         </div>
@@ -221,16 +239,46 @@
             style="position: absolute; width: 0; height: 0; overflow: hidden"
             xmlns="http://www.w3.org/2000/svg"
         >
-            <symbol id="logo" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 1 0 7.5 7.5h-7.5V6Z" />
+            <symbol
+                id="logo"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+            >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M10.5 6a7.5 7.5 0 1 0 7.5 7.5h-7.5V6Z"
+                />
             </symbol>
 
-            <symbol id="char-pie" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 1 0 7.5 7.5h-7.5V6Z" />
-                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0 0 13.5 3v7.5Z" />
+            <symbol
+                id="char-pie"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+            >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M10.5 6a7.5 7.5 0 1 0 7.5 7.5h-7.5V6Z"
+                />
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M13.5 10.5H21A7.5 7.5 0 0 0 13.5 3v7.5Z"
+                />
             </symbol>
 
-            <symbol id="clock" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <symbol
+                id="clock"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+            >
                 <path
                     stroke-linecap="round"
                     stroke-linejoin="round"
@@ -238,7 +286,13 @@
                 />
             </symbol>
 
-            <symbol id="profile" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <symbol
+                id="profile"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+            >
                 <path
                     stroke-linecap="round"
                     stroke-linejoin="round"
@@ -246,7 +300,13 @@
                 />
             </symbol>
 
-            <symbol id="calendar" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <symbol
+                id="calendar"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+            >
                 <path
                     stroke-linecap="round"
                     stroke-linejoin="round"
@@ -254,7 +314,13 @@
                 />
             </symbol>
 
-            <symbol id="chart-bar" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <symbol
+                id="chart-bar"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+            >
                 <path
                     stroke-linecap="round"
                     stroke-linejoin="round"
@@ -262,7 +328,13 @@
                 />
             </symbol>
 
-            <symbol id="chart-bar-square" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <symbol
+                id="chart-bar-square"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+            >
                 <path
                     stroke-linecap="round"
                     stroke-linejoin="round"
@@ -270,7 +342,13 @@
                 />
             </symbol>
 
-            <symbol id="table" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <symbol
+                id="table"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+            >
                 <path
                     stroke-linecap="round"
                     stroke-linejoin="round"
@@ -292,7 +370,13 @@
                 />
             </symbol>
 
-            <symbol id="ellipsis-horizontal" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <symbol
+                id="ellipsis-horizontal"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+            >
                 <path
                     stroke-linecap="round"
                     stroke-linejoin="round"
@@ -300,7 +384,13 @@
                 />
             </symbol>
 
-            <symbol id="ellipsis-vertical" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <symbol
+                id="ellipsis-vertical"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+            >
                 <path
                     stroke-linecap="round"
                     stroke-linejoin="round"
@@ -308,11 +398,27 @@
                 />
             </symbol>
 
-            <symbol id="chevron-down" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+            <symbol
+                id="chevron-down"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+            >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="m19.5 8.25-7.5 7.5-7.5-7.5"
+                />
             </symbol>
 
-            <symbol id="users" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <symbol
+                id="users"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+            >
                 <path
                     stroke-linecap="round"
                     stroke-linejoin="round"
@@ -350,12 +456,28 @@
             </symbol>
 
             <!-- close -->
-            <symbol id="x-mark" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+            <symbol
+                id="x-mark"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+            >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6 18 18 6M6 6l12 12"
+                />
             </symbol>
 
             <!-- menu -->
-            <symbol id="bars-3" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <symbol
+                id="bars-3"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+            >
                 <path
                     stroke-linecap="round"
                     stroke-linejoin="round"
@@ -363,7 +485,13 @@
                 />
             </symbol>
 
-            <symbol id="user-plus" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <symbol
+                id="user-plus"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+            >
                 <path
                     stroke-linecap="round"
                     stroke-linejoin="round"

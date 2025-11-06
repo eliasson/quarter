@@ -12,6 +12,9 @@ import ui
 pub fn view(m: model.Model) -> Element(message.Msg) {
   div([att.class("content")], [
     h1([], [html.text("System users")]),
+    ui.toolbar([
+      ui.outline_button("Manage", "chevron-down"),
+    ]),
     user_table(m),
   ])
 }
@@ -41,7 +44,7 @@ fn user_table(m: model.Model) {
                 None -> element.none()
               },
             ]),
-            td([att.class("action")], [manage_action()]),
+            td([att.class("action")], []),
           ])
         }),
       ),
@@ -49,6 +52,7 @@ fn user_table(m: model.Model) {
   ])
 }
 
+/// The manage all users action. I.e. a view actoin
 fn manage_action() {
   let menu =
     html.div([att.class("drop-down-menu")], [

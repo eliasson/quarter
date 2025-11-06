@@ -50,6 +50,11 @@ body {
     height: 1.75rem;
 }
 
+.icon.small {
+    width: 1rem;
+    height: 1rem;
+}
+
 /** text ********************************************************************/
 
 .text-value {
@@ -86,6 +91,13 @@ a:hover {
     font-size: var(--font-size-5xl);
     margin-top: var(--spacing-16);
     margin-bottom: var(--spacing-8);
+}
+
+.toolbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    padding: 1rem 0;
 }
 
 .table-wrapper {
