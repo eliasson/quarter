@@ -18,6 +18,14 @@ pub type Size {
 
 pub type DropDownItem {
   DropDownLink(icon: String, label: String, href: String)
+  DropDownLinkApx(
+    icon: String,
+    label: String,
+    description: String,
+    href: String,
+  )
+  DropDownHeader
+  DropDownSeparator
 }
 
 pub fn icon(icon_name: String, size: Size) {
@@ -60,33 +68,21 @@ pub fn drop_down_menu(
   )
 }
 
-fn create_drop_down_item(item: DropDownItem) -> element.Element(msg) {
+fn create_drop_down_item(item: DropDownItem) -> element.Element(message.Msg) {
   case item {
-    DropDownLink(icon, label, url) -> drop_down_item(url, icon, label)
+    DropDownLink(icon, label, url) ->
+      drop_down_item_impl(url, icon, label, option.None)
+
+    DropDownLinkApx(icon, label, appendix, url) ->
+      drop_down_item_impl(url, icon, label, option.Some(appendix))
+
+    DropDownSeparator -> separator_menu_item()
+
+    DropDownHeader -> drop_down_header(message.CloseModal)
   }
 }
 
-// TODO Make private and only use abstract version of drop_down_menu
-pub fn drop_down_item(
-  url: String,
-  icon ico: String,
-  text text: String,
-) -> element.Element(a) {
-  drop_down_item_impl(url, ico, text, option.None)
-}
-
-// TODO Make private and only use abstract version of drop_down_menu
-pub fn drop_down_item_extended(
-  url: String,
-  icon ico: String,
-  text text: String,
-  appendix appendix: String,
-) -> element.Element(a) {
-  drop_down_item_impl(url, ico, text, option.Some(appendix))
-}
-
-// TODO Make private and only use abstract version of drop_down_menu
-pub fn drop_down_header(on_close: msg) -> element.Element(msg) {
+fn drop_down_header(on_close: msg) -> element.Element(msg) {
   html.div([att.class("drop-down-menu-header")], [
     html.div([att.class("content")], [
       icon(gfx.icon_logo, MediumSize),
@@ -95,8 +91,7 @@ pub fn drop_down_header(on_close: msg) -> element.Element(msg) {
   ])
 }
 
-// TODO Make private and only use abstract version of drop_down_menu
-pub fn separator_menu_item() {
+fn separator_menu_item() {
   html.hr([att.class("separator")])
 }
 

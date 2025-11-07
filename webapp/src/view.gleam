@@ -11,6 +11,8 @@ import route
 import ui
 import views/system_users
 
+const main_menu_id = "main.nav"
+
 pub fn view(model: model.Model) -> Element(message.Msg) {
   div([att.class("application-layout ")], [
     drop_down_back_drop(model),
@@ -56,54 +58,38 @@ fn nav_menu() {
   ])
 }
 
-fn main_drop_down_menu(model: model.Model) {
-  // The menu if open.
-  let menu = case model.dropdowns {
-    [model.DropDownMenu("main.nav")] ->
-      html.div([att.class("drop-down-menu")], [
-        ui.drop_down_header(message.CloseModal),
-        ui.drop_down_item_extended(
-          route.timesheet_url,
-          gfx.icon_timesheet,
-          "Timesheet",
-          "Register time per day",
-        ),
-        ui.drop_down_item_extended(
-          route.report_url,
-          gfx.icon_report,
-          "Report",
-          "Generate and export reports",
-        ),
-        ui.drop_down_item_extended(
-          route.manage_url,
-          gfx.icon_manage,
-          "Manage",
-          "Manage project and activities",
-        ),
-        ui.separator_menu_item(),
-        ui.drop_down_item(route.admin_users_url, gfx.icon_users, "Users"),
-        ui.drop_down_item(
-          route.admin_features_url,
-          gfx.icon_features,
-          "Features",
-        ),
-        ui.separator_menu_item(),
-        ui.drop_down_item(route.logout_url, gfx.icon_logout, "Logout"),
-      ])
-
-    _ -> element.none()
-  }
-
-  // The initiator is always visible.
-  html.div(
+fn main_drop_down_menu(m: model.Model) {
+  ui.drop_down_menu(
+    main_menu_id,
+    ui.icon(gfx.icon_menu, ui.MediumSize),
     [
-      att.class("drop-down-initiator"),
-      event.on_click(message.OpenDropDownMenu("main.nav")),
+      ui.DropDownHeader,
+      ui.DropDownLinkApx(
+        gfx.icon_timesheet,
+        "Timesheet",
+        "Register time per day",
+        route.timesheet_url,
+      ),
+      ui.DropDownLinkApx(
+        gfx.icon_report,
+        "Report",
+        "Generate and export reports",
+        route.report_url,
+      ),
+
+      ui.DropDownLinkApx(
+        gfx.icon_manage,
+        "Manage",
+        "Manage project and activities",
+        route.manage_url,
+      ),
+      ui.DropDownSeparator,
+      ui.DropDownLink(gfx.icon_features, "Features", route.admin_features_url),
+      ui.DropDownLink(gfx.icon_users, "Users", route.admin_users_url),
+      ui.DropDownSeparator,
+      ui.DropDownLink(gfx.icon_logout, "Logout", route.logout_url),
     ],
-    [
-      ui.icon(gfx.icon_menu, ui.MediumSize),
-      menu,
-    ],
+    model.is_drop_down_menu_open(m, main_menu_id),
   )
 }
 
