@@ -6,8 +6,8 @@ import message.{
   SystemUsersResult,
 }
 import model.{
-  type Model, close_modal, initial_model, navigate_to, open_main_menu,
-  set_current_user, set_users,
+  type Model, close_all_modals, close_modal, initial_model, navigate_to,
+  open_drop_down_menu, set_current_user, set_users,
 }
 import modem
 import protocol
@@ -52,12 +52,12 @@ fn init(_args) -> #(Model, Effect(Msg)) {
 pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
   case msg {
     OnRouteChange(r) -> {
-      let m = model |> close_modal |> navigate_to(r)
+      let m = model |> close_all_modals |> navigate_to(r)
       let e = effect_on_route_loaded(r)
 
       #(m, e)
     }
-    OpenDropDownMenu(_id) -> #(open_main_menu(model), effect.none())
+    OpenDropDownMenu(id) -> #(open_drop_down_menu(model, id), effect.none())
     CloseModal -> #(close_modal(model), effect.none())
     CurrentUserResult(Ok(u)) -> #(set_current_user(model, u), effect.none())
     CurrentUserResult(Error(_)) -> #(model, effect.none())

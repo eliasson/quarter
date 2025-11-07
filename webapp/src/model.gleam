@@ -27,8 +27,8 @@ pub fn navigate_to(m: Model, route: route.Route) -> Model {
   Model(..m, route: route)
 }
 
-pub fn open_main_menu(m: Model) -> Model {
-  m |> close_all_drop_downs |> open_drop_down(DropDownMenu("main.nav"))
+pub fn open_drop_down_menu(m: Model, id: String) -> Model {
+  Model(..m, dropdowns: list.append(m.dropdowns, [DropDownMenu(id)]))
 }
 
 /// Close the top most modal (e.g. drop-down menu or dialog).
@@ -37,18 +37,15 @@ pub fn close_modal(m: Model) {
   Model(..m, dropdowns: dropdowns)
 }
 
+/// Close all modals (e.g. drop-down menus and dialogs).
+pub fn close_all_modals(m: Model) {
+  Model(..m, dropdowns: [])
+}
+
 pub fn set_current_user(m: Model, _user: user.User) {
   Model(..m, is_authenticated: True)
 }
 
 pub fn set_users(m: Model, users: List(user.User)) {
   Model(..m, users: users)
-}
-
-fn open_drop_down(m: Model, menu: DropDownMenu) {
-  Model(..m, dropdowns: list.append(m.dropdowns, [menu]))
-}
-
-fn close_all_drop_downs(m: Model) -> Model {
-  Model(..m, dropdowns: [])
 }
