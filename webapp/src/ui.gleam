@@ -164,3 +164,23 @@ fn close_button(on_click: msg) -> element.Element(msg) {
     ],
   )
 }
+
+pub fn dialog(ico: String, header: String) {
+  html.div([att.class("dialog")], [
+    html.div([att.class("dialog-backdrop")], []),
+    html.div([att.class("dialog-overlay")], [
+      html.div([att.class("dialog-container")], [
+        html.div([att.class("dialog-header")], [
+          icon(ico, MediumSize),
+          html.span([], [html.text(header)]),
+        ]),
+        html.div([att.class("dialog-content")], [
+          // Dialog content
+        ]),
+        html.div([att.class("dialog-footer")], [
+          // Footer actions
+        ]),
+      ]),
+    ]),
+  ])
+}
