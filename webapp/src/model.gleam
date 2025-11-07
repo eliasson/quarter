@@ -31,6 +31,13 @@ pub fn open_drop_down_menu(m: Model, id: String) -> Model {
   Model(..m, dropdowns: list.append(m.dropdowns, [DropDownMenu(id)]))
 }
 
+pub fn is_drop_down_menu_open(m: Model, id: String) -> Bool {
+  case list.find(m.dropdowns, fn(dd) { dd.id == id }) {
+    Ok(_) -> True
+    _ -> False
+  }
+}
+
 /// Close the top most modal (e.g. drop-down menu or dialog).
 pub fn close_modal(m: Model) {
   let dropdowns = listext.drop_last(m.dropdowns)

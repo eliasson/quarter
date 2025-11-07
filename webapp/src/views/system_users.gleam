@@ -4,17 +4,16 @@ import gleam/option.{None, Some}
 import lustre/attribute as att
 import lustre/element.{type Element}
 import lustre/element/html.{div, h1, table, tbody, td, th, thead, tr}
-import lustre/event
 import message
 import model
 import ui
 
+const manage_menu_id = "manage.users"
+
 pub fn view(m: model.Model) -> Element(message.Msg) {
   div([att.class("content")], [
     h1([], [html.text("System users")]),
-    ui.toolbar([
-      ui.outline_button("Manage", "chevron-down"),
-    ]),
+    ui.toolbar([manage_action(m)]),
     user_table(m),
   ])
 }
@@ -52,24 +51,13 @@ fn user_table(m: model.Model) {
   ])
 }
 
-/// The manage all users action. I.e. a view actoin
-fn manage_action() {
-  let menu =
-    html.div([att.class("drop-down-menu")], [
-      ui.drop_down_header(message.CloseModal),
-      ui.drop_down_item_extended(
-        "#TODO",
-        gfx.icon_add_user,
-        "Add user",
-        "Add a new standard user.",
-      ),
-    ])
-
-  div(
+fn manage_action(m: model.Model) {
+  ui.drop_down_menu(
+    manage_menu_id,
+    ui.outline_button("Manage", "chevron-down"),
     [
-      att.class("drop-down-initiator"),
-      event.on_click(message.OpenDropDownMenu("TODO")),
+      ui.DropDownLink(gfx.icon_add_user, "Add user", "#TODO"),
     ],
-    [ui.ghost_button(gfx.icon_context_menu), menu],
+    model.is_drop_down_menu_open(m, manage_menu_id),
   )
 }

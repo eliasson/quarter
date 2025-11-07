@@ -1,5 +1,6 @@
 import gfx
 import gleam/int
+import gleam/list
 import gleam/option.{type Option}
 import gleam/time/calendar
 import gleam/time/timestamp
@@ -8,10 +9,15 @@ import lustre/element
 import lustre/element/html
 import lustre/element/svg
 import lustre/event
+import message
 
 pub type Size {
   SmallSize
   MediumSize
+}
+
+pub type DropDownItem {
+  DropDownLink(icon: String, label: String, href: String)
 }
 
 pub fn icon(icon_name: String, size: Size) {
@@ -30,6 +36,37 @@ pub fn icon(icon_name: String, size: Size) {
   ])
 }
 
+pub fn drop_down_menu(
+  id: String,
+  initiating: element.Element(message.Msg),
+  menu_items: List(DropDownItem),
+  is_open: Bool,
+) -> element.Element(message.Msg) {
+  let menu = case is_open {
+    True ->
+      html.div([att.class("drop-down-menu")], [
+        drop_down_header(message.CloseModal),
+        ..list.map(menu_items, fn(i) { create_drop_down_item(i) })
+      ])
+    _ -> element.none()
+  }
+
+  html.div(
+    [
+      att.class("drop-down-initiator"),
+      event.on_click(message.OpenDropDownMenu(id)),
+    ],
+    [initiating, menu],
+  )
+}
+
+fn create_drop_down_item(item: DropDownItem) -> element.Element(msg) {
+  case item {
+    DropDownLink(icon, label, url) -> drop_down_item(url, icon, label)
+  }
+}
+
+// TODO Make private and only use abstract version of drop_down_menu
 pub fn drop_down_item(
   url: String,
   icon ico: String,
@@ -38,6 +75,7 @@ pub fn drop_down_item(
   drop_down_item_impl(url, ico, text, option.None)
 }
 
+// TODO Make private and only use abstract version of drop_down_menu
 pub fn drop_down_item_extended(
   url: String,
   icon ico: String,
@@ -47,6 +85,7 @@ pub fn drop_down_item_extended(
   drop_down_item_impl(url, ico, text, option.Some(appendix))
 }
 
+// TODO Make private and only use abstract version of drop_down_menu
 pub fn drop_down_header(on_close: msg) -> element.Element(msg) {
   html.div([att.class("drop-down-menu-header")], [
     html.div([att.class("content")], [
@@ -56,6 +95,7 @@ pub fn drop_down_header(on_close: msg) -> element.Element(msg) {
   ])
 }
 
+// TODO Make private and only use abstract version of drop_down_menu
 pub fn separator_menu_item() {
   html.hr([att.class("separator")])
 }
