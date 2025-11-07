@@ -59,7 +59,7 @@ fn nav_menu() {
 fn main_drop_down_menu(model: model.Model) {
   // The menu if open.
   let menu = case model.dropdowns {
-    [model.MainMenu] ->
+    [model.DropDownMenu("main.nav")] ->
       html.div([att.class("drop-down-menu")], [
         ui.drop_down_header(message.CloseModal),
         ui.drop_down_item_extended(
@@ -98,7 +98,7 @@ fn main_drop_down_menu(model: model.Model) {
   html.div(
     [
       att.class("drop-down-initiator"),
-      event.on_click(message.OpenMainMenu),
+      event.on_click(message.OpenDropDownMenu("main.nav")),
     ],
     [
       ui.icon(gfx.icon_menu, ui.MediumSize),

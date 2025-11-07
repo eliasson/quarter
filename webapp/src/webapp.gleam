@@ -2,7 +2,7 @@ import gleam/uri.{type Uri}
 import lustre
 import lustre/effect.{type Effect}
 import message.{
-  type Msg, CloseModal, CurrentUserResult, OnRouteChange, OpenMainMenu,
+  type Msg, CloseModal, CurrentUserResult, OnRouteChange, OpenDropDownMenu,
   SystemUsersResult,
 }
 import model.{
@@ -57,7 +57,7 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
 
       #(m, e)
     }
-    OpenMainMenu -> #(open_main_menu(model), effect.none())
+    OpenDropDownMenu(_id) -> #(open_main_menu(model), effect.none())
     CloseModal -> #(close_modal(model), effect.none())
     CurrentUserResult(Ok(u)) -> #(set_current_user(model, u), effect.none())
     CurrentUserResult(Error(_)) -> #(model, effect.none())

@@ -15,8 +15,7 @@ pub type Model {
 }
 
 pub type DropDownMenu {
-  /// The main menu is the one opened from the main navigation.
-  MainMenu
+  DropDownMenu(id: String)
 }
 
 /// Creates a new model with the initial fields all set.
@@ -29,7 +28,7 @@ pub fn navigate_to(m: Model, route: route.Route) -> Model {
 }
 
 pub fn open_main_menu(m: Model) -> Model {
-  m |> close_all_drop_downs |> open_drop_down(MainMenu)
+  m |> close_all_drop_downs |> open_drop_down(DropDownMenu("main.nav"))
 }
 
 /// Close the top most modal (e.g. drop-down menu or dialog).

@@ -68,7 +68,7 @@ fn manage_action() {
   div(
     [
       att.class("drop-down-initiator"),
-      event.on_click(message.OpenMainMenu),
+      event.on_click(message.OpenDropDownMenu("TODO")),
     ],
     [ui.ghost_button(gfx.icon_context_menu), menu],
   )
