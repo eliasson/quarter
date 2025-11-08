@@ -2,12 +2,12 @@ import gleam/uri.{type Uri}
 import lustre
 import lustre/effect.{type Effect}
 import message.{
-  type Msg, CloseModal, CurrentUserResult, OnRouteChange, OpenDropDownMenu,
-  SystemUsersResult,
+  type Msg, CloseModal, CurrentUserResult, OnRouteChange, OpenDialog,
+  OpenDropDownMenu, SystemUsersResult,
 }
 import model.{
   type Model, close_all_modals, close_modal, initial_model, navigate_to,
-  open_drop_down_menu, set_current_user, set_users,
+  open_dialog, open_drop_down_menu, set_current_user, set_users,
 }
 import modem
 import protocol
@@ -58,6 +58,7 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       #(m, e)
     }
     OpenDropDownMenu(id) -> #(open_drop_down_menu(model, id), effect.none())
+    OpenDialog(d) -> #(open_dialog(model, d), effect.none())
     CloseModal -> #(close_modal(model), effect.none())
     CurrentUserResult(Ok(u)) -> #(set_current_user(model, u), effect.none())
     CurrentUserResult(Error(_)) -> #(model, effect.none())
