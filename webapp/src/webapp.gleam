@@ -1,3 +1,4 @@
+import gleam/io
 import gleam/uri.{type Uri}
 import lustre
 import lustre/effect.{type Effect}
@@ -50,20 +51,43 @@ fn init(_args) -> #(Model, Effect(Msg)) {
 /// here as messages together with the current model.
 /// Perform updates to the model and triggers optional HTTP requests, etc. as effects.
 pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
+  io.println("Update...")
   case msg {
     OnRouteChange(r) -> {
+      io.println("OnRouteChange")
       let m = model |> close_all_modals |> navigate_to(r)
       let e = effect_on_route_loaded(r)
 
       #(m, e)
     }
-    OpenDropDownMenu(id) -> #(open_drop_down_menu(model, id), effect.none())
-    OpenDialog(d) -> #(open_dialog(model, d), effect.none())
-    CloseModal -> #(close_modal(model), effect.none())
-    CurrentUserResult(Ok(u)) -> #(set_current_user(model, u), effect.none())
-    CurrentUserResult(Error(_)) -> #(model, effect.none())
-    SystemUsersResult(Ok(users)) -> #(set_users(model, users), effect.none())
-    SystemUsersResult(Error(_)) -> #(model, effect.none())
+    OpenDropDownMenu(id) -> {
+      io.println("OpenDropDownMenu")
+      #(open_drop_down_menu(model, id), effect.none())
+    }
+    OpenDialog(d) -> {
+      io.println("OpenDialog")
+      #(open_dialog(model, d), effect.none())
+    }
+    CloseModal -> {
+      io.println("CloseModal")
+      #(close_modal(model), effect.none())
+    }
+    CurrentUserResult(Ok(u)) -> {
+      io.println("CurrentUserResult OK")
+      #(set_current_user(model, u), effect.none())
+    }
+    CurrentUserResult(Error(_)) -> {
+      io.println("CurrentUserResult Error")
+      #(model, effect.none())
+    }
+    SystemUsersResult(Ok(users)) -> {
+      io.println("SystemUsersResult OK")
+      #(set_users(model, users), effect.none())
+    }
+    SystemUsersResult(Error(_)) -> {
+      io.println("SystemUsersResult Error")
+      #(model, effect.none())
+    }
   }
 }
 
