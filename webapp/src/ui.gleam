@@ -153,7 +153,10 @@ fn drop_down_item_impl(
   // TODO: Should a BUTTON be used instead of a DIV to work with keyboard navigation.
   let label_elm = case action {
     util.Left(url) -> html.a([att.href(url)], [html.text(text)])
-    util.Right(msg) -> html.div([event.on_click(msg)], [html.text(text)])
+    util.Right(msg) ->
+      html.div([event.on_click(msg) |> event.stop_propagation()], [
+        html.text(text),
+      ])
   }
 
   html.div([att.class("drop-down-menu-item")], [
