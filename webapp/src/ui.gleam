@@ -154,7 +154,7 @@ fn drop_down_item_impl(
   let label_elm = case action {
     util.Left(url) -> html.a([att.href(url)], [html.text(text)])
     util.Right(msg) ->
-      html.div([event.on_click(msg) |> event.stop_propagation()], [
+      html.div([click_stop(msg)], [
         html.text(text),
       ])
   }
@@ -169,7 +169,7 @@ fn close_button(on_click: msg) -> element.Element(msg) {
   html.button(
     [
       att.class("ghost"),
-      event.on_click(on_click),
+      click_stop(on_click),
     ],
     [
       icon(gfx.icon_close, MediumSize),
@@ -195,4 +195,9 @@ pub fn dialog(ico: String, header: String) {
       ]),
     ]),
   ])
+}
+
+/// Trigger on_click event and then stop event propagation.
+pub fn click_stop(msg) {
+  event.on_click(msg) |> event.stop_propagation()
 }
