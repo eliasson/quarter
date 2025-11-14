@@ -65,7 +65,6 @@ fn main_drop_down_menu(m: model.Model) {
     main_menu_id,
     ui.icon(gfx.icon_menu, ui.MediumSize),
     [
-      ui.DropDownHeader,
       ui.DropDownLinkApx(
         gfx.icon_timesheet,
         "Timesheet",
