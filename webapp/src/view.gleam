@@ -14,12 +14,14 @@ import views/system_users
 const main_menu_id = "main.nav"
 
 pub fn view(model: model.Model) -> Element(message.Msg) {
-  div([att.class("application-layout ")], [
+  let children = [
     drop_down_back_drop(model),
     main_navigation(model),
     route_view(model),
     debug(model),
-  ])
+  ]
+
+  div([att.class("application-layout ")], list.append(children, dialogs(model)))
 }
 
 fn route_view(model: model.Model) {
@@ -107,6 +109,16 @@ fn drop_down_back_drop(model: model.Model) {
       )
     _ -> html.div([], [])
   }
+}
+
+fn dialogs(model: model.Model) -> List(element.Element(m)) {
+  let markup = fn(d: model.Dialog) {
+    case d {
+      model.AddUserDialog(_) -> ui.dialog(gfx.icon_add_user, "Add new user")
+    }
+  }
+
+  list.map(model.dialogs, fn(dialog) { markup(dialog) })
 }
 
 fn debug(m: model.Model) {

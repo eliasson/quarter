@@ -7,6 +7,7 @@ import lustre/element/html.{div, h1, table, tbody, td, th, thead, tr}
 import message
 import model
 import ui
+import util
 
 const manage_menu_id = "manage.users"
 
@@ -52,11 +53,17 @@ fn user_table(m: model.Model) {
 }
 
 fn manage_action(m: model.Model) {
+  let add_user_dialog = model.AddUserDialog(util.Email(""))
+
   ui.drop_down_menu(
     manage_menu_id,
     ui.outline_button("Manage", "chevron-down"),
     [
-      ui.DropDownLink(gfx.icon_add_user, "Add user", "#TODO"),
+      ui.DropDownMsg(
+        gfx.icon_add_user,
+        "Add user",
+        message.OpenDialog(add_user_dialog),
+      ),
     ],
     model.is_drop_down_menu_open(m, manage_menu_id),
   )

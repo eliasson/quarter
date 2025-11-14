@@ -10,6 +10,7 @@ import lustre/element/html
 import lustre/element/svg
 import lustre/event
 import message
+import util
 
 pub type Size {
   SmallSize
@@ -18,6 +19,7 @@ pub type Size {
 
 pub type DropDownItem {
   DropDownLink(icon: String, label: String, href: String)
+  DropDownMsg(icon: String, label: String, msg: message.Msg)
   DropDownLinkApx(
     icon: String,
     label: String,
@@ -71,10 +73,13 @@ pub fn drop_down_menu(
 fn create_drop_down_item(item: DropDownItem) -> element.Element(message.Msg) {
   case item {
     DropDownLink(icon, label, url) ->
-      drop_down_item_impl(url, icon, label, option.None)
+      drop_down_item_impl(util.Left(url), icon, label, option.None)
 
     DropDownLinkApx(icon, label, appendix, url) ->
-      drop_down_item_impl(url, icon, label, option.Some(appendix))
+      drop_down_item_impl(util.Left(url), icon, label, option.Some(appendix))
+
+    DropDownMsg(icon, label, msg) ->
+      drop_down_item_impl(util.Right(msg), icon, label, option.None)
 
     DropDownSeparator -> separator_menu_item()
 
@@ -134,7 +139,7 @@ pub fn toolbar(children: List(element.Element(msg))) {
 }
 
 fn drop_down_item_impl(
-  url: String,
+  action: util.Either(String, message.Msg),
   icon ico: String,
   text text: String,
   appendix appendix: Option(String),
@@ -144,11 +149,15 @@ fn drop_down_item_impl(
     option.None -> element.none()
   }
 
+  // TODO: Move the A to wrap the entire item to make it clickable.
+  // TODO: Should a BUTTON be used instead of a DIV to work with keyboard navigation.
+  let label_elm = case action {
+    util.Left(url) -> html.a([att.href(url)], [html.text(text)])
+    util.Right(msg) -> html.div([event.on_click(msg)], [html.text(text)])
+  }
+
   html.div([att.class("drop-down-menu-item")], [
-    html.div([att.class("content")], [
-      icon(ico, MediumSize),
-      html.a([att.href(url)], [html.text(text)]),
-    ]),
+    html.div([att.class("content")], [icon(ico, MediumSize), label_elm]),
     appendix_elm,
   ])
 }
