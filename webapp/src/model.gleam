@@ -74,5 +74,5 @@ pub fn set_users(m: Model, users: List(user.User)) {
 }
 
 pub fn open_dialog(m: Model, dialog: Dialog) -> Model {
-  Model(..m, dialogs: list.append(m.dialogs, [dialog]))
+  Model(..m, dropdowns: [], dialogs: list.append(m.dialogs, [dialog]))
 }

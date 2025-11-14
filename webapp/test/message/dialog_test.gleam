@@ -41,3 +41,14 @@ pub fn when_closing_modal_with_multiple_open_dialogs_test() {
 
   should.equal(m.dialogs, [dialog_one])
 }
+
+pub fn when_opening_modal_with_open_dropdown_test() {
+  let m =
+    model.initial_model()
+    |> webapp.update(message.OpenDropDownMenu("one"))
+    |> first
+    |> webapp.update(message.OpenDialog(dialog_one))
+    |> first
+
+  should.equal(m.dropdowns, [])
+}
