@@ -6,7 +6,9 @@ import lustre/element.{type Element}
 import lustre/element/html.{div, h1, table, tbody, td, th, thead, tr}
 import message
 import model
-import ui
+import ui/core as ui
+import ui/dropdown
+import ui/form
 import util
 
 const manage_menu_id = "manage.users"
@@ -35,7 +37,7 @@ fn user_table(m: model.Model) {
         [],
         list.map(m.users, fn(u) {
           tr([], [
-            td([], [ui.checkbox()]),
+            td([], [form.checkbox()]),
             td([], [html.text(u.email)]),
             td([], [ui.timestamp(u.created)]),
             td([], [
@@ -55,11 +57,11 @@ fn user_table(m: model.Model) {
 fn manage_action(m: model.Model) {
   let add_user_dialog = model.AddUserDialog(util.Email(""))
 
-  ui.drop_down_menu(
+  dropdown.drop_down_menu(
     manage_menu_id,
-    ui.outline_button("Manage", "chevron-down"),
+    form.outline_button("Manage", "chevron-down"),
     [
-      ui.DropDownMsg(
+      dropdown.DropDownMsg(
         gfx.icon_add_user,
         "Add user",
         message.OpenDialog(add_user_dialog),

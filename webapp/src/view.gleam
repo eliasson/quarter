@@ -8,7 +8,9 @@ import lustre/event
 import message
 import model
 import route
-import ui
+import ui/core as ui
+import ui/dropdown
+import ui/form
 import views/system_users
 
 const main_menu_id = "main.nav"
@@ -61,34 +63,38 @@ fn nav_menu() {
 }
 
 fn main_drop_down_menu(m: model.Model) {
-  ui.drop_down_menu(
+  dropdown.drop_down_menu(
     main_menu_id,
     ui.icon(gfx.icon_menu, ui.MediumSize),
     [
-      ui.DropDownLinkApx(
+      dropdown.DropDownLinkApx(
         gfx.icon_timesheet,
         "Timesheet",
         "Register time per day",
         route.timesheet_url,
       ),
-      ui.DropDownLinkApx(
+      dropdown.DropDownLinkApx(
         gfx.icon_report,
         "Report",
         "Generate and export reports",
         route.report_url,
       ),
 
-      ui.DropDownLinkApx(
+      dropdown.DropDownLinkApx(
         gfx.icon_manage,
         "Manage",
         "Manage project and activities",
         route.manage_url,
       ),
-      ui.DropDownSeparator,
-      ui.DropDownLink(gfx.icon_features, "Features", route.admin_features_url),
-      ui.DropDownLink(gfx.icon_users, "Users", route.admin_users_url),
-      ui.DropDownSeparator,
-      ui.DropDownLink(gfx.icon_logout, "Logout", route.logout_url),
+      dropdown.DropDownSeparator,
+      dropdown.DropDownLink(
+        gfx.icon_features,
+        "Features",
+        route.admin_features_url,
+      ),
+      dropdown.DropDownLink(gfx.icon_users, "Users", route.admin_users_url),
+      dropdown.DropDownSeparator,
+      dropdown.DropDownLink(gfx.icon_logout, "Logout", route.logout_url),
     ],
     model.is_drop_down_menu_open(m, main_menu_id),
   )
