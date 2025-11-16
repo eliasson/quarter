@@ -3,8 +3,8 @@ import gleam/uri.{type Uri}
 import lustre
 import lustre/effect.{type Effect}
 import message.{
-  type Msg, CloseModal, CurrentUserResult, OnRouteChange, OpenDialog,
-  OpenDropDownMenu, SystemUsersResult,
+  type Msg, CloseModal, ConfirmDialog, CurrentUserResult, FormTextFieldUpdated,
+  OnRouteChange, OpenDialog, OpenDropDownMenu, SystemUsersResult,
 }
 import model.{
   type Model, close_all_modals, close_modal, initial_model, navigate_to,
@@ -72,6 +72,10 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       io.println("CloseModal")
       #(close_modal(model), effect.none())
     }
+    ConfirmDialog -> {
+      io.println("ConfirmDialog")
+      #(close_modal(model), effect.none())
+    }
     CurrentUserResult(Ok(u)) -> {
       io.println("CurrentUserResult OK")
       #(set_current_user(model, u), effect.none())
@@ -86,6 +90,10 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
     }
     SystemUsersResult(Error(_)) -> {
       io.println("SystemUsersResult Error")
+      #(model, effect.none())
+    }
+    FormTextFieldUpdated(_) -> {
+      io.println("FormTextFieldUpdated")
       #(model, effect.none())
     }
   }

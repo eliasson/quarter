@@ -116,10 +116,16 @@ fn drop_down_back_drop(model: model.Model) {
   }
 }
 
-fn dialogs(model: model.Model) -> List(element.Element(m)) {
+fn dialogs(model: model.Model) -> List(element.Element(message.Msg)) {
   let markup = fn(d: model.Dialog) {
     case d {
-      model.AddUserDialog(_) -> ui.dialog(gfx.icon_add_user, "Add new user")
+      model.AddUserDialog(state) -> {
+        system_users.add_user_form(state)
+        |> form.form_dialog(gfx.icon_add_user, "Add new user")
+      }
+      model.AnotherDialog(_state) -> {
+        element.none()
+      }
     }
   }
 

@@ -55,7 +55,8 @@ fn user_table(m: model.Model) {
 }
 
 fn manage_action(m: model.Model) {
-  let add_user_dialog = model.AddUserDialog(util.Email(""))
+  let add_user_dialog =
+    model.AddUserDialog(model.UserDialogState(util.Email("")))
 
   dropdown.drop_down_menu(
     manage_menu_id,
@@ -69,4 +70,13 @@ fn manage_action(m: model.Model) {
     ],
     model.is_drop_down_menu_open(m, manage_menu_id),
   )
+}
+
+/// Generate a form to render based on the dialog state.
+pub fn add_user_form(d: model.UserDialogState) -> form.Form {
+  // TODO Check if the form is invalid, add message and disable the confirm action if so.
+  form.Form("add_user", [form.EmailInput("email", "Email", d.email.value)], [
+    form.Cancel,
+    form.Confirm,
+  ])
 }

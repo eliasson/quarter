@@ -5,9 +5,13 @@ import test_util.{first}
 import util.{Email}
 import webapp
 
-const dialog_one = model.AddUserDialog(Email("one@example.com"))
+const dialog_one = model.AddUserDialog(
+  model.UserDialogState(Email("one@example.com")),
+)
 
-const dialog_two = model.AddUserDialog(Email("two@example.com"))
+const dialog_two = model.AddUserDialog(
+  model.UserDialogState(Email("two@example.com")),
+)
 
 pub fn when_opening_dialog_test() {
   let m =
@@ -51,4 +55,15 @@ pub fn when_opening_modal_with_open_dropdown_test() {
     |> first
 
   should.equal(m.dropdowns, [])
+}
+
+pub fn when_confirming_a_dialog_test() {
+  let m =
+    model.initial_model()
+    |> webapp.update(message.OpenDialog(dialog_one))
+    |> first
+    |> webapp.update(message.ConfirmDialog)
+    |> first
+
+  should.equal(m.dialogs, [])
 }

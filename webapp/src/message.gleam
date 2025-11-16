@@ -16,9 +16,22 @@ pub type Msg {
   ///When the modal backdrop is clicked, menu closed, etc.
   CloseModal
 
+  /// When a dialog is confirmed (save, ok, etc).
+  ConfirmDialog
+
+  //
+  // Form messages
+  //
+  /// A text field was updated
+  FormTextFieldUpdated(value: FormValue)
+
   //
   // Protocol messages
   //
   CurrentUserResult(Result(user.User, rsvp.Error))
   SystemUsersResult(Result(List(user.User), rsvp.Error))
+}
+
+pub type FormValue {
+  FormValue(name: String, value: String)
 }

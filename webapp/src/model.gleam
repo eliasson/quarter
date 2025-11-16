@@ -22,7 +22,16 @@ pub type DropDownMenu {
 }
 
 pub type Dialog {
-  AddUserDialog(email: Email)
+  AddUserDialog(state: UserDialogState)
+  AnotherDialog(state: AnotherDialogState)
+}
+
+pub type UserDialogState {
+  UserDialogState(email: Email)
+}
+
+pub type AnotherDialogState {
+  AnotherDialogState(foo: String)
 }
 
 /// Creates a new model with the initial fields all set.
