@@ -11,7 +11,7 @@ pub type Form {
 }
 
 pub type FormField {
-  EmailInput(name: String, label: String, value: String)
+  EmailInput(name: String, label: String, value: String, required: Bool)
 }
 
 pub type FormAction {
@@ -76,7 +76,8 @@ pub fn form_dialog(form: Form, ico: String, header: String) {
 
 fn render_field(field: FormField) -> element.Element(message.Msg) {
   case field {
-    EmailInput(name, label, value) -> input_field("email", name, label, value)
+    EmailInput(name, label, value, required) ->
+      input_field("email", name, label, value, required)
   }
 }
 
@@ -92,6 +93,7 @@ fn input_field(
   name: String,
   label: String,
   inital_value: String,
+  required: Bool,
 ) -> element.Element(message.Msg) {
   html.fieldset([], [
     html.label([att.for(name)], [html.text(label)]),
@@ -99,6 +101,7 @@ fn input_field(
       att.type_(input_type),
       att.name(name),
       att.value(inital_value),
+      att.required(required),
       event.on_input(fn(updated_value) {
         message.FormTextFieldUpdated(message.FormValue(name, updated_value))
       }),
