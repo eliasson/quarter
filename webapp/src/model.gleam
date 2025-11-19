@@ -14,6 +14,8 @@ pub type Model {
     dialogs: List(Dialog),
     /// The list of all system users if loaded (for admin).
     users: List(user.User),
+    /// The errors that have occured and that are not dismissed
+    errors: List(ApplicationError),
   )
 }
 
@@ -34,6 +36,12 @@ pub type AnotherDialogState {
   AnotherDialogState(foo: String)
 }
 
+/// An application error is to be displayed for the user when something
+/// goes wrong. These are currently not actionable, just intended as an FYI.
+pub type ApplicationError {
+  ApplicationError(id: String, message: String)
+}
+
 /// Creates a new model with the initial fields all set.
 pub fn initial_model() -> Model {
   Model(
@@ -42,6 +50,7 @@ pub fn initial_model() -> Model {
     dropdowns: [],
     dialogs: [],
     users: [],
+    errors: [],
   )
 }
 
@@ -84,4 +93,13 @@ pub fn set_users(m: Model, users: List(user.User)) {
 
 pub fn open_dialog(m: Model, dialog: Dialog) -> Model {
   Model(..m, dropdowns: [], dialogs: list.append(m.dialogs, [dialog]))
+}
+
+pub fn add_error(m: Model, error: ApplicationError) {
+  Model(..m, errors: list.append(m.errors, [error]))
+}
+
+pub fn dismiss_error(m: Model, id: String) {
+  let errors = list.filter(m.errors, fn(e) { e.id != id })
+  Model(..m, errors:)
 }

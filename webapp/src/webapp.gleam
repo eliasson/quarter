@@ -3,12 +3,13 @@ import gleam/uri.{type Uri}
 import lustre
 import lustre/effect.{type Effect}
 import message.{
-  type Msg, CloseModal, ConfirmDialog, CurrentUserResult, FormTextFieldUpdated,
-  OnRouteChange, OpenDialog, OpenDropDownMenu, SystemUsersResult,
+  type Msg, CloseModal, ConfirmDialog, CurrentUserResult, DismissError,
+  FormTextFieldUpdated, OnRouteChange, OpenDialog, OpenDropDownMenu,
+  SystemUsersResult,
 }
 import model.{
-  type Model, close_all_modals, close_modal, initial_model, navigate_to,
-  open_dialog, open_drop_down_menu, set_current_user, set_users,
+  type Model, close_all_modals, close_modal, dismiss_error, initial_model,
+  navigate_to, open_dialog, open_drop_down_menu, set_current_user, set_users,
 }
 import modem
 import protocol
@@ -95,6 +96,10 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
     FormTextFieldUpdated(_) -> {
       io.println("FormTextFieldUpdated")
       #(model, effect.none())
+    }
+    DismissError(id) -> {
+      io.println("DismissError")
+      #(dismiss_error(model, id), effect.none())
     }
   }
 }

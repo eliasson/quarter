@@ -19,3 +19,8 @@ pub fn should_navigate_to_route_test() {
 
   should.equal(model.route, route.Timesheet)
 }
+
+pub fn should_have_no_errors_test() {
+  let model = initial_model()
+  should.equal(model.errors, [])
+}

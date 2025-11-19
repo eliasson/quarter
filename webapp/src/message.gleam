@@ -19,6 +19,9 @@ pub type Msg {
   /// When a dialog is confirmed (save, ok, etc).
   ConfirmDialog
 
+  /// Dismiss an error notification
+  DismissError(id: String)
+
   //
   // Form messages
   //
