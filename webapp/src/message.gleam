@@ -26,7 +26,7 @@ pub type Msg {
   // Form messages
   //
   /// A text field was updated
-  FormTextFieldUpdated(value: FormValue)
+  FormTextFieldUpdated(dialog_id: String, value: FormValue)
 
   //
   // Protocol messages

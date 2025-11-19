@@ -93,7 +93,7 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       io.println("SystemUsersResult Error")
       #(model, effect.none())
     }
-    FormTextFieldUpdated(_) -> {
+    FormTextFieldUpdated(_id, _value) -> {
       io.println("FormTextFieldUpdated")
       #(model, effect.none())
     }

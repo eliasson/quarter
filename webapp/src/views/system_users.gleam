@@ -76,7 +76,7 @@ fn manage_action(m: model.Model) {
 pub fn add_user_form(d: model.UserDialogState) -> form.Form {
   // TODO Check if the form is invalid, add message and disable the confirm action if so.
   form.Form(
-    "add_user",
+    "AddUserDialog",
     [form.EmailInput("email", "Email", d.email.value, True)],
     [
       form.Cancel,

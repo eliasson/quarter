@@ -56,7 +56,7 @@ pub fn outline_button(text: String, icon ico: String) {
 
 /// A form containing a dialog.
 pub fn form_dialog(form: Form, ico: String, header: String) {
-  let content = list.map(form.fields, fn(f) { render_field(f) })
+  let content = list.map(form.fields, fn(f) { render_field(form.id, f) })
   let actions = list.map(form.actions, fn(f) { render_action(f) })
 
   html.div([att.class("dialog")], [
@@ -74,14 +74,17 @@ pub fn form_dialog(form: Form, ico: String, header: String) {
   ])
 }
 
-fn render_field(field: FormField) -> element.Element(message.Msg) {
+fn render_field(
+  form_id id: String,
+  field field: FormField,
+) -> element.Element(message.Msg) {
   case field {
     EmailInput(name, label, value, required) ->
-      input_field("email", name, label, value, required)
+      input_field(id, "email", name, label, value, required)
   }
 }
 
-fn render_action(action: FormAction) -> element.Element(message.Msg) {
+fn render_action(action action: FormAction) -> element.Element(message.Msg) {
   case action {
     Cancel -> button("cancel", "Cancel", False, message.CloseModal)
     Confirm -> button("submit", "Confirm", False, message.ConfirmDialog)
@@ -89,6 +92,7 @@ fn render_action(action: FormAction) -> element.Element(message.Msg) {
 }
 
 fn input_field(
+  form_id: String,
   input_type: String,
   name: String,
   label: String,
@@ -103,7 +107,10 @@ fn input_field(
       att.value(inital_value),
       att.required(required),
       event.on_input(fn(updated_value) {
-        message.FormTextFieldUpdated(message.FormValue(name, updated_value))
+        message.FormTextFieldUpdated(
+          form_id,
+          message.FormValue(name, updated_value),
+        )
       }),
     ]),
   ])
