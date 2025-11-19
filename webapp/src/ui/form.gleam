@@ -4,6 +4,7 @@ import lustre/element
 import lustre/element/html
 import lustre/event
 import message
+import model
 import ui/core as ui
 
 pub type Form {
@@ -109,7 +110,7 @@ fn input_field(
       event.on_input(fn(updated_value) {
         message.FormTextFieldUpdated(
           form_id,
-          message.FormValue(name, updated_value),
+          model.FormValue(name, updated_value),
         )
       }),
     ]),

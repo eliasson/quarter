@@ -42,6 +42,10 @@ pub type ApplicationError {
   ApplicationError(id: String, message: String)
 }
 
+pub type FormValue {
+  FormValue(name: String, value: String)
+}
+
 /// Creates a new model with the initial fields all set.
 pub fn initial_model() -> Model {
   Model(

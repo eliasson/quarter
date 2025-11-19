@@ -26,15 +26,11 @@ pub type Msg {
   // Form messages
   //
   /// A text field was updated
-  FormTextFieldUpdated(dialog_id: String, value: FormValue)
+  FormTextFieldUpdated(dialog_id: String, value: model.FormValue)
 
   //
   // Protocol messages
   //
   CurrentUserResult(Result(user.User, rsvp.Error))
   SystemUsersResult(Result(List(user.User), rsvp.Error))
-}
-
-pub type FormValue {
-  FormValue(name: String, value: String)
 }
