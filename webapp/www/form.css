@@ -23,3 +23,8 @@ label.checkbox input:focus {
     outline-width: 2px;
     outline-color: var(--blue-700);
 }
+
+input:invalid {
+    border: none;
+    outline: 2px solid var(--red-2);
+}
