@@ -10,6 +10,7 @@ import message.{
 import model.{
   type Model, close_all_modals, close_modal, dismiss_error, initial_model,
   navigate_to, open_dialog, open_drop_down_menu, set_current_user, set_users,
+  update_dialog_value,
 }
 import modem
 import protocol
@@ -93,9 +94,9 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       io.println("SystemUsersResult Error")
       #(model, effect.none())
     }
-    FormTextFieldUpdated(_id, _value) -> {
+    FormTextFieldUpdated(_id, value) -> {
       io.println("FormTextFieldUpdated")
-      #(model, effect.none())
+      #(update_dialog_value(model, value), effect.none())
     }
     DismissError(id) -> {
       io.println("DismissError")

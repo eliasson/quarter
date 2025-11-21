@@ -1,4 +1,5 @@
 import gleam/list
+import gleam/option
 import listext
 import route
 import user
@@ -106,4 +107,52 @@ pub fn add_error(m: Model, error: ApplicationError) {
 pub fn dismiss_error(m: Model, id: String) {
   let errors = list.filter(m.errors, fn(e) { e.id != id })
   Model(..m, errors:)
+}
+
+pub fn get_dialog_value(m: Model, field_id: String) -> option.Option(String) {
+  // Get the top most dialog and see if the state contains the given field.
+  let value = case list.last(m.dialogs) {
+    Ok(d) -> {
+      case d {
+        AddUserDialog(state) -> {
+          case field_id {
+            "email" -> option.Some(state.email.value)
+            _ -> option.None
+          }
+        }
+        _ -> {
+          option.None
+        }
+      }
+    }
+    _ -> option.None
+  }
+  value
+}
+
+pub fn update_dialog_value(m: Model, value: FormValue) -> Model {
+  // Get the last dialog
+  // Update its state
+  let updated_dialogs = case list.last(m.dialogs) {
+    Ok(d) -> {
+      case d {
+        AddUserDialog(state) -> {
+          let updated_state = case value.name {
+            "email" -> UserDialogState(email: util.Email(value.value))
+            _ -> state
+          }
+          [AddUserDialog(state: updated_state)]
+        }
+        _ -> [d]
+      }
+    }
+    _ -> []
+  }
+
+  // Replace the dialog in the list of dialog
+  let dialogs =
+    listext.drop_last(m.dialogs)
+    |> list.append(updated_dialogs)
+
+  Model(..m, dialogs:)
 }
