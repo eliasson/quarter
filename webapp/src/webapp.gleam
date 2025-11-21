@@ -94,7 +94,7 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       io.println("SystemUsersResult Error")
       #(model, effect.none())
     }
-    FormTextFieldUpdated(_id, value) -> {
+    FormTextFieldUpdated(value) -> {
       io.println("FormTextFieldUpdated")
       #(update_dialog_value(model, value), effect.none())
     }

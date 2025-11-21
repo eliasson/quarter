@@ -14,10 +14,9 @@ pub fn should_update_email_in_dialog_state_test() {
     model.initial_model()
     |> webapp.update(message.OpenDialog(initial_dialog))
     |> first
-    |> webapp.update(message.FormTextFieldUpdated(
-      "AddUserDialog",
-      model.FormValue("email", "jane@example.com"),
-    ))
+    |> webapp.update(
+      message.FormTextFieldUpdated(model.FormValue("email", "jane@example.com")),
+    )
     |> first
     |> model.get_dialog_value("email")
 
