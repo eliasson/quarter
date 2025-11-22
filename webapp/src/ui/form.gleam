@@ -44,6 +44,21 @@ pub fn button(
   )
 }
 
+pub fn cancel_button(on_click handle_click: msg) -> element.Element(msg) {
+  html.button(
+    [
+      att.class("cancel"),
+      att.type_("cancel"),
+      event.on_click(handle_click),
+    ],
+    [
+      html.div([att.class("button")], [
+        html.span([], [html.text("Cancel")]),
+      ]),
+    ],
+  )
+}
+
 pub fn ghost_button(icon ico: String) {
   html.button([att.class("ghost")], [ui.icon(ico, ui.MediumSize)])
 }
@@ -84,7 +99,7 @@ fn render_field(field field: FormField) -> element.Element(message.Msg) {
 
 fn render_action(action action: FormAction) -> element.Element(message.Msg) {
   case action {
-    Cancel -> button("cancel", "Cancel", False, message.CloseModal)
+    Cancel -> cancel_button(message.CloseModal)
     Confirm(disabled) ->
       button("submit", "Confirm", disabled, message.ConfirmDialog)
   }

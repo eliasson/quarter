@@ -72,7 +72,8 @@
 
     padding: 1rem;
     gap: 1rem;
-
+    /*
     border-top: 2px solid var(--border-color);
     background-color: var(--gray-3);
+*/
 }

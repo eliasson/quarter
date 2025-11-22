@@ -28,3 +28,27 @@ input:invalid {
     border: none;
     outline: 2px solid var(--red-2);
 }
+
+input[type="text"],
+input[type="email"] {
+    border: 1px solid var(--border-color);
+    border-radius: 0;
+
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+
+    color: var(--color-text);
+    background-color: var(--color-bg);
+}
+
+fieldset {
+    border: none;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+fieldset label {
+    font-weight: 500;
+}

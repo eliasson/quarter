@@ -1,9 +1,25 @@
 /** buttons *****************************************************************/
 button {
     display: flex;
-    gap: 0.5rem;
     align-items: center;
-    padding: 0.5rem;
+    place-content: center;
+    position: relative;
+    gap: 0.5rem;
+
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 0;
+    border-color: var(--blue-400);
+
+    background-color: var(--blue-100);
+
+    color: var(--blue-700);
+
+    padding: var(--spacing-3) var(--spacing-4);
+    line-height: 1;
+
+    font-size: 1rem;
+    font-weight: 600;
 }
 
 button.ghost {
@@ -22,4 +38,15 @@ button:focus {
     outline-style: solid;
     outline-width: 4px;
     outline-color: var(--blue-700);
+}
+
+button.cancel {
+    background-color: transparent;
+    border: none;
+}
+
+button:disabled {
+    border-color: var(--blue-200);
+    background-color: var(--blue-100);
+    color: var(--blue-500);
 }
