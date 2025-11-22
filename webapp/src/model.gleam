@@ -30,7 +30,7 @@ pub type Dialog {
 }
 
 pub type UserDialogState {
-  UserDialogState(email: Email)
+  UserDialogState(email: Email, email_errors: List(String), is_valid: Bool)
 }
 
 pub type AnotherDialogState {
@@ -138,9 +138,13 @@ pub fn update_dialog_value(m: Model, value: FormValue) -> Model {
       case d {
         AddUserDialog(state) -> {
           let updated_state = case value.name {
-            "email" -> UserDialogState(email: util.Email(value.value))
+            "email" ->
+              validate_user_dialog_state(
+                UserDialogState(..state, email: util.Email(value.value)),
+              )
             _ -> state
           }
+
           [AddUserDialog(state: updated_state)]
         }
         _ -> [d]
@@ -155,4 +159,16 @@ pub fn update_dialog_value(m: Model, value: FormValue) -> Model {
     |> list.append(updated_dialogs)
 
   Model(..m, dialogs:)
+}
+
+pub fn validate_user_dialog_state(state: UserDialogState) -> UserDialogState {
+  // Validate each field and add approrpiate error messages
+
+  // Get validation errors for email
+  // Set the state is_valid based on if there are _any_ validation messages.
+  state
+}
+
+pub fn new_user_dialog() {
+  AddUserDialog(UserDialogState(util.Email(""), [], False))
 }

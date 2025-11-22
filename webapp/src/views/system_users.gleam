@@ -55,9 +55,6 @@ fn user_table(m: model.Model) {
 }
 
 fn manage_action(m: model.Model) {
-  let add_user_dialog =
-    model.AddUserDialog(model.UserDialogState(util.Email("")))
-
   dropdown.drop_down_menu(
     manage_menu_id,
     form.outline_button("Manage", "chevron-down"),
@@ -65,7 +62,7 @@ fn manage_action(m: model.Model) {
       dropdown.DropDownMsg(
         gfx.icon_add_user,
         "Add user",
-        message.OpenDialog(add_user_dialog),
+        message.OpenDialog(model.new_user_dialog()),
       ),
     ],
     model.is_drop_down_menu_open(m, manage_menu_id),

@@ -6,11 +6,11 @@ import util.{Email}
 import webapp
 
 const dialog_one = model.AddUserDialog(
-  model.UserDialogState(Email("one@example.com")),
+  model.UserDialogState(Email("one@example.com"), [], False),
 )
 
 const dialog_two = model.AddUserDialog(
-  model.UserDialogState(Email("two@example.com")),
+  model.UserDialogState(Email("two@example.com"), [], False),
 )
 
 pub fn when_opening_dialog_test() {

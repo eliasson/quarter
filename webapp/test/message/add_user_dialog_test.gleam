@@ -3,12 +3,10 @@ import gleeunit/should
 import message
 import model
 import test_util.{first}
-import util
 import webapp
 
 pub fn should_update_email_in_dialog_state_test() {
-  let initial_dialog =
-    model.AddUserDialog(model.UserDialogState(util.Email("")))
+  let initial_dialog = model.new_user_dialog()
 
   let value =
     model.initial_model()
