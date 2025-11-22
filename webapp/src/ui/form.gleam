@@ -17,7 +17,7 @@ pub type FormField {
 
 pub type FormAction {
   Cancel
-  Confirm
+  Confirm(disabled: Bool)
 }
 
 pub fn checkbox() -> element.Element(msg) {
@@ -85,7 +85,8 @@ fn render_field(field field: FormField) -> element.Element(message.Msg) {
 fn render_action(action action: FormAction) -> element.Element(message.Msg) {
   case action {
     Cancel -> button("cancel", "Cancel", False, message.CloseModal)
-    Confirm -> button("submit", "Confirm", False, message.ConfirmDialog)
+    Confirm(disabled) ->
+      button("submit", "Confirm", disabled, message.ConfirmDialog)
   }
 }
 
