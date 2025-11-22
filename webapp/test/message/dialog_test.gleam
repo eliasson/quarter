@@ -1,16 +1,16 @@
 import gleeunit/should
 import message
-import model
+import model.{ValidValue}
 import test_util.{first}
 import util.{Email}
 import webapp
 
 const dialog_one = model.AddUserDialog(
-  model.UserDialogState(Email("one@example.com"), [], False),
+  model.UserDialogState(ValidValue(Email("one@example.com")), False),
 )
 
 const dialog_two = model.AddUserDialog(
-  model.UserDialogState(Email("two@example.com"), [], False),
+  model.UserDialogState(ValidValue(Email("two@example.com")), False),
 )
 
 pub fn when_opening_dialog_test() {

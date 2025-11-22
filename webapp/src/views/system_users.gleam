@@ -9,7 +9,6 @@ import model
 import ui/core as ui
 import ui/dropdown
 import ui/form
-import util
 
 const manage_menu_id = "manage.users"
 
@@ -74,7 +73,7 @@ pub fn add_user_form(d: model.UserDialogState) -> form.Form {
   // TODO Check if the form is invalid, add message and disable the confirm action if so.
   form.Form(
     "AddUserDialog",
-    [form.EmailInput("email", "Email", d.email.value, True)],
+    [form.EmailInput("email", "Email", d.email.value.value, True)],
     [
       form.Cancel,
       form.Confirm,

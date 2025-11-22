@@ -30,7 +30,7 @@ pub type Dialog {
 }
 
 pub type UserDialogState {
-  UserDialogState(email: Email, email_errors: List(String), is_valid: Bool)
+  UserDialogState(email: VValue(Email), is_valid: Bool)
 }
 
 pub type AnotherDialogState {
@@ -45,6 +45,13 @@ pub type ApplicationError {
 
 pub type FormValue {
   FormValue(name: String, value: String)
+}
+
+/// Represents a model value that is inputted by the user.
+pub type VValue(a) {
+  UnvalidatedValue(value: a)
+  ValidValue(value: a)
+  InvalidValue(value: a, errors: List(String))
 }
 
 /// Creates a new model with the initial fields all set.
@@ -116,7 +123,7 @@ pub fn get_dialog_value(m: Model, field_id: String) -> option.Option(String) {
       case d {
         AddUserDialog(state) -> {
           case field_id {
-            "email" -> option.Some(state.email.value)
+            "email" -> option.Some(state.email.value.value)
             _ -> option.None
           }
         }
@@ -140,7 +147,10 @@ pub fn update_dialog_value(m: Model, value: FormValue) -> Model {
           let updated_state = case value.name {
             "email" ->
               validate_user_dialog_state(
-                UserDialogState(..state, email: util.Email(value.value)),
+                UserDialogState(
+                  ..state,
+                  email: ValidValue(util.Email(value.value)),
+                ),
               )
             _ -> state
           }
@@ -165,10 +175,23 @@ pub fn validate_user_dialog_state(state: UserDialogState) -> UserDialogState {
   // Validate each field and add approrpiate error messages
 
   // Get validation errors for email
+  let email = case util.validate_email(state.email.value) {
+    Ok(Nil) -> ValidValue(state.email.value)
+    Error(messages) -> InvalidValue(state.email.value, messages)
+  }
+
   // Set the state is_valid based on if there are _any_ validation messages.
-  state
+  let has_error =
+    list.any([email], fn(v) {
+      case v {
+        ValidValue(_) -> False
+        _ -> True
+      }
+    })
+
+  UserDialogState(email:, is_valid: !has_error)
 }
 
 pub fn new_user_dialog() {
-  AddUserDialog(UserDialogState(util.Email(""), [], False))
+  AddUserDialog(UserDialogState(ValidValue(util.Email("")), False))
 }
