@@ -1,4 +1,6 @@
+using System.ComponentModel.DataAnnotations;
 using Quarter.Core.Models;
+using Quarter.Core.Utils;
 
 // ReSharper disable InconsistentNaming
 
@@ -18,3 +20,18 @@ public record UserResourceOutput(string id, string email, string created, string
             user.Created.IsoString(),
             user.Updated?.IsoString());
 }
+
+public class CreateUserResourceInput
+{
+    [Required]
+    [EmailAddress]
+    public string? email { get; set; }
+
+
+    internal User AsValidatedUser()
+    {
+        if (email is null) throw new ArgumentException("Not a valid email address");
+
+        return User.StandardUser(new Email(email));
+    }
+};
