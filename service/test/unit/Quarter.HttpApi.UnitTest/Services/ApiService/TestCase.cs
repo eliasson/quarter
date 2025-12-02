@@ -63,6 +63,9 @@ public class TestCase
     protected Task<Timesheet> ReadTimesheetAsync(IdOf<User> userId, Date date)
         => _repositoryFactory.TimesheetRepository(userId).GetByDateAsync(date, CancellationToken.None);
 
+    protected Task<User> ReadUserAsync(string email)
+        => _repositoryFactory.UserRepository().GetUserByEmailAsync(email, CancellationToken.None);
+
     protected static OperationContext CreateOperationContext()
         => new(IdOf<User>.Random(), []);
 

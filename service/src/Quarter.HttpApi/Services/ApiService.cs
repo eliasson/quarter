@@ -25,6 +25,8 @@ public interface IApiService
     IAsyncEnumerable<UserResourceOutput> GetAllUsersAsync(OperationContext oc, CancellationToken ct);
 
     Task<UserResourceOutput> GetCurrentUserAsync(OperationContext oc, CancellationToken ct);
+
+    Task<UserResourceOutput> AddUserAsync(CreateUserResourceInput input, OperationContext oc, CancellationToken ct);
 }
 
 public class ApiService(IRepositoryFactory repositoryFactory) : IApiService
@@ -147,5 +149,11 @@ public class ApiService(IRepositoryFactory repositoryFactory) : IApiService
     {
         var user = await repositoryFactory.UserRepository().GetByIdAsync(oc.UserId, ct);
         return UserResourceOutput.From(user);
+    }
+
+    public async Task<UserResourceOutput> AddUserAsync(CreateUserResourceInput input, OperationContext oc, CancellationToken ct)
+    {
+        var createdUser = await repositoryFactory.UserRepository().CreateAsync(input.AsValidatedUser(), ct);
+        return UserResourceOutput.From(createdUser);
     }
 }
