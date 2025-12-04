@@ -26,7 +26,7 @@ public interface IApiService
 
     Task<UserResourceOutput> GetCurrentUserAsync(OperationContext oc, CancellationToken ct);
 
-    Task<UserResourceOutput> AddUserAsync(CreateUserResourceInput input, OperationContext oc, CancellationToken ct);
+    Task<UserResourceOutput> CreateUserAsync(CreateUserResourceInput input, OperationContext oc, CancellationToken ct);
 }
 
 public class ApiService(IRepositoryFactory repositoryFactory) : IApiService
@@ -151,7 +151,7 @@ public class ApiService(IRepositoryFactory repositoryFactory) : IApiService
         return UserResourceOutput.From(user);
     }
 
-    public async Task<UserResourceOutput> AddUserAsync(CreateUserResourceInput input, OperationContext oc, CancellationToken ct)
+    public async Task<UserResourceOutput> CreateUserAsync(CreateUserResourceInput input, OperationContext oc, CancellationToken ct)
     {
         var createdUser = await repositoryFactory.UserRepository().CreateAsync(input.AsValidatedUser(), ct);
         return UserResourceOutput.From(createdUser);

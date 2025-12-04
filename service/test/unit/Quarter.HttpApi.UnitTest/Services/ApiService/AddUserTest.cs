@@ -19,7 +19,7 @@ public class AddUserTest
         public async Task Setup()
         {
             var input = new CreateUserResourceInput { email = "new@example.com" };
-            _userResourceOutput = await ApiService.AddUserAsync(input, _oc, CancellationToken.None);
+            _userResourceOutput = await ApiService.CreateUserAsync(input, _oc, CancellationToken.None);
         }
 
         [Test]
@@ -53,7 +53,7 @@ public class AddUserTest
 
             Assert.Multiple(() =>
             {
-                var ex = Assert.CatchAsync<ArgumentException>(() => ApiService.AddUserAsync(input, _oc, CancellationToken.None));
+                var ex = Assert.CatchAsync<ArgumentException>(() => ApiService.CreateUserAsync(input, _oc, CancellationToken.None));
                 Assert.That(ex?.Message, Is.EqualTo("Could not store as Email already in use"));
             });
         }
