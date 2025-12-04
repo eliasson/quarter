@@ -1,3 +1,4 @@
+using System.Net.Mime;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Quarter.Core.Models;
@@ -20,6 +21,20 @@ public class UsersController(IApiService apiService, IRepositoryFactory reposito
 
         var users = ApiService.GetAllUsersAsync(oc, ct);
         return Ok(users);
+    }
+
+    [HttpPost]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    public async Task<ActionResult> CreateUser([FromBody] CreateUserResourceInput input, CancellationToken ct)
+    {
+        var oc = await GetOperationContextForCurrentUserAsync(ct);
+
+        if (!oc.HasRole(UserRole.Administrator))
+            return StatusCode(StatusCodes.Status403Forbidden);
+
+        var output = await ApiService.CreateUserAsync(input, oc, ct);
+        return Created((Uri?) null, output);
     }
 
     [HttpGet("self")]
