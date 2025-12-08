@@ -3,9 +3,9 @@ import gleam/uri.{type Uri}
 import lustre
 import lustre/effect.{type Effect}
 import message.{
-  type Msg, CloseModal, ConfirmDialog, CurrentUserResult, DismissError,
-  FormTextFieldUpdated, OnRouteChange, OpenDialog, OpenDropDownMenu,
-  SystemUsersResult,
+  type Msg, AddUserResult, CloseModal, ConfirmDialog, CurrentUserResult,
+  DismissError, FormTextFieldUpdated, OnRouteChange, OpenDialog,
+  OpenDropDownMenu, SystemUsersResult,
 }
 import model.{
   type Model, close_all_modals, close_modal, dismiss_error, initial_model,
@@ -74,10 +74,7 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       io.println("CloseModal")
       #(close_modal(model), effect.none())
     }
-    ConfirmDialog -> {
-      io.println("ConfirmDialog")
-      #(close_modal(model), effect.none())
-    }
+    ConfirmDialog -> handle_dialog_confirm(model)
     CurrentUserResult(Ok(u)) -> {
       io.println("CurrentUserResult OK")
       #(set_current_user(model, u), effect.none())
@@ -92,6 +89,18 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
     }
     SystemUsersResult(Error(_)) -> {
       io.println("SystemUsersResult Error")
+      #(model, effect.none())
+    }
+    AddUserResult(Ok(_)) -> {
+      io.println("AddUserResult OK")
+
+      // When the user was added successfully add the new user to the state so it
+      // can be rendered in the list of users. The only way to add a new user is
+      // when viewing the list of users.
+      #(model, protocol.get_system_users(message.SystemUsersResult))
+    }
+    AddUserResult(Error(_)) -> {
+      io.println("AddUserResult Error")
       #(model, effect.none())
     }
     FormTextFieldUpdated(value) -> {
@@ -116,4 +125,15 @@ fn effect_on_route_loaded(r: route.Route) {
       protocol.get_system_users(message.SystemUsersResult)
     _ -> effect.none()
   }
+}
+
+fn handle_dialog_confirm(m: model.Model) {
+  let work = case model.current_dialog(m) {
+    Ok(model.AddUserDialog(state)) -> {
+      protocol.add_user(state.email.value, message.AddUserResult)
+    }
+    _ -> effect.none()
+  }
+
+  #(close_modal(m), work)
 }

@@ -33,4 +33,5 @@ pub type Msg {
   //
   CurrentUserResult(Result(user.User, rsvp.Error))
   SystemUsersResult(Result(List(user.User), rsvp.Error))
+  AddUserResult(Result(user.User, rsvp.Error))
 }

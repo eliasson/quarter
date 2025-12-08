@@ -116,6 +116,10 @@ pub fn dismiss_error(m: Model, id: String) {
   Model(..m, errors:)
 }
 
+pub fn current_dialog(m: Model) -> Result(Dialog, Nil) {
+  list.last(m.dialogs)
+}
+
 pub fn get_dialog_value(m: Model, field_id: String) -> option.Option(String) {
   // Get the top most dialog and see if the state contains the given field.
   let value = case list.last(m.dialogs) {
@@ -195,3 +199,4 @@ pub fn validate_user_dialog_state(state: UserDialogState) -> UserDialogState {
 pub fn new_user_dialog() {
   AddUserDialog(UserDialogState(ValidValue(util.Email("")), False))
 }
+// pub fn foo(state: UserDialogState) ->

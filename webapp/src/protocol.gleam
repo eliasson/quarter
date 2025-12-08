@@ -1,4 +1,5 @@
 import gleam/dynamic/decode
+import gleam/json
 import gleam/option.{type Option, None, Some}
 import gleam/time/timestamp
 import lustre/effect.{type Effect}
@@ -30,6 +31,17 @@ pub fn get_system_users(
     rsvp.expect_json(decode.list(user_resource_decoder()), handle_response)
 
   rsvp.get(url, handler)
+}
+
+pub fn add_user(
+  email: util.Email,
+  on_response handle_response: fn(Result(user.User, rsvp.Error)) -> message.Msg,
+) -> Effect(message.Msg) {
+  let url = "/api/users"
+  let handler = rsvp.expect_json(user_resource_decoder(), handle_response)
+  let payload = json.object([#("email", json.string(email.value))])
+
+  rsvp.post(url, payload, handler)
 }
 
 pub fn user_resource_decoder() -> decode.Decoder(user.User) {
