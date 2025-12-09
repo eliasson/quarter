@@ -72,7 +72,7 @@ fn manage_action(m: model.Model) {
 pub fn add_user_form(state: model.UserDialogState) -> form.Form {
   form.Form(
     "AddUserDialog",
-    [form.EmailInput("email", "Email", state.email.value.value, True)],
+    [form.EmailInput("email", "Email", state.email.value.value, True, True)],
     [
       form.Cancel,
       form.Confirm(!state.is_valid),

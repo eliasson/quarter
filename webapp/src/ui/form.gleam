@@ -12,7 +12,13 @@ pub type Form {
 }
 
 pub type FormField {
-  EmailInput(name: String, label: String, value: String, required: Bool)
+  EmailInput(
+    name: String,
+    label: String,
+    value: String,
+    required: Bool,
+    autofocus: Bool,
+  )
 }
 
 pub type FormAction {
@@ -92,8 +98,8 @@ pub fn form_dialog(form: Form, ico: String, header: String) {
 
 fn render_field(field field: FormField) -> element.Element(message.Msg) {
   case field {
-    EmailInput(name, label, value, required) ->
-      input_field("email", name, label, value, required)
+    EmailInput(name, label, value, required, autofocus) ->
+      input_field("email", name, label, value, required, autofocus)
   }
 }
 
@@ -111,17 +117,27 @@ fn input_field(
   label: String,
   inital_value: String,
   required: Bool,
+  autofocus: Bool,
 ) -> element.Element(message.Msg) {
+  // Only add the required attribute if the input has a value. Else the field will be invalid immediately.
+  let validations = case inital_value {
+    "" -> []
+    _ -> [att.required(required)]
+  }
+
   html.fieldset([], [
     html.label([att.for(name)], [html.text(label)]),
-    html.input([
-      att.type_(input_type),
-      att.name(name),
-      att.value(inital_value),
-      att.required(required),
-      event.on_input(fn(updated_value) {
-        message.FormTextFieldUpdated(model.FormValue(name, updated_value))
-      }),
-    ]),
+    html.input(list.append(
+      [
+        att.type_(input_type),
+        att.name(name),
+        att.value(inital_value),
+        att.autofocus(autofocus),
+        event.on_input(fn(updated_value) {
+          message.FormTextFieldUpdated(model.FormValue(name, updated_value))
+        }),
+      ],
+      validations,
+    )),
   ])
 }
