@@ -11,6 +11,7 @@ import route
 import ui/core as ui
 import ui/dropdown
 import ui/form
+import views/manage_projects
 import views/system_users
 
 const main_menu_id = "main.nav"
@@ -29,6 +30,7 @@ pub fn view(model: model.Model) -> Element(message.Msg) {
 fn route_view(model: model.Model) {
   case model.route {
     route.AdministerSystemUsers -> system_users.view(model)
+    route.Manage -> manage_projects.view(model)
     _ -> element.none()
   }
 }
@@ -123,6 +125,12 @@ fn dialogs(model: model.Model) -> List(element.Element(message.Msg)) {
         system_users.add_user_form(state)
         |> form.form_dialog(gfx.icon_add_user, "Add new user")
       }
+
+      model.AddProjectDialog(state) -> {
+        manage_projects.add_project_form(state)
+        |> form.form_dialog(gfx.icon_add_user, "Add new project")
+      }
+
       model.AnotherDialog(_state) -> {
         element.none()
       }

@@ -17,6 +17,8 @@ pub type Model {
     users: List(user.User),
     /// The errors that have occured and that are not dismissed
     errors: List(ApplicationError),
+    /// The projects available to the user (regardless of archived state).
+    projects: List(Project),
   )
 }
 
@@ -26,11 +28,20 @@ pub type DropDownMenu {
 
 pub type Dialog {
   AddUserDialog(state: UserDialogState)
+  AddProjectDialog(state: ProjectDialogState)
   AnotherDialog(state: AnotherDialogState)
 }
 
 pub type UserDialogState {
   UserDialogState(email: VValue(Email), is_valid: Bool)
+}
+
+pub type ProjectDialogState {
+  ProjectDialogState(
+    name: VValue(String),
+    description: VValue(String),
+    is_valid: Bool,
+  )
 }
 
 pub type AnotherDialogState {
@@ -54,6 +65,14 @@ pub type VValue(a) {
   InvalidValue(value: a, errors: List(String))
 }
 
+pub type ProjectId {
+  ProjectId(value: String)
+}
+
+pub type Project {
+  Project(id: ProjectId, name: String, description: String, is_archived: Bool)
+}
+
 /// Creates a new model with the initial fields all set.
 pub fn initial_model() -> Model {
   Model(
@@ -63,6 +82,7 @@ pub fn initial_model() -> Model {
     dialogs: [],
     users: [],
     errors: [],
+    projects: [],
   )
 }
 
