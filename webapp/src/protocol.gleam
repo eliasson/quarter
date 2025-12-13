@@ -104,6 +104,30 @@ pub fn project_decoder() -> decode.Decoder(project.Project) {
   ))
 }
 
+pub fn activity_decoder() -> decode.Decoder(project.Activity) {
+  use id <- decode.field("id", decode.string)
+  use project_id <- decode.field("projectId", decode.string)
+  use name <- decode.field("name", decode.string)
+  use description <- decode.field("description", decode.string)
+  use is_archived <- decode.field("isArchived", decode.bool)
+  use created <- decode.field("created", decode_timestamp())
+  use updated <- decode.optional_field(
+    "updated",
+    option.None,
+    decode_optional_timestamp(),
+  )
+
+  decode.success(project.Activity(
+    project.ActivityId(id),
+    project.ProjectId(project_id),
+    name,
+    description,
+    is_archived,
+    created,
+    updated,
+  ))
+}
+
 /// Decode a ISO-8601 / RFC-3339 timestamp from a string.
 fn decode_timestamp() -> decode.Decoder(timestamp.Timestamp) {
   use ts_str <- decode.then(decode.string)
