@@ -4,6 +4,7 @@ import gleam/option.{type Option, None, Some}
 import gleam/time/timestamp
 import lustre/effect.{type Effect}
 import message
+import project
 import rsvp
 import user
 import util
@@ -44,6 +45,19 @@ pub fn add_user(
   rsvp.post(url, payload, handler)
 }
 
+/// Get all users projects and activities in a single request.
+pub fn get_projects_and_activities(
+  on_response handle_response: fn(Result(List(project.Project), rsvp.Error)) ->
+    message.Msg,
+) -> Effect(message.Msg) {
+  let url = "/api/projects/activities"
+
+  let handler =
+    rsvp.expect_json(project_and_activities_decoder(), handle_response)
+
+  rsvp.get(url, handler)
+}
+
 pub fn user_resource_decoder() -> decode.Decoder(user.User) {
   use id <- decode.field("id", decode.string)
   use email <- decode.field("email", decode.string)
@@ -55,6 +69,39 @@ pub fn user_resource_decoder() -> decode.Decoder(user.User) {
   )
 
   decode.success(user.User(id:, email:, created:, updated:))
+}
+
+pub fn project_and_activities_decoder() -> decode.Decoder(List(project.Project)) {
+  use projects_without_activities <- decode.field(
+    "projects",
+    decode.list(project_decoder()),
+  )
+
+  // TODO Inflate the projects with the activities
+  let projects = projects_without_activities
+  decode.success(projects)
+}
+
+pub fn project_decoder() -> decode.Decoder(project.Project) {
+  use id <- decode.field("id", decode.string)
+  use name <- decode.field("name", decode.string)
+  use description <- decode.field("description", decode.string)
+  use is_archived <- decode.field("isArchived", decode.bool)
+  use created <- decode.field("created", decode_timestamp())
+  use updated <- decode.optional_field(
+    "updated",
+    option.None,
+    decode_optional_timestamp(),
+  )
+
+  decode.success(project.Project(
+    project.ProjectId(id),
+    name,
+    description,
+    is_archived,
+    created,
+    updated,
+  ))
 }
 
 /// Decode a ISO-8601 / RFC-3339 timestamp from a string.
