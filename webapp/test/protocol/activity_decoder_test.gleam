@@ -16,6 +16,7 @@ pub fn decode_minimal_activity_test() {
       \"projectId\": \"P01\",
       \"name\": \"Activity Alpha\",
       \"description\": \"\",
+      \"color\": \"#8E87F5\",
       \"isArchived\": false,
       \"created\": \"2025-11-04T16:49:39.2993437Z\"
      }"
@@ -27,6 +28,7 @@ pub fn decode_minimal_activity_test() {
       project.ProjectId("P01"),
       "Activity Alpha",
       "",
+      util.Color(142, 135, 245),
       False,
       result.unwrap(expected_created, util.timestamp_zero()),
       option.None,
@@ -45,6 +47,7 @@ pub fn decode_full_activity_test() {
       \"projectId\": \"P01\",
       \"name\": \"Activity Alpha\",
       \"description\": \"The alpha activity\",
+      \"color\": \"#8E87F5\",
       \"isArchived\": true,
       \"created\": \"2025-11-04T16:49:39.2993437Z\",
       \"updated\": \"2025-11-04T20:00:00.0Z\"
@@ -57,10 +60,27 @@ pub fn decode_full_activity_test() {
       project.ProjectId("P01"),
       "Activity Alpha",
       "The alpha activity",
+      util.Color(142, 135, 245),
       True,
       result.unwrap(expected_created, util.timestamp_zero()),
       option.Some(result.unwrap(expected_updated, util.timestamp_zero())),
     ))
 
   should.equal(result, expected)
+}
+
+pub fn decode_invalid_activity_test() {
+  let result =
+    "{
+      \"id\": \"A01\",
+      \"projectId\": \"P01\",
+      \"name\": \"Activity Alpha\",
+      \"description\": \"\",
+      \"color\": \"redish\",
+      \"isArchived\": false,
+      \"created\": \"2025-11-04T16:49:39.2993437Z\"
+     }"
+    |> json.parse(protocol.activity_decoder())
+
+  should.be_error(result)
 }

@@ -109,6 +109,7 @@ pub fn activity_decoder() -> decode.Decoder(project.Activity) {
   use project_id <- decode.field("projectId", decode.string)
   use name <- decode.field("name", decode.string)
   use description <- decode.field("description", decode.string)
+  use color <- decode.field("color", decode_color())
   use is_archived <- decode.field("isArchived", decode.bool)
   use created <- decode.field("created", decode_timestamp())
   use updated <- decode.optional_field(
@@ -122,6 +123,7 @@ pub fn activity_decoder() -> decode.Decoder(project.Activity) {
     project.ProjectId(project_id),
     name,
     description,
+    color,
     is_archived,
     created,
     updated,
@@ -150,5 +152,14 @@ fn decode_optional_timestamp() -> decode.Decoder(Option(timestamp.Timestamp)) {
       }
 
     None -> decode.success(None)
+  }
+}
+
+fn decode_color() -> decode.Decoder(util.Color) {
+  use color_hex <- decode.then(decode.string)
+
+  case util.from_hex(color_hex) {
+    Ok(c) -> decode.success(c)
+    _ -> decode.failure(util.Color(0, 0, 0), "Could not parse color")
   }
 }
