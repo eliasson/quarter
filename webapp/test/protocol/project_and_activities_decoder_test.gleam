@@ -24,16 +24,20 @@ pub fn inflates_to_empty_list_of_projects_test() {
 }
 
 pub fn inflates_to_child_less_projects_test() {
-  let result =
-    "{
-      \"projects\": [{
+  "{
+     \"projects\": [{
         \"id\": \"P01\",
         \"name\": \"Project Alpha\",
         \"description\": \"The alpha project\",
         \"isArchived\": false,
         \"created\": \"2025-11-04T16:49:39.2993437Z\"
-        }
-     ],
+     },{
+        \"id\": \"P02\",
+        \"name\": \"Project Bravo\",
+        \"description\": \"The bravo project\",
+        \"isArchived\": false,
+        \"created\": \"2025-11-04T16:49:39.2993437Z\"
+    }],
     \"activities\": [{
       \"id\": \"A01\",
       \"projectId\": \"P01\",
@@ -42,12 +46,30 @@ pub fn inflates_to_child_less_projects_test() {
       \"color\": \"#8E87F5\",
       \"isArchived\": false,
       \"created\": \"2025-11-04T16:49:39.2993437Z\"
-      }]
+    },{
+      \"id\": \"A02\",
+      \"projectId\": \"P01\",
+      \"name\": \"Activity Bravo\",
+      \"description\": \"The bravo activity\",
+      \"color\": \"#8E87F5\",
+      \"isArchived\": false,
+      \"created\": \"2025-11-04T16:49:39.2993437Z\"
+    },{
+      \"id\": \"A03\",
+      \"projectId\": \"P02\",
+      \"name\": \"Activity Charlie\",
+      \"description\": \"The charlie activity\",
+      \"color\": \"#8E87F5\",
+      \"isArchived\": false,
+      \"created\": \"2025-11-04T16:49:39.2993437Z\"
+    }]
   }"
-    |> json.parse(protocol.project_and_activities_decoder())
-    |> should.be_ok()
-    |> echo
-    |> expect_project_with_activities([#("P01", ["A01"])])
+  |> json.parse(protocol.project_and_activities_decoder())
+  |> should.be_ok()
+  |> expect_project_with_activities([
+    #("P01", ["A01", "A02"]),
+    #("P02", ["A03"]),
+  ])
 }
 
 fn expect_project_with_activities(

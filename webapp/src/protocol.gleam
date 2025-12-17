@@ -1,7 +1,10 @@
+import gleam/dict
 import gleam/dynamic/decode
 import gleam/json
+import gleam/list
 import gleam/option.{type Option, None, Some}
 import gleam/time/timestamp
+import listext
 import lustre/effect.{type Effect}
 import message
 import project
@@ -76,9 +79,21 @@ pub fn project_and_activities_decoder() -> decode.Decoder(List(project.Project))
     "projects",
     decode.list(project_decoder()),
   )
+  use all_activities <- decode.field(
+    "activities",
+    decode.list(activity_decoder()),
+  )
 
-  // TODO Inflate the projects with the activities
-  let projects = projects_without_activities
+  let lookup =
+    list.fold(all_activities, dict.new(), fn(acc, a) {
+      listext.add_or_append(acc, a.project_id, a)
+    })
+
+  let projects =
+    list.map(projects_without_activities, fn(p) {
+      project.Project(..p, activities: listext.get_or_empty(lookup, p.id))
+    })
+
   decode.success(projects)
 }
 
