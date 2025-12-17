@@ -5,7 +5,7 @@ import lustre/effect.{type Effect}
 import message.{
   type Msg, AddUserResult, CloseModal, ConfirmDialog, CurrentUserResult,
   DismissError, FormTextFieldUpdated, OnRouteChange, OpenDialog,
-  OpenDropDownMenu, SystemUsersResult,
+  OpenDropDownMenu, ProjectsResult, SystemUsersResult,
 }
 import model.{
   type Model, close_all_modals, close_modal, dismiss_error, initial_model,
@@ -42,6 +42,8 @@ fn init(_args) -> #(Model, Effect(Msg)) {
       modem.init(on_url_change),
       // Load the current user.
       protocol.get_current_user(message.CurrentUserResult),
+      // Get all available projects and activities.
+      protocol.get_projects_and_activities(message.ProjectsResult),
       // Load any additional data based on route.
       effect_on_route_loaded(initial_route),
     ])
@@ -101,6 +103,14 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
     }
     AddUserResult(Error(_)) -> {
       io.println("AddUserResult Error")
+      #(model, effect.none())
+    }
+    ProjectsResult(Ok(projects)) -> {
+      io.println("ProjectsResult OK")
+      #(model.Model(..model, projects:), effect.none())
+    }
+    ProjectsResult(Error(_)) -> {
+      io.println("ProjectsResult Error")
       #(model, effect.none())
     }
     FormTextFieldUpdated(value) -> {

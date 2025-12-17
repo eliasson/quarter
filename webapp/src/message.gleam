@@ -1,4 +1,5 @@
 import model
+import project
 import route.{type Route}
 import rsvp
 import user
@@ -34,4 +35,5 @@ pub type Msg {
   CurrentUserResult(Result(user.User, rsvp.Error))
   SystemUsersResult(Result(List(user.User), rsvp.Error))
   AddUserResult(Result(user.User, rsvp.Error))
+  ProjectsResult(Result(List(project.Project), rsvp.Error))
 }
