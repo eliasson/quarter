@@ -94,14 +94,17 @@ pub fn project_decoder() -> decode.Decoder(project.Project) {
     decode_optional_timestamp(),
   )
 
-  decode.success(project.Project(
-    project.ProjectId(id),
-    name,
-    description,
-    is_archived,
-    created,
-    updated,
-  ))
+  decode.success(
+    project.Project(
+      project.ProjectId(id),
+      name,
+      description,
+      is_archived,
+      created,
+      updated,
+      activities: [],
+    ),
+  )
 }
 
 pub fn activity_decoder() -> decode.Decoder(project.Activity) {

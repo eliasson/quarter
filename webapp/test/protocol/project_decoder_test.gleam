@@ -21,14 +21,17 @@ pub fn decode_minimal_project_test() {
     |> json.parse(protocol.project_decoder())
 
   let expected =
-    Ok(project.Project(
-      project.ProjectId("001"),
-      "Project Alpha",
-      "",
-      False,
-      result.unwrap(expected_created, util.timestamp_zero()),
-      option.None,
-    ))
+    Ok(
+      project.Project(
+        project.ProjectId("001"),
+        "Project Alpha",
+        "",
+        False,
+        result.unwrap(expected_created, util.timestamp_zero()),
+        option.None,
+        [],
+      ),
+    )
 
   should.equal(result, expected)
 }
@@ -49,14 +52,17 @@ pub fn decode_full_project_test() {
     |> json.parse(protocol.project_decoder())
 
   let expected =
-    Ok(project.Project(
-      project.ProjectId("001"),
-      "Project Alpha",
-      "The alpha project",
-      True,
-      result.unwrap(expected_created, util.timestamp_zero()),
-      option.Some(result.unwrap(expected_updated, util.timestamp_zero())),
-    ))
+    Ok(
+      project.Project(
+        project.ProjectId("001"),
+        "Project Alpha",
+        "The alpha project",
+        True,
+        result.unwrap(expected_created, util.timestamp_zero()),
+        option.Some(result.unwrap(expected_updated, util.timestamp_zero())),
+        [],
+      ),
+    )
 
   should.equal(result, expected)
 }

@@ -18,6 +18,7 @@ pub type Project {
     is_archived: Bool,
     created: Timestamp,
     updated: option.Option(Timestamp),
+    activities: List(Activity),
   )
 }
 
