@@ -1,4 +1,3 @@
-import gfx
 import gleam/list
 import lustre/attribute as att
 import lustre/element.{type Element}
@@ -8,6 +7,7 @@ import model
 import ui/core as ui
 import ui/dropdown
 import ui/form
+import ui/graphics
 
 const manage_menu_id = "manage.projects"
 
@@ -42,7 +42,7 @@ fn manage_action(m: model.Model) {
     form.outline_button("Manage", "chevron-down"),
     [
       dropdown.DropDownMsg(
-        gfx.icon_add_user,
+        graphics.icon_add_user,
         "Add project",
         message.OpenDialog(model.new_user_dialog()),
       ),

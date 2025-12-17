@@ -1,4 +1,3 @@
-import gfx
 import gleam/int
 import gleam/list
 import lustre/attribute as att
@@ -11,6 +10,7 @@ import route
 import ui/core as ui
 import ui/dropdown
 import ui/form
+import ui/graphics
 import views/manage_projects
 import views/system_users
 
@@ -45,7 +45,7 @@ fn main_navigation(model: model.Model) -> Element(message.Msg) {
 
 fn nav_logo() {
   div([att.class("main-navigation-item")], [
-    ui.icon(gfx.icon_logo, ui.MediumSize),
+    ui.icon(graphics.icon_logo, ui.MediumSize),
   ])
 }
 
@@ -58,45 +58,45 @@ fn nav_menu() {
   }
 
   ul([], [
-    item(gfx.icon_timesheet, "Timesheet", route.timesheet_url),
-    item(gfx.icon_report, "Report", route.report_url),
-    item(gfx.icon_manage, "Manage", route.manage_url),
+    item(graphics.icon_timesheet, "Timesheet", route.timesheet_url),
+    item(graphics.icon_report, "Report", route.report_url),
+    item(graphics.icon_manage, "Manage", route.manage_url),
   ])
 }
 
 fn main_drop_down_menu(m: model.Model) {
   dropdown.drop_down_menu(
     main_menu_id,
-    ui.icon(gfx.icon_menu, ui.MediumSize),
+    ui.icon(graphics.icon_menu, ui.MediumSize),
     [
       dropdown.DropDownLinkApx(
-        gfx.icon_timesheet,
+        graphics.icon_timesheet,
         "Timesheet",
         "Register time per day",
         route.timesheet_url,
       ),
       dropdown.DropDownLinkApx(
-        gfx.icon_report,
+        graphics.icon_report,
         "Report",
         "Generate and export reports",
         route.report_url,
       ),
 
       dropdown.DropDownLinkApx(
-        gfx.icon_manage,
+        graphics.icon_manage,
         "Manage",
         "Manage project and activities",
         route.manage_url,
       ),
       dropdown.DropDownSeparator,
       dropdown.DropDownLink(
-        gfx.icon_features,
+        graphics.icon_features,
         "Features",
         route.admin_features_url,
       ),
-      dropdown.DropDownLink(gfx.icon_users, "Users", route.admin_users_url),
+      dropdown.DropDownLink(graphics.icon_users, "Users", route.admin_users_url),
       dropdown.DropDownSeparator,
-      dropdown.DropDownLink(gfx.icon_logout, "Logout", route.logout_url),
+      dropdown.DropDownLink(graphics.icon_logout, "Logout", route.logout_url),
     ],
     model.is_drop_down_menu_open(m, main_menu_id),
   )
@@ -123,12 +123,12 @@ fn dialogs(model: model.Model) -> List(element.Element(message.Msg)) {
     case d {
       model.AddUserDialog(state) -> {
         system_users.add_user_form(state)
-        |> form.form_dialog(gfx.icon_add_user, "Add new user")
+        |> form.form_dialog(graphics.icon_add_user, "Add new user")
       }
 
       model.AddProjectDialog(state) -> {
         manage_projects.add_project_form(state)
-        |> form.form_dialog(gfx.icon_add_user, "Add new project")
+        |> form.form_dialog(graphics.icon_add_user, "Add new project")
       }
 
       model.AnotherDialog(_state) -> {
