@@ -1,8 +1,8 @@
 import gleam/list
 import gleam/option
-import listext
 import project
 import route
+import seq
 import user
 import util.{type Email}
 
@@ -97,8 +97,8 @@ pub fn is_drop_down_menu_open(m: Model, id: String) -> Bool {
 /// Close the top most modal (e.g. drop-down menu or dialog).
 pub fn close_modal(m: Model) {
   // TODO: How to find the top most?
-  let dropdowns = listext.drop_last(m.dropdowns)
-  let dialogs = listext.drop_last(m.dialogs)
+  let dropdowns = seq.drop_last(m.dropdowns)
+  let dialogs = seq.drop_last(m.dialogs)
 
   Model(..m, dropdowns: dropdowns, dialogs: dialogs)
 }
@@ -182,7 +182,7 @@ pub fn update_dialog_value(m: Model, value: FormValue) -> Model {
 
   // Replace the dialog in the list of dialog
   let dialogs =
-    listext.drop_last(m.dialogs)
+    seq.drop_last(m.dialogs)
     |> list.append(updated_dialogs)
 
   Model(..m, dialogs:)

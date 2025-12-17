@@ -4,11 +4,11 @@ import gleam/json
 import gleam/list
 import gleam/option.{type Option, None, Some}
 import gleam/time/timestamp
-import listext
 import lustre/effect.{type Effect}
 import message
 import project
 import rsvp
+import seq
 import user
 import util
 
@@ -86,12 +86,12 @@ pub fn project_and_activities_decoder() -> decode.Decoder(List(project.Project))
 
   let lookup =
     list.fold(all_activities, dict.new(), fn(acc, a) {
-      listext.add_or_append(acc, a.project_id, a)
+      seq.add_or_append(acc, a.project_id, a)
     })
 
   let projects =
     list.map(projects_without_activities, fn(p) {
-      project.Project(..p, activities: listext.get_or_empty(lookup, p.id))
+      project.Project(..p, activities: seq.get_or_empty(lookup, p.id))
     })
 
   decode.success(projects)
