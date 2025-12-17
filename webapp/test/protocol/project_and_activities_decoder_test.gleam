@@ -1,11 +1,8 @@
 import gleam/json
 import gleam/list
-import gleam/option
-import gleam/result
 import gleeunit/should
 import project
 import protocol
-import util
 
 // Test that parse project and activities to ensure that activities are added to the
 // correct projects.
@@ -13,14 +10,13 @@ import util
 // TODO Any orphan project should be ignored.
 
 pub fn inflates_to_empty_list_of_projects_test() {
-  let result =
-    "{
+  "{
     \"projects\": [],
     \"activities\": []
   }"
-    |> json.parse(protocol.project_and_activities_decoder())
-    |> should.be_ok()
-    |> should.equal([])
+  |> json.parse(protocol.project_and_activities_decoder())
+  |> should.be_ok()
+  |> should.equal([])
 }
 
 pub fn inflates_to_child_less_projects_test() {
