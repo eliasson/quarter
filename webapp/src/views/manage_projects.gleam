@@ -2,7 +2,7 @@ import gfx
 import gleam/list
 import lustre/attribute as att
 import lustre/element.{type Element}
-import lustre/element/html.{div, h1, table, tbody, td, th, thead, tr}
+import lustre/element/html.{div, h1, li, ul}
 import message
 import model
 import ui/core as ui
@@ -20,27 +20,20 @@ pub fn view(m: model.Model) -> Element(message.Msg) {
 }
 
 fn project_table(m: model.Model) {
-  div([att.class("table-wrapper")], [
-    table([], [
-      thead([], [
-        tr([], [
-          th([], [html.text("")]),
-          th([], [html.text("Name")]),
-          th([], [html.text("")]),
-        ]),
-      ]),
-      tbody(
-        [],
-        list.map(m.projects, fn(p) {
-          tr([], [
-            td([], [form.checkbox()]),
-            td([], [html.text(p.name)]),
-            td([att.class("action")], []),
-          ])
-        }),
-      ),
-    ]),
-  ])
+  div(
+    [],
+    list.map(m.projects, fn(project) {
+      ul([], [
+        div([], [html.text(project.name)]),
+        ul(
+          [],
+          list.map(project.activities, fn(activity) {
+            li([], [html.text(activity.name)])
+          }),
+        ),
+      ])
+    }),
+  )
 }
 
 fn manage_action(m: model.Model) {
