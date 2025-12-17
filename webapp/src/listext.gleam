@@ -16,3 +16,17 @@ pub fn get_or_empty(d: dict.Dict(a, List(b)), key: a) -> List(b) {
     _ -> []
   }
 }
+
+/// Add a new list with the given value for the given key, or if the
+/// key exists, append the value to the existing list.
+pub fn add_or_append(
+  d: dict.Dict(a, List(b)),
+  key: a,
+  value: b,
+) -> dict.Dict(a, List(b)) {
+  let v = case dict.get(d, key) {
+    Ok(lst) -> list.append(lst, [value])
+    Error(_) -> [value]
+  }
+  dict.insert(d, key, v)
+}

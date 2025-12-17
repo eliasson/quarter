@@ -24,3 +24,20 @@ pub fn get_or_empty_returns_value_test() {
   |> listext.get_or_empty("foo")
   |> should.equal(["a", "b"])
 }
+
+pub fn add_to_dict_value_test() {
+  dict.new()
+  |> listext.add_or_append("foo", "b")
+  |> dict.get("foo")
+  |> should.be_ok
+  |> should.equal(["b"])
+}
+
+pub fn append_to_dict_value_test() {
+  dict.new()
+  |> dict.insert("foo", ["a"])
+  |> listext.add_or_append("foo", "b")
+  |> dict.get("foo")
+  |> should.be_ok
+  |> should.equal(["a", "b"])
+}
