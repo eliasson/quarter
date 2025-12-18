@@ -212,4 +212,3 @@ pub fn validate_user_dialog_state(state: UserDialogState) -> UserDialogState {
 pub fn new_user_dialog() {
   AddUserDialog(UserDialogState(ValidValue(util.Email("")), False))
 }
-// pub fn foo(state: UserDialogState) ->
