@@ -5,6 +5,7 @@
 @import "./drop-down-menu.css";
 @import "./dialog.css";
 @import "./calendar.month.css";
+@import "./projects.css";
 
 *,
 *::before,
@@ -140,6 +141,16 @@ td {
 
 td.action:last-child {
     padding: 0;
+}
+
+.chip {
+    background-color: var(--blue-50);
+    color: var(--blue-500);
+    padding: 0.5rem 1rem;
+}
+
+.chip:hover {
+    background-color: var(--blue-100);
 }
 
 @media (min-width: 1024px) {

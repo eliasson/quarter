@@ -33,6 +33,70 @@
     --yellow-1: #ffd500;
     --yellow-2: #fdc500;
 
+    /* -------------------------------------------------
+       Purple Theme – 10 Shades
+       ------------------------------------------------- */
+
+    /* 1️⃣ Lightest – Lavender Mist */
+    --purple-100: #f6efff; /* Very pale, almost white */
+
+    /* 2️⃣ Soft Lavender */
+    --purple-200: #e5d4ff;
+
+    /* 3️⃣ Lilac */
+    --purple-300: #cbb8ff;
+
+    /* 4️⃣ Medium Lavender */
+    --purple-400: #b09cff;
+
+    /* 5️⃣ Classic Purple */
+    --purple-500: #9670ff;
+
+    /* 6️⃣ Royal Purple */
+    --purple-600: #7c44ff;
+
+    /* 7️⃣ Deep Violet */
+    --purple-700: #6228e6;
+
+    /* 8️⃣ Dark Violet */
+    --purple-800: #4815c2;
+
+    /* 9️⃣ Ultra‑Dark Violet */
+    --purple-900: #2e0a9e;
+
+    /* 🔟 Near‑Black Purple */
+    --purple-1000: #18066b;
+
+    /* 1️⃣ Whisper‑Lavender – almost white */
+    --purple-bg-100: #faf9ff; /* 98 % light, subtle hint of purple */
+
+    /* 2️⃣ Frosted Lavender */
+    --purple-bg-200: #f2efff; /* Very light, still bright */
+
+    /* 3️⃣ Misty Lilac */
+    --purple-bg-300: #e5ddff; /* Soft pastel lilac */
+
+    /* 4️⃣ Light Lavender */
+    --purple-bg-400: #d5caff; /* Gentle pastel tone */
+
+    /* 5️⃣ Pale Lavender */
+    --purple-bg-500: #c4b7ff; /* Noticeably purple but still airy */
+
+    /* 6️⃣ Soft Mauve */
+    --purple-bg-600: #b2a3ff; /* Slightly richer, still light */
+
+    /* 7️⃣ Dusty Orchid */
+    --purple-bg-700: #9f8fff; /* Light but with enough chroma for contrast */
+
+    /* 8️⃣ Light Plum */
+    --purple-bg-800: #8c7bff; /* A touch deeper while staying pastel */
+
+    /* 9️⃣ Pastel Violet */
+    --purple-bg-900: #7957ff; /* The darkest of the pale set, still easy on eyes */
+
+    /* 🔟 Very Light Indigo – for subtle emphasis */
+    --purple-bg-1000: #6643e6; /* Still pale enough for backgrounds, provides a gentle anchor */
+
     --gray-0: #ffffff;
     --gray-1: #f9fafb;
     --gray-2: #f3f4f6;
@@ -46,7 +110,7 @@
     --gray-10: #111827;
 
     /* Typography */
-    --font-family: serif, monospace;
+    --font-family: sans-serif, monospace;
     --font-size-xs: 0.75rem;
     --font-size-sm: 0.875rem;
     --font-size-base: 1rem;

@@ -1,0 +1,81 @@
+.project-list {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+}
+
+.project-list h1 {
+    font-weight: 900;
+    font-size: var(--font-size-5xl);
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+}
+
+.project-row {
+    display: flex;
+    flex-direction: column;
+
+    border-bottom: 1px solid var(--soft-border-color);
+    gap: 1rem;
+
+    cursor: pointer;
+    padding: var(--spacing-4) 0;
+}
+
+.project-row:hover {
+    background-color: var(--blue-50);
+}
+
+.project-row.expanded {
+    background-color: var(--blue-50);
+}
+
+.project-row .project-info {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+
+    gap: 1rem;
+    align-items: center;
+}
+
+.project-row .project-info .name {
+    flex-grow: 1;
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    padding-left: var(--spacing-2);
+}
+
+.project-row .project-description {
+    padding-left: var(--spacing-2);
+}
+
+.activity-row {
+    display: flex;
+    flex-direction: row;
+
+    gap: 1rem;
+    align-items: center;
+    padding-left: var(--spacing-2);
+}
+
+.activity-row .title {
+    flex-grow: 1;
+}
+
+.activity-row .activity-color {
+}
+
+.activity-color {
+    background-color: #64a0e6;
+    border-color: #5588c3;
+
+    width: 20px;
+    min-width: 20px;
+    max-width: 20px;
+    height: 20px;
+    min-height: 20px;
+    max-height: 20px;
+
+    border: 2px solid;
+}
