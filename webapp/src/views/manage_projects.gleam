@@ -21,12 +21,20 @@ pub fn view(m: model.Model) -> Element(message.Msg) {
 
 fn project_list(m: model.Model) {
   list.map(m.projects, fn(project) {
-    div([att.class("project-row")], [
+    let row_classes = case model.is_project_expanded(m, project.id) {
+      True -> [att.class("project-row"), att.class("expanded")]
+      False -> [att.class("project-row")]
+    }
+
+    div(row_classes, [
       div([att.class("project-info")], [
         div([att.class("name")], [html.text(project.name)]),
         div([att.class("state")], []),
         div([att.class("action")], [
-          form.ghost_button(graphics.icon_is_closed),
+          form.ghost_button(
+            graphics.icon_is_closed,
+            message.ToggleProject(project.id),
+          ),
         ]),
       ]),
       div([att.class("project-description")], [html.text(project.description)]),
@@ -66,7 +74,7 @@ fn manage_activity_action(activity_id: project.ActivityId, m: model.Model) {
   let menu_id = "activity." <> activity_id.value
   dropdown.drop_down_menu(
     manage_menu_id,
-    form.ghost_button(graphics.icon_context_menu),
+    form.ghost_button(graphics.icon_context_menu, message.CloseModal),
     [
       dropdown.DropDownMsg(
         graphics.icon_add_user,

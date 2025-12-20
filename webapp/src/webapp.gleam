@@ -5,12 +5,12 @@ import lustre/effect.{type Effect}
 import message.{
   type Msg, AddUserResult, CloseModal, ConfirmDialog, CurrentUserResult,
   DismissError, FormTextFieldUpdated, OnRouteChange, OpenDialog,
-  OpenDropDownMenu, ProjectsResult, SystemUsersResult,
+  OpenDropDownMenu, ProjectsResult, SystemUsersResult, ToggleProject,
 }
 import model.{
   type Model, close_all_modals, close_modal, dismiss_error, initial_model,
   navigate_to, open_dialog, open_drop_down_menu, set_current_user, set_users,
-  update_dialog_value,
+  toggle_project, update_dialog_value,
 }
 import modem
 import protocol
@@ -77,6 +77,10 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       #(close_modal(model), effect.none())
     }
     ConfirmDialog -> handle_dialog_confirm(model)
+    ToggleProject(id) -> {
+      io.println("ToggleProject OK")
+      #(toggle_project(model, id), effect.none())
+    }
     CurrentUserResult(Ok(u)) -> {
       io.println("CurrentUserResult OK")
       #(set_current_user(model, u), effect.none())

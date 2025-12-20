@@ -1,5 +1,6 @@
 import gleam/list
 import gleam/option
+import gleam/set
 import project
 import route
 import seq
@@ -20,6 +21,8 @@ pub type Model {
     errors: List(ApplicationError),
     /// The projects available to the user (regardless of archived state).
     projects: List(project.Project),
+    /// The list of ID for the projects that are expanded in the manage view.
+    expanded_projects: set.Set(project.ProjectId),
   )
 }
 
@@ -76,6 +79,7 @@ pub fn initial_model() -> Model {
     users: [],
     errors: [],
     projects: [],
+    expanded_projects: set.new(),
   )
 }
 
@@ -131,6 +135,19 @@ pub fn dismiss_error(m: Model, id: String) {
 
 pub fn current_dialog(m: Model) -> Result(Dialog, Nil) {
   list.last(m.dialogs)
+}
+
+pub fn toggle_project(m: Model, id: project.ProjectId) {
+  let expanded_projects = case set.contains(m.expanded_projects, id) {
+    True -> set.delete(m.expanded_projects, id)
+    False -> set.insert(m.expanded_projects, id)
+  }
+
+  Model(..m, expanded_projects:)
+}
+
+pub fn is_project_expanded(m: Model, id: project.ProjectId) -> Bool {
+  set.contains(m.expanded_projects, id)
 }
 
 pub fn get_dialog_value(m: Model, field_id: String) -> option.Option(String) {

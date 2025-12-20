@@ -65,8 +65,14 @@ pub fn cancel_button(on_click handle_click: msg) -> element.Element(msg) {
   )
 }
 
-pub fn ghost_button(icon ico: String) {
-  html.button([att.class("ghost")], [ui.icon(ico, ui.MediumSize)])
+pub fn ghost_button(ico: String, on_click: msg) {
+  html.button(
+    [
+      att.class("ghost"),
+      event.on_click(on_click),
+    ],
+    [ui.icon(ico, ui.MediumSize)],
+  )
 }
 
 pub fn outline_button(text: String, icon ico: String) {

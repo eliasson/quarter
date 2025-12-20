@@ -11,7 +11,7 @@ pub type Msg {
   /// Generic drop down menu that is keyed with an arbitrary key.
   OpenDropDownMenu(id: String)
 
-  /// Opens the given dialog
+  /// Opens the given dialog.
   OpenDialog(dialog: model.Dialog)
 
   ///When the modal backdrop is clicked, menu closed, etc.
@@ -20,8 +20,11 @@ pub type Msg {
   /// When a dialog is confirmed (save, ok, etc).
   ConfirmDialog
 
-  /// Dismiss an error notification
+  /// Dismiss an error notification.
   DismissError(id: String)
+
+  /// Select / deselect a project in the mange project list.
+  ToggleProject(id: project.ProjectId)
 
   //
   // Form messages

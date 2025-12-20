@@ -35,9 +35,12 @@
     display: none;
 }
 
-.project-row.expanded .project-description,
+.project-row.expanded .project-description {
+    display: block;
+}
 .project-row.expanded .activities {
     display: flex;
+    flex-direction: row;
 }
 
 .project-row .project-info {
