@@ -30,6 +30,16 @@
     background-color: var(--blue-50);
 }
 
+.project-row .project-description,
+.project-row .activities {
+    display: none;
+}
+
+.project-row.expanded .project-description,
+.project-row.expanded .activities {
+    display: flex;
+}
+
 .project-row .project-info {
     display: flex;
     flex-direction: row;
@@ -61,9 +71,6 @@
 
 .activity-row .title {
     flex-grow: 1;
-}
-
-.activity-row .activity-color {
 }
 
 .activity-color {
