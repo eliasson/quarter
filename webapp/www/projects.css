@@ -40,7 +40,7 @@
 }
 .project-row.expanded .activities {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
 }
 
 .project-row .project-info {
