@@ -72,6 +72,10 @@
     padding-left: var(--spacing-2);
 }
 
+.activity-row:hover {
+    background-color: var(--blue-100);
+}
+
 .activity-row .title {
     flex-grow: 1;
 }

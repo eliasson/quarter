@@ -1,3 +1,4 @@
+import gleam/float
 import gleam/int
 import gleam/regexp
 import gleam/string
@@ -15,7 +16,36 @@ pub type Either(a, b) {
 /// Represents a RGBA color
 /// The backend does not use HEX colors with  alpha currently.
 pub type Color {
+  // TODO Store color as float
   Color(r: Int, g: Int, b: Int)
+}
+
+pub fn darken(color: Color) -> Color {
+  // Math.round(Math.min(Math.max(0, c + (c * lum)), 255))
+  let lum = -0.3
+  let r_float = int.to_float(color.r)
+  let g_float = int.to_float(color.g)
+  let b_float = int.to_float(color.b)
+
+  let rr = float.add(r_float, float.multiply(r_float, lum))
+  let gg = float.add(g_float, float.multiply(g_float, lum))
+  let bb = float.add(b_float, float.multiply(g_float, lum))
+
+  let r = float.round(float.min(float.max(0.0, rr), 255.0))
+  let g = float.round(float.min(float.max(0.0, gg), 255.0))
+  let b = float.round(float.min(float.max(0.0, bb), 255.0))
+
+  Color(r, g, b)
+}
+
+pub fn color_to_style_value(c: Color) -> String {
+  "rgb("
+  <> int.to_string(c.r)
+  <> ", "
+  <> int.to_string(c.g)
+  <> ", "
+  <> int.to_string(c.b)
+  <> ")"
 }
 
 pub fn from_hex(value: String) -> Result(Color, String) {

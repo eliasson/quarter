@@ -2,6 +2,7 @@ import gleam/list
 import lustre/attribute as att
 import lustre/element.{type Element}
 import lustre/element/html.{div}
+import lustre/event
 import message
 import model
 import project
@@ -9,6 +10,7 @@ import ui/core as ui
 import ui/dropdown
 import ui/form
 import ui/graphics
+import util
 
 const manage_menu_id = "manage.projects"
 
@@ -21,28 +23,38 @@ pub fn view(m: model.Model) -> Element(message.Msg) {
 
 fn project_list(m: model.Model) {
   list.map(m.projects, fn(project) {
-    let row_classes = case model.is_project_expanded(m, project.id) {
+    let is_expanded = model.is_project_expanded(m, project.id)
+
+    let row_classes = case is_expanded {
       True -> [att.class("project-row"), att.class("expanded")]
       False -> [att.class("project-row")]
     }
 
+    let icon = case is_expanded {
+      True -> graphics.icon_is_open
+      False -> graphics.icon_is_closed
+    }
+
     div(row_classes, [
-      div([att.class("project-info")], [
-        div([att.class("name")], [html.text(project.name)]),
-        div([att.class("state")], []),
-        div([att.class("action")], [
-          form.ghost_button(
-            graphics.icon_is_closed,
-            message.ToggleProject(project.id),
-          ),
-        ]),
-      ]),
+      div(
+        [
+          att.class("project-info"),
+          event.on_click(message.ToggleProject(project.id)),
+        ],
+        [
+          div([att.class("name")], [html.text(project.name)]),
+          div([att.class("state")], []),
+          div([att.class("action")], [
+            form.fake_button(icon),
+          ]),
+        ],
+      ),
       div([att.class("project-description")], [html.text(project.description)]),
       div(
         [att.class("activities")],
         list.map(project.activities, fn(activity) {
           div([att.class("activity-row")], [
-            div([att.class("activity-color")], []),
+            color_badge(activity),
             div([att.class("title")], [html.text(activity.name)]),
             div([att.class("action")], [
               manage_activity_action(activity.id, m),
@@ -52,6 +64,21 @@ fn project_list(m: model.Model) {
       ),
     ])
   })
+}
+
+fn color_badge(activity: project.Activity) {
+  let border_color = util.darken(activity.color)
+
+  div(
+    [
+      att.class("activity-color"),
+      att.styles([
+        #("background-color", util.color_to_style_value(activity.color)),
+        #("border-color", util.color_to_style_value(border_color)),
+      ]),
+    ],
+    [],
+  )
 }
 
 fn manage_action(m: model.Model) {
