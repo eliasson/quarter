@@ -74,7 +74,7 @@ fn project_list(m: model.Model) {
       ),
       div([att.class("project-details")], [
         html.text(project.description),
-        manage_project_action(m),
+        manage_project_action(m, project.id),
       ]),
       div(
         [att.class("activities")],
@@ -114,9 +114,11 @@ fn color_badge(activity: project.Activity) {
   )
 }
 
-fn manage_project_action(m: model.Model) {
+fn manage_project_action(m: model.Model, project_id: project.ProjectId) {
+  let menu_id = "project." <> project_id.value
+
   dropdown.drop_down_menu(
-    manage_menu_id,
+    menu_id,
     form.fake_button(graphics.icon_context_menu),
     [
       dropdown.DropDownMsg(graphics.icon_edit, "Edit project", message.Noop),
@@ -127,15 +129,16 @@ fn manage_project_action(m: model.Model) {
       ),
       dropdown.DropDownMsg(graphics.icon_delete, "Delete project", message.Noop),
     ],
-    model.is_drop_down_menu_open(m, manage_menu_id),
+    model.is_drop_down_menu_open(m, menu_id),
   )
 }
 
 fn manage_activity_action(activity_id: project.ActivityId, m: model.Model) {
   // Each menu item needs a unique ID
   let menu_id = "activity." <> activity_id.value
+
   dropdown.drop_down_menu(
-    manage_menu_id,
+    menu_id,
     form.ghost_button(graphics.icon_context_menu, message.CloseModal),
     [
       dropdown.DropDownMsg(
