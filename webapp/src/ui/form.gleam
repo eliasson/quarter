@@ -38,14 +38,34 @@ pub fn button(
 ) -> element.Element(msg) {
   html.button(
     [
+      att.class("button"),
       att.type_(button_type),
       att.disabled(disabled),
       event.on_click(handle_click),
     ],
     [
-      html.div([att.class("button")], [
-        html.span([], [html.text(label)]),
-      ]),
+      html.span([], [html.text(label)]),
+    ],
+  )
+}
+
+pub fn icon_button(
+  button_type: String,
+  ico: String,
+  label: String,
+  disabled: Bool,
+  on_click handle_click: msg,
+) -> element.Element(msg) {
+  html.button(
+    [
+      att.class("button"),
+      att.type_(button_type),
+      att.disabled(disabled),
+      event.on_click(handle_click),
+    ],
+    [
+      ui.icon(ico, ui.SmallSize),
+      html.span([], [html.text(label)]),
     ],
   )
 }

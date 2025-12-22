@@ -88,17 +88,27 @@ a:hover {
     flex-grow: 1;
 }
 
+.content-heading {
+    display: flex;
+    flex-direction: row;
+
+    margin-top: var(--spacing-20);
+    margin-bottom: var(--spacing-8);
+}
+
 .content h1 {
     font-weight: 900;
     font-size: var(--font-size-5xl);
-    margin-top: var(--spacing-16);
-    margin-bottom: var(--spacing-8);
+}
+
+.content-heading .toolbar .button {
+    align-self: start;
 }
 
 .toolbar {
     display: flex;
     flex-direction: row;
-    justify-content: end;
+    justify-content: start;
     padding: 1rem 0;
 }
 

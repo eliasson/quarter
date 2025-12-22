@@ -25,3 +25,5 @@ pub const icon_add_user = "user-plus"
 pub const icon_is_closed = "chevron-right"
 
 pub const icon_is_open = "chevron-down"
+
+pub const icon_plus = "plus"

@@ -1,7 +1,7 @@
 import gleam/list
 import lustre/attribute as att
 import lustre/element.{type Element}
-import lustre/element/html.{div}
+import lustre/element/html.{div, h1, p}
 import lustre/event
 import message
 import model
@@ -15,8 +15,26 @@ import util
 const manage_menu_id = "manage.projects"
 
 pub fn view(m: model.Model) -> Element(message.Msg) {
-  div([att.class("project-list")], [
-    ui.toolbar([manage_action(m)]),
+  div([att.class("content")], [
+    div([att.class("content-heading")], [
+      div([], [
+        h1([], [html.text("Manage projects")]),
+        p([], [
+          html.text(
+            "Project and activities are used to track time. Each project can have any number of activity and each activity has a color which makes it easier to distinquish how your day is distributed.",
+          ),
+        ]),
+      ]),
+      ui.toolbar([
+        form.icon_button(
+          "button",
+          graphics.icon_plus,
+          "New project",
+          False,
+          message.Noop,
+        ),
+      ]),
+    ]),
     ..project_list(m)
   ])
 }
@@ -49,7 +67,10 @@ fn project_list(m: model.Model) {
           ]),
         ],
       ),
-      div([att.class("project-description")], [html.text(project.description)]),
+      div([att.class("project-details")], [
+        html.text(project.description),
+        manage_project_action(m),
+      ]),
       div(
         [att.class("activities")],
         list.map(project.activities, fn(activity) {
@@ -81,10 +102,10 @@ fn color_badge(activity: project.Activity) {
   )
 }
 
-fn manage_action(m: model.Model) {
+fn manage_project_action(m: model.Model) {
   dropdown.drop_down_menu(
     manage_menu_id,
-    form.outline_button("Manage", "chevron-down"),
+    form.fake_button(graphics.icon_context_menu),
     [
       dropdown.DropDownMsg(
         graphics.icon_add_user,
