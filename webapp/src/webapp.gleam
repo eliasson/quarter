@@ -57,7 +57,7 @@ fn init(_args) -> #(Model, Effect(Msg)) {
 pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
   io.println("Update...")
   case msg {
-    Noop -> model |> no_effect()
+    Noop -> model |> close_all_modals |> no_effect()
 
     OnRouteChange(r) -> {
       model

@@ -119,11 +119,13 @@ fn manage_project_action(m: model.Model) {
     manage_menu_id,
     form.fake_button(graphics.icon_context_menu),
     [
+      dropdown.DropDownMsg(graphics.icon_edit, "Edit project", message.Noop),
       dropdown.DropDownMsg(
-        graphics.icon_add_user,
-        "Add project",
-        message.OpenDialog(model.new_user_dialog()),
+        graphics.icon_archive,
+        "Archive project",
+        message.Noop,
       ),
+      dropdown.DropDownMsg(graphics.icon_delete, "Delete project", message.Noop),
     ],
     model.is_drop_down_menu_open(m, manage_menu_id),
   )

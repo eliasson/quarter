@@ -27,3 +27,9 @@ pub const icon_is_closed = "chevron-right"
 pub const icon_is_open = "chevron-down"
 
 pub const icon_plus = "plus"
+
+pub const icon_edit = "pencil-square"
+
+pub const icon_archive = "archive"
+
+pub const icon_delete = "trash"
