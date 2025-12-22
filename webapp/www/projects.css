@@ -59,8 +59,12 @@
     padding-left: var(--spacing-2);
 }
 
-.project-row .project-description {
-    padding-left: var(--spacing-2);
+.project-row .project-details {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 1rem 0;
+    /* padding-left: var(--spacing-2); */
 }
 
 .activity-row {
