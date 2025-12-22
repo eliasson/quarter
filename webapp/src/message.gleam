@@ -5,6 +5,7 @@ import rsvp
 import user
 
 pub type Msg {
+  Noop
   /// When a page navigation takes place.
   OnRouteChange(Route)
 

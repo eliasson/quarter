@@ -4,7 +4,7 @@ import lustre
 import lustre/effect.{type Effect}
 import message.{
   type Msg, AddUserResult, CloseModal, ConfirmDialog, CurrentUserResult,
-  DismissError, FormTextFieldUpdated, OnRouteChange, OpenDialog,
+  DismissError, FormTextFieldUpdated, Noop, OnRouteChange, OpenDialog,
   OpenDropDownMenu, ProjectsResult, SystemUsersResult, ToggleProject,
 }
 import model.{
@@ -57,6 +57,7 @@ fn init(_args) -> #(Model, Effect(Msg)) {
 pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
   io.println("Update...")
   case msg {
+    Noop -> model |> no_effect()
     OnRouteChange(r) -> {
       io.println("OnRouteChange")
       let m = model |> close_all_modals |> navigate_to(r)
@@ -150,4 +151,8 @@ fn handle_dialog_confirm(m: model.Model) {
   }
 
   #(close_modal(m), work)
+}
+
+fn no_effect(m: Model) {
+  #(m, effect.none())
 }
