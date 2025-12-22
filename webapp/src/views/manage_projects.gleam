@@ -53,6 +53,11 @@ fn project_list(m: model.Model) {
       False -> graphics.icon_is_closed
     }
 
+    let project_archived_chip = case project.is_archived {
+      True -> ui.chip("Archived")
+      False -> element.none()
+    }
+
     div(row_classes, [
       div(
         [
@@ -61,7 +66,7 @@ fn project_list(m: model.Model) {
         ],
         [
           div([att.class("name")], [html.text(project.name)]),
-          div([att.class("state")], []),
+          div([att.class("state")], [project_archived_chip]),
           div([att.class("action")], [
             form.fake_button(icon),
           ]),
@@ -74,9 +79,16 @@ fn project_list(m: model.Model) {
       div(
         [att.class("activities")],
         list.map(project.activities, fn(activity) {
+          let activity_archived_chip = case activity.is_archived {
+            True -> ui.chip("Archived")
+            False -> element.none()
+          }
+
           div([att.class("activity-row")], [
             color_badge(activity),
-            div([att.class("title")], [html.text(activity.name)]),
+            div([att.class("name")], [html.text(activity.name)]),
+            div([att.class("state")], [activity_archived_chip]),
+
             div([att.class("action")], [
               manage_activity_action(activity.id, m),
             ]),

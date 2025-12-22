@@ -28,6 +28,10 @@ pub fn icon(icon_name: String, size: Size) {
   ])
 }
 
+pub fn chip(text: String) {
+  html.span([att.class("chip")], [html.text(text)])
+}
+
 pub fn timestamp(ts: timestamp.Timestamp) -> element.Element(msg) {
   // This is just the simplest thing possible.
   // Find a third-party library that makes this nicer, supporting user timezone, etc.
