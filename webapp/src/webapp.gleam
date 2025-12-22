@@ -58,12 +58,12 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
   io.println("Update...")
   case msg {
     Noop -> model |> no_effect()
-    OnRouteChange(r) -> {
-      io.println("OnRouteChange")
-      let m = model |> close_all_modals |> navigate_to(r)
-      let e = effect_on_route_loaded(r)
 
-      #(m, e)
+    OnRouteChange(r) -> {
+      model
+      |> close_all_modals
+      |> navigate_to(r)
+      |> with_effect(effect_on_route_loaded(r))
     }
     OpenDropDownMenu(id) -> {
       io.println("OpenDropDownMenu")
@@ -155,4 +155,8 @@ fn handle_dialog_confirm(m: model.Model) {
 
 fn no_effect(m: Model) {
   #(m, effect.none())
+}
+
+fn with_effect(m: Model, e: effect.Effect(Msg)) {
+  #(m, e)
 }
