@@ -141,10 +141,16 @@ fn manage_activity_action(activity_id: project.ActivityId, m: model.Model) {
     menu_id,
     form.ghost_button(graphics.icon_context_menu, message.CloseModal),
     [
+      dropdown.DropDownMsg(graphics.icon_edit, "Edit activity", message.Noop),
       dropdown.DropDownMsg(
-        graphics.icon_add_user,
-        "Edit activity",
-        message.OpenDialog(model.new_user_dialog()),
+        graphics.icon_archive,
+        "Archive activity",
+        message.Noop,
+      ),
+      dropdown.DropDownMsg(
+        graphics.icon_delete,
+        "Delete activity",
+        message.Noop,
       ),
     ],
     model.is_drop_down_menu_open(m, menu_id),
