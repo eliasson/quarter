@@ -88,7 +88,7 @@ fn project_list(m: model.Model) {
             div([att.class("state")], [activity_archived_chip]),
 
             div([att.class("action")], [
-              manage_activity_action(activity.id, m),
+              manage_activity_action(activity, m),
             ]),
           ])
         }),
@@ -131,9 +131,12 @@ fn manage_project_action(m: model.Model, project_id: project.ProjectId) {
   )
 }
 
-fn manage_activity_action(activity_id: project.ActivityId, m: model.Model) {
+fn manage_activity_action(
+  activity: project.Activity,
+  m: model.Model,
+) -> element.Element(message.Msg) {
   // Each menu item needs a unique ID
-  let menu_id = "activity." <> activity_id.value
+  let menu_id = "activity." <> activity.id.value
 
   dropdown.drop_down_menu(
     menu_id,
@@ -143,7 +146,7 @@ fn manage_activity_action(activity_id: project.ActivityId, m: model.Model) {
       dropdown.DropDownMsg(
         graphics.icon_archive,
         "Archive activity",
-        message.Noop,
+        message.ArchiveActivity(activity),
       ),
       dropdown.DropDownMsg(
         graphics.icon_delete,
@@ -160,4 +163,13 @@ pub fn add_project_form(state: model.ProjectDialogState) -> form.Form {
     form.Cancel,
     form.Confirm(!state.is_valid),
   ])
+}
+
+/// The archive activity confirmation dialog is stateless and only includes a query text message.
+pub fn archive_activity_form() -> element.Element(message.Msg) {
+  form.Form("ArchiveActivity", [], [
+    form.Cancel,
+    form.Confirm(False),
+  ])
+  |> form.form_dialog(graphics.icon_add_user, "Archive activity?")
 }
