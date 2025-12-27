@@ -4,9 +4,9 @@ import lustre
 import lustre/effect.{type Effect}
 import message.{
   type Msg, AddUserResult, ArchiveActivity, CloseModal, ConfirmArchiveActivity,
-  ConfirmDialog, CurrentUserResult, DismissError, FormTextFieldUpdated, Noop,
-  OnRouteChange, OpenDialog, OpenDropDownMenu, ProjectsResult, SystemUsersResult,
-  ToggleProject,
+  ConfirmDeleteActivity, ConfirmDialog, CurrentUserResult, DeleteActivity,
+  DismissError, FormTextFieldUpdated, Noop, OnRouteChange, OpenDialog,
+  OpenDropDownMenu, ProjectsResult, SystemUsersResult, ToggleProject,
 }
 import model.{
   type Model, close_all_modals, close_modal, dismiss_error, initial_model,
@@ -135,6 +135,18 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
     }
     ArchiveActivity(_activity) -> {
       io.println("ArchiveActivity")
+
+      // Issue protocol call to archive and then update the local state optimistically.
+      #(model, effect.none())
+    }
+    ConfirmDeleteActivity(activity) -> {
+      io.println("ConfirmDeleteActivity")
+      model
+      |> open_dialog(model.DeleteActivityDialog(activity))
+      |> no_effect()
+    }
+    DeleteActivity(_activity) -> {
+      io.println("DeleteActivity")
 
       // Issue protocol call to archive and then update the local state optimistically.
       #(model, effect.none())

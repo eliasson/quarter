@@ -151,7 +151,7 @@ fn manage_activity_action(
       dropdown.DropDownMsg(
         graphics.icon_delete,
         "Delete activity",
-        message.Noop,
+        message.ConfirmDeleteActivity(activity),
       ),
     ],
     model.is_drop_down_menu_open(m, menu_id),
@@ -184,4 +184,25 @@ pub fn archive_activity_form(
     ],
   )
   |> form.form_dialog(graphics.icon_add_user, "Archive activity?")
+}
+
+/// The archive activity confirmation dialog is stateless and only includes a query text message.
+pub fn delete_activity_form(
+  activity: project.Activity,
+) -> element.Element(message.Msg) {
+  form.Form(
+    "DeleteActivity",
+    [
+      form.TextMessage(
+        "A deleted activity can no longer be used to register time with and will no longer be available for existing timesheets. A deleted activity cannot be restored! Do you want to delete the activity "
+        <> activity.name
+        <> "?",
+      ),
+    ],
+    [
+      form.Cancel,
+      form.Confirm(False, message.ArchiveActivity(activity)),
+    ],
+  )
+  |> form.form_dialog(graphics.icon_add_user, "Delete activity?")
 }

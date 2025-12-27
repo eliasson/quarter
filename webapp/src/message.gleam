@@ -33,6 +33,12 @@ pub type Msg {
   /// Archive the given activity.
   ArchiveActivity(activity: project.Activity)
 
+  /// Action that asks the user to confirm deletion of the given activity.
+  ConfirmDeleteActivity(activity: project.Activity)
+
+  /// Delete the given activity.
+  DeleteActivity(activity: project.Activity)
+
   //
   // Form messages
   //
