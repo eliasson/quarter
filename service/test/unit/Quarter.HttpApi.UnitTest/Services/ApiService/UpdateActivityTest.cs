@@ -90,6 +90,38 @@ public class UpdateActivityTest
         }
     }
 
+
+    [TestFixture]
+    public class WhenArchiving : TestCase
+    {
+        private readonly OperationContext _oc = CreateOperationContext();
+
+        private Project? _project;
+
+        [OneTimeSetUp]
+        public async Task Setup()
+        {
+            _project = await AddProject(_oc.UserId, "Project alpha");
+            var activity = await AddActivity(_oc.UserId, _project.Id, "Activity alpha");
+
+            var input = new UpdateActivityResourceInput
+            {
+                isArchived = true,
+            };
+
+            _ = await ApiService.UpdateActivityAsync(_project.Id, activity.Id, input, _oc, CancellationToken.None);
+        }
+
+        [Test]
+        public async Task ItShouldOnlyHaveUpdatedDescription()
+        {
+            var activities = await ReadActivitiesAsync(_oc.UserId, _project!.Id);
+            var activity = activities.Single();
+
+            Assert.That(activity.IsArchived, Is.True);
+        }
+    }
+
     [TestFixture]
     public class WhenActivityIsMissing : TestCase
     {

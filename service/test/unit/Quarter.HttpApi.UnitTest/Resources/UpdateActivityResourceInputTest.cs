@@ -16,6 +16,7 @@ public class UpdateActivityResourceInputTest
         {
             yield return new object[] { new UpdateActivityResourceInput { name = "OK", description = "OK", color = "#04a85b" } };
             yield return new object[] { new UpdateActivityResourceInput { name = "OK" } };
+            yield return new object[] { new UpdateActivityResourceInput { isArchived = true } };
             yield return new object[] { new UpdateActivityResourceInput { description = "OK" } };
         }
 

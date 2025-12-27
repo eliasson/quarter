@@ -64,6 +64,8 @@ public class UpdateActivityResourceInput
 
     public string? description { get; set; }
 
+    public bool? isArchived { get; set; }
+
     [RegularExpression("^#([0-9a-fA-F]{3}){1,2}$", ErrorMessage = "The color field is invalid, must be a HEX value (e.g. #04a85b).")]
     public string? color { get; set; }
 }

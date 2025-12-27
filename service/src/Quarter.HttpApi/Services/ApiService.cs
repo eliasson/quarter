@@ -91,6 +91,7 @@ public class ApiService(IRepositoryFactory repositoryFactory) : IApiService
             if (input.name is not null) existing.Name = input.name;
             if (input.description is not null) existing.Description = input.description;
             if (input.color is not null) existing.Color = Color.FromHexString(input.color);
+            if (input.isArchived is {} isArchived) existing.IsArchived = isArchived;
             return existing;
         }, ct);
 
