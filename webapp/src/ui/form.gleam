@@ -12,6 +12,10 @@ pub type Form {
 }
 
 pub type FormField {
+  /// Displays a text message.
+  TextMessage(message: String)
+
+  /// Text input field with email validation.
   EmailInput(
     name: String,
     label: String,
@@ -136,6 +140,7 @@ fn render_field(field field: FormField) -> element.Element(message.Msg) {
   case field {
     EmailInput(name, label, value, required, autofocus) ->
       input_field("email", name, label, value, required, autofocus)
+    TextMessage(text) -> text_message(text)
   }
 }
 
@@ -175,4 +180,8 @@ fn input_field(
       validations,
     )),
   ])
+}
+
+fn text_message(text: String) {
+  html.p([], [html.text(text)])
 }

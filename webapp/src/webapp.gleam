@@ -127,17 +127,17 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       io.println("DismissError")
       #(dismiss_error(model, id), effect.none())
     }
-    ConfirmArchiveActivity(_activity) -> {
-      // Issue protocol call to archive and then update the local state optimistically.
+    ConfirmArchiveActivity(activity) -> {
       io.println("ConfirmArchiveActivity")
-      #(model, effect.none())
+      model
+      |> open_dialog(model.ArchiveActivityDialog(activity))
+      |> no_effect()
     }
     ArchiveActivity(_activity) -> {
       io.println("ArchiveActivity")
 
-      model
-      |> open_dialog(model.ArchiveActivityDialog)
-      |> no_effect()
+      // Issue protocol call to archive and then update the local state optimistically.
+      #(model, effect.none())
     }
   }
 }

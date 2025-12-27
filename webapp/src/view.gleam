@@ -135,7 +135,8 @@ fn dialogs(model: model.Model) -> List(element.Element(message.Msg)) {
         element.none()
       }
 
-      model.ArchiveActivityDialog -> manage_projects.archive_activity_form()
+      model.ArchiveActivityDialog(activity) ->
+        manage_projects.archive_activity_form(activity)
     }
   }
 

@@ -146,7 +146,7 @@ fn manage_activity_action(
       dropdown.DropDownMsg(
         graphics.icon_archive,
         "Archive activity",
-        message.ArchiveActivity(activity),
+        message.ConfirmArchiveActivity(activity),
       ),
       dropdown.DropDownMsg(
         graphics.icon_delete,
@@ -166,10 +166,22 @@ pub fn add_project_form(state: model.ProjectDialogState) -> form.Form {
 }
 
 /// The archive activity confirmation dialog is stateless and only includes a query text message.
-pub fn archive_activity_form() -> element.Element(message.Msg) {
-  form.Form("ArchiveActivity", [], [
-    form.Cancel,
-    form.Confirm(False, message.ConfirmDialog),
-  ])
+pub fn archive_activity_form(
+  activity: project.Activity,
+) -> element.Element(message.Msg) {
+  form.Form(
+    "ArchiveActivity",
+    [
+      form.TextMessage(
+        "An archived activity cannot be used to register time with, but is still used for existing timesheets. An archived activity can later be unarchived. Do you want to archive the activity "
+        <> activity.name
+        <> "?",
+      ),
+    ],
+    [
+      form.Cancel,
+      form.Confirm(False, message.ArchiveActivity(activity)),
+    ],
+  )
   |> form.form_dialog(graphics.icon_add_user, "Archive activity?")
 }

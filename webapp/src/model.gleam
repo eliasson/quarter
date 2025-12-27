@@ -34,7 +34,7 @@ pub type Dialog {
   AddUserDialog(state: UserDialogState)
   AddProjectDialog(state: ProjectDialogState)
   AnotherDialog(state: AnotherDialogState)
-  ArchiveActivityDialog
+  ArchiveActivityDialog(activity: project.Activity)
 }
 
 pub type UserDialogState {
