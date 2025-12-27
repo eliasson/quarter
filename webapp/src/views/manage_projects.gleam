@@ -12,8 +12,6 @@ import ui/form
 import ui/graphics
 import util
 
-const manage_menu_id = "manage.projects"
-
 pub fn view(m: model.Model) -> Element(message.Msg) {
   div([att.class("content")], [
     div([att.class("content-heading")], [
