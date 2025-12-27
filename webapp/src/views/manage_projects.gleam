@@ -161,7 +161,7 @@ fn manage_activity_action(
 pub fn add_project_form(state: model.ProjectDialogState) -> form.Form {
   form.Form("AddProjectDialog", [], [
     form.Cancel,
-    form.Confirm(!state.is_valid),
+    form.Confirm(!state.is_valid, message.ConfirmDialog),
   ])
 }
 
@@ -169,7 +169,7 @@ pub fn add_project_form(state: model.ProjectDialogState) -> form.Form {
 pub fn archive_activity_form() -> element.Element(message.Msg) {
   form.Form("ArchiveActivity", [], [
     form.Cancel,
-    form.Confirm(False),
+    form.Confirm(False, message.ConfirmDialog),
   ])
   |> form.form_dialog(graphics.icon_add_user, "Archive activity?")
 }

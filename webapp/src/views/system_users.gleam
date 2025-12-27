@@ -75,7 +75,7 @@ pub fn add_user_form(state: model.UserDialogState) -> form.Form {
     [form.EmailInput("email", "Email", state.email.value.value, True, True)],
     [
       form.Cancel,
-      form.Confirm(!state.is_valid),
+      form.Confirm(!state.is_valid, message.ConfirmDialog),
     ],
   )
 }
