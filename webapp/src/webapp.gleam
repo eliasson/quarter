@@ -3,9 +3,10 @@ import gleam/uri.{type Uri}
 import lustre
 import lustre/effect.{type Effect}
 import message.{
-  type Msg, AddUserResult, CloseModal, ConfirmDialog, CurrentUserResult,
-  DismissError, FormTextFieldUpdated, Noop, OnRouteChange, OpenDialog,
-  OpenDropDownMenu, ProjectsResult, SystemUsersResult, ToggleProject,
+  type Msg, AddUserResult, ArchiveActivity, CloseModal, ConfirmArchiveActivity,
+  ConfirmDialog, CurrentUserResult, DismissError, FormTextFieldUpdated, Noop,
+  OnRouteChange, OpenDialog, OpenDropDownMenu, ProjectsResult, SystemUsersResult,
+  ToggleProject,
 }
 import model.{
   type Model, close_all_modals, close_modal, dismiss_error, initial_model,
@@ -125,6 +126,17 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
     DismissError(id) -> {
       io.println("DismissError")
       #(dismiss_error(model, id), effect.none())
+    }
+    ConfirmArchiveActivity(activity) -> {
+      // Issue protocol call to archive and then update the local state optimistically.
+      io.println("ConfirmArchiveActivity")
+      #(model, effect.none())
+    }
+    ArchiveActivity(activity) -> {
+      // Show modal to confirm archive
+      // On success issue ConfirmArchiveActivity
+      io.println("ArchiveActivity")
+      #(model, effect.none())
     }
   }
 }

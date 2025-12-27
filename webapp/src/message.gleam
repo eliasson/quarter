@@ -27,6 +27,12 @@ pub type Msg {
   /// Select / deselect a project in the mange project list.
   ToggleProject(id: project.ProjectId)
 
+  /// Action that asks the user to confirm archive of the given activity.
+  ConfirmArchiveActivity(activity: project.Activity)
+
+  /// Archive the given activity.
+  ArchiveActivity(activity: project.Activity)
+
   //
   // Form messages
   //
