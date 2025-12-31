@@ -3,15 +3,16 @@ import gleam/uri.{type Uri}
 import lustre
 import lustre/effect.{type Effect}
 import message.{
-  type Msg, AddUserResult, ArchiveActivity, CloseModal, ConfirmArchiveActivity,
-  ConfirmDeleteActivity, ConfirmDialog, CurrentUserResult, DeleteActivity,
-  DismissError, FormTextFieldUpdated, Noop, OnRouteChange, OpenDialog,
-  OpenDropDownMenu, ProjectsResult, SystemUsersResult, ToggleProject,
+  type Msg, AddUserResult, ArchiveActivity, ArchiveActivityResult, CloseModal,
+  ConfirmArchiveActivity, ConfirmDeleteActivity, ConfirmDialog,
+  CurrentUserResult, DeleteActivity, DismissError, FormTextFieldUpdated, Noop,
+  OnRouteChange, OpenDialog, OpenDropDownMenu, ProjectsResult, SystemUsersResult,
+  ToggleProject,
 }
 import model.{
   type Model, close_all_modals, close_modal, dismiss_error, initial_model,
   navigate_to, open_dialog, open_drop_down_menu, set_current_user, set_users,
-  toggle_project, update_dialog_value,
+  toggle_project, update_activity, update_dialog_value,
 }
 import modem
 import protocol
@@ -127,16 +128,37 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       io.println("DismissError")
       #(dismiss_error(model, id), effect.none())
     }
+
+    // -- Archive activity
     ConfirmArchiveActivity(activity) -> {
       io.println("ConfirmArchiveActivity")
       model
       |> open_dialog(model.ArchiveActivityDialog(activity))
       |> no_effect()
     }
-    ArchiveActivity(_activity) -> {
+
+    ArchiveActivity(activity) -> {
       io.println("ArchiveActivity")
 
-      // Issue protocol call to archive and then update the local state optimistically.
+      model
+      |> close_all_modals()
+      |> with_effect(protocol.archive_activity(
+        activity,
+        message.ArchiveActivityResult,
+      ))
+    }
+
+    ArchiveActivityResult(Ok(a)) -> {
+      io.println("ArchiveActivityResult OK")
+
+      model
+      |> close_all_modals()
+      |> update_activity(a)
+      |> no_effect()
+    }
+
+    ArchiveActivityResult(Error(_)) -> {
+      io.println("ArchiveActivityResult Error")
       #(model, effect.none())
     }
     ConfirmDeleteActivity(activity) -> {
