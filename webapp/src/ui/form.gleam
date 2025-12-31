@@ -45,7 +45,7 @@ pub fn button(
       att.class("button"),
       att.type_(button_type),
       att.disabled(disabled),
-      event.on_click(handle_click),
+      ui.click_stop(handle_click),
     ],
     [
       html.span([], [html.text(label)]),
@@ -65,7 +65,7 @@ pub fn icon_button(
       att.class("button"),
       att.type_(button_type),
       att.disabled(disabled),
-      event.on_click(handle_click),
+      ui.click_stop(handle_click),
     ],
     [
       ui.icon(ico, ui.SmallSize),
