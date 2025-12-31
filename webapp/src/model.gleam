@@ -111,7 +111,7 @@ pub fn close_modal(m: Model) {
 
 /// Close all modals (e.g. drop-down menus and dialogs).
 pub fn close_all_modals(m: Model) {
-  Model(..m, dropdowns: [])
+  Model(..m, dropdowns: [], dialogs: [])
 }
 
 pub fn set_current_user(m: Model, _user: user.User) {
