@@ -61,6 +61,17 @@ pub fn get_projects_and_activities(
   rsvp.get(url, handler)
 }
 
+pub fn archive_activity(
+  activity: project.Activity,
+  on_response handle_response: fn(Result(project.Activity, rsvp.Error)) ->
+    message.Msg,
+) -> Effect(message.Msg) {
+  let handler = rsvp.expect_json(activity_decoder(), handle_response)
+  let payload = json.object([#("isArchived", json.bool(!activity.is_archived))])
+
+  rsvp.patch(activity_url(activity), payload, handler)
+}
+
 pub fn user_resource_decoder() -> decode.Decoder(user.User) {
   use id <- decode.field("id", decode.string)
   use email <- decode.field("email", decode.string)
@@ -180,4 +191,12 @@ fn decode_color() -> decode.Decoder(util.Color) {
     Ok(c) -> decode.success(c)
     _ -> decode.failure(util.Color(0, 0, 0), "Could not parse color")
   }
+}
+
+/// Construct the absolut path of the URL used to perform activity related operations.
+pub fn activity_url(activity: project.Activity) -> String {
+  "/api/projects/"
+  <> activity.project_id.value
+  <> "/activities/"
+  <> activity.id.value
 }
