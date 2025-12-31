@@ -6,7 +6,9 @@ target = "javascript"
 gleam_stdlib = ">= 0.44.0 and < 2.0.0"
 lustre = ">= 5.3.5 and < 6.0.0"
 modem = ">= 2.1.2 and < 3.0.0"
-rsvp = ">= 1.1.3 and < 2.0.0"
+# Temporary use the latest version from my GitHub fork, until a new version with patch and delete support is released.
+# rsvp = ">= 1.1.3 and < 2.0.0"
+rsvp = { path = "../../rsvp" }
 gleam_json = ">= 3.0.2 and < 4.0.0"
 gleam_time = ">= 1.5.0 and < 2.0.0"
 gleam_regexp = ">= 1.1.1 and < 2.0.0"
