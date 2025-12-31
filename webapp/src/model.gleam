@@ -231,3 +231,25 @@ pub fn validate_user_dialog_state(state: UserDialogState) -> UserDialogState {
 pub fn new_user_dialog() {
   AddUserDialog(UserDialogState(ValidValue(util.Email("")), False))
 }
+
+/// Replace the current activity with the given one. Used after successful activity modifications.
+pub fn update_activity(m: Model, activity: project.Activity) -> Model {
+  let projects =
+    list.map(m.projects, fn(p) {
+      case p.id {
+        id if activity.project_id == id -> {
+          let activities =
+            list.map(p.activities, fn(a) {
+              case a.id {
+                aid if aid == activity.id -> activity
+                _ -> a
+              }
+            })
+          project.Project(..p, activities:)
+        }
+        _ -> p
+      }
+    })
+
+  Model(..m, projects:)
+}
