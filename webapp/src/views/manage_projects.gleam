@@ -145,7 +145,7 @@ fn manage_activity_action(
       dropdown.DropDownMsg(graphics.icon_edit, "Edit activity", message.Noop),
       dropdown.DropDownMsg(
         graphics.icon_archive,
-        "Archive activity",
+        archive_activity_menu_label(activity),
         message.ConfirmArchiveActivity(activity),
       ),
       dropdown.DropDownMsg(
@@ -172,18 +172,14 @@ pub fn archive_activity_form(
   form.Form(
     "ArchiveActivity",
     [
-      form.TextMessage(
-        "An archived activity cannot be used to register time with, but is still used for existing timesheets. An archived activity can later be unarchived. Do you want to archive the activity "
-        <> activity.name
-        <> "?",
-      ),
+      form.TextMessage(archive_activity_text(activity)),
     ],
     [
       form.Cancel,
       form.Confirm(False, message.ArchiveActivity(activity)),
     ],
   )
-  |> form.form_dialog(graphics.icon_add_user, "Archive activity?")
+  |> form.form_dialog(graphics.icon_add_user, archive_activity_header(activity))
 }
 
 /// The archive activity confirmation dialog is stateless and only includes a query text message.
@@ -205,4 +201,33 @@ pub fn delete_activity_form(
     ],
   )
   |> form.form_dialog(graphics.icon_add_user, "Delete activity?")
+}
+
+fn archive_activity_menu_label(activity: project.Activity) -> String {
+  case activity.is_archived {
+    True -> "Unarchive activity"
+    False -> "Archive activity"
+  }
+}
+
+/// Get the dialog header for archiving or unarchiving an activity based on it's state.
+fn archive_activity_header(activity: project.Activity) -> String {
+  case activity.is_archived {
+    True -> "Unarchive activity?"
+    False -> "Archive activity?"
+  }
+}
+
+/// Get the text message for archiving or unarchiving an activity based on it's state.
+fn archive_activity_text(activity: project.Activity) -> String {
+  case activity.is_archived {
+    True ->
+      "Do you want to unarchive the activity "
+      <> activity.name
+      <> "? This will enable you to register time with it again."
+    False ->
+      "An archived activity cannot be used to register time with, but is still used for existing timesheets. An archived activity can later be unarchived. Do you want to archive the activity "
+      <> activity.name
+      <> "?"
+  }
 }
