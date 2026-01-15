@@ -253,3 +253,23 @@ pub fn update_activity(m: Model, activity: project.Activity) -> Model {
 
   Model(..m, projects:)
 }
+
+pub fn delete_activity(
+  m: Model,
+  project_id: project.ProjectId,
+  activity_id: project.ActivityId,
+) -> Model {
+  let projects =
+    list.map(m.projects, fn(p) {
+      case p.id {
+        id if project_id == id -> {
+          let activities =
+            list.filter(p.activities, fn(a) { a.id != activity_id })
+          project.Project(..p, activities:)
+        }
+        _ -> p
+      }
+    })
+
+  Model(..m, projects:)
+}

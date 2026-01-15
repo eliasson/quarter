@@ -5,14 +5,14 @@ import lustre/effect.{type Effect}
 import message.{
   type Msg, AddUserResult, ArchiveActivity, ArchiveActivityResult, CloseModal,
   ConfirmArchiveActivity, ConfirmDeleteActivity, ConfirmDialog,
-  CurrentUserResult, DeleteActivity, DismissError, FormTextFieldUpdated, Noop,
-  OnRouteChange, OpenDialog, OpenDropDownMenu, ProjectsResult, SystemUsersResult,
-  ToggleProject,
+  CurrentUserResult, DeleteActivity, DeleteActivityResult, DismissError,
+  FormTextFieldUpdated, Noop, OnRouteChange, OpenDialog, OpenDropDownMenu,
+  ProjectsResult, SystemUsersResult, ToggleProject,
 }
 import model.{
-  type Model, close_all_modals, close_modal, dismiss_error, initial_model,
-  navigate_to, open_dialog, open_drop_down_menu, set_current_user, set_users,
-  toggle_project, update_activity, update_dialog_value,
+  type Model, close_all_modals, close_modal, delete_activity, dismiss_error,
+  initial_model, navigate_to, open_dialog, open_drop_down_menu, set_current_user,
+  set_users, toggle_project, update_activity, update_dialog_value,
 }
 import modem
 import protocol
@@ -161,16 +161,34 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       io.println("ArchiveActivityResult Error")
       #(model, effect.none())
     }
+
     ConfirmDeleteActivity(activity) -> {
       io.println("ConfirmDeleteActivity")
       model
       |> open_dialog(model.DeleteActivityDialog(activity))
       |> no_effect()
     }
-    DeleteActivity(_activity) -> {
-      io.println("DeleteActivity")
 
-      // Issue protocol call to archive and then update the local state optimistically.
+    DeleteActivity(activity) -> {
+      model
+      |> close_all_modals()
+      |> with_effect(protocol.delete_activity(
+        activity,
+        message.DeleteActivityResult,
+      ))
+    }
+
+    DeleteActivityResult(Ok(activity)) -> {
+      io.println("DeleteActivityResult OK")
+
+      model
+      |> close_all_modals()
+      |> delete_activity(activity.project_id, activity.id)
+      |> no_effect()
+    }
+    DeleteActivityResult(Error(_)) -> {
+      io.println("DeleteActivityResult Error")
+
       #(model, effect.none())
     }
   }

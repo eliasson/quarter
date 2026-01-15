@@ -197,7 +197,7 @@ pub fn delete_activity_form(
     ],
     [
       form.Cancel,
-      form.Confirm(False, message.ArchiveActivity(activity)),
+      form.Confirm(False, message.DeleteActivity(activity)),
     ],
   )
   |> form.form_dialog(graphics.icon_add_user, "Delete activity?")

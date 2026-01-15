@@ -53,4 +53,5 @@ pub type Msg {
   AddUserResult(Result(user.User, rsvp.Error))
   ProjectsResult(Result(List(project.Project), rsvp.Error))
   ArchiveActivityResult(Result(project.Activity, rsvp.Error))
+  DeleteActivityResult(Result(project.Activity, rsvp.Error))
 }

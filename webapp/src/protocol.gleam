@@ -1,5 +1,6 @@
 import gleam/dict
 import gleam/dynamic/decode
+import gleam/http/response.{type Response}
 import gleam/json
 import gleam/list
 import gleam/option.{type Option, None, Some}
@@ -71,6 +72,27 @@ pub fn archive_activity(
 
   rsvp.patch(activity_url(activity), payload, handler)
 }
+
+pub fn delete_activity(
+  activity: project.Activity,
+  on_response handle_response: fn(Result(project.Activity, rsvp.Error)) ->
+    message.Msg,
+) -> Effect(message.Msg) {
+  let handler = fn(result: Result(Response(String), rsvp.Error)) -> message.Msg {
+    case result {
+      Ok(_) -> handle_response(Ok(activity))
+      Error(e) -> handle_response(Error(e))
+    }
+  }
+
+  rsvp.delete(
+    activity_url(activity),
+    json.object([]),
+    rsvp.expect_ok_response(handler),
+  )
+}
+
+// Decoders ------------------------------------------------------------------
 
 pub fn user_resource_decoder() -> decode.Decoder(user.User) {
   use id <- decode.field("id", decode.string)

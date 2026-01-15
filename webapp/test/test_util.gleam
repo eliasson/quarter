@@ -69,3 +69,7 @@ pub fn activity_by_id(
     _ -> Error(Nil)
   }
 }
+
+pub fn activities(p: project.Project) -> List(project.Activity) {
+  p.activities
+}
