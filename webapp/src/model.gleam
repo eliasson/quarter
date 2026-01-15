@@ -273,3 +273,8 @@ pub fn delete_activity(
 
   Model(..m, projects:)
 }
+
+pub fn delete_project(m: Model, project_id: project.ProjectId) -> Model {
+  let projects = list.filter(m.projects, fn(p) { p.id != project_id })
+  Model(..m, projects:)
+}

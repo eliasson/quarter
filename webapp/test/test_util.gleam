@@ -70,6 +70,10 @@ pub fn activity_by_id(
   }
 }
 
+pub fn projects(m: model.Model) -> List(project.Project) {
+  m.projects
+}
+
 pub fn activities(p: project.Project) -> List(project.Activity) {
   p.activities
 }
