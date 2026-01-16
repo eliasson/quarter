@@ -222,3 +222,7 @@ pub fn activity_url(activity: project.Activity) -> String {
   <> "/activities/"
   <> activity.id.value
 }
+
+pub fn project_url(project: project.Project) -> String {
+  "/api/projects/" <> project.id.value
+}
