@@ -125,7 +125,11 @@ fn manage_project_action(m: model.Model, project: project.Project) {
         "Archive project",
         message.Noop,
       ),
-      dropdown.DropDownMsg(graphics.icon_delete, "Delete project", message.Noop),
+      dropdown.DropDownMsg(
+        graphics.icon_delete,
+        "Delete project",
+        message.ConfirmDeleteProject(project),
+      ),
     ],
     model.is_drop_down_menu_open(m, menu_id),
   )
@@ -201,6 +205,26 @@ pub fn delete_activity_form(
     ],
   )
   |> form.form_dialog(graphics.icon_add_user, "Delete activity?")
+}
+
+pub fn delete_project_form(
+  project: project.Project,
+) -> element.Element(message.Msg) {
+  form.Form(
+    "DeleteProject",
+    [
+      form.TextMessage(
+        "A deleted project and its activities can no longer be used to register time with and will no longer be available for existing timesheets. A deleted project cannot be restored! Do you want to delete the project "
+        <> project.name
+        <> "?",
+      ),
+    ],
+    [
+      form.Cancel,
+      form.Confirm(False, message.DeleteProject(project)),
+    ],
+  )
+  |> form.form_dialog(graphics.icon_add_user, "Delete project?")
 }
 
 fn archive_activity_menu_label(activity: project.Activity) -> String {

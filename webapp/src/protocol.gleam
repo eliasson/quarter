@@ -92,6 +92,25 @@ pub fn delete_activity(
   )
 }
 
+pub fn delete_project(
+  project: project.Project,
+  on_response handle_response: fn(Result(project.Project, rsvp.Error)) ->
+    message.Msg,
+) -> Effect(message.Msg) {
+  let handler = fn(result: Result(Response(String), rsvp.Error)) -> message.Msg {
+    case result {
+      Ok(_) -> handle_response(Ok(project))
+      Error(e) -> handle_response(Error(e))
+    }
+  }
+
+  rsvp.delete(
+    project_url(project),
+    json.object([]),
+    rsvp.expect_ok_response(handler),
+  )
+}
+
 // Decoders ------------------------------------------------------------------
 
 pub fn user_resource_decoder() -> decode.Decoder(user.User) {

@@ -36,6 +36,7 @@ pub type Dialog {
   AnotherDialog(state: AnotherDialogState)
   ArchiveActivityDialog(activity: project.Activity)
   DeleteActivityDialog(activity: project.Activity)
+  DeleteProjectDialog(project: project.Project)
 }
 
 pub type UserDialogState {

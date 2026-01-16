@@ -4,15 +4,17 @@ import lustre
 import lustre/effect.{type Effect}
 import message.{
   type Msg, AddUserResult, ArchiveActivity, ArchiveActivityResult, CloseModal,
-  ConfirmArchiveActivity, ConfirmDeleteActivity, ConfirmDialog,
-  CurrentUserResult, DeleteActivity, DeleteActivityResult, DismissError,
-  FormTextFieldUpdated, Noop, OnRouteChange, OpenDialog, OpenDropDownMenu,
-  ProjectsResult, SystemUsersResult, ToggleProject,
+  ConfirmArchiveActivity, ConfirmDeleteActivity, ConfirmDeleteProject,
+  ConfirmDialog, CurrentUserResult, DeleteActivity, DeleteActivityResult,
+  DeleteProject, DeleteProjectResult, DismissError, FormTextFieldUpdated, Noop,
+  OnRouteChange, OpenDialog, OpenDropDownMenu, ProjectsResult, SystemUsersResult,
+  ToggleProject,
 }
 import model.{
-  type Model, close_all_modals, close_modal, delete_activity, dismiss_error,
-  initial_model, navigate_to, open_dialog, open_drop_down_menu, set_current_user,
-  set_users, toggle_project, update_activity, update_dialog_value,
+  type Model, close_all_modals, close_modal, delete_activity, delete_project,
+  dismiss_error, initial_model, navigate_to, open_dialog, open_drop_down_menu,
+  set_current_user, set_users, toggle_project, update_activity,
+  update_dialog_value,
 }
 import modem
 import protocol
@@ -188,6 +190,36 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
     }
     DeleteActivityResult(Error(_)) -> {
       io.println("DeleteActivityResult Error")
+
+      #(model, effect.none())
+    }
+
+    ConfirmDeleteProject(project) -> {
+      io.println("ConfirmDeleteProject")
+      model
+      |> open_dialog(model.DeleteProjectDialog(project))
+      |> no_effect()
+    }
+
+    DeleteProject(project) -> {
+      model
+      |> close_all_modals()
+      |> with_effect(protocol.delete_project(
+        project,
+        message.DeleteProjectResult,
+      ))
+    }
+
+    DeleteProjectResult(Ok(project)) -> {
+      io.println("DeleteProjectResult OK")
+
+      model
+      |> close_all_modals()
+      |> delete_project(project.id)
+      |> no_effect()
+    }
+    DeleteProjectResult(Error(_)) -> {
+      io.println("DeleteProjectResult Error")
 
       #(model, effect.none())
     }

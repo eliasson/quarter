@@ -39,6 +39,12 @@ pub type Msg {
   /// Delete the given activity.
   DeleteActivity(activity: project.Activity)
 
+  /// Action that asks the user to confirm deletion of the given project.
+  ConfirmDeleteProject(project: project.Project)
+
+  /// Delete the given project.
+  DeleteProject(project: project.Project)
+
   //
   // Form messages
   //
@@ -54,4 +60,5 @@ pub type Msg {
   ProjectsResult(Result(List(project.Project), rsvp.Error))
   ArchiveActivityResult(Result(project.Activity, rsvp.Error))
   DeleteActivityResult(Result(project.Activity, rsvp.Error))
+  DeleteProjectResult(Result(project.Project, rsvp.Error))
 }
