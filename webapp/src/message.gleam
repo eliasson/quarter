@@ -45,6 +45,12 @@ pub type Msg {
   /// Delete the given project.
   DeleteProject(project: project.Project)
 
+  /// Action that asks the user to confirm archive of the given project.
+  ConfirmArchiveProject(project: project.Project)
+
+  /// Archive the given project.
+  ArchiveProject(project: project.Project)
+
   //
   // Form messages
   //
@@ -61,4 +67,5 @@ pub type Msg {
   ArchiveActivityResult(Result(project.Activity, rsvp.Error))
   DeleteActivityResult(Result(project.Activity, rsvp.Error))
   DeleteProjectResult(Result(project.Project, rsvp.Error))
+  ArchiveProjectResult(Result(project.Project, rsvp.Error))
 }

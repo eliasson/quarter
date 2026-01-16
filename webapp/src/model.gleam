@@ -37,6 +37,7 @@ pub type Dialog {
   ArchiveActivityDialog(activity: project.Activity)
   DeleteActivityDialog(activity: project.Activity)
   DeleteProjectDialog(project: project.Project)
+  ArchiveProjectDialog(project: project.Project)
 }
 
 pub type UserDialogState {
@@ -248,6 +249,19 @@ pub fn update_activity(m: Model, activity: project.Activity) -> Model {
             })
           project.Project(..p, activities:)
         }
+        _ -> p
+      }
+    })
+
+  Model(..m, projects:)
+}
+
+pub fn update_project(m: Model, project: project.Project) -> Model {
+  let projects =
+    list.map(m.projects, fn(p) {
+      case p.id {
+        id if project.id == id ->
+          project.Project(..project, activities: p.activities)
         _ -> p
       }
     })

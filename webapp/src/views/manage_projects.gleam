@@ -122,8 +122,8 @@ fn manage_project_action(m: model.Model, project: project.Project) {
       dropdown.DropDownMsg(graphics.icon_edit, "Edit project", message.Noop),
       dropdown.DropDownMsg(
         graphics.icon_archive,
-        "Archive project",
-        message.Noop,
+        archive_project_menu_label(project),
+        message.ConfirmArchiveProject(project),
       ),
       dropdown.DropDownMsg(
         graphics.icon_delete,
@@ -167,6 +167,23 @@ pub fn add_project_form(state: model.ProjectDialogState) -> form.Form {
     form.Cancel,
     form.Confirm(!state.is_valid, message.ConfirmDialog),
   ])
+}
+
+/// The archive project confirmation dialog is stateless and only includes a query text message.
+pub fn archive_project_form(
+  project: project.Project,
+) -> element.Element(message.Msg) {
+  form.Form(
+    "ArchiveProject",
+    [
+      form.TextMessage(archive_project_text(project)),
+    ],
+    [
+      form.Cancel,
+      form.Confirm(False, message.ArchiveProject(project)),
+    ],
+  )
+  |> form.form_dialog(graphics.icon_add_user, archive_project_header(project))
 }
 
 /// The archive activity confirmation dialog is stateless and only includes a query text message.
@@ -227,10 +244,25 @@ pub fn delete_project_form(
   |> form.form_dialog(graphics.icon_add_user, "Delete project?")
 }
 
+fn archive_project_menu_label(project: project.Project) -> String {
+  case project.is_archived {
+    True -> "Unarchive project"
+    False -> "Archive project"
+  }
+}
+
 fn archive_activity_menu_label(activity: project.Activity) -> String {
   case activity.is_archived {
     True -> "Unarchive activity"
     False -> "Archive activity"
+  }
+}
+
+/// Get the dialog header for archiving or unarchiving a project based on it's state.
+fn archive_project_header(project: project.Project) -> String {
+  case project.is_archived {
+    True -> "Unarchive project?"
+    False -> "Archive project?"
   }
 }
 
@@ -252,6 +284,20 @@ fn archive_activity_text(activity: project.Activity) -> String {
     False ->
       "An archived activity cannot be used to register time with, but is still used for existing timesheets. An archived activity can later be unarchived. Do you want to archive the activity "
       <> activity.name
+      <> "?"
+  }
+}
+
+/// Get the text message for archiving or unarchiving a project based on it's state.
+fn archive_project_text(project: project.Project) -> String {
+  case project.is_archived {
+    True ->
+      "Do you want to unarchive the project "
+      <> project.name
+      <> "? This will enable you to register time with it again."
+    False ->
+      "An archived project cannot be used to register time with, but is still used for existing timesheets. An archived project can later be unarchived. Do you want to archive the project "
+      <> project.name
       <> "?"
   }
 }

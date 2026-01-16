@@ -143,6 +143,9 @@ fn dialogs(model: model.Model) -> List(element.Element(message.Msg)) {
 
       model.DeleteProjectDialog(project) ->
         manage_projects.delete_project_form(project)
+
+      model.ArchiveProjectDialog(project) ->
+        manage_projects.archive_project_form(project)
     }
   }
 

@@ -3,8 +3,9 @@ import gleam/uri.{type Uri}
 import lustre
 import lustre/effect.{type Effect}
 import message.{
-  type Msg, AddUserResult, ArchiveActivity, ArchiveActivityResult, CloseModal,
-  ConfirmArchiveActivity, ConfirmDeleteActivity, ConfirmDeleteProject,
+  type Msg, AddUserResult, ArchiveActivity, ArchiveActivityResult,
+  ArchiveProject, ArchiveProjectResult, CloseModal, ConfirmArchiveActivity,
+  ConfirmArchiveProject, ConfirmDeleteActivity, ConfirmDeleteProject,
   ConfirmDialog, CurrentUserResult, DeleteActivity, DeleteActivityResult,
   DeleteProject, DeleteProjectResult, DismissError, FormTextFieldUpdated, Noop,
   OnRouteChange, OpenDialog, OpenDropDownMenu, ProjectsResult, SystemUsersResult,
@@ -14,7 +15,7 @@ import model.{
   type Model, close_all_modals, close_modal, delete_activity, delete_project,
   dismiss_error, initial_model, navigate_to, open_dialog, open_drop_down_menu,
   set_current_user, set_users, toggle_project, update_activity,
-  update_dialog_value,
+  update_dialog_value, update_project,
 }
 import modem
 import protocol
@@ -161,6 +162,38 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
 
     ArchiveActivityResult(Error(_)) -> {
       io.println("ArchiveActivityResult Error")
+      #(model, effect.none())
+    }
+
+    ConfirmArchiveProject(project) -> {
+      io.println("ConfirmArchiveProject")
+      model
+      |> open_dialog(model.ArchiveProjectDialog(project))
+      |> no_effect()
+    }
+
+    ArchiveProject(project) -> {
+      io.println("ArchiveProject")
+
+      model
+      |> close_all_modals()
+      |> with_effect(protocol.archive_project(
+        project,
+        message.ArchiveProjectResult,
+      ))
+    }
+
+    ArchiveProjectResult(Ok(p)) -> {
+      io.println("ArchiveProjectResult OK")
+
+      model
+      |> close_all_modals()
+      |> update_project(p)
+      |> no_effect()
+    }
+
+    ArchiveProjectResult(Error(_)) -> {
+      io.println("ArchiveProjectResult Error")
       #(model, effect.none())
     }
 

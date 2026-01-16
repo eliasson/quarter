@@ -92,6 +92,17 @@ pub fn delete_activity(
   )
 }
 
+pub fn archive_project(
+  project: project.Project,
+  on_response handle_response: fn(Result(project.Project, rsvp.Error)) ->
+    message.Msg,
+) -> Effect(message.Msg) {
+  let handler = rsvp.expect_json(project_decoder(), handle_response)
+  let payload = json.object([#("isArchived", json.bool(!project.is_archived))])
+
+  rsvp.patch(project_url(project), payload, handler)
+}
+
 pub fn delete_project(
   project: project.Project,
   on_response handle_response: fn(Result(project.Project, rsvp.Error)) ->
