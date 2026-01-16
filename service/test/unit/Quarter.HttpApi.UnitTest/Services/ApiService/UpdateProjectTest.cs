@@ -40,4 +40,34 @@ public class UpdateProjectTest
             Assert.That(projectNames, Is.EqualTo(new[] { "Project Alpha Updated" }));
         }
     }
+
+    [TestFixture]
+    public class WhenArchiving : TestCase
+    {
+        private readonly OperationContext _oc = CreateOperationContext();
+
+        private ProjectResourceOutput? _output;
+
+        [OneTimeSetUp]
+        public async Task Setup()
+        {
+            var project = await AddProject(_oc.UserId, "Project alpha");
+
+            var input = new UpdateProjectResourceInput
+            {
+                isArchived = true,
+            };
+
+            _ = await ApiService.UpdateProjectAsync(project.Id, input, _oc, CancellationToken.None);
+        }
+
+        [Test]
+        public async Task ItShouldOnlyHaveUpdatedArchivedFlag()
+        {
+            var projects = await ReadProjectsAsync(_oc.UserId);
+            var project = projects.Single();
+
+            Assert.That(project.IsArchived, Is.True);
+        }
+    }
 }

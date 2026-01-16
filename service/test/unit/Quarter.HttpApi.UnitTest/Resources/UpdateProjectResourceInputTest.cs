@@ -15,6 +15,7 @@ public class UpdateProjectResourceInputTest
         public static IEnumerable<object[]> ValidResources()
         {
             yield return new object[] { new UpdateProjectResourceInput { name = "OK", description = "OK" } };
+            yield return new object[] { new UpdateProjectResourceInput { name = "OK", isArchived = true} };
         }
 
         [TestCaseSource(nameof(ValidResources))]

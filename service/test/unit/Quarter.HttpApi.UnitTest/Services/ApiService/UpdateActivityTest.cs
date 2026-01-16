@@ -113,7 +113,7 @@ public class UpdateActivityTest
         }
 
         [Test]
-        public async Task ItShouldOnlyHaveUpdatedDescription()
+        public async Task ItShouldOnlyHaveUpdatedArchivedFlag()
         {
             var activities = await ReadActivitiesAsync(_oc.UserId, _project!.Id);
             var activity = activities.Single();

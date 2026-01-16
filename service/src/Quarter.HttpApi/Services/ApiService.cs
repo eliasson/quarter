@@ -50,6 +50,7 @@ public class ApiService(IRepositoryFactory repositoryFactory) : IApiService
         {
             if (input.name is not null) existing.Name = input.name;
             if (input.description is not null) existing.Description = input.description;
+            if (input.isArchived is {} isArchived) existing.IsArchived = isArchived;
             return existing;
         }, ct);
         return ProjectResourceOutput.From(project);
