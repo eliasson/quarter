@@ -72,7 +72,7 @@ fn project_list(m: model.Model) {
       ),
       div([att.class("project-details")], [
         html.text(project.description),
-        manage_project_action(m, project.id),
+        manage_project_action(m, project),
       ]),
       div(
         [att.class("activities")],
@@ -112,8 +112,8 @@ fn color_badge(activity: project.Activity) {
   )
 }
 
-fn manage_project_action(m: model.Model, project_id: project.ProjectId) {
-  let menu_id = "project." <> project_id.value
+fn manage_project_action(m: model.Model, project: project.Project) {
+  let menu_id = "project." <> project.id.value
 
   dropdown.drop_down_menu(
     menu_id,
