@@ -3,7 +3,7 @@ import domain/project
 import gleam/list
 import gleam/option
 import model
-import util
+import util/timestamp
 
 /// Get the first element from a tuple
 pub fn first(t: #(a, b)) {
@@ -16,7 +16,7 @@ pub fn arbitrary_project() -> project.Project {
     "Project Alpha",
     "The Alpha project",
     False,
-    util.timestamp_zero(),
+    timestamp.timestamp_zero(),
     option.None,
     [],
   )
@@ -30,7 +30,7 @@ pub fn arbitrary_activity() -> project.Activity {
     "",
     color.Color(142, 135, 245),
     False,
-    util.timestamp_zero(),
+    timestamp.timestamp_zero(),
     option.None,
   )
 }

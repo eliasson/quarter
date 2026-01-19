@@ -13,7 +13,7 @@ import lustre/effect.{type Effect}
 import message
 import rsvp
 import seq
-import util
+import util/timestamp as tsutil
 
 /// Get the currently logged in user, if logged in.
 pub fn get_current_user(
@@ -219,7 +219,7 @@ fn decode_timestamp() -> decode.Decoder(timestamp.Timestamp) {
 
   case timestamp.parse_rfc3339(ts_str) {
     Ok(ts) -> decode.success(ts)
-    _ -> decode.failure(util.timestamp_zero(), "Could not parse timestamp")
+    _ -> decode.failure(tsutil.timestamp_zero(), "Could not parse timestamp")
   }
 }
 

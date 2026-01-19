@@ -7,7 +7,7 @@ import lustre/event
 import message
 import ui/core as ui
 import ui/graphics
-import util
+import util/either
 
 pub type DropDownItem {
   DropDownLink(icon: String, label: String, href: String)
@@ -49,13 +49,13 @@ pub fn drop_down_menu(
 fn create_drop_down_item(item: DropDownItem) -> element.Element(message.Msg) {
   case item {
     DropDownLink(icon, label, url) ->
-      drop_down_item_impl(util.Left(url), icon, label, option.None)
+      drop_down_item_impl(either.Left(url), icon, label, option.None)
 
     DropDownLinkApx(icon, label, appendix, url) ->
-      drop_down_item_impl(util.Left(url), icon, label, option.Some(appendix))
+      drop_down_item_impl(either.Left(url), icon, label, option.Some(appendix))
 
     DropDownMsg(icon, label, msg) ->
-      drop_down_item_impl(util.Right(msg), icon, label, option.None)
+      drop_down_item_impl(either.Right(msg), icon, label, option.None)
 
     DropDownSeparator -> separator_menu_item()
 
@@ -77,7 +77,7 @@ fn separator_menu_item() {
 }
 
 fn drop_down_item_impl(
-  action: util.Either(String, message.Msg),
+  action: either.Either(String, message.Msg),
   icon ico: String,
   text text: String,
   appendix appendix: Option(String),
@@ -90,8 +90,8 @@ fn drop_down_item_impl(
   // TODO: Move the A to wrap the entire item to make it clickable.
   // TODO: Should a BUTTON be used instead of a DIV to work with keyboard navigation.
   let label_elm = case action {
-    util.Left(url) -> html.a([att.href(url)], [html.text(text)])
-    util.Right(msg) ->
+    either.Left(url) -> html.a([att.href(url)], [html.text(text)])
+    either.Right(msg) ->
       html.div([ui.click_stop(msg)], [
         html.text(text),
       ])

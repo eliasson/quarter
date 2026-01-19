@@ -5,7 +5,7 @@ import gleam/result
 import gleam/time/timestamp
 import gleeunit/should
 import protocol
-import util
+import util/timestamp as tsutil
 
 pub fn decode_minimal_project_test() {
   let expected_created = timestamp.parse_rfc3339("2025-11-04T16:49:39.2993437Z")
@@ -27,7 +27,7 @@ pub fn decode_minimal_project_test() {
         "Project Alpha",
         "",
         False,
-        result.unwrap(expected_created, util.timestamp_zero()),
+        result.unwrap(expected_created, tsutil.timestamp_zero()),
         option.None,
         [],
       ),
@@ -58,8 +58,8 @@ pub fn decode_full_project_test() {
         "Project Alpha",
         "The alpha project",
         True,
-        result.unwrap(expected_created, util.timestamp_zero()),
-        option.Some(result.unwrap(expected_updated, util.timestamp_zero())),
+        result.unwrap(expected_created, tsutil.timestamp_zero()),
+        option.Some(result.unwrap(expected_updated, tsutil.timestamp_zero())),
         [],
       ),
     )
