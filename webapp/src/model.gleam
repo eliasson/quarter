@@ -33,7 +33,6 @@ pub type DropDownMenu {
 pub type Dialog {
   AddUserDialog(state: UserDialogState)
   AddProjectDialog(state: ProjectDialogState)
-  AnotherDialog(state: AnotherDialogState)
   ArchiveActivityDialog(activity: project.Activity)
   DeleteActivityDialog(activity: project.Activity)
   DeleteProjectDialog(project: project.Project)
@@ -50,10 +49,6 @@ pub type ProjectDialogState {
     description: VValue(String),
     is_valid: Bool,
   )
-}
-
-pub type AnotherDialogState {
-  AnotherDialogState(foo: String)
 }
 
 /// An application error is to be displayed for the user when something

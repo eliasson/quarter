@@ -131,10 +131,6 @@ fn dialogs(model: model.Model) -> List(element.Element(message.Msg)) {
         |> form.form_dialog(graphics.icon_add_user, "Add new project")
       }
 
-      model.AnotherDialog(_state) -> {
-        element.none()
-      }
-
       model.ArchiveActivityDialog(activity) ->
         manage_projects.archive_activity_form(activity)
 
