@@ -1,3 +1,4 @@
+import form
 import gleam/list
 import lustre/attribute as att
 import lustre/element.{type Element}
@@ -8,8 +9,8 @@ import model
 import project
 import ui/core as ui
 import ui/dropdown
-import ui/form
 import ui/graphics
+import ui/input
 import util
 
 pub fn view(m: model.Model) -> Element(message.Msg) {
@@ -24,7 +25,7 @@ pub fn view(m: model.Model) -> Element(message.Msg) {
         ]),
       ]),
       ui.toolbar([
-        form.icon_button(
+        input.icon_button(
           "button",
           graphics.icon_plus,
           "New project",
@@ -66,7 +67,7 @@ fn project_list(m: model.Model) {
           div([att.class("name")], [html.text(project.name)]),
           div([att.class("state")], [project_archived_chip]),
           div([att.class("action")], [
-            form.fake_button(icon),
+            input.fake_button(icon),
           ]),
         ],
       ),
@@ -117,7 +118,7 @@ fn manage_project_action(m: model.Model, project: project.Project) {
 
   dropdown.drop_down_menu(
     menu_id,
-    form.fake_button(graphics.icon_context_menu),
+    input.fake_button(graphics.icon_context_menu),
     [
       dropdown.DropDownMsg(graphics.icon_edit, "Edit project", message.Noop),
       dropdown.DropDownMsg(
@@ -144,7 +145,7 @@ fn manage_activity_action(
 
   dropdown.drop_down_menu(
     menu_id,
-    form.ghost_button(graphics.icon_context_menu, message.CloseModal),
+    input.ghost_button(graphics.icon_context_menu, message.CloseModal),
     [
       dropdown.DropDownMsg(graphics.icon_edit, "Edit activity", message.Noop),
       dropdown.DropDownMsg(
@@ -183,7 +184,7 @@ pub fn archive_project_form(
       form.Confirm(False, message.ArchiveProject(project)),
     ],
   )
-  |> form.form_dialog(graphics.icon_add_user, archive_project_header(project))
+  |> input.form_dialog(graphics.icon_add_user, archive_project_header(project))
 }
 
 /// The archive activity confirmation dialog is stateless and only includes a query text message.
@@ -200,7 +201,10 @@ pub fn archive_activity_form(
       form.Confirm(False, message.ArchiveActivity(activity)),
     ],
   )
-  |> form.form_dialog(graphics.icon_add_user, archive_activity_header(activity))
+  |> input.form_dialog(
+    graphics.icon_add_user,
+    archive_activity_header(activity),
+  )
 }
 
 /// The archive activity confirmation dialog is stateless and only includes a query text message.
@@ -221,7 +225,7 @@ pub fn delete_activity_form(
       form.Confirm(False, message.DeleteActivity(activity)),
     ],
   )
-  |> form.form_dialog(graphics.icon_add_user, "Delete activity?")
+  |> input.form_dialog(graphics.icon_add_user, "Delete activity?")
 }
 
 pub fn delete_project_form(
@@ -241,7 +245,7 @@ pub fn delete_project_form(
       form.Confirm(False, message.DeleteProject(project)),
     ],
   )
-  |> form.form_dialog(graphics.icon_add_user, "Delete project?")
+  |> input.form_dialog(graphics.icon_add_user, "Delete project?")
 }
 
 fn archive_project_menu_label(project: project.Project) -> String {

@@ -9,8 +9,8 @@ import model
 import route
 import ui/core as ui
 import ui/dropdown
-import ui/form
 import ui/graphics
+import ui/input
 import views/manage_projects
 import views/system_users
 
@@ -123,12 +123,12 @@ fn dialogs(model: model.Model) -> List(element.Element(message.Msg)) {
     case d {
       model.AddUserDialog(state) -> {
         system_users.add_user_form(state)
-        |> form.form_dialog(graphics.icon_add_user, "Add new user")
+        |> input.form_dialog(graphics.icon_add_user, "Add new user")
       }
 
       model.AddProjectDialog(state) -> {
         manage_projects.add_project_form(state)
-        |> form.form_dialog(graphics.icon_add_user, "Add new project")
+        |> input.form_dialog(graphics.icon_add_user, "Add new project")
       }
 
       model.ArchiveActivityDialog(activity) ->

@@ -1,3 +1,4 @@
+import form
 import gleam/list
 import gleam/option.{None, Some}
 import lustre/attribute as att
@@ -7,8 +8,8 @@ import message
 import model
 import ui/core as ui
 import ui/dropdown
-import ui/form
 import ui/graphics
+import ui/input
 
 const manage_menu_id = "manage.users"
 
@@ -36,7 +37,7 @@ fn user_table(m: model.Model) {
         [],
         list.map(m.users, fn(u) {
           tr([], [
-            td([], [form.checkbox()]),
+            td([], [input.checkbox()]),
             td([], [html.text(u.email)]),
             td([], [ui.timestamp(u.created)]),
             td([], [
@@ -56,7 +57,7 @@ fn user_table(m: model.Model) {
 fn manage_action(m: model.Model) {
   dropdown.drop_down_menu(
     manage_menu_id,
-    form.outline_button("Manage", "chevron-down"),
+    input.outline_button("Manage", "chevron-down"),
     [
       dropdown.DropDownMsg(
         graphics.icon_add_user,

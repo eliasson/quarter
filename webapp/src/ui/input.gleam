@@ -1,3 +1,4 @@
+import form
 import gleam/list
 import lustre/attribute as att
 import lustre/element
@@ -6,29 +7,6 @@ import lustre/event
 import message
 import model
 import ui/core as ui
-
-pub type Form {
-  Form(id: String, fields: List(FormField), actions: List(FormAction))
-}
-
-pub type FormField {
-  /// Displays a text message.
-  TextMessage(message: String)
-
-  /// Text input field with email validation.
-  EmailInput(
-    name: String,
-    label: String,
-    value: String,
-    required: Bool,
-    autofocus: Bool,
-  )
-}
-
-pub type FormAction {
-  Cancel
-  Confirm(disabled: Bool, msg: message.Msg)
-}
 
 pub fn checkbox() -> element.Element(msg) {
   html.label([att.class("checkbox")], [html.input([att.type_("checkbox")])])
@@ -117,7 +95,7 @@ pub fn outline_button(text: String, icon ico: String) {
 }
 
 /// A dialog containing a form.
-pub fn form_dialog(form: Form, ico: String, header: String) {
+pub fn form_dialog(form: form.Form, ico: String, header: String) {
   let content = list.map(form.fields, fn(f) { render_field(f) })
   let actions = list.map(form.actions, fn(f) { render_action(f) })
 
@@ -136,18 +114,18 @@ pub fn form_dialog(form: Form, ico: String, header: String) {
   ])
 }
 
-fn render_field(field field: FormField) -> element.Element(message.Msg) {
+fn render_field(field field: form.FormField) -> element.Element(message.Msg) {
   case field {
-    EmailInput(name, label, value, required, autofocus) ->
+    form.EmailInput(name, label, value, required, autofocus) ->
       input_field("email", name, label, value, required, autofocus)
-    TextMessage(text) -> text_message(text)
+    form.TextMessage(text) -> text_message(text)
   }
 }
 
-fn render_action(action action: FormAction) -> element.Element(message.Msg) {
+fn render_action(action action: form.FormAction) -> element.Element(message.Msg) {
   case action {
-    Cancel -> cancel_button(message.CloseModal)
-    Confirm(disabled, msg) -> button("submit", "Confirm", disabled, msg)
+    form.Cancel -> cancel_button(message.CloseModal)
+    form.Confirm(disabled, msg) -> button("submit", "Confirm", disabled, msg)
   }
 }
 
