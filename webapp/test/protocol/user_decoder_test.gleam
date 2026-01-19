@@ -1,10 +1,10 @@
+import domain/user
 import gleam/json
 import gleam/option
 import gleam/result
 import gleam/time/timestamp
 import gleeunit/should
 import protocol
-import user
 import util
 
 pub fn decode_minimal_user_test() {

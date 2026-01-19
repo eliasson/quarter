@@ -1,8 +1,8 @@
 import domain/project
+import domain/user
 import model
 import route.{type Route}
 import rsvp
-import user
 
 pub type Msg {
   Noop

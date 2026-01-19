@@ -1,11 +1,11 @@
 import domain/email
 import domain/project
+import domain/user
 import gleam/list
 import gleam/option
 import gleam/set
 import route
 import seq
-import user
 
 pub type Model {
   Model(

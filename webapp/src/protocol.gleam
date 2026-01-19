@@ -1,6 +1,7 @@
 import domain/color
 import domain/email
 import domain/project
+import domain/user
 import gleam/dict
 import gleam/dynamic/decode
 import gleam/http/response.{type Response}
@@ -12,7 +13,6 @@ import lustre/effect.{type Effect}
 import message
 import rsvp
 import seq
-import user
 import util
 
 /// Get the currently logged in user, if logged in.
