@@ -1,4 +1,5 @@
 import domain/color
+import domain/email
 import gleam/dict
 import gleam/dynamic/decode
 import gleam/http/response.{type Response}
@@ -40,7 +41,7 @@ pub fn get_system_users(
 }
 
 pub fn add_user(
-  email: util.Email,
+  email: email.Email,
   on_response handle_response: fn(Result(user.User, rsvp.Error)) -> message.Msg,
 ) -> Effect(message.Msg) {
   let url = "/api/users"

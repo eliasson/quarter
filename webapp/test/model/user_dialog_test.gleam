@@ -1,11 +1,11 @@
+import domain/email
 import gleeunit/should
 import model.{InvalidValue, UnvalidatedValue}
-import util
 
 pub fn should_be_valid_state_test() {
   let state =
     model.UserDialogState(
-      UnvalidatedValue(util.Email("jane@example.com")),
+      UnvalidatedValue(email.Email("jane@example.com")),
       True,
     )
   let updated = model.validate_user_dialog_state(state)
@@ -14,14 +14,16 @@ pub fn should_be_valid_state_test() {
 }
 
 pub fn should_be_invalid_state_with_one_invalid_value_test() {
-  let state = model.UserDialogState(UnvalidatedValue(util.Email("jane@")), True)
+  let state =
+    model.UserDialogState(UnvalidatedValue(email.Email("jane@")), True)
   let updated = model.validate_user_dialog_state(state)
 
   should.be_false(updated.is_valid)
 }
 
 pub fn should_include_validation_error_in_email_value_test() {
-  let state = model.UserDialogState(UnvalidatedValue(util.Email("jane@")), True)
+  let state =
+    model.UserDialogState(UnvalidatedValue(email.Email("jane@")), True)
   let updated = model.validate_user_dialog_state(state)
 
   case updated.email {

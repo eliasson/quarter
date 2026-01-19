@@ -1,3 +1,4 @@
+import domain/email
 import gleam/list
 import gleam/option
 import gleam/set
@@ -5,7 +6,6 @@ import project
 import route
 import seq
 import user
-import util.{type Email}
 
 pub type Model {
   Model(
@@ -40,7 +40,7 @@ pub type Dialog {
 }
 
 pub type UserDialogState {
-  UserDialogState(email: VValue(Email), is_valid: Bool)
+  UserDialogState(email: VValue(email.Email), is_valid: Bool)
 }
 
 pub type ProjectDialogState {
@@ -182,7 +182,7 @@ pub fn update_dialog_value(m: Model, value: FormValue) -> Model {
               validate_user_dialog_state(
                 UserDialogState(
                   ..state,
-                  email: ValidValue(util.Email(value.value)),
+                  email: ValidValue(email.Email(value.value)),
                 ),
               )
             _ -> state
@@ -208,7 +208,7 @@ pub fn validate_user_dialog_state(state: UserDialogState) -> UserDialogState {
   // Validate each field and add approrpiate error messages
 
   // Get validation errors for email
-  let email = case util.validate_email(state.email.value) {
+  let email = case email.validate_email(state.email.value) {
     Ok(Nil) -> ValidValue(state.email.value)
     Error(messages) -> InvalidValue(state.email.value, messages)
   }
@@ -226,7 +226,7 @@ pub fn validate_user_dialog_state(state: UserDialogState) -> UserDialogState {
 }
 
 pub fn new_user_dialog() {
-  AddUserDialog(UserDialogState(ValidValue(util.Email("")), False))
+  AddUserDialog(UserDialogState(ValidValue(email.Email("")), False))
 }
 
 /// Replace the current activity with the given one. Used after successful activity modifications.
