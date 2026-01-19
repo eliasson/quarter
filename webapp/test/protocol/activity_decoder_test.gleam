@@ -1,3 +1,4 @@
+import domain/color
 import gleam/json
 import gleam/option
 import gleam/result
@@ -28,7 +29,7 @@ pub fn decode_minimal_activity_test() {
       project.ProjectId("P01"),
       "Activity Alpha",
       "",
-      util.Color(142, 135, 245),
+      color.Color(142, 135, 245),
       False,
       result.unwrap(expected_created, util.timestamp_zero()),
       option.None,
@@ -60,7 +61,7 @@ pub fn decode_full_activity_test() {
       project.ProjectId("P01"),
       "Activity Alpha",
       "The alpha activity",
-      util.Color(142, 135, 245),
+      color.Color(142, 135, 245),
       True,
       result.unwrap(expected_created, util.timestamp_zero()),
       option.Some(result.unwrap(expected_updated, util.timestamp_zero())),

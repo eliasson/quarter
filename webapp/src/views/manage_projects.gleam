@@ -1,3 +1,4 @@
+import domain/color
 import form
 import gleam/list
 import lustre/attribute as att
@@ -11,7 +12,6 @@ import ui/core as ui
 import ui/dropdown
 import ui/graphics
 import ui/input
-import util
 
 pub fn view(m: model.Model) -> Element(message.Msg) {
   div([att.class("content")], [
@@ -99,14 +99,14 @@ fn project_list(m: model.Model) {
 }
 
 fn color_badge(activity: project.Activity) {
-  let border_color = util.darken(activity.color)
+  let border_color = color.darken(activity.color)
 
   div(
     [
       att.class("activity-color"),
       att.styles([
-        #("background-color", util.color_to_style_value(activity.color)),
-        #("border-color", util.color_to_style_value(border_color)),
+        #("background-color", color.color_to_style_value(activity.color)),
+        #("border-color", color.color_to_style_value(border_color)),
       ]),
     ],
     [],

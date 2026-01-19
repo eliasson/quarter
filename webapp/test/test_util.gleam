@@ -1,3 +1,4 @@
+import domain/color
 import gleam/list
 import gleam/option
 import model
@@ -27,7 +28,7 @@ pub fn arbitrary_activity() -> project.Activity {
     project.ProjectId("P01"),
     "Activity Alpha",
     "",
-    util.Color(142, 135, 245),
+    color.Color(142, 135, 245),
     False,
     util.timestamp_zero(),
     option.None,

@@ -1,6 +1,6 @@
+import domain/color
 import gleam/option
 import gleam/time/timestamp.{type Timestamp}
-import util
 
 pub type ProjectId {
   ProjectId(value: String)
@@ -28,7 +28,7 @@ pub type Activity {
     project_id: ProjectId,
     name: String,
     description: String,
-    color: util.Color,
+    color: color.Color,
     is_archived: Bool,
     created: Timestamp,
     updated: option.Option(Timestamp),
