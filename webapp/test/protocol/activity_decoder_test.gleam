@@ -1,10 +1,10 @@
 import domain/color
+import domain/project
 import gleam/json
 import gleam/option
 import gleam/result
 import gleam/time/timestamp
 import gleeunit/should
-import project
 import protocol
 import util
 

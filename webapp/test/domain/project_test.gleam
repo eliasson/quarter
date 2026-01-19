@@ -1,7 +1,7 @@
+import domain/project
 import gleam/list
 import gleeunit/should
 import model
-import project
 import test_util.{arbitrary_project}
 
 pub fn delete_project_test() {

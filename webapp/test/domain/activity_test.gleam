@@ -1,6 +1,6 @@
+import domain/project
 import gleeunit/should
 import model
-import project
 import test_util.{arbitrary_activity, arbitrary_project}
 
 pub fn update_activity_test() {

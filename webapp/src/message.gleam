@@ -1,5 +1,5 @@
+import domain/project
 import model
-import project
 import route.{type Route}
 import rsvp
 import user

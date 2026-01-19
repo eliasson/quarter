@@ -1,8 +1,8 @@
 import domain/color
+import domain/project
 import gleam/list
 import gleam/option
 import model
-import project
 import util
 
 /// Get the first element from a tuple

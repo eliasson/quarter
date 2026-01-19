@@ -1,5 +1,6 @@
 import domain/color
 import domain/email
+import domain/project
 import gleam/dict
 import gleam/dynamic/decode
 import gleam/http/response.{type Response}
@@ -9,7 +10,6 @@ import gleam/option.{type Option, None, Some}
 import gleam/time/timestamp
 import lustre/effect.{type Effect}
 import message
-import project
 import rsvp
 import seq
 import user

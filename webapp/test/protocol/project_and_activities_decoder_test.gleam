@@ -1,7 +1,7 @@
+import domain/project
 import gleam/json
 import gleam/list
 import gleeunit/should
-import project
 import protocol
 
 // Test that parse project and activities to ensure that activities are added to the

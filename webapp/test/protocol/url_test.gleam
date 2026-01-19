@@ -1,5 +1,5 @@
+import domain/project
 import gleeunit/should
-import project
 import protocol
 import test_util.{arbitrary_activity, arbitrary_project}
 

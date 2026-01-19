@@ -1,8 +1,8 @@
 import domain/email
+import domain/project
 import gleam/list
 import gleam/option
 import gleam/set
-import project
 import route
 import seq
 import user

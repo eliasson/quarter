@@ -1,4 +1,5 @@
 import domain/color
+import domain/project
 import form
 import gleam/list
 import lustre/attribute as att
@@ -7,7 +8,6 @@ import lustre/element/html.{div, h1, p}
 import lustre/event
 import message
 import model
-import project
 import ui/core as ui
 import ui/dropdown
 import ui/graphics
