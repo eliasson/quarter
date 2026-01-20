@@ -30,7 +30,7 @@ pub fn view(m: model.Model) -> Element(message.Msg) {
           graphics.icon_plus,
           "New project",
           False,
-          message.Noop,
+          message.OpenDialog(model.new_project_dialog()),
         ),
       ]),
     ]),

@@ -229,6 +229,10 @@ pub fn new_user_dialog() {
   AddUserDialog(UserDialogState(ValidValue(email.Email("")), False))
 }
 
+pub fn new_project_dialog() {
+  AddProjectDialog(ProjectDialogState(ValidValue(""), ValidValue(""), False))
+}
+
 /// Replace the current activity with the given one. Used after successful activity modifications.
 pub fn update_activity(m: Model, activity: project.Activity) -> Model {
   let projects =
