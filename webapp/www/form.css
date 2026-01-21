@@ -30,7 +30,8 @@ input:invalid {
 }
 
 input[type="text"],
-input[type="email"] {
+input[type="email"],
+textarea {
     border: 1px solid var(--border-color);
     border-radius: 0;
 
@@ -40,6 +41,10 @@ input[type="email"] {
 
     color: var(--color-text);
     background-color: var(--color-bg);
+}
+
+textarea {
+    resize: none;
 }
 
 fieldset {

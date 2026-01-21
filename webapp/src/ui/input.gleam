@@ -118,6 +118,10 @@ fn render_field(field field: form.FormField) -> element.Element(message.Msg) {
   case field {
     form.EmailInput(name, label, value, required, autofocus) ->
       input_field("email", name, label, value, required, autofocus)
+    form.TextInput(name, label, value, required, autofocus) ->
+      input_field("text", name, label, value, required, autofocus)
+    form.TextAreaInput(name, label, value, required, autofocus) ->
+      text_area(name, label, value, required, autofocus)
     form.TextMessage(text) -> text_message(text)
   }
 }
@@ -157,6 +161,38 @@ fn input_field(
       ],
       validations,
     )),
+  ])
+}
+
+fn text_area(
+  name: String,
+  label: String,
+  inital_value: String,
+  required: Bool,
+  autofocus: Bool,
+) -> element.Element(message.Msg) {
+  // Only add the required attribute if the input has a value. Else the field will be invalid immediately.
+  let validations = case inital_value {
+    "" -> []
+    _ -> [att.required(required)]
+  }
+
+  html.fieldset([], [
+    html.label([att.for(name)], [html.text(label)]),
+    html.textarea(
+      list.append(
+        [
+          att.name(name),
+          att.autofocus(autofocus),
+          att.rows(6),
+          event.on_input(fn(updated_value) {
+            message.FormTextFieldUpdated(model.FormValue(name, updated_value))
+          }),
+        ],
+        validations,
+      ),
+      inital_value,
+    ),
   ])
 }
 

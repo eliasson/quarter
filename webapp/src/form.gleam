@@ -16,6 +16,24 @@ pub type FormField {
     required: Bool,
     autofocus: Bool,
   )
+
+  /// Text input field
+  TextInput(
+    name: String,
+    label: String,
+    value: String,
+    required: Bool,
+    autofocus: Bool,
+  )
+
+  /// Text area input field
+  TextAreaInput(
+    name: String,
+    label: String,
+    value: String,
+    required: Bool,
+    autofocus: Bool,
+  )
 }
 
 pub type FormAction {
