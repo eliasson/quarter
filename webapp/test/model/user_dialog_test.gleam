@@ -1,6 +1,7 @@
 import domain/email
+import domain/input_value.{InvalidValue, UnvalidatedValue}
 import gleeunit/should
-import model.{InvalidValue, UnvalidatedValue}
+import model
 
 pub fn should_be_valid_state_test() {
   let state =

@@ -1,4 +1,5 @@
 import domain/email
+import domain/input_value.{type InputValue}
 import domain/project
 import domain/user
 import gleam/list
@@ -40,13 +41,13 @@ pub type Dialog {
 }
 
 pub type UserDialogState {
-  UserDialogState(email: VValue(email.Email), is_valid: Bool)
+  UserDialogState(email: InputValue(email.Email), is_valid: Bool)
 }
 
 pub type ProjectDialogState {
   ProjectDialogState(
-    name: VValue(String),
-    description: VValue(String),
+    name: InputValue(String),
+    description: InputValue(String),
     is_valid: Bool,
   )
 }
@@ -57,15 +58,10 @@ pub type ApplicationError {
   ApplicationError(id: String, message: String)
 }
 
+/// A value emitted from a forms input control. E.g. when the user enters text in a <input> element.
 pub type FormValue {
+  /// The name of the input element and its current value (always string, regardless of input type attribute).
   FormValue(name: String, value: String)
-}
-
-/// Represents a model value that is inputted by the user.
-pub type VValue(a) {
-  UnvalidatedValue(value: a)
-  ValidValue(value: a)
-  InvalidValue(value: a, errors: List(String))
 }
 
 /// Creates a new model with the initial fields all set.
@@ -182,7 +178,7 @@ pub fn update_dialog_value(m: Model, value: FormValue) -> Model {
               validate_user_dialog_state(
                 UserDialogState(
                   ..state,
-                  email: ValidValue(email.Email(value.value)),
+                  email: input_value.ValidValue(email.Email(value.value)),
                 ),
               )
             _ -> state
@@ -193,9 +189,16 @@ pub fn update_dialog_value(m: Model, value: FormValue) -> Model {
 
         AddProjectDialog(state) -> {
           let updated_state = case value.name {
-            "name" -> ProjectDialogState(..state, name: ValidValue(value.value))
+            "name" ->
+              ProjectDialogState(
+                ..state,
+                name: input_value.ValidValue(value.value),
+              )
             "description" ->
-              ProjectDialogState(..state, description: ValidValue(value.value))
+              ProjectDialogState(
+                ..state,
+                description: input_value.ValidValue(value.value),
+              )
             _ -> state
           }
           [AddProjectDialog(state: updated_state)]
@@ -219,15 +222,15 @@ pub fn validate_user_dialog_state(state: UserDialogState) -> UserDialogState {
 
   // Get validation errors for email
   let email = case email.validate_email(state.email.value) {
-    Ok(Nil) -> ValidValue(state.email.value)
-    Error(messages) -> InvalidValue(state.email.value, messages)
+    Ok(Nil) -> input_value.ValidValue(state.email.value)
+    Error(messages) -> input_value.InvalidValue(state.email.value, messages)
   }
 
   // Set the state is_valid based on if there are _any_ validation messages.
   let has_error =
     list.any([email], fn(v) {
       case v {
-        ValidValue(_) -> False
+        input_value.ValidValue(_) -> False
         _ -> True
       }
     })
@@ -236,11 +239,15 @@ pub fn validate_user_dialog_state(state: UserDialogState) -> UserDialogState {
 }
 
 pub fn new_user_dialog() {
-  AddUserDialog(UserDialogState(ValidValue(email.Email("")), False))
+  AddUserDialog(UserDialogState(input_value.ValidValue(email.Email("")), False))
 }
 
 pub fn new_project_dialog() {
-  AddProjectDialog(ProjectDialogState(ValidValue(""), ValidValue(""), False))
+  AddProjectDialog(ProjectDialogState(
+    input_value.ValidValue(""),
+    input_value.ValidValue(""),
+    False,
+  ))
 }
 
 /// Replace the current activity with the given one. Used after successful activity modifications.
