@@ -190,6 +190,16 @@ pub fn update_dialog_value(m: Model, value: FormValue) -> Model {
 
           [AddUserDialog(state: updated_state)]
         }
+
+        AddProjectDialog(state) -> {
+          let updated_state = case value.name {
+            "name" -> ProjectDialogState(..state, name: ValidValue(value.value))
+            "description" ->
+              ProjectDialogState(..state, description: ValidValue(value.value))
+            _ -> state
+          }
+          [AddProjectDialog(state: updated_state)]
+        }
         _ -> [d]
       }
     }

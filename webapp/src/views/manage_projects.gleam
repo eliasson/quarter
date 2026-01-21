@@ -164,10 +164,23 @@ fn manage_activity_action(
 }
 
 pub fn add_project_form(state: model.ProjectDialogState) -> form.Form {
-  form.Form("AddProjectDialog", [], [
-    form.Cancel,
-    form.Confirm(!state.is_valid, message.ConfirmDialog),
-  ])
+  form.Form(
+    "AddProjectDialog",
+    [
+      form.TextInput("name", "Project name", state.name.value, True, True),
+      form.TextAreaInput(
+        "description",
+        "Description",
+        state.description.value,
+        True,
+        False,
+      ),
+    ],
+    [
+      form.Cancel,
+      form.Confirm(!state.is_valid, message.ConfirmDialog),
+    ],
+  )
 }
 
 /// The archive project confirmation dialog is stateless and only includes a query text message.
