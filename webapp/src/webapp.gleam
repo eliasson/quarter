@@ -1,4 +1,3 @@
-import dialogs/user_dialog
 import gleam/io
 import gleam/uri.{type Uri}
 import lustre
@@ -7,10 +6,10 @@ import message.{
   type Msg, AddUserResult, ArchiveActivity, ArchiveActivityResult,
   ArchiveProject, ArchiveProjectResult, CloseModal, ConfirmArchiveActivity,
   ConfirmArchiveProject, ConfirmDeleteActivity, ConfirmDeleteProject,
-  ConfirmDialog, CurrentUserResult, DeleteActivity, DeleteActivityResult,
-  DeleteProject, DeleteProjectResult, DismissError, FormTextFieldUpdated, Noop,
-  OnRouteChange, OpenDialog, OpenDropDownMenu, ProjectsResult, SystemUsersResult,
-  ToggleProject,
+  ConfirmDialog, CreateProjectResult, CurrentUserResult, DeleteActivity,
+  DeleteActivityResult, DeleteProject, DeleteProjectResult, DismissError,
+  FormTextFieldUpdated, Noop, OnRouteChange, OpenDialog, OpenDropDownMenu,
+  ProjectsResult, SystemUsersResult, ToggleProject,
 }
 import model.{
   type Model, close_all_modals, close_modal, delete_activity, delete_project,
@@ -257,6 +256,16 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
 
       #(model, effect.none())
     }
+
+    CreateProjectResult(Ok(_)) -> {
+      io.println("CreateProjectResult OK")
+      #(model, protocol.get_projects_and_activities(message.ProjectsResult))
+    }
+
+    CreateProjectResult(Error(_)) -> {
+      io.println("CreateProjectResult Error")
+      #(model, effect.none())
+    }
   }
 }
 
@@ -278,6 +287,13 @@ fn handle_dialog_confirm(m: model.Model) {
     Ok(model.AddUserDialog(state)) -> {
       protocol.add_user(state.email.value, message.AddUserResult)
     }
+    Ok(model.AddProjectDialog(state)) ->
+      protocol.create_project(
+        state.name.value,
+        state.description.value,
+        message.CreateProjectResult,
+      )
+
     _ -> effect.none()
   }
 

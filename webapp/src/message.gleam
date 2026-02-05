@@ -68,4 +68,5 @@ pub type Msg {
   DeleteActivityResult(Result(project.Activity, rsvp.Error))
   DeleteProjectResult(Result(project.Project, rsvp.Error))
   ArchiveProjectResult(Result(project.Project, rsvp.Error))
+  CreateProjectResult(Result(project.Project, rsvp.Error))
 }

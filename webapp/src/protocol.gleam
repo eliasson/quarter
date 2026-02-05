@@ -51,6 +51,23 @@ pub fn add_user(
   rsvp.post(url, payload, handler)
 }
 
+pub fn create_project(
+  name: String,
+  description: String,
+  on_response handle_response: fn(Result(project.Project, rsvp.Error)) ->
+    message.Msg,
+) -> Effect(message.Msg) {
+  let url = "/api/projects"
+  let handler = rsvp.expect_json(project_decoder(), handle_response)
+  let payload =
+    json.object([
+      #("name", json.string(name)),
+      #("description", json.string(description)),
+    ])
+
+  rsvp.post(url, payload, handler)
+}
+
 /// Get all users projects and activities in a single request.
 pub fn get_projects_and_activities(
   on_response handle_response: fn(Result(List(project.Project), rsvp.Error)) ->
