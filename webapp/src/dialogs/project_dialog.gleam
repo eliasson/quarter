@@ -25,10 +25,15 @@ pub fn update(state: State, value: FormValue) -> State {
 }
 
 pub fn validate(state: State) -> State {
-  let is_valid = case state.name {
+  let name_valid = case state.name {
     input_value.ValidValue(name) -> !string.is_empty(name)
     _ -> False
   }
 
-  State(..state, is_valid:)
+  let description_valid = case state.description {
+    input_value.ValidValue(description) -> !string.is_empty(description)
+    _ -> False
+  }
+
+  State(..state, is_valid: name_valid && description_valid)
 }
