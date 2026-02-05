@@ -1,3 +1,4 @@
+import dialogs/project_dialog
 import domain/color
 import domain/project
 import form
@@ -163,7 +164,7 @@ fn manage_activity_action(
   )
 }
 
-pub fn add_project_form(state: model.ProjectDialogState) -> form.Form {
+pub fn add_project_form(state: project_dialog.State) -> form.Form {
   form.Form(
     "AddProjectDialog",
     [

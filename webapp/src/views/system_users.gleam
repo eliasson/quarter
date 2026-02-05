@@ -1,3 +1,4 @@
+import dialogs/user_dialog
 import form
 import gleam/list
 import gleam/option.{None, Some}
@@ -70,7 +71,7 @@ fn manage_action(m: model.Model) {
 }
 
 /// Generate a form to render based on the dialog state.
-pub fn add_user_form(state: model.UserDialogState) -> form.Form {
+pub fn add_user_form(state: user_dialog.State) -> form.Form {
   form.Form(
     "AddUserDialog",
     [form.EmailInput("email", "Email", state.email.value.value, True, True)],

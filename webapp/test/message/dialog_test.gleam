@@ -1,3 +1,4 @@
+import dialogs/user_dialog
 import domain/email
 import domain/input_value
 import gleeunit/should
@@ -7,14 +8,14 @@ import test_util.{first}
 import webapp
 
 const dialog_one = model.AddUserDialog(
-  model.UserDialogState(
+  user_dialog.State(
     input_value.ValidValue(email.Email("one@example.com")),
     False,
   ),
 )
 
 const dialog_two = model.AddUserDialog(
-  model.UserDialogState(
+  user_dialog.State(
     input_value.ValidValue(email.Email("two@example.com")),
     False,
   ),

@@ -5,7 +5,7 @@ import lustre/element
 import lustre/element/html
 import lustre/event
 import message
-import model
+import types
 import ui/core as ui
 
 pub fn checkbox() -> element.Element(msg) {
@@ -156,7 +156,7 @@ fn input_field(
         att.value(inital_value),
         att.autofocus(autofocus),
         event.on_input(fn(updated_value) {
-          message.FormTextFieldUpdated(model.FormValue(name, updated_value))
+          message.FormTextFieldUpdated(types.FormValue(name, updated_value))
         }),
       ],
       validations,
@@ -186,7 +186,7 @@ fn text_area(
           att.autofocus(autofocus),
           att.rows(6),
           event.on_input(fn(updated_value) {
-            message.FormTextFieldUpdated(model.FormValue(name, updated_value))
+            message.FormTextFieldUpdated(types.FormValue(name, updated_value))
           }),
         ],
         validations,
