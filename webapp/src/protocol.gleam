@@ -68,6 +68,23 @@ pub fn create_project(
   rsvp.post(url, payload, handler)
 }
 
+pub fn update_project(
+  project: project.Project,
+  name: String,
+  description: String,
+  on_response handle_response: fn(Result(project.Project, rsvp.Error)) ->
+    message.Msg,
+) -> Effect(message.Msg) {
+  let handler = rsvp.expect_json(project_decoder(), handle_response)
+  let payload =
+    json.object([
+      #("name", json.string(name)),
+      #("description", json.string(description)),
+    ])
+
+  rsvp.patch(project_url(project), payload, handler)
+}
+
 /// Get all users projects and activities in a single request.
 pub fn get_projects_and_activities(
   on_response handle_response: fn(Result(List(project.Project), rsvp.Error)) ->

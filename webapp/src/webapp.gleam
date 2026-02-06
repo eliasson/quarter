@@ -9,7 +9,7 @@ import message.{
   ConfirmDialog, CreateProjectResult, CurrentUserResult, DeleteActivity,
   DeleteActivityResult, DeleteProject, DeleteProjectResult, DismissError,
   FormTextFieldUpdated, Noop, OnRouteChange, OpenDialog, OpenDropDownMenu,
-  ProjectsResult, SystemUsersResult, ToggleProject,
+  ProjectsResult, SystemUsersResult, ToggleProject, UpdateProjectResult,
 }
 import model.{
   type Model, close_all_modals, close_modal, delete_activity, delete_project,
@@ -264,6 +264,20 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
 
     CreateProjectResult(Error(_)) -> {
       io.println("CreateProjectResult Error")
+      #(model, effect.none())
+    }
+
+    UpdateProjectResult(Ok(p)) -> {
+      io.println("UpdateProjectResult OK")
+
+      model
+      |> close_all_modals()
+      |> update_project(p)
+      |> no_effect()
+    }
+
+    UpdateProjectResult(Error(_)) -> {
+      io.println("UpdateProjectResult Error")
       #(model, effect.none())
     }
   }

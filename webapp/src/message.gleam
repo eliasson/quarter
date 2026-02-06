@@ -69,4 +69,5 @@ pub type Msg {
   DeleteProjectResult(Result(project.Project, rsvp.Error))
   ArchiveProjectResult(Result(project.Project, rsvp.Error))
   CreateProjectResult(Result(project.Project, rsvp.Error))
+  UpdateProjectResult(Result(project.Project, rsvp.Error))
 }
