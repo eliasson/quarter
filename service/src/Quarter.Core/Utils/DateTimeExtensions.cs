@@ -40,4 +40,7 @@ public static class DateTimeExtensions
         return new DateTime(self.Year, self.Month, self.Day, self.Hour, self.Minute, self.Second, 0,
             self.Kind);
     }
+
+    public static DateTime LastDayOfMonth(this DateTime self)
+        => self.AddMonths(1).AddDays(-1);
 }

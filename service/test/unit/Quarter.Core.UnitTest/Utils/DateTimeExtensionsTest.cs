@@ -42,4 +42,15 @@ public class DateTimeExtensionsTest
         var d = DateTime.Parse($"{date}T00:00:00Z");
         Assert.That(d.MonthAndYear(), Is.EqualTo(expected));
     }
+
+    [TestCase(2020, 12, 31)]
+    [TestCase(2026, 2, 28)]
+    [TestCase(2028, 2, 29)]
+    public void ItShouldLastDayOfMonth(int year, int month, int expectedDay)
+    {
+        var d = new DateTime(year, month, 1);
+        var expected = new DateTime(year, month, expectedDay);
+
+        Assert.That(d.LastDayOfMonth(), Is.EqualTo(expected));
+    }
 }
