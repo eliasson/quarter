@@ -108,6 +108,25 @@ pub fn get_dialog_value(
             _ -> option.None
           }
         }
+
+        model.AddActivityDialog(state, _) -> {
+          case field_id {
+            "name" -> option.Some(state.name.value)
+            "description" -> option.Some(state.description.value)
+            "color" -> option.Some(color.to_hex(state.color.value))
+            _ -> option.None
+          }
+        }
+
+        model.EditActivityDialog(state, _) -> {
+          case field_id {
+            "name" -> option.Some(state.name.value)
+            "description" -> option.Some(state.description.value)
+            "color" -> option.Some(color.to_hex(state.color.value))
+            _ -> option.None
+          }
+        }
+
         _ -> {
           option.None
         }

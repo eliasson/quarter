@@ -6,11 +6,11 @@ import message.{
   type Msg, AddUserResult, ArchiveActivity, ArchiveActivityResult,
   ArchiveProject, ArchiveProjectResult, CloseModal, ConfirmArchiveActivity,
   ConfirmArchiveProject, ConfirmDeleteActivity, ConfirmDeleteProject,
-  ConfirmDialog, CreateProjectResult, CurrentUserResult, DeleteActivity,
-  DeleteActivityResult, DeleteProject, DeleteProjectResult, DismissError,
-  FormTextFieldUpdated, Noop, OnRouteChange, OpenDialog, OpenDropDownMenu,
-  ProjectsResult, SystemUsersResult, ToggleProject, UpdateActivityResult,
-  UpdateProjectResult,
+  ConfirmDialog, CreateActivityResult, CreateProjectResult, CurrentUserResult,
+  DeleteActivity, DeleteActivityResult, DeleteProject, DeleteProjectResult,
+  DismissError, FormTextFieldUpdated, Noop, OnRouteChange, OpenDialog,
+  OpenDropDownMenu, ProjectsResult, SystemUsersResult, ToggleProject,
+  UpdateActivityResult, UpdateProjectResult,
 }
 import model.{
   type Model, close_all_modals, close_modal, delete_activity, delete_project,
@@ -239,6 +239,16 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       #(model, effect.none())
     }
 
+    CreateActivityResult(Ok(_)) -> #(
+      model,
+      protocol.get_projects_and_activities(message.ProjectsResult),
+    )
+
+    CreateActivityResult(Error(_)) -> {
+      io.println("CreateActivityResult Error")
+      #(model, effect.none())
+    }
+
     UpdateActivityResult(Ok(a)) ->
       model
       |> close_all_modals()
@@ -283,6 +293,15 @@ fn handle_dialog_confirm(m: model.Model) {
         state.name.value,
         state.description.value,
         message.UpdateProjectResult,
+      )
+
+    Ok(model.AddActivityDialog(state, project)) ->
+      protocol.create_activity(
+        project,
+        state.name.value,
+        state.description.value,
+        state.color.value,
+        message.CreateActivityResult,
       )
 
     Ok(model.EditActivityDialog(state, activity)) ->

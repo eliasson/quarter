@@ -37,6 +37,7 @@ pub type Dialog {
   AddUserDialog(state: user_dialog.State)
   AddProjectDialog(state: project_dialog.State)
   EditProjectDialog(state: project_dialog.State, project: project.Project)
+  AddActivityDialog(state: activity_dialog.State, project: project.Project)
   EditActivityDialog(state: activity_dialog.State, activity: project.Activity)
   ArchiveActivityDialog(activity: project.Activity)
   DeleteActivityDialog(activity: project.Activity)
@@ -151,6 +152,10 @@ pub fn update_dialog_value(m: Model, value: FormValue) -> Model {
           EditProjectDialog(project_dialog.update(state, value), project),
         ]
 
+        AddActivityDialog(state, project) -> [
+          AddActivityDialog(activity_dialog.update(state, value), project),
+        ]
+
         EditActivityDialog(state, activity) -> [
           EditActivityDialog(activity_dialog.update(state, value), activity),
         ]
@@ -178,6 +183,10 @@ pub fn new_project_dialog() {
 
 pub fn edit_project_dialog(project: project.Project) {
   EditProjectDialog(project_dialog.edit(project), project)
+}
+
+pub fn new_activity_dialog(project: project.Project) {
+  AddActivityDialog(activity_dialog.new(), project)
 }
 
 pub fn edit_activity_dialog(activity: project.Activity) {

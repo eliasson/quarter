@@ -81,22 +81,35 @@ fn project_list(m: model.Model) {
       ]),
       div(
         [att.class("activities")],
-        list.map(project.activities, fn(activity) {
-          let activity_archived_chip = case activity.is_archived {
-            True -> ui.chip("Archived")
-            False -> element.none()
-          }
+        list.append(
+          list.map(project.activities, fn(activity) {
+            let activity_archived_chip = case activity.is_archived {
+              True -> ui.chip("Archived")
+              False -> element.none()
+            }
 
-          div([att.class("activity-row")], [
-            color_badge(activity),
-            div([att.class("name")], [html.text(activity.name)]),
-            div([att.class("state")], [activity_archived_chip]),
+            div([att.class("activity-row")], [
+              color_badge(activity),
+              div([att.class("name")], [html.text(activity.name)]),
+              div([att.class("state")], [activity_archived_chip]),
 
-            div([att.class("action")], [
-              manage_activity_action(activity, m),
+              div([att.class("action")], [
+                manage_activity_action(activity, m),
+              ]),
+            ])
+          }),
+          [
+            div([att.class("activity-row add-activity")], [
+              input.icon_button(
+                "button",
+                graphics.icon_plus,
+                "Add activity",
+                False,
+                message.OpenDialog(model.new_activity_dialog(project)),
+              ),
             ]),
-          ])
-        }),
+          ],
+        ),
       ),
     ])
   })
@@ -184,6 +197,13 @@ pub fn edit_project_form(
   project: project.Project,
 ) -> form.Form {
   project_form(state, option.Some(project))
+}
+
+pub fn add_activity_form(
+  state: activity_dialog.State,
+  _project: project.Project,
+) -> form.Form {
+  activity_form(state, option.None)
 }
 
 pub fn edit_activity_form(
