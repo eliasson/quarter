@@ -137,7 +137,7 @@ public class ApiService(IRepositoryFactory repositoryFactory) : IApiService
     {
         var timesheets = await repositoryFactory
             .TimesheetRepository(oc.UserId)
-            .GetTimesheetsForMonthAsync(firstDayOfMonth.DateTime.Year, firstDayOfMonth.DateTime.Month, ct);
+            .GetTimesheetsForMonthAsync(firstDayOfMonth.Year(), firstDayOfMonth.Month(), ct);
 
         return TimesheetsResourceOutput.From(timesheets);
     }
