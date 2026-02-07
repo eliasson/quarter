@@ -1,5 +1,7 @@
+import dialogs/activity_dialog
 import dialogs/project_dialog
 import domain/color
+import domain/input_value
 import domain/project
 import form
 import gleam/list
@@ -153,7 +155,11 @@ fn manage_activity_action(
     menu_id,
     input.ghost_button(graphics.icon_context_menu, message.CloseModal),
     [
-      dropdown.DropDownMsg(graphics.icon_edit, "Edit activity", message.Noop),
+      dropdown.DropDownMsg(
+        graphics.icon_edit,
+        "Edit activity",
+        message.OpenDialog(model.edit_activity_dialog(activity)),
+      ),
       dropdown.DropDownMsg(
         graphics.icon_archive,
         archive_activity_menu_label(activity),
@@ -178,6 +184,48 @@ pub fn edit_project_form(
   project: project.Project,
 ) -> form.Form {
   project_form(state, option.Some(project))
+}
+
+pub fn edit_activity_form(
+  state: activity_dialog.State,
+  activity: project.Activity,
+) -> form.Form {
+  activity_form(state, option.Some(activity))
+}
+
+fn activity_form(
+  state: activity_dialog.State,
+  activity: option.Option(project.Activity),
+) -> form.Form {
+  let id = case activity {
+    option.Some(_) -> "EditActivityDialog"
+    option.None -> "AddActivityDialog"
+  }
+
+  let color_value = case state.color {
+    input_value.ValidValue(c) -> color.to_hex(c)
+    input_value.InvalidValue(c, _) -> color.to_hex(c)
+    input_value.UnvalidatedValue(c) -> color.to_hex(c)
+  }
+
+  form.Form(
+    id,
+    [
+      form.TextInput("name", "Activity name", state.name.value, True, True),
+      form.TextAreaInput(
+        "description",
+        "Description",
+        state.description.value,
+        True,
+        False,
+      ),
+      form.ColorInput("color", "Color", color_value, True, False),
+    ],
+    [
+      form.Cancel,
+      form.Confirm(!state.is_valid, message.ConfirmDialog),
+    ],
+  )
 }
 
 fn project_form(

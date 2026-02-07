@@ -9,7 +9,8 @@ import message.{
   ConfirmDialog, CreateProjectResult, CurrentUserResult, DeleteActivity,
   DeleteActivityResult, DeleteProject, DeleteProjectResult, DismissError,
   FormTextFieldUpdated, Noop, OnRouteChange, OpenDialog, OpenDropDownMenu,
-  ProjectsResult, SystemUsersResult, ToggleProject, UpdateProjectResult,
+  ProjectsResult, SystemUsersResult, ToggleProject, UpdateActivityResult,
+  UpdateProjectResult,
 }
 import model.{
   type Model, close_all_modals, close_modal, delete_activity, delete_project,
@@ -237,6 +238,17 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       io.println("UpdateProjectResult Error")
       #(model, effect.none())
     }
+
+    UpdateActivityResult(Ok(a)) ->
+      model
+      |> close_all_modals()
+      |> update_activity(a)
+      |> no_effect()
+
+    UpdateActivityResult(Error(_)) -> {
+      io.println("UpdateActivityResult Error")
+      #(model, effect.none())
+    }
   }
 }
 
@@ -271,6 +283,15 @@ fn handle_dialog_confirm(m: model.Model) {
         state.name.value,
         state.description.value,
         message.UpdateProjectResult,
+      )
+
+    Ok(model.EditActivityDialog(state, activity)) ->
+      protocol.update_activity(
+        activity,
+        state.name.value,
+        state.description.value,
+        state.color.value,
+        message.UpdateActivityResult,
       )
 
     _ -> effect.none()
