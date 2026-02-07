@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using NUnit.Framework;
 using Quarter.Core.Utils;
 
@@ -52,5 +53,40 @@ public class DateTimeExtensionsTest
         var expected = new DateTime(year, month, expectedDay);
 
         Assert.That(d.LastDayOfMonth(), Is.EqualTo(expected));
+    }
+
+    [Test]
+    public void ItShouldGetTheRangeOfDateInBetween()
+    {
+        var first = new DateTime(2026, 2, 1);
+        var last = new DateTime(2026, 2, 4);
+
+        var range = first.RangeTo(last).Select(dt => dt.IsoString());
+        Assert.That(range, Is.EqualTo(new []
+        {
+            "2026-02-01",
+            "2026-02-02",
+            "2026-02-03",
+            "2026-02-04",
+        }));
+    }
+
+    [Test]
+    public void ItShouldGetSingleRangeOfDateForSameDate()
+    {
+        var d = DateTime.UtcNow;
+
+        var range = d.RangeTo(d).Select(dt => dt.IsoString());
+        Assert.That(range, Is.EqualTo(new [] { d.IsoString() }));
+    }
+
+    [Test]
+    public void ItShouldThrowGettingRangeOfDateForOlderDate()
+    {
+        var today = DateTime.UtcNow;
+        var yesterday = today.AddDays(-1);
+
+        Assert.Throws<ArgumentException>(() => _ = today.RangeTo(yesterday).ToList());
+
     }
 }

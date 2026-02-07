@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 
 namespace Quarter.Core.Utils;
@@ -43,4 +44,28 @@ public static class DateTimeExtensions
 
     public static DateTime LastDayOfMonth(this DateTime self)
         => self.AddMonths(1).AddDays(-1);
+
+    /// <summary>
+    /// The date as ISO-8601 string YYYY-MM-DD
+    /// </summary>
+    public static string IsoString(this DateTime self)
+        => self.ToString("yyyy-MM-dd");
+
+    /// <summary>
+    /// Get the range of dates between the given start and end date (inclusive).
+    /// </summary>
+    /// <param name="self">The current date is the start date.</param>
+    /// <param name="end">The date to end the range with.</param>
+    /// <exception cref="ArgumentException">If the end date is earlier than the start, or if the dates are using different timezones.</exception>
+    public static IEnumerable<DateTime> RangeTo(this DateTime self, DateTime end)
+    {
+        if (self.Kind != end.Kind)
+            throw new ArgumentException("self and end must have the same DateTimeKind");
+
+        if (end < self)
+            throw new ArgumentException("end must be greater than self");
+
+        for (var d = self; d <= end; d = d.AddDays(1))
+            yield return d;
+    }
 }
