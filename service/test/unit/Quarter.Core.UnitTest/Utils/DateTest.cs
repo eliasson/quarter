@@ -163,6 +163,24 @@ public class DateTest
         Assert.That(date.IsoString(), Is.EqualTo(input));
     }
 
+    [Test]
+    public void ItShouldGetYear()
+    {
+        var dt = DateTime.UtcNow;
+        var date = new Date(dt);
+
+        Assert.That(date.Year(), Is.EqualTo(dt.Year));
+    }
+
+    [Test]
+    public void ItShouldGetMonth()
+    {
+        var dt = DateTime.UtcNow;
+        var date = new Date(dt);
+
+        Assert.That(date.Month(), Is.EqualTo(dt.Month));
+    }
+
     private static Date FromDateString(string dateString)
         => new Date(DateTime.Parse(dateString));
 }

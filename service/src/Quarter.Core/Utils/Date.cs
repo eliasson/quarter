@@ -137,6 +137,10 @@ public struct Date
     public string NameOfDayShort()
         => DateTime.ToString("ddd", CultureInfo.InvariantCulture);
 
+    public int Year() => DateTime.Year;
+
+    public int Month() => DateTime.Month;
+
     public override string ToString()
         => IsoString();
 }
