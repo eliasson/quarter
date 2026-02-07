@@ -1,6 +1,5 @@
 import dialogs/project_dialog
 import dialogs/user_dialog
-import domain/email
 import domain/project
 import domain/user
 import gleam/list
