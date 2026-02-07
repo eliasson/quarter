@@ -1,10 +1,13 @@
 import domain/color
+import domain/duration
 import domain/email
 import domain/project
+import domain/timesheet
 import domain/user
 import gleam/dict
 import gleam/dynamic/decode
 import gleam/http/response.{type Response}
+import gleam/int
 import gleam/json
 import gleam/list
 import gleam/option.{type Option, None, Some}
@@ -197,6 +200,21 @@ pub fn delete_project(
   )
 }
 
+/// Get all timesheets for a given year and month.
+pub fn get_timesheets(
+  year: Int,
+  month: Int,
+  on_response handle_response: fn(Result(List(timesheet.Timesheet), rsvp.Error)) ->
+    message.Msg,
+) -> Effect(message.Msg) {
+  let url =
+    "/api/timesheets/" <> int.to_string(year) <> "/" <> int.to_string(month)
+
+  let handler = rsvp.expect_json(timesheets_response_decoder(), handle_response)
+
+  rsvp.get(url, handler)
+}
+
 // Decoders ------------------------------------------------------------------
 
 pub fn user_resource_decoder() -> decode.Decoder(user.User) {
@@ -318,6 +336,26 @@ fn decode_color() -> decode.Decoder(color.Color) {
     Ok(c) -> decode.success(c)
     _ -> decode.failure(color.Color(0, 0, 0), "Could not parse color")
   }
+}
+
+pub fn timesheets_response_decoder() -> decode.Decoder(
+  List(timesheet.Timesheet),
+) {
+  use timesheets <- decode.field("timesheets", decode.list(timesheet_decoder()))
+  decode.success(timesheets)
+}
+
+pub fn timesheet_decoder() -> decode.Decoder(timesheet.Timesheet) {
+  use date <- decode.field("date", decode_timestamp())
+  use total_minutes <- decode.field("totalMinutes", decode.int)
+
+  decode.success(
+    timesheet.Timesheet(
+      date:,
+      duration: duration.Minutes(total_minutes),
+      slots: [],
+    ),
+  )
 }
 
 /// Construct the absolut path of the URL used to perform activity related operations.

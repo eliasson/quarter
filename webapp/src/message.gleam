@@ -1,4 +1,5 @@
 import domain/project
+import domain/timesheet
 import domain/user
 import model
 import route.{type Route}
@@ -72,4 +73,5 @@ pub type Msg {
   UpdateProjectResult(Result(project.Project, rsvp.Error))
   CreateActivityResult(Result(project.Activity, rsvp.Error))
   UpdateActivityResult(Result(project.Activity, rsvp.Error))
+  TimesheetsResult(Result(List(timesheet.Timesheet), rsvp.Error))
 }
