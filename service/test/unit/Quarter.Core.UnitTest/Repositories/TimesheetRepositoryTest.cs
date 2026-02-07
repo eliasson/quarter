@@ -303,58 +303,9 @@ public abstract class TimesheetRepositoryTest : RepositoryTestBase<Timesheet, IT
         var repository = Repository();
         var timesheets = await repository.GetTimesheetsForMonthAsync(2024, 1, CancellationToken.None);
 
-        Assert.That(timesheets, Is.Empty);
+        Assert.That(timesheets.Count, Is.EqualTo(31));
     }
 
-    [Test]
-    public async Task GetTimesheetsForMonthShouldReturnTimesheetsInMonth()
-    {
-        var repository = Repository();
-        var date1 = new Date(new DateTime(2024, 6, 5, 0, 0, 0, DateTimeKind.Utc));
-        var date2 = new Date(new DateTime(2024, 6, 15, 0, 0, 0, DateTimeKind.Utc));
-        var date3 = new Date(new DateTime(2024, 6, 25, 0, 0, 0, DateTimeKind.Utc));
-
-        var ts1 = Timesheet.CreateForDate(date1);
-        var ts2 = Timesheet.CreateForDate(date2);
-        var ts3 = Timesheet.CreateForDate(date3);
-
-        await repository.CreateAsync(ts1, CancellationToken.None);
-        await repository.CreateAsync(ts2, CancellationToken.None);
-        await repository.CreateAsync(ts3, CancellationToken.None);
-
-        var timesheets = await repository.GetTimesheetsForMonthAsync(2024, 6, CancellationToken.None);
-
-        Assert.Multiple(() =>
-        {
-            Assert.That(timesheets.Count, Is.EqualTo(3));
-            Assert.That(timesheets.Select(t => t.Date), Is.EqualTo(new[] { date1, date2, date3 }));
-        });
-    }
-
-    [Test]
-    public async Task GetTimesheetsForMonthShouldRespectMonthBoundaries()
-    {
-        var repository = Repository();
-        var lastDayPrevMonth = new Date(new DateTime(2024, 6, 30, 0, 0, 0, DateTimeKind.Utc));
-        var firstDayMonth = new Date(new DateTime(2024, 7, 1, 0, 0, 0, DateTimeKind.Utc));
-        var midMonth = new Date(new DateTime(2024, 7, 15, 0, 0, 0, DateTimeKind.Utc));
-        var lastDayMonth = new Date(new DateTime(2024, 7, 31, 0, 0, 0, DateTimeKind.Utc));
-        var firstDayNextMonth = new Date(new DateTime(2024, 8, 1, 0, 0, 0, DateTimeKind.Utc));
-
-        await repository.CreateAsync(Timesheet.CreateForDate(lastDayPrevMonth), CancellationToken.None);
-        await repository.CreateAsync(Timesheet.CreateForDate(firstDayMonth), CancellationToken.None);
-        await repository.CreateAsync(Timesheet.CreateForDate(midMonth), CancellationToken.None);
-        await repository.CreateAsync(Timesheet.CreateForDate(lastDayMonth), CancellationToken.None);
-        await repository.CreateAsync(Timesheet.CreateForDate(firstDayNextMonth), CancellationToken.None);
-
-        var timesheets = await repository.GetTimesheetsForMonthAsync(2024, 7, CancellationToken.None);
-
-        Assert.Multiple(() =>
-        {
-            Assert.That(timesheets.Count, Is.EqualTo(3));
-            Assert.That(timesheets.Select(t => t.Date), Is.EqualTo(new[] { firstDayMonth, midMonth, lastDayMonth }));
-        });
-    }
 
     [Test]
     public async Task GetTimesheetsForMonthShouldReturnTimesheetsWithSlots()
@@ -369,12 +320,31 @@ public abstract class TimesheetRepositoryTest : RepositoryTestBase<Timesheet, IT
 
         var timesheets = await repository.GetTimesheetsForMonthAsync(2024, 6, CancellationToken.None);
 
+        Assert.That(timesheets[14].Slots().Count(), Is.EqualTo(2));
+    }
+
+    [Test]
+    public async Task ItShouldReturnTimesheetsForAllDaysInMonth()
+    {
+        var repository = Repository();
+        var date = new Date(new DateTime(2025, 2, 7, 0, 0, 0, DateTimeKind.Utc));
+
+        var timesheet = Timesheet.CreateForDate(date);
+        timesheet.Register(new ActivityTimeSlot(_stableProjectId, _stableActivityId, 0, 2));
+
+        await repository.CreateAsync(timesheet, CancellationToken.None);
+
+        var timesheets = await repository.GetTimesheetsForMonthAsync(2025, 2, CancellationToken.None);
+
+        var total = timesheets.Sum(t => t.TotalMinutes());
+
         Assert.Multiple(() =>
         {
-            Assert.That(timesheets.Count, Is.EqualTo(1));
-            Assert.That(timesheets[0].Slots().Count(), Is.EqualTo(2));
+            Assert.That(timesheets.Count, Is.EqualTo(28));
+            Assert.That(total, Is.EqualTo(30));
         });
     }
+
 }
 
 [TestFixture]

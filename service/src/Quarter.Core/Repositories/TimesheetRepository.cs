@@ -177,10 +177,19 @@ public class InMemoryTimesheetRepository : InMemoryRepositoryBase<Timesheet>, IT
         var startDate = new DateTime(year, month, 1, 0, 0, 0, DateTimeKind.Utc);
         var endDate = startDate.AddMonths(1).AddDays(-1);
 
-        var timesheets = Storage
+        var timesheetLookup = Storage
             .Values.Where(t => t.Date.DateTime >= startDate && t.Date.DateTime <= endDate)
             .OrderBy(t => t.Date.DateTime)
-            .ToList();
+            .ToDictionary(k => k.Date.IsoString(), v => v);
+
+        var timesheets = new List<Timesheet>();
+
+        foreach (var date in startDate.RangeTo(endDate))
+        {
+            timesheets.Add(timesheetLookup.TryGetValue(date.IsoString(), out var timesheet)
+                ? timesheet
+                : Timesheet.CreateForDate(new Date(date)));
+        }
 
         return Task.FromResult<IReadOnlyList<Timesheet>>(timesheets);
     }
@@ -363,6 +372,7 @@ public class PostgresTimesheetRepository(IPostgresConnectionProvider connectionP
     public async Task<IReadOnlyList<Timesheet>> GetTimesheetsForMonthAsync(int year, int month, CancellationToken ct)
     {
         var startDate = new DateTime(year, month, 1, 0, 0, 0, DateTimeKind.Utc);
+        var endDate = startDate.LastDayOfMonth();
 
         await using var connection = await _connectionProvider.GetConnectionAsync(ct);
         var query =
@@ -372,13 +382,25 @@ public class PostgresTimesheetRepository(IPostgresConnectionProvider connectionP
         {
             WithAccessCondition(),
             new("startDate", startDate),
-            new("endDate", startDate.LastDayOfMonth()),
+            new("endDate", endDate),
         };
 
-        var timesheets = await ExecuteQueryAsync(connection, query, ct, parameters).ToListAsync(ct);
+        var timesheetLookup = await ExecuteQueryAsync(connection, query, ct, parameters).ToDictionaryAsync(k => k.Date.IsoString(), v => v, ct);
+        var timesheets = new List<Timesheet>();
 
-        foreach (var timesheet in timesheets)
-            timesheet.SetSlots(await ReadTimeSlots(connection, timesheet.Id, ct));
+        foreach (var date in startDate.RangeTo(endDate))
+        {
+            if (timesheetLookup.TryGetValue(date.IsoString(), out var timesheet))
+            {
+                // This is not good. We should read all slots in a single query.
+                timesheet.SetSlots(await ReadTimeSlots(connection, timesheet.Id, ct));
+                timesheets.Add(timesheet);
+            }
+            else
+            {
+                timesheets.Add(Timesheet.CreateForDate(new Date(date)));
+            }
+        }
 
         return timesheets;
     }
