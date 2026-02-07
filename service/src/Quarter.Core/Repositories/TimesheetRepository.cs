@@ -49,6 +49,7 @@ public interface ITimesheetRepository : IRepository<Timesheet>
     Task<RemoveResult> RemoveSlotsForActivityAsync(IdOf<Activity> activityId, CancellationToken ct);
     Task<ProjectTotalUsage> GetProjectTotalUsageAsync(IdOf<Project> projectId, CancellationToken ct);
     Task<UsageOverTime> GetUsageForPeriodAsync(Date fromDate, Date toDate, CancellationToken ct);
+    Task<IReadOnlyList<Timesheet>> GetTimesheetsForMonthAsync(int year, int month, CancellationToken ct);
 }
 
 public class InMemoryTimesheetRepository : InMemoryRepositoryBase<Timesheet>, ITimesheetRepository
@@ -169,6 +170,19 @@ public class InMemoryTimesheetRepository : InMemoryRepositoryBase<Timesheet>, IT
 
         var result = new UsageOverTime(fromDate, toDate, total, usage);
         return Task.FromResult(result);
+    }
+
+    public Task<IReadOnlyList<Timesheet>> GetTimesheetsForMonthAsync(int year, int month, CancellationToken ct)
+    {
+        var startDate = new DateTime(year, month, 1, 0, 0, 0, DateTimeKind.Utc);
+        var endDate = startDate.AddMonths(1).AddDays(-1);
+
+        var timesheets = Storage
+            .Values.Where(t => t.Date.DateTime >= startDate && t.Date.DateTime <= endDate)
+            .OrderBy(t => t.Date.DateTime)
+            .ToList();
+
+        return Task.FromResult<IReadOnlyList<Timesheet>>(timesheets);
     }
 }
 
@@ -344,6 +358,29 @@ public class PostgresTimesheetRepository(IPostgresConnectionProvider connectionP
         }
 
         return new UsageOverTime(fromDate, toDate, total, usage);
+    }
+
+    public async Task<IReadOnlyList<Timesheet>> GetTimesheetsForMonthAsync(int year, int month, CancellationToken ct)
+    {
+        var startDate = new DateTime(year, month, 1, 0, 0, 0, DateTimeKind.Utc);
+
+        await using var connection = await _connectionProvider.GetConnectionAsync(ct);
+        var query =
+            $"SELECT data FROM {TableName} WHERE {UserIdColumnName}=@userId AND date_ts >= @startDate AND date_ts <= @endDate ORDER BY date_ts";
+
+        var parameters = new List<NpgsqlParameter>
+        {
+            WithAccessCondition(),
+            new("startDate", startDate),
+            new("endDate", startDate.LastDayOfMonth()),
+        };
+
+        var timesheets = await ExecuteQueryAsync(connection, query, ct, parameters).ToListAsync(ct);
+
+        foreach (var timesheet in timesheets)
+            timesheet.SetSlots(await ReadTimeSlots(connection, timesheet.Id, ct));
+
+        return timesheets;
     }
 
     private async Task StoreTimeSlotsForTimesheet(NpgsqlConnection connection, Timesheet timesheet, CancellationToken ct)

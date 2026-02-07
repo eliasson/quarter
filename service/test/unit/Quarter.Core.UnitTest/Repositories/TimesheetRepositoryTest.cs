@@ -16,14 +16,11 @@ public abstract class TimesheetRepositoryTest : RepositoryTestBase<Timesheet, IT
     private IdOf<Project> _stableProjectId = IdOf<Project>.Random();
     private IdOf<Activity> _stableActivityId = IdOf<Activity>.Random();
 
-    protected override IdOf<Timesheet> ArbitraryId()
-        => IdOf<Timesheet>.Random();
+    protected override IdOf<Timesheet> ArbitraryId() => IdOf<Timesheet>.Random();
 
-    protected override Timesheet ArbitraryAggregate()
-        => Timesheet.CreateForDate(Date.Random());
+    protected override Timesheet ArbitraryAggregate() => Timesheet.CreateForDate(Date.Random());
 
-    protected override Timesheet WithoutTimestamps(Timesheet aggregate)
-        => aggregate;
+    protected override Timesheet WithoutTimestamps(Timesheet aggregate) => aggregate;
 
     protected override Timesheet Mutate(Timesheet aggregate)
     {
@@ -57,7 +54,8 @@ public abstract class TimesheetRepositoryTest : RepositoryTestBase<Timesheet, IT
         var strayDate = new Date(DateTime.Parse("1998-06-22T00:00:00Z"));
 
         var ex = Assert.CatchAsync<NotFoundException>(() =>
-            repository.GetByDateAsync(strayDate, CancellationToken.None));
+            repository.GetByDateAsync(strayDate, CancellationToken.None)
+        );
         Assert.That(ex?.Message, Does.Contain("No timesheet for date 1998-06-22 exists"));
     }
 
@@ -72,11 +70,16 @@ public abstract class TimesheetRepositoryTest : RepositoryTestBase<Timesheet, IT
         var storedAgg = await repository.CreateAsync(agg, CancellationToken.None);
         var readAgg = await repository.GetByDateAsync(storedAgg.Date, CancellationToken.None);
 
-        Assert.That(readAgg.Slots, Is.EqualTo(new[]
-        {
-            new ActivityTimeSlot(_stableProjectId,_stableActivityId, 0, 2),
-            new ActivityTimeSlot(_stableProjectId,_stableActivityId, 4, 2),
-        }));
+        Assert.That(
+            readAgg.Slots,
+            Is.EqualTo(
+                new[]
+                {
+                    new ActivityTimeSlot(_stableProjectId, _stableActivityId, 0, 2),
+                    new ActivityTimeSlot(_stableProjectId, _stableActivityId, 4, 2),
+                }
+            )
+        );
     }
 
     [Test]
@@ -86,19 +89,28 @@ public abstract class TimesheetRepositoryTest : RepositoryTestBase<Timesheet, IT
         var agg = ArbitraryAggregate();
 
         var storedAgg = await repository.CreateAsync(agg, CancellationToken.None);
-        _ = await repository.UpdateByIdAsync(agg.Id, timesheet =>
-        {
-            timesheet.Register(new ActivityTimeSlot(_stableProjectId, _stableActivityId, 0, 2));
-            timesheet.Register(new ActivityTimeSlot(_stableProjectId, _stableActivityId, 4, 2));
-            return timesheet;
-        }, CancellationToken.None);
+        _ = await repository.UpdateByIdAsync(
+            agg.Id,
+            timesheet =>
+            {
+                timesheet.Register(new ActivityTimeSlot(_stableProjectId, _stableActivityId, 0, 2));
+                timesheet.Register(new ActivityTimeSlot(_stableProjectId, _stableActivityId, 4, 2));
+                return timesheet;
+            },
+            CancellationToken.None
+        );
         var readAgg = await repository.GetByDateAsync(storedAgg.Date, CancellationToken.None);
 
-        Assert.That(readAgg.Slots().OrderBy(_ => _.Offset), Is.EqualTo(new[]
-        {
-            new ActivityTimeSlot(_stableProjectId,_stableActivityId, 0, 2),
-            new ActivityTimeSlot(_stableProjectId,_stableActivityId, 4, 2),
-        }));
+        Assert.That(
+            readAgg.Slots().OrderBy(_ => _.Offset),
+            Is.EqualTo(
+                new[]
+                {
+                    new ActivityTimeSlot(_stableProjectId, _stableActivityId, 0, 2),
+                    new ActivityTimeSlot(_stableProjectId, _stableActivityId, 4, 2),
+                }
+            )
+        );
     }
 
     [Test]
@@ -112,11 +124,16 @@ public abstract class TimesheetRepositoryTest : RepositoryTestBase<Timesheet, IT
         _ = await repository.CreateAsync(agg, CancellationToken.None);
         var all = repository.GetAllAsync(CancellationToken.None);
         var readAgg = await all.FirstAsync();
-        Assert.That(readAgg.Slots, Is.EqualTo(new[]
-        {
-            new ActivityTimeSlot(_stableProjectId,_stableActivityId, 0, 2),
-            new ActivityTimeSlot(_stableProjectId,_stableActivityId, 4, 2),
-        }));
+        Assert.That(
+            readAgg.Slots,
+            Is.EqualTo(
+                new[]
+                {
+                    new ActivityTimeSlot(_stableProjectId, _stableActivityId, 0, 2),
+                    new ActivityTimeSlot(_stableProjectId, _stableActivityId, 4, 2),
+                }
+            )
+        );
     }
 
     [Test]
@@ -192,13 +209,20 @@ public abstract class TimesheetRepositoryTest : RepositoryTestBase<Timesheet, IT
 
         _ = await repository.CreateAsync(agg, CancellationToken.None);
         var usage = await repository.GetProjectTotalUsageAsync(_stableProjectId, CancellationToken.None);
-        var activities = usage.Activities.Select(a => (a.ActivityId, a.TotalMinutes, a.LastUsed.DateTime.WithoutMilliseconds()));
+        var activities = usage.Activities.Select(a =>
+            (a.ActivityId, a.TotalMinutes, a.LastUsed.DateTime.WithoutMilliseconds())
+        );
 
-        Assert.That(activities, Is.EquivalentTo(new[]
-        {
-            (activityOne, 2*15, slotOne.Created.DateTime.WithoutMilliseconds()),
-            (activityTwo, 4*15, slotTwo.Created.DateTime.WithoutMilliseconds()),
-        }));
+        Assert.That(
+            activities,
+            Is.EquivalentTo(
+                new[]
+                {
+                    (activityOne, 2 * 15, slotOne.Created.DateTime.WithoutMilliseconds()),
+                    (activityTwo, 4 * 15, slotTwo.Created.DateTime.WithoutMilliseconds()),
+                }
+            )
+        );
     }
 
     [Test]
@@ -265,23 +289,104 @@ public abstract class TimesheetRepositoryTest : RepositoryTestBase<Timesheet, IT
     public async Task ShouldNotRemoveAnySlotsForActivity()
     {
         var repository = Repository();
-        var removeResult = await repository.RemoveSlotsForActivityAsync(IdOf<Activity>.Random(), CancellationToken.None);
+        var removeResult = await repository.RemoveSlotsForActivityAsync(
+            IdOf<Activity>.Random(),
+            CancellationToken.None
+        );
 
         Assert.That(removeResult, Is.EqualTo(RemoveResult.NotRemoved));
+    }
+
+    [Test]
+    public async Task GetTimesheetsForMonthShouldReturnEmptyListWhenNoTimesheets()
+    {
+        var repository = Repository();
+        var timesheets = await repository.GetTimesheetsForMonthAsync(2024, 1, CancellationToken.None);
+
+        Assert.That(timesheets, Is.Empty);
+    }
+
+    [Test]
+    public async Task GetTimesheetsForMonthShouldReturnTimesheetsInMonth()
+    {
+        var repository = Repository();
+        var date1 = new Date(new DateTime(2024, 6, 5, 0, 0, 0, DateTimeKind.Utc));
+        var date2 = new Date(new DateTime(2024, 6, 15, 0, 0, 0, DateTimeKind.Utc));
+        var date3 = new Date(new DateTime(2024, 6, 25, 0, 0, 0, DateTimeKind.Utc));
+
+        var ts1 = Timesheet.CreateForDate(date1);
+        var ts2 = Timesheet.CreateForDate(date2);
+        var ts3 = Timesheet.CreateForDate(date3);
+
+        await repository.CreateAsync(ts1, CancellationToken.None);
+        await repository.CreateAsync(ts2, CancellationToken.None);
+        await repository.CreateAsync(ts3, CancellationToken.None);
+
+        var timesheets = await repository.GetTimesheetsForMonthAsync(2024, 6, CancellationToken.None);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(timesheets.Count, Is.EqualTo(3));
+            Assert.That(timesheets.Select(t => t.Date), Is.EqualTo(new[] { date1, date2, date3 }));
+        });
+    }
+
+    [Test]
+    public async Task GetTimesheetsForMonthShouldRespectMonthBoundaries()
+    {
+        var repository = Repository();
+        var lastDayPrevMonth = new Date(new DateTime(2024, 6, 30, 0, 0, 0, DateTimeKind.Utc));
+        var firstDayMonth = new Date(new DateTime(2024, 7, 1, 0, 0, 0, DateTimeKind.Utc));
+        var midMonth = new Date(new DateTime(2024, 7, 15, 0, 0, 0, DateTimeKind.Utc));
+        var lastDayMonth = new Date(new DateTime(2024, 7, 31, 0, 0, 0, DateTimeKind.Utc));
+        var firstDayNextMonth = new Date(new DateTime(2024, 8, 1, 0, 0, 0, DateTimeKind.Utc));
+
+        await repository.CreateAsync(Timesheet.CreateForDate(lastDayPrevMonth), CancellationToken.None);
+        await repository.CreateAsync(Timesheet.CreateForDate(firstDayMonth), CancellationToken.None);
+        await repository.CreateAsync(Timesheet.CreateForDate(midMonth), CancellationToken.None);
+        await repository.CreateAsync(Timesheet.CreateForDate(lastDayMonth), CancellationToken.None);
+        await repository.CreateAsync(Timesheet.CreateForDate(firstDayNextMonth), CancellationToken.None);
+
+        var timesheets = await repository.GetTimesheetsForMonthAsync(2024, 7, CancellationToken.None);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(timesheets.Count, Is.EqualTo(3));
+            Assert.That(timesheets.Select(t => t.Date), Is.EqualTo(new[] { firstDayMonth, midMonth, lastDayMonth }));
+        });
+    }
+
+    [Test]
+    public async Task GetTimesheetsForMonthShouldReturnTimesheetsWithSlots()
+    {
+        var repository = Repository();
+        var date = new Date(new DateTime(2024, 6, 15, 0, 0, 0, DateTimeKind.Utc));
+        var timesheet = Timesheet.CreateForDate(date);
+        timesheet.Register(new ActivityTimeSlot(_stableProjectId, _stableActivityId, 0, 2));
+        timesheet.Register(new ActivityTimeSlot(_stableProjectId, _stableActivityId, 4, 4));
+
+        await repository.CreateAsync(timesheet, CancellationToken.None);
+
+        var timesheets = await repository.GetTimesheetsForMonthAsync(2024, 6, CancellationToken.None);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(timesheets.Count, Is.EqualTo(1));
+            Assert.That(timesheets[0].Slots().Count(), Is.EqualTo(2));
+        });
     }
 }
 
 [TestFixture]
 public class InMemoryTimesheetRepositoryTest : TimesheetRepositoryTest
 {
-    protected override ITimesheetRepository Repository()
-        => new InMemoryTimesheetRepository();
+    protected override ITimesheetRepository Repository() => new InMemoryTimesheetRepository();
 }
 
 [TestFixture]
 [Category(TestCategories.DatabaseDependency)]
 public class PostgresqlTimesheetRepositoryTest : TimesheetRepositoryTest
 {
-    protected override ITimesheetRepository Repository()
-        => new PostgresTimesheetRepository(UnitTestPostgresConnectionProvider.Instance, IdOf<User>.Random());
+    protected override ITimesheetRepository Repository() =>
+        new PostgresTimesheetRepository(UnitTestPostgresConnectionProvider.Instance, IdOf<User>.Random());
 }
