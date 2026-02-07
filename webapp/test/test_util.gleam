@@ -1,9 +1,13 @@
 import domain/color
+import domain/duration
 import domain/project
+import domain/timesheet
 import gleam/list
 import gleam/option
+import gleam/result
+import gleam/time/timestamp
 import model
-import util/timestamp
+import util/timestamp as tsutil
 
 /// Get the first element from a tuple
 pub fn first(t: #(a, b)) {
@@ -16,7 +20,7 @@ pub fn arbitrary_project() -> project.Project {
     "Project Alpha",
     "The Alpha project",
     False,
-    timestamp.timestamp_zero(),
+    tsutil.timestamp_zero(),
     option.None,
     [],
   )
@@ -30,7 +34,7 @@ pub fn arbitrary_activity() -> project.Activity {
     "",
     color.Color(142, 135, 245),
     False,
-    timestamp.timestamp_zero(),
+    tsutil.timestamp_zero(),
     option.None,
   )
 }
@@ -135,4 +139,10 @@ pub fn get_dialog_value(
     _ -> option.None
   }
   value
+}
+
+pub fn new_timesheet(date: String) -> Result(timesheet.Timesheet, Nil) {
+  // TODO Add logic to create a timesheet with slots when needed by tests.
+  timestamp.parse_rfc3339(date)
+  |> result.map(fn(date) { timesheet.Timesheet(date, duration.Minutes(0), []) })
 }
