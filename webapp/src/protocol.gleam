@@ -85,6 +85,25 @@ pub fn update_project(
   rsvp.patch(project_url(project), payload, handler)
 }
 
+pub fn update_activity(
+  activity: project.Activity,
+  name: String,
+  description: String,
+  color_value: color.Color,
+  on_response handle_response: fn(Result(project.Activity, rsvp.Error)) ->
+    message.Msg,
+) -> Effect(message.Msg) {
+  let handler = rsvp.expect_json(activity_decoder(), handle_response)
+  let payload =
+    json.object([
+      #("name", json.string(name)),
+      #("description", json.string(description)),
+      #("color", json.string(color.to_hex(color_value))),
+    ])
+
+  rsvp.patch(activity_url(activity), payload, handler)
+}
+
 /// Get all users projects and activities in a single request.
 pub fn get_projects_and_activities(
   on_response handle_response: fn(Result(List(project.Project), rsvp.Error)) ->
