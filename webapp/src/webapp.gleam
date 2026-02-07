@@ -60,7 +60,6 @@ fn init(_args) -> #(Model, Effect(Msg)) {
 /// here as messages together with the current model.
 /// Perform updates to the model and triggers optional HTTP requests, etc. as effects.
 pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
-  io.println("Update...")
   case msg {
     Noop -> model |> close_all_modals |> no_effect()
 
@@ -70,211 +69,169 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       |> navigate_to(r)
       |> with_effect(effect_on_route_loaded(r))
     }
-    OpenDropDownMenu(id) -> {
-      io.println("OpenDropDownMenu")
-      #(open_drop_down_menu(model, id), effect.none())
-    }
-    OpenDialog(d) -> {
-      io.println("OpenDialog")
-      #(open_dialog(model, d), effect.none())
-    }
-    CloseModal -> {
-      io.println("CloseModal")
-      #(close_modal(model), effect.none())
-    }
+
+    OpenDropDownMenu(id) -> #(open_drop_down_menu(model, id), effect.none())
+
+    OpenDialog(d) -> #(open_dialog(model, d), effect.none())
+
+    CloseModal -> #(close_modal(model), effect.none())
+
     ConfirmDialog -> handle_dialog_confirm(model)
-    ToggleProject(id) -> {
-      io.println("ToggleProject OK")
-      #(toggle_project(model, id), effect.none())
-    }
-    CurrentUserResult(Ok(u)) -> {
-      io.println("CurrentUserResult OK")
-      #(set_current_user(model, u), effect.none())
-    }
+
+    ToggleProject(id) -> #(toggle_project(model, id), effect.none())
+
+    CurrentUserResult(Ok(u)) -> #(set_current_user(model, u), effect.none())
+
     CurrentUserResult(Error(_)) -> {
       io.println("CurrentUserResult Error")
       #(model, effect.none())
     }
-    SystemUsersResult(Ok(users)) -> {
-      io.println("SystemUsersResult OK")
-      #(set_users(model, users), effect.none())
-    }
+
+    SystemUsersResult(Ok(users)) -> #(set_users(model, users), effect.none())
+
     SystemUsersResult(Error(_)) -> {
       io.println("SystemUsersResult Error")
       #(model, effect.none())
     }
-    AddUserResult(Ok(_)) -> {
-      io.println("AddUserResult OK")
 
+    AddUserResult(Ok(_)) -> {
       // When the user was added successfully add the new user to the state so it
       // can be rendered in the list of users. The only way to add a new user is
       // when viewing the list of users.
       #(model, protocol.get_system_users(message.SystemUsersResult))
     }
+
     AddUserResult(Error(_)) -> {
       io.println("AddUserResult Error")
       #(model, effect.none())
     }
-    ProjectsResult(Ok(projects)) -> {
-      io.println("ProjectsResult OK")
-      #(model.Model(..model, projects:), effect.none())
-    }
+
+    ProjectsResult(Ok(projects)) -> #(
+      model.Model(..model, projects:),
+      effect.none(),
+    )
+
     ProjectsResult(Error(_)) -> {
       io.println("ProjectsResult Error")
       #(model, effect.none())
     }
-    FormTextFieldUpdated(value) -> {
-      io.println("FormTextFieldUpdated")
-      #(update_dialog_value(model, value), effect.none())
-    }
-    DismissError(id) -> {
-      io.println("DismissError")
-      #(dismiss_error(model, id), effect.none())
-    }
 
-    // -- Archive activity
-    ConfirmArchiveActivity(activity) -> {
-      io.println("ConfirmArchiveActivity")
+    FormTextFieldUpdated(value) -> #(
+      update_dialog_value(model, value),
+      effect.none(),
+    )
+
+    DismissError(id) -> #(dismiss_error(model, id), effect.none())
+
+    ConfirmArchiveActivity(activity) ->
       model
       |> open_dialog(model.ArchiveActivityDialog(activity))
       |> no_effect()
-    }
 
-    ArchiveActivity(activity) -> {
-      io.println("ArchiveActivity")
-
+    ArchiveActivity(activity) ->
       model
       |> close_all_modals()
       |> with_effect(protocol.archive_activity(
         activity,
         message.ArchiveActivityResult,
       ))
-    }
 
-    ArchiveActivityResult(Ok(a)) -> {
-      io.println("ArchiveActivityResult OK")
-
+    ArchiveActivityResult(Ok(a)) ->
       model
       |> close_all_modals()
       |> update_activity(a)
       |> no_effect()
-    }
 
     ArchiveActivityResult(Error(_)) -> {
       io.println("ArchiveActivityResult Error")
       #(model, effect.none())
     }
 
-    ConfirmArchiveProject(project) -> {
-      io.println("ConfirmArchiveProject")
+    ConfirmArchiveProject(project) ->
       model
       |> open_dialog(model.ArchiveProjectDialog(project))
       |> no_effect()
-    }
 
-    ArchiveProject(project) -> {
-      io.println("ArchiveProject")
-
+    ArchiveProject(project) ->
       model
       |> close_all_modals()
       |> with_effect(protocol.archive_project(
         project,
         message.ArchiveProjectResult,
       ))
-    }
 
-    ArchiveProjectResult(Ok(p)) -> {
-      io.println("ArchiveProjectResult OK")
-
+    ArchiveProjectResult(Ok(p)) ->
       model
       |> close_all_modals()
       |> update_project(p)
       |> no_effect()
-    }
 
     ArchiveProjectResult(Error(_)) -> {
       io.println("ArchiveProjectResult Error")
       #(model, effect.none())
     }
 
-    ConfirmDeleteActivity(activity) -> {
-      io.println("ConfirmDeleteActivity")
+    ConfirmDeleteActivity(activity) ->
       model
       |> open_dialog(model.DeleteActivityDialog(activity))
       |> no_effect()
-    }
 
-    DeleteActivity(activity) -> {
+    DeleteActivity(activity) ->
       model
       |> close_all_modals()
       |> with_effect(protocol.delete_activity(
         activity,
         message.DeleteActivityResult,
       ))
-    }
 
-    DeleteActivityResult(Ok(activity)) -> {
-      io.println("DeleteActivityResult OK")
-
+    DeleteActivityResult(Ok(activity)) ->
       model
       |> close_all_modals()
       |> delete_activity(activity.project_id, activity.id)
       |> no_effect()
-    }
-    DeleteActivityResult(Error(_)) -> {
-      io.println("DeleteActivityResult Error")
 
-      #(model, effect.none())
-    }
+    DeleteActivityResult(Error(_)) -> #(model, effect.none())
 
-    ConfirmDeleteProject(project) -> {
-      io.println("ConfirmDeleteProject")
+    ConfirmDeleteProject(project) ->
       model
       |> open_dialog(model.DeleteProjectDialog(project))
       |> no_effect()
-    }
 
-    DeleteProject(project) -> {
+    DeleteProject(project) ->
       model
       |> close_all_modals()
       |> with_effect(protocol.delete_project(
         project,
         message.DeleteProjectResult,
       ))
-    }
 
-    DeleteProjectResult(Ok(project)) -> {
-      io.println("DeleteProjectResult OK")
-
+    DeleteProjectResult(Ok(project)) ->
       model
       |> close_all_modals()
       |> delete_project(project.id)
       |> no_effect()
-    }
+
     DeleteProjectResult(Error(_)) -> {
       io.println("DeleteProjectResult Error")
 
       #(model, effect.none())
     }
 
-    CreateProjectResult(Ok(_)) -> {
-      io.println("CreateProjectResult OK")
-      #(model, protocol.get_projects_and_activities(message.ProjectsResult))
-    }
+    CreateProjectResult(Ok(_)) -> #(
+      model,
+      protocol.get_projects_and_activities(message.ProjectsResult),
+    )
 
     CreateProjectResult(Error(_)) -> {
       io.println("CreateProjectResult Error")
       #(model, effect.none())
     }
 
-    UpdateProjectResult(Ok(p)) -> {
-      io.println("UpdateProjectResult OK")
-
+    UpdateProjectResult(Ok(p)) ->
       model
       |> close_all_modals()
       |> update_project(p)
       |> no_effect()
-    }
 
     UpdateProjectResult(Error(_)) -> {
       io.println("UpdateProjectResult Error")
