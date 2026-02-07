@@ -85,6 +85,26 @@ pub fn update_project(
   rsvp.patch(project_url(project), payload, handler)
 }
 
+pub fn create_activity(
+  project: project.Project,
+  name: String,
+  description: String,
+  color_value: color.Color,
+  on_response handle_response: fn(Result(project.Activity, rsvp.Error)) ->
+    message.Msg,
+) -> Effect(message.Msg) {
+  let url = "/api/projects/" <> project.id.value <> "/activities"
+  let handler = rsvp.expect_json(activity_decoder(), handle_response)
+  let payload =
+    json.object([
+      #("name", json.string(name)),
+      #("description", json.string(description)),
+      #("color", json.string(color.to_hex(color_value))),
+    ])
+
+  rsvp.post(url, payload, handler)
+}
+
 pub fn update_activity(
   activity: project.Activity,
   name: String,

@@ -70,5 +70,6 @@ pub type Msg {
   ArchiveProjectResult(Result(project.Project, rsvp.Error))
   CreateProjectResult(Result(project.Project, rsvp.Error))
   UpdateProjectResult(Result(project.Project, rsvp.Error))
+  CreateActivityResult(Result(project.Activity, rsvp.Error))
   UpdateActivityResult(Result(project.Activity, rsvp.Error))
 }
