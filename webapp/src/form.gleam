@@ -34,6 +34,15 @@ pub type FormField {
     required: Bool,
     autofocus: Bool,
   )
+
+  /// Color input field
+  ColorInput(
+    name: String,
+    label: String,
+    value: String,
+    required: Bool,
+    autofocus: Bool,
+  )
 }
 
 pub type FormAction {

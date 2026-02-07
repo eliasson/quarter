@@ -122,6 +122,8 @@ fn render_field(field field: form.FormField) -> element.Element(message.Msg) {
       input_field("text", name, label, value, required, autofocus)
     form.TextAreaInput(name, label, value, required, autofocus) ->
       text_area(name, label, value, required, autofocus)
+    form.ColorInput(name, label, value, required, autofocus) ->
+      input_field("color", name, label, value, required, autofocus)
     form.TextMessage(text) -> text_message(text)
   }
 }
