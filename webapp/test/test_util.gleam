@@ -93,6 +93,15 @@ pub fn get_dialog_value(
             _ -> option.None
           }
         }
+
+        model.AddProjectDialog(state) -> {
+          case field_id {
+            "name" -> option.Some(state.name.value)
+            "description" -> option.Some(state.description.value)
+            _ -> option.None
+          }
+        }
+
         model.EditProjectDialog(state, _) -> {
           case field_id {
             "name" -> option.Some(state.name.value)
