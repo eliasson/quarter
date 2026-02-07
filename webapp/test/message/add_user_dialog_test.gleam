@@ -17,7 +17,7 @@ pub fn should_update_email_in_dialog_state_test() {
       message.FormTextFieldUpdated(types.FormValue("email", "jane@example.com")),
     )
     |> first
-    |> model.get_dialog_value("email")
+    |> test_util.get_dialog_value("email")
 
   should.equal(value, option.Some("jane@example.com"))
 }

@@ -255,14 +255,22 @@ fn effect_on_route_loaded(r: route.Route) {
 
 fn handle_dialog_confirm(m: model.Model) {
   let work = case model.current_dialog(m) {
-    Ok(model.AddUserDialog(state)) -> {
+    Ok(model.AddUserDialog(state)) ->
       protocol.add_user(state.email.value, message.AddUserResult)
-    }
+
     Ok(model.AddProjectDialog(state)) ->
       protocol.create_project(
         state.name.value,
         state.description.value,
         message.CreateProjectResult,
+      )
+
+    Ok(model.EditProjectDialog(state, project)) ->
+      protocol.update_project(
+        project,
+        state.name.value,
+        state.description.value,
+        message.UpdateProjectResult,
       )
 
     _ -> effect.none()

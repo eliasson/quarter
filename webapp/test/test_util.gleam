@@ -78,3 +78,33 @@ pub fn projects(m: model.Model) -> List(project.Project) {
 pub fn activities(p: project.Project) -> List(project.Activity) {
   p.activities
 }
+
+pub fn get_dialog_value(
+  m: model.Model,
+  field_id: String,
+) -> option.Option(String) {
+  // Get the top most dialog and see if the state contains the given field.
+  let value = case list.last(m.dialogs) {
+    Ok(d) -> {
+      case d {
+        model.AddUserDialog(state) -> {
+          case field_id {
+            "email" -> option.Some(state.email.value.value)
+            _ -> option.None
+          }
+        }
+        model.EditProjectDialog(state, _) -> {
+          case field_id {
+            "name" -> option.Some(state.name.value)
+            _ -> option.None
+          }
+        }
+        _ -> {
+          option.None
+        }
+      }
+    }
+    _ -> option.None
+  }
+  value
+}

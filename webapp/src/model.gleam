@@ -133,47 +133,28 @@ pub fn is_project_expanded(m: Model, id: project.ProjectId) -> Bool {
   set.contains(m.expanded_projects, id)
 }
 
-pub fn get_dialog_value(m: Model, field_id: String) -> option.Option(String) {
-  // Get the top most dialog and see if the state contains the given field.
-  let value = case list.last(m.dialogs) {
-    Ok(d) -> {
-      case d {
-        AddUserDialog(state) -> {
-          case field_id {
-            "email" -> option.Some(state.email.value.value)
-            _ -> option.None
-          }
-        }
-        _ -> {
-          option.None
-        }
-      }
-    }
-    _ -> option.None
-  }
-  value
-}
-
 pub fn update_dialog_value(m: Model, value: FormValue) -> Model {
-  // Get the last dialog
-  // Update its state
   let updated_dialogs = case list.last(m.dialogs) {
     Ok(d) -> {
       case d {
-        AddUserDialog(state) -> {
-          [AddUserDialog(state: user_dialog.update(state, value))]
-        }
+        AddUserDialog(state) -> [
+          AddUserDialog(state: user_dialog.update(state, value)),
+        ]
 
-        AddProjectDialog(state) -> {
-          [AddProjectDialog(state: project_dialog.update(state, value))]
-        }
+        AddProjectDialog(state) -> [
+          AddProjectDialog(state: project_dialog.update(state, value)),
+        ]
+
+        EditProjectDialog(state, project) -> [
+          EditProjectDialog(project_dialog.update(state, value), project),
+        ]
+
         _ -> [d]
       }
     }
     _ -> []
   }
 
-  // Replace the dialog in the list of dialog
   let dialogs =
     seq.drop_last(m.dialogs)
     |> list.append(updated_dialogs)
