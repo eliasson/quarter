@@ -37,6 +37,15 @@ pub fn color_to_style_value(c: Color) -> String {
   <> ")"
 }
 
+/// Converts a color to a hexadecimal string.
+pub fn to_hex(c: Color) -> String {
+  let r = zero_pad(int.to_base16(c.r))
+  let g = zero_pad(int.to_base16(c.g))
+  let b = zero_pad(int.to_base16(c.b))
+
+  "#" <> r <> g <> b
+}
+
 pub fn from_hex(value: String) -> Result(Color, String) {
   let value = case string.pop_grapheme(value) {
     Ok(#("#", rest)) -> rest
@@ -55,5 +64,12 @@ pub fn from_hex(value: String) -> Result(Color, String) {
       }
     }
     _ -> Error("Invalid color value")
+  }
+}
+
+fn zero_pad(s: String) -> String {
+  case string.length(s) {
+    1 -> "0" <> s
+    _ -> s
   }
 }
