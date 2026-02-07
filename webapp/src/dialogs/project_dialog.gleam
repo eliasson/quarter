@@ -1,4 +1,5 @@
 import domain/input_value.{type InputValue}
+import domain/project
 import gleam/string
 import types.{type FormValue}
 
@@ -10,8 +11,18 @@ pub type State {
   )
 }
 
+/// Create the dialog state for creating a new project. I.e. an empty state.
 pub fn new() -> State {
   State(input_value.ValidValue(""), input_value.ValidValue(""), False)
+}
+
+/// Create the dialog state for editing a project.
+pub fn edit(project: project.Project) -> State {
+  State(
+    input_value.ValidValue(project.name),
+    input_value.ValidValue(project.description),
+    False,
+  )
 }
 
 pub fn update(state: State, value: FormValue) -> State {
