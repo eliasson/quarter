@@ -36,4 +36,16 @@ public class TimesheetController(IApiService apiService, IRepositoryFactory repo
 
         return Ok(output);
     }
+
+    [HttpGet("{year:int}/{month:int:min(1):max(12)}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult<TimesheetsResourceOutput>> TimesheetsForMonth(int year, int month, CancellationToken ct)
+    {
+        var oc = await GetOperationContextForCurrentUserAsync(ct);
+        var date = new Date(new DateTime(year, month, 1));
+        var output = await ApiService.GetTimesheetsForMonthAsync(date, oc, ct);
+
+        return Ok(output);
+
+    }
 }

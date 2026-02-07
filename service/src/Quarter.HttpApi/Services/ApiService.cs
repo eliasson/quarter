@@ -19,6 +19,7 @@ public interface IApiService
 
     Task<TimesheetResourceOutput> GetTimesheetAsync(Date date, OperationContext oc, CancellationToken ct);
     Task<TimesheetResourceOutput> UpdateTimesheetAsync(TimesheetResourceInput input, OperationContext oc, CancellationToken ct);
+    Task<TimesheetsResourceOutput> GetTimesheetsForMonthAsync(Date firstDayOfMonth, OperationContext oc, CancellationToken ct);
 
     Task<ProjectAndActivitiesResourceOutput> GetAllProjectsAndActivitiesForUserAsync(OperationContext oc, CancellationToken ct);
 
@@ -130,6 +131,15 @@ public class ApiService(IRepositoryFactory repositoryFactory) : IApiService
         }, ct);
 
         return TimesheetResourceOutput.From(timesheet);
+    }
+
+    public async Task<TimesheetsResourceOutput> GetTimesheetsForMonthAsync(Date firstDayOfMonth, OperationContext oc, CancellationToken ct)
+    {
+        var timesheets = await repositoryFactory
+            .TimesheetRepository(oc.UserId)
+            .GetTimesheetsForMonthAsync(firstDayOfMonth.DateTime.Year, firstDayOfMonth.DateTime.Month, ct);
+
+        return TimesheetsResourceOutput.From(timesheets);
     }
 
     public async Task<ProjectAndActivitiesResourceOutput> GetAllProjectsAndActivitiesForUserAsync(OperationContext oc, CancellationToken ct)

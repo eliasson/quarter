@@ -23,3 +23,9 @@ public record TimesheetResourceOutput(string date, int totalMinutes, IList<TimeS
             slots);
     }
 }
+
+public record TimesheetsResourceOutput(IList<TimesheetResourceOutput> timesheets)
+{
+    public static TimesheetsResourceOutput From(IEnumerable<Timesheet> timesheets)
+        => new(timesheets.Select(TimesheetResourceOutput.From).ToList());
+}
