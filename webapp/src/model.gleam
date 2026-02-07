@@ -35,6 +35,7 @@ pub type DropDownMenu {
 pub type Dialog {
   AddUserDialog(state: user_dialog.State)
   AddProjectDialog(state: project_dialog.State)
+  EditProjectDialog(state: project_dialog.State, project: project.Project)
   ArchiveActivityDialog(activity: project.Activity)
   DeleteActivityDialog(activity: project.Activity)
   DeleteProjectDialog(project: project.Project)
@@ -186,6 +187,10 @@ pub fn new_user_dialog() {
 
 pub fn new_project_dialog() {
   AddProjectDialog(project_dialog.new())
+}
+
+pub fn edit_project_dialog(project: project.Project) {
+  EditProjectDialog(project_dialog.edit(project), project)
 }
 
 /// Replace the current activity with the given one. Used after successful activity modifications.

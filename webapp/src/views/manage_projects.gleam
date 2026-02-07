@@ -3,6 +3,7 @@ import domain/color
 import domain/project
 import form
 import gleam/list
+import gleam/option
 import lustre/attribute as att
 import lustre/element.{type Element}
 import lustre/element/html.{div, h1, p}
@@ -121,7 +122,11 @@ fn manage_project_action(m: model.Model, project: project.Project) {
     menu_id,
     input.fake_button(graphics.icon_context_menu),
     [
-      dropdown.DropDownMsg(graphics.icon_edit, "Edit project", message.Noop),
+      dropdown.DropDownMsg(
+        graphics.icon_edit,
+        "Edit project",
+        message.OpenDialog(model.edit_project_dialog(project)),
+      ),
       dropdown.DropDownMsg(
         graphics.icon_archive,
         archive_project_menu_label(project),
@@ -165,8 +170,27 @@ fn manage_activity_action(
 }
 
 pub fn add_project_form(state: project_dialog.State) -> form.Form {
+  project_form(state, option.None)
+}
+
+pub fn edit_project_form(
+  state: project_dialog.State,
+  project: project.Project,
+) -> form.Form {
+  project_form(state, option.Some(project))
+}
+
+fn project_form(
+  state: project_dialog.State,
+  project: option.Option(project.Project),
+) -> form.Form {
+  let id = case project {
+    option.Some(_) -> "AddProjectDialog"
+    option.None -> "EditProjectDialog"
+  }
+
   form.Form(
-    "AddProjectDialog",
+    id,
     [
       form.TextInput("name", "Project name", state.name.value, True, True),
       form.TextAreaInput(

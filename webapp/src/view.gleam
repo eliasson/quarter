@@ -131,6 +131,11 @@ fn dialogs(model: model.Model) -> List(element.Element(message.Msg)) {
         |> input.form_dialog(graphics.icon_add_user, "Add new project")
       }
 
+      model.EditProjectDialog(state, project) -> {
+        manage_projects.edit_project_form(state, project)
+        |> input.form_dialog(graphics.icon_add_user, "Edit " <> project.name)
+      }
+
       model.ArchiveActivityDialog(activity) ->
         manage_projects.archive_activity_form(activity)
 
