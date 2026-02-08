@@ -4,7 +4,6 @@ import dialogs/user_dialog
 import domain/project
 import domain/user
 import gleam/list
-import gleam/option
 import gleam/set
 import route
 import seq
