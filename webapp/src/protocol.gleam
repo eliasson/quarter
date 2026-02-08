@@ -215,6 +215,20 @@ pub fn get_timesheets(
   rsvp.get(url, handler)
 }
 
+/// Get a single timesheet for the given date.
+pub fn get_timesheet(
+  date: timestamp.Timestamp,
+  on_response handle_response: fn(Result(timesheet.Timesheet, rsvp.Error)) ->
+    message.Msg,
+) -> Effect(message.Msg) {
+  let date_string = tsutil.to_iso_date(date)
+  let url = "/api/timesheets/" <> date_string
+
+  let handler = rsvp.expect_json(timesheet_decoder(), handle_response)
+
+  rsvp.get(url, handler)
+}
+
 // Decoders ------------------------------------------------------------------
 
 pub fn user_resource_decoder() -> decode.Decoder(user.User) {

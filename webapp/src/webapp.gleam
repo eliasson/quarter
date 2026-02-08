@@ -9,8 +9,8 @@ import message.{
   ConfirmDialog, CreateActivityResult, CreateProjectResult, CurrentUserResult,
   DeleteActivity, DeleteActivityResult, DeleteProject, DeleteProjectResult,
   DismissError, FormTextFieldUpdated, Noop, OnRouteChange, OpenDialog,
-  OpenDropDownMenu, ProjectsResult, SystemUsersResult, TimesheetsResult,
-  ToggleProject, UpdateActivityResult, UpdateProjectResult,
+  OpenDropDownMenu, ProjectsResult, SystemUsersResult, TimesheetResult,
+  TimesheetsResult, ToggleProject, UpdateActivityResult, UpdateProjectResult,
 }
 import model.{
   type Model, close_all_modals, close_modal, delete_activity, delete_project,
@@ -267,6 +267,16 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
 
     TimesheetsResult(Error(_)) -> {
       io.println("TimesheetsResult Error")
+      #(model, effect.none())
+    }
+
+    TimesheetResult(Ok(_timesheet)) -> {
+      io.println("TimesheetResult Ok")
+      #(model, effect.none())
+    }
+
+    TimesheetResult(Error(_)) -> {
+      io.println("TimesheetResult Error")
       #(model, effect.none())
     }
   }
