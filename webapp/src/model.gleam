@@ -73,6 +73,10 @@ pub fn initial_model() -> Model {
   )
 }
 
+pub fn go_to_today(m: Model) -> Model {
+  Model(..m, today: timestamp.system_time())
+}
+
 pub fn navigate_to(m: Model, route: route.Route) -> Model {
   Model(..m, route: route)
 }

@@ -14,9 +14,9 @@ import message.{
 }
 import model.{
   type Model, close_all_modals, close_modal, delete_activity, delete_project,
-  dismiss_error, initial_model, navigate_to, open_dialog, open_drop_down_menu,
-  set_current_user, set_users, toggle_project, update_activity,
-  update_dialog_value, update_project,
+  dismiss_error, go_to_today, initial_model, navigate_to, open_dialog,
+  open_drop_down_menu, set_current_user, set_users, toggle_project,
+  update_activity, update_dialog_value, update_project,
 }
 import modem
 import protocol
@@ -68,6 +68,7 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       model
       |> close_all_modals
       |> navigate_to(r)
+      |> model_updates_on_route_change(r)
       |> with_effect(effect_on_route_loaded(r))
     }
 
@@ -292,6 +293,13 @@ fn effect_on_route_loaded(r: route.Route) {
     route.AdministerSystemUsers ->
       protocol.get_system_users(message.SystemUsersResult)
     _ -> effect.none()
+  }
+}
+
+fn model_updates_on_route_change(m: model.Model, r: route.Route) {
+  case r {
+    route.Home -> go_to_today(m)
+    _ -> m
   }
 }
 
