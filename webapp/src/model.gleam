@@ -2,6 +2,7 @@ import dialogs/activity_dialog
 import dialogs/project_dialog
 import dialogs/user_dialog
 import domain/project
+import domain/timesheet
 import domain/user
 import gleam/list
 import gleam/set
@@ -32,6 +33,8 @@ pub type Model {
     projects: List(project.Project),
     /// The list of ID for the projects that are expanded in the manage view.
     expanded_projects: set.Set(project.ProjectId),
+    /// The current months timesheets.
+    timesheets: List(timesheet.Timesheet),
   )
 }
 
@@ -74,6 +77,7 @@ pub fn initial_model() -> Model {
     errors: [],
     projects: [],
     expanded_projects: set.new(),
+    timesheets: [],
   )
 }
 
@@ -116,6 +120,11 @@ pub fn set_current_user(m: Model, _user: user.User) {
 
 pub fn set_users(m: Model, users: List(user.User)) {
   Model(..m, users: users)
+}
+
+/// Update the model with the timesheets for the current month.
+pub fn set_timesheets(m: Model, timesheets: List(timesheet.Timesheet)) {
+  Model(..m, timesheets: timesheets)
 }
 
 pub fn open_dialog(m: Model, dialog: Dialog) -> Model {

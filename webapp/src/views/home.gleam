@@ -1,3 +1,4 @@
+import gleam/list
 import i18n
 import lustre/attribute as att
 import lustre/element.{type Element}
@@ -17,6 +18,12 @@ pub fn view(m: model.Model) -> Element(message.Msg) {
         p([], [
           html.text("Today is " <> date),
         ]),
+        div(
+          [],
+          list.map(m.timesheets, fn(ts) {
+            div([], [html.text(timestamp.to_iso_date(ts.date))])
+          }),
+        ),
       ]),
     ]),
   ])

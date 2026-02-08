@@ -15,8 +15,8 @@ import message.{
 import model.{
   type Model, close_all_modals, close_modal, delete_activity, delete_project,
   dismiss_error, go_to_today, initial_model, navigate_to, open_dialog,
-  open_drop_down_menu, set_current_user, set_users, toggle_project,
-  update_activity, update_dialog_value, update_project,
+  open_drop_down_menu, set_current_user, set_timesheets, set_users,
+  toggle_project, update_activity, update_dialog_value, update_project,
 }
 import modem
 import protocol
@@ -51,7 +51,7 @@ fn init(_args) -> #(Model, Effect(Msg)) {
       // Get all available projects and activities.
       protocol.get_projects_and_activities(message.ProjectsResult),
       // Load any additional data based on route.
-      effect_on_route_loaded(initial_route),
+      effect_on_route_loaded(model, initial_route),
     ])
 
   #(model, init_effects)
@@ -65,11 +65,17 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
     Noop -> model |> close_all_modals |> no_effect()
 
     OnRouteChange(r) -> {
-      model
-      |> close_all_modals
-      |> navigate_to(r)
-      |> model_updates_on_route_change(r)
-      |> with_effect(effect_on_route_loaded(r))
+      let m =
+        model
+        |> close_all_modals
+        |> navigate_to(r)
+        |> model_updates_on_route_change(r)
+
+      let eff =
+        m
+        |> effect_on_route_loaded(r)
+
+      #(m, eff)
     }
 
     OpenDropDownMenu(id) -> #(open_drop_down_menu(model, id), effect.none())
@@ -261,9 +267,10 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       #(model, effect.none())
     }
 
-    TimesheetsResult(Ok(_timesheets)) -> {
-      io.println("TimesheetsResult Ok")
-      #(model, effect.none())
+    TimesheetsResult(Ok(timesheets)) -> {
+      model
+      |> set_timesheets(timesheets)
+      |> no_effect()
     }
 
     TimesheetsResult(Error(_)) -> {
@@ -288,10 +295,13 @@ fn on_url_change(uri: Uri) -> Msg {
 }
 
 /// Get the efffect (if any) to apply when loading a route.
-fn effect_on_route_loaded(r: route.Route) {
+fn effect_on_route_loaded(m: model.Model, r: route.Route) {
   case r {
+    route.Home -> protocol.get_timesheets(m.today, message.TimesheetsResult)
+
     route.AdministerSystemUsers ->
       protocol.get_system_users(message.SystemUsersResult)
+
     _ -> effect.none()
   }
 }

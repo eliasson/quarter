@@ -27,7 +27,7 @@ pub fn to_iso_date(ts: timestamp.Timestamp) -> String {
   year <> "-" <> month <> "-" <> day
 }
 
-fn calendar_month_to_int(month: calendar.Month) -> Int {
+pub fn calendar_month_to_int(month: calendar.Month) -> Int {
   case month {
     calendar.January -> 1
     calendar.February -> 2
