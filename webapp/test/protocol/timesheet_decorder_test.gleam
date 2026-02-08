@@ -6,7 +6,7 @@ import protocol
 
 pub fn decode_minimal_timesheet_test() {
   let json_string =
-    "{\"date\":\"2026-02-28T00:00:00Z\",\"totalMinutes\":120,\"timeSlots\":[]}"
+    "{\"date\":\"2026-02-28\",\"totalMinutes\":120,\"timeSlots\":[]}"
 
   let result =
     json.parse(json_string, protocol.timesheet_decoder())
@@ -18,7 +18,7 @@ pub fn decode_minimal_timesheet_test() {
 
 pub fn decode_timesheets_response_test() {
   let json_string =
-    "{\"timesheets\":[{\"date\":\"2026-02-28T00:00:00Z\",\"totalMinutes\":0,\"timeSlots\":[]},{\"date\":\"2026-02-27T00:00:00Z\",\"totalMinutes\":240,\"timeSlots\":[]}]}"
+    "{\"timesheets\":[{\"date\":\"2026-02-28\",\"totalMinutes\":0,\"timeSlots\":[]},{\"date\":\"2026-02-27\",\"totalMinutes\":240,\"timeSlots\":[]}]}"
 
   let result =
     json.parse(json_string, protocol.timesheets_response_decoder())

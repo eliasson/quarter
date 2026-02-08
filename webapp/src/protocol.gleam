@@ -11,6 +11,7 @@ import gleam/int
 import gleam/json
 import gleam/list
 import gleam/option.{type Option, None, Some}
+import gleam/time/calendar
 import gleam/time/timestamp
 import lustre/effect.{type Effect}
 import message
@@ -202,13 +203,17 @@ pub fn delete_project(
 
 /// Get all timesheets for a given year and month.
 pub fn get_timesheets(
-  year: Int,
-  month: Int,
+  timestamp: timestamp.Timestamp,
   on_response handle_response: fn(Result(List(timesheet.Timesheet), rsvp.Error)) ->
     message.Msg,
 ) -> Effect(message.Msg) {
+  let #(date, _) = timestamp.to_calendar(timestamp, calendar.utc_offset)
+
   let url =
-    "/api/timesheets/" <> int.to_string(year) <> "/" <> int.to_string(month)
+    "/api/timesheets/"
+    <> int.to_string(date.year)
+    <> "/"
+    <> int.to_string(tsutil.calendar_month_to_int(date.month))
 
   let handler = rsvp.expect_json(timesheets_response_decoder(), handle_response)
 
@@ -328,6 +333,15 @@ fn decode_timestamp() -> decode.Decoder(timestamp.Timestamp) {
   }
 }
 
+fn decode_timestamp_from_date() -> decode.Decoder(timestamp.Timestamp) {
+  use ts_str <- decode.then(decode.string)
+
+  case timestamp.parse_rfc3339(ts_str <> "T00:00:00Z") {
+    Ok(ts) -> decode.success(ts)
+    _ -> decode.failure(tsutil.timestamp_zero(), "Could not parse timestamp")
+  }
+}
+
 /// Decode an optional ISO-8601 / RFC-3339 timestamp from a string.
 fn decode_optional_timestamp() -> decode.Decoder(Option(timestamp.Timestamp)) {
   use ts_str <- decode.then(decode.optional(decode.string))
@@ -360,7 +374,7 @@ pub fn timesheets_response_decoder() -> decode.Decoder(
 }
 
 pub fn timesheet_decoder() -> decode.Decoder(timesheet.Timesheet) {
-  use date <- decode.field("date", decode_timestamp())
+  use date <- decode.field("date", decode_timestamp_from_date())
   use total_minutes <- decode.field("totalMinutes", decode.int)
 
   decode.success(
