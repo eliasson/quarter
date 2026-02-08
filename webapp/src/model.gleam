@@ -5,6 +5,7 @@ import domain/project
 import domain/user
 import gleam/list
 import gleam/set
+import gleam/time/timestamp
 import route
 import seq
 import types
@@ -13,6 +14,9 @@ pub type Model {
   Model(
     is_authenticated: Bool,
     route: route.Route,
+    /// Our understanding of todays date, based on the users system time. Set during certain
+    /// navigation events. I.e. it is always older than the current time.
+    today: timestamp.Timestamp,
     /// The open drop down menus, a list to allow for nested menus.
     dropdowns: List(DropDownMenu),
     /// The open dialogs as a reverse stack (top most is last in list).
@@ -59,6 +63,7 @@ pub fn initial_model() -> Model {
   Model(
     is_authenticated: False,
     route: route.Home,
+    today: timestamp.system_time(),
     dropdowns: [],
     dialogs: [],
     users: [],
