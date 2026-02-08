@@ -10,6 +10,7 @@ import ui/core as ui
 import ui/dropdown
 import ui/graphics
 import ui/input
+import views/home
 import views/manage_projects
 import views/system_users
 
@@ -27,6 +28,7 @@ pub fn view(model: model.Model) -> Element(message.Msg) {
 
 fn route_view(model: model.Model) {
   case model.route {
+    route.Home -> home.view(model)
     route.AdministerSystemUsers -> system_users.view(model)
     route.Manage -> manage_projects.view(model)
     _ -> element.none()
