@@ -1,4 +1,3 @@
-import gleam/int
 import gleam/list
 import lustre/attribute as att
 import lustre/element.{type Element}
@@ -21,7 +20,6 @@ pub fn view(model: model.Model) -> Element(message.Msg) {
     drop_down_back_drop(model),
     main_navigation(model),
     route_view(model),
-    debug(model),
   ]
 
   div([att.class("application-layout ")], list.append(children, dialogs(model)))
@@ -164,12 +162,4 @@ fn dialogs(model: model.Model) -> List(element.Element(message.Msg)) {
   }
 
   list.map(model.dialogs, fn(dialog) { markup(dialog) })
-}
-
-fn debug(m: model.Model) {
-  html.pre([], [
-    html.text("Route: " <> route.describe(m.route)),
-    html.br([]),
-    html.text("Modal count: " <> int.to_string(list.length(m.dropdowns))),
-  ])
 }
