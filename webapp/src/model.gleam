@@ -6,6 +6,7 @@ import domain/user
 import gleam/list
 import gleam/set
 import gleam/time/timestamp
+import i18n
 import route
 import seq
 import types
@@ -14,6 +15,8 @@ pub type Model {
   Model(
     is_authenticated: Bool,
     route: route.Route,
+    /// The users language preference.
+    lang: i18n.Language,
     /// Our understanding of todays date, based on the users system time. Set during certain
     /// navigation events. I.e. it is always older than the current time.
     today: timestamp.Timestamp,
@@ -63,6 +66,7 @@ pub fn initial_model() -> Model {
   Model(
     is_authenticated: False,
     route: route.Home,
+    lang: i18n.English,
     today: timestamp.system_time(),
     dropdowns: [],
     dialogs: [],
