@@ -8,6 +8,7 @@ import gleam/int
 import gleam/string
 import gleam/time/calendar
 import gleam/time/timestamp
+import util/weekday
 
 pub type Language {
   English
@@ -33,8 +34,8 @@ pub fn name_of_month(ts: timestamp.Timestamp, _lang: Language) -> Translation {
 }
 
 pub fn name_of_day(ts: timestamp.Timestamp, _lang: Language) -> Translation {
-  let #(_date, _time) = timestamp.to_calendar(ts, calendar.utc_offset)
-  Translation("Someday")
+  let weekday = weekday.from_timestamp(ts)
+  Translation(weekday_name(weekday))
 }
 
 pub fn year(ts: timestamp.Timestamp, _lang: Language) -> Translation {
@@ -61,5 +62,17 @@ fn calendar_month(month: calendar.Month) -> String {
     calendar.October -> "october"
     calendar.November -> "november"
     calendar.December -> "december"
+  }
+}
+
+fn weekday_name(day: weekday.Weekday) -> String {
+  case day {
+    weekday.Monday -> "monday"
+    weekday.Tuesday -> "tuesday"
+    weekday.Wednesday -> "wednesday"
+    weekday.Thursday -> "thursday"
+    weekday.Friday -> "friday"
+    weekday.Saturday -> "saturday"
+    weekday.Sunday -> "sunday"
   }
 }
