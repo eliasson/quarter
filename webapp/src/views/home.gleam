@@ -1,3 +1,4 @@
+import domain/duration
 import gleam/int
 import gleam/list
 import i18n
@@ -21,13 +22,16 @@ fn calendar(m: model.Model) {
     list.map(m.timesheets, fn(ts) {
       let day = i18n.day(ts.date, m.lang) |> i18n.describe
       let name_of_day = i18n.name_of_day(ts.date, m.lang) |> i18n.capitalize
+      let #(hours, minutes) = duration.to_hours_and_minutes(ts.duration)
 
       div([att.class("calendar-month-day")], [
         div([att.class("date")], [html.text(day)]),
         div([att.class("day")], [html.text(name_of_day)]),
         div([att.class("reported")], [
-          span([att.class("text-value")], [html.text("7.75")]),
+          span([att.class("text-value")], [html.text(int.to_string(hours))]),
           span([att.class("text-unit")], [html.text("h")]),
+          span([att.class("text-value")], [html.text(int.to_string(minutes))]),
+          span([att.class("text-unit")], [html.text("min")]),
         ]),
       ])
     })
