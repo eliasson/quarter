@@ -4,6 +4,7 @@
 /// all translations and internationalization, not any type specific module.
 ///
 /// Quarter uses relativly few translations (I think), so we can keep it this simple.
+import gleam/int
 import gleam/string
 import gleam/time/calendar
 import gleam/time/timestamp
@@ -29,6 +30,21 @@ pub fn capitalize(t: Translation) -> String {
 pub fn name_of_month(ts: timestamp.Timestamp, _lang: Language) -> Translation {
   let #(date, _time) = timestamp.to_calendar(ts, calendar.utc_offset)
   Translation(calendar_month(date.month))
+}
+
+pub fn name_of_day(ts: timestamp.Timestamp, _lang: Language) -> Translation {
+  let #(_date, _time) = timestamp.to_calendar(ts, calendar.utc_offset)
+  Translation("Someday")
+}
+
+pub fn year(ts: timestamp.Timestamp, _lang: Language) -> Translation {
+  let #(date, _time) = timestamp.to_calendar(ts, calendar.utc_offset)
+  Translation(int.to_string(date.year))
+}
+
+pub fn day(ts: timestamp.Timestamp, _lang: Language) -> Translation {
+  let #(date, _time) = timestamp.to_calendar(ts, calendar.utc_offset)
+  Translation(int.to_string(date.day))
 }
 
 fn calendar_month(month: calendar.Month) -> String {
