@@ -20,7 +20,7 @@ fn calendar(m: model.Model) {
   let days =
     list.map(m.timesheets, fn(ts) {
       let day = i18n.day(ts.date, m.lang) |> i18n.describe
-      let name_of_day = i18n.name_of_day(ts.date, m.lang) |> i18n.describe
+      let name_of_day = i18n.name_of_day(ts.date, m.lang) |> i18n.capitalize
 
       div([att.class("calendar-month-day")], [
         div([att.class("date")], [html.text(day)]),
