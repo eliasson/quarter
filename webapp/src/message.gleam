@@ -25,6 +25,12 @@ pub type Msg {
   /// Dismiss an error notification.
   DismissError(id: String)
 
+  /// Change the calendar to display timesheets for the next month.
+  NextMonth
+
+  /// Change the calendar to display timesheets for the previous month.
+  PreviousMonth
+
   /// Select / deselect a project in the mange project list.
   ToggleProject(id: project.ProjectId)
 

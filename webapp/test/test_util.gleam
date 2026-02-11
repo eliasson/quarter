@@ -5,6 +5,7 @@ import domain/timesheet
 import gleam/list
 import gleam/option
 import gleam/result
+import gleam/time/calendar
 import gleam/time/timestamp
 import model
 import util/timestamp as tsutil
@@ -145,4 +146,16 @@ pub fn new_timesheet(date: String) -> Result(timesheet.Timesheet, Nil) {
   // TODO Add logic to create a timesheet with slots when needed by tests.
   timestamp.parse_rfc3339(date)
   |> result.map(fn(date) { timesheet.Timesheet(date, duration.Minutes(0), []) })
+}
+
+pub fn new_timestamp(
+  year: Int,
+  month: calendar.Month,
+  day: Int,
+) -> timestamp.Timestamp {
+  timestamp.from_calendar(
+    date: calendar.Date(year, month, day),
+    time: calendar.TimeOfDay(0, 0, 0, 0),
+    offset: calendar.utc_offset,
+  )
 }

@@ -8,15 +8,17 @@ import message.{
   ConfirmArchiveProject, ConfirmDeleteActivity, ConfirmDeleteProject,
   ConfirmDialog, CreateActivityResult, CreateProjectResult, CurrentUserResult,
   DeleteActivity, DeleteActivityResult, DeleteProject, DeleteProjectResult,
-  DismissError, FormTextFieldUpdated, Noop, OnRouteChange, OpenDialog,
-  OpenDropDownMenu, ProjectsResult, SystemUsersResult, TimesheetResult,
-  TimesheetsResult, ToggleProject, UpdateActivityResult, UpdateProjectResult,
+  DismissError, FormTextFieldUpdated, NextMonth, Noop, OnRouteChange, OpenDialog,
+  OpenDropDownMenu, PreviousMonth, ProjectsResult, SystemUsersResult,
+  TimesheetResult, TimesheetsResult, ToggleProject, UpdateActivityResult,
+  UpdateProjectResult,
 }
 import model.{
   type Model, close_all_modals, close_modal, delete_activity, delete_project,
-  dismiss_error, go_to_today, initial_model, navigate_to, open_dialog,
-  open_drop_down_menu, set_current_user, set_timesheets, set_users,
-  toggle_project, update_activity, update_dialog_value, update_project,
+  dismiss_error, go_to_next_month, go_to_previous_month, go_to_today,
+  initial_model, navigate_to, open_dialog, open_drop_down_menu, set_current_user,
+  set_timesheets, set_users, toggle_project, update_activity,
+  update_dialog_value, update_project,
 }
 import modem
 import protocol
@@ -77,6 +79,10 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
 
       #(m, eff)
     }
+
+    NextMonth -> #(go_to_next_month(model), effect.none())
+
+    PreviousMonth -> #(go_to_previous_month(model), effect.none())
 
     OpenDropDownMenu(id) -> #(open_drop_down_menu(model, id), effect.none())
 

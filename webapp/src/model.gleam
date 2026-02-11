@@ -11,6 +11,7 @@ import i18n
 import route
 import seq
 import types
+import util/timestamp as tsutil
 
 pub type Model {
   Model(
@@ -83,6 +84,14 @@ pub fn initial_model() -> Model {
 
 pub fn go_to_today(m: Model) -> Model {
   Model(..m, today: timestamp.system_time())
+}
+
+pub fn go_to_next_month(m: Model) -> Model {
+  Model(..m, today: tsutil.next_first_of_month(m.today))
+}
+
+pub fn go_to_previous_month(m: Model) -> Model {
+  Model(..m, today: tsutil.previous_first_of_month(m.today))
 }
 
 pub fn navigate_to(m: Model, route: route.Route) -> Model {
