@@ -43,3 +43,55 @@ pub fn calendar_month_to_int(month: calendar.Month) -> Int {
     calendar.December -> 12
   }
 }
+
+/// Get a timestamp for the first day of the next month.
+pub fn next_first_of_month(ts: timestamp.Timestamp) -> timestamp.Timestamp {
+  let #(date, time) = timestamp.to_calendar(ts, calendar.utc_offset)
+
+  let #(new_year, new_month) = case date.month {
+    calendar.January -> #(date.year, calendar.February)
+    calendar.February -> #(date.year, calendar.March)
+    calendar.March -> #(date.year, calendar.April)
+    calendar.April -> #(date.year, calendar.May)
+    calendar.May -> #(date.year, calendar.June)
+    calendar.June -> #(date.year, calendar.July)
+    calendar.July -> #(date.year, calendar.August)
+    calendar.August -> #(date.year, calendar.September)
+    calendar.September -> #(date.year, calendar.October)
+    calendar.October -> #(date.year, calendar.November)
+    calendar.November -> #(date.year, calendar.December)
+    calendar.December -> #(date.year + 1, calendar.January)
+  }
+
+  timestamp.from_calendar(
+    date: calendar.Date(new_year, new_month, 1),
+    time: time,
+    offset: calendar.utc_offset,
+  )
+}
+
+/// Get a timestamp for the first day of the previous month.
+pub fn previous_first_of_month(ts: timestamp.Timestamp) -> timestamp.Timestamp {
+  let #(date, time) = timestamp.to_calendar(ts, calendar.utc_offset)
+
+  let #(new_year, new_month) = case date.month {
+    calendar.January -> #(date.year - 1, calendar.December)
+    calendar.February -> #(date.year, calendar.January)
+    calendar.March -> #(date.year, calendar.February)
+    calendar.April -> #(date.year, calendar.March)
+    calendar.May -> #(date.year, calendar.April)
+    calendar.June -> #(date.year, calendar.May)
+    calendar.July -> #(date.year, calendar.June)
+    calendar.August -> #(date.year, calendar.July)
+    calendar.September -> #(date.year, calendar.August)
+    calendar.October -> #(date.year, calendar.September)
+    calendar.November -> #(date.year, calendar.October)
+    calendar.December -> #(date.year, calendar.November)
+  }
+
+  timestamp.from_calendar(
+    date: calendar.Date(new_year, new_month, 1),
+    time: time,
+    offset: calendar.utc_offset,
+  )
+}
