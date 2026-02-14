@@ -15,8 +15,8 @@ import message.{
 }
 import model.{
   type Model, close_all_modals, close_modal, delete_activity, delete_project,
-  dismiss_error, go_to_next_month, go_to_previous_month, go_to_today,
-  initial_model, navigate_to, open_dialog, open_drop_down_menu, set_current_user,
+  dismiss_error, go_to_next_month, go_to_previous_month, initial_model,
+  navigate_to, open_dialog, open_drop_down_menu, set_current_user,
   set_timesheets, set_users, toggle_project, update_activity,
   update_dialog_value, update_project,
 }
@@ -71,7 +71,6 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
         model
         |> close_all_modals
         |> navigate_to(r)
-        |> model_updates_on_route_change(r)
 
       let eff =
         m
@@ -314,18 +313,11 @@ fn on_url_change(uri: Uri) -> Msg {
 fn effect_on_route_loaded(m: model.Model, r: route.Route) {
   case r {
     route.Home -> protocol.get_timesheets(m.today, message.TimesheetsResult)
-
+    // TODO load timesheet on timesheet view
     route.AdministerSystemUsers ->
       protocol.get_system_users(message.SystemUsersResult)
 
     _ -> effect.none()
-  }
-}
-
-fn model_updates_on_route_change(m: model.Model, r: route.Route) {
-  case r {
-    route.Home -> go_to_today(m)
-    _ -> m
   }
 }
 

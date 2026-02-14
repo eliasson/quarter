@@ -82,10 +82,6 @@ pub fn initial_model() -> Model {
   )
 }
 
-pub fn go_to_today(m: Model) -> Model {
-  Model(..m, today: timestamp.system_time())
-}
-
 pub fn go_to_next_month(m: Model) -> Model {
   Model(..m, today: tsutil.next_first_of_month(m.today))
 }
@@ -95,7 +91,13 @@ pub fn go_to_previous_month(m: Model) -> Model {
 }
 
 pub fn navigate_to(m: Model, route: route.Route) -> Model {
-  Model(..m, route: route)
+  let updated_model = case route {
+    route.Home -> Model(..m, today: timestamp.system_time())
+    route.Timesheet(ts) -> Model(..m, today: ts)
+    _ -> m
+  }
+
+  Model(..updated_model, route: route)
 }
 
 pub fn open_drop_down_menu(m: Model, id: String) -> Model {
