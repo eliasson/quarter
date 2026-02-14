@@ -161,3 +161,17 @@ pub fn should_translate_day_with_capitalize_test() {
   |> i18n.capitalize
   |> should.equal("Monday")
 }
+
+pub fn should_translate_date_long_format_test() {
+  let ts =
+    timestamp.from_calendar(
+      date: calendar.Date(2026, calendar.February, 14),
+      time: calendar.TimeOfDay(12, 0, 0, 0),
+      offset: calendar.utc_offset,
+    )
+
+  ts
+  |> i18n.date_long(i18n.English)
+  |> i18n.describe
+  |> should.equal("saturday, 14 february")
+}

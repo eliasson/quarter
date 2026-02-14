@@ -48,6 +48,21 @@ pub fn day(ts: timestamp.Timestamp, _lang: Language) -> Translation {
   Translation(int.to_string(date.day))
 }
 
+pub fn date_long(ts: timestamp.Timestamp, _lang: Language) -> Translation {
+  let #(date, _time) = timestamp.to_calendar(ts, calendar.utc_offset)
+
+  let weekday = weekday.from_timestamp(ts)
+
+  // Saturday, 14 february
+  Translation(
+    weekday_name(weekday)
+    <> ", "
+    <> int.to_string(date.day)
+    <> " "
+    <> calendar_month(date.month),
+  )
+}
+
 fn calendar_month(month: calendar.Month) -> String {
   case month {
     calendar.January -> "january"
