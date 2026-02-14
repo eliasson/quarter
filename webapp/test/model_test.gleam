@@ -18,9 +18,9 @@ pub fn should_have_home_as_initial_route_test() {
 }
 
 pub fn should_navigate_to_route_test() {
-  let model = initial_model() |> navigate_to(route.Timesheet)
+  let model = initial_model() |> navigate_to(route.Manage)
 
-  should.equal(model.route, route.Timesheet)
+  should.equal(model.route, route.Manage)
 }
 
 pub fn should_have_no_errors_test() {
