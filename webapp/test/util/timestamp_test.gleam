@@ -16,6 +16,20 @@ pub fn should_convert_timestamp_to_iso_date_test() {
   |> should.equal("2026-02-08")
 }
 
+pub fn should_convert_iso_string_to_timestamp_test() {
+  let ts =
+    std_timestamp.from_calendar(
+      date: calendar.Date(2026, calendar.February, 8),
+      time: calendar.TimeOfDay(0, 0, 0, 0),
+      offset: calendar.utc_offset,
+    )
+
+  timestamp.to_iso_date(ts)
+  |> timestamp.from_iso_date
+  |> should.be_ok
+  |> should.equal(ts)
+}
+
 pub fn next_first_of_month_test() {
   let tests = [
     #(calendar.Date(2024, calendar.January, 15), "2024-02-01"),

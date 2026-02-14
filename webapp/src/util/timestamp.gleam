@@ -7,6 +7,18 @@ pub fn timestamp_zero() {
   timestamp.from_unix_seconds(0)
 }
 
+/// Parse a date only ISO string to a timestamp using zero time.
+///
+/// # Examples
+///
+/// ```gleam
+/// let assert Ok(ts) = timestamp.from_iso_date("2026-02-14")
+/// ```
+pub fn from_iso_date(date: String) -> Result(timestamp.Timestamp, Nil) {
+  let rfc3339 = date <> "T00:00:00Z"
+  timestamp.parse_rfc3339(rfc3339)
+}
+
 /// Convert a timestamp to an ISO date string (YYYY-MM-DD).
 pub fn to_iso_date(ts: timestamp.Timestamp) -> String {
   let #(date, _time) = timestamp.to_calendar(ts, calendar.utc_offset)
