@@ -13,6 +13,7 @@ import ui/input
 import views/home
 import views/manage_projects
 import views/system_users
+import views/timesheet
 
 const main_menu_id = "main.nav"
 
@@ -29,6 +30,7 @@ pub fn view(model: model.Model) -> Element(message.Msg) {
 fn route_view(model: model.Model) {
   case model.route {
     route.Home -> home.view(model)
+    route.Timesheet -> timesheet.view(model)
     route.AdministerSystemUsers -> system_users.view(model)
     route.Manage -> manage_projects.view(model)
     _ -> element.none()
