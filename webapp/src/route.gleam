@@ -47,7 +47,8 @@ pub fn describe(route: Route) -> String {
 pub fn identify(uri: Uri) -> Route {
   case uri.path_segments(uri.path) {
     ["ui"] -> Home
-    ["ui", "timesheet"] -> Timesheet(timestamp.system_time())
+    ["ui", "timesheet"] ->
+      Timesheet(tsutil.with_zero_time(timestamp.system_time()))
     ["ui", "timesheet", tail] -> {
       case tsutil.from_iso_date(tail) {
         Ok(ts) -> Timesheet(ts)

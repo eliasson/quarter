@@ -5,6 +5,7 @@ import gleam/time/timestamp
 import gleam/uri
 import gleeunit/should
 import route
+import util/timestamp as tsutil
 
 pub fn should_identify_uri_test() {
   let ts =
@@ -14,7 +15,8 @@ pub fn should_identify_uri_test() {
       offset: calendar.utc_offset,
     )
 
-  let now = timestamp.system_time()
+  let now = tsutil.with_zero_time(timestamp.system_time())
+
   let tests = [
     #("", route.Home),
     #("/timesheet", route.Home),

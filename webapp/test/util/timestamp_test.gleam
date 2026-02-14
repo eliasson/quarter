@@ -16,6 +16,24 @@ pub fn should_convert_timestamp_to_iso_date_test() {
   |> should.equal("2026-02-08")
 }
 
+pub fn should_zero_time_part_of_timestamp_test() {
+  let ts =
+    std_timestamp.from_calendar(
+      date: calendar.Date(2026, calendar.February, 8),
+      time: calendar.TimeOfDay(12, 30, 50, 0),
+      offset: calendar.utc_offset,
+    )
+  let expected =
+    std_timestamp.from_calendar(
+      date: calendar.Date(2026, calendar.February, 8),
+      time: calendar.TimeOfDay(0, 0, 0, 0),
+      offset: calendar.utc_offset,
+    )
+
+  timestamp.with_zero_time(ts)
+  |> should.equal(expected)
+}
+
 pub fn should_convert_iso_string_to_timestamp_test() {
   let ts =
     std_timestamp.from_calendar(

@@ -1,3 +1,4 @@
+import domain/timesheet
 import gleam/int
 import gleam/string
 import gleam/time/calendar
@@ -37,6 +38,16 @@ pub fn to_iso_date(ts: timestamp.Timestamp) -> String {
     |> string.pad_start(2, "0")
 
   year <> "-" <> month <> "-" <> day
+}
+
+/// Return a Timestamp with the same date but with the time set to zero.
+pub fn with_zero_time(ts: timestamp.Timestamp) -> timestamp.Timestamp {
+  let #(date, _time) = timestamp.to_calendar(ts, calendar.utc_offset)
+  timestamp.from_calendar(
+    date: date,
+    time: calendar.TimeOfDay(0, 0, 0, 0),
+    offset: calendar.utc_offset,
+  )
 }
 
 pub fn calendar_month_to_int(month: calendar.Month) -> Int {
