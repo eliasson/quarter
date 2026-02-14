@@ -4,9 +4,11 @@ import gleam/list
 import i18n
 import lustre/attribute as att
 import lustre/element.{type Element}
-import lustre/element/html.{div, h1, span}
+import lustre/element/html.{a, div, h1, span}
 import message
 import model
+import route
+import ui/core as ui
 import ui/graphics
 import ui/input
 
@@ -34,6 +36,10 @@ fn calendar(m: model.Model) {
           span([att.class("text-unit")], [html.text("h")]),
           span([att.class("text-value")], [html.text(int.to_string(minutes))]),
           span([att.class("text-unit")], [html.text("min")]),
+        ]),
+
+        a([att.href(route.for_timesheet(ts.date))], [
+          ui.icon(graphics.icon_next, ui.MediumSize),
         ]),
       ])
     })
