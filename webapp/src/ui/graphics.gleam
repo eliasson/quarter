@@ -33,3 +33,7 @@ pub const icon_edit = "pencil-square"
 pub const icon_archive = "archive"
 
 pub const icon_delete = "trash"
+
+pub const icon_prev = "chevron-left"
+
+pub const icon_next = "chevron-right"

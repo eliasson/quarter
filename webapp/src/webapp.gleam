@@ -80,9 +80,19 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       #(m, eff)
     }
 
-    NextMonth -> #(go_to_next_month(model), effect.none())
+    NextMonth -> {
+      // Called from the home/calendar view, change month and load a new set of timesheets.
+      let m = go_to_next_month(model)
+      let e = protocol.get_timesheets(m.today, message.TimesheetsResult)
+      #(m, e)
+    }
 
-    PreviousMonth -> #(go_to_previous_month(model), effect.none())
+    PreviousMonth -> {
+      // Called from the home/calendar view, change month and load a new set of timesheets.
+      let m = go_to_previous_month(model)
+      let e = protocol.get_timesheets(m.today, message.TimesheetsResult)
+      #(m, e)
+    }
 
     OpenDropDownMenu(id) -> #(open_drop_down_menu(model, id), effect.none())
 

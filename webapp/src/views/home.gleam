@@ -4,9 +4,11 @@ import gleam/list
 import i18n
 import lustre/attribute as att
 import lustre/element.{type Element}
-import lustre/element/html.{div, h1, p, span}
+import lustre/element/html.{div, h1, span}
 import message
 import model
+import ui/graphics
+import ui/input
 
 pub fn view(m: model.Model) -> Element(message.Msg) {
   div([att.class("content")], [
@@ -38,6 +40,16 @@ fn calendar(m: model.Model) {
 
   div([att.class("calendar-month")], [
     h1([], [html.text(month), span([att.class("year")], [html.text(year)])]),
+    previous_month(),
+    next_month(),
     ..days
   ])
+}
+
+fn previous_month() {
+  input.ghost_button(graphics.icon_prev, message.PreviousMonth)
+}
+
+fn next_month() {
+  input.ghost_button(graphics.icon_next, message.NextMonth)
 }
