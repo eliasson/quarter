@@ -1,5 +1,3 @@
-import gleam/float
-import gleam/time/duration
 import gleam/time/timestamp
 import gleeunit/should
 import model
