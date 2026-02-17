@@ -48,7 +48,7 @@ fn main_navigation(model: model.Model) -> Element(message.Msg) {
 
 fn nav_logo() {
   div([att.class("main-navigation-item")], [
-    html.a([att.href("/ui")], [
+    html.a([att.href(route.home_url)], [
       ui.icon(graphics.icon_logo, ui.MediumSize),
     ]),
   ])
@@ -63,6 +63,7 @@ fn nav_menu() {
   }
 
   ul([], [
+    item(graphics.icon_timesheet, "Calendar", route.home_url),
     item(graphics.icon_timesheet, "Timesheet", route.timesheet_url),
     item(graphics.icon_report, "Report", route.report_url),
     item(graphics.icon_manage, "Manage", route.manage_url),
@@ -74,6 +75,12 @@ fn main_drop_down_menu(m: model.Model) {
     main_menu_id,
     ui.icon(graphics.icon_menu, ui.MediumSize),
     [
+      dropdown.DropDownLinkApx(
+        graphics.icon_calendar,
+        "Calendar",
+        "Montly overview",
+        route.home_url,
+      ),
       dropdown.DropDownLinkApx(
         graphics.icon_timesheet,
         "Timesheet",

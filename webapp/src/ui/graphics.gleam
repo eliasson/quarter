@@ -1,6 +1,8 @@
-pub const icon_logo = "logo"
+pub const icon_logo = "quarter-logo"
 
-pub const icon_timesheet = "calendar"
+pub const icon_calendar = "calendar"
+
+pub const icon_timesheet = "document"
 
 pub const icon_manage = "table"
 
