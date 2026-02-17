@@ -52,6 +52,11 @@
     cursor: pointer;
 }
 
+.drop-down-menu-item .icon {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
 .drop-down-menu-item .content,
 .drop-down-menu-header .content {
     display: flex;

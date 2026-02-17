@@ -25,6 +25,12 @@
     display: none;
 }
 
+.main-navigation .icon {
+    /* Use slightly larger icons in the header */
+    width: 1.8rem;
+    height: 1.8rem;
+}
+
 .main-navigation-item {
     display: flex;
     align-items: center;
@@ -68,6 +74,11 @@
     .main-navigation-item.active a {
         color: var(--menu-text-color);
         border-bottom-color: var(--menu-text-color);
+    }
+
+    .main-navigation-item .icon {
+        width: 1.5rem;
+        height: 1.5rem;
     }
 
     .drop-down-initiator .icon {
