@@ -1,6 +1,6 @@
 /** drop down menu **********************************************************/
 .drop-down-menu-back-drop {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     height: 100vh;
@@ -9,9 +9,7 @@
     max-width: 100vw;
     z-index: 80;
 
-    /** Useful for debugging
-    background-color: rgba(1, 1, 1, 0.1);
-    */
+    /* backdrop-filter: blur(2px); */
 }
 
 .drop-down-initiator {
@@ -28,7 +26,8 @@
     flex-direction: column;
     position: absolute;
 
-    background-color: var(--gray-1);
+    color: var(--menu-text-color);
+    background-color: var(--bg-color);
 
     top: 0;
     left: 0;
@@ -46,28 +45,23 @@
     flex-direction: column;
     align-items: start;
 
-    padding: 1rem 1rem;
+    padding: var(--spacing-4) var(--spacing-4);
 }
 
 .drop-down-menu-item {
     cursor: pointer;
 }
 
-.drop-down-menu-item:hover {
-    background-color: var(--gray-3);
-    transition: background-color 0.2s;
-}
-
 .drop-down-menu-item .content,
 .drop-down-menu-header .content {
     display: flex;
     flex-direction: row;
-    gap: 1rem;
+    gap: var(--spacing-4);
 }
 
 .drop-down-menu-item .appendix {
     font-size: var(--font-size-s);
-    color: var(--gray-5);
+    color: var(--menu-text-appendix-color);
     /* icon width + gap */
     margin-left: calc(1.75rem + 1rem);
 }
@@ -78,7 +72,12 @@
 }
 
 .separator {
-    color: var(--gray-3);
+    color: var(--menu-text-color);
+}
+
+.drop-down-menu-item .icon,
+.drop-down-menu-item a {
+    color: var(--menu-text-color);
 }
 
 @media (min-width: 1024px) {
@@ -92,19 +91,24 @@
 
         height: unset;
 
-        border-radius: 0.5rem;
-        border: 2px solid var(--gray-9);
+        border: 2px solid var(--menu-text-color);
 
         /* x, y, spread, blur */
-        box-shadow: 0 8px 8px -8px var(--gray-8);
+        box-shadow: 8px 8px 8px -6px var(--menu-text-color);
 
         left: unset;
-        right: 1rem;
-        top: 1rem;
+        right: var(--spacing-4);
+        top: var(--spacing-4);
     }
 
     /** Drop-down menus does not need the header on large screens. */
     .drop-down-menu-header {
         display: none;
+    }
+
+    .drop-down-menu-item:hover {
+        color: var(--menu-text-hover-color);
+        background-color: var(--menu-bg-hover-color);
+        transition: background-color 0.2s;
     }
 }

@@ -40,6 +40,7 @@ fn route_view(model: model.Model) {
 fn main_navigation(model: model.Model) -> Element(message.Msg) {
   nav([att.class("main-navigation")], [
     nav_logo(),
+    spacer(),
     nav_menu(),
     main_drop_down_menu(model),
   ])
@@ -48,6 +49,7 @@ fn main_navigation(model: model.Model) -> Element(message.Msg) {
 fn nav_logo() {
   div([att.class("main-navigation-item")], [
     ui.icon(graphics.icon_logo, ui.MediumSize),
+    html.text("quarter"),
   ])
 }
 
@@ -166,4 +168,8 @@ fn dialogs(model: model.Model) -> List(element.Element(message.Msg)) {
   }
 
   list.map(model.dialogs, fn(dialog) { markup(dialog) })
+}
+
+fn spacer() {
+  div([att.class("spacer")], [])
 }

@@ -1,0 +1,152 @@
+@import "./navigation.css";
+@import "./drop-down-menu.css";
+
+:root {
+    /** The color covering the entire outside of the application on large screens. */
+    --page-bg-color: #eff2f1;
+
+    /** The main background color for the application.*/
+    --bg-color: #ffffff;
+
+    /** All text without any custom modifiers should have this color. */
+    --text-color: #1a1918;
+    --text-color-highlight: #5c7a6c;
+    --text-color-dark: #2f3835;
+
+    /** Border and lines all have this color. */
+    --border-color: #dce5e1;
+
+    /** Accent color. */
+    --color-accent: #3b7d76;
+
+    /** The foooter should contrast the application. */
+    --footer-bg: #23312b;
+    --footer-text: #e2e8e5;
+    --footer-text-muted: #94a3b8;
+
+    /** Menu text */
+    --menu-text-color: var(--text-color-dark);
+    --menu-text-hover-color: var(--text-color);
+    --menu-text-appendix-color: var(--text-color-dark);
+    --menu-bg-hover-color: var(--page-bg-color);
+
+    /** Typography */
+    --font-family: sans-serif, monospace;
+    --font-size-xs: 0.75rem;
+    --font-size-sm: 0.875rem;
+    --font-size-base: 1rem;
+    --font-size-lg: 1.125rem;
+    --font-size-xl: 1.25rem;
+    --font-size-2xl: 1.5rem;
+    --font-size-3xl: 1.875rem;
+    --font-size-4xl: 2.25rem;
+    --font-size-5xl: 3rem;
+
+    /** Spacing */
+    --spacing-1: 0.25rem;
+    --spacing-2: 0.5rem;
+    --spacing-3: 0.75rem;
+    --spacing-4: 1rem;
+    --spacing-5: 1.25rem;
+    --spacing-6: 1.5rem;
+    --spacing-8: 2rem;
+    --spacing-10: 2.5rem;
+    --spacing-12: 3rem;
+    --spacing-16: 4rem;
+    --spacing-20: 5rem;
+    --spacing-24: 6rem;
+}
+
+/* Reset */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+
+    background-color: var(--page-bg-color);
+    color: var(--text-color);
+
+    font-family: "Cormorant Garamond", serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+button {
+    background: none;
+    border: none;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.application {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: var(--spacing-4);
+
+    width: 100%;
+
+    background-color: var(--bg-color);
+    box-shadow:
+        0 1px 1px rgba(0, 0, 0, 0.05),
+        0 10px 30px rgba(0, 0, 0, 0.03);
+}
+
+.application-layout {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+/** Use this on a div in a flex layout to consume space. */
+.spacer {
+    flex-grow: 1;
+}
+
+/** icons *******************************************************************/
+.icon {
+    color: var(--text-color);
+    display: block;
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.icon.small {
+    width: 1rem;
+    height: 1rem;
+}
+
+@media (min-width: 1024px) {
+    .application {
+        max-width: 960px;
+        margin: 60px auto;
+        padding: 60px 80px 100px;
+    }
+}
+
+/** Disable icons in the main navigation for now. Not sure I want them. */
+.main-navigation ul li .icon {
+    display: none;
+}
+
+.xdrop-down-menu {
+    display: none;
+}

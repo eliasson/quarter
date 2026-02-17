@@ -8,19 +8,36 @@
 
         <title>Quarter</title>
 
-        <link rel="stylesheet" href="quarter.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500&display=swap"
+            rel="stylesheet"
+        />
+
+        <link rel="stylesheet" href="q.css" />
     </head>
 
     <body>
-        <div-- class="application" id="quarter">
-            <!-- div class="application-layout">
+        <div class="application" id="quarter">
+        <!-- div class="application" id="zquarter">
+            <div class="drop-down-menu-back-drop"></div>
+            <div class="application-layout">
                 <nav class="main-navigation">
                     <div class="main-navigation-item">
                         <svg class="icon">
-                            <use xlink:href="#logo"></use>
+                            <use xlink:href="#quarter-logo"></use>
                         </svg>
+                        Quarter
                     </div>
+                    <div class="spacer"></div>
                     <ul>
+                        <li class="main-navigation-item active">
+                            <svg class="icon">
+                                <use xlink:href="#calendar"></use>
+                            </svg>
+                            <a href="#">Calendar</a>
+                        </li>
                         <li class="main-navigation-item">
                             <svg class="icon">
                                 <use xlink:href="#calendar"></use>
@@ -40,60 +57,61 @@
                             <a href="#">Manage</a>
                         </li>
                     </ul>
+
                     <div class="main-navigation-item">
                         <div class="drop-down-initiator">
                             <svg class="icon">
-                                <use xlink:href="#ellipsis-horizontal-circle"></use>
+                                <use xlink:href="#menu"></use>
                             </svg>
 
                             <div class="drop-down-menu">
-                            <div class="drop-down-menu-header">
-                                <div class="content">
-                                    <svg class="icon">
-                                        <use xlink:href="#logo"></use>
-                                    </svg>
-                                    <button class="ghost">
+                                <div class="drop-down-menu-header">
+                                    <div class="content">
                                         <svg class="icon">
-                                            <use xlink:href="#x-mark"></use>
+                                            <use xlink:href="#quarter-logo"></use>
                                         </svg>
-                                    </button>
+                                        <button class="ghost">
+                                            <svg class="icon">
+                                                <use xlink:href="#x-mark"></use>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="drop-down-menu-item">
+                                    <div class="content">
+                                        <svg class="icon">
+                                            <use xlink:href="#table"></use>
+                                        </svg>
+                                        <a href="#">Menu item A</a>
+                                    </div>
+                                </div>
+                                <div class="drop-down-menu-item">
+                                    <div class="content">
+                                        <svg class="icon">
+                                            <use xlink:href="#table"></use>
+                                        </svg>
+                                        <a href="#">Menu item B</a>
+                                    </div>
+                                </div>
+                                <div class="drop-down-menu-item">
+                                    <div class="content">
+                                        <svg class="icon">
+                                            <use xlink:href="#table"></use>
+                                        </svg>
+                                        <a href="#">Menu item C</a>
+                                    </div>
+                                </div>
+                                <hr class="separator"></hr>
+                                <div class="drop-down-menu-item">
+                                    <div class="content">
+                                        <svg class="icon">
+                                            <use xlink:href="#table"></use>
+                                        </svg>
+                                        <a href="#">Menu item C</a>
+                                    </div>
+                                    <div class="appendix">Some extra text for a menu item</div>
                                 </div>
                             </div>
-                            <div class="drop-down-menu-item">
-                                <div class="content">
-                                    <svg class="icon">
-                                        <use xlink:href="#table"></use>
-                                    </svg>
-                                    <a href="#">Menu item A</a>
-                                </div>
-                            </div>
-                            <div class="drop-down-menu-item">
-                                <div class="content">
-                                    <svg class="icon">
-                                        <use xlink:href="#table"></use>
-                                    </svg>
-                                    <a href="#">Menu item B</a>
-                                </div>
-                            </div>
-                            <div class="drop-down-menu-item">
-                                <div class="content">
-                                    <svg class="icon">
-                                        <use xlink:href="#table"></use>
-                                    </svg>
-                                    <a href="#">Menu item C</a>
-                                </div>
-                            </div>
-                            <hr class="separator"></hr>
-                            <div class="drop-down-menu-item">
-                                <div class="content">
-                                    <svg class="icon">
-                                        <use xlink:href="#table"></use>
-                                    </svg>
-                                    <a href="#">Menu item C</a>
-                                </div>
-                                <div class="appendix">Some extra text for a menu item</div>
-                            </div>
-                        </div>
                         </div>
                     </div>
                 </nav>
@@ -368,8 +386,8 @@
                         </div>
                     </div>
                 </div>
-            </div-->
-        </div>
+            </div>
+        </div -->
         <script type="module" src="./quarter.js"></script>
 
         <!-- All icons used in quarter comes from heroicons.com -->
@@ -378,6 +396,52 @@
             style="position: absolute; width: 0; height: 0; overflow: hidden"
             xmlns="http://www.w3.org/2000/svg"
         >
+            <symbol
+                id="quarter-logo"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            >
+                <circle cx="12" cy="12" r="10" />
+                <path
+                    d="M12 12V2.5A9.5 9.5 0 0 1 21.5 12H12z"
+                    fill="currentColor"
+                    stroke="none"
+                />
+                <line x1="12" y1="12" x2="12" y2="2" />
+                <line x1="12" y1="12" x2="22" y2="12" />
+            </symbol>
+
+            <!-- menu, three bars -->
+            <symbol
+                id="menu"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            >
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </symbol>
+
+            <!-- close -->
+            <symbol
+                id="x-mark"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+            >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+            </symbol>
+
+            <!-- old icons below this point -->
             <symbol
                 id="logo"
                 fill="none"
@@ -565,8 +629,18 @@
                 />
             </symbol>
 
-            <symbol id="chevron-left" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+            <symbol
+                id="chevron-left"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+            >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M15.75 19.5 8.25 12l7.5-7.5"
+                />
             </symbol>
 
             <symbol
@@ -612,16 +686,7 @@
                 />
             </symbol>
 
-            <!-- close -->
-            <symbol
-                id="x-mark"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-            >
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-            </symbol>
+
 
             <!-- menu -->
             <symbol
