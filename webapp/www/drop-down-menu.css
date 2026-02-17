@@ -62,13 +62,15 @@
     display: flex;
     flex-direction: row;
     gap: var(--spacing-4);
+
+    font-weight: bold;
 }
 
 .drop-down-menu-item .appendix {
     font-size: var(--font-size-s);
     color: var(--menu-text-appendix-color);
     /* icon width + gap */
-    margin-left: calc(1.75rem + 1rem);
+    margin-left: calc(1.5rem + 1rem);
 }
 
 .drop-down-menu-header .content {
@@ -77,7 +79,9 @@
 }
 
 .separator {
-    color: var(--menu-text-color);
+    background-color: var(--border-color);
+    border: none;
+    height: 1px;
 }
 
 .drop-down-menu-item .icon,
@@ -96,10 +100,10 @@
 
         height: unset;
 
-        border: 2px solid var(--menu-text-color);
+        border: 1px solid var(--border-color);
 
         /* x, y, spread, blur */
-        box-shadow: 8px 8px 8px -6px var(--menu-text-color);
+        box-shadow: 8px 8px 8px -6px var(--shadow-color);
 
         left: unset;
         right: var(--spacing-4);

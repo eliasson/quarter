@@ -12,10 +12,11 @@
     /** All text without any custom modifiers should have this color. */
     --text-color: #1a1918;
     --text-color-highlight: #5c7a6c;
-    --text-color-dark: #2f3835;
+    --text-color-second: #2f3835;
 
     /** Border and lines all have this color. */
     --border-color: #dce5e1;
+    --shadow-color: #ceddee;
 
     /** Accent color. */
     --color-accent: #3b7d76;
@@ -26,9 +27,9 @@
     --footer-text-muted: #94a3b8;
 
     /** Menu text */
-    --menu-text-color: var(--text-color-dark);
+    --menu-text-color: var(--text-color-second);
     --menu-text-hover-color: var(--text-color);
-    --menu-text-appendix-color: var(--text-color-dark);
+    --menu-text-appendix-color: var(--text-color-highlight);
     --menu-bg-hover-color: var(--page-bg-color);
 
     /** Typography */
@@ -56,6 +57,32 @@
     --spacing-16: 4rem;
     --spacing-20: 5rem;
     --spacing-24: 6rem;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --page-bg-color: #151918;
+        --bg-color: #1e2422;
+
+        /** All text without any custom modifiers should have this color. */
+        --text-color: #e6ebe9;
+        --text-color-highlight: #e6ebe9;
+        --text-color-second: #e6ebe9;
+        --text-color-secondary: #5c7a6c;
+        --text-color-accent: #3b7d76;
+
+        /** Border and lines all have this color. */
+        --border-color: #2f3835;
+        --shadow-color: #1e1412;
+
+        /** Accent color. */
+        --color-accent: #5eead4;
+
+        /** The foooter should contrast the application. */
+        --footer-bg: #23312b;
+        --footer-text: #e2e8e5;
+        --footer-text-muted: #94a3b8;
+    }
 }
 
 /* Reset */
