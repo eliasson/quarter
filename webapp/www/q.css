@@ -1,5 +1,6 @@
 @import "./navigation.css";
 @import "./drop-down-menu.css";
+@import "./footer.css";
 
 :root {
     /** The color covering the entire outside of the application on large screens. */
