@@ -48,7 +48,9 @@ fn main_navigation(model: model.Model) -> Element(message.Msg) {
 
 fn nav_logo() {
   div([att.class("main-navigation-item")], [
-    ui.icon(graphics.icon_logo, ui.MediumSize),
+    html.a([att.href("/ui")], [
+      ui.icon(graphics.icon_logo, ui.MediumSize),
+    ]),
   ])
 }
 
