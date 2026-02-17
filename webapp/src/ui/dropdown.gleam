@@ -87,20 +87,29 @@ fn drop_down_item_impl(
     option.None -> element.none()
   }
 
-  // TODO: Move the A to wrap the entire item to make it clickable.
-  // TODO: Should a BUTTON be used instead of a DIV to work with keyboard navigation.
-  let label_elm = case action {
-    either.Left(url) -> html.a([att.href(url)], [html.text(text)])
-    either.Right(msg) ->
-      html.div([ui.click_stop(msg)], [
-        html.text(text),
+  case action {
+    either.Left(url) -> {
+      html.a([att.href(url)], [
+        html.div([att.class("drop-down-menu-item")], [
+          html.div([att.class("content")], [
+            ui.icon(ico, ui.MediumSize),
+            html.text(text),
+          ]),
+          appendix_elm,
+        ]),
       ])
-  }
+    }
 
-  html.div([att.class("drop-down-menu-item")], [
-    html.div([att.class("content")], [ui.icon(ico, ui.MediumSize), label_elm]),
-    appendix_elm,
-  ])
+    either.Right(msg) -> {
+      html.div([att.class("drop-down-menu-item"), ui.click_stop(msg)], [
+        html.div([att.class("content")], [
+          ui.icon(ico, ui.MediumSize),
+          html.text(text),
+        ]),
+        appendix_elm,
+      ])
+    }
+  }
 }
 
 fn close_button(on_click: msg) -> element.Element(msg) {
