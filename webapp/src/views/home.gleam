@@ -8,7 +8,6 @@ import lustre/element/html.{a, div, h1, header, span}
 import message
 import model
 import route
-import ui/core as ui
 import ui/graphics
 import ui/input
 

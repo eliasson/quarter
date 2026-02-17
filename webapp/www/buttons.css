@@ -49,7 +49,38 @@ button:disabled {
 }
 */
 
-/** Ghost buttons are round with a small border. Used for navigation in calendar and report. */
+/** Primary button */
+
+button {
+    display: flex;
+    align-items: center;
+    place-content: center;
+    gap: 0.5rem;
+    padding: 12px 24px;
+
+    background: var(--button-bg-color);
+    color: var(--button-text-color);
+    border-radius: 4px;
+    border: none;
+
+    transition: opacity 0.2s;
+    cursor: pointer;
+
+    font-family: sans-serif;
+    font-size: var(--font-size-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+button .icon {
+    color: var(--button-text-color);
+}
+
 button.ghost {
     display: flex;
     justify-content: center;
@@ -57,12 +88,11 @@ button.ghost {
 
     width: var(--spacing-8);
     height: var(--spacing-8);
+    padding: 0;
 
     transition: all 0.2s;
     cursor: pointer;
 
-    border-radius: 50%;
-    border: 1px solid var(--border-color);
     background: none;
     color: var(--text-color-second);
 }
@@ -70,10 +100,11 @@ button.ghost {
 button.ghost svg {
     width: var(--spacing-4);
     height: var(--spacing-4);
+    color: var(--text-color-second);
 }
 
 button.ghost:hover {
     border-color: var(--text-color);
     color: var(--text-color);
-    background: rgba(0, 0, 0, 0.02);
+    background: rgba(0, 0, 0, 0.06);
 }

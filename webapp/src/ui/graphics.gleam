@@ -24,7 +24,7 @@ pub const icon_context_menu = "ellipsis-vertical"
 
 pub const icon_add_user = "user-plus"
 
-pub const icon_is_closed = "chevron-right"
+pub const icon_is_closed = "chevron-up-down"
 
 pub const icon_is_open = "chevron-down"
 

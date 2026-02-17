@@ -3,6 +3,7 @@
 @import "./footer.css";
 @import "./buttons.css";
 @import "./calendar.month.css";
+@import "./projects.css";
 
 :root {
     /** The color covering the entire outside of the application on large screens. */
@@ -23,6 +24,10 @@
     /** Accent color. */
     --color-accent: #3b7d76;
 
+    /** Button */
+    --button-bg-color: #4a8072;
+    --button-text-color: #eff2f1;
+
     /** The foooter should contrast the application. */
     --footer-bg: #23312b;
     --footer-text: #e2e8e5;
@@ -36,14 +41,14 @@
 
     /** Typography */
     --font-family: sans-serif, monospace;
-    --font-size-xs: 0.75rem;
+    --font-size-xs: 0.7rem;
     --font-size-sm: 0.875rem;
     --font-size-base: 1rem;
     --font-size-lg: 1.125rem;
     --font-size-xl: 1.25rem;
     --font-size-2xl: 1.5rem;
     --font-size-3xl: 1.875rem;
-    --font-size-4xl: 2.25rem;
+    --font-size-4xl: 2.5rem;
     --font-size-5xl: 4rem;
 
     /** Spacing */
@@ -78,6 +83,9 @@
 
         /** Accent color. */
         --color-accent: #5eead4;
+
+        --button-bg-color: #2dd4bf;
+        --button-text-color: #0f172a;
 
         /** The foooter should contrast the application. */
         --footer-bg: #23312b;
@@ -118,13 +126,6 @@ a {
     transition: all 0.2s;
 }
 
-button {
-    background: none;
-    border: none;
-    font-family: inherit;
-    cursor: pointer;
-}
-
 .application {
     position: relative;
     display: flex;
@@ -159,8 +160,77 @@ button {
 }
 
 .icon.small {
-    width: 1rem;
-    height: 1rem;
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+/** chip ********************************************************************/
+.chip {
+    display: inline-block;
+    font-family: sans-serif;
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: var(--spacing-1) var(--spacing-2);
+    border-radius: var(--spacing-1);
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.chip {
+    border: 1px solid transparent;
+    background-color: rgba(16, 185, 129, 0.15);
+    color: #047857;
+}
+
+.chip:hover {
+    border: 1px solid rgba(16, 185, 129, 0.15);
+    transition: color 0.2s;
+}
+
+/** activity color */
+.activity-color {
+    background-color: #64a0e6;
+    border-color: #5588c3;
+
+    width: 20px;
+    min-width: 20px;
+    max-width: 20px;
+    height: 20px;
+    min-height: 20px;
+    max-height: 20px;
+
+    border: 2px solid;
+    border-radius: 50%;
+}
+
+/** Page content elements */
+.content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.content-heading {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+
+    margin-top: var(--spacing-12);
+    margin-bottom: var(--spacing-12);
+}
+
+.content h1 {
+    font-weight: 400;
+    font-size: var(--font-size-4xl);
+    font-style: italic;
+}
+
+.content-heading .toolbar .button {
+    align-self: start;
 }
 
 @media (min-width: 1024px) {

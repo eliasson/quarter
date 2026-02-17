@@ -8,7 +8,7 @@ import gleam/list
 import gleam/option
 import lustre/attribute as att
 import lustre/element.{type Element}
-import lustre/element/html.{div, h1, p}
+import lustre/element/html.{div, h1, span}
 import lustre/event
 import message
 import model
@@ -20,23 +20,14 @@ import ui/input
 pub fn view(m: model.Model) -> Element(message.Msg) {
   div([att.class("content")], [
     div([att.class("content-heading")], [
-      div([], [
-        h1([], [html.text("Manage projects")]),
-        p([], [
-          html.text(
-            "Project and activities are used to track time. Each project can have any number of activity and each activity has a color which makes it easier to distinquish how your day is distributed.",
-          ),
-        ]),
-      ]),
-      ui.toolbar([
-        input.icon_button(
-          "button",
-          graphics.icon_plus,
-          "New project",
-          False,
-          message.OpenDialog(model.new_project_dialog()),
-        ),
-      ]),
+      h1([], [html.text("Projects & Activities")]),
+      input.icon_button(
+        "button",
+        graphics.icon_plus,
+        "New project",
+        False,
+        message.OpenDialog(model.new_project_dialog()),
+      ),
     ]),
     ..project_list(m)
   ])
@@ -50,6 +41,8 @@ fn project_list(m: model.Model) {
       True -> [att.class("project-row"), att.class("expanded")]
       False -> [att.class("project-row")]
     }
+
+    // TODO Add a class to the project-row when archived, and then set that to opacity 0.5
 
     let icon = case is_expanded {
       True -> graphics.icon_is_open
@@ -76,7 +69,7 @@ fn project_list(m: model.Model) {
         ],
       ),
       div([att.class("project-details")], [
-        html.text(project.description),
+        span([], [html.text(project.description)]),
         manage_project_action(m, project),
       ]),
       div(
