@@ -32,64 +32,61 @@
     letter-spacing: 0.1em;
 }
 
-/** calendar month **********************************************************
-.calendar-month {
-    display: flex;
-    flex-direction: column;
-    padding: 1rem;
-}
-
-.calendar-month h1 {
-    font-weight: 900;
-    font-size: var(--font-size-5xl);
-    margin-top: 4rem;
-    margin-bottom: 2rem;
-}
-
-.calendar-month h1 .year {
-    font-weight: 200;
-}
-
 .calendar-month-day {
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: 60px 1fr 100px; /* Date | Note | Time */
+    align-items: baseline;
+    padding: var(--spacing-6) 0;
+    border-bottom: 1px solid var(--border-color);
+    transition: all 0.2s ease;
+}
 
-    border-bottom: 1px solid var(--soft-border-color);
-    align-items: center;
-    gap: 1rem;
+.calendar-month-day:last-child {
+    border-bottom: none;
+}
 
-    cursor: pointer;
+.calendar-month-day:hover {
+    border-color: var(--text-color-second);
+    transition: color 0.2s;
 }
 
 .calendar-month-day .date {
-    min-width: 3rem;
-    max-width: 3rem;
-    min-height: 3rem;
-    max-height: 3rem;
-
-    margin: 0.5rem;
-
+    text-align: right;
+    padding-right: 20px;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: var(--font-size-xl);
-    font-weight: 600;
+    flex-direction: column;
+    align-items: flex-end;
 }
 
-.calendar-month-day .date.today {
-    color: var(--white);
-    background-color: var(--red-0);
-    border-radius: 50%;
+.calendar-month-day .date .number {
+    font-size: var(--font-size-3xl);
+    font-weight: 500;
+    color: var(--text-color);
+    transition: color 0.2s;
 }
 
-.calendar-month-day .holiday {
-    color: var(--red-0);
+.calendar-month-day .date .name {
+    font-size: var(--font-size-base);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(text-color-highlight);
+    margin-top: 2px;
 }
 
-.calendar-month-day .day {
-    flex-grow: 1;
+.calendar-month-day .time {
+    text-align: right;
+    font-weight: 500;
+    letter-spacing: 0.05em;
 }
 
-.calendar-month-day .reported {
+.calendar-month-day .time .text-value {
+    margin-left: var(--spacing-1);
+    font-size: var(--font-size-2xl);
+    color: var(--text-color);
 }
-*/
+
+.calendar-month-day .time .text-unit {
+    margin-left: var(--spacing-1);
+    color: var(--text-color-second);
+    font-size: var(--font-size-sm);
+}

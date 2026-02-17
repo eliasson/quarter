@@ -25,20 +25,26 @@ fn calendar(m: model.Model) {
       let name_of_day = i18n.name_of_day(ts.date, m.lang) |> i18n.capitalize
       let #(hours, minutes) = duration.to_hours_and_minutes(ts.duration)
 
-      div([att.class("calendar-month-day")], [
-        div([att.class("date")], [html.text(day)]),
-        div([att.class("day")], [html.text(name_of_day)]),
-        div([att.class("reported")], [
-          span([att.class("text-value")], [html.text(int.to_string(hours))]),
-          span([att.class("text-unit")], [html.text("h")]),
-          span([att.class("text-value")], [html.text(int.to_string(minutes))]),
-          span([att.class("text-unit")], [html.text("min")]),
-        ]),
-
-        a([att.href(route.for_timesheet(ts.date))], [
-          ui.icon(graphics.icon_next, ui.MediumSize),
-        ]),
-      ])
+      a(
+        [
+          att.class("calendar-month-day"),
+          att.href(route.for_timesheet(ts.date)),
+        ],
+        [
+          div([att.class("date")], [
+            div([att.class("number")], [html.text(day)]),
+          ]),
+          div([att.class("name")], [html.text(name_of_day)]),
+          div([att.class("time")], [
+            span([att.class("text-value")], [html.text(int.to_string(hours))]),
+            span([att.class("text-unit")], [html.text("h")]),
+            span([att.class("text-value")], [
+              html.text(int.to_string(minutes)),
+            ]),
+            span([att.class("text-unit")], [html.text("min")]),
+          ]),
+        ],
+      )
     })
 
   div([att.class("calendar-month")], [calendar_header(m), ..days])
