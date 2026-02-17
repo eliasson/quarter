@@ -1,6 +1,8 @@
 @import "./navigation.css";
 @import "./drop-down-menu.css";
 @import "./footer.css";
+@import "./buttons.css";
+@import "./calendar.month.css";
 
 :root {
     /** The color covering the entire outside of the application on large screens. */
@@ -11,8 +13,8 @@
 
     /** All text without any custom modifiers should have this color. */
     --text-color: #1a1918;
+    --text-color-second: #43514b;
     --text-color-highlight: #5c7a6c;
-    --text-color-second: #2f3835;
 
     /** Border and lines all have this color. */
     --border-color: #dce5e1;
@@ -28,7 +30,7 @@
 
     /** Menu text */
     --menu-text-color: var(--text-color-second);
-    --menu-text-hover-color: var(--text-color);
+    --menu-text-hover-color: var(--text-color-highlight);
     --menu-text-appendix-color: var(--text-color-highlight);
     --menu-bg-hover-color: var(--page-bg-color);
 
@@ -42,7 +44,7 @@
     --font-size-2xl: 1.5rem;
     --font-size-3xl: 1.875rem;
     --font-size-4xl: 2.25rem;
-    --font-size-5xl: 3rem;
+    --font-size-5xl: 4rem;
 
     /** Spacing */
     --spacing-1: 0.25rem;
@@ -66,9 +68,8 @@
 
         /** All text without any custom modifiers should have this color. */
         --text-color: #e6ebe9;
-        --text-color-highlight: #e6ebe9;
-        --text-color-second: #e6ebe9;
-        --text-color-secondary: #5c7a6c;
+        --text-color-highlight: #4c5a4c;
+        --text-color-second: #5c7a6c;
         --text-color-accent: #3b7d76;
 
         /** Border and lines all have this color. */

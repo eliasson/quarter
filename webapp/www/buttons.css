@@ -1,4 +1,5 @@
 /** buttons *****************************************************************/
+/*
 button {
     display: flex;
     align-items: center;
@@ -24,12 +25,6 @@ button {
     white-space: nowrap;
 }
 
-button.ghost {
-    border: none;
-    background-color: transparent;
-    color: var(--blue-700);
-}
-
 button.outline {
     border: 2px solid var(--blue-700);
     background-color: transparent;
@@ -51,4 +46,34 @@ button:disabled {
     border-color: var(--blue-200);
     background-color: var(--blue-100);
     color: var(--blue-500);
+}
+*/
+
+/** Ghost buttons are round with a small border. Used for navigation in calendar and report. */
+button.ghost {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: var(--spacing-8);
+    height: var(--spacing-8);
+
+    transition: all 0.2s;
+    cursor: pointer;
+
+    border-radius: 50%;
+    border: 1px solid var(--border-color);
+    background: none;
+    color: var(--text-color-second);
+}
+
+button.ghost svg {
+    width: var(--spacing-4);
+    height: var(--spacing-4);
+}
+
+button.ghost:hover {
+    border-color: var(--text-color);
+    color: var(--text-color);
+    background: rgba(0, 0, 0, 0.02);
 }

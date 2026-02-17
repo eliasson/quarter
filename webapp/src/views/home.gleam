@@ -4,7 +4,7 @@ import gleam/list
 import i18n
 import lustre/attribute as att
 import lustre/element.{type Element}
-import lustre/element/html.{a, div, h1, span}
+import lustre/element/html.{a, div, h1, header, span}
 import message
 import model
 import route
@@ -19,9 +19,6 @@ pub fn view(m: model.Model) -> Element(message.Msg) {
 }
 
 fn calendar(m: model.Model) {
-  let month = i18n.name_of_month(m.today, m.lang) |> i18n.capitalize
-  let year = i18n.year(m.today, m.lang) |> i18n.describe
-
   let days =
     list.map(m.timesheets, fn(ts) {
       let day = i18n.day(ts.date, m.lang) |> i18n.describe
@@ -44,11 +41,20 @@ fn calendar(m: model.Model) {
       ])
     })
 
-  div([att.class("calendar-month")], [
-    h1([], [html.text(month), span([att.class("year")], [html.text(year)])]),
+  div([att.class("calendar-month")], [calendar_header(m), ..days])
+}
+
+fn calendar_header(m: model.Model) {
+  let month = i18n.name_of_month(m.today, m.lang) |> i18n.capitalize
+  let year = i18n.year(m.today, m.lang) |> i18n.describe
+
+  header([att.class("calendar-month-header")], [
     previous_month(),
+    div([att.class("calendar-month-header-content")], [
+      h1([att.class("month")], [html.text(month)]),
+      div([att.class("year")], [html.text(year)]),
+    ]),
     next_month(),
-    ..days
   ])
 }
 

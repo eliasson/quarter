@@ -116,7 +116,6 @@
     }
 
     .drop-down-menu-item:hover {
-        color: var(--menu-text-hover-color);
         background-color: var(--menu-bg-hover-color);
         transition: background-color 0.2s;
     }
