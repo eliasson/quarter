@@ -5,6 +5,7 @@
 @import "./calendar.month.css";
 @import "./projects.css";
 @import "./dialog.css";
+@import "./form.css";
 
 :root {
     /** The color covering the entire outside of the application on large screens. */

@@ -48,10 +48,11 @@ textarea {
 }
 
 fieldset {
-    border: none;
     display: flex;
     flex-direction: column;
     width: 100%;
+    gap: var(--spacing-4);
+    border: none;
 }
 
 fieldset label {

@@ -51,6 +51,9 @@
     height: 100%;
     max-width: 100%;
     padding: var(--spacing-4);
+    gap: var(--spacing-4);
+
+    font-family: sans-serif;
 }
 
 .dialog-footer {
