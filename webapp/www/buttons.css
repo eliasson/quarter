@@ -74,11 +74,23 @@ button {
 }
 
 button:hover {
-    opacity: 0.8;
+    background-color: var(--button-hover-color);
 }
 
 button .icon {
     color: var(--button-text-color);
+}
+
+button.cancel {
+    background-color: transparent;
+    border: none;
+    color: var(--text-color);
+}
+
+button.cancel:hover {
+    border-color: var(--text-color);
+    color: var(--text-color);
+    background: rgba(0, 0, 0, 0.06);
 }
 
 button.ghost {

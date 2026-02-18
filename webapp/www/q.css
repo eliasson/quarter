@@ -4,6 +4,7 @@
 @import "./buttons.css";
 @import "./calendar.month.css";
 @import "./projects.css";
+@import "./dialog.css";
 
 :root {
     /** The color covering the entire outside of the application on large screens. */
@@ -25,7 +26,8 @@
     --color-accent: #3b7d76;
 
     /** Button */
-    --button-bg-color: #4a8072;
+    --button-bg-color: #5c7a6c;
+    --button-hover-color: #3c5a4c;
     --button-text-color: #eff2f1;
 
     /** The foooter should contrast the application. */
@@ -84,7 +86,8 @@
         /** Accent color. */
         --color-accent: #5eead4;
 
-        --button-bg-color: #2dd4bf;
+        --button-bg-color: #2da49f;
+        --button-hover-color: #5eead4;
         --button-text-color: #0f172a;
 
         /** The foooter should contrast the application. */

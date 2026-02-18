@@ -99,17 +99,13 @@ pub fn form_dialog(form: form.Form, ico: String, header: String) {
   let content = list.map(form.fields, fn(f) { render_field(f) })
   let actions = list.map(form.actions, fn(f) { render_action(f) })
 
-  html.div([att.class("dialog")], [
-    html.div([att.class("dialog-backdrop")], []),
-    html.div([att.class("dialog-overlay")], [
-      html.div([att.class("dialog-container")], [
-        html.div([att.class("dialog-header")], [
-          ui.icon(ico, ui.MediumSize),
-          html.span([], [html.text(header)]),
-        ]),
-        html.div([att.class("dialog-content")], content),
-        html.div([att.class("dialog-footer")], actions),
+  html.div([att.class("dialog-backdrop")], [
+    html.div([att.class("dialog-container")], [
+      html.div([att.class("dialog-header")], [
+        html.span([], [html.text(header)]),
       ]),
+      html.div([att.class("dialog-content")], content),
+      html.div([att.class("dialog-footer")], actions),
     ]),
   ])
 }
