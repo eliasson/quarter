@@ -62,23 +62,3 @@ pub fn toolbar(children: List(element.Element(msg))) {
 pub fn click_stop(msg) {
   event.on_click(msg) |> event.stop_propagation()
 }
-
-pub fn dialog(ico: String, header: String) {
-  html.div([att.class("dialog")], [
-    html.div([att.class("dialog-backdrop")], []),
-    html.div([att.class("dialog-overlay")], [
-      html.div([att.class("dialog-container")], [
-        html.div([att.class("dialog-header")], [
-          icon(ico, MediumSize),
-          html.span([], [html.text(header)]),
-        ]),
-        html.div([att.class("dialog-content")], [
-          // Dialog content
-        ]),
-        html.div([att.class("dialog-footer")], [
-          // Footer actions
-        ]),
-      ]),
-    ]),
-  ])
-}
