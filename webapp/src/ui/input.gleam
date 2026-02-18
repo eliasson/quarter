@@ -100,13 +100,20 @@ pub fn form_dialog(form: form.Form, ico: String, header: String) {
   let actions = list.map(form.actions, fn(f) { render_action(f) })
 
   html.div([att.class("dialog-backdrop")], [
-    html.div([att.class("dialog-container")], [
-      html.div([att.class("dialog-header")], [
-        html.span([], [html.text(header)]),
-      ]),
-      html.div([att.class("dialog-content")], content),
-      html.div([att.class("dialog-footer")], actions),
-    ]),
+    html.div(
+      [
+        att.class("dialog-container"),
+        att.role("dialog"),
+        att.aria_modal(True),
+      ],
+      [
+        html.div([att.class("dialog-header")], [
+          html.span([], [html.text(header)]),
+        ]),
+        html.div([att.class("dialog-content")], content),
+        html.div([att.class("dialog-footer")], actions),
+      ],
+    ),
   ])
 }
 

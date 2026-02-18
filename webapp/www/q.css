@@ -30,6 +30,7 @@
     --button-bg-color: #5c7a6c;
     --button-hover-color: #3c5a4c;
     --button-text-color: #eff2f1;
+    --input-error-color: #b30000;
 
     /** The foooter should contrast the application. */
     --footer-bg: #23312b;
@@ -67,6 +68,8 @@
     --spacing-16: 4rem;
     --spacing-20: 5rem;
     --spacing-24: 6rem;
+
+    --activity-marker-size: 20px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -198,12 +201,12 @@ a {
     background-color: #64a0e6;
     border-color: #5588c3;
 
-    width: 20px;
-    min-width: 20px;
-    max-width: 20px;
-    height: 20px;
-    min-height: 20px;
-    max-height: 20px;
+    width: var(--activity-marker-size);
+    min-width: var(--activity-marker-size);
+    max-width: var(--activity-marker-size);
+    height: var(--activity-marker-size);
+    min-height: var(--activity-marker-size);
+    max-height: var(--activity-marker-size);
 
     border: 2px solid;
     border-radius: 50%;

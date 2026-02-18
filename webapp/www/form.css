@@ -1,3 +1,4 @@
+/*
 label.checkbox {
     display: flex;
     flex-direction: row;
@@ -15,18 +16,19 @@ label.checkbox input {
 }
 
 label.checkbox input:checked {
-    background-color: var(--blue-400);
+    background-color: var(--color-accent);
 }
 
 label.checkbox input:focus {
     outline-style: solid;
     outline-width: 2px;
-    outline-color: var(--blue-700);
+    outline-color: var(--color-accent);
 }
+*/
 
 input:invalid {
     border: none;
-    outline: 2px solid var(--red-2);
+    outline: 2px solid var(--input-error-color);
 }
 
 input[type="text"],
@@ -40,7 +42,26 @@ textarea {
     font-size: 1rem;
 
     color: var(--color-text);
-    background-color: var(--color-bg);
+    background-color: var(--page-bg-color);
+    transition: border-color 0.2s;
+}
+
+input[type="color"] {
+    width: var(--activity-marker-size);
+    min-width: var(--activity-marker-size);
+    max-width: var(--activity-marker-size);
+    height: var(--activity-marker-size);
+    min-height: var(--activity-marker-size);
+    max-height: var(--activity-marker-size);
+    border-radius: 50%;
+}
+
+button:focus,
+input:focus,
+textarea:focus {
+    outline-style: solid;
+    outline-width: 2px;
+    outline-color: var(--color-accent);
 }
 
 textarea {
@@ -57,4 +78,7 @@ fieldset {
 
 fieldset label {
     font-weight: 500;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
 }

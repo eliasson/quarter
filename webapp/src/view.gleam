@@ -24,7 +24,7 @@ pub fn view(model: model.Model) -> Element(message.Msg) {
     route_view(model),
   ]
 
-  div([att.class("application-layout ")], list.append(children, dialogs(model)))
+  div([att.class("application-layout")], list.append(children, dialogs(model)))
 }
 
 fn route_view(model: model.Model) {
