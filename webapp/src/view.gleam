@@ -101,12 +101,6 @@ fn main_drop_down_menu(m: model.Model) {
         route.manage_url,
       ),
       dropdown.DropDownSeparator,
-      dropdown.DropDownLink(
-        graphics.icon_features,
-        "Features",
-        route.admin_features_url,
-      ),
-      dropdown.DropDownLink(graphics.icon_users, "Users", route.admin_users_url),
       dropdown.DropDownSeparator,
       dropdown.DropDownLink(graphics.icon_logout, "Logout", route.logout_url),
     ],
