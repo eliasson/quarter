@@ -8,16 +8,21 @@ import lustre/element/html.{div, h1, table, tbody, td, th, thead, tr}
 import message
 import model
 import ui/core as ui
-import ui/dropdown
 import ui/graphics
 import ui/input
 
-const manage_menu_id = "manage.users"
-
 pub fn view(m: model.Model) -> Element(message.Msg) {
   div([att.class("content")], [
-    h1([], [html.text("System users")]),
-    ui.toolbar([manage_action(m)]),
+    div([att.class("content-heading")], [
+      h1([], [html.text("Users")]),
+      input.icon_button(
+        "button",
+        graphics.icon_add_user,
+        "Add user",
+        False,
+        message.OpenDialog(model.new_user_dialog()),
+      ),
+    ]),
     user_table(m),
   ])
 }
@@ -27,18 +32,16 @@ fn user_table(m: model.Model) {
     table([], [
       thead([], [
         tr([], [
-          th([], [html.text("")]),
           th([], [html.text("E-mail")]),
           th([], [html.text("Joined")]),
           th([], [html.text("Updated")]),
-          th([], [html.text("")]),
+          th([att.class("action")], [html.text("")]),
         ]),
       ]),
       tbody(
         [],
         list.map(m.users, fn(u) {
           tr([], [
-            td([], [input.checkbox()]),
             td([], [html.text(u.email)]),
             td([], [ui.timestamp(u.created)]),
             td([], [
@@ -53,21 +56,6 @@ fn user_table(m: model.Model) {
       ),
     ]),
   ])
-}
-
-fn manage_action(m: model.Model) {
-  dropdown.drop_down_menu(
-    manage_menu_id,
-    input.outline_button("Manage", "chevron-down"),
-    [
-      dropdown.DropDownMsg(
-        graphics.icon_add_user,
-        "Add user",
-        message.OpenDialog(model.new_user_dialog()),
-      ),
-    ],
-    model.is_drop_down_menu_open(m, manage_menu_id),
-  )
 }
 
 /// Generate a form to render based on the dialog state.
