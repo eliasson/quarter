@@ -74,6 +74,11 @@
     margin-bottom: var(--spacing-4);
 }
 
+.project-row.archived .name,
+.activity-row.archived .name {
+    opacity: 0.6;
+}
+
 @media (min-width: 1024px) {
     .activity-row:not(.add-activity):hover {
         background-color: var(--page-bg-color);

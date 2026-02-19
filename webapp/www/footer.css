@@ -44,7 +44,7 @@ footer nav a {
     font-size: var(--font-size-xs);
     text-transform: uppercase;
 
-    opacity: 0.5;
+    opacity: 0.6;
     transition: opacity 0.3s;
 }
 

@@ -41,12 +41,10 @@ fn project_list(m: model.Model) {
   list.map(projects, fn(project) {
     let is_expanded = model.is_project_expanded(m, project.id)
 
-    let row_classes = case is_expanded {
-      True -> [att.class("project-row"), att.class("expanded")]
-      False -> [att.class("project-row")]
-    }
-
-    // TODO Add a class to the project-row when archived, and then set that to opacity 0.5
+    let project_row_classes =
+      [att.class("project-row")]
+      |> cond_class(is_expanded, "expanded")
+      |> cond_class(project.is_archived, "archived")
 
     let icon = case is_expanded {
       True -> graphics.icon_is_open
@@ -58,7 +56,23 @@ fn project_list(m: model.Model) {
       False -> element.none()
     }
 
-    div(row_classes, [
+    // Actions for this project, unless the project is archied.
+    let project_actions = case project.is_archived {
+      True -> []
+      False -> [
+        div([att.class("activity-row add-activity")], [
+          input.icon_button(
+            "button",
+            graphics.icon_plus,
+            "Add activity",
+            False,
+            message.OpenDialog(model.new_activity_dialog(project)),
+          ),
+        ]),
+      ]
+    }
+
+    div(project_row_classes, [
       div(
         [
           att.class("project-info"),
@@ -80,32 +94,23 @@ fn project_list(m: model.Model) {
         [att.class("activities")],
         list.append(
           list.map(sort_activities(project.activities), fn(activity) {
+            let activity_row_classes =
+              [att.class("activity-row")]
+              |> cond_class(activity.is_archived, "archived")
+
             let activity_archived_chip = case activity.is_archived {
               True -> ui.chip("Archived")
               False -> element.none()
             }
 
-            div([att.class("activity-row")], [
+            div(activity_row_classes, [
               color_badge(activity),
               div([att.class("name")], [html.text(activity.name)]),
               div([att.class("state")], [activity_archived_chip]),
-
-              div([att.class("action")], [
-                manage_activity_action(activity, m),
-              ]),
+              div([att.class("action")], [manage_activity_action(activity, m)]),
             ])
           }),
-          [
-            div([att.class("activity-row add-activity")], [
-              input.icon_button(
-                "button",
-                graphics.icon_plus,
-                "Add activity",
-                False,
-                message.OpenDialog(model.new_activity_dialog(project)),
-              ),
-            ]),
-          ],
+          project_actions,
         ),
       ),
     ])
@@ -426,5 +431,13 @@ fn archive_project_text(project: project.Project) -> String {
       "An archived project cannot be used to register time with, but is still used for existing timesheets. An archived project can later be unarchived. Do you want to archive the project "
       <> project.name
       <> "?"
+  }
+}
+
+/// Add conditonal classes to the list of attributes.
+fn cond_class(classes: List(att.Attribute(a)), cond: Bool, class: String) {
+  case cond {
+    True -> list.append(classes, [att.class(class)])
+    False -> classes
   }
 }
