@@ -88,3 +88,26 @@ pub fn previous_first_of_month_test() {
     |> should.equal(t.1)
   })
 }
+
+pub fn tomorrow_test() {
+  let tests = [
+    #(calendar.Date(2024, calendar.January, 15), "2024-01-16"),
+    #(calendar.Date(2024, calendar.January, 31), "2024-02-01"),
+    #(calendar.Date(2024, calendar.February, 28), "2024-02-29"),
+    #(calendar.Date(2024, calendar.February, 29), "2024-03-01"),
+    #(calendar.Date(2024, calendar.December, 31), "2025-01-01"),
+  ]
+
+  list.each(tests, fn(t) {
+    let ts =
+      std_timestamp.from_calendar(
+        date: t.0,
+        time: calendar.TimeOfDay(12, 30, 50, 0),
+        offset: calendar.utc_offset,
+      )
+
+    timestamp.tomorrow(ts)
+    |> timestamp.to_iso_date()
+    |> should.equal(t.1)
+  })
+}

@@ -1,6 +1,7 @@
 import gleam/int
 import gleam/string
 import gleam/time/calendar
+import gleam/time/duration
 import gleam/time/timestamp
 
 pub fn timestamp_zero() {
@@ -116,4 +117,9 @@ pub fn previous_first_of_month(ts: timestamp.Timestamp) -> timestamp.Timestamp {
     time: time,
     offset: calendar.utc_offset,
   )
+}
+
+/// Get a timestamp for the next day (24 hours later).
+pub fn tomorrow(ts: timestamp.Timestamp) -> timestamp.Timestamp {
+  timestamp.add(ts, duration.seconds(86_400))
 }
