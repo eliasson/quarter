@@ -1,33 +1,36 @@
 name: Build
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    # All branches
+    push:
+        branches: [main]
+    pull_request:
+        # All branches
 
-  workflow_dispatch:
+    workflow_dispatch:
 
 env:
-  DOTNET_VERSION: "9.0.203"
+    DOTNET_VERSION: "9.0.203"
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+    build:
+        runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v2
+        steps:
+            - uses: actions/checkout@v2
 
-      - name: Setup .NET Core
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
+            - name: Setup .NET Core
+              uses: actions/setup-dotnet@v1
+              with:
+                  dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      - name: Restore dependencies
-        run: dotnet restore
+            - name: Restore dependencies
+              run: dotnet restore
+              working-directory: ./service
 
-      - name: Testing
-        run: dotnet test --filter TestCategory!=DatabaseDependency
+            - name: Testing
+              run: dotnet test --filter TestCategory!=DatabaseDependency
+              working-directory: ./service
 
-      - name: Building
-        run: dotnet build --no-restore --configuration Release -consoleloggerparameters:NoSummary
+            - name: Building
+              run: dotnet build --no-restore --configuration Release -consoleloggerparameters:NoSummary
+              working-directory: ./service
