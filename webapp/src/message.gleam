@@ -31,6 +31,12 @@ pub type Msg {
   /// Change the calendar to display timesheets for the previous month.
   PreviousMonth
 
+  /// Change the timesheet view to display tomorrows timesheet.
+  NextTimesheet
+
+  /// Change the timesheet view to display yesterdays timesheet.
+  PreviousTimesheet
+
   /// Select / deselect a project in the mange project list.
   ToggleProject(id: project.ProjectId)
 
