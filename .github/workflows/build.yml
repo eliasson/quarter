@@ -12,7 +12,7 @@ env:
     DOTNET_VERSION: "9.0.203"
     NODE_VERSION: "20"
     OTP_VERSION: "28.0.4"
-    GLEAM_VERSION: "1.6.1"
+    GLEAM_VERSION: "1.14.0"
 
 jobs:
     build:
