@@ -10,6 +10,8 @@ on:
 
 env:
     DOTNET_VERSION: "9.0.203"
+    NODE_VERSION: "20"
+    GLEAM_VERSION: "1.6.1"
 
 jobs:
     build:
@@ -23,6 +25,16 @@ jobs:
               with:
                   dotnet-version: ${{ env.DOTNET_VERSION }}
 
+            - name: Setup Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: ${{ env.NODE_VERSION }}
+
+            - name: Setup Gleam
+              uses: erlef/setup-beam@v1
+              with:
+                  gleam-version: ${{ env.GLEAM_VERSION }}
+
             - name: Restore dependencies
               run: dotnet restore
               working-directory: ./service
@@ -34,3 +46,19 @@ jobs:
             - name: Building
               run: dotnet build --no-restore --configuration Release -consoleloggerparameters:NoSummary
               working-directory: ./service
+
+            - name: Install frontend dependencies
+              run: npm ci
+              working-directory: ./webapp
+
+            - name: Gleam build
+              run: gleam build
+              working-directory: ./webapp
+
+            - name: Gleam test
+              run: gleam test
+              working-directory: ./webapp
+
+            - name: Build frontend
+              run: npm run build
+              working-directory: ./webapp
