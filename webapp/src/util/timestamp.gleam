@@ -123,3 +123,8 @@ pub fn previous_first_of_month(ts: timestamp.Timestamp) -> timestamp.Timestamp {
 pub fn tomorrow(ts: timestamp.Timestamp) -> timestamp.Timestamp {
   timestamp.add(ts, duration.seconds(86_400))
 }
+
+/// Get a timestamp for the previous day (24 hours earlier).
+pub fn yesterday(ts: timestamp.Timestamp) -> timestamp.Timestamp {
+  timestamp.add(ts, duration.seconds(86_400 * -1))
+}

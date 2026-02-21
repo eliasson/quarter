@@ -111,3 +111,25 @@ pub fn tomorrow_test() {
     |> should.equal(t.1)
   })
 }
+
+pub fn yesterday_test() {
+  let tests = [
+    #(calendar.Date(2024, calendar.January, 15), "2024-01-14"),
+    #(calendar.Date(2024, calendar.February, 1), "2024-01-31"),
+    #(calendar.Date(2024, calendar.March, 1), "2024-02-29"),
+    #(calendar.Date(2025, calendar.January, 1), "2024-12-31"),
+  ]
+
+  list.each(tests, fn(t) {
+    let ts =
+      std_timestamp.from_calendar(
+        date: t.0,
+        time: calendar.TimeOfDay(12, 30, 50, 0),
+        offset: calendar.utc_offset,
+      )
+
+    timestamp.yesterday(ts)
+    |> timestamp.to_iso_date()
+    |> should.equal(t.1)
+  })
+}
