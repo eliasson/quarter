@@ -59,7 +59,7 @@
 
 .hour-label {
     width: 60px;
-    font-size: 1.1rem;
+    font-size: var(--font-size-xl);
     font-style: italic;
     color: var(--text-color-second);
     display: flex;
@@ -81,7 +81,7 @@
     transition: transform 0.2s;
     position: relative;
     border-radius: 2px;
-    background-color: rgba(0, 0, 0, 0.01);
+    background-color: var(--page-bg-color);
 }
 
 .quarter-cell:hover {

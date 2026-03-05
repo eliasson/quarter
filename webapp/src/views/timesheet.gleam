@@ -1,4 +1,5 @@
 import domain/color
+import gleam/int
 import gleam/list
 import i18n
 import lustre/attribute as att
@@ -38,13 +39,12 @@ fn timesheet() {
       input.ghost_button(graphics.icon_extend_later, message.Noop),
     ])
 
-  // TODO Add list of activities
-  // TOOD Add timesheet summary
-  let context = [timesheet_summary()]
-
   div([att.class("timesheet-view")], [
     div([att.class("timesheet-grid")], grid),
-    div([att.class("timesheet-context")], context),
+    div([att.class("timesheet-context")], [
+      timesheet_summary(),
+      activity_selection(),
+    ]),
   ])
 }
 
@@ -60,17 +60,59 @@ fn timesheet_summary() {
       ]),
       div([att.class("summary-activity")], [
         div([att.class("summary-activity-name")], [
-          stub_activity_color_badge(color.Color(32, 142, 178)),
+          //stub_activity_color_badge(color.Color(32, 142, 178)),
           html.text("Task One"),
         ]),
         div([att.class("summary-activity-total")], [html.text("15m")]),
       ]),
       div([att.class("summary-activity")], [
         div([att.class("summary-activity-name")], [
-          stub_activity_color_badge(color.Color(232, 42, 178)),
+          //stub_activity_color_badge(color.Color(232, 42, 178)),
           html.text("Another"),
         ]),
         div([att.class("summary-activity-total")], [html.text("3h 00m")]),
+      ]),
+      // Total
+      div([att.class("summary-project total-row")], [
+        div([att.class("summary-project-name")], [html.text("Total")]),
+        div([att.class("summary-project-total")], [html.text("7h 30m")]),
+      ]),
+    ]),
+  ])
+}
+
+fn activity_selection() {
+  div([att.class("panel-section")], [
+    div([att.class("panel-section-title")], [html.text("Select activity")]),
+
+    div([att.class("activity-picker")], [
+      div([att.class("picker-project-group")], [
+        div([att.class("picker-project-title")], [html.text("Project Alpha")]),
+        div([att.class("picker-item")], [
+          stub_activity_color_badge(color.Color(32, 142, 178)),
+          div([att.class("picker-name")], [html.text("Task One")]),
+        ]),
+        div([att.class("picker-item")], [
+          stub_activity_color_badge(color.Color(232, 42, 178)),
+          div([att.class("picker-name")], [html.text("Another")]),
+        ]),
+      ]),
+      div([att.class("picker-project-group")], [
+        div([att.class("picker-project-title")], [html.text("Project Bravo")]),
+        div([att.class("picker-item active")], [
+          stub_activity_color_badge(color.Color(32, 142, 178)),
+          div([att.class("picker-name")], [
+            html.text("Research and development"),
+          ]),
+        ]),
+        div([att.class("picker-item")], [
+          stub_activity_color_badge(color.Color(232, 42, 178)),
+          div([att.class("picker-name")], [html.text("Another")]),
+        ]),
+      ]),
+      div([att.class("picker-item")], [
+        stub_activity_color_badge(color.Color(255, 255, 255)),
+        div([att.class("picker-name")], [html.text("Clear activity")]),
       ]),
     ]),
   ])
@@ -80,7 +122,7 @@ fn timesheet_summary() {
 fn timesheet_grid() {
   [
     div([att.class("grid-row")], [
-      div([att.class("hour-label")], [html.text("07:00")]),
+      div([att.class("hour-label")], [html.text("06:00")]),
 
       div([att.class("quarters")], [
         div(
@@ -135,38 +177,18 @@ fn timesheet_grid() {
         div([att.class("quarter-cell")], []),
       ]),
     ]),
-    div([att.class("grid-row")], [
-      div([att.class("hour-label")], [html.text("08:00")]),
+    ..list.map(list.range(8, 23), fn(i) {
+      div([att.class("grid-row")], [
+        div([att.class("hour-label")], [html.text(int.to_string(i) <> ":00")]),
 
-      div([att.class("quarters")], [
-        div([att.class("quarter-cell")], []),
-        div([att.class("quarter-cell")], []),
-        div([att.class("quarter-cell")], []),
-        div([att.class("quarter-cell")], []),
-      ]),
-    ]),
-
-    div([att.class("grid-row")], [
-      div([att.class("hour-label")], [html.text("09:00")]),
-
-      div([att.class("quarters")], [
-        div([att.class("quarter-cell")], []),
-        div([att.class("quarter-cell")], []),
-        div([att.class("quarter-cell")], []),
-        div([att.class("quarter-cell")], []),
-      ]),
-    ]),
-
-    div([att.class("grid-row")], [
-      div([att.class("hour-label")], [html.text("10:00")]),
-
-      div([att.class("quarters-container")], [
-        div([att.class("quarter-cell")], []),
-        div([att.class("quarter-cell")], []),
-        div([att.class("quarter-cell")], []),
-        div([att.class("quarter-cell")], []),
-      ]),
-    ]),
+        div([att.class("quarters")], [
+          div([att.class("quarter-cell")], []),
+          div([att.class("quarter-cell")], []),
+          div([att.class("quarter-cell")], []),
+          div([att.class("quarter-cell")], []),
+        ]),
+      ])
+    })
   ]
 }
 

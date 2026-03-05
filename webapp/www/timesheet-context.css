@@ -21,6 +21,7 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
+    font-family: sans-serif;
 }
 
 .summary-project,
@@ -32,6 +33,12 @@
 .summary-activity {
     margin-left: var(--spacing-2);
 }
+.summary-project-name {
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
 
 .summary-project-name,
 .summary-activity-name {
@@ -39,14 +46,20 @@
     flex-direction: row;
     align-items: center;
     gap: var(--spacing-2);
-    color: var(--ink-secondary);
+    color: var(--text-color-second);
 }
 
 .summary-project-total,
 .summary-activity-total {
-    font-family: sans-serif;
     font-weight: 600;
     font-size: var(--font-size-sm);
 
-    color: var(--ink-primary);
+    color: var(--text-color);
+}
+
+.summary-project.total-row {
+    margin-top: var(--spacing-3);
+    padding-top: var(--spacing-3);
+    border-top: 1px dashed var(--border-color);
+    font-weight: 700;
 }
