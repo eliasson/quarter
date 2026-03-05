@@ -1,3 +1,4 @@
+import domain/color
 import gleam/list
 import i18n
 import lustre/attribute as att
@@ -39,7 +40,7 @@ fn timesheet() {
 
   // TODO Add list of activities
   // TOOD Add timesheet summary
-  let context = []
+  let context = [timesheet_summary()]
 
   div([att.class("timesheet-view")], [
     div([att.class("timesheet-grid")], grid),
@@ -47,7 +48,35 @@ fn timesheet() {
   ])
 }
 
-// Return the visible range of hours for the timesheet.
+/// Generate the summary of the timesheet where each project and activity is sumed.
+fn timesheet_summary() {
+  div([att.class("panel-section")], [
+    div([att.class("panel-section-title")], [html.text("Summary")]),
+
+    div([att.class("summary-list")], [
+      div([att.class("summary-project")], [
+        div([att.class("summary-project-name")], [html.text("Project Alpha")]),
+        div([att.class("summary-project-total")], [html.text("3h 15m")]),
+      ]),
+      div([att.class("summary-activity")], [
+        div([att.class("summary-activity-name")], [
+          stub_activity_color_badge(color.Color(32, 142, 178)),
+          html.text("Task One"),
+        ]),
+        div([att.class("summary-activity-total")], [html.text("15m")]),
+      ]),
+      div([att.class("summary-activity")], [
+        div([att.class("summary-activity-name")], [
+          stub_activity_color_badge(color.Color(232, 42, 178)),
+          html.text("Another"),
+        ]),
+        div([att.class("summary-activity-total")], [html.text("3h 00m")]),
+      ]),
+    ]),
+  ])
+}
+
+/// Return the visible range of hours for the timesheet.
 fn timesheet_grid() {
   [
     div([att.class("grid-row")], [
@@ -139,4 +168,19 @@ fn timesheet_grid() {
       ]),
     ]),
   ]
+}
+
+fn stub_activity_color_badge(c: color.Color) {
+  let border_color = color.darken(c)
+
+  div(
+    [
+      att.class("activity-color"),
+      att.styles([
+        #("background-color", color.color_to_style_value(c)),
+        #("border-color", color.color_to_style_value(border_color)),
+      ]),
+    ],
+    [],
+  )
 }

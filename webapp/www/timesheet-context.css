@@ -1,0 +1,52 @@
+.timesheet-context {
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+    padding-top: 20px;
+}
+
+.panel-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.panel-section-title {
+    font-size: var(--font-size-2xl);
+    font-style: italic;
+    color: var(--text-color);
+    margin-bottom: 24px;
+}
+
+.summary-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.summary-project,
+.summary-activity {
+    display: flex;
+    justify-content: space-between;
+}
+
+.summary-activity {
+    margin-left: var(--spacing-2);
+}
+
+.summary-project-name,
+.summary-activity-name {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--spacing-2);
+    color: var(--ink-secondary);
+}
+
+.summary-project-total,
+.summary-activity-total {
+    font-family: sans-serif;
+    font-weight: 600;
+    font-size: var(--font-size-sm);
+
+    color: var(--ink-primary);
+}
