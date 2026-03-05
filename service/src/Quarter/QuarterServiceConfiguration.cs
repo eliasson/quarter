@@ -1,3 +1,4 @@
+using System;
 using Quarter.Core.UI.State;
 using Quarter.State;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,6 +8,7 @@ using Quarter.Core.Queries;
 using Quarter.Core.Repositories;
 using Quarter.HttpApi.Services;
 using Quarter.Services;
+using Microsoft.Data.Sqlite;
 
 namespace Quarter;
 
@@ -20,16 +22,23 @@ public static class QuarterServiceConfiguration
 
     private static void UseQuarter(this IServiceCollection serviceCollection, bool useInMemoryStorage)
     {
-        serviceCollection.AddSingleton<IPostgresConnectionProvider, DefaultPostgresConnectionProvider>();
-
         if (useInMemoryStorage)
         {
             serviceCollection.AddSingleton<IRepositoryFactory, InMemoryRepositoryFactory>();
         }
         else
         {
-            serviceCollection.ConfigureMigrations();
-            serviceCollection.AddSingleton<IRepositoryFactory, PostgresRepositoryFactory>();
+            serviceCollection.AddSingleton<IPostgresConnectionProvider, DefaultPostgresConnectionProvider>();
+            serviceCollection.AddSingleton<ISqliteConnectionProvider, DefaultSqliteConnectionProvider>();
+            serviceCollection.ConfigureSqliteMigrations();
+
+            var tempProvider = serviceCollection.BuildServiceProvider();
+            var sqliteProvider = tempProvider.GetRequiredService<ISqliteConnectionProvider>();
+
+            if (SqliteHasData(sqliteProvider.ConnectionString))
+                serviceCollection.AddSingleton<IRepositoryFactory, SqliteRepositoryFactory>();
+            else
+                serviceCollection.AddSingleton<IRepositoryFactory, PostgresRepositoryFactory>();
         }
 
         serviceCollection.AddSingleton<ICommandHandler, CommandHandler>();
@@ -48,5 +57,21 @@ public static class QuarterServiceConfiguration
         serviceCollection.AddScoped<IUserAuthorizationService, UserAuthorizationService>();
         serviceCollection.AddSingleton<IApiService, ApiService>();
         serviceCollection.AddSingleton<IAdminService, AdminService>();
+    }
+
+    private static bool SqliteHasData(string connectionString)
+    {
+        try
+        {
+            using var conn = new SqliteConnection(connectionString);
+            conn.Open();
+            using var cmd = conn.CreateCommand();
+            cmd.CommandText = "SELECT COUNT(*) FROM quser";
+            return Convert.ToInt64(cmd.ExecuteScalar()) > 0;
+        }
+        catch
+        {
+            return false;
+        }
     }
 }

@@ -7,9 +7,9 @@ public class AssignTimestamps : Migration
 {
     public override void Up()
     {
-        Execute.Sql("UPDATE timesheet SET date_ts = TO_DATE(date, 'YYYY-MM-DD') WHERE date is not null;");
-        Execute.Sql("UPDATE timeslot SET date_ts = TO_DATE(date, 'YYYY-MM-DD') WHERE date is not null;");
-        Execute.Sql("UPDATE timeslot SET created_ts = TO_DATE(created, 'YYYY-MM-DD') WHERE created is not null;");
+        Execute.Sql("UPDATE timesheet SET date_ts = DATE(date) WHERE date IS NOT NULL;");
+        Execute.Sql("UPDATE timeslot SET date_ts = DATE(date) WHERE date IS NOT NULL;");
+        Execute.Sql("UPDATE timeslot SET created_ts = DATE(created) WHERE created IS NOT NULL;");
     }
 
     public override void Down()

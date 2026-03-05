@@ -1,8 +1,12 @@
+using System;
 using System.Threading.Tasks;
 using FluentMigrator.Runner;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Quarter.Core.Migrations;
+using Quarter.Core.Repositories;
 using Quarter.StartupTasks;
 
 namespace Quarter;
@@ -14,6 +18,7 @@ public class Program
         var host = CreateHostBuilder(args).Build();
 
         RunMigrations(host);
+        TryRunPostgresMigrations(host);
         await RunStartupTasks(host);
 
         await host.RunAsync();
@@ -25,6 +30,27 @@ public class Program
         var serviceProvider = scope.ServiceProvider;
         var runner = serviceProvider.GetRequiredService<IMigrationRunner>();
         runner.MigrateUp();
+    }
+
+    private static void TryRunPostgresMigrations(IHost host)
+    {
+        using var scope = host.Services.CreateScope();
+        var postgresProvider = scope.ServiceProvider.GetService<IPostgresConnectionProvider>();
+        if (postgresProvider is null) return;
+
+        try
+        {
+            var services = new ServiceCollection();
+            services.AddSingleton<IPostgresConnectionProvider>(postgresProvider);
+            services.ConfigurePostgresMigrations();
+            var provider = services.BuildServiceProvider();
+            provider.GetRequiredService<IMigrationRunner>().MigrateUp();
+        }
+        catch (Exception ex)
+        {
+            var logger = host.Services.GetRequiredService<ILogger<Program>>();
+            logger.LogWarning(ex, "Could not run PostgreSQL migrations (PostgreSQL may not be available)");
+        }
     }
 
     private static async Task RunStartupTasks(IHost host)

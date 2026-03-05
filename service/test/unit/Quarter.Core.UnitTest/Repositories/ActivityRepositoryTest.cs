@@ -90,4 +90,11 @@ namespace Quarter.Core.UnitTest.Repositories
         protected override IActivityRepository Repository()
             => new PostgresActivityRepository(UnitTestPostgresConnectionProvider.Instance, IdOf<User>.Random());
     }
+
+    [TestFixture]
+    public class SqliteActivityRepositoryTest : ActivityRepositoryTest
+    {
+        protected override IActivityRepository Repository()
+            => new SqliteActivityRepository(UnitTestSqliteConnectionProvider.Instance, IdOf<User>.Random());
+    }
 }

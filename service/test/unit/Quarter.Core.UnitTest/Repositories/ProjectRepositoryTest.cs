@@ -60,4 +60,11 @@ namespace Quarter.Core.UnitTest.Repositories
         protected override IProjectRepository Repository()
             => new PostgresProjectRepository(UnitTestPostgresConnectionProvider.Instance, IdOf<User>.Random());
     }
+
+    [TestFixture]
+    public class SqliteProjectRepositoryTest : ProjectRepositoryTest
+    {
+        protected override IProjectRepository Repository()
+            => new SqliteProjectRepository(UnitTestSqliteConnectionProvider.Instance, IdOf<User>.Random());
+    }
 }

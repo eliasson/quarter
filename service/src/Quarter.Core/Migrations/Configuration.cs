@@ -8,6 +8,9 @@ namespace Quarter.Core.Migrations;
 public static class Configuration
 {
     public static void ConfigureMigrations(this IServiceCollection serviceCollection)
+        => ConfigurePostgresMigrations(serviceCollection);
+
+    public static void ConfigurePostgresMigrations(this IServiceCollection serviceCollection)
     {
         var connectionProvider = serviceCollection.BuildServiceProvider().GetService<IPostgresConnectionProvider>();
         if (connectionProvider?.ConnectionString is null)
@@ -22,6 +25,22 @@ public static class Configuration
                     .ScanIn(typeof(InitialMigration).Assembly).For.All();
             })
             .AddLogging(loggingBuilder => loggingBuilder.AddFluentMigratorConsole());
+    }
 
+    public static void ConfigureSqliteMigrations(this IServiceCollection serviceCollection)
+    {
+        var connectionProvider = serviceCollection.BuildServiceProvider().GetService<ISqliteConnectionProvider>();
+        if (connectionProvider?.ConnectionString is null)
+            throw new SystemException("Could not setup required SQLite connection provider service");
+
+        serviceCollection.AddFluentMigratorCore()
+            .ConfigureRunner(builder =>
+            {
+                builder
+                    .AddSQLite()
+                    .WithGlobalConnectionString(connectionProvider.ConnectionString)
+                    .ScanIn(typeof(InitialMigration).Assembly).For.All();
+            })
+            .AddLogging(loggingBuilder => loggingBuilder.AddFluentMigratorConsole());
     }
 }

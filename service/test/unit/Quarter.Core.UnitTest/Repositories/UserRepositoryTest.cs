@@ -118,4 +118,11 @@ namespace Quarter.Core.UnitTest.Repositories
         protected override IUserRepository Repository()
             => new PostgresUserRepository(UnitTestPostgresConnectionProvider.Instance);
     }
+
+    [TestFixture]
+    public class SqliteUserRepositoryTest : UserRepositoryTest
+    {
+        protected override IUserRepository Repository()
+            => new SqliteUserRepository(UnitTestSqliteConnectionProvider.Instance);
+    }
 }

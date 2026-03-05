@@ -360,3 +360,10 @@ public class PostgresqlTimesheetRepositoryTest : TimesheetRepositoryTest
     protected override ITimesheetRepository Repository() =>
         new PostgresTimesheetRepository(UnitTestPostgresConnectionProvider.Instance, IdOf<User>.Random());
 }
+
+[TestFixture]
+public class SqliteTimesheetRepositoryTest : TimesheetRepositoryTest
+{
+    protected override ITimesheetRepository Repository() =>
+        new SqliteTimesheetRepository(UnitTestSqliteConnectionProvider.Instance, IdOf<User>.Random());
+}

@@ -165,3 +165,10 @@ public class PostgresqlGetUsageForPeriodAsyncTest : GetUsageForPeriodAsyncTest
     protected override ITimesheetRepository Repository()
         => new PostgresTimesheetRepository(UnitTestPostgresConnectionProvider.Instance, IdOf<User>.Random());
 }
+
+[TestFixture]
+public class SqliteGetUsageForPeriodAsyncTest : GetUsageForPeriodAsyncTest
+{
+    protected override ITimesheetRepository Repository()
+        => new SqliteTimesheetRepository(UnitTestSqliteConnectionProvider.Instance, IdOf<User>.Random());
+}
