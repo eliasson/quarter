@@ -175,3 +175,17 @@ pub fn should_translate_date_long_format_test() {
   |> i18n.describe
   |> should.equal("saturday, 14 february")
 }
+
+pub fn should_translate_date_short_format_test() {
+  let ts =
+    timestamp.from_calendar(
+      date: calendar.Date(2026, calendar.February, 14),
+      time: calendar.TimeOfDay(12, 0, 0, 0),
+      offset: calendar.utc_offset,
+    )
+
+  ts
+  |> i18n.date_short(i18n.English)
+  |> i18n.describe
+  |> should.equal("14 february 2026")
+}

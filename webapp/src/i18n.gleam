@@ -63,6 +63,19 @@ pub fn date_long(ts: timestamp.Timestamp, _lang: Language) -> Translation {
   )
 }
 
+pub fn date_short(ts: timestamp.Timestamp, _lang: Language) -> Translation {
+  let #(date, _time) = timestamp.to_calendar(ts, calendar.utc_offset)
+
+  // 14 february
+  Translation(
+    int.to_string(date.day)
+    <> " "
+    <> calendar_month(date.month)
+    <> " "
+    <> int.to_string(date.year),
+  )
+}
+
 fn calendar_month(month: calendar.Month) -> String {
   case month {
     calendar.January -> "january"
