@@ -14,6 +14,7 @@ import lustre/element/html.{div, h1, span}
 import lustre/event
 import message
 import model
+import ui/activity.{activity_color_badge}
 import ui/core as ui
 import ui/dropdown
 import ui/graphics
@@ -104,7 +105,7 @@ fn project_list(m: model.Model) {
             }
 
             div(activity_row_classes, [
-              color_badge(activity),
+              activity_color_badge(activity),
               div([att.class("name")], [html.text(activity.name)]),
               div([att.class("state")], [activity_archived_chip]),
               div([att.class("action")], [manage_activity_action(activity, m)]),
@@ -115,21 +116,6 @@ fn project_list(m: model.Model) {
       ),
     ])
   })
-}
-
-fn color_badge(activity: project.Activity) {
-  let border_color = color.darken(activity.color)
-
-  div(
-    [
-      att.class("activity-color"),
-      att.styles([
-        #("background-color", color.color_to_style_value(activity.color)),
-        #("border-color", color.color_to_style_value(border_color)),
-      ]),
-    ],
-    [],
-  )
 }
 
 fn manage_project_action(m: model.Model, project: project.Project) {
