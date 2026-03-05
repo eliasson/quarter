@@ -15,3 +15,6 @@ webapp/build
 *.Development.json
 
 erl_crash.dump
+
+# SQLite database
+*.db
