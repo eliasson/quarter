@@ -39,3 +39,7 @@ pub const icon_delete = "trash"
 pub const icon_prev = "arrow-prev"
 
 pub const icon_next = "arrow-next"
+
+pub const icon_extend_earlier = "chevron-double-up"
+
+pub const icon_extend_later = "chevron-double-down"

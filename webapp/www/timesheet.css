@@ -32,3 +32,73 @@
     line-height: 1;
     letter-spacing: 0.1em;
 }
+
+.timesheet-view {
+    display: grid;
+    grid-template-columns: 6fr 4fr;
+    gap: 80px;
+}
+
+/* The 24h Grid */
+.timesheet-grid {
+    display: flex;
+    flex-direction: column;
+}
+
+.grid-row {
+    display: flex;
+    align-items: stretch;
+    height: 56px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+    position: relative;
+}
+
+.grid-row:hover {
+    background-color: rgba(0, 0, 0, 0.01);
+}
+
+.hour-label {
+    width: 60px;
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--text-color-second);
+    display: flex;
+    align-items: flex-start;
+    padding-top: 16px;
+    justify-content: flex-start;
+}
+
+.quarters {
+    flex: 1;
+    display: flex;
+    gap: 2px;
+    padding: 8px 0;
+}
+
+.quarter-cell {
+    flex: 1;
+    cursor: pointer;
+    transition: transform 0.2s;
+    position: relative;
+    border-radius: 2px;
+    background-color: rgba(0, 0, 0, 0.01);
+}
+
+.quarter-cell:hover {
+    transform: scaleY(1.1);
+}
+
+/* Extend Grid Buttons */
+.timesheet-grid button {
+    width: 100%;
+    padding: 20px 0;
+    text-align: center;
+    color: var(--text-color-second);
+    border: none;
+    transition: color 0.2s;
+}
+
+.timesheet-grid button:hover {
+    color: var(--text-color);
+    opacity: 1;
+}

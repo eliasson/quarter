@@ -1,3 +1,4 @@
+import gleam/list
 import i18n
 import lustre/attribute as att
 import lustre/element.{type Element}
@@ -10,6 +11,7 @@ import ui/input
 pub fn view(m: model.Model) -> Element(message.Msg) {
   div([att.class("content")], [
     timesheet_header(m),
+    timesheet(),
   ])
 }
 
@@ -25,4 +27,116 @@ fn timesheet_header(m: model.Model) {
     ]),
     input.ghost_button(graphics.icon_next, message.NextTimesheet),
   ])
+}
+
+fn timesheet() {
+  let grid =
+    [input.ghost_button(graphics.icon_extend_earlier, message.Noop)]
+    |> list.append(timesheet_grid())
+    |> list.append([
+      input.ghost_button(graphics.icon_extend_later, message.Noop),
+    ])
+
+  // TODO Add list of activities
+  // TOOD Add timesheet summary
+  let context = []
+
+  div([att.class("timesheet-view")], [
+    div([att.class("timesheet-grid")], grid),
+    div([att.class("timesheet-context")], context),
+  ])
+}
+
+// Return the visible range of hours for the timesheet.
+fn timesheet_grid() {
+  [
+    div([att.class("grid-row")], [
+      div([att.class("hour-label")], [html.text("07:00")]),
+
+      div([att.class("quarters")], [
+        div(
+          [
+            att.class("quarter-cell"),
+            att.style("background-color", "#8b5cf6"),
+          ],
+          [],
+        ),
+        div(
+          [
+            att.class("quarter-cell"),
+            att.style("background-color", "#8b5cf6"),
+          ],
+          [],
+        ),
+        div(
+          [
+            att.class("quarter-cell"),
+            att.style("background-color", "#8b5cf6"),
+          ],
+          [],
+        ),
+        div(
+          [
+            att.class("quarter-cell"),
+            att.style("background-color", "#8b5cf6"),
+          ],
+          [],
+        ),
+      ]),
+    ]),
+
+    div([att.class("grid-row")], [
+      div([att.class("hour-label")], [html.text("07:00")]),
+      div([att.class("quarters")], [
+        div(
+          [
+            att.class("quarter-cell"),
+            att.style("background-color", "#8b5cf6"),
+          ],
+          [],
+        ),
+        div(
+          [
+            att.class("quarter-cell"),
+            att.style("background-color", "#8b5cf6"),
+          ],
+          [],
+        ),
+        div([att.class("quarter-cell")], []),
+        div([att.class("quarter-cell")], []),
+      ]),
+    ]),
+    div([att.class("grid-row")], [
+      div([att.class("hour-label")], [html.text("08:00")]),
+
+      div([att.class("quarters")], [
+        div([att.class("quarter-cell")], []),
+        div([att.class("quarter-cell")], []),
+        div([att.class("quarter-cell")], []),
+        div([att.class("quarter-cell")], []),
+      ]),
+    ]),
+
+    div([att.class("grid-row")], [
+      div([att.class("hour-label")], [html.text("09:00")]),
+
+      div([att.class("quarters")], [
+        div([att.class("quarter-cell")], []),
+        div([att.class("quarter-cell")], []),
+        div([att.class("quarter-cell")], []),
+        div([att.class("quarter-cell")], []),
+      ]),
+    ]),
+
+    div([att.class("grid-row")], [
+      div([att.class("hour-label")], [html.text("10:00")]),
+
+      div([att.class("quarters-container")], [
+        div([att.class("quarter-cell")], []),
+        div([att.class("quarter-cell")], []),
+        div([att.class("quarter-cell")], []),
+        div([att.class("quarter-cell")], []),
+      ]),
+    ]),
+  ]
 }
