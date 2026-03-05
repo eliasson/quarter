@@ -28,26 +28,31 @@ pub fn capitalize(t: Translation) -> String {
   string.capitalise(t.value)
 }
 
+/// Returns the name of the month for the given timestamp.
 pub fn name_of_month(ts: timestamp.Timestamp, _lang: Language) -> Translation {
   let #(date, _time) = timestamp.to_calendar(ts, calendar.utc_offset)
   Translation(calendar_month(date.month))
 }
 
+/// Returns the name of the day for the given timestamp.
 pub fn name_of_day(ts: timestamp.Timestamp, _lang: Language) -> Translation {
   let weekday = weekday.from_timestamp(ts)
   Translation(weekday_name(weekday))
 }
 
+/// Returns the year for the given timestamp.
 pub fn year(ts: timestamp.Timestamp, _lang: Language) -> Translation {
   let #(date, _time) = timestamp.to_calendar(ts, calendar.utc_offset)
   Translation(int.to_string(date.year))
 }
 
+/// Returns the day of the month for the given timestamp.
 pub fn day(ts: timestamp.Timestamp, _lang: Language) -> Translation {
   let #(date, _time) = timestamp.to_calendar(ts, calendar.utc_offset)
   Translation(int.to_string(date.day))
 }
 
+/// Formats the date in a long format (e.g. "Saturday, 14 february").
 pub fn date_long(ts: timestamp.Timestamp, _lang: Language) -> Translation {
   let #(date, _time) = timestamp.to_calendar(ts, calendar.utc_offset)
 
@@ -63,6 +68,7 @@ pub fn date_long(ts: timestamp.Timestamp, _lang: Language) -> Translation {
   )
 }
 
+/// Formats the date in a short format (e.g. "14 february 2023").
 pub fn date_short(ts: timestamp.Timestamp, _lang: Language) -> Translation {
   let #(date, _time) = timestamp.to_calendar(ts, calendar.utc_offset)
 
