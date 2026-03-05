@@ -1,0 +1,34 @@
+.timesheet-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 50px;
+    position: relative;
+}
+
+.timesheet-header-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.timesheet-header-content .main {
+    margin-bottom: var(--spaceing-2);
+
+    color: var(--text-color);
+
+    font-size: var(--font-size-5xl);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1;
+}
+
+.timesheet-header-content .second {
+    color: var(--text-color);
+
+    font-size: var(--font-size-2xl);
+
+    line-height: 1;
+    letter-spacing: 0.1em;
+}
