@@ -86,3 +86,11 @@ pub fn to_hex_returns_uppercase_test() {
   let actual = color.to_hex(color.Color(171, 205, 239))
   should.equal(actual, "#ABCDEF")
 }
+
+pub fn darken_applies_to_each_channel_independently_test() {
+  // Use a color where r, g, b are all different to catch channel mix-ups.
+  // darken applies -30% luminance: round(min(max(0, c + c * -0.3), 255))
+  // r=100 -> 70, g=150 -> 105, b=200 -> 140
+  let actual = color.darken(color.Color(100, 150, 200))
+  should.equal(actual, color.Color(70, 105, 140))
+}

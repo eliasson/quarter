@@ -18,7 +18,7 @@ pub fn darken(color: Color) -> Color {
 
   let rr = float.add(r_float, float.multiply(r_float, lum))
   let gg = float.add(g_float, float.multiply(g_float, lum))
-  let bb = float.add(b_float, float.multiply(g_float, lum))
+  let bb = float.add(b_float, float.multiply(b_float, lum))
 
   let r = float.round(float.min(float.max(0.0, rr), 255.0))
   let g = float.round(float.min(float.max(0.0, gg), 255.0))
