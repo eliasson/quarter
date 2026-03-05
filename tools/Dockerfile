@@ -19,7 +19,7 @@ COPY . .
 
 # Build frontend
 WORKDIR /app/webapp
-RUN npm install
+RUN npm ci
 RUN gleam build
 RUN npm run build
 
@@ -28,7 +28,7 @@ WORKDIR /app
 RUN dotnet publish service/src/Quarter/Quarter.csproj --output /app/build --configuration Release
 
 # Copy frontend dist to backend output
-RUN cp -r dist/* /app/build/dist
+RUN cp -r /app/dist /app/build/dist
 
 # Runtime part
 FROM mcr.microsoft.com/dotnet/aspnet:9.0
