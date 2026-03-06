@@ -1,5 +1,8 @@
 import domain/color
+import gleam/list
 import gleam/option
+import gleam/order
+import gleam/string
 import gleam/time/timestamp.{type Timestamp}
 
 pub type ProjectId {
@@ -33,4 +36,28 @@ pub type Activity {
     created: Timestamp,
     updated: option.Option(Timestamp),
   )
+}
+
+/// Sort the given list of projects alphabetically, but with the archived projects last (each section
+/// of archived / not archived will be sorted alphabetically).
+pub fn sort_projects(subject: List(Project)) {
+  list.sort(subject, fn(a, b) {
+    case a.is_archived, b.is_archived {
+      True, False -> order.Gt
+      False, True -> order.Lt
+      _, _ -> string.compare(a.name, b.name)
+    }
+  })
+}
+
+/// Sort the given list of activities alphabetically, but with the archived activity last (each section
+/// of archived / not archived will be sorted alphabetically).
+pub fn sort_activities(subject: List(Activity)) {
+  list.sort(subject, fn(a, b) {
+    case a.is_archived, b.is_archived {
+      True, False -> order.Gt
+      False, True -> order.Lt
+      _, _ -> string.compare(a.name, b.name)
+    }
+  })
 }

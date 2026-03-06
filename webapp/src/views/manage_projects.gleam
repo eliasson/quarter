@@ -6,8 +6,6 @@ import domain/project
 import form
 import gleam/list
 import gleam/option
-import gleam/order
-import gleam/string
 import lustre/attribute as att
 import lustre/element.{type Element}
 import lustre/element/html.{div, h1, span}
@@ -37,7 +35,7 @@ pub fn view(m: model.Model) -> Element(message.Msg) {
 }
 
 fn project_list(m: model.Model) {
-  let projects = sort_projects(m.projects)
+  let projects = project.sort_projects(m.projects)
 
   list.map(projects, fn(project) {
     let is_expanded = model.is_project_expanded(m, project.id)
@@ -94,7 +92,7 @@ fn project_list(m: model.Model) {
       div(
         [att.class("activities")],
         list.append(
-          list.map(sort_activities(project.activities), fn(activity) {
+          list.map(project.sort_activities(project.activities), fn(activity) {
             let activity_row_classes =
               [att.class("activity-row")]
               |> cond_class(activity.is_archived, "archived")
@@ -340,26 +338,6 @@ pub fn delete_project_form(
     ],
   )
   |> input.form_dialog(graphics.icon_add_user, "Delete project?")
-}
-
-fn sort_projects(subject: List(project.Project)) {
-  list.sort(subject, fn(a, b) {
-    case a.is_archived, b.is_archived {
-      True, False -> order.Gt
-      False, True -> order.Lt
-      _, _ -> string.compare(a.name, b.name)
-    }
-  })
-}
-
-fn sort_activities(subject: List(project.Activity)) {
-  list.sort(subject, fn(a, b) {
-    case a.is_archived, b.is_archived {
-      True, False -> order.Gt
-      False, True -> order.Lt
-      _, _ -> string.compare(a.name, b.name)
-    }
-  })
 }
 
 fn archive_project_menu_label(project: project.Project) -> String {
