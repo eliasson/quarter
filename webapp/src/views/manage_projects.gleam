@@ -12,7 +12,7 @@ import lustre/element/html.{div, h1, span}
 import lustre/event
 import message
 import model
-import ui/activity.{activity_color_badge}
+import ui/activity.{activity_badge}
 import ui/core as ui
 import ui/dropdown
 import ui/graphics
@@ -103,7 +103,7 @@ fn project_list(m: model.Model) {
             }
 
             div(activity_row_classes, [
-              activity_color_badge(activity),
+              activity_badge(activity),
               div([att.class("name")], [html.text(activity.name)]),
               div([att.class("state")], [activity_archived_chip]),
               div([att.class("action")], [manage_activity_action(activity, m)]),
