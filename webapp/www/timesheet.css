@@ -34,9 +34,8 @@
 }
 
 .timesheet-view {
-    display: grid;
-    grid-template-columns: 6fr 4fr;
-    gap: 80px;
+    display: flex;
+    flex-direction: column-reverse;
 }
 
 /* The 24h Grid */
@@ -101,4 +100,12 @@
 .timesheet-grid button:hover {
     color: var(--text-color);
     opacity: 1;
+}
+
+@media (min-width: 1024px) {
+    .timesheet-view {
+        display: grid;
+        grid-template-columns: 6fr 4fr;
+        gap: 80px;
+    }
 }
