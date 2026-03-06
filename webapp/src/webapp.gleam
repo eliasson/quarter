@@ -10,8 +10,8 @@ import message.{
   DeleteActivity, DeleteActivityResult, DeleteProject, DeleteProjectResult,
   DismissError, FormTextFieldUpdated, NextMonth, NextTimesheet, Noop,
   OnRouteChange, OpenDialog, OpenDropDownMenu, PreviousMonth, PreviousTimesheet,
-  ProjectsResult, SystemUsersResult, TimesheetResult, TimesheetsResult,
-  ToggleProject, UpdateActivityResult, UpdateProjectResult,
+  ProjectsResult, SelectActivity, SystemUsersResult, TimesheetResult,
+  TimesheetsResult, ToggleProject, UpdateActivityResult, UpdateProjectResult,
 }
 import model.{
   type Model, close_all_modals, close_modal, delete_activity, delete_project,
@@ -109,6 +109,12 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       let m = go_to_yesterday(model)
       let e = protocol.get_timesheet(m.today, message.TimesheetResult)
       #(m, e)
+    }
+
+    SelectActivity(id) -> {
+      // Called from the timesheet view to select the activity used to "paint" the timesheet with.
+      model.Model(..model, selected_activity: id)
+      |> no_effect()
     }
 
     OpenDropDownMenu(id) -> #(open_drop_down_menu(model, id), effect.none())

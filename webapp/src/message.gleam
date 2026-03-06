@@ -1,6 +1,7 @@
 import domain/project
 import domain/timesheet
 import domain/user
+import gleam/option
 import model
 import route.{type Route}
 import rsvp
@@ -36,6 +37,10 @@ pub type Msg {
 
   /// Change the timesheet view to display yesterdays timesheet.
   PreviousTimesheet
+
+  /// Selects an activity in the timesheet view's list of activities.
+  /// None represents the "clear activity".
+  SelectActivity(id: option.Option(project.ActivityId))
 
   /// Select / deselect a project in the mange project list.
   ToggleProject(id: project.ProjectId)

@@ -5,6 +5,7 @@ import domain/project
 import domain/timesheet
 import domain/user
 import gleam/list
+import gleam/option
 import gleam/set
 import gleam/time/timestamp
 import i18n
@@ -36,6 +37,8 @@ pub type Model {
     expanded_projects: set.Set(project.ProjectId),
     /// The current months timesheets.
     timesheets: List(timesheet.Timesheet),
+    /// The selected activity. None represents the "clear activity" in the timesheet view.
+    selected_activity: option.Option(project.ActivityId),
   )
 }
 
@@ -79,6 +82,7 @@ pub fn initial_model() -> Model {
     projects: [],
     expanded_projects: set.new(),
     timesheets: [],
+    selected_activity: option.None,
   )
 }
 

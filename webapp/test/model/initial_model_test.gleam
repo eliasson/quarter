@@ -34,3 +34,8 @@ pub fn should_set_today_from_system_time_test() {
 
   should.be_true(seconds < 1)
 }
+
+pub fn should_not_have_any_selected_activity() {
+  model.initial_model().selected_activity
+  |> should.be_none
+}
