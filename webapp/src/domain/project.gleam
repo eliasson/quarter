@@ -38,6 +38,20 @@ pub type Activity {
   )
 }
 
+/// Return only non-archived projects, sorted alphabetically.
+pub fn active_projects(subject: List(Project)) -> List(Project) {
+  subject
+  |> list.filter(fn(p) { !p.is_archived })
+  |> list.sort(fn(a, b) { string.compare(a.name, b.name) })
+}
+
+/// Return only non-archived activities, sorted alphabetically.
+pub fn active_activities(subject: List(Activity)) -> List(Activity) {
+  subject
+  |> list.filter(fn(a) { !a.is_archived })
+  |> list.sort(fn(a, b) { string.compare(a.name, b.name) })
+}
+
 /// Sort the given list of projects alphabetically, but with the archived projects last (each section
 /// of archived / not archived will be sorted alphabetically).
 pub fn sort_projects(subject: List(Project)) {
