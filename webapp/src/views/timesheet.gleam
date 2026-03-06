@@ -1,5 +1,3 @@
-import domain/color
-import domain/project
 import gleam/int
 import gleam/list
 import i18n
@@ -8,9 +6,9 @@ import lustre/element.{type Element}
 import lustre/element/html.{div, h1, header}
 import message
 import model
-import ui/activity.{activitiy_color_badge, activity_badge}
 import ui/graphics
 import ui/input
+import ui/timesheet_activities.{timesheet_activities}
 
 pub fn view(m: model.Model) -> Element(message.Msg) {
   div([att.class("content")], [
@@ -45,7 +43,7 @@ fn timesheet(m: model.Model) {
     div([att.class("timesheet-grid")], grid),
     div([att.class("timesheet-context")], [
       timesheet_summary(),
-      activity_selection(m),
+      timesheet_activities(m),
     ]),
   ])
 }
@@ -78,48 +76,6 @@ fn timesheet_summary() {
         div([att.class("summary-project-total")], [html.text("7h 30m")]),
       ]),
     ]),
-  ])
-}
-
-fn activity_selection(m: model.Model) {
-  let lines =
-    m.projects
-    |> list.map(project_items)
-    |> list.append([clear_activity_item()])
-
-  div([att.class("panel-section")], [
-    div([att.class("panel-section-title")], [html.text("Select activity")]),
-    div([att.class("activity-picker")], lines),
-  ])
-}
-
-fn project_items(project: project.Project) -> Element(message.Msg) {
-  let activities = case list.is_empty(project.activities) {
-    True -> [empty_project()]
-    False -> list.map(project.activities, activity_item)
-  }
-
-  div([att.class("picker-project-group")], [
-    div([att.class("picker-project-title")], [html.text(project.name)]),
-    ..activities
-  ])
-}
-
-fn activity_item(activity: project.Activity) {
-  div([att.class("picker-item")], [
-    activity_badge(activity),
-    div([att.class("picker-name")], [html.text(activity.name)]),
-  ])
-}
-
-fn empty_project() {
-  div([att.class("picker-empty-state")], [html.text("No activities")])
-}
-
-fn clear_activity_item() -> Element(message.Msg) {
-  div([att.class("picker-item")], [
-    activitiy_color_badge(color.Color(255, 255, 255)),
-    div([att.class("picker-name")], [html.text("Clear activity")]),
   ])
 }
 
