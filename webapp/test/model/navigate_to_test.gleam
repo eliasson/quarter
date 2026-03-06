@@ -29,3 +29,9 @@ pub fn navigate_to_timesheet_route_test() {
   |> tsutil.to_iso_date
   |> should.equal(tsutil.to_iso_date(now))
 }
+
+pub fn should_navigate_to_route_test() {
+  let m = model.initial_model() |> model.navigate_to(route.Manage)
+
+  should.equal(m.route, route.Manage)
+}
