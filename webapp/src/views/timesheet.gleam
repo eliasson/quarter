@@ -9,6 +9,7 @@ import model
 import ui/graphics
 import ui/input
 import ui/timesheet_activities.{timesheet_activities}
+import ui/timesheet_summary.{timesheet_summary}
 
 pub fn view(m: model.Model) -> Element(message.Msg) {
   div([att.class("content")], [
@@ -44,37 +45,6 @@ fn timesheet(m: model.Model) {
     div([att.class("timesheet-context")], [
       timesheet_summary(),
       timesheet_activities(m),
-    ]),
-  ])
-}
-
-/// Generate the summary of the timesheet where each project and activity is sumed.
-fn timesheet_summary() {
-  div([att.class("panel-section")], [
-    div([att.class("panel-section-title")], [html.text("Summary")]),
-
-    div([att.class("summary-list")], [
-      div([att.class("summary-project")], [
-        div([att.class("summary-project-name")], [html.text("Project Alpha")]),
-        div([att.class("summary-project-total")], [html.text("3h 15m")]),
-      ]),
-      div([att.class("summary-activity")], [
-        div([att.class("summary-activity-name")], [
-          html.text("Task One"),
-        ]),
-        div([att.class("summary-activity-total")], [html.text("15m")]),
-      ]),
-      div([att.class("summary-activity")], [
-        div([att.class("summary-activity-name")], [
-          html.text("Another"),
-        ]),
-        div([att.class("summary-activity-total")], [html.text("3h 00m")]),
-      ]),
-      // Total
-      div([att.class("summary-project total-row")], [
-        div([att.class("summary-project-name")], [html.text("Total")]),
-        div([att.class("summary-project-total")], [html.text("7h 30m")]),
-      ]),
     ]),
   ])
 }
