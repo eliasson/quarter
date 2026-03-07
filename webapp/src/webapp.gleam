@@ -325,6 +325,7 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
 
     TimesheetResult(Ok(_timesheet)) -> {
       io.println("TimesheetResult Ok")
+      // TODO The model must be updated with the new timesheet.
       #(model, effect.none())
     }
 

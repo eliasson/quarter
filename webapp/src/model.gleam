@@ -314,3 +314,11 @@ pub fn extend_end_of_day(m: Model) {
   let end_of_day = int.min(23, m.end_of_day + 1)
   Model(..m, end_of_day:)
 }
+
+pub fn timesheet_for_date(
+  m: Model,
+  date: timestamp.Timestamp,
+) -> Result(timesheet.Timesheet, Nil) {
+  m.timesheets
+  |> list.find(fn(t) { t.date == date })
+}
