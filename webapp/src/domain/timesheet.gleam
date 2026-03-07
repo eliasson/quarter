@@ -2,8 +2,8 @@ import domain/duration
 import domain/project
 import gleam/dict
 import gleam/list
-import gleam/option
 import gleam/time/timestamp.{type Timestamp}
+import seq
 
 pub type TimeSlot {
 
@@ -63,29 +63,14 @@ pub fn summary(
   }
 
   let slots_by_project =
-    list.fold(timesheet.slots, dict.new(), fn(acc, slot) {
-      dict.upsert(acc, slot.project_id, fn(existing) {
-        case existing {
-          option.Some(slots) -> [slot, ..slots]
-          option.None -> [slot]
-        }
-      })
-    })
+    seq.group_by(timesheet.slots, fn(slot) { slot.project_id })
 
   let details =
     dict.to_list(slots_by_project)
     |> list.map(fn(pair) {
       let #(project_id, slots) = pair
 
-      let slots_by_activity =
-        list.fold(slots, dict.new(), fn(acc, slot) {
-          dict.upsert(acc, slot.activity_id, fn(existing) {
-            case existing {
-              option.Some(activity_slots) -> [slot, ..activity_slots]
-              option.None -> [slot]
-            }
-          })
-        })
+      let slots_by_activity = seq.group_by(slots, fn(slot) { slot.activity_id })
 
       let activity_details =
         dict.to_list(slots_by_activity)
