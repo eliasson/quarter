@@ -1,5 +1,6 @@
 import domain/duration
 import gleam/list
+import gleam/order
 import gleeunit/should
 
 pub fn various_durations_test() {
@@ -26,4 +27,18 @@ pub fn negative_duration_test() {
   duration.Minutes(-90)
   |> duration.to_hours_and_minutes
   |> should.equal(#(-1, -30))
+}
+
+pub fn compare_test() {
+  duration.Minutes(0)
+  |> duration.compare(with: duration.Minutes(1))
+  |> should.equal(order.Lt)
+
+  duration.Minutes(1)
+  |> duration.compare(with: duration.Minutes(0))
+  |> should.equal(order.Gt)
+
+  duration.Minutes(0)
+  |> duration.compare(with: duration.Minutes(0))
+  |> should.equal(order.Eq)
 }
