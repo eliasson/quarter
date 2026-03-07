@@ -49,3 +49,8 @@ pub fn should_have_end_of_day_set_to_18_test() {
   model.initial_model().end_of_day
   |> should.equal(18)
 }
+
+pub fn should_not_have_any_active_timesheet_test() {
+  model.initial_model().active_timesheet
+  |> should.be_none
+}

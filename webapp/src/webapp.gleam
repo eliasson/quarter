@@ -20,7 +20,7 @@ import model.{
   go_to_previous_month, go_to_tomorrow, go_to_yesterday, initial_model,
   navigate_to, open_dialog, open_drop_down_menu, set_current_user,
   set_timesheets, set_users, toggle_project, update_activity,
-  update_dialog_value, update_project,
+  update_dialog_value, update_project,set_active_timesheet
 }
 import modem
 import protocol
@@ -323,10 +323,9 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       #(model, effect.none())
     }
 
-    TimesheetResult(Ok(_timesheet)) -> {
-      io.println("TimesheetResult Ok")
-      // TODO The model must be updated with the new timesheet.
-      #(model, effect.none())
+    TimesheetResult(Ok(timesheet)) -> {
+      set_active_timesheet(model, timesheet)
+        |> no_effect()
     }
 
     TimesheetResult(Error(_)) -> {

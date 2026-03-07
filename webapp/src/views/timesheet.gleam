@@ -1,6 +1,7 @@
 import domain/timesheet
 import gleam/int
 import gleam/list
+import gleam/option
 import i18n
 import lustre/attribute as att
 import lustre/element.{type Element}
@@ -15,8 +16,8 @@ import ui/timesheet_summary.{timesheet_summary}
 pub fn view(m: model.Model) -> Element(message.Msg) {
   // Get the timesheet based on the current date
   // TODO: Produce a better error message in case of failure to get the timesheet.
-  case model.timesheet_for_date(m, m.today) {
-    Ok(ts) ->
+  case m.active_timesheet {
+    option.Some(ts) ->
       div([att.class("content")], [
         timesheet_header(m),
         timesheet(ts, m),

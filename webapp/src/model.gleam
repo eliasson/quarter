@@ -43,6 +43,8 @@ pub type Model {
     start_of_day: Int,
     /// The end of day hour used when rendering a timesheet. This time is inclusive.
     end_of_day: Int,
+    /// The active timesheet being viewed or edited.
+    active_timesheet: option.Option(timesheet.Timesheet),
   )
 }
 
@@ -89,6 +91,7 @@ pub fn initial_model() -> Model {
     selected_activity: option.None,
     start_of_day: 6,
     end_of_day: 18,
+    active_timesheet: option.None,
   )
 }
 
@@ -315,10 +318,6 @@ pub fn extend_end_of_day(m: Model) {
   Model(..m, end_of_day:)
 }
 
-pub fn timesheet_for_date(
-  m: Model,
-  date: timestamp.Timestamp,
-) -> Result(timesheet.Timesheet, Nil) {
-  m.timesheets
-  |> list.find(fn(t) { t.date == date })
+pub fn set_active_timesheet(m: Model, timesheet: timesheet.Timesheet) -> Model {
+  Model(..m, active_timesheet: option.Some(timesheet))
 }
