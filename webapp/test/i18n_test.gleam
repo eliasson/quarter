@@ -1,3 +1,4 @@
+import domain/duration
 import gleam/time/calendar
 import gleam/time/timestamp
 import gleeunit/should
@@ -188,4 +189,16 @@ pub fn should_translate_date_short_format_test() {
   |> i18n.date_short(i18n.English)
   |> i18n.describe
   |> should.equal("14 february 2026")
+}
+
+pub fn should_translate_duration_test() {
+  let duration = duration.Minutes(120)
+  i18n.describe(i18n.duration(duration, i18n.English))
+  |> should.equal("2h 0min")
+}
+
+pub fn should_translate_duration_single_minutes_test() {
+  let duration = duration.Minutes(7)
+  i18n.describe(i18n.duration(duration, i18n.English))
+  |> should.equal("7min")
 }

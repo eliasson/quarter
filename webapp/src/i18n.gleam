@@ -4,6 +4,7 @@
 /// all translations and internationalization, not any type specific module.
 ///
 /// Quarter uses relativly few translations (I think), so we can keep it this simple.
+import domain/duration
 import gleam/int
 import gleam/string
 import gleam/time/calendar
@@ -108,5 +109,16 @@ fn weekday_name(day: weekday.Weekday) -> String {
     weekday.Friday -> "friday"
     weekday.Saturday -> "saturday"
     weekday.Sunday -> "sunday"
+  }
+}
+
+pub fn duration(duration: duration.Duration, _lang: Language) -> Translation {
+  let #(hours, minutes) = duration.to_hours_and_minutes(duration)
+
+  let min = int.to_string(minutes) <> "min"
+
+  case hours {
+    0 -> Translation(min)
+    _ -> Translation(int.to_string(hours) <> "h " <> min)
   }
 }
