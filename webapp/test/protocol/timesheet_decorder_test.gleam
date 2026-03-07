@@ -1,4 +1,6 @@
 import domain/duration
+import domain/project
+import domain/timesheet
 import gleam/json
 import gleam/list
 import gleeunit/should
@@ -32,3 +34,68 @@ pub fn decode_timesheets_response_test() {
   let assert Ok(second) = list.last(result)
   second.duration |> should.equal(duration.Minutes(240))
 }
+
+pub fn should_have_three_slots_test() {
+  let result =
+    json.parse(timesheet_with_slots_json_string, protocol.timesheet_decoder())
+    |> should.be_ok
+
+  result.slots
+  |> list.length
+  |> should.equal(3)
+}
+
+pub fn should_have_expected_slots_test() {
+  let result =
+    json.parse(timesheet_with_slots_json_string, protocol.timesheet_decoder())
+    |> should.be_ok
+
+  let expected = [
+    timesheet.TimeSlot(
+      project.ProjectId("p-01"),
+      project.ActivityId("a-01"),
+      24,
+      1,
+    ),
+    timesheet.TimeSlot(
+      project.ProjectId("p-01"),
+      project.ActivityId("a-02"),
+      29,
+      2,
+    ),
+    timesheet.TimeSlot(
+      project.ProjectId("p-02"),
+      project.ActivityId("a-03"),
+      35,
+      3,
+    ),
+  ]
+
+  result.slots
+  |> should.equal(expected)
+}
+
+const timesheet_with_slots_json_string = "{
+    \"date\": \"2026-03-02\",
+    \"totalMinutes\": 90,
+    \"timeSlots\": [
+      {
+        \"projectId\": \"p-01\",
+        \"activityId\": \"a-01\",
+        \"offset\": 24,
+        \"duration\": 1
+      },
+      {
+        \"projectId\": \"p-01\",
+        \"activityId\": \"a-02\",
+        \"offset\": 29,
+        \"duration\": 2
+      },
+      {
+        \"projectId\": \"p-02\",
+        \"activityId\": \"a-03\",
+        \"offset\": 35,
+        \"duration\": 3
+      }
+    ]
+  }"

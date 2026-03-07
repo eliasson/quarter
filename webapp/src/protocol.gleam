@@ -376,14 +376,32 @@ pub fn timesheets_response_decoder() -> decode.Decoder(
 pub fn timesheet_decoder() -> decode.Decoder(timesheet.Timesheet) {
   use date <- decode.field("date", decode_timestamp_from_date())
   use total_minutes <- decode.field("totalMinutes", decode.int)
-
-  decode.success(
-    timesheet.Timesheet(
-      date:,
-      duration: duration.Minutes(total_minutes),
-      slots: [],
-    ),
+  use slots <- decode.field(
+    "timeSlots",
+    decode.list(timeslot_response_decoder()),
   )
+
+  decode.success(timesheet.Timesheet(
+    date:,
+    duration: duration.Minutes(total_minutes),
+    slots:,
+  ))
+}
+
+fn timeslot_response_decoder() -> decode.Decoder(timesheet.TimeSlot) {
+  use project_id <- decode.field("projectId", decode.string)
+  use activity_id <- decode.field("activityId", decode.string)
+  use offset <- decode.field("offset", decode.int)
+  use duration <- decode.field("duration", decode.int)
+
+  decode.success(timesheet.TimeSlot(
+    project_id: project.ProjectId(project_id),
+    activity_id: project.ActivityId(activity_id),
+    offset: offset,
+    // The API calls it duration, but in the frontend we have a Duration type
+    // that represents time and not number of quarters.
+    count: duration,
+  ))
 }
 
 /// Construct the absolut path of the URL used to perform activity related operations.
