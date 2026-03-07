@@ -8,16 +8,18 @@ import message.{
   ConfirmArchiveProject, ConfirmDeleteActivity, ConfirmDeleteProject,
   ConfirmDialog, CreateActivityResult, CreateProjectResult, CurrentUserResult,
   DeleteActivity, DeleteActivityResult, DeleteProject, DeleteProjectResult,
-  DismissError, FormTextFieldUpdated, NextMonth, NextTimesheet, Noop,
-  OnRouteChange, OpenDialog, OpenDropDownMenu, PreviousMonth, PreviousTimesheet,
-  ProjectsResult, SelectActivity, SystemUsersResult, TimesheetResult,
-  TimesheetsResult, ToggleProject, UpdateActivityResult, UpdateProjectResult,
+  DismissError, ExtendEndOfDay, ExtendStartOfDay, FormTextFieldUpdated,
+  NextMonth, NextTimesheet, Noop, OnRouteChange, OpenDialog, OpenDropDownMenu,
+  PreviousMonth, PreviousTimesheet, ProjectsResult, SelectActivity,
+  SystemUsersResult, TimesheetResult, TimesheetsResult, ToggleProject,
+  UpdateActivityResult, UpdateProjectResult,
 }
 import model.{
   type Model, close_all_modals, close_modal, delete_activity, delete_project,
-  dismiss_error, go_to_next_month, go_to_previous_month, go_to_tomorrow,
-  go_to_yesterday, initial_model, navigate_to, open_dialog, open_drop_down_menu,
-  set_current_user, set_timesheets, set_users, toggle_project, update_activity,
+  dismiss_error, extend_end_of_day, extend_start_of_day, go_to_next_month,
+  go_to_previous_month, go_to_tomorrow, go_to_yesterday, initial_model,
+  navigate_to, open_dialog, open_drop_down_menu, set_current_user,
+  set_timesheets, set_users, toggle_project, update_activity,
   update_dialog_value, update_project,
 }
 import modem
@@ -116,6 +118,10 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       model.Model(..model, selected_activity: id)
       |> no_effect()
     }
+
+    ExtendStartOfDay -> extend_start_of_day(model) |> no_effect()
+
+    ExtendEndOfDay -> extend_end_of_day(model) |> no_effect()
 
     OpenDropDownMenu(id) -> #(open_drop_down_menu(model, id), effect.none())
 

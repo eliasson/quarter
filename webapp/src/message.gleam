@@ -42,6 +42,12 @@ pub type Msg {
   /// None represents the "clear activity".
   SelectActivity(id: option.Option(project.ActivityId))
 
+  /// Extend the start of day to one hour earlier.
+  ExtendStartOfDay
+
+  // Extend the day to one hour later.
+  ExtendEndOfDay
+
   /// Select / deselect a project in the mange project list.
   ToggleProject(id: project.ProjectId)
 

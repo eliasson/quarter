@@ -39,6 +39,10 @@ pub type Model {
     timesheets: List(timesheet.Timesheet),
     /// The selected activity. None represents the "clear activity" in the timesheet view.
     selected_activity: option.Option(project.ActivityId),
+    /// The start of day hour used when rendering a timesheet. This time is inclusive.
+    start_of_day: Int,
+    /// The end of day hour used when rendering a timesheet. This time is inclusive.
+    end_of_day: Int,
   )
 }
 
@@ -83,6 +87,8 @@ pub fn initial_model() -> Model {
     expanded_projects: set.new(),
     timesheets: [],
     selected_activity: option.None,
+    start_of_day: 6,
+    end_of_day: 18,
   )
 }
 
@@ -295,4 +301,16 @@ pub fn delete_activity(
 pub fn delete_project(m: Model, project_id: project.ProjectId) -> Model {
   let projects = list.filter(m.projects, fn(p) { p.id != project_id })
   Model(..m, projects:)
+}
+
+import gleam/int
+
+pub fn extend_start_of_day(m: Model) {
+  let start_of_day = int.max(0, m.start_of_day - 1)
+  Model(..m, start_of_day:)
+}
+
+pub fn extend_end_of_day(m: Model) {
+  let end_of_day = int.min(23, m.end_of_day + 1)
+  Model(..m, end_of_day:)
 }

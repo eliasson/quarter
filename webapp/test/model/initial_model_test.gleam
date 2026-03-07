@@ -39,3 +39,13 @@ pub fn should_not_have_any_selected_activity() {
   model.initial_model().selected_activity
   |> should.be_none
 }
+
+pub fn should_have_start_of_day_set_to_six_test() {
+  model.initial_model().start_of_day
+  |> should.equal(6)
+}
+
+pub fn should_have_end_of_day_set_to_18_test() {
+  model.initial_model().end_of_day
+  |> should.equal(18)
+}
