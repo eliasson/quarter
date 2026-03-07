@@ -1,3 +1,4 @@
+import domain/timesheet
 import gleam/int
 import gleam/list
 import i18n
@@ -12,10 +13,16 @@ import ui/timesheet_activities.{timesheet_activities}
 import ui/timesheet_summary.{timesheet_summary}
 
 pub fn view(m: model.Model) -> Element(message.Msg) {
-  div([att.class("content")], [
-    timesheet_header(m),
-    timesheet(m),
-  ])
+  // Get the timesheet based on the current date
+  // TODO: Produce a better error message in case of failure to get the timesheet.
+  case model.timesheet_for_date(m, m.today) {
+    Ok(ts) ->
+      div([att.class("content")], [
+        timesheet_header(m),
+        timesheet(ts, m),
+      ])
+    _ -> div([att.class("content")], [html.text("Unable to load timesheet")])
+  }
 }
 
 fn timesheet_header(m: model.Model) {
@@ -32,7 +39,7 @@ fn timesheet_header(m: model.Model) {
   ])
 }
 
-fn timesheet(m: model.Model) {
+fn timesheet(timesheet: timesheet.Timesheet, m: model.Model) {
   let grid =
     [input.ghost_button(graphics.icon_extend_earlier, message.Noop)]
     |> list.append(timesheet_grid())
@@ -43,7 +50,7 @@ fn timesheet(m: model.Model) {
   div([att.class("timesheet-view")], [
     div([att.class("timesheet-grid")], grid),
     div([att.class("timesheet-context")], [
-      timesheet_summary(),
+      timesheet_summary(timesheet, m),
       timesheet_activities(m),
     ]),
   ])
