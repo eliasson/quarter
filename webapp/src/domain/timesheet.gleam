@@ -26,7 +26,11 @@ pub type Timesheet {
 }
 
 pub type ProjectDetail {
-  ProjectDetail(name: String, activities: List(ActivityDetail))
+  ProjectDetail(
+    name: String,
+    duration: duration.Duration,
+    activities: List(ActivityDetail),
+  )
 }
 
 pub type ActivityDetail {
@@ -127,7 +131,13 @@ pub fn summary(
         })
 
       let project_name = project_name_or_default(project_id)
-      ProjectDetail(project_name, activity_details)
+
+      let project_duration =
+        activity_details
+        |> list.fold(0, fn(acc, ad) { acc + ad.duration.value })
+        |> duration.Minutes()
+
+      ProjectDetail(project_name, project_duration, activity_details)
     })
 
   let total_quarters =

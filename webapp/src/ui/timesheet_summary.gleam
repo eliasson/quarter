@@ -13,8 +13,7 @@ pub fn timesheet_summary(ts: timesheet.Timesheet, model: model.Model) {
   let list_items =
     summary.details
     |> list.flat_map(fn(pd) {
-      let p_total =
-        i18n.describe(i18n.duration(duration.Minutes(0), model.lang))
+      let p_total = i18n.describe(i18n.duration(pd.duration, model.lang))
 
       let project_item =
         div([att.class("summary-project")], [

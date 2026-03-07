@@ -76,11 +76,11 @@ pub fn it_should_have_expected_summary_for_timesheet_test() {
   |> timesheet.summary(projects)
   |> should.equal(
     timesheet.TimesheetSummary(duration.Minutes(45 + 60 + 90 + 60), [
-      timesheet.ProjectDetail(project_one.name, [
+      timesheet.ProjectDetail(project_one.name, duration.Minutes(135), [
         timesheet.ActivityDetail(activity_one_b.name, duration.Minutes(90)),
         timesheet.ActivityDetail(activity_one_a.name, duration.Minutes(45)),
       ]),
-      timesheet.ProjectDetail(project_two.name, [
+      timesheet.ProjectDetail(project_two.name, duration.Minutes(120), [
         timesheet.ActivityDetail(activity_two_a.name, duration.Minutes(120)),
       ]),
     ]),
