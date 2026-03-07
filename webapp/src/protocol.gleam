@@ -16,7 +16,7 @@ import gleam/time/timestamp
 import lustre/effect.{type Effect}
 import message
 import rsvp
-import seq
+import util/seq
 import util/timestamp as tsutil
 
 /// Get the currently logged in user, if logged in.

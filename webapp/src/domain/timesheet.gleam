@@ -3,7 +3,7 @@ import domain/project
 import gleam/dict
 import gleam/list
 import gleam/time/timestamp.{type Timestamp}
-import seq
+import util/seq
 
 pub type TimeSlot {
 

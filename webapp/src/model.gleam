@@ -10,8 +10,8 @@ import gleam/set
 import gleam/time/timestamp
 import i18n
 import route
-import seq
 import types
+import util/seq
 import util/timestamp as tsutil
 
 pub type Model {
