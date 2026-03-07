@@ -1,5 +1,8 @@
 import domain/duration
 import domain/project
+import gleam/dict
+import gleam/list
+import gleam/option
 import gleam/time/timestamp.{type Timestamp}
 
 pub type TimeSlot {
@@ -19,4 +22,87 @@ pub type TimeSlot {
 
 pub type Timesheet {
   Timesheet(date: Timestamp, duration: duration.Duration, slots: List(TimeSlot))
+}
+
+pub type ProjectDetail {
+  ProjectDetail(name: String, activities: List(ActivityDetail))
+}
+
+pub type ActivityDetail {
+  ActivityDetail(name: String, duration: duration.Duration)
+}
+
+pub type TimesheetSummary {
+  TimesheetSummary(total: duration.Duration, details: List(ProjectDetail))
+}
+
+pub fn summary(
+  timesheet: Timesheet,
+  projects: List(project.Project),
+) -> TimesheetSummary {
+  // Lookup structure for project by ID
+  let project_lookup = dict.from_list(list.map(projects, fn(p) { #(p.id, p) }))
+
+  // TODO Add a ProjectList type that have these functions?
+  let project_name_or_default = fn(id) {
+    case dict.get(project_lookup, id) {
+      Ok(p) -> p.name
+      Error(_) -> ""
+    }
+  }
+
+  let activity_name_or_default = fn(project_id, activity_id) {
+    case dict.get(project_lookup, project_id) {
+      Ok(p) ->
+        case list.find(p.activities, fn(a) { a.id == activity_id }) {
+          Ok(a) -> a.name
+          Error(_) -> ""
+        }
+      Error(_) -> ""
+    }
+  }
+
+  let slots_by_project =
+    list.fold(timesheet.slots, dict.new(), fn(acc, slot) {
+      dict.upsert(acc, slot.project_id, fn(existing) {
+        case existing {
+          option.Some(slots) -> [slot, ..slots]
+          option.None -> [slot]
+        }
+      })
+    })
+
+  let details =
+    dict.to_list(slots_by_project)
+    |> list.map(fn(pair) {
+      let #(project_id, slots) = pair
+
+      let slots_by_activity =
+        list.fold(slots, dict.new(), fn(acc, slot) {
+          dict.upsert(acc, slot.activity_id, fn(existing) {
+            case existing {
+              option.Some(activity_slots) -> [slot, ..activity_slots]
+              option.None -> [slot]
+            }
+          })
+        })
+
+      let activity_details =
+        dict.to_list(slots_by_activity)
+        |> list.map(fn(activity_pair) {
+          let #(activity_id, activity_slots) = activity_pair
+          let total_quarters =
+            list.fold(activity_slots, 0, fn(acc, slot) { acc + slot.count })
+          let activity_name = activity_name_or_default(project_id, activity_id)
+          ActivityDetail(activity_name, duration.Minutes(total_quarters * 15))
+        })
+
+      let project_name = project_name_or_default(project_id)
+      ProjectDetail(project_name, activity_details)
+    })
+
+  let total_quarters =
+    list.fold(timesheet.slots, 0, fn(acc, slot) { acc + slot.count })
+
+  TimesheetSummary(duration.Minutes(total_quarters * 15), details)
 }

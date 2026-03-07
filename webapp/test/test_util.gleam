@@ -142,10 +142,15 @@ pub fn get_dialog_value(
   value
 }
 
-pub fn new_timesheet(date: String) -> Result(timesheet.Timesheet, Nil) {
+pub fn new_timesheet(
+  date: String,
+  slots: List(timesheet.TimeSlot),
+) -> Result(timesheet.Timesheet, Nil) {
   // TODO Add logic to create a timesheet with slots when needed by tests.
   timestamp.parse_rfc3339(date)
-  |> result.map(fn(date) { timesheet.Timesheet(date, duration.Minutes(0), []) })
+  |> result.map(fn(date) {
+    timesheet.Timesheet(date, duration.Minutes(0), slots)
+  })
 }
 
 pub fn new_timestamp(
