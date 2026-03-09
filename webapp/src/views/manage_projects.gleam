@@ -35,7 +35,7 @@ pub fn view(m: model.Model) -> Element(message.Msg) {
 }
 
 fn project_list(m: model.Model) {
-  let projects = project.sort_projects(m.projects)
+  let projects = project.sort_projects(project.to_list(m.projects))
 
   list.map(projects, fn(project) {
     let is_expanded = model.is_project_expanded(m, project.id)

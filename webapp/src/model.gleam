@@ -32,7 +32,7 @@ pub type Model {
     /// The errors that have occured and that are not dismissed
     errors: List(ApplicationError),
     /// The projects available to the user (regardless of archived state).
-    projects: List(project.Project),
+    projects: project.ProjectCollection,
     /// The list of ID for the projects that are expanded in the manage view.
     expanded_projects: set.Set(project.ProjectId),
     /// The current months timesheets.
@@ -85,7 +85,7 @@ pub fn initial_model() -> Model {
     dialogs: [],
     users: [],
     errors: [],
-    projects: [],
+    projects: project.empty(),
     expanded_projects: set.new(),
     timesheets: [],
     selected_activity: option.None,
@@ -248,62 +248,19 @@ pub fn edit_activity_dialog(activity: project.Activity) {
 
 /// Replace the current activity with the given one. Used after successful activity modifications.
 pub fn update_activity(m: Model, activity: project.Activity) -> Model {
-  let projects =
-    list.map(m.projects, fn(p) {
-      case p.id {
-        id if activity.project_id == id -> {
-          let activities =
-            list.map(p.activities, fn(a) {
-              case a.id {
-                aid if aid == activity.id -> activity
-                _ -> a
-              }
-            })
-          project.Project(..p, activities:)
-        }
-        _ -> p
-      }
-    })
-
-  Model(..m, projects:)
+  Model(..m, projects: project.put_activity(m.projects, activity))
 }
 
-pub fn update_project(m: Model, project: project.Project) -> Model {
-  let projects =
-    list.map(m.projects, fn(p) {
-      case p.id {
-        id if project.id == id ->
-          project.Project(..project, activities: p.activities)
-        _ -> p
-      }
-    })
-
-  Model(..m, projects:)
+pub fn update_project(m: Model, p: project.Project) -> Model {
+  Model(..m, projects: project.put_project(m.projects, p))
 }
 
-pub fn delete_activity(
-  m: Model,
-  project_id: project.ProjectId,
-  activity_id: project.ActivityId,
-) -> Model {
-  let projects =
-    list.map(m.projects, fn(p) {
-      case p.id {
-        id if project_id == id -> {
-          let activities =
-            list.filter(p.activities, fn(a) { a.id != activity_id })
-          project.Project(..p, activities:)
-        }
-        _ -> p
-      }
-    })
-
-  Model(..m, projects:)
+pub fn delete_activity(m: Model, activity_id: project.ActivityId) -> Model {
+  Model(..m, projects: project.remove_activity(m.projects, activity_id))
 }
 
 pub fn delete_project(m: Model, project_id: project.ProjectId) -> Model {
-  let projects = list.filter(m.projects, fn(p) { p.id != project_id })
-  Model(..m, projects:)
+  Model(..m, projects: project.remove_project(m.projects, project_id))
 }
 
 import gleam/int

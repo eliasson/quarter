@@ -14,7 +14,7 @@ import ui/activity.{activitiy_color_badge, activity_badge}
 /// currently active activity, or the "clear activities" activity.
 pub fn timesheet_activities(m: model.Model) {
   let lines =
-    m.projects
+    project.to_list(m.projects)
     |> list.map(fn(p) { project_items(m, p) })
     |> list.append([clear_activity_item(m)])
 

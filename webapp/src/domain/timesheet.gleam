@@ -62,17 +62,11 @@ pub type TimesheetHour {
 /// Get the top three activities order by their duration (descending).
 pub fn top_three_activities(
   timesheet: Timesheet,
-  projects: List(project.Project),
+  projects: project.ProjectCollection,
 ) -> List(ActivityDetail) {
-  let project_lookup = dict.from_list(list.map(projects, fn(p) { #(p.id, p) }))
-
-  let activity_or_default = fn(project_id, activity_id) {
-    case dict.get(project_lookup, project_id) {
-      Ok(p) ->
-        case list.find(p.activities, fn(a) { a.id == activity_id }) {
-          Ok(a) -> #(a.name, a.color)
-          Error(_) -> #("", color.Color(0, 0, 0))
-        }
+  let activity_or_default = fn(_project_id, activity_id) {
+    case project.get_activity(projects, activity_id) {
+      Ok(a) -> #(a.name, a.color)
       Error(_) -> #("", color.Color(0, 0, 0))
     }
   }
@@ -109,26 +103,18 @@ pub fn top_three_activities(
 
 pub fn summary(
   timesheet: Timesheet,
-  projects: List(project.Project),
+  projects: project.ProjectCollection,
 ) -> TimesheetSummary {
-  // Lookup structure for project by ID
-  let project_lookup = dict.from_list(list.map(projects, fn(p) { #(p.id, p) }))
-
-  // TODO Add a ProjectList type that have these functions?
   let project_name_or_default = fn(id) {
-    case dict.get(project_lookup, id) {
+    case project.get_project(projects, id) {
       Ok(p) -> p.name
       Error(_) -> ""
     }
   }
 
-  let activity_or_default = fn(project_id, activity_id) {
-    case dict.get(project_lookup, project_id) {
-      Ok(p) ->
-        case list.find(p.activities, fn(a) { a.id == activity_id }) {
-          Ok(a) -> #(a.name, a.color)
-          Error(_) -> #("", color.Color(0, 0, 0))
-        }
+  let activity_or_default = fn(_project_id, activity_id) {
+    case project.get_activity(projects, activity_id) {
+      Ok(a) -> #(a.name, a.color)
       Error(_) -> #("", color.Color(0, 0, 0))
     }
   }
@@ -181,24 +167,18 @@ pub fn hours(
   timesheet: Timesheet,
   start_hour: Int,
   end_hour: Int,
-  projects: List(project.Project),
+  projects: project.ProjectCollection,
 ) -> List(TimesheetHour) {
-  let project_lookup = dict.from_list(list.map(projects, fn(p) { #(p.id, p) }))
-
   let quarter_lookup =
     list.fold(timesheet.slots, dict.new(), fn(acc, slot) {
-      let detail = case dict.get(project_lookup, slot.project_id) {
-        Ok(p) ->
-          case list.find(p.activities, fn(a) { a.id == slot.activity_id }) {
-            Ok(a) ->
-              option.Some(ActivityDetail(
-                a.name,
-                duration.Minutes(15),
-                a.color,
-                color.darken(a.color),
-              ))
-            Error(_) -> option.None
-          }
+      let detail = case project.get_activity(projects, slot.activity_id) {
+        Ok(a) ->
+          option.Some(ActivityDetail(
+            a.name,
+            duration.Minutes(15),
+            a.color,
+            color.darken(a.color),
+          ))
         Error(_) -> option.None
       }
       case detail {

@@ -87,7 +87,7 @@ pub type Msg {
   CurrentUserResult(Result(user.User, rsvp.Error))
   SystemUsersResult(Result(List(user.User), rsvp.Error))
   AddUserResult(Result(user.User, rsvp.Error))
-  ProjectsResult(Result(List(project.Project), rsvp.Error))
+  ProjectsResult(Result(project.ProjectCollection, rsvp.Error))
   ArchiveActivityResult(Result(project.Activity, rsvp.Error))
   DeleteActivityResult(Result(project.Activity, rsvp.Error))
   DeleteProjectResult(Result(project.Project, rsvp.Error))

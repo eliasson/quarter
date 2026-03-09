@@ -22,7 +22,7 @@ pub fn update_activity_test() {
   ]
 
   let updated_activity =
-    model.Model(..model.initial_model(), projects:)
+    model.Model(..model.initial_model(), projects: project.from_list(projects))
     |> model.update_activity(
       project.Activity(..activity, name: "Updated Activity"),
     )
@@ -51,8 +51,8 @@ pub fn delete_activity_test() {
     ]),
   ]
 
-  model.Model(..model.initial_model(), projects:)
-  |> model.delete_activity(project_id, activity_id)
+  model.Model(..model.initial_model(), projects: project.from_list(projects))
+  |> model.delete_activity(activity_id)
   |> test_util.m_project_by_id(project_id)
   |> should.be_ok
   |> test_util.activities

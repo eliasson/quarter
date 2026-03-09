@@ -44,7 +44,7 @@ pub fn m_project_by_id(
   model: model.Model,
   id: project.ProjectId,
 ) -> Result(project.Project, Nil) {
-  project_by_id(model.projects, id)
+  project.get_project(model.projects, id)
 }
 
 pub fn project_by_id(
@@ -58,7 +58,7 @@ pub fn m_activity_by_id(
   model: model.Model,
   id: project.ActivityId,
 ) -> Result(project.Activity, Nil) {
-  activity_by_id(model.projects, id)
+  project.get_activity(model.projects, id)
 }
 
 pub fn activity_by_id(
@@ -77,7 +77,7 @@ pub fn activity_by_id(
 }
 
 pub fn projects(m: model.Model) -> List(project.Project) {
-  m.projects
+  project.to_list(m.projects)
 }
 
 pub fn activities(p: project.Project) -> List(project.Activity) {

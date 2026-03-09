@@ -16,6 +16,7 @@ pub fn inflates_to_empty_list_of_projects_test() {
   }"
   |> json.parse(protocol.project_and_activities_decoder())
   |> should.be_ok()
+  |> project.to_list
   |> should.equal([])
 }
 
@@ -62,6 +63,7 @@ pub fn inflates_to_child_less_projects_test() {
   }"
   |> json.parse(protocol.project_and_activities_decoder())
   |> should.be_ok()
+  |> project.to_list
   |> expect_project_with_activities([
     #("P01", ["A01", "A02"]),
     #("P02", ["A03"]),

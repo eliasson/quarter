@@ -87,7 +87,7 @@ pub fn delete_project_test() {
     project.Project(..arbitrary_project(), name: "Three"),
   ]
 
-  model.Model(..model.initial_model(), projects:)
+  model.Model(..model.initial_model(), projects: project.from_list(projects))
   |> model.delete_project(project_id)
   |> test_util.projects
   |> list.map(fn(p) { p.name })

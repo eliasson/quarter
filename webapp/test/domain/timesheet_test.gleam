@@ -6,6 +6,7 @@ import gleam/option
 import gleeunit/should
 import test_util
 
+
 pub fn it_should_be_empty_test() {
   let sheet =
     test_util.new_timesheet("2026-02-07T18:00:00Z", [])
@@ -18,7 +19,7 @@ pub fn it_should_be_empty_test() {
 pub fn it_should_have_emtpy_summary_for_timesheet_test() {
   test_util.new_timesheet("2026-02-07T18:00:00Z", [])
   |> should.be_ok
-  |> timesheet.summary([])
+  |> timesheet.summary(project.empty())
   |> should.equal(timesheet.TimesheetSummary(duration.Minutes(0), []))
 }
 
@@ -75,7 +76,7 @@ pub fn it_should_have_expected_summary_for_timesheet_test() {
 
   test_util.new_timesheet("2026-02-07T18:00:00Z", slots)
   |> should.be_ok
-  |> timesheet.summary(projects)
+  |> timesheet.summary(project.from_list(projects))
   |> should.equal(
     timesheet.TimesheetSummary(duration.Minutes(45 + 60 + 90 + 60), [
       timesheet.ProjectDetail(project_one.name, duration.Minutes(135), [
@@ -165,7 +166,7 @@ pub fn it_should_get_top_three_activities_test() {
 
   test_util.new_timesheet("2026-02-07T18:00:00Z", slots)
   |> should.be_ok
-  |> timesheet.top_three_activities(projects)
+  |> timesheet.top_three_activities(project.from_list(projects))
   |> should.equal([
     timesheet.ActivityDetail(
       activity_two_a.name,
@@ -214,7 +215,7 @@ pub fn it_should_get_single_top_three_activities_test() {
 
   test_util.new_timesheet("2026-02-07T18:00:00Z", slots)
   |> should.be_ok
-  |> timesheet.top_three_activities(projects)
+  |> timesheet.top_three_activities(project.from_list(projects))
   |> should.equal([
     timesheet.ActivityDetail(
       activity_one_a.name,
@@ -228,14 +229,14 @@ pub fn it_should_get_single_top_three_activities_test() {
 pub fn it_should_get_emtpy_top_three_activities_test() {
   test_util.new_timesheet("2026-02-07T18:00:00Z", [])
   |> should.be_ok
-  |> timesheet.top_three_activities([])
+  |> timesheet.top_three_activities(project.empty())
   |> should.equal([])
 }
 
 pub fn it_should_get_empty_hours_for_empty_timesheet_test() {
   test_util.new_timesheet("2026-02-07T18:00:00Z", [])
   |> should.be_ok
-  |> timesheet.hours(8, 9, [])
+  |> timesheet.hours(8, 9, project.empty())
   |> should.equal([
     timesheet.TimesheetHour(
       q1: option.None,
@@ -255,7 +256,7 @@ pub fn it_should_get_empty_hours_for_empty_timesheet_test() {
 pub fn it_should_get_single_hour_when_start_equals_end_test() {
   test_util.new_timesheet("2026-02-07T18:00:00Z", [])
   |> should.be_ok
-  |> timesheet.hours(8, 8, [])
+  |> timesheet.hours(8, 8, project.empty())
   |> should.equal([
     timesheet.TimesheetHour(
       q1: option.None,
@@ -299,7 +300,7 @@ pub fn it_should_populate_quarters_from_slots_test() {
 
   test_util.new_timesheet("2026-02-07T18:00:00Z", slots)
   |> should.be_ok
-  |> timesheet.hours(8, 8, projects)
+  |> timesheet.hours(8, 8, project.from_list(projects))
   |> should.equal([
     timesheet.TimesheetHour(
       q1: option.None,
@@ -344,7 +345,7 @@ pub fn it_should_populate_quarters_spanning_multiple_hours_test() {
 
   test_util.new_timesheet("2026-02-07T18:00:00Z", slots)
   |> should.be_ok
-  |> timesheet.hours(8, 9, projects)
+  |> timesheet.hours(8, 9, project.from_list(projects))
   |> should.equal([
     timesheet.TimesheetHour(
       q1: option.None,
@@ -381,7 +382,7 @@ pub fn it_should_return_none_for_unknown_activity_test() {
 
   test_util.new_timesheet("2026-02-07T18:00:00Z", slots)
   |> should.be_ok
-  |> timesheet.hours(8, 8, [])
+  |> timesheet.hours(8, 8, project.empty())
   |> should.equal([
     timesheet.TimesheetHour(
       q1: option.None,

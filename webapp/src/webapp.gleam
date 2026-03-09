@@ -240,7 +240,7 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
     DeleteActivityResult(Ok(activity)) ->
       model
       |> close_all_modals()
-      |> delete_activity(activity.project_id, activity.id)
+      |> delete_activity(activity.id)
       |> no_effect()
 
     DeleteActivityResult(Error(_)) -> #(model, effect.none())

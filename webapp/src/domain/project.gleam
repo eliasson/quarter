@@ -1,4 +1,5 @@
 import domain/color
+import gleam/dict
 import gleam/list
 import gleam/option
 import gleam/order
@@ -36,6 +37,93 @@ pub type Activity {
     created: Timestamp,
     updated: option.Option(Timestamp),
   )
+}
+
+pub type ProjectCollection {
+  ProjectCollection(
+    projects: List(Project),
+    by_project_id: dict.Dict(ProjectId, Project),
+    by_activity_id: dict.Dict(ActivityId, Activity),
+  )
+}
+
+pub fn empty() -> ProjectCollection {
+  ProjectCollection(
+    projects: [],
+    by_project_id: dict.new(),
+    by_activity_id: dict.new(),
+  )
+}
+
+pub fn from_list(projects: List(Project)) -> ProjectCollection {
+  let by_project_id = dict.from_list(list.map(projects, fn(p) { #(p.id, p) }))
+  let by_activity_id =
+    list.fold(projects, dict.new(), fn(acc, p) {
+      list.fold(p.activities, acc, fn(acc, a) { dict.insert(acc, a.id, a) })
+    })
+  ProjectCollection(projects:, by_project_id:, by_activity_id:)
+}
+
+pub fn to_list(c: ProjectCollection) -> List(Project) {
+  c.projects
+}
+
+pub fn get_project(c: ProjectCollection, id: ProjectId) -> Result(Project, Nil) {
+  dict.get(c.by_project_id, id)
+}
+
+pub fn get_activity(
+  c: ProjectCollection,
+  id: ActivityId,
+) -> Result(Activity, Nil) {
+  dict.get(c.by_activity_id, id)
+}
+
+pub fn put_project(c: ProjectCollection, p: Project) -> ProjectCollection {
+  let updated =
+    list.map(c.projects, fn(existing) {
+      case existing.id == p.id {
+        True -> Project(..p, activities: existing.activities)
+        False -> existing
+      }
+    })
+  from_list(updated)
+}
+
+pub fn put_activity(c: ProjectCollection, a: Activity) -> ProjectCollection {
+  let updated =
+    list.map(c.projects, fn(p) {
+      case p.id == a.project_id {
+        True -> {
+          let activities =
+            list.map(p.activities, fn(existing) {
+              case existing.id == a.id {
+                True -> a
+                False -> existing
+              }
+            })
+          Project(..p, activities:)
+        }
+        False -> p
+      }
+    })
+  from_list(updated)
+}
+
+pub fn remove_project(c: ProjectCollection, id: ProjectId) -> ProjectCollection {
+  from_list(list.filter(c.projects, fn(p) { p.id != id }))
+}
+
+pub fn remove_activity(
+  c: ProjectCollection,
+  id: ActivityId,
+) -> ProjectCollection {
+  let updated =
+    list.map(c.projects, fn(p) {
+      let activities = list.filter(p.activities, fn(a) { a.id != id })
+      Project(..p, activities:)
+    })
+  from_list(updated)
 }
 
 /// Return only non-archived projects, sorted alphabetically.
