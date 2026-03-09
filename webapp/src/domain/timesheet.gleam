@@ -2,7 +2,9 @@ import domain/color
 import domain/duration
 import domain/project
 import gleam/dict
+import gleam/int
 import gleam/list
+import gleam/option
 import gleam/order
 import gleam/time/timestamp.{type Timestamp}
 import util/seq
@@ -45,6 +47,16 @@ pub type ActivityDetail {
 
 pub type TimesheetSummary {
   TimesheetSummary(total: duration.Duration, details: List(ProjectDetail))
+}
+
+/// Represents a single hour in a timesheet, with four quarters each tied to an optional activity.
+pub type TimesheetHour {
+  TimesheetHour(
+    q1: option.Option(ActivityDetail),
+    q2: option.Option(ActivityDetail),
+    q3: option.Option(ActivityDetail),
+    q4: option.Option(ActivityDetail),
+  )
 }
 
 /// Get the top three activities order by their duration (descending).
@@ -161,6 +173,56 @@ pub fn summary(
     list.fold(timesheet.slots, 0, fn(acc, slot) { acc + slot.count })
 
   TimesheetSummary(duration.Minutes(total_quarters * 15), details)
+}
+
+/// Get the hours for a given timesheet between the specified start and end hours (inclusive).
+/// Each TimesheetHour has four quarters, each optionally occupied by an ActivityDetail.
+pub fn hours(
+  timesheet: Timesheet,
+  start_hour: Int,
+  end_hour: Int,
+  projects: List(project.Project),
+) -> List(TimesheetHour) {
+  let project_lookup = dict.from_list(list.map(projects, fn(p) { #(p.id, p) }))
+
+  let quarter_lookup =
+    list.fold(timesheet.slots, dict.new(), fn(acc, slot) {
+      let detail = case dict.get(project_lookup, slot.project_id) {
+        Ok(p) ->
+          case list.find(p.activities, fn(a) { a.id == slot.activity_id }) {
+            Ok(a) ->
+              option.Some(ActivityDetail(
+                a.name,
+                duration.Minutes(15),
+                a.color,
+                color.darken(a.color),
+              ))
+            Error(_) -> option.None
+          }
+        Error(_) -> option.None
+      }
+      case detail {
+        option.None -> acc
+        option.Some(d) ->
+          int.range(slot.offset, slot.offset + slot.count, acc, fn(acc, q) {
+            dict.insert(acc, q, d)
+          })
+      }
+    })
+
+  let quarter_detail = fn(q) { option.from_result(dict.get(quarter_lookup, q)) }
+
+  int.range(start_hour, end_hour + 1, [], fn(acc, hour) {
+    let base = hour * 4
+    list.append(acc, [
+      TimesheetHour(
+        q1: quarter_detail(base),
+        q2: quarter_detail(base + 1),
+        q3: quarter_detail(base + 2),
+        q4: quarter_detail(base + 3),
+      ),
+    ])
+  })
 }
 
 fn compare_activity_detail(a: ActivityDetail, b: ActivityDetail) -> order.Order {
