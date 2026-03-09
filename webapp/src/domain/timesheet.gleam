@@ -1,3 +1,4 @@
+import domain/color
 import domain/duration
 import domain/project
 import gleam/dict
@@ -34,7 +35,12 @@ pub type ProjectDetail {
 }
 
 pub type ActivityDetail {
-  ActivityDetail(name: String, duration: duration.Duration)
+  ActivityDetail(
+    name: String,
+    duration: duration.Duration,
+    color: color.Color,
+    border_color: color.Color,
+  )
 }
 
 pub type TimesheetSummary {
@@ -48,14 +54,14 @@ pub fn top_three_activities(
 ) -> List(ActivityDetail) {
   let project_lookup = dict.from_list(list.map(projects, fn(p) { #(p.id, p) }))
 
-  let activity_name_or_default = fn(project_id, activity_id) {
+  let activity_or_default = fn(project_id, activity_id) {
     case dict.get(project_lookup, project_id) {
       Ok(p) ->
         case list.find(p.activities, fn(a) { a.id == activity_id }) {
-          Ok(a) -> a.name
-          Error(_) -> ""
+          Ok(a) -> #(a.name, a.color)
+          Error(_) -> #("", color.Color(0, 0, 0))
         }
-      Error(_) -> ""
+      Error(_) -> #("", color.Color(0, 0, 0))
     }
   }
 
@@ -64,13 +70,18 @@ pub fn top_three_activities(
     |> seq.group_by(fn(slot) { slot.activity_id })
     |> dict.map_values(fn(_, slots) {
       // Since these slots are for the same activity, just get the first one.
-      let activity_name = case list.first(slots) {
-        Ok(slot) -> activity_name_or_default(slot.project_id, slot.activity_id)
+      let #(activity_name, activity_color) = case list.first(slots) {
+        Ok(slot) -> activity_or_default(slot.project_id, slot.activity_id)
         _ -> panic
       }
 
       let quarters = list.fold(slots, 0, fn(acc, slot) { acc + slot.count })
-      ActivityDetail(activity_name, duration.Minutes(quarters * 15))
+      ActivityDetail(
+        activity_name,
+        duration.Minutes(quarters * 15),
+        activity_color,
+        color.darken(activity_color),
+      )
     })
     |> dict.to_list
     |> list.map(fn(pair) {
@@ -99,14 +110,14 @@ pub fn summary(
     }
   }
 
-  let activity_name_or_default = fn(project_id, activity_id) {
+  let activity_or_default = fn(project_id, activity_id) {
     case dict.get(project_lookup, project_id) {
       Ok(p) ->
         case list.find(p.activities, fn(a) { a.id == activity_id }) {
-          Ok(a) -> a.name
-          Error(_) -> ""
+          Ok(a) -> #(a.name, a.color)
+          Error(_) -> #("", color.Color(0, 0, 0))
         }
-      Error(_) -> ""
+      Error(_) -> #("", color.Color(0, 0, 0))
     }
   }
 
@@ -126,8 +137,14 @@ pub fn summary(
           let #(activity_id, activity_slots) = activity_pair
           let total_quarters =
             list.fold(activity_slots, 0, fn(acc, slot) { acc + slot.count })
-          let activity_name = activity_name_or_default(project_id, activity_id)
-          ActivityDetail(activity_name, duration.Minutes(total_quarters * 15))
+          let #(activity_name, activity_color) =
+            activity_or_default(project_id, activity_id)
+          ActivityDetail(
+            activity_name,
+            duration.Minutes(total_quarters * 15),
+            activity_color,
+            color.darken(activity_color),
+          )
         })
 
       let project_name = project_name_or_default(project_id)

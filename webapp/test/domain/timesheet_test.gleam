@@ -1,3 +1,4 @@
+import domain/color
 import domain/duration
 import domain/project
 import domain/timesheet
@@ -77,11 +78,26 @@ pub fn it_should_have_expected_summary_for_timesheet_test() {
   |> should.equal(
     timesheet.TimesheetSummary(duration.Minutes(45 + 60 + 90 + 60), [
       timesheet.ProjectDetail(project_one.name, duration.Minutes(135), [
-        timesheet.ActivityDetail(activity_one_b.name, duration.Minutes(90)),
-        timesheet.ActivityDetail(activity_one_a.name, duration.Minutes(45)),
+        timesheet.ActivityDetail(
+          activity_one_b.name,
+          duration.Minutes(90),
+          activity_one_b.color,
+          color.darken(activity_one_b.color),
+        ),
+        timesheet.ActivityDetail(
+          activity_one_a.name,
+          duration.Minutes(45),
+          activity_one_a.color,
+          color.darken(activity_one_a.color),
+        ),
       ]),
       timesheet.ProjectDetail(project_two.name, duration.Minutes(120), [
-        timesheet.ActivityDetail(activity_two_a.name, duration.Minutes(120)),
+        timesheet.ActivityDetail(
+          activity_two_a.name,
+          duration.Minutes(120),
+          activity_two_a.color,
+          color.darken(activity_two_a.color),
+        ),
       ]),
     ]),
   )
@@ -150,9 +166,24 @@ pub fn it_should_get_top_three_activities_test() {
   |> should.be_ok
   |> timesheet.top_three_activities(projects)
   |> should.equal([
-    timesheet.ActivityDetail(activity_two_a.name, duration.Minutes(120)),
-    timesheet.ActivityDetail(activity_one_b.name, duration.Minutes(90)),
-    timesheet.ActivityDetail(activity_one_a.name, duration.Minutes(45)),
+    timesheet.ActivityDetail(
+      activity_two_a.name,
+      duration.Minutes(120),
+      activity_two_a.color,
+      color.darken(activity_two_a.color),
+    ),
+    timesheet.ActivityDetail(
+      activity_one_b.name,
+      duration.Minutes(90),
+      activity_one_b.color,
+      color.darken(activity_one_b.color),
+    ),
+    timesheet.ActivityDetail(
+      activity_one_a.name,
+      duration.Minutes(45),
+      activity_one_a.color,
+      color.darken(activity_one_a.color),
+    ),
   ])
 }
 
@@ -184,7 +215,12 @@ pub fn it_should_get_single_top_three_activities_test() {
   |> should.be_ok
   |> timesheet.top_three_activities(projects)
   |> should.equal([
-    timesheet.ActivityDetail(activity_one_a.name, duration.Minutes(45)),
+    timesheet.ActivityDetail(
+      activity_one_a.name,
+      duration.Minutes(45),
+      activity_one_a.color,
+      color.darken(activity_one_a.color),
+    ),
   ])
 }
 
