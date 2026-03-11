@@ -95,7 +95,7 @@ pub fn outline_button(text: String, icon ico: String) {
 }
 
 /// A dialog containing a form.
-pub fn form_dialog(form: form.Form, ico: String, header: String) {
+pub fn form_dialog(form: form.Form, header: String) {
   let content = list.map(form.fields, fn(f) { render_field(f) })
   let actions = list.map(form.actions, fn(f) { render_action(f) })
 

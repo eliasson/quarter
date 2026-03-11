@@ -276,7 +276,7 @@ pub fn archive_project_form(
       form.Confirm(False, message.ArchiveProject(project)),
     ],
   )
-  |> input.form_dialog(graphics.icon_add_user, archive_project_header(project))
+  |> input.form_dialog(archive_project_header(project))
 }
 
 /// The archive activity confirmation dialog is stateless and only includes a query text message.
@@ -293,10 +293,7 @@ pub fn archive_activity_form(
       form.Confirm(False, message.ArchiveActivity(activity)),
     ],
   )
-  |> input.form_dialog(
-    graphics.icon_add_user,
-    archive_activity_header(activity),
-  )
+  |> input.form_dialog(archive_activity_header(activity))
 }
 
 /// The archive activity confirmation dialog is stateless and only includes a query text message.
@@ -317,7 +314,7 @@ pub fn delete_activity_form(
       form.Confirm(False, message.DeleteActivity(activity)),
     ],
   )
-  |> input.form_dialog(graphics.icon_add_user, "Delete activity?")
+  |> input.form_dialog("Delete activity?")
 }
 
 pub fn delete_project_form(
@@ -337,7 +334,7 @@ pub fn delete_project_form(
       form.Confirm(False, message.DeleteProject(project)),
     ],
   )
-  |> input.form_dialog(graphics.icon_add_user, "Delete project?")
+  |> input.form_dialog("Delete project?")
 }
 
 fn archive_project_menu_label(project: project.Project) -> String {
