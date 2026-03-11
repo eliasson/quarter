@@ -56,18 +56,17 @@ fn nav_logo() {
 }
 
 fn nav_menu() {
-  let item = fn(icon: String, label: String, path: String) {
+  let item = fn(label: String, path: String) {
     li([att.class("main-navigation-item")], [
-      ui.icon(icon, ui.MediumSize),
       html.a([att.href(path)], [html.text(label)]),
     ])
   }
 
   ul([], [
-    item(graphics.icon_timesheet, "Calendar", route.home_url),
-    item(graphics.icon_timesheet, "Timesheet", route.timesheet_url),
-    item(graphics.icon_report, "Report", route.report_url),
-    item(graphics.icon_manage, "Manage", route.manage_url),
+    item("Calendar", route.home_url),
+    item("Timesheet", route.timesheet_url),
+    item("Report", route.report_url),
+    item("Manage", route.manage_url),
   ])
 }
 

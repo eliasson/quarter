@@ -262,12 +262,3 @@ h6 {
         padding: 60px 80px 100px;
     }
 }
-
-/** Disable icons in the main navigation for now. Not sure I want them. */
-.main-navigation ul li .icon {
-    display: none;
-}
-
-.xdrop-down-menu {
-    display: none;
-}
