@@ -11,6 +11,7 @@
 }
 
 .panel-section-title {
+    font-family: var(--font-family-serif);
     font-size: var(--font-size-2xl);
     font-style: italic;
     color: var(--text-color);
@@ -21,7 +22,6 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
-    font-family: sans-serif;
 }
 
 .summary-project,
@@ -51,7 +51,6 @@
 
 .summary-project-total,
 .summary-activity-total {
-    font-weight: 600;
     font-size: var(--font-size-sm);
 
     color: var(--text-color);

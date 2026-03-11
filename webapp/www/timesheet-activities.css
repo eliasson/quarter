@@ -3,7 +3,6 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
-    font-family: sans-serif;
 }
 
 .picker-project-group {
@@ -14,12 +13,10 @@
 
 .picker-project-title {
     font-size: var(--font-size-xs);
-    font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     color: var(--text-color);
     margin-bottom: 4px;
-    padding-left: 12px;
 }
 
 .picker-item {
@@ -49,7 +46,7 @@
 }
 
 .picker-empty-state {
-    font-family: "Cormorant Garamond", serif;
+    font-family: var(--font-family-serif);
     font-style: italic;
     font-size: 0.9rem;
     color: var(--ink-secondary);

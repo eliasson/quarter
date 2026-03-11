@@ -1,8 +1,6 @@
 .project-row {
     display: flex;
     flex-direction: column;
-
-    font-size: var(--font-size-lg);
 }
 
 .project-row .project-info {
@@ -31,8 +29,7 @@
 
 .project-row .project-info .name {
     flex-grow: 1;
-    font-size: var(--font-size-xl);
-    font-weight: 600;
+    font-size: var(--font-size-lg);
 }
 
 .project-row .project-details,

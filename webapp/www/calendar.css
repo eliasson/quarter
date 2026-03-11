@@ -39,6 +39,7 @@
     padding: var(--spacing-6) 0;
     border-bottom: 1px solid var(--border-color);
     transition: all 0.2s ease;
+    font-family: var(--font-family-serif);
 }
 
 .calendar-month-day:last-child {
@@ -65,28 +66,23 @@
     transition: color 0.2s;
 }
 
-.calendar-month-day .date .name {
-    font-size: var(--font-size-base);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(text-color-highlight);
+.calendar-month-day .name {
+    font-size: var(--font-size-2xl);
+    color: var(--text-color-second);
     margin-top: 2px;
 }
 
 .calendar-month-day .time {
     text-align: right;
-    font-weight: 500;
-    letter-spacing: 0.05em;
+    font-family: var(--font-family);
+    font-size: var(--font-size-sm);
 }
 
 .calendar-month-day .time .text-value {
     margin-left: var(--spacing-1);
-    font-size: var(--font-size-2xl);
     color: var(--text-color);
 }
 
 .calendar-month-day .time .text-unit {
     margin-left: var(--spacing-1);
-    color: var(--text-color-second);
-    font-size: var(--font-size-sm);
 }

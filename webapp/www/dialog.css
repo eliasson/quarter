@@ -30,7 +30,7 @@
     color: var(--text-color);
 
     text-align: center;
-    font-family: "Cormorant Garamond", serif;
+    font-family: var(--font-family-serif);
     font-size: var(--font-size-3xl);
     font-weight: 300;
     font-style: italic;
@@ -52,8 +52,6 @@
     max-width: 100%;
     padding: var(--spacing-4);
     gap: var(--spacing-4);
-
-    font-family: sans-serif;
 }
 
 .dialog-footer {

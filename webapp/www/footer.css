@@ -9,7 +9,6 @@ footer {
     background-color: var(--footer-bg);
     color: var(--footer-text);
 
-    font-family: sans-serif;
     letter-spacing: 0.05em;
 }
 
@@ -22,7 +21,7 @@ footer .logo {
 
     color: var(--footer-text);
 
-    font-family: serif;
+    font-family: var(--font-family-serif);
     font-size: var(--font-size-3xl);
     font-style: italic;
 }
