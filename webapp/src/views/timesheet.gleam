@@ -1,5 +1,5 @@
+import domain/color
 import domain/timesheet
-import gleam/int
 import gleam/list
 import gleam/option
 import i18n
@@ -43,7 +43,7 @@ fn timesheet_header(m: model.Model) {
 fn timesheet(timesheet: timesheet.Timesheet, m: model.Model) {
   let grid =
     [input.ghost_button(graphics.icon_extend_earlier, message.Noop)]
-    |> list.append(timesheet_grid())
+    |> list.append(timesheet_grid(timesheet, m))
     |> list.append([
       input.ghost_button(graphics.icon_extend_later, message.Noop),
     ])
@@ -58,75 +58,35 @@ fn timesheet(timesheet: timesheet.Timesheet, m: model.Model) {
 }
 
 /// Return the visible range of hours for the timesheet.
-fn timesheet_grid() {
-  [
-    div([att.class("grid-row")], [
-      div([att.class("hour-label")], [html.text("06:00")]),
-
-      div([att.class("quarters")], [
-        div(
-          [
-            att.class("quarter-cell"),
-            att.style("background-color", "#8b5cf6"),
-          ],
-          [],
-        ),
-        div(
-          [
-            att.class("quarter-cell"),
-            att.style("background-color", "#8b5cf6"),
-          ],
-          [],
-        ),
-        div(
-          [
-            att.class("quarter-cell"),
-            att.style("background-color", "#8b5cf6"),
-          ],
-          [],
-        ),
-        div(
-          [
-            att.class("quarter-cell"),
-            att.style("background-color", "#8b5cf6"),
-          ],
-          [],
-        ),
-      ]),
-    ]),
-
-    div([att.class("grid-row")], [
-      div([att.class("hour-label")], [html.text("07:00")]),
-      div([att.class("quarters")], [
-        div(
-          [
-            att.class("quarter-cell"),
-            att.style("background-color", "#8b5cf6"),
-          ],
-          [],
-        ),
-        div(
-          [
-            att.class("quarter-cell"),
-            att.style("background-color", "#8b5cf6"),
-          ],
-          [],
-        ),
-        div([att.class("quarter-cell")], []),
-        div([att.class("quarter-cell")], []),
-      ]),
-    ]),
-    ..list.map(list.range(8, 23), fn(i) {
+fn timesheet_grid(ts: timesheet.Timesheet, m: model.Model) {
+  let hours =
+    timesheet.hours(ts, m.start_of_day, m.end_of_day, m.projects)
+    |> list.map(fn(h) {
       div([att.class("grid-row")], [
-        div([att.class("hour-label")], [html.text(int.to_string(i) <> ":00")]),
-
+        div([att.class("hour-label")], [html.text("06:00")]),
         div([att.class("quarters")], [
-          div([att.class("quarter-cell")], []),
-          div([att.class("quarter-cell")], []),
-          div([att.class("quarter-cell")], []),
-          div([att.class("quarter-cell")], []),
+          cell(h.q1),
+          cell(h.q2),
+          cell(h.q3),
+          cell(h.q4),
         ]),
       ])
     })
-  ]
+
+  hours
+}
+
+fn cell(c: option.Option(timesheet.ActivityDetail)) -> Element(message.Msg) {
+  div([att.class("quarter-cell")], [])
+  case c {
+    option.Some(ad) ->
+      div(
+        [
+          att.class("quarter-cell"),
+          att.style("background-color", color.color_to_style_value(ad.color)),
+        ],
+        [],
+      )
+    option.None -> div([att.class("quarter-cell")], [])
+  }
 }
