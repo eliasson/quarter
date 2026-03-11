@@ -52,6 +52,7 @@ pub type TimesheetSummary {
 /// Represents a single hour in a timesheet, with four quarters each tied to an optional activity.
 pub type TimesheetHour {
   TimesheetHour(
+    hour: Int,
     q1: option.Option(ActivityDetail),
     q2: option.Option(ActivityDetail),
     q3: option.Option(ActivityDetail),
@@ -196,6 +197,7 @@ pub fn hours(
     let base = hour * 4
     list.append(acc, [
       TimesheetHour(
+        hour: hour,
         q1: quarter_detail(base),
         q2: quarter_detail(base + 1),
         q3: quarter_detail(base + 2),

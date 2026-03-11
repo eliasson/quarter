@@ -6,7 +6,6 @@ import gleam/option
 import gleeunit/should
 import test_util
 
-
 pub fn it_should_be_empty_test() {
   let sheet =
     test_util.new_timesheet("2026-02-07T18:00:00Z", [])
@@ -239,12 +238,14 @@ pub fn it_should_get_empty_hours_for_empty_timesheet_test() {
   |> timesheet.hours(8, 9, project.empty())
   |> should.equal([
     timesheet.TimesheetHour(
+      8,
       q1: option.None,
       q2: option.None,
       q3: option.None,
       q4: option.None,
     ),
     timesheet.TimesheetHour(
+      9,
       q1: option.None,
       q2: option.None,
       q3: option.None,
@@ -259,6 +260,7 @@ pub fn it_should_get_single_hour_when_start_equals_end_test() {
   |> timesheet.hours(8, 8, project.empty())
   |> should.equal([
     timesheet.TimesheetHour(
+      8,
       q1: option.None,
       q2: option.None,
       q3: option.None,
@@ -303,6 +305,7 @@ pub fn it_should_populate_quarters_from_slots_test() {
   |> timesheet.hours(8, 8, project.from_list(projects))
   |> should.equal([
     timesheet.TimesheetHour(
+      8,
       q1: option.None,
       q2: option.Some(detail),
       q3: option.Some(detail),
@@ -348,12 +351,14 @@ pub fn it_should_populate_quarters_spanning_multiple_hours_test() {
   |> timesheet.hours(8, 9, project.from_list(projects))
   |> should.equal([
     timesheet.TimesheetHour(
+      8,
       q1: option.None,
       q2: option.None,
       q3: option.Some(detail),
       q4: option.Some(detail),
     ),
     timesheet.TimesheetHour(
+      9,
       q1: option.Some(detail),
       q2: option.Some(detail),
       q3: option.None,
@@ -372,12 +377,7 @@ pub fn it_should_return_none_for_unknown_activity_test() {
 
   // Slot references an activity not in the projects list
   let slots = [
-    timesheet.TimeSlot(
-      project_one.id,
-      project.ActivityId("unknown"),
-      32,
-      4,
-    ),
+    timesheet.TimeSlot(project_one.id, project.ActivityId("unknown"), 32, 4),
   ]
 
   test_util.new_timesheet("2026-02-07T18:00:00Z", slots)
@@ -385,6 +385,7 @@ pub fn it_should_return_none_for_unknown_activity_test() {
   |> timesheet.hours(8, 8, project.empty())
   |> should.equal([
     timesheet.TimesheetHour(
+      8,
       q1: option.None,
       q2: option.None,
       q3: option.None,

@@ -1,5 +1,6 @@
 import domain/color
 import domain/timesheet
+import gleam/int
 import gleam/list
 import gleam/option
 import i18n
@@ -64,7 +65,9 @@ fn timesheet_grid(ts: timesheet.Timesheet, m: model.Model) {
     timesheet.hours(ts, m.start_of_day, m.end_of_day, m.projects)
     |> list.map(fn(h) {
       div([att.class("grid-row")], [
-        div([att.class("hour-label")], [html.text("06:00")]),
+        div([att.class("hour-label")], [
+          html.text(int.to_string(h.hour) <> ":00"),
+        ]),
         div([att.class("quarters")], [
           cell(h.q1),
           cell(h.q2),
