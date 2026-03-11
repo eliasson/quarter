@@ -25,7 +25,7 @@
 .dialog-header {
     position: relative;
     margin-bottom: var(--spacing-8);
-    padding: var(--spacing-4);
+    padding: var(--spacing-6);
 
     color: var(--text-color);
 
@@ -50,7 +50,7 @@
     flex-direction: column;
     height: 100%;
     max-width: 100%;
-    padding: var(--spacing-4);
+    padding: var(--spacing-6);
     gap: var(--spacing-4);
 }
 
@@ -59,14 +59,14 @@
     justify-content: flex-end;
     gap: var(--spacing-4);
     margin-top: var(--spacing-8);
-    padding: var(--spacing-4);
+    padding: var(--spacing-6);
 
     border-top: 1px solid var(--border-color);
 }
 
 @media (min-width: 1024px) {
     .dialog-container {
-        max-width: 640px;
+        max-width: 600px;
         height: unset;
         box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
         border: 1px solid var(--border-color);
