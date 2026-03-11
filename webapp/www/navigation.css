@@ -41,6 +41,7 @@
     gap: var(--spacing-2);
     font-size: var(--font-size-sm);
     color: var(--font-color);
+    letter-spacing: 0.2em;
 }
 
 @media (min-width: 1024px) {
