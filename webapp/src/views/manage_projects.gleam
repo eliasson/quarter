@@ -17,6 +17,7 @@ import ui/core as ui
 import ui/dropdown
 import ui/graphics
 import ui/input
+import ui/markup
 
 pub fn view(m: model.Model) -> Element(message.Msg) {
   div([att.class("content")], [
@@ -42,8 +43,8 @@ fn project_list(m: model.Model) {
 
     let project_row_classes =
       [att.class("project-row")]
-      |> cond_class(is_expanded, "expanded")
-      |> cond_class(project.is_archived, "archived")
+      |> markup.cond_class(is_expanded, "expanded")
+      |> markup.cond_class(project.is_archived, "archived")
 
     let icon = case is_expanded {
       True -> graphics.icon_is_open
@@ -95,7 +96,7 @@ fn project_list(m: model.Model) {
           list.map(project.sort_activities(project.activities), fn(activity) {
             let activity_row_classes =
               [att.class("activity-row")]
-              |> cond_class(activity.is_archived, "archived")
+              |> markup.cond_class(activity.is_archived, "archived")
 
             let activity_archived_chip = case activity.is_archived {
               True -> ui.chip("Archived")
@@ -392,13 +393,5 @@ fn archive_project_text(project: project.Project) -> String {
       "An archived project cannot be used to register time with, but is still used for existing timesheets. An archived project can later be unarchived. Do you want to archive the project "
       <> project.name
       <> "?"
-  }
-}
-
-/// Add conditonal classes to the list of attributes.
-fn cond_class(classes: List(att.Attribute(a)), cond: Bool, class: String) {
-  case cond {
-    True -> list.append(classes, [att.class(class)])
-    False -> classes
   }
 }
