@@ -18,9 +18,9 @@ import model.{
   type Model, close_all_modals, close_modal, delete_activity, delete_project,
   dismiss_error, extend_end_of_day, extend_start_of_day, go_to_next_month,
   go_to_previous_month, go_to_tomorrow, go_to_yesterday, initial_model,
-  navigate_to, open_dialog, open_drop_down_menu, set_current_user,
-  set_timesheets, set_users, toggle_project, update_activity,
-  update_dialog_value, update_project,set_active_timesheet
+  navigate_to, open_dialog, open_drop_down_menu, set_active_timesheet,
+  set_current_user, set_timesheets, set_users, toggle_project, update_activity,
+  update_dialog_value, update_project,
 }
 import modem
 import protocol
@@ -325,7 +325,7 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
 
     TimesheetResult(Ok(timesheet)) -> {
       set_active_timesheet(model, timesheet)
-        |> no_effect()
+      |> no_effect()
     }
 
     TimesheetResult(Error(_)) -> {
@@ -343,6 +343,10 @@ fn on_url_change(uri: Uri) -> Msg {
 fn effect_on_route_loaded(m: model.Model, r: route.Route) {
   case r {
     route.Home -> protocol.get_timesheets(m.today, message.TimesheetsResult)
+
+    route.Timesheet(date) ->
+      protocol.get_timesheet(date, message.TimesheetResult)
+
     // TODO load timesheet on timesheet view
     route.AdministerSystemUsers ->
       protocol.get_system_users(message.SystemUsersResult)
