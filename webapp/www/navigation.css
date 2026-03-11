@@ -67,7 +67,7 @@
     .main-navigation-item a {
         color: var(--menu-text-color);
         border-bottom: 2px solid transparent;
-
+        padding: var(--spacing-2) 0;
         text-decoration: none;
     }
 
@@ -77,8 +77,8 @@
     }
 
     .main-navigation-item.active a {
-        color: var(--menu-text-color);
-        border-bottom-color: var(--menu-text-color);
+        color: var(--text-color);
+        border-bottom-color: var(--color-accent);
     }
 
     .main-navigation-item .icon {

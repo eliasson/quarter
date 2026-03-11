@@ -1,4 +1,5 @@
 import gleam/list
+import gleam/time/timestamp
 import lustre/attribute as att
 import lustre/element.{type Element}
 import lustre/element/html.{div, li, nav, ul}
@@ -10,6 +11,7 @@ import ui/core as ui
 import ui/dropdown
 import ui/graphics
 import ui/input
+import ui/markup
 import views/home
 import views/manage_projects
 import views/system_users
@@ -41,7 +43,7 @@ fn main_navigation(model: model.Model) -> Element(message.Msg) {
   nav([att.class("main-navigation")], [
     nav_logo(),
     spacer(),
-    nav_menu(),
+    nav_menu(model),
     main_drop_down_menu(model),
   ])
 }
@@ -55,18 +57,24 @@ fn nav_logo() {
   ])
 }
 
-fn nav_menu() {
-  let item = fn(label: String, path: String) {
-    li([att.class("main-navigation-item")], [
-      html.a([att.href(path)], [html.text(label)]),
+fn nav_menu(model: model.Model) {
+  let item = fn(label: String, route: route.Route) {
+    let is_active = route.is_active(route, model.route)
+
+    let classes =
+      [att.class("main-navigation-item")]
+      |> markup.cond_class(is_active, "active")
+
+    li(classes, [
+      html.a([att.href(route.to_url(route))], [html.text(label)]),
     ])
   }
 
   ul([], [
-    item("Calendar", route.home_url),
-    item("Timesheet", route.timesheet_url),
-    item("Report", route.report_url),
-    item("Manage", route.manage_url),
+    item("Calendar", route.Home),
+    item("Timesheet", route.Timesheet(timestamp.system_time())),
+    item("Report", route.Report),
+    item("Manage", route.Manage),
   ])
 }
 

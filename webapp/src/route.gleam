@@ -70,3 +70,23 @@ pub fn identify(uri: Uri) -> Route {
 pub fn for_timesheet(timestamp: timestamp.Timestamp) -> String {
   timesheet_url <> "/" <> tsutil.to_iso_date(timestamp)
 }
+
+/// Get the URL for the given route.
+pub fn to_url(route: Route) -> String {
+  case route {
+    Home -> home_url
+    Timesheet(d) -> for_timesheet(d)
+    Manage -> manage_url
+    Report -> report_url
+    AdministerSystemUsers -> admin_users_url
+    AdministerSystemFeatures -> admin_features_url
+  }
+}
+
+/// Check if the given route is active based on the current route.
+pub fn is_active(route: Route, current: Route) -> Bool {
+  case route, current {
+    Timesheet(_), Timesheet(_) -> True
+    _, _ -> route == current
+  }
+}
