@@ -1,12 +1,111 @@
-@import "./definitions.css";
-@import "./buttons.css";
-@import "./form.css";
 @import "./navigation.css";
 @import "./drop-down-menu.css";
-@import "./dialog.css";
-@import "./calendar.month.css";
+@import "./footer.css";
+@import "./buttons.css";
+@import "./table.css";
+@import "./calendar.css";
+@import "./timesheet.css";
+@import "./timesheet-context.css";
+@import "./timesheet-activities.css";
 @import "./projects.css";
+@import "./dialog.css";
+@import "./form.css";
 
+:root {
+    /** The color covering the entire outside of the application on large screens. */
+    --page-bg-color: #eff2f1;
+
+    /** The main background color for the application.*/
+    --bg-color: #ffffff;
+
+    /** All text without any custom modifiers should have this color. */
+    --text-color: #1a1918;
+    --text-color-second: #43514b;
+    --text-color-highlight: #5c7a6c;
+
+    /** Border and lines all have this color. */
+    --border-color: #dce5e1;
+    --shadow-color: #ceddee;
+
+    /** Accent color. */
+    --color-accent: #3b7d76;
+
+    /** Button */
+    --button-bg-color: #5c7a6c;
+    --button-hover-color: #3c5a4c;
+    --button-text-color: #eff2f1;
+    --input-error-color: #b30000;
+
+    /** The foooter should contrast the application. */
+    --footer-bg: #23312b;
+    --footer-text: #e2e8e5;
+    --footer-text-muted: #94a3b8;
+
+    /** Menu text */
+    --menu-text-color: var(--text-color-second);
+    --menu-text-hover-color: var(--text-color-highlight);
+    --menu-text-appendix-color: var(--text-color-highlight);
+    --menu-bg-hover-color: var(--page-bg-color);
+
+    /** Typography */
+    --font-family: sans-serif, monospace;
+    --font-size-xs: 0.7rem;
+    --font-size-sm: 0.875rem;
+    --font-size-base: 1rem;
+    --font-size-lg: 1.125rem;
+    --font-size-xl: 1.25rem;
+    --font-size-2xl: 1.5rem;
+    --font-size-3xl: 1.875rem;
+    --font-size-4xl: 2.5rem;
+    --font-size-5xl: 4rem;
+
+    /** Spacing */
+    --spacing-1: 0.25rem;
+    --spacing-2: 0.5rem;
+    --spacing-3: 0.75rem;
+    --spacing-4: 1rem;
+    --spacing-5: 1.25rem;
+    --spacing-6: 1.5rem;
+    --spacing-8: 2rem;
+    --spacing-10: 2.5rem;
+    --spacing-12: 3rem;
+    --spacing-16: 4rem;
+    --spacing-20: 5rem;
+    --spacing-24: 6rem;
+
+    --activity-marker-size: 20px;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --page-bg-color: #151918;
+        --bg-color: #1e2422;
+
+        /** All text without any custom modifiers should have this color. */
+        --text-color: #e6ebe9;
+        --text-color-highlight: #4c5a4c;
+        --text-color-second: #5c7a6c;
+        --text-color-accent: #3b7d76;
+
+        /** Border and lines all have this color. */
+        --border-color: #2f3835;
+        --shadow-color: #1e1412;
+
+        /** Accent color. */
+        --color-accent: #5eead4;
+
+        --button-bg-color: #2da49f;
+        --button-hover-color: #5eead4;
+        --button-text-color: #0f172a;
+
+        /** The foooter should contrast the application. */
+        --footer-bg: #23312b;
+        --footer-text: #e2e8e5;
+        --footer-text-muted: #94a3b8;
+    }
+}
+
+/* Reset */
 *,
 *::before,
 *::after {
@@ -20,22 +119,36 @@ html {
 }
 
 body {
-    font-family: var(--font-family);
-    font-size: var(--font-size-base);
-    line-height: 1.6;
-    color: var(--color-text);
-    background-color: var(--color-bg);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 
-    text-rendering: optimizeLegibility;
-    font-optical-sizing: auto;
+    background-color: var(--page-bg-color);
+    color: var(--text-color);
+
+    font-family: "Cormorant Garamond", serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.2s;
 }
 
 .application {
-    width: 100%;
-    margin: 0 auto;
-    height: 100vh;
+    position: relative;
     display: flex;
     flex-direction: column;
+    padding: var(--spacing-4);
+
+    width: 100%;
+
+    background-color: var(--bg-color);
+    box-shadow:
+        0 1px 1px rgba(0, 0, 0, 0.05),
+        0 10px 30px rgba(0, 0, 0, 0.03);
 }
 
 .application-layout {
@@ -44,44 +157,66 @@ body {
     flex-grow: 1;
 }
 
+/** Use this on a div in a flex layout to consume space. */
+.spacer {
+    flex-grow: 1;
+}
+
 /** icons *******************************************************************/
 .icon {
-    color: var(color-text);
+    color: var(--text-color);
     display: block;
-    width: 1.75rem;
-    height: 1.75rem;
+    width: 1.5rem;
+    height: 1.5rem;
 }
 
 .icon.small {
-    width: 1rem;
-    height: 1rem;
+    width: 1.25rem;
+    height: 1.25rem;
 }
 
-/** text ********************************************************************/
-
-.text-value {
-    color: var(--value--color);
+/** chip ********************************************************************/
+.chip {
+    display: inline-block;
+    font-family: sans-serif;
+    font-size: var(--font-size-xs);
     font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: var(--spacing-1) var(--spacing-2);
+    border-radius: var(--spacing-1);
+    margin-right: 8px;
+    vertical-align: middle;
 }
 
-.text-unit {
-    color: var(--unit--color);
-    font-weight: 200;
+.chip {
+    border: 1px solid transparent;
+    background-color: rgba(16, 185, 129, 0.15);
+    color: #047857;
 }
 
-/** links *******************************************************************/
-a,
-a:active,
-a:visited {
-    color: var(--color-text);
-    text-decoration: none;
+.chip:hover {
+    border: 1px solid rgba(16, 185, 129, 0.15);
+    transition: color 0.2s;
 }
 
-a:hover {
-    color: var(--violet-7);
-    text-decoration: none;
+/** activity color */
+.activity-color {
+    background-color: #64a0e6;
+    border-color: #5588c3;
+
+    width: var(--activity-marker-size);
+    min-width: var(--activity-marker-size);
+    max-width: var(--activity-marker-size);
+    height: var(--activity-marker-size);
+    min-height: var(--activity-marker-size);
+    max-height: var(--activity-marker-size);
+
+    border: 2px solid;
+    border-radius: 50%;
 }
 
+/** Page content elements */
 .content {
     display: flex;
     flex-direction: column;
@@ -91,95 +226,37 @@ a:hover {
 .content-heading {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
 
-    margin-top: var(--spacing-20);
-    margin-bottom: var(--spacing-8);
+    margin-top: var(--spacing-12);
+    margin-bottom: var(--spacing-12);
 }
 
 .content h1 {
-    font-weight: 900;
-    font-size: var(--font-size-5xl);
+    font-weight: 400;
+    font-size: var(--font-size-4xl);
+    font-style: italic;
 }
 
 .content-heading .toolbar .button {
     align-self: start;
 }
 
-.toolbar {
-    display: flex;
-    flex-direction: row;
-    justify-content: start;
-    padding: 1rem 0;
-}
-
-.table-wrapper {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-
-    width: 100%;
-    overflow-x: auto; /* Enables horizontal scrolling */
-    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-}
-
-table {
-    border-collapse: collapse;
-    border-spacing: 0;
-}
-
-thead {
-    background-color: var(--gray-1);
-    border-bottom: 1px solid var(--gray-3);
-    color: var(--blue-700);
-}
-
-tbody tr:not(:last-child) {
-    border-bottom: 1px solid var(--gray-3);
-}
-
-tbody tr:hover {
-    background-color: var(--gray-1);
-}
-
-th,
-td {
-    padding: var(--spacing-2);
-    border: 0;
-
-    text-align: left;
-}
-
-td.action:last-child {
-    padding: 0;
-}
-
-.chip {
-    background-color: var(--blue-50);
-    color: var(--blue-500);
-    padding: 0.5rem 1rem;
-}
-
-.chip:hover {
-    background-color: var(--blue-100);
-}
-
 @media (min-width: 1024px) {
     .application {
-        max-width: 900px;
-
-        margin: 0 auto;
-        padding-top: 96px;
+        max-width: 960px;
+        margin: 60px auto;
+        padding: 60px 80px 100px;
     }
+}
 
-    table {
-        width: 100%;
-    }
+/** Disable icons in the main navigation for now. Not sure I want them. */
+.main-navigation ul li .icon {
+    display: none;
+}
 
-    th,
-    td {
-        padding: var(--spacing-3);
-        border: 0;
-
-        text-align: left;
-    }
+.xdrop-down-menu {
+    display: none;
 }
