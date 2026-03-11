@@ -48,8 +48,9 @@ fn main_navigation(model: model.Model) -> Element(message.Msg) {
 
 fn nav_logo() {
   div([att.class("main-navigation-item")], [
-    html.a([att.href(route.home_url)], [
+    html.a([att.href(route.home_url), att.class("logo")], [
       ui.icon(graphics.icon_logo, ui.MediumSize),
+      html.text("QUARTER"),
     ]),
   ])
 }

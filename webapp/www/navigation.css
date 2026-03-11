@@ -37,6 +37,12 @@
     gap: var(--spacing-2);
 }
 
+.main-navigation-item .logo {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+}
+
 @media (min-width: 1024px) {
     .main-navigation {
         display: flex;
