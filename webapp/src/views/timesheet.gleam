@@ -5,9 +5,10 @@ import gleam/option
 import i18n
 import lustre/attribute as att
 import lustre/element.{type Element}
-import lustre/element/html.{div, h1, header}
+import lustre/element/html.{button, div, h1, header}
 import message
 import model
+import ui/core as ui
 import ui/graphics
 import ui/input
 import ui/timesheet_activities.{timesheet_activities}
@@ -42,10 +43,10 @@ fn timesheet_header(m: model.Model) {
 
 fn timesheet(timesheet: timesheet.Timesheet, m: model.Model) {
   let grid =
-    [input.ghost_button(graphics.icon_extend_earlier, message.Noop)]
+    [extend_start_of_day_button(m.start_of_day == 0)]
     |> list.append(timesheet_grid(timesheet, m))
     |> list.append([
-      input.ghost_button(graphics.icon_extend_later, message.Noop),
+      extend_end_of_day_button(m.start_of_day == 23),
     ])
 
   div([att.class("timesheet-view")], [
@@ -89,4 +90,28 @@ fn cell(c: option.Option(timesheet.ActivityDetail)) -> Element(message.Msg) {
       )
     option.None -> div([att.class("quarter-cell")], [])
   }
+}
+
+fn extend_start_of_day_button(disabled: Bool) {
+  button(
+    [
+      att.class("extend-button"),
+      att.type_("button"),
+      att.disabled(disabled),
+      ui.click_stop(message.ExtendStartOfDay),
+    ],
+    [html.text("Earlier")],
+  )
+}
+
+fn extend_end_of_day_button(disabled: Bool) {
+  button(
+    [
+      att.class("extend-button"),
+      att.type_("button"),
+      att.disabled(disabled),
+      ui.click_stop(message.ExtendEndOfDay),
+    ],
+    [html.text("Later")],
+  )
 }
