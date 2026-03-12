@@ -14,6 +14,7 @@ import message.{
   OpenDialog, OpenDropDownMenu, PreviousMonth, PreviousTimesheet, ProjectsResult,
   SelectActivity, StartRegistering, SystemUsersResult, TimesheetResult,
   TimesheetsResult, ToggleProject, UpdateActivityResult, UpdateProjectResult,
+  UpdateRegistering,
 }
 import model.{
   type Model, close_all_modals, close_modal, delete_activity, delete_project,
@@ -127,6 +128,11 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
 
     StartRegistering(index) -> {
       io.println("StartRegistering " <> int.to_string(index))
+      #(model, effect.none())
+    }
+
+    UpdateRegistering(index) -> {
+      io.println("UpdateRegistering " <> int.to_string(index))
       #(model, effect.none())
     }
 

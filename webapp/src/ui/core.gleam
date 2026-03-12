@@ -53,3 +53,8 @@ pub fn down_stop(msg) {
 pub fn up_stop(msg) {
   event.on_mouse_up(msg) |> event.stop_propagation()
 }
+
+/// Trigger on_mouse_over event and then stop event propagation.
+pub fn over_stop(msg) {
+  event.on_mouse_over(msg) |> event.stop_propagation()
+}

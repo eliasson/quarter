@@ -53,6 +53,9 @@ pub type Msg {
   /// Called to start registering time by mouse down in the timesheet grid
   StartRegistering(index: Int)
 
+  /// Called when highlighting (mouse over) a quarter whilst being in registering mode.
+  UpdateRegistering(index: Int)
+
   /// Called when releasing the mouse down in the timesheet grid. Commits the time registration.
   CommitRegistering
 

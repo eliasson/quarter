@@ -91,6 +91,7 @@ fn cell(c: timesheet.QuarterDetail) -> Element(message.Msg) {
     [
       att.class("quarter-cell"),
       ui.down_stop(message.StartRegistering(c.index)),
+      ui.over_stop(message.UpdateRegistering(c.index)),
     ]
     |> list.append([color_attribute])
 
