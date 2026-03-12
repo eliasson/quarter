@@ -4,15 +4,15 @@ import lustre
 import lustre/effect.{type Effect}
 import message.{
   type Msg, AddUserResult, ArchiveActivity, ArchiveActivityResult,
-  ArchiveProject, ArchiveProjectResult, CloseModal, ConfirmArchiveActivity,
-  ConfirmArchiveProject, ConfirmDeleteActivity, ConfirmDeleteProject,
-  ConfirmDialog, CreateActivityResult, CreateProjectResult, CurrentUserResult,
-  DeleteActivity, DeleteActivityResult, DeleteProject, DeleteProjectResult,
-  DismissError, ExtendEndOfDay, ExtendStartOfDay, FormTextFieldUpdated,
-  Logout, NextMonth, NextTimesheet, Noop, OnRouteChange, OpenDialog,
-  OpenDropDownMenu, PreviousMonth, PreviousTimesheet, ProjectsResult,
-  SelectActivity, SystemUsersResult, TimesheetResult, TimesheetsResult,
-  ToggleProject, UpdateActivityResult, UpdateProjectResult,
+  ArchiveProject, ArchiveProjectResult, CloseModal, CommitRegistering,
+  ConfirmArchiveActivity, ConfirmArchiveProject, ConfirmDeleteActivity,
+  ConfirmDeleteProject, ConfirmDialog, CreateActivityResult, CreateProjectResult,
+  CurrentUserResult, DeleteActivity, DeleteActivityResult, DeleteProject,
+  DeleteProjectResult, DismissError, ExtendEndOfDay, ExtendStartOfDay,
+  FormTextFieldUpdated, Logout, NextMonth, NextTimesheet, Noop, OnRouteChange,
+  OpenDialog, OpenDropDownMenu, PreviousMonth, PreviousTimesheet, ProjectsResult,
+  SelectActivity, StartRegistering, SystemUsersResult, TimesheetResult,
+  TimesheetsResult, ToggleProject, UpdateActivityResult, UpdateProjectResult,
 }
 import model.{
   type Model, close_all_modals, close_modal, delete_activity, delete_project,
@@ -122,6 +122,16 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       // Called from the timesheet view to select the activity used to "paint" the timesheet with.
       model.Model(..model, selected_activity: id)
       |> no_effect()
+    }
+
+    StartRegistering -> {
+      io.println("StartRegistering")
+      #(model, effect.none())
+    }
+
+    CommitRegistering -> {
+      io.println("CommitRegistering")
+      #(model, effect.none())
     }
 
     ExtendStartOfDay -> extend_start_of_day(model) |> no_effect()

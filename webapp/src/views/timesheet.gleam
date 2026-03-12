@@ -88,10 +88,18 @@ fn cell(c: option.Option(timesheet.ActivityDetail)) -> Element(message.Msg) {
         [
           att.class("quarter-cell"),
           att.style("background-color", color.color_to_style_value(ad.color)),
+          ui.down_stop(message.StartRegistering),
         ],
         [],
       )
-    option.None -> div([att.class("quarter-cell")], [])
+    option.None ->
+      div(
+        [
+          att.class("quarter-cell"),
+          ui.down_stop(message.StartRegistering),
+        ],
+        [],
+      )
   }
 }
 

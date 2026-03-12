@@ -50,6 +50,12 @@ pub type Msg {
   // Extend the day to one hour later.
   ExtendEndOfDay
 
+  /// Called to start registering time by mouse down in the timesheet grid
+  StartRegistering
+
+  /// Called when releasing the mouse down in the timesheet grid. Commits the time registration.
+  CommitRegistering
+
   /// Select / deselect a project in the mange project list.
   ToggleProject(id: project.ProjectId)
 

@@ -43,3 +43,13 @@ pub fn toolbar(children: List(element.Element(msg))) {
 pub fn click_stop(msg) {
   event.on_click(msg) |> event.stop_propagation()
 }
+
+/// Trigger on_mouse_down event and then stop event propagation.
+pub fn down_stop(msg) {
+  event.on_mouse_down(msg) |> event.stop_propagation()
+}
+
+/// Trigger on_mouse_down event and then stop event propagation.
+pub fn up_stop(msg) {
+  event.on_mouse_up(msg) |> event.stop_propagation()
+}
