@@ -21,7 +21,8 @@ import model.{
   go_to_next_month, go_to_previous_month, go_to_tomorrow, go_to_yesterday,
   initial_model, navigate_to, open_dialog, open_drop_down_menu, select_quarter,
   set_active_timesheet, set_current_user, set_timesheets, set_users,
-  toggle_project, update_activity, update_dialog_value, update_project,
+  start_registration, toggle_project, update_activity, update_dialog_value,
+  update_project,
 }
 import modem
 import protocol
@@ -127,7 +128,7 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
 
     StartRegistering(index) -> {
       model
-      |> select_quarter(index)
+      |> start_registration(index)
       |> no_effect()
     }
 

@@ -298,22 +298,35 @@ pub fn set_active_timesheet(m: Model, timesheet: timesheet.Timesheet) -> Model {
   Model(..m, active_timesheet: option.Some(timesheet))
 }
 
-/// Called when a quarter is selected in the timesheet grid.
-/// The first selection will setup an active registration, subsequent selections will extend it.
+pub fn start_registration(m: Model, index: QuarterIndex) -> Model {
+  let registration = ActiveRegistration(index, index, m.selected_activity)
+  Model(..m, active_registration: option.Some(registration))
+}
+
 pub fn select_quarter(m: Model, index: QuarterIndex) -> Model {
   // If there is an active activity this is the one that should be used to register time.
   // When no activity exists, the registration will not use an activity and by that become
   // erase activity.
 
   let registration = case m.active_registration {
-    option.Some(reg) -> ActiveRegistration(..reg, end: index)
-    option.None -> ActiveRegistration(index, index, m.selected_activity)
+    option.Some(reg) -> option.Some(ActiveRegistration(..reg, end: index))
+    option.None -> option.None
   }
 
-  Model(..m, active_registration: option.Some(registration))
+  Model(..m, active_registration: registration)
 }
 
 /// Clears any active registration.
 pub fn clear_registration(m: Model) -> Model {
   Model(..m, active_registration: option.None)
+}
+
+pub fn is_quarter_active_selection(
+  reg: ActiveRegistration,
+  index: QuarterIndex,
+) -> Bool {
+  let start = int.min(reg.start, reg.end)
+  let end = int.max(reg.start, reg.end)
+
+  index >= start && index <= end
 }

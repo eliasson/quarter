@@ -22,7 +22,7 @@ pub fn view(m: model.Model) -> Element(message.Msg) {
     option.Some(ts) ->
       div([att.class("content")], [
         timesheet_header(m),
-        timesheet(ts, m),
+        timesheet(m, ts),
       ])
     _ -> div([att.class("content")], [html.text("Unable to load timesheet")])
   }
@@ -42,10 +42,10 @@ fn timesheet_header(m: model.Model) {
   ])
 }
 
-fn timesheet(timesheet: timesheet.Timesheet, m: model.Model) {
+fn timesheet(m: model.Model, timesheet: timesheet.Timesheet) {
   let grid =
     [extend_start_of_day_button(m.start_of_day == 0)]
-    |> list.append(timesheet_grid(timesheet, m))
+    |> list.append(timesheet_grid(m, timesheet))
     |> list.append([
       extend_end_of_day_button(m.start_of_day == 23),
     ])
@@ -60,7 +60,7 @@ fn timesheet(timesheet: timesheet.Timesheet, m: model.Model) {
 }
 
 /// Return the visible range of hours for the timesheet.
-fn timesheet_grid(ts: timesheet.Timesheet, m: model.Model) {
+fn timesheet_grid(m: model.Model, ts: timesheet.Timesheet) {
   let hours =
     timesheet.hours(ts, m.start_of_day, m.end_of_day, m.projects)
     |> list.map(fn(h) {
@@ -69,10 +69,10 @@ fn timesheet_grid(ts: timesheet.Timesheet, m: model.Model) {
           html.text(int.to_string(h.hour) <> ":00"),
         ]),
         div([att.class("quarters")], [
-          cell(h.q1),
-          cell(h.q2),
-          cell(h.q3),
-          cell(h.q4),
+          cell(m, h.q1),
+          cell(m, h.q2),
+          cell(m, h.q3),
+          cell(m, h.q4),
         ]),
       ])
     })
@@ -80,8 +80,19 @@ fn timesheet_grid(ts: timesheet.Timesheet, m: model.Model) {
   hours
 }
 
-fn cell(c: timesheet.QuarterDetail) -> Element(message.Msg) {
-  let color_attribute = case c.activity {
+fn cell(m: model.Model, c: timesheet.QuarterDetail) -> Element(message.Msg) {
+  // If there is an ongoing registration, that should take preceedence.
+  let activity_to_use = case m.active_registration {
+    option.Some(reg) -> {
+      case model.is_quarter_active_selection(reg, c.index) {
+        True -> reg.activity
+        _ -> c.activity
+      }
+    }
+    _ -> c.activity
+  }
+
+  let color_attribute = case activity_to_use {
     option.Some(a) ->
       att.style("background-color", color.color_to_style_value(a.color))
     option.None -> att.none()

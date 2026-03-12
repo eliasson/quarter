@@ -39,3 +39,13 @@ pub fn should_clear_active_registration_test() {
 
   should.be_none(updated.active_registration)
 }
+
+pub fn should_not_initiate_registration_on_update_test() {
+  // The registration must have been started first.
+  let updated =
+    model.initial_model()
+    |> webapp.update(message.UpdateRegistering(12))
+    |> first
+
+  should.be_none(updated.active_registration)
+}
