@@ -26,7 +26,7 @@ pub const manage_url = "/ui/manage"
 
 pub const report_url = "/ui/report"
 
-pub const logout_url = "/logout"
+pub const logout_url = "/account/logout"
 
 pub const admin_users_url = "/ui/admin/users"
 
