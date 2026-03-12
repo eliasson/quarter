@@ -110,7 +110,7 @@ fn main_drop_down_menu(m: model.Model) {
       ),
       dropdown.DropDownSeparator,
       dropdown.DropDownSeparator,
-      dropdown.DropDownLink(graphics.icon_logout, "Logout", route.logout_url),
+      dropdown.DropDownMsg(graphics.icon_logout, "Logout", message.Logout),
     ],
     model.is_drop_down_menu_open(m, main_menu_id),
   )

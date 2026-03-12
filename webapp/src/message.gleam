@@ -10,6 +10,8 @@ pub type Msg {
   Noop
   /// When a page navigation takes place.
   OnRouteChange(Route)
+  /// Logout the current user by navigating to the logout URL.
+  Logout
 
   /// Generic drop down menu that is keyed with an arbitrary key.
   OpenDropDownMenu(id: String)

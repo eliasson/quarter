@@ -9,10 +9,10 @@ import message.{
   ConfirmDialog, CreateActivityResult, CreateProjectResult, CurrentUserResult,
   DeleteActivity, DeleteActivityResult, DeleteProject, DeleteProjectResult,
   DismissError, ExtendEndOfDay, ExtendStartOfDay, FormTextFieldUpdated,
-  NextMonth, NextTimesheet, Noop, OnRouteChange, OpenDialog, OpenDropDownMenu,
-  PreviousMonth, PreviousTimesheet, ProjectsResult, SelectActivity,
-  SystemUsersResult, TimesheetResult, TimesheetsResult, ToggleProject,
-  UpdateActivityResult, UpdateProjectResult,
+  Logout, NextMonth, NextTimesheet, Noop, OnRouteChange, OpenDialog,
+  OpenDropDownMenu, PreviousMonth, PreviousTimesheet, ProjectsResult,
+  SelectActivity, SystemUsersResult, TimesheetResult, TimesheetsResult,
+  ToggleProject, UpdateActivityResult, UpdateProjectResult,
 }
 import model.{
   type Model, close_all_modals, close_modal, delete_activity, delete_project,
@@ -67,6 +67,11 @@ fn init(_args) -> #(Model, Effect(Msg)) {
 pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
   case msg {
     Noop -> model |> close_all_modals |> no_effect()
+
+    Logout -> {
+      let assert Ok(uri) = uri.parse(route.logout_url)
+      #(model, modem.load(uri))
+    }
 
     OnRouteChange(r) -> {
       let m =
