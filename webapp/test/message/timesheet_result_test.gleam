@@ -1,6 +1,6 @@
+import gleam/option
 import gleam/time/calendar
 import gleeunit/should
-import gleam/option
 import message
 import model
 import test_util.{first, new_timestamp}

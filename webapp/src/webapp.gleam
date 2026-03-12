@@ -1,4 +1,3 @@
-import gleam/int
 import gleam/io
 import gleam/uri.{type Uri}
 import lustre
@@ -17,12 +16,12 @@ import message.{
   UpdateRegistering,
 }
 import model.{
-  type Model, close_all_modals, close_modal, delete_activity, delete_project,
-  dismiss_error, extend_end_of_day, extend_start_of_day, go_to_next_month,
-  go_to_previous_month, go_to_tomorrow, go_to_yesterday, initial_model,
-  navigate_to, open_dialog, open_drop_down_menu, set_active_timesheet,
-  set_current_user, set_timesheets, set_users, toggle_project, update_activity,
-  update_dialog_value, update_project,
+  type Model, clear_registration, close_all_modals, close_modal, delete_activity,
+  delete_project, dismiss_error, extend_end_of_day, extend_start_of_day,
+  go_to_next_month, go_to_previous_month, go_to_tomorrow, go_to_yesterday,
+  initial_model, navigate_to, open_dialog, open_drop_down_menu, select_quarter,
+  set_active_timesheet, set_current_user, set_timesheets, set_users,
+  toggle_project, update_activity, update_dialog_value, update_project,
 }
 import modem
 import protocol
@@ -127,18 +126,22 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
     }
 
     StartRegistering(index) -> {
-      io.println("StartRegistering " <> int.to_string(index))
-      #(model, effect.none())
+      model
+      |> select_quarter(index)
+      |> no_effect()
     }
 
     UpdateRegistering(index) -> {
-      io.println("UpdateRegistering " <> int.to_string(index))
-      #(model, effect.none())
+      model
+      |> select_quarter(index)
+      |> no_effect()
     }
 
     CommitRegistering -> {
-      io.println("CommitRegistering")
-      #(model, effect.none())
+      model
+      |> clear_registration()
+      |> no_effect()
+      // TODO This should call protocol instead
     }
 
     ExtendStartOfDay -> extend_start_of_day(model) |> no_effect()

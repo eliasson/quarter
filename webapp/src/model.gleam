@@ -46,15 +46,19 @@ pub type Model {
     /// The active timesheet being viewed or edited.
     active_timesheet: option.Option(timesheet.Timesheet),
     /// When there is an active registration (user have painted cells with an activity or clear).
-    active_registration: option.Option(ActiveRegistration)
+    active_registration: option.Option(ActiveRegistration),
   )
 }
+
+/// The index of a specific quarter for a day (0 - 95)
+pub type QuarterIndex =
+  Int
 
 pub type ActiveRegistration {
   /// The ongoing registration
   /// - start - The quarter index where the user first started the registration.
   /// - end - The current quarter index where the registration should end. This can either be before or after the start!
-  ActiveRegistration(start: Int, end: Int)
+  ActiveRegistration(start: QuarterIndex, end: QuarterIndex)
 }
 
 pub type DropDownMenu {
@@ -287,4 +291,20 @@ pub fn extend_end_of_day(m: Model) {
 
 pub fn set_active_timesheet(m: Model, timesheet: timesheet.Timesheet) -> Model {
   Model(..m, active_timesheet: option.Some(timesheet))
+}
+
+/// Called when a quarter is selected in the timesheet grid.
+/// The first selection will setup an active registration, subsequent selections will extend it.
+pub fn select_quarter(m: Model, index: QuarterIndex) -> Model {
+  let registration = case m.active_registration {
+    option.Some(reg) -> ActiveRegistration(..reg, end: index)
+    option.None -> ActiveRegistration(index, index)
+  }
+
+  Model(..m, active_registration: option.Some(registration))
+}
+
+/// Clears any active registration.
+pub fn clear_registration(m: Model) -> Model {
+  Model(..m, active_registration: option.None)
 }

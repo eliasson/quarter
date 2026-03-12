@@ -19,7 +19,11 @@ pub fn active_projects_excludes_archived_test() {
 pub fn active_activities_excludes_archived_test() {
   let activities = [
     project.Activity(..arbitrary_activity(), name: "Active B"),
-    project.Activity(..arbitrary_activity(), name: "Archived", is_archived: True),
+    project.Activity(
+      ..arbitrary_activity(),
+      name: "Archived",
+      is_archived: True,
+    ),
     project.Activity(..arbitrary_activity(), name: "Active A"),
   ]
 
@@ -43,9 +47,17 @@ pub fn sort_projects_alphabetically_test() {
 pub fn sort_projects_archived_last_test() {
   let projects = [
     project.Project(..arbitrary_project(), name: "Active B"),
-    project.Project(..arbitrary_project(), name: "Archived A", is_archived: True),
+    project.Project(
+      ..arbitrary_project(),
+      name: "Archived A",
+      is_archived: True,
+    ),
     project.Project(..arbitrary_project(), name: "Active A"),
-    project.Project(..arbitrary_project(), name: "Archived B", is_archived: True),
+    project.Project(
+      ..arbitrary_project(),
+      name: "Archived B",
+      is_archived: True,
+    ),
   ]
 
   project.sort_projects(projects)
@@ -68,9 +80,17 @@ pub fn sort_activities_alphabetically_test() {
 pub fn sort_activities_archived_last_test() {
   let activities = [
     project.Activity(..arbitrary_activity(), name: "Active B"),
-    project.Activity(..arbitrary_activity(), name: "Archived A", is_archived: True),
+    project.Activity(
+      ..arbitrary_activity(),
+      name: "Archived A",
+      is_archived: True,
+    ),
     project.Activity(..arbitrary_activity(), name: "Active A"),
-    project.Activity(..arbitrary_activity(), name: "Archived B", is_archived: True),
+    project.Activity(
+      ..arbitrary_activity(),
+      name: "Archived B",
+      is_archived: True,
+    ),
   ]
 
   project.sort_activities(activities)

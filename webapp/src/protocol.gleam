@@ -130,9 +130,8 @@ pub fn update_activity(
 
 /// Get all users projects and activities in a single request.
 pub fn get_projects_and_activities(
-  on_response handle_response: fn(
-    Result(project.ProjectCollection, rsvp.Error),
-  ) -> message.Msg,
+  on_response handle_response: fn(Result(project.ProjectCollection, rsvp.Error)) ->
+    message.Msg,
 ) -> Effect(message.Msg) {
   let url = "/api/projects/activities"
 
@@ -250,7 +249,9 @@ pub fn user_resource_decoder() -> decode.Decoder(user.User) {
   decode.success(user.User(id:, email:, created:, updated:))
 }
 
-pub fn project_and_activities_decoder() -> decode.Decoder(project.ProjectCollection) {
+pub fn project_and_activities_decoder() -> decode.Decoder(
+  project.ProjectCollection,
+) {
   use projects_without_activities <- decode.field(
     "projects",
     decode.list(project_decoder()),
