@@ -119,9 +119,9 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       #(m, e)
     }
 
-    SelectActivity(id) -> {
+    SelectActivity(activity) -> {
       // Called from the timesheet view to select the activity used to "paint" the timesheet with.
-      model.Model(..model, selected_activity: id)
+      model.Model(..model, selected_activity: activity)
       |> no_effect()
     }
 

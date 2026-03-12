@@ -41,7 +41,7 @@ fn project_items(
 
 fn activity_item(m: model.Model, activity: project.Activity) {
   let classes = case m.selected_activity {
-    option.Some(id) if activity.id == id -> [
+    option.Some(a) if activity.id == a.id -> [
       att.class("picker-item"),
       att.class("active"),
     ]
@@ -49,7 +49,7 @@ fn activity_item(m: model.Model, activity: project.Activity) {
   }
 
   let attributes =
-    [event.on_click(message.SelectActivity(option.Some(activity.id)))]
+    [event.on_click(message.SelectActivity(option.Some(activity)))]
     |> list.append(classes)
 
   div(attributes, [

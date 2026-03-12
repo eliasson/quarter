@@ -42,7 +42,7 @@ pub type Msg {
 
   /// Selects an activity in the timesheet view's list of activities.
   /// None represents the "clear activity".
-  SelectActivity(id: option.Option(project.ActivityId))
+  SelectActivity(id: option.Option(project.Activity))
 
   /// Extend the start of day to one hour earlier.
   ExtendStartOfDay

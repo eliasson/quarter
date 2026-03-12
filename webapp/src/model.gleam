@@ -38,7 +38,7 @@ pub type Model {
     /// The current months timesheets.
     timesheets: List(timesheet.Timesheet),
     /// The selected activity. None represents the "clear activity" in the timesheet view.
-    selected_activity: option.Option(project.ActivityId),
+    selected_activity: option.Option(project.Activity),
     /// The start of day hour used when rendering a timesheet. This time is inclusive.
     start_of_day: Int,
     /// The end of day hour used when rendering a timesheet. This time is inclusive.
