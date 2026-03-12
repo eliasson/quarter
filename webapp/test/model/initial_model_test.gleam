@@ -54,3 +54,8 @@ pub fn should_not_have_any_active_timesheet_test() {
   model.initial_model().active_timesheet
   |> should.be_none
 }
+
+pub fn should_not_have_any_active_registration_test() {
+  model.initial_model().active_registration
+  |> should.be_none
+}

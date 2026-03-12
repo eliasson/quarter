@@ -45,7 +45,16 @@ pub type Model {
     end_of_day: Int,
     /// The active timesheet being viewed or edited.
     active_timesheet: option.Option(timesheet.Timesheet),
+    /// When there is an active registration (user have painted cells with an activity or clear).
+    active_registration: option.Option(ActiveRegistration)
   )
+}
+
+pub type ActiveRegistration {
+  /// The ongoing registration
+  /// - start - The quarter index where the user first started the registration.
+  /// - end - The current quarter index where the registration should end. This can either be before or after the start!
+  ActiveRegistration(start: Int, end: Int)
 }
 
 pub type DropDownMenu {
@@ -92,6 +101,7 @@ pub fn initial_model() -> Model {
     start_of_day: 6,
     end_of_day: 18,
     active_timesheet: option.None,
+    active_registration: option.None,
   )
 }
 
