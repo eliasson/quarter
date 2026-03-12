@@ -109,4 +109,5 @@ pub type Msg {
   UpdateActivityResult(Result(project.Activity, rsvp.Error))
   TimesheetsResult(Result(List(timesheet.Timesheet), rsvp.Error))
   TimesheetResult(Result(timesheet.Timesheet, rsvp.Error))
+  RegisterTimeResult(Result(timesheet.Timesheet, rsvp.Error))
 }

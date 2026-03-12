@@ -1,10 +1,11 @@
 import gleam/io
+import gleam/option
 import gleam/uri.{type Uri}
 import lustre
 import lustre/effect.{type Effect}
 import message.{
   type Msg, AddUserResult, ArchiveActivity, ArchiveActivityResult,
-  ArchiveProject, ArchiveProjectResult, CloseModal, CommitRegistering,
+  ArchiveProject, ArchiveProjectResult, CloseModal, CommitRegistering, RegisterTimeResult,
   ConfirmArchiveActivity, ConfirmArchiveProject, ConfirmDeleteActivity,
   ConfirmDeleteProject, ConfirmDialog, CreateActivityResult, CreateProjectResult,
   CurrentUserResult, DeleteActivity, DeleteActivityResult, DeleteProject,
@@ -139,10 +140,27 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
     }
 
     CommitRegistering -> {
+      case model.active_registration {
+        option.Some(reg) ->
+          model
+          |> with_effect(
+            protocol.register_time(model.today, reg, message.RegisterTimeResult),
+          )
+        option.None -> model |> no_effect()
+      }
+    }
+
+    RegisterTimeResult(Ok(timesheet)) ->
+      model
+      |> set_active_timesheet(timesheet)
+      |> clear_registration()
+      |> no_effect()
+
+    RegisterTimeResult(Error(_)) -> {
+      io.println("RegisterTimeResult Error")
       model
       |> clear_registration()
       |> no_effect()
-      // TODO This should call protocol instead
     }
 
     ExtendStartOfDay -> extend_start_of_day(model) |> no_effect()

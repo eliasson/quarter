@@ -2,6 +2,7 @@ import domain/color
 import domain/duration
 import domain/email
 import domain/project
+import domain/registration
 import domain/timesheet
 import domain/user
 import gleam/dict
@@ -218,6 +219,47 @@ pub fn get_timesheets(
   let handler = rsvp.expect_json(timesheets_response_decoder(), handle_response)
 
   rsvp.get(url, handler)
+}
+
+/// Register time for a given date from an active registration.
+/// Only registers when the registration has an activity; if activity is None
+/// (erase mode), an empty slots list is sent.
+pub fn register_time(
+  date: timestamp.Timestamp,
+  reg: registration.ActiveRegistration,
+  on_response handle_response: fn(Result(timesheet.Timesheet, rsvp.Error)) ->
+    message.Msg,
+) -> Effect(message.Msg) {
+  let date_string = tsutil.to_iso_date(date)
+  let url = "/api/timesheets/" <> date_string
+  let handler = rsvp.expect_json(timesheet_decoder(), handle_response)
+
+  let slots = case reg.activity {
+    option.None -> []
+    option.Some(activity) -> {
+      let offset = int.min(reg.start, reg.end)
+      let count = int.max(reg.start, reg.end) - offset + 1
+      [#(activity.project_id, activity.id, offset, count)]
+    }
+  }
+
+  let encode_slot = fn(slot: #(project.ProjectId, project.ActivityId, Int, Int)) {
+    let #(project_id, activity_id, offset, count) = slot
+    json.object([
+      #("projectId", json.string(project_id.value)),
+      #("activityId", json.string(activity_id.value)),
+      #("offset", json.int(offset)),
+      #("duration", json.int(count)),
+    ])
+  }
+
+  let payload =
+    json.object([
+      #("date", json.string(date_string)),
+      #("timeSlots", json.array(slots, encode_slot)),
+    ])
+
+  rsvp.put(url, payload, handler)
 }
 
 /// Get a single timesheet for the given date.
