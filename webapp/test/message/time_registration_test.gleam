@@ -11,7 +11,7 @@ pub fn should_create_active_registration_test() {
     |> webapp.update(message.StartRegistering(12))
     |> first
 
-  let expected = model.ActiveRegistration(12, 12)
+  let expected = model.ActiveRegistration(12, 12, option.None)
   should.equal(updated.active_registration, option.Some(expected))
 }
 
@@ -25,7 +25,7 @@ pub fn should_update_active_registration_test() {
     |> webapp.update(message.UpdateRegistering(4))
     |> first
 
-  let expected = model.ActiveRegistration(12, 4)
+  let expected = model.ActiveRegistration(12, 4, option.None)
   should.equal(updated.active_registration, option.Some(expected))
 }
 

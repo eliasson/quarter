@@ -58,7 +58,12 @@ pub type ActiveRegistration {
   /// The ongoing registration
   /// - start - The quarter index where the user first started the registration.
   /// - end - The current quarter index where the registration should end. This can either be before or after the start!
-  ActiveRegistration(start: QuarterIndex, end: QuarterIndex)
+  /// - activity - The activity to register time on, or None to erase time.
+  ActiveRegistration(
+    start: QuarterIndex,
+    end: QuarterIndex,
+    activity: option.Option(project.Activity),
+  )
 }
 
 pub type DropDownMenu {
@@ -296,9 +301,13 @@ pub fn set_active_timesheet(m: Model, timesheet: timesheet.Timesheet) -> Model {
 /// Called when a quarter is selected in the timesheet grid.
 /// The first selection will setup an active registration, subsequent selections will extend it.
 pub fn select_quarter(m: Model, index: QuarterIndex) -> Model {
+  // If there is an active activity this is the one that should be used to register time.
+  // When no activity exists, the registration will not use an activity and by that become
+  // erase activity.
+
   let registration = case m.active_registration {
     option.Some(reg) -> ActiveRegistration(..reg, end: index)
-    option.None -> ActiveRegistration(index, index)
+    option.None -> ActiveRegistration(index, index, m.selected_activity)
   }
 
   Model(..m, active_registration: option.Some(registration))
