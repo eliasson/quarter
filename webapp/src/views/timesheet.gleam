@@ -1,4 +1,5 @@
 import domain/color
+import domain/registration
 import domain/timesheet
 import gleam/int
 import gleam/list
@@ -84,7 +85,7 @@ fn cell(m: model.Model, c: timesheet.QuarterDetail) -> Element(message.Msg) {
   // If there is an ongoing registration, that should take preceedence.
   let activity_to_use = case m.active_registration {
     option.Some(reg) -> {
-      case model.is_quarter_active_selection(reg, c.index) {
+      case registration.is_quarter_active_selection(reg, c.index) {
         True -> reg.activity
         _ -> c.activity
       }

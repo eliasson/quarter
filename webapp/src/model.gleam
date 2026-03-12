@@ -2,6 +2,7 @@ import dialogs/activity_dialog
 import dialogs/project_dialog
 import dialogs/user_dialog
 import domain/project
+import domain/registration.{ActiveRegistration}
 import domain/timesheet
 import domain/user
 import gleam/list
@@ -46,23 +47,7 @@ pub type Model {
     /// The active timesheet being viewed or edited.
     active_timesheet: option.Option(timesheet.Timesheet),
     /// When there is an active registration (user have painted cells with an activity or clear).
-    active_registration: option.Option(ActiveRegistration),
-  )
-}
-
-/// The index of a specific quarter for a day (0 - 95)
-pub type QuarterIndex =
-  Int
-
-pub type ActiveRegistration {
-  /// The ongoing registration
-  /// - start - The quarter index where the user first started the registration.
-  /// - end - The current quarter index where the registration should end. This can either be before or after the start!
-  /// - activity - The activity to register time on, or None to erase time.
-  ActiveRegistration(
-    start: QuarterIndex,
-    end: QuarterIndex,
-    activity: option.Option(project.Activity),
+    active_registration: option.Option(registration.ActiveRegistration),
   )
 }
 
@@ -298,12 +283,12 @@ pub fn set_active_timesheet(m: Model, timesheet: timesheet.Timesheet) -> Model {
   Model(..m, active_timesheet: option.Some(timesheet))
 }
 
-pub fn start_registration(m: Model, index: QuarterIndex) -> Model {
+pub fn start_registration(m: Model, index: types.QuarterIndex) -> Model {
   let registration = ActiveRegistration(index, index, m.selected_activity)
   Model(..m, active_registration: option.Some(registration))
 }
 
-pub fn select_quarter(m: Model, index: QuarterIndex) -> Model {
+pub fn select_quarter(m: Model, index: types.QuarterIndex) -> Model {
   // If there is an active activity this is the one that should be used to register time.
   // When no activity exists, the registration will not use an activity and by that become
   // erase activity.
@@ -319,14 +304,4 @@ pub fn select_quarter(m: Model, index: QuarterIndex) -> Model {
 /// Clears any active registration.
 pub fn clear_registration(m: Model) -> Model {
   Model(..m, active_registration: option.None)
-}
-
-pub fn is_quarter_active_selection(
-  reg: ActiveRegistration,
-  index: QuarterIndex,
-) -> Bool {
-  let start = int.min(reg.start, reg.end)
-  let end = int.max(reg.start, reg.end)
-
-  index >= start && index <= end
 }
