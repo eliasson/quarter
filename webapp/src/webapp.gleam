@@ -1,3 +1,4 @@
+import gleam/int
 import gleam/io
 import gleam/uri.{type Uri}
 import lustre
@@ -124,8 +125,8 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       |> no_effect()
     }
 
-    StartRegistering -> {
-      io.println("StartRegistering")
+    StartRegistering(index) -> {
+      io.println("StartRegistering " <> int.to_string(index))
       #(model, effect.none())
     }
 

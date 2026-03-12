@@ -90,7 +90,7 @@ fn cell(c: timesheet.QuarterDetail) -> Element(message.Msg) {
   let attributes =
     [
       att.class("quarter-cell"),
-      ui.down_stop(message.StartRegistering),
+      ui.down_stop(message.StartRegistering(c.index)),
     ]
     |> list.append([color_attribute])
 

@@ -51,7 +51,7 @@ pub type Msg {
   ExtendEndOfDay
 
   /// Called to start registering time by mouse down in the timesheet grid
-  StartRegistering
+  StartRegistering(index: Int)
 
   /// Called when releasing the mouse down in the timesheet grid. Commits the time registration.
   CommitRegistering
