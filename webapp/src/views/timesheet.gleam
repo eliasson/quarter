@@ -80,30 +80,21 @@ fn timesheet_grid(ts: timesheet.Timesheet, m: model.Model) {
   hours
 }
 
-fn cell(c: option.Option(timesheet.QuarterDetail)) -> Element(message.Msg) {
-  div([att.class("quarter-cell")], [])
-  case c {
-    option.Some(q) ->
-      div(
-        [
-          att.class("quarter-cell"),
-          att.style(
-            "background-color",
-            color.color_to_style_value(q.activity.color),
-          ),
-          ui.down_stop(message.StartRegistering),
-        ],
-        [],
-      )
-    option.None ->
-      div(
-        [
-          att.class("quarter-cell"),
-          ui.down_stop(message.StartRegistering),
-        ],
-        [],
-      )
+fn cell(c: timesheet.QuarterDetail) -> Element(message.Msg) {
+  let color_attribute = case c.activity {
+    option.Some(a) ->
+      att.style("background-color", color.color_to_style_value(a.color))
+    option.None -> att.none()
   }
+
+  let attributes =
+    [
+      att.class("quarter-cell"),
+      ui.down_stop(message.StartRegistering),
+    ]
+    |> list.append([color_attribute])
+
+  div(attributes, [])
 }
 
 fn extend_start_of_day_button(disabled: Bool) {

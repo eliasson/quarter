@@ -239,17 +239,17 @@ pub fn it_should_get_empty_hours_for_empty_timesheet_test() {
   |> should.equal([
     timesheet.TimesheetHour(
       8,
-      q1: option.None,
-      q2: option.None,
-      q3: option.None,
-      q4: option.None,
+      q1: timesheet.QuarterDetail(option.None, 8 * 4),
+      q2: timesheet.QuarterDetail(option.None, 8 * 4 + 1),
+      q3: timesheet.QuarterDetail(option.None, 8 * 4 + 2),
+      q4: timesheet.QuarterDetail(option.None, 8 * 4 + 3),
     ),
     timesheet.TimesheetHour(
       9,
-      q1: option.None,
-      q2: option.None,
-      q3: option.None,
-      q4: option.None,
+      q1: timesheet.QuarterDetail(option.None, 9 * 4),
+      q2: timesheet.QuarterDetail(option.None, 9 * 4 + 1),
+      q3: timesheet.QuarterDetail(option.None, 9 * 4 + 2),
+      q4: timesheet.QuarterDetail(option.None, 9 * 4 + 3),
     ),
   ])
 }
@@ -261,10 +261,10 @@ pub fn it_should_get_single_hour_when_start_equals_end_test() {
   |> should.equal([
     timesheet.TimesheetHour(
       8,
-      q1: option.None,
-      q2: option.None,
-      q3: option.None,
-      q4: option.None,
+      q1: timesheet.QuarterDetail(option.None, 8 * 4),
+      q2: timesheet.QuarterDetail(option.None, 8 * 4 + 1),
+      q3: timesheet.QuarterDetail(option.None, 8 * 4 + 2),
+      q4: timesheet.QuarterDetail(option.None, 8 * 4 + 3),
     ),
   ])
 }
@@ -298,10 +298,10 @@ pub fn it_should_populate_quarters_from_slots_test() {
   |> should.equal([
     timesheet.TimesheetHour(
       8,
-      q1: option.None,
-      q2: option.Some(timesheet.QuarterDetail(activity_one, 33)),
-      q3: option.Some(timesheet.QuarterDetail(activity_one, 34)),
-      q4: option.None,
+      q1: timesheet.QuarterDetail(option.None, 32),
+      q2: timesheet.QuarterDetail(option.Some(activity_one), 33),
+      q3: timesheet.QuarterDetail(option.Some(activity_one), 34),
+      q4: timesheet.QuarterDetail(option.None, 35),
     ),
   ])
 }
@@ -336,17 +336,17 @@ pub fn it_should_populate_quarters_spanning_multiple_hours_test() {
   |> should.equal([
     timesheet.TimesheetHour(
       8,
-      q1: option.None,
-      q2: option.None,
-      q3: option.Some(timesheet.QuarterDetail(activity_one, 34)),
-      q4: option.Some(timesheet.QuarterDetail(activity_one, 35)),
+      q1: timesheet.QuarterDetail(option.None, 32),
+      q2: timesheet.QuarterDetail(option.None, 33),
+      q3: timesheet.QuarterDetail(option.Some(activity_one), 34),
+      q4: timesheet.QuarterDetail(option.Some(activity_one), 35),
     ),
     timesheet.TimesheetHour(
       9,
-      q1: option.Some(timesheet.QuarterDetail(activity_one, 36)),
-      q2: option.Some(timesheet.QuarterDetail(activity_one, 37)),
-      q3: option.None,
-      q4: option.None,
+      q1: timesheet.QuarterDetail(option.Some(activity_one), 36),
+      q2: timesheet.QuarterDetail(option.Some(activity_one), 37),
+      q3: timesheet.QuarterDetail(option.None, 38),
+      q4: timesheet.QuarterDetail(option.None, 39),
     ),
   ])
 }
@@ -370,10 +370,10 @@ pub fn it_should_return_none_for_unknown_activity_test() {
   |> should.equal([
     timesheet.TimesheetHour(
       8,
-      q1: option.None,
-      q2: option.None,
-      q3: option.None,
-      q4: option.None,
+      q1: timesheet.QuarterDetail(option.None, 8 * 4),
+      q2: timesheet.QuarterDetail(option.None, 8 * 4 + 1),
+      q3: timesheet.QuarterDetail(option.None, 8 * 4 + 2),
+      q4: timesheet.QuarterDetail(option.None, 8 * 4 + 3),
     ),
   ])
 }
