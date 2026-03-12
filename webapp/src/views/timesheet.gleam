@@ -80,14 +80,17 @@ fn timesheet_grid(ts: timesheet.Timesheet, m: model.Model) {
   hours
 }
 
-fn cell(c: option.Option(timesheet.ActivityDetail)) -> Element(message.Msg) {
+fn cell(c: option.Option(timesheet.QuarterDetail)) -> Element(message.Msg) {
   div([att.class("quarter-cell")], [])
   case c {
-    option.Some(ad) ->
+    option.Some(q) ->
       div(
         [
           att.class("quarter-cell"),
-          att.style("background-color", color.color_to_style_value(ad.color)),
+          att.style(
+            "background-color",
+            color.color_to_style_value(q.activity.color),
+          ),
           ui.down_stop(message.StartRegistering),
         ],
         [],

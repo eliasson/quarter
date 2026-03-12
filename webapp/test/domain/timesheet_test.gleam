@@ -292,14 +292,6 @@ pub fn it_should_populate_quarters_from_slots_test() {
   // Hour 8 = quarters 32–35. Slot at offset 33, count 2 covers q2 and q3 of hour 8.
   let slots = [timesheet.TimeSlot(project_one.id, activity_one.id, 33, 2)]
 
-  let detail =
-    timesheet.ActivityDetail(
-      activity_one.name,
-      duration.Minutes(15),
-      activity_one.color,
-      color.darken(activity_one.color),
-    )
-
   test_util.new_timesheet("2026-02-07T18:00:00Z", slots)
   |> should.be_ok
   |> timesheet.hours(8, 8, project.from_list(projects))
@@ -307,8 +299,8 @@ pub fn it_should_populate_quarters_from_slots_test() {
     timesheet.TimesheetHour(
       8,
       q1: option.None,
-      q2: option.Some(detail),
-      q3: option.Some(detail),
+      q2: option.Some(timesheet.QuarterDetail(activity_one, 33)),
+      q3: option.Some(timesheet.QuarterDetail(activity_one, 34)),
       q4: option.None,
     ),
   ])
@@ -338,14 +330,6 @@ pub fn it_should_populate_quarters_spanning_multiple_hours_test() {
   // Slot at offset 34, count 4 covers q3+q4 of hour 8 and q1+q2 of hour 9.
   let slots = [timesheet.TimeSlot(project_one.id, activity_one.id, 34, 4)]
 
-  let detail =
-    timesheet.ActivityDetail(
-      activity_one.name,
-      duration.Minutes(15),
-      activity_one.color,
-      color.darken(activity_one.color),
-    )
-
   test_util.new_timesheet("2026-02-07T18:00:00Z", slots)
   |> should.be_ok
   |> timesheet.hours(8, 9, project.from_list(projects))
@@ -354,13 +338,13 @@ pub fn it_should_populate_quarters_spanning_multiple_hours_test() {
       8,
       q1: option.None,
       q2: option.None,
-      q3: option.Some(detail),
-      q4: option.Some(detail),
+      q3: option.Some(timesheet.QuarterDetail(activity_one, 34)),
+      q4: option.Some(timesheet.QuarterDetail(activity_one, 35)),
     ),
     timesheet.TimesheetHour(
       9,
-      q1: option.Some(detail),
-      q2: option.Some(detail),
+      q1: option.Some(timesheet.QuarterDetail(activity_one, 36)),
+      q2: option.Some(timesheet.QuarterDetail(activity_one, 37)),
       q3: option.None,
       q4: option.None,
     ),

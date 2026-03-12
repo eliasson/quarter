@@ -49,14 +49,19 @@ pub type TimesheetSummary {
   TimesheetSummary(total: duration.Duration, details: List(ProjectDetail))
 }
 
-/// Represents a single hour in a timesheet, with four quarters each tied to an optional activity.
+pub type QuarterDetail {
+  /// The details for a quarter of an hour. The activity and the offset it represents.
+  QuarterDetail(activity: project.Activity, offset: Int)
+}
+
+/// Represents a single hour in a timesheet, with four quarters each tied to an optional detail.
 pub type TimesheetHour {
   TimesheetHour(
     hour: Int,
-    q1: option.Option(ActivityDetail),
-    q2: option.Option(ActivityDetail),
-    q3: option.Option(ActivityDetail),
-    q4: option.Option(ActivityDetail),
+    q1: option.Option(QuarterDetail),
+    q2: option.Option(QuarterDetail),
+    q3: option.Option(QuarterDetail),
+    q4: option.Option(QuarterDetail),
   )
 }
 
@@ -172,26 +177,32 @@ pub fn hours(
 ) -> List(TimesheetHour) {
   let quarter_lookup =
     list.fold(timesheet.slots, dict.new(), fn(acc, slot) {
-      let detail = case project.get_activity(projects, slot.activity_id) {
-        Ok(a) ->
-          option.Some(ActivityDetail(
-            a.name,
-            duration.Minutes(15),
-            a.color,
-            color.darken(a.color),
-          ))
+      // Create the base quarter details that represents this slot.
+      // This needs to be modified to set the correct offset based on the actual quarter.
+      let maybe_details = case
+        project.get_activity(projects, slot.activity_id)
+      {
+        Ok(a) -> option.Some(QuarterDetail(a, slot.offset))
         Error(_) -> option.None
       }
-      case detail {
+
+      case maybe_details {
         option.None -> acc
         option.Some(d) ->
+          // For the count / duration of this slot, insert this quarter detail keyed by
+          // the quarter offset (0-96)
           int.range(slot.offset, slot.offset + slot.count, acc, fn(acc, q) {
-            dict.insert(acc, q, d)
+            // Each offset needs a unqiue quarter detail as these carry the offset they represent.
+            // Which make the time registration a lot simpler
+            let quarter = QuarterDetail(..d, offset: q)
+            dict.insert(acc, q, quarter)
           })
       }
     })
 
-  let quarter_detail = fn(q) { option.from_result(dict.get(quarter_lookup, q)) }
+  let quarter_detail = fn(offset) {
+    option.from_result(dict.get(quarter_lookup, offset))
+  }
 
   int.range(start_hour, end_hour + 1, [], fn(acc, hour) {
     let base = hour * 4
