@@ -1,8 +1,13 @@
 # Changelog
 
-All notable changes to this project will be documented in this file. 
+All notable changes to this project will be documented in this file.
 
 ## Pending
+
+## [0.6.4] - 2026-03-13
+
+- Include the next version of Quarter UI as a sneak peak for those that want to try it out.
+- Update to .NET 9.0.
 
 ## [0.5.2] - 2024-03-10
 
@@ -34,7 +39,7 @@ All notable changes to this project will be documented in this file.
 
 ## [0.2.1] - 2022-09-01
 
-- Change calendar appearance and highlight today. 
+- Change calendar appearance and highlight today.
 - Fix modal position.
 
 ## [0.2.0] - 2022-06-26
