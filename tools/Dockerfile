@@ -1,7 +1,7 @@
 # Build part
 FROM mcr.microsoft.com/dotnet/sdk:9.0 as build
 WORKDIR /app
-COPY . .
+COPY service/ .
 RUN dotnet publish src/Quarter/Quarter.csproj --output /app/dist --configuration Release
 
 # Runtime part
