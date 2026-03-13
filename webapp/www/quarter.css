@@ -14,33 +14,39 @@
 
 :root {
     /** The color covering the entire outside of the application on large screens. */
-    --page-bg-color: #eff2f1;
+    --page-bg-color: #f2f0eb;
 
     /** The main background color for the application.*/
-    --bg-color: #ffffff;
+    --bg-color: #fdfbf8;
 
     /** All text without any custom modifiers should have this color. */
     --text-color: #1a1918;
-    --text-color-second: #43514b;
-    --text-color-highlight: #5c7a6c;
+    --text-color-second: #63605b;
+    --text-color-highlight: #a84e32;
 
     /** Border and lines all have this color. */
-    --border-color: #dce5e1;
-    --shadow-color: #ceddee;
+    --border-color: #d1cfcb;
+    --shadow-color: rgba(0, 0, 0, 0.07);
 
     /** Accent color. */
-    --color-accent: #3b7d76;
+    --color-accent: #a84e32;
 
-    /** Button */
-    --button-bg-color: #5c7a6c;
-    --button-hover-color: #3c5a4c;
+    /** Button colors. */
+    --button-bg-color: #a84e32;
+    --button-hover-color: #e69d7a;
     --button-text-color: #eff2f1;
-    --input-error-color: #b30000;
+
+    /** Form colors. */
+    --input-error-color: #fe5656;
+
+    /** Chip. */
+    --chip-text-color: var(--text-color-highlight);
+    --chip-bg-color: #ffc3a6;
 
     /** The foooter should contrast the application. */
-    --footer-bg: #23312b;
-    --footer-text: #e2e8e5;
-    --footer-text-muted: #94a3b8;
+    --footer-bg: #1a1918;
+    --footer-text: #fdfbf8;
+    --footer-text-muted: #d1cfcb;
 
     /** Menu text */
     --menu-text-color: var(--text-color-second);
@@ -52,11 +58,11 @@
     --font-family: "Inter", sans-serif, monospace;
     --font-family-serif: "EB Garamond", serif;
 
-    --font-size-xs: 0.7rem;
-    --font-size-sm: 0.85rem;
+    --font-size-xs: 0.8rem;
+    --font-size-sm: 0.8rem;
     --font-size-base: 1rem;
-    --font-size-lg: 1.125rem;
-    --font-size-xl: 1.25rem;
+    --font-size-lg: 1rem;
+    --font-size-xl: 1rem;
     --font-size-2xl: 1.5rem;
     --font-size-3xl: 1.875rem;
     --font-size-4xl: 2.5rem;
@@ -81,25 +87,34 @@
 
 @media (prefers-color-scheme: dark) {
     :root {
+        /** The color covering the entire outside of the application on large screens. */
         --page-bg-color: #151918;
+        /** The main background color for the application.*/
         --bg-color: #1e2422;
 
         /** All text without any custom modifiers should have this color. */
         --text-color: #e6ebe9;
-        --text-color-highlight: #4c5a4c;
         --text-color-second: #5c7a6c;
-        --text-color-accent: #3b7d76;
+        --text-color-highlight: #4c5a4c;
 
         /** Border and lines all have this color. */
         --border-color: #2f3835;
         --shadow-color: #1e1412;
+        --shadow-color: rgba(0, 0, 0, 0.07);
 
         /** Accent color. */
-        --color-accent: #5eead4;
+        --color-accent: #a84e32;
 
-        --button-bg-color: #2da49f;
-        --button-hover-color: #5eead4;
+        --button-bg-color: #a84e32;
+        --button-hover-color: #a64223;
         --button-text-color: #0f172a;
+
+        /** Form colors. */
+        --input-error-color: #fe5656;
+
+        /** Chip. */
+        --chip-text-color: var(--text-color-second);
+        --chip-bg-color: #23312b;
 
         /** The foooter should contrast the application. */
         --footer-bg: #23312b;
@@ -202,12 +217,12 @@ h6 {
 
 .chip {
     border: 1px solid transparent;
-    background-color: rgba(16, 185, 129, 0.15);
-    color: #047857;
+    background-color: var(--chip-bg-color);
+    color: var(--chip-text-color);
 }
 
 .chip:hover {
-    border: 1px solid rgba(16, 185, 129, 0.15);
+    border: 1px solid var(--chip-text-color);
     transition: color 0.2s;
 }
 
@@ -259,6 +274,6 @@ h6 {
     .application {
         max-width: 960px;
         margin: 60px auto;
-        padding: 60px 80px 100px;
+        padding: 30px 60px;
     }
 }

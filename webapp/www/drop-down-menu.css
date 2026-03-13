@@ -69,7 +69,7 @@
 
 .drop-down-menu-item .appendix {
     font-size: var(--font-size-s);
-    color: var(--menu-text-appendix-color);
+    color: var(--text-color-second);
     /* icon width + gap */
     margin-left: calc(1.5rem + 1rem);
 }
@@ -104,7 +104,7 @@
         border: 1px solid var(--border-color);
 
         /* x, y, spread, blur */
-        box-shadow: 8px 8px 8px -6px var(--shadow-color);
+        box-shadow: 0 10px 30px var(--shadow-color);
 
         left: unset;
         right: var(--spacing-4);

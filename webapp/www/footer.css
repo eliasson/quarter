@@ -53,5 +53,5 @@ footer nav a:hover {
 
 footer .copyright {
     font-size: var(--font-size-xs);
-    opacity: 0.3;
+    opacity: 0.5;
 }
