@@ -33,9 +33,8 @@ public class LocalAuthorizationService : IUserAuthorizationService
 public class LocalModeAuthenticationHandler(
     IOptionsMonitor<LocalModeAuthenticationOptions> options,
     ILoggerFactory logger,
-    UrlEncoder encoder,
-    ISystemClock clock)
-    : AuthenticationHandler<LocalModeAuthenticationOptions>(options, logger, encoder, clock)
+    UrlEncoder encoder)
+    : AuthenticationHandler<LocalModeAuthenticationOptions>(options, logger, encoder)
 {
     protected override Task<AuthenticateResult> HandleAuthenticateAsync()
     {
