@@ -37,6 +37,7 @@
 .timesheet-grid {
     display: flex;
     flex-direction: column;
+    user-select: none;
 }
 
 .grid-row {
