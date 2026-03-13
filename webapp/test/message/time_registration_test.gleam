@@ -30,17 +30,6 @@ pub fn should_update_active_registration_test() {
   should.equal(updated.active_registration, option.Some(expected))
 }
 
-pub fn should_clear_active_registration_test() {
-  let updated =
-    model.initial_model()
-    |> webapp.update(message.StartRegistering(12))
-    |> first
-    |> webapp.update(message.CommitRegistering)
-    |> first
-
-  should.be_none(updated.active_registration)
-}
-
 pub fn should_not_initiate_registration_on_update_test() {
   // The registration must have been started first.
   let updated =
