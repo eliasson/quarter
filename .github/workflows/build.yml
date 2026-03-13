@@ -1,33 +1,66 @@
 name: Build
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    # All branches
+    push:
+        branches: [main]
+    pull_request:
+        # All branches
 
-  workflow_dispatch:
+    workflow_dispatch:
 
 env:
-  DOTNET_VERSION: "9.0.203"
+    DOTNET_VERSION: "9.0.203"
+    NODE_VERSION: "20"
+    OTP_VERSION: "28.0.4"
+    GLEAM_VERSION: "1.14.0"
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+    build:
+        runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v2
+        steps:
+            - uses: actions/checkout@v2
 
-      - name: Setup .NET Core
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
+            - name: Setup .NET Core
+              uses: actions/setup-dotnet@v1
+              with:
+                  dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      - name: Restore dependencies
-        run: dotnet restore
+            - name: Setup Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: ${{ env.NODE_VERSION }}
 
-      - name: Testing
-        run: dotnet test --filter TestCategory!=DatabaseDependency
+            - name: Setup Gleam
+              uses: erlef/setup-beam@v1
+              with:
+                  otp-version: ${{ env.OTP_VERSION }}
+                  gleam-version: ${{ env.GLEAM_VERSION }}
 
-      - name: Building
-        run: dotnet build --no-restore --configuration Release -consoleloggerparameters:NoSummary
+            - name: Restore dependencies
+              run: dotnet restore
+              working-directory: ./service
+
+            - name: Testing
+              run: dotnet test --filter TestCategory!=DatabaseDependency
+              working-directory: ./service
+
+            - name: Building
+              run: dotnet build --no-restore --configuration Release -consoleloggerparameters:NoSummary
+              working-directory: ./service
+
+            - name: Install frontend dependencies
+              run: npm ci
+              working-directory: ./webapp
+
+            - name: Gleam build
+              run: gleam build
+              working-directory: ./webapp
+
+            - name: Gleam test
+              run: gleam test
+              working-directory: ./webapp
+
+            - name: Build frontend
+              run: npm run build
+              working-directory: ./webapp

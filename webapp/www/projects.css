@@ -1,0 +1,83 @@
+.project-row {
+    display: flex;
+    flex-direction: column;
+}
+
+.project-row .project-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 10px 0;
+    margin-bottom: var(--spacing-8);
+
+    border-bottom: 2px solid var(--border-color);
+
+    align-items: baseline;
+    padding: var(--spacing-6) 0;
+    border-bottom: 1px solid var(--border-color);
+    transition: all 0.2s ease;
+
+    cursor: pointer;
+}
+
+.project-row .project-info:hover,
+.project-row.expanded .project-info {
+    border-color: var(--text-color-second);
+    transition: color 0.2s;
+}
+
+.project-row .project-info .name {
+    flex-grow: 1;
+    font-size: var(--font-size-lg);
+}
+
+.project-row .project-details,
+.project-row .activities {
+    display: none;
+}
+
+.project-row.expanded .project-details {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.project-row.expanded .activities {
+    display: flex;
+    flex-direction: column;
+    margin-top: var(--spacing-8);
+}
+
+.activity-row {
+    display: flex;
+    flex-direction: row;
+
+    gap: 1rem;
+    align-items: center;
+    padding: var(--spacing-2);
+    margin: 0 calc(-1 * var(--spacing-2));
+    background-color: transparent;
+    border-radius: 4px;
+}
+
+.activity-row .name {
+    flex-grow: 1;
+}
+
+.activity-row.add-activity {
+    justify-content: end;
+    margin-top: var(--spacing-2);
+    margin-bottom: var(--spacing-4);
+}
+
+.project-row.archived .name,
+.activity-row.archived .name {
+    opacity: 0.6;
+}
+
+@media (min-width: 1024px) {
+    .activity-row:not(.add-activity):hover {
+        background-color: var(--page-bg-color);
+    }
+}

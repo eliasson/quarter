@@ -1,0 +1,66 @@
+/* Activity Picker List */
+.activity-picker {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.picker-project-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.picker-project-title {
+    font-size: var(--font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-color);
+    margin-bottom: 4px;
+}
+
+.picker-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    cursor: pointer;
+
+    transition: all 0.2s;
+    border-radius: 6px;
+}
+
+.picker-name {
+    color: var(--text-color-second);
+}
+
+/* Fill indicators for selected items */
+.picker-item.active {
+    background-color: var(--button-bg-color);
+    color: var(--button-text-color);
+}
+
+.picker-item.active .picker-name {
+    font-weight: 600;
+    color: var(--button-text-color);
+}
+
+.picker-empty-state {
+    font-family: var(--font-family-serif);
+    font-style: italic;
+    font-size: 0.9rem;
+    color: var(--ink-secondary);
+    padding: 8px 12px;
+    opacity: 0.5;
+}
+
+@media (min-width: 1024px) {
+    .picker-item:hover {
+        color: var(--text-color);
+        background-color: var(--page-bg-color);
+    }
+
+    .picker-item:hover .picker-name {
+        color: var(--text-color-second);
+    }
+}

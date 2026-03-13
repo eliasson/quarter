@@ -1,0 +1,123 @@
+/** drop down menu **********************************************************/
+.drop-down-menu-back-drop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    max-height: 100vh;
+    width: 100vw;
+    max-width: 100vw;
+    z-index: 80;
+
+    /* backdrop-filter: blur(2px); */
+}
+
+.drop-down-initiator {
+    overflow: visible;
+}
+
+.drop-down-initiator,
+.drop-down-initiator button {
+    cursor: pointer;
+}
+
+.drop-down-menu {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+
+    color: var(--menu-text-color);
+    background-color: var(--bg-color);
+
+    top: 0;
+    left: 0;
+    transition: all 0.5s ease;
+
+    height: 100vh;
+    width: 100vw;
+
+    font-size: var(--font-size-base);
+    z-index: 100;
+}
+
+.drop-down-menu-item,
+.drop-down-menu-header {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+
+    padding: var(--spacing-4) var(--spacing-4);
+}
+
+.drop-down-menu-item {
+    cursor: pointer;
+}
+
+.drop-down-menu-item .icon {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.drop-down-menu-item .content,
+.drop-down-menu-header .content {
+    display: flex;
+    flex-direction: row;
+    gap: var(--spacing-4);
+
+    font-weight: normal;
+}
+
+.drop-down-menu-item .appendix {
+    font-size: var(--font-size-s);
+    color: var(--text-color-second);
+    /* icon width + gap */
+    margin-left: calc(1.5rem + 1rem);
+}
+
+.drop-down-menu-header .content {
+    justify-content: space-between;
+    width: 100%;
+}
+
+.separator {
+    background-color: var(--border-color);
+    border: none;
+    height: 1px;
+}
+
+.drop-down-menu-item .icon,
+.drop-down-menu-item a {
+    color: var(--menu-text-color);
+}
+
+@media (min-width: 1024px) {
+    .drop-down-initiator {
+        position: relative;
+    }
+
+    .drop-down-menu {
+        min-width: 320px;
+        max-width: 320px;
+
+        height: unset;
+
+        border: 1px solid var(--border-color);
+
+        /* x, y, spread, blur */
+        box-shadow: 0 10px 30px var(--shadow-color);
+
+        left: unset;
+        right: var(--spacing-4);
+        top: var(--spacing-4);
+    }
+
+    /** Drop-down menus does not need the header on large screens. */
+    .drop-down-menu-header {
+        display: none;
+    }
+
+    .drop-down-menu-item:hover {
+        background-color: var(--menu-bg-hover-color);
+        transition: background-color 0.2s;
+    }
+}

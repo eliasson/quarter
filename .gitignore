@@ -1,10 +1,17 @@
+dist/
 .idea/
+.data/
 bin/
 obj/
 node_modules/
 docker/data/
 db/
-.DS_Store
+webapp/build
 
+.DS_Store
+*.beam
+*.ez
 *.DotSettings.user
 *.Development.json
+
+erl_crash.dump

@@ -1,0 +1,48 @@
+using System.Net.Mime;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Quarter.Core.Models;
+using Quarter.Core.Repositories;
+using Quarter.HttpApi.Services;
+
+namespace Quarter.HttpApi;
+
+[Route("api/users")]
+public class UsersController(IApiService apiService, IRepositoryFactory repositoryFactory, IHttpContextAccessor httpContextAccessor)
+    : ApiControllerBase(apiService, repositoryFactory, httpContextAccessor)
+{
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<UserResourceOutput>>> All(CancellationToken ct)
+    {
+        var oc = await GetOperationContextForCurrentUserAsync(ct);
+
+        if (!oc.HasRole(UserRole.Administrator))
+            return StatusCode(StatusCodes.Status403Forbidden);
+
+        var users = ApiService.GetAllUsersAsync(oc, ct);
+        return Ok(users);
+    }
+
+    [HttpPost]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    public async Task<ActionResult> CreateUser([FromBody] CreateUserResourceInput input, CancellationToken ct)
+    {
+        var oc = await GetOperationContextForCurrentUserAsync(ct);
+
+        if (!oc.HasRole(UserRole.Administrator))
+            return StatusCode(StatusCodes.Status403Forbidden);
+
+        var output = await ApiService.CreateUserAsync(input, oc, ct);
+        return Created((Uri?) null, output);
+    }
+
+    [HttpGet("self")]
+    public async Task<ActionResult<UserResourceOutput>> GetSelfAsync(CancellationToken ct)
+    {
+        var oc = await GetOperationContextForCurrentUserAsync(ct);
+
+        var user = await ApiService.GetCurrentUserAsync(oc, ct);
+        return Ok(user);
+    }
+}

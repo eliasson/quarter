@@ -1,0 +1,279 @@
+@import "./fonts.css";
+@import "./navigation.css";
+@import "./drop-down-menu.css";
+@import "./footer.css";
+@import "./buttons.css";
+@import "./table.css";
+@import "./calendar.css";
+@import "./timesheet.css";
+@import "./timesheet-context.css";
+@import "./timesheet-activities.css";
+@import "./projects.css";
+@import "./dialog.css";
+@import "./form.css";
+
+:root {
+    /** The color covering the entire outside of the application on large screens. */
+    --page-bg-color: #f2f0eb;
+
+    /** The main background color for the application.*/
+    --bg-color: #fdfbf8;
+
+    /** All text without any custom modifiers should have this color. */
+    --text-color: #1a1918;
+    --text-color-second: #63605b;
+    --text-color-highlight: #a84e32;
+
+    /** Border and lines all have this color. */
+    --border-color: #d1cfcb;
+    --shadow-color: rgba(0, 0, 0, 0.07);
+
+    /** Accent color. */
+    --color-accent: #a84e32;
+
+    /** Button colors. */
+    --button-bg-color: #a84e32;
+    --button-hover-color: #e69d7a;
+    --button-text-color: #eff2f1;
+
+    /** Form colors. */
+    --input-error-color: #fe5656;
+
+    /** Chip. */
+    --chip-text-color: var(--text-color-highlight);
+    --chip-bg-color: #ffc3a6;
+
+    /** The foooter should contrast the application. */
+    --footer-bg: #1a1918;
+    --footer-text: #fdfbf8;
+    --footer-text-muted: #d1cfcb;
+
+    /** Menu text */
+    --menu-text-color: var(--text-color-second);
+    --menu-text-hover-color: var(--text-color-highlight);
+    --menu-text-appendix-color: var(--text-color-highlight);
+    --menu-bg-hover-color: var(--page-bg-color);
+
+    /** Typography */
+    --font-family: "Inter", sans-serif, monospace;
+    --font-family-serif: "EB Garamond", serif;
+
+    --font-size-xs: 0.8rem;
+    --font-size-sm: 0.8rem;
+    --font-size-base: 1rem;
+    --font-size-lg: 1rem;
+    --font-size-xl: 1rem;
+    --font-size-2xl: 1.5rem;
+    --font-size-3xl: 1.875rem;
+    --font-size-4xl: 2.5rem;
+    --font-size-5xl: 4rem;
+
+    /** Spacing */
+    --spacing-1: 0.25rem;
+    --spacing-2: 0.5rem;
+    --spacing-3: 0.75rem;
+    --spacing-4: 1rem;
+    --spacing-5: 1.25rem;
+    --spacing-6: 1.5rem;
+    --spacing-8: 2rem;
+    --spacing-10: 2.5rem;
+    --spacing-12: 3rem;
+    --spacing-16: 4rem;
+    --spacing-20: 5rem;
+    --spacing-24: 6rem;
+
+    --activity-marker-size: 20px;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        /** The color covering the entire outside of the application on large screens. */
+        --page-bg-color: #151918;
+        /** The main background color for the application.*/
+        --bg-color: #1e2422;
+
+        /** All text without any custom modifiers should have this color. */
+        --text-color: #e6ebe9;
+        --text-color-second: #5c7a6c;
+        --text-color-highlight: #4c5a4c;
+
+        /** Border and lines all have this color. */
+        --border-color: #2f3835;
+        --shadow-color: #1e1412;
+        --shadow-color: rgba(0, 0, 0, 0.07);
+
+        /** Accent color. */
+        --color-accent: #a84e32;
+
+        --button-bg-color: #a84e32;
+        --button-hover-color: #a64223;
+        --button-text-color: #0f172a;
+
+        /** Form colors. */
+        --input-error-color: #fe5656;
+
+        /** Chip. */
+        --chip-text-color: var(--text-color-second);
+        --chip-bg-color: #23312b;
+
+        /** The foooter should contrast the application. */
+        --footer-bg: #23312b;
+        --footer-text: #e2e8e5;
+        --footer-text-muted: #94a3b8;
+    }
+}
+
+/* Reset */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+
+    background-color: var(--page-bg-color);
+    color: var(--text-color);
+
+    font-family: var(--font-family);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-family-serif);
+}
+
+.application {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: var(--spacing-4);
+
+    width: 100%;
+
+    background-color: var(--bg-color);
+    box-shadow:
+        0 1px 1px rgba(0, 0, 0, 0.05),
+        0 10px 30px rgba(0, 0, 0, 0.03);
+}
+
+.application-layout {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+/** Use this on a div in a flex layout to consume space. */
+.spacer {
+    flex-grow: 1;
+}
+
+/** icons *******************************************************************/
+.icon {
+    color: var(--text-color);
+    display: block;
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.icon.small {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+/** chip ********************************************************************/
+.chip {
+    display: inline-block;
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: var(--spacing-1) var(--spacing-2);
+    border-radius: var(--spacing-1);
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.chip {
+    border: 1px solid transparent;
+    background-color: var(--chip-bg-color);
+    color: var(--chip-text-color);
+}
+
+.chip:hover {
+    border: 1px solid var(--chip-text-color);
+    transition: color 0.2s;
+}
+
+/** activity color */
+.activity-color {
+    background-color: #64a0e6;
+    border-color: #5588c3;
+
+    width: var(--activity-marker-size);
+    min-width: var(--activity-marker-size);
+    max-width: var(--activity-marker-size);
+    height: var(--activity-marker-size);
+    min-height: var(--activity-marker-size);
+    max-height: var(--activity-marker-size);
+
+    border: 2px solid;
+    border-radius: 50%;
+}
+
+/** Page content elements */
+.content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.content-heading {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+
+    margin-top: var(--spacing-12);
+    margin-bottom: var(--spacing-12);
+}
+
+.content h1 {
+    font-weight: 400;
+    font-size: var(--font-size-4xl);
+    font-style: italic;
+}
+
+.content-heading .toolbar .button {
+    align-self: start;
+}
+
+@media (min-width: 1024px) {
+    .application {
+        max-width: 960px;
+        margin: 60px auto;
+        padding: 30px 60px;
+    }
+}

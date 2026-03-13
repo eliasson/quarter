@@ -1,0 +1,56 @@
+input:invalid {
+    border: none;
+    outline: 2px solid var(--input-error-color);
+}
+
+input[type="text"],
+input[type="email"],
+textarea {
+    border: 1px solid var(--border-color);
+    border-radius: 0;
+
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+
+    color: var(--color-text);
+    background-color: var(--page-bg-color);
+    transition: border-color 0.2s;
+}
+
+input[type="color"] {
+    width: var(--activity-marker-size);
+    min-width: var(--activity-marker-size);
+    max-width: var(--activity-marker-size);
+    height: var(--activity-marker-size);
+    min-height: var(--activity-marker-size);
+    max-height: var(--activity-marker-size);
+    border-radius: 50%;
+}
+
+button:focus,
+input:focus,
+textarea:focus {
+    outline-style: solid;
+    outline-width: 2px;
+    outline-color: var(--color-accent);
+}
+
+textarea {
+    resize: none;
+}
+
+fieldset {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: var(--spacing-4);
+    border: none;
+}
+
+fieldset label {
+    font-weight: 500;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}

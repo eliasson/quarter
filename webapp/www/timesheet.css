@@ -1,0 +1,129 @@
+.timesheet-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 50px;
+    position: relative;
+}
+
+.timesheet-header-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-3);
+}
+
+.timesheet-header-content .main {
+    margin-bottom: var(--spaceing-2);
+
+    color: var(--text-color);
+
+    font-size: var(--font-size-5xl);
+    font-style: italic;
+    line-height: 1;
+}
+
+.timesheet-header-content .second {
+    color: var(--text-color);
+    line-height: 1;
+    letter-spacing: 0.1em;
+}
+
+.timesheet-view {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.timesheet-grid {
+    display: flex;
+    flex-direction: column;
+    user-select: none;
+}
+
+.grid-row {
+    display: flex;
+    align-items: stretch;
+    height: 56px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+    position: relative;
+}
+
+.grid-row:hover {
+    background-color: rgba(0, 0, 0, 0.01);
+}
+
+.hour-label {
+    width: 60px;
+    font-family: var(--font-family-serif);
+    font-style: italic;
+    color: var(--text-color-second);
+    display: flex;
+    align-items: flex-start;
+    padding-top: 16px;
+    justify-content: flex-start;
+}
+
+.quarters {
+    flex: 1;
+    display: flex;
+    gap: 2px;
+    padding: 8px 0;
+}
+
+.quarter-cell {
+    flex: 1;
+    cursor: pointer;
+    transition: transform 0.2s;
+    position: relative;
+    border-radius: 2px;
+    background-color: var(--page-bg-color);
+}
+
+.quarter-cell:hover {
+    transform: scaleY(1.1);
+}
+
+.timesheet-grid .extend-button {
+    width: 100%;
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-color-second);
+    border: none;
+    border-top: 1px dashed var(--border-color);
+    border-bottom: 1px dashed var(--border-color);
+    background: transparent;
+    cursor: pointer;
+    transition:
+        color 0.15s,
+        background 0.15s,
+        border-color 0.15s;
+}
+
+.timesheet-grid .extend-button:first-child {
+    margin-bottom: 2px;
+}
+
+.timesheet-grid .extend-button:last-child {
+    margin-top: 2px;
+}
+
+.timesheet-grid .extend-button:hover {
+    color: var(--text-color);
+    border-color: var(--border-color);
+    background: rgba(0, 0, 0, 0.015);
+}
+
+@media (min-width: 1024px) {
+    .timesheet-view {
+        display: grid;
+        grid-template-columns: 6fr 4fr;
+        gap: 80px;
+    }
+}

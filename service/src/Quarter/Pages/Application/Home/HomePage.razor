@@ -1,0 +1,76 @@
+@page "/app"
+@attribute [Authorize]
+
+@using Quarter.Components
+@using Quarter.Core.Queries
+@using Quarter.Core.Utils
+@using Quarter.Services
+
+<ApplicationPage>
+    <PageContent>
+        <GreetingWidget />
+        <CurrentWeekWidget Summary="_summaryViewModel" />
+        <WeekTotalWidget Summary="_summaryViewModel" />
+
+        <!-- div class="q-grouped-content preview">
+            <style>
+                .preview {
+                    margin-top: 40px;
+                }
+
+                .preview p,
+                .preview ul {
+                    margin: 0;
+                }
+
+                .image {
+                    background-image: url("preview-next.png");
+                    background-size: contain;
+                    background-position: top left;
+                    background-repeat: no-repeat;
+                    height: 452px;
+                    max-height: 452px;
+                    max-width: 820px;
+                    border: 2px solid #252525;
+                    border-radius: 4px;
+                    margin-top: 20px;
+                    align-self: flex-start;
+                }
+            </style>
+            <h1>Sneak peak!</h1>
+            <a href="/ui" style="max-width: 820px;">
+                <div class="image"></div>
+            </a>
+            <p>I have been working on a new version of Quarter UI now for a while. All features are not there yet, but it is getting close.</p>
+            <p>Try it out by clicking the image above or go to <a href="/ui" class="q-href">/ui</a></p>
+            <p>What's new?</p>
+            <ul>
+                <li>Calendar like look-and-feel!</li>
+                <li>Different front-end tech!</li>
+                <li>Light and dark modes!</li>
+            </ul>
+            <p>Please, <a href="mailto:markus.eliasson@proton.me" class="q-href">reach out</a> if there's any issue.</p>
+            <p>- Markus</p>
+        </ -->
+    </PageContent>
+</ApplicationPage>
+
+@inject IUserAuthorizationService _userAuthorizationService;
+@inject IQueryHandler _queryHandler
+
+@code
+{
+    private TimesheetSummaryQueryResult? _summaryViewModel;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var oc = await OperationContextForCurrentUser();
+        _summaryViewModel = await _queryHandler.ExecuteAsync(TimesheetSummaryQuery.ForWeek(Date.Today()), oc, default);
+    }
+
+    private async Task<OperationContext> OperationContextForCurrentUser()
+    {
+        var currentId = await _userAuthorizationService.CurrentUserId();
+        return new OperationContext(currentId, []);
+    }
+}

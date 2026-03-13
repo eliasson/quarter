@@ -1,0 +1,93 @@
+.main-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-12);
+    padding-bottom: var(--spacing-4);
+
+    border-bottom: 1px solid var(--border-color);
+
+    user-select: none;
+}
+
+.application-header nav {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-4);
+
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+}
+
+.main-navigation ul {
+    display: none;
+}
+
+.main-navigation .icon {
+    /* Use slightly larger icons in the header */
+    width: 1.8rem;
+    height: 1.8rem;
+}
+
+.main-navigation-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+}
+
+.main-navigation-item .logo {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    font-size: var(--font-size-sm);
+    color: var(--font-color);
+    letter-spacing: 0.2em;
+}
+
+@media (min-width: 1024px) {
+    .main-navigation {
+        display: flex;
+        justify-content: space-between;
+        gap: var(--spacing-4);
+    }
+
+    .main-navigation ul {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-4);
+
+        font-size: var(--font-size-sm);
+        font-weight: 500;
+    }
+
+    .main-navigation ul li {
+        list-style: none;
+        transition: all 0.2s;
+    }
+
+    .main-navigation-item a {
+        color: var(--menu-text-color);
+        border-bottom: 2px solid transparent;
+        padding: var(--spacing-2) 0;
+        text-decoration: none;
+    }
+
+    .main-navigation-item a:hover,
+    .drop-down-initiator:hover .icon {
+        color: var(--menu-text-color);
+    }
+
+    .main-navigation-item.active a {
+        color: var(--text-color);
+        border-bottom-color: var(--color-accent);
+    }
+
+    .main-navigation-item .icon {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+
+    .drop-down-initiator .icon {
+        color: var(--menu-text-color);
+    }
+}

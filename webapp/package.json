@@ -1,0 +1,13 @@
+{
+  "name": "ui",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "watch": "vite build --watch",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "vite": "^6.4.1"
+  }
+}
