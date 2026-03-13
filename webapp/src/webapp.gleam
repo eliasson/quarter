@@ -5,16 +5,16 @@ import lustre
 import lustre/effect.{type Effect}
 import message.{
   type Msg, AddUserResult, ArchiveActivity, ArchiveActivityResult,
-  ArchiveProject, ArchiveProjectResult, CloseModal, CommitRegistering, RegisterTimeResult,
+  ArchiveProject, ArchiveProjectResult, CloseModal, CommitRegistering,
   ConfirmArchiveActivity, ConfirmArchiveProject, ConfirmDeleteActivity,
   ConfirmDeleteProject, ConfirmDialog, CreateActivityResult, CreateProjectResult,
   CurrentUserResult, DeleteActivity, DeleteActivityResult, DeleteProject,
   DeleteProjectResult, DismissError, ExtendEndOfDay, ExtendStartOfDay,
   FormTextFieldUpdated, Logout, NextMonth, NextTimesheet, Noop, OnRouteChange,
   OpenDialog, OpenDropDownMenu, PreviousMonth, PreviousTimesheet, ProjectsResult,
-  SelectActivity, StartRegistering, SystemUsersResult, TimesheetResult,
-  TimesheetsResult, ToggleProject, UpdateActivityResult, UpdateProjectResult,
-  UpdateRegistering,
+  RegisterTimeResult, SelectActivity, StartRegistering, SystemUsersResult,
+  TimesheetResult, TimesheetsResult, ToggleProject, UpdateActivityResult,
+  UpdateProjectResult, UpdateRegistering,
 }
 import model.{
   type Model, clear_registration, close_all_modals, close_modal, delete_activity,
@@ -143,9 +143,11 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       case model.active_registration {
         option.Some(reg) ->
           model
-          |> with_effect(
-            protocol.register_time(model.today, reg, message.RegisterTimeResult),
-          )
+          |> with_effect(protocol.register_time(
+            model.today,
+            reg,
+            message.RegisterTimeResult,
+          ))
         option.None -> model |> no_effect()
       }
     }
