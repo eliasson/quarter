@@ -62,3 +62,11 @@
     border-top: 1px dashed var(--border-color);
     font-weight: 700;
 }
+
+.summary-empty-state {
+    font-family: var(--font-family-serif);
+    font-style: italic;
+    font-size: 0.9rem;
+    color: var(--ink-secondary);
+    opacity: 0.5;
+}

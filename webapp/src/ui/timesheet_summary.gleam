@@ -7,6 +7,13 @@ import model
 
 /// Generate the summary of the timesheet where each project and activity is sumed.
 pub fn timesheet_summary(ts: timesheet.Timesheet, model: model.Model) {
+  div([att.class("panel-section")], [
+    div([att.class("panel-section-title")], [html.text("Summary")]),
+    div([att.class("summary-list")], list_items(ts, model)),
+  ])
+}
+
+fn list_items(ts: timesheet.Timesheet, model: model.Model) {
   let summary = timesheet.summary(ts, model.projects)
 
   let list_items =
@@ -42,10 +49,12 @@ pub fn timesheet_summary(ts: timesheet.Timesheet, model: model.Model) {
       ]),
     ])
 
-  let items = list_items |> list.append([total_item])
+  case list_items {
+    [] -> empty_state()
+    items -> items |> list.append([total_item])
+  }
+}
 
-  div([att.class("panel-section")], [
-    div([att.class("panel-section-title")], [html.text("Summary")]),
-    div([att.class("summary-list")], items),
-  ])
+fn empty_state() {
+  [div([att.class("summary-empty-state")], [html.text("Nothing reported")])]
 }
