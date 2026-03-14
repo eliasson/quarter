@@ -36,7 +36,6 @@
     height: 100vh;
     width: 100vw;
 
-    font-size: var(--font-size-base);
     z-index: 100;
 }
 
@@ -88,6 +87,26 @@
 .drop-down-menu-item .icon,
 .drop-down-menu-item a {
     color: var(--menu-text-color);
+    color: var(--text-color);
+}
+
+.drop-down-menu-header .logo {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    font-size: var(--font-size-sm);
+    color: var(--text-color);
+    letter-spacing: 0.2em;
+    font-size: var(--font-size-sm);
+}
+.drop-down-menu-header .icon {
+    width: 1.8rem;
+    height: 1.8rem;
+}
+
+.drop-down-menu-header button.ghost {
+    width: unset;
+    height: unset;
 }
 
 @media (min-width: 1024px) {
