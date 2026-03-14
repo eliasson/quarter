@@ -48,6 +48,8 @@ pub type Model {
     active_timesheet: option.Option(timesheet.Timesheet),
     /// When there is an active registration (user have painted cells with an activity or clear).
     active_registration: option.Option(registration.ActiveRegistration),
+    /// Whether the timesheet's activity picker is open or closed in mobile mode.
+    activity_picker_open: Bool,
   )
 }
 
@@ -96,6 +98,7 @@ pub fn initial_model() -> Model {
     end_of_day: 18,
     active_timesheet: option.None,
     active_registration: option.None,
+    activity_picker_open: False,
   )
 }
 
@@ -304,4 +307,8 @@ pub fn select_quarter(m: Model, index: types.QuarterIndex) -> Model {
 /// Clears any active registration.
 pub fn clear_registration(m: Model) -> Model {
   Model(..m, active_registration: option.None)
+}
+
+pub fn toggle_activity_picker(m: Model) -> Model {
+  Model(..m, activity_picker_open: !m.activity_picker_open)
 }

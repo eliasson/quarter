@@ -59,6 +59,9 @@ pub type Msg {
   /// Called when releasing the mouse down in the timesheet grid. Commits the time registration.
   CommitRegistering
 
+  /// Used from the timesheet to open/close the activity picker.
+  ToggleActivityPicker
+
   /// Select / deselect a project in the mange project list.
   ToggleProject(id: project.ProjectId)
 
