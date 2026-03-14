@@ -7,7 +7,8 @@ All notable changes to this project will be documented in this file.
 - Update page theme color to make it look better on mobile.
 - Align mobile menu with top navigation.
 - Use an exandable activity picker in mobile mode.
-
+- Order projects in activity picker alphabetically.
+- 
 ## [0.6.4] - 2026-03-13
 
 - Include the next version of Quarter UI as a sneak peak for those that want to try it out.
