@@ -8,7 +8,8 @@ All notable changes to this project will be documented in this file.
 - Align mobile menu with top navigation.
 - Use an exandable activity picker in mobile mode.
 - Order projects in activity picker alphabetically.
-- 
+- Display an empty message in timesheet summary when no time is registered.
+
 ## [0.6.4] - 2026-03-13
 
 - Include the next version of Quarter UI as a sneak peak for those that want to try it out.
