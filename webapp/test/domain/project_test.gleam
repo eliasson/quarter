@@ -11,7 +11,7 @@ pub fn active_projects_excludes_archived_test() {
     project.Project(..arbitrary_project(), name: "Active A"),
   ]
 
-  project.active_projects(projects)
+  project.active_projects(project.from_list(projects))
   |> list.map(fn(p) { p.name })
   |> should.equal(["Active A", "Active B"])
 }

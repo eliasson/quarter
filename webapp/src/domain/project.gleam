@@ -127,8 +127,8 @@ pub fn remove_activity(
 }
 
 /// Return only non-archived projects, sorted alphabetically.
-pub fn active_projects(subject: List(Project)) -> List(Project) {
-  subject
+pub fn active_projects(subject: ProjectCollection) -> List(Project) {
+  subject.projects
   |> list.filter(fn(p) { !p.is_archived })
   |> list.sort(fn(a, b) { string.compare(a.name, b.name) })
 }
