@@ -4,11 +4,13 @@ import gleam/list
 import gleam/option
 import lustre/attribute as att
 import lustre/element.{type Element}
-import lustre/element/html.{div}
+import lustre/element/html.{button, div}
 import lustre/event
 import message
 import model
 import ui/activity.{activitiy_color_badge, activity_badge}
+import ui/core as ui
+import ui/graphics
 
 /// The activity list used in the timesheet view where the user can select the
 /// currently active activity, or the "clear activities" activity.
@@ -20,7 +22,25 @@ pub fn timesheet_activities(m: model.Model) {
 
   div([att.class("panel-section")], [
     div([att.class("panel-section-title")], [html.text("Select activity")]),
+    expander(m),
     div([att.class("activity-picker")], lines),
+  ])
+}
+
+// Button used to display the current selected activity as well as to expand
+// the activity list once toggled.
+fn expander(m: model.Model) {
+  let is_expanded = False
+  let current_item = clear_activity_item(m)
+
+  let icon = case is_expanded {
+    True -> graphics.icon_is_open
+    False -> graphics.icon_is_closed
+  }
+
+  button([att.class("activity-picker-toggler")], [
+    current_item,
+    ui.icon(icon, ui.MediumSize),
   ])
 }
 

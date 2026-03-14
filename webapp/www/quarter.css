@@ -39,6 +39,9 @@
     /** Form colors. */
     --input-error-color: #fe5656;
 
+    /** Select / option like. */
+    --select-bg: #fff;
+
     /** Chip. */
     --chip-text-color: var(--text-color-highlight);
     --chip-bg-color: #ffc3a6;
@@ -83,6 +86,8 @@
     --spacing-24: 6rem;
 
     --activity-marker-size: 20px;
+
+    --std-radius: 0.5rem;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -111,6 +116,9 @@
 
         /** Form colors. */
         --input-error-color: #fe5656;
+
+        /** Select / option like. */
+        --select-bg: #151918;
 
         /** Chip. */
         --chip-text-color: var(--text-color-second);
