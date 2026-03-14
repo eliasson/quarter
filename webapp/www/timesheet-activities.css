@@ -5,6 +5,50 @@
     gap: 20px;
 }
 
+.activity-picker {
+    display: none;
+    margin-top: var(--spacing-2);
+    border: 1px solid var(--border-color);
+    border-radius: var(--std-radius);
+    padding: var(--spacing-2);
+    background-color: var(--select-bg);
+}
+
+.activity-picker.open {
+    display: flex;
+}
+
+/* The button used in small screen to expand & collapse the activity picker. */
+button.activity-picker-toggler {
+    background-color: var(--select-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--std-radius);
+}
+
+button.activity-picker-toggler {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: var(--spacing-2);
+
+    background-color: var(--select-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--std-radius);
+}
+
+button.activity-picker-toggler .icon {
+    color: var(--text-color-second);
+}
+
+button.activity-picker-toggler .picker-item.active {
+    background-color: transparent;
+}
+
+button.activity-picker-toggler .picker-item.active .picker-name {
+    color: var(--text-color);
+    font-weight: normal;
+}
 .picker-project-group {
     display: flex;
     flex-direction: column;
@@ -55,6 +99,18 @@
 }
 
 @media (min-width: 1024px) {
+    .activity-picker {
+        display: flex;
+        margin-top: var(--spacing-2);
+        border: none;
+        padding: 0;
+        background-color: transparent;
+    }
+
+    button.activity-picker-toggler {
+        display: none;
+    }
+
     .picker-item:hover {
         color: var(--text-color);
         background-color: var(--page-bg-color);

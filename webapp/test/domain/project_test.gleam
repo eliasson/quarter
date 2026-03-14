@@ -11,7 +11,7 @@ pub fn active_projects_excludes_archived_test() {
     project.Project(..arbitrary_project(), name: "Active A"),
   ]
 
-  project.active_projects(projects)
+  project.active_projects(project.from_list(projects))
   |> list.map(fn(p) { p.name })
   |> should.equal(["Active A", "Active B"])
 }
@@ -30,6 +30,37 @@ pub fn active_activities_excludes_archived_test() {
   project.active_activities(activities)
   |> list.map(fn(a) { a.name })
   |> should.equal(["Active A", "Active B"])
+}
+
+pub fn from_list_sorts_activities_test() {
+  let project_with_activities =
+    project.Project(..arbitrary_project(), activities: [
+      project.Activity(..arbitrary_activity(), name: "Zebra"),
+      project.Activity(..arbitrary_activity(), name: "Archived", is_archived: True),
+      project.Activity(..arbitrary_activity(), name: "Apple"),
+    ])
+
+  project.from_list([project_with_activities])
+  |> project.to_list
+  |> list.first
+  |> should.be_ok
+  |> fn(p) { p.activities }
+  |> list.map(fn(a) { a.name })
+  |> should.equal(["Apple", "Zebra", "Archived"])
+}
+
+pub fn from_list_sorts_projects_test() {
+  let projects = [
+    project.Project(..arbitrary_project(), name: "Zebra"),
+    project.Project(..arbitrary_project(), name: "Archived A", is_archived: True),
+    project.Project(..arbitrary_project(), name: "Apple"),
+    project.Project(..arbitrary_project(), name: "Archived B", is_archived: True),
+  ]
+
+  project.from_list(projects)
+  |> project.to_list
+  |> list.map(fn(p) { p.name })
+  |> should.equal(["Apple", "Zebra", "Archived A", "Archived B"])
 }
 
 pub fn sort_projects_alphabetically_test() {

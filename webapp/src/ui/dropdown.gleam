@@ -66,7 +66,10 @@ fn create_drop_down_item(item: DropDownItem) -> element.Element(message.Msg) {
 fn drop_down_header(on_close: msg) -> element.Element(msg) {
   html.div([att.class("drop-down-menu-header")], [
     html.div([att.class("content")], [
-      ui.icon(graphics.icon_logo, ui.MediumSize),
+      html.div([att.class("logo")], [
+        ui.icon(graphics.icon_logo, ui.MediumSize),
+        html.text("QUARTER"),
+      ]),
       close_button(on_close),
     ]),
   ])
