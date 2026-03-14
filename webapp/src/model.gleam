@@ -312,3 +312,10 @@ pub fn clear_registration(m: Model) -> Model {
 pub fn toggle_activity_picker(m: Model) -> Model {
   Model(..m, activity_picker_open: !m.activity_picker_open)
 }
+
+pub fn select_activity(
+  m: Model,
+  activity: option.Option(project.Activity),
+) -> Model {
+  Model(..m, selected_activity: activity, activity_picker_open: False)
+}

@@ -20,10 +20,10 @@ import model.{
   type Model, clear_registration, close_all_modals, close_modal, delete_activity,
   delete_project, dismiss_error, extend_end_of_day, extend_start_of_day,
   go_to_next_month, go_to_previous_month, go_to_tomorrow, go_to_yesterday,
-  initial_model, navigate_to, open_dialog, open_drop_down_menu, select_quarter,
-  set_active_timesheet, set_current_user, set_timesheets, set_users,
-  start_registration, toggle_activity_picker, toggle_project, update_activity,
-  update_dialog_value, update_project,
+  initial_model, navigate_to, open_dialog, open_drop_down_menu, select_activity,
+  select_quarter, set_active_timesheet, set_current_user, set_timesheets,
+  set_users, start_registration, toggle_activity_picker, toggle_project,
+  update_activity, update_dialog_value, update_project,
 }
 import modem
 import protocol
@@ -123,8 +123,7 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
 
     SelectActivity(activity) -> {
       // Called from the timesheet view to select the activity used to "paint" the timesheet with.
-      model.Model(..model, selected_activity: activity)
-      |> no_effect()
+      select_activity(model, activity) |> no_effect()
     }
 
     StartRegistering(index) -> {

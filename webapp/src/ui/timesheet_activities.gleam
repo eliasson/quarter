@@ -26,7 +26,10 @@ pub fn timesheet_activities(m: model.Model) {
 // Button used to display the current selected activity as well as to expand
 // the activity list once toggled.
 fn expander(m: model.Model) {
-  let current_item = clear_activity_item(m)
+  let current_item = case m.selected_activity {
+    option.Some(a) -> activity_item(m, a)
+    option.None -> clear_activity_item(m)
+  }
 
   let icon = case m.activity_picker_open {
     True -> graphics.icon_is_open
