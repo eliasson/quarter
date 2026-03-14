@@ -32,6 +32,20 @@ pub fn active_activities_excludes_archived_test() {
   |> should.equal(["Active A", "Active B"])
 }
 
+pub fn from_list_sorts_projects_test() {
+  let projects = [
+    project.Project(..arbitrary_project(), name: "Zebra"),
+    project.Project(..arbitrary_project(), name: "Archived A", is_archived: True),
+    project.Project(..arbitrary_project(), name: "Apple"),
+    project.Project(..arbitrary_project(), name: "Archived B", is_archived: True),
+  ]
+
+  project.from_list(projects)
+  |> project.to_list
+  |> list.map(fn(p) { p.name })
+  |> should.equal(["Apple", "Zebra", "Archived A", "Archived B"])
+}
+
 pub fn sort_projects_alphabetically_test() {
   let projects = [
     project.Project(..arbitrary_project(), name: "Zebra"),
