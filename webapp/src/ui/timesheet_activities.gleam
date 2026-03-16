@@ -54,7 +54,7 @@ fn activity_picker(m: model.Model) {
     |> markup.cond_class(m.activity_picker_open, "open")
 
   let lines =
-    m.projects.projects
+    project.active_projects(m.projects)
     |> list.map(fn(p) { project_items(m, p) })
     |> list.append([clear_activity_item(m)])
 
