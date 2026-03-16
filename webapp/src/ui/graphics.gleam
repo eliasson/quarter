@@ -8,13 +8,7 @@ pub const icon_manage = "table"
 
 pub const icon_report = "chart-bar"
 
-pub const icon_users = "users"
-
-pub const icon_features = "adjustments-horizontal"
-
 pub const icon_logout = "arrow-left-end-on-rectangle"
-
-pub const icon_more = "ellipsis-horizontal-circle"
 
 pub const icon_close = "x-mark"
 
@@ -39,7 +33,3 @@ pub const icon_delete = "trash"
 pub const icon_prev = "arrow-prev"
 
 pub const icon_next = "arrow-next"
-
-pub const icon_extend_earlier = "chevron-double-up"
-
-pub const icon_extend_later = "chevron-double-down"
