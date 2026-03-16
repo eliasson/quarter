@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Quarter.Core.Models;
+using Quarter.Core.Queries;
 using Quarter.Core.Repositories;
 using Quarter.Core.Utils;
 using Quarter.HttpApi.Services;
@@ -18,7 +19,9 @@ public class TestCase
     protected TestCase()
     {
         _repositoryFactory = new InMemoryRepositoryFactory();
-        ApiService = new ApiService(_repositoryFactory);
+        var queryHandler = new QueryHandler(_repositoryFactory);
+
+        ApiService = new ApiService(_repositoryFactory, queryHandler);
     }
 
     protected Task<User> AddUser(string email, Action<User>? configure = null)

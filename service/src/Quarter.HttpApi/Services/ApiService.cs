@@ -1,4 +1,5 @@
 using Quarter.Core.Models;
+using Quarter.Core.Queries;
 using Quarter.Core.Repositories;
 using Quarter.Core.Utils;
 using Quarter.HttpApi.Resources;
@@ -28,9 +29,11 @@ public interface IApiService
     Task<UserResourceOutput> GetCurrentUserAsync(OperationContext oc, CancellationToken ct);
 
     Task<UserResourceOutput> CreateUserAsync(CreateUserResourceInput input, OperationContext oc, CancellationToken ct);
+
+    Task<WeeklyReportResourceOutput> GetWeeklyReportAsync(Date date, OperationContext oc, CancellationToken ct);
 }
 
-public class ApiService(IRepositoryFactory repositoryFactory) : IApiService
+public class ApiService(IRepositoryFactory repositoryFactory, IQueryHandler queryHandler) : IApiService
 {
     public IAsyncEnumerable<ProjectResourceOutput> ProjectsForUserAsync(OperationContext oc, CancellationToken ct)
     {
@@ -167,5 +170,11 @@ public class ApiService(IRepositoryFactory repositoryFactory) : IApiService
     {
         var createdUser = await repositoryFactory.UserRepository().CreateAsync(input.AsValidatedUser(), ct);
         return UserResourceOutput.From(createdUser);
+    }
+
+    public async Task<WeeklyReportResourceOutput> GetWeeklyReportAsync(Date date, OperationContext oc, CancellationToken ct)
+    {
+        var report = await queryHandler.ExecuteAsync(new WeeklyReportQuery(date), oc, ct);
+        return WeeklyReportResourceOutput.From(report);
     }
 }
