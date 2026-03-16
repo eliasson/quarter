@@ -35,10 +35,6 @@ pub fn timestamp(ts: timestamp.Timestamp) -> element.Element(msg) {
   html.time([], [html.text(tsutil.to_iso_date(ts))])
 }
 
-pub fn toolbar(children: List(element.Element(msg))) {
-  html.div([att.class("toolbar")], children)
-}
-
 /// Trigger on_click event and then stop event propagation.
 pub fn click_stop(msg) {
   event.on_click(msg) |> event.stop_propagation()

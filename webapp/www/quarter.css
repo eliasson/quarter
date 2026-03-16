@@ -274,10 +274,6 @@ h6 {
     font-style: italic;
 }
 
-.content-heading .toolbar .button {
-    align-self: start;
-}
-
 @media (min-width: 1024px) {
     .application {
         max-width: 960px;
