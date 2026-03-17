@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
@@ -58,5 +59,44 @@ public class GetWeeklyReportTest
         [Test]
         public void ItShouldIncludeWeekdayTotals()
             => Assert.That(_report.weekdayTotals, Is.EqualTo(new[] { 8 * 15, 0, 0, 0, 0, 0, 8 * 15 }));
+
+        [Test]
+        public void ItShouldIncludeProjectUsage()
+        {
+            var projectsTotal = _report.Usage.Select(pu => (pu.projectId, pu.totalMinutes)).ToList();
+
+            Assert.That(projectsTotal, Is.EquivalentTo(new[]
+            {
+                (_projectIdOne.AsString(), 10 * 15),
+                (_projectIdTwo.AsString(), 6 * 15),
+            }));
+        }
+
+
+        [Test]
+        public void ItShouldIncludeActivityUsage()
+        {
+            var result = _report.Usage.FirstOrDefault()?
+                .activityUsage
+                .Select(pu => (pu.activityId, pu.totalMinutes)).ToList();
+
+            Assert.That(result, Is.EquivalentTo(new[]
+            {
+                (_activityIdOne.AsString(), 2 * 15),
+                (_activityIdThree.AsString(), 8 * 15),
+            }));
+        }
+
+        [Test]
+        public void ItShouldIncludeActivityWeekdayTotals()
+        {
+            var activityUsage = _report.Usage.FirstOrDefault()?
+                .activityUsage
+                .Select(pu => (pu.activityId, pu.weekdayTotals)).FirstOrDefault();
+
+            Assert.That(activityUsage, Is.EqualTo(
+                (_activityIdOne.AsString(), new[] { 2 * 15, 0, 0, 0, 0, 0, 0 })
+            ));
+        }
     }
 }
