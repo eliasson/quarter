@@ -9,7 +9,7 @@ using Quarter.HttpApi.Services;
 namespace Quarter.HttpApi;
 
 [Route("api/timesheets")]
-public class TimesheetController(IApiService apiService, IRepositoryFactory repositoryFactory, IHttpContextAccessor httpContextAccessor)
+public class TimesheetsController(IApiService apiService, IRepositoryFactory repositoryFactory, IHttpContextAccessor httpContextAccessor)
     : ApiControllerBase(apiService, repositoryFactory, httpContextAccessor)
 {
     [HttpGet("{isoDate:regex(^\\d{{4}}-\\d{{2}}-\\d{{2}}$)}")]
