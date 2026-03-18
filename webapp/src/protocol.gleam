@@ -3,6 +3,7 @@ import domain/duration
 import domain/email
 import domain/project
 import domain/registration
+import domain/report
 import domain/timesheet
 import domain/user
 import gleam/dict
@@ -469,6 +470,49 @@ fn timeslot_response_decoder() -> decode.Decoder(timesheet.TimeSlot) {
     // The API calls it duration, but in the frontend we have a Duration type
     // that represents time and not number of quarters.
     count: duration,
+  ))
+}
+
+pub fn weekly_report_decoder() -> decode.Decoder(report.WeeklyReport) {
+  use start_of_week <- decode.field("startOfWeek", decode_timestamp_from_date())
+  use end_of_week <- decode.field("endOfWeek", decode_timestamp_from_date())
+  use total_minutes <- decode.field("totalMinutes", decode.int)
+  use weekday_totals <- decode.field("weekdayTotals", decode.list(decode.int))
+  use usage <- decode.field("usage", decode.list(project_usage_decoder()))
+
+  decode.success(report.WeeklyReport(
+    start_of_week:,
+    end_of_week:,
+    duration: duration.Minutes(total_minutes),
+    weekday_totals: list.map(weekday_totals, duration.Minutes),
+    usage:,
+  ))
+}
+
+fn project_usage_decoder() -> decode.Decoder(report.ProjectUsage) {
+  use project_id <- decode.field("projectId", decode.string)
+  use total_minutes <- decode.field("totalMinutes", decode.int)
+  use activity_usage <- decode.field(
+    "activityUsage",
+    decode.list(activity_usage_decoder()),
+  )
+
+  decode.success(report.ProjectUsage(
+    project_id: project.ProjectId(project_id),
+    duration: duration.Minutes(total_minutes),
+    activity_usage:,
+  ))
+}
+
+fn activity_usage_decoder() -> decode.Decoder(report.ActivityUsage) {
+  use activity_id <- decode.field("activityId", decode.string)
+  use total_minutes <- decode.field("totalMinutes", decode.int)
+  use weekday_totals <- decode.field("weekdayTotals", decode.list(decode.int))
+
+  decode.success(report.ActivityUsage(
+    activity_id: project.ActivityId(activity_id),
+    duration: duration.Minutes(total_minutes),
+    weekday_totals: list.map(weekday_totals, duration.Minutes),
   ))
 }
 
