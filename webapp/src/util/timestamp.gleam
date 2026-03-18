@@ -128,3 +128,11 @@ pub fn tomorrow(ts: timestamp.Timestamp) -> timestamp.Timestamp {
 pub fn yesterday(ts: timestamp.Timestamp) -> timestamp.Timestamp {
   timestamp.add(ts, duration.seconds(86_400 * -1))
 }
+
+/// Check if the two timestamps represents the same date (regardless of time).
+pub fn is_same_date(a: timestamp.Timestamp, b: timestamp.Timestamp) -> Bool {
+  let #(date_a, _) = timestamp.to_calendar(a, calendar.utc_offset)
+  let #(date_b, _) = timestamp.to_calendar(b, calendar.utc_offset)
+
+  date_a == date_b
+}
