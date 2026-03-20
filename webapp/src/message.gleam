@@ -90,14 +90,20 @@ pub type Msg {
   /// Archive the given project.
   ArchiveProject(project: project.Project)
 
+  // Report view ---------------------------------------------------------------------------------
   //
-  // Form messages
+  /// Change to the report for the next week (relative to the current report's date).
+  NextReportWeek
+
+  /// Change to the report for the previous week (relative to the current report's date).
+  PreviousReportWeek
+
+  // Form messages ------------------------------------------------------------------------------
   //
   /// A text field was updated
   FormTextFieldUpdated(value: model.FormValue)
 
-  //
-  // Protocol messages
+  // Protocol messages ---------------------------------------------------------------------------
   //
   CurrentUserResult(Result(user.User, rsvp.Error))
   SystemUsersResult(Result(List(user.User), rsvp.Error))

@@ -10,11 +10,12 @@ import message.{
   ConfirmDeleteProject, ConfirmDialog, CreateActivityResult, CreateProjectResult,
   CurrentUserResult, DeleteActivity, DeleteActivityResult, DeleteProject,
   DeleteProjectResult, DismissError, ExtendEndOfDay, ExtendStartOfDay,
-  FormTextFieldUpdated, Logout, NextMonth, NextTimesheet, Noop, OnRouteChange,
-  OpenDialog, OpenDropDownMenu, PreviousMonth, PreviousTimesheet, ProjectsResult,
-  RegisterTimeResult, ReportResult, SelectActivity, StartRegistering,
-  SystemUsersResult, TimesheetResult, TimesheetsResult, ToggleActivityPicker,
-  ToggleProject, UpdateActivityResult, UpdateProjectResult, UpdateRegistering,
+  FormTextFieldUpdated, Logout, NextMonth, NextReportWeek, NextTimesheet, Noop,
+  OnRouteChange, OpenDialog, OpenDropDownMenu, PreviousMonth, PreviousReportWeek,
+  PreviousTimesheet, ProjectsResult, RegisterTimeResult, ReportResult,
+  SelectActivity, StartRegistering, SystemUsersResult, TimesheetResult,
+  TimesheetsResult, ToggleActivityPicker, ToggleProject, UpdateActivityResult,
+  UpdateProjectResult, UpdateRegistering,
 }
 import model.{
   type Model, clear_registration, close_all_modals, close_modal, delete_activity,
@@ -377,6 +378,14 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
 
     TimesheetResult(Error(_)) -> {
       io.println("TimesheetResult Error")
+      #(model, effect.none())
+    }
+
+    NextReportWeek -> {
+      #(model, effect.none())
+    }
+
+    PreviousReportWeek -> {
       #(model, effect.none())
     }
 
