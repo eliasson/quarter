@@ -59,3 +59,8 @@ pub fn should_not_have_any_active_registration_test() {
   model.initial_model().active_registration
   |> should.be_none
 }
+
+pub fn should_not_have_any_active_report_test() {
+  model.initial_model().active_report
+  |> should.be_none
+}

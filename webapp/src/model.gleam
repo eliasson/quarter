@@ -3,6 +3,7 @@ import dialogs/project_dialog
 import dialogs/user_dialog
 import domain/project
 import domain/registration.{ActiveRegistration}
+import domain/report
 import domain/timesheet
 import domain/user
 import gleam/list
@@ -50,6 +51,8 @@ pub type Model {
     active_registration: option.Option(registration.ActiveRegistration),
     /// Whether the timesheet's activity picker is open or closed in mobile mode.
     activity_picker_open: Bool,
+    /// The active report being displayed on the report page
+    active_report: option.Option(report.WeeklyReport),
   )
 }
 
@@ -99,6 +102,7 @@ pub fn initial_model() -> Model {
     active_timesheet: option.None,
     active_registration: option.None,
     activity_picker_open: False,
+    active_report: option.None,
   )
 }
 
