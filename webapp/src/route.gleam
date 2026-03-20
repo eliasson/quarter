@@ -11,7 +11,7 @@ pub type Route {
   /// Manage projects and activities
   Manage
   /// Reports for time registration.
-  Report
+  Report(date: timestamp.Timestamp)
   /// Admin view for managing users.
   AdministerSystemUsers
   /// Admin view for managing features.
@@ -38,7 +38,7 @@ pub fn describe(route: Route) -> String {
     Home -> "Home"
     Timesheet(d) -> "Timesheet for " <> tsutil.to_iso_date(d)
     Manage -> "Manage"
-    Report -> "Report"
+    Report(d) -> "Report for " <> tsutil.to_iso_date(d)
     AdministerSystemUsers -> "Administrate system users"
     AdministerSystemFeatures -> "Administrate system features"
   }
@@ -47,8 +47,10 @@ pub fn describe(route: Route) -> String {
 pub fn identify(uri: Uri) -> Route {
   case uri.path_segments(uri.path) {
     ["ui"] -> Home
+
     ["ui", "timesheet"] ->
       Timesheet(tsutil.with_zero_time(timestamp.system_time()))
+
     ["ui", "timesheet", tail] -> {
       case tsutil.from_iso_date(tail) {
         Ok(ts) -> Timesheet(ts)
@@ -57,9 +59,17 @@ pub fn identify(uri: Uri) -> Route {
       }
     }
 
-    // TODO Identify timesheet urls
+    ["ui", "report"] -> Report(tsutil.with_zero_time(timestamp.system_time()))
+
+    ["ui", "report", tail] -> {
+      case tsutil.from_iso_date(tail) {
+        Ok(ts) -> Report(ts)
+        _ -> Home
+        // TODO Add a not found route
+      }
+    }
+
     ["ui", "manage"] -> Manage
-    ["ui", "report"] -> Report
     ["ui", "admin", "users"] -> AdministerSystemUsers
     ["ui", "admin", "features"] -> AdministerSystemFeatures
     _ -> Home
@@ -71,13 +81,18 @@ pub fn for_timesheet(timestamp: timestamp.Timestamp) -> String {
   timesheet_url <> "/" <> tsutil.to_iso_date(timestamp)
 }
 
+/// Create the URL to the report view for a specific date.
+pub fn for_report(timestamp: timestamp.Timestamp) -> String {
+  report_url <> "/" <> tsutil.to_iso_date(timestamp)
+}
+
 /// Get the URL for the given route.
 pub fn to_url(route: Route) -> String {
   case route {
     Home -> home_url
     Timesheet(d) -> for_timesheet(d)
     Manage -> manage_url
-    Report -> report_url
+    Report(d) -> for_report(d)
     AdministerSystemUsers -> admin_users_url
     AdministerSystemFeatures -> admin_features_url
   }

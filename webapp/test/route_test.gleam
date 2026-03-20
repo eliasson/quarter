@@ -23,7 +23,8 @@ pub fn should_identify_uri_test() {
     #("/ui/timesheet", route.Timesheet(now)),
     #("/ui/timesheet/2026-02-01", route.Timesheet(ts)),
     #("/ui/manage", route.Manage),
-    #("/ui/report", route.Report),
+    #("/ui/report", route.Report(now)),
+    #("/ui/report/2026-02-01", route.Report(ts)),
     #("/ui/admin/users", route.AdministerSystemUsers),
     #("/ui/admin/features", route.AdministerSystemFeatures),
   ]
@@ -55,7 +56,7 @@ pub fn should_get_url_for_route_test() {
     #(route.Home, "/ui"),
     #(route.Timesheet(ts), "/ui/timesheet/2026-02-01"),
     #(route.Manage, "/ui/manage"),
-    #(route.Report, "/ui/report"),
+    #(route.Report(ts), "/ui/report/2026-02-01"),
     #(route.AdministerSystemUsers, "/ui/admin/users"),
     #(route.AdministerSystemFeatures, "/ui/admin/features"),
   ]

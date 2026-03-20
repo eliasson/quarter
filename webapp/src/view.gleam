@@ -82,7 +82,7 @@ fn nav_menu(model: model.Model) {
   ul([], [
     item("Calendar", route.Home),
     item("Timesheet", route.Timesheet(timestamp.system_time())),
-    item("Report", route.Report),
+    item("Report", route.Report(timestamp.system_time())),
     item("Manage", route.Manage),
   ])
 }

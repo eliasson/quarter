@@ -408,10 +408,8 @@ fn effect_on_route_loaded(m: model.Model, r: route.Route) {
     route.AdministerSystemUsers ->
       protocol.get_system_users(message.SystemUsersResult)
 
-    route.Report -> {
-      io.println("Getting report")
-      protocol.get_weekly_report(m.today, message.ReportResult)
-    }
+    route.Report(date) -> protocol.get_weekly_report(date, message.ReportResult)
+
     _ -> effect.none()
   }
 }

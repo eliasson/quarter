@@ -10,7 +10,7 @@ pub fn when_navigating_with_open_menu_test() {
     model.initial_model()
     |> webapp.update(message.OpenDropDownMenu("arbitrary"))
     |> first
-    |> webapp.update(message.OnRouteChange(route.Report))
+    |> webapp.update(message.OnRouteChange(route.Home))
     |> first
 
   should.equal(m.dropdowns, [])
