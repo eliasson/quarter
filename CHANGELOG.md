@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## Pending
 
-## [0.6.7] - 2026-03-14
+## [0.6.7] - 2026-03-18
 
 - Highlight today in calendar.
 - Navigate between timesheets using route navigation.
