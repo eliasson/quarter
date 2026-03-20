@@ -323,3 +323,7 @@ pub fn select_activity(
 ) -> Model {
   Model(..m, selected_activity: activity, activity_picker_open: False)
 }
+
+pub fn set_active_report(m: Model, report: report.WeeklyReport) -> Model {
+  Model(..m, active_report: option.Some(report))
+}

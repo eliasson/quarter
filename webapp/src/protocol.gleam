@@ -301,6 +301,22 @@ pub fn get_timesheet(
   rsvp.get(url, handler)
 }
 
+/// Get the weekly usage report for the week of the given date.
+/// The report will be for the ISO week of the given date so any date ranging from monday to
+/// sunday within the same week will yield the same result.
+pub fn get_weekly_report(
+  date: timestamp.Timestamp,
+  on_response handle_response: fn(Result(report.WeeklyReport, rsvp.Error)) ->
+    message.Msg,
+) -> Effect(message.Msg) {
+  let date_string = tsutil.to_iso_date(date)
+  let url = "/api/reports/week/" <> date_string
+
+  let handler = rsvp.expect_json(weekly_report_decoder(), handle_response)
+
+  rsvp.get(url, handler)
+}
+
 // Decoders ------------------------------------------------------------------
 
 pub fn user_resource_decoder() -> decode.Decoder(user.User) {

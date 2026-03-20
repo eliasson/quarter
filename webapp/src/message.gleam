@@ -1,4 +1,5 @@
 import domain/project
+import domain/report
 import domain/timesheet
 import domain/user
 import gleam/option
@@ -113,4 +114,5 @@ pub type Msg {
   TimesheetsResult(Result(List(timesheet.Timesheet), rsvp.Error))
   TimesheetResult(Result(timesheet.Timesheet, rsvp.Error))
   RegisterTimeResult(Result(timesheet.Timesheet, rsvp.Error))
+  ReportResult(Result(report.WeeklyReport, rsvp.Error))
 }
