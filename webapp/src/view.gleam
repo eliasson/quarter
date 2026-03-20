@@ -16,6 +16,7 @@ import views/home
 import views/manage_projects
 import views/system_users
 import views/timesheet
+import views/weekly_report
 
 const main_menu_id = "main.nav"
 
@@ -44,6 +45,7 @@ fn route_view(model: model.Model) {
     route.Timesheet(_) -> timesheet.view(model)
     route.AdministerSystemUsers -> system_users.view(model)
     route.Manage -> manage_projects.view(model)
+    route.Report(_) -> weekly_report.view(model)
     _ -> element.none()
   }
 }
