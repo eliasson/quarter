@@ -1,7 +1,9 @@
 import domain/duration
 import domain/report
+import gleam/int
 import gleam/list
 import gleam/option
+import gleam/pair
 import gleam/time/timestamp
 import i18n
 import lustre/attribute as att
@@ -14,6 +16,7 @@ import model
 import ui/core as ui
 import ui/graphics
 import ui/input
+import util/timestamp as tsutil
 
 pub fn view(m: model.Model) -> Element(message.Msg) {
   case m.active_report {
@@ -83,17 +86,25 @@ fn report_table(report: report.WeeklyReport, lang: i18n.Language) {
 }
 
 fn table_header(timestamp: timestamp.Timestamp, lang: i18n.Language) {
+  let columns =
+    int.range(0, 7, [], list.prepend)
+    |> list.map_fold(timestamp, fn(ts, _i) {
+      #(
+        // The accumulator is the next timestamp
+        tsutil.tomorrow(ts),
+        html.th([], [
+          html.text(
+            // Use the current timestamp to describe this column
+            i18n.day_short(ts, lang)
+            |> i18n.capitalize,
+          ),
+        ]),
+      )
+    })
+    |> pair.second
+
   thead([], [
-    tr([], [
-      th([], [html.text("")]),
-      th([], [html.text("Mon 16")]),
-      th([], [html.text("Tue 17")]),
-      th([], [html.text("Wed 18")]),
-      th([], [html.text("Thu 19")]),
-      th([], [html.text("Fri 20")]),
-      th([], [html.text("Sat 21")]),
-      th([], [html.text("Sun 22")]),
-    ]),
+    tr([], [th([], [html.text("")]), ..columns]),
   ])
 }
 
