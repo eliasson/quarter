@@ -35,6 +35,13 @@ pub fn timestamp(ts: timestamp.Timestamp) -> element.Element(msg) {
   html.time([], [html.text(tsutil.to_iso_date(ts))])
 }
 
+pub fn empty_state(title: String, text: String) -> element.Element(msg) {
+  html.div([att.class("empty-state")], [
+    html.h2([], [html.text(title)]),
+    html.p([att.class("empty-state-text")], [html.text(text)]),
+  ])
+}
+
 /// Trigger on_click event and then stop event propagation.
 pub fn click_stop(msg) {
   event.on_click(msg) |> event.stop_propagation()

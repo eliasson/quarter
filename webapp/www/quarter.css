@@ -12,6 +12,7 @@
 @import "./dialog.css";
 @import "./form.css";
 @import "./report.css";
+@import "./empty_state.css";
 
 :root {
     /** The color covering the entire outside of the application on large screens. */
