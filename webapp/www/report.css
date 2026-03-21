@@ -55,3 +55,17 @@ table.weekly-report-table td.activity {
     gap: var(--spacing-4);
     align-items: center;
 }
+
+table.weekly-report-table td:not(:first-child):not(.action),
+table.weekly-report-table th:not(:first-child):not(.action) {
+    border-left: none;
+}
+
+table.weekly-report-table td:first-child,
+table.weekly-report-table th:first-child {
+    border-right: 1px solid var(--border-color);
+}
+
+table.weekly-report-table td.total {
+    font-weight: 600;
+}

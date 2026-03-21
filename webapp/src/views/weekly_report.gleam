@@ -126,7 +126,7 @@ fn project_body(
             _ -> time_cell(dur, lang)
           }
         })
-        |> with_time_cell(au.duration, lang)
+        |> with_time_total(au.duration, lang)
 
       case project.get_activity(projects, au.activity_id) {
         Ok(a) ->
@@ -168,12 +168,16 @@ fn no_value_cell() {
   td([], [html.text("—")])
 }
 
-fn with_time_cell(
+fn with_time_total(
   elements: List(element.Element(a)),
   dur: duration.Duration,
   lang: i18n.Language,
 ) {
-  list.append(elements, [time_cell(dur, lang)])
+  list.append(elements, [
+    td([att.class("total")], [
+      html.text(i18n.describe(i18n.as_hours_decimal(dur, lang))),
+    ]),
+  ])
 }
 
 fn time_cell(dur: duration.Duration, lang: i18n.Language) {
