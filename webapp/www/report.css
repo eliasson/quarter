@@ -37,5 +37,17 @@
     letter-spacing: 0.1em;
 }
 
-.weekly-report-table {
+table.weekly-report-table td {
+    color: var(--text-color-second);
+}
+
+table.weekly-report-table th {
+    color: var(--text-color);
+}
+
+table.weekly-report-table td.activity {
+    display: flex;
+    flex-direction: row;
+    gap: var(--spacing-4);
+    align-items: center;
 }

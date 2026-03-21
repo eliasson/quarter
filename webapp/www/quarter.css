@@ -88,6 +88,7 @@
     --spacing-24: 6rem;
 
     --activity-marker-size: 20px;
+    --activity-marker-size-small: 14px;
 
     --std-radius: 0.5rem;
 }
@@ -236,7 +237,7 @@ h6 {
     transition: color 0.2s;
 }
 
-/** activity color */
+/** The activity color badge.  */
 .activity-color {
     background-color: #64a0e6;
     border-color: #5588c3;
@@ -248,8 +249,18 @@ h6 {
     min-height: var(--activity-marker-size);
     max-height: var(--activity-marker-size);
 
-    border: 2px solid;
+    border: 1.5px solid;
     border-radius: 50%;
+}
+
+/** The smaller activity color badge. */
+.activity-color.small {
+    width: var(--activity-marker-size-small);
+    min-width: var(--activity-marker-size-small);
+    max-width: var(--activity-marker-size-small);
+    height: var(--activity-marker-size-small);
+    min-height: var(--activity-marker-size-small);
+    max-height: var(--activity-marker-size-small);
 }
 
 /** Page content elements */
