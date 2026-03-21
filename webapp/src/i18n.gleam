@@ -42,6 +42,14 @@ pub fn name_of_day(ts: timestamp.Timestamp, _lang: Language) -> Translation {
   Translation(weekday_name(weekday))
 }
 
+/// Returns the day of the month for the given timestamp.
+/// Eg. "Mon 16", or "Fri 20"
+pub fn day_short(ts: timestamp.Timestamp, _lang: Language) -> Translation {
+  let #(date, _time) = timestamp.to_calendar(ts, calendar.utc_offset)
+  let weekday = weekday.from_timestamp(ts)
+  Translation(weekday_name_short(weekday) <> " " <> int.to_string(date.day))
+}
+
 /// Returns the year for the given timestamp.
 pub fn year(ts: timestamp.Timestamp, _lang: Language) -> Translation {
   let #(date, _time) = timestamp.to_calendar(ts, calendar.utc_offset)
@@ -110,6 +118,18 @@ fn weekday_name(day: weekday.Weekday) -> String {
     weekday.Friday -> "friday"
     weekday.Saturday -> "saturday"
     weekday.Sunday -> "sunday"
+  }
+}
+
+fn weekday_name_short(day: weekday.Weekday) -> String {
+  case day {
+    weekday.Monday -> "mon"
+    weekday.Tuesday -> "tue"
+    weekday.Wednesday -> "wed"
+    weekday.Thursday -> "thu"
+    weekday.Friday -> "fri"
+    weekday.Saturday -> "sat"
+    weekday.Sunday -> "sun"
   }
 }
 
