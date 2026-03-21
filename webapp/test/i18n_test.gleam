@@ -202,3 +202,9 @@ pub fn should_translate_duration_single_minutes_test() {
   i18n.describe(i18n.duration(duration, i18n.English))
   |> should.equal("7min")
 }
+
+pub fn should_translate_duration_to_decimal_string_test() {
+  let duration = duration.Minutes(15)
+  i18n.describe(i18n.as_hours_decimal(duration, i18n.English))
+  |> should.equal("0.25")
+}

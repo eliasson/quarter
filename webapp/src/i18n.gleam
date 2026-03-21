@@ -5,6 +5,7 @@
 ///
 /// Quarter uses relativly few translations (I think), so we can keep it this simple.
 import domain/duration
+import gleam/float
 import gleam/int
 import gleam/string
 import gleam/time/calendar
@@ -121,4 +122,15 @@ pub fn duration(duration: duration.Duration, _lang: Language) -> Translation {
     0 -> Translation(min)
     _ -> Translation(int.to_string(hours) <> "h " <> min)
   }
+}
+
+/// Get the translation for a duration in hours as a decimal value. E.g. "2.75"
+pub fn as_hours_decimal(
+  duration: duration.Duration,
+  _lang: Language,
+) -> Translation {
+  int.to_float(duration.value) /. int.to_float(60)
+  |> float.to_precision(2)
+  |> float.to_string()
+  |> Translation
 }
