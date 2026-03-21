@@ -1,18 +1,18 @@
 .table-wrapper {
     overflow-x: auto;
     border: 1px solid var(--border-color);
-    border-radius: 8px;
+    border-radius: var(--std-radius);
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.85rem;
+    font-size: var(--font-size-base);
 }
 
 th,
 td {
-    padding: 16px;
+    padding: var(--spacing-4);
     text-align: right;
     border-bottom: 1px solid var(--border-color);
 }
@@ -34,12 +34,12 @@ th:not(:first-child):not(.action) {
 th {
     font-weight: 600;
     text-transform: uppercase;
-    font-size: 0.7rem;
+    font-size: var(--font-size-sm);
     letter-spacing: 0.05em;
-    color: var(--ink-secondary);
+    color: var(--text-color-second);
     background-color: rgba(0, 0, 0, 0.01);
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding-top: var(--spacing-5);
+    padding-bottom: var(--spacing-5);
 }
 
 tbody tr:hover td {
@@ -50,4 +50,8 @@ td {
     color: var(--text-color);
     font-feature-settings: "tnum";
     font-variant-numeric: tabular-nums;
+}
+
+tfoot {
+    font-weight: 600;
 }
