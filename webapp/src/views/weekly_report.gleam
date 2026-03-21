@@ -91,6 +91,7 @@ fn table_header(timestamp: timestamp.Timestamp, lang: i18n.Language) {
       )
     })
     |> pair.second
+    |> with_empty_header()
 
   thead([], [
     tr([], [th([], [html.text("")]), ..columns]),
@@ -103,6 +104,7 @@ fn table_footer(weekday_totals: List(duration.Duration), lang: i18n.Language) {
     |> list.map(fn(dur) {
       td([], [html.text(i18n.describe(i18n.as_hours_decimal(dur, lang)))])
     })
+    |> with_empty_cell()
 
   tfoot([], [
     tr([], [td([], [html.text("Daily total")]), ..columns]),
@@ -120,13 +122,11 @@ fn project_body(
         au.weekday_totals
         |> list.map(fn(dur) {
           case dur.value {
-            0 -> td([], [html.text("—")])
-            _ ->
-              td([], [
-                html.text(i18n.describe(i18n.as_hours_decimal(dur, lang))),
-              ])
+            0 -> no_value_cell()
+            _ -> time_cell(dur, lang)
           }
         })
+        |> with_time_cell(au.duration, lang)
 
       case project.get_activity(projects, au.activity_id) {
         Ok(a) ->
@@ -146,7 +146,7 @@ fn project_body(
       tbody([], [
         tr([], [
           th([], [html.text(p.name)]),
-          th([att.colspan(7)], [html.text("")]),
+          th([att.colspan(8)], [html.text("")]),
         ]),
         ..activity_rows
       ])
@@ -154,4 +154,30 @@ fn project_body(
 
     _ -> tbody([], [])
   }
+}
+
+fn with_empty_header(elements: List(element.Element(a))) {
+  list.append(elements, [th([], [])])
+}
+
+fn with_empty_cell(elements: List(element.Element(a))) {
+  list.append(elements, [td([], [])])
+}
+
+fn no_value_cell() {
+  td([], [html.text("—")])
+}
+
+fn with_time_cell(
+  elements: List(element.Element(a)),
+  dur: duration.Duration,
+  lang: i18n.Language,
+) {
+  list.append(elements, [time_cell(dur, lang)])
+}
+
+fn time_cell(dur: duration.Duration, lang: i18n.Language) {
+  td([], [
+    html.text(i18n.describe(i18n.as_hours_decimal(dur, lang))),
+  ])
 }

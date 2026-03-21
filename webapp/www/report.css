@@ -37,6 +37,10 @@
     letter-spacing: 0.1em;
 }
 
+table.weekly-report-table thead th {
+    text-align: center;
+}
+
 table.weekly-report-table td {
     color: var(--text-color-second);
 }
