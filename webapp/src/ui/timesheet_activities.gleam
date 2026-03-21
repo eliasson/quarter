@@ -90,7 +90,7 @@ fn activity_item(m: model.Model, activity: project.Activity) {
     |> list.append(classes)
 
   div(attributes, [
-    activity_badge(activity),
+    activity_badge(activity, ui.MediumSize),
     div([att.class("picker-name")], [html.text(activity.name)]),
   ])
 }
@@ -113,7 +113,7 @@ fn clear_activity_item(m: model.Model) -> Element(message.Msg) {
     |> list.append(classes)
 
   div(attributes, [
-    activitiy_color_badge(color.Color(255, 255, 255)),
+    activitiy_color_badge(color.Color(255, 255, 255), ui.MediumSize),
     div([att.class("picker-name")], [html.text("Clear activity")]),
   ])
 }

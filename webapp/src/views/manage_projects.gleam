@@ -104,7 +104,7 @@ fn project_list(m: model.Model) {
             }
 
             div(activity_row_classes, [
-              activity_badge(activity),
+              activity_badge(activity, ui.MediumSize),
               div([att.class("name")], [html.text(activity.name)]),
               div([att.class("state")], [activity_archived_chip]),
               div([att.class("action")], [manage_activity_action(activity, m)]),
