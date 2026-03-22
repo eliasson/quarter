@@ -87,3 +87,11 @@
 .calendar-month-day .time .text-unit {
     margin-left: var(--spacing-1);
 }
+
+/* Highlight today using the accent color.  */
+.calendar-month-day.today .date .number,
+.calendar-month-day.today .name,
+.calendar-month-day.today .time,
+.calendar-month-day.today .time .text-value {
+    color: var(--color-accent);
+}

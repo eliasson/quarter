@@ -162,3 +162,46 @@ pub fn yesterday_test() {
     |> should.equal(t.1)
   })
 }
+
+pub fn is_same_date_test() {
+  let one =
+    std_timestamp.from_calendar(
+      date: calendar.Date(2026, calendar.February, 8),
+      time: calendar.TimeOfDay(12, 30, 50, 0),
+      offset: calendar.utc_offset,
+    )
+  let two =
+    std_timestamp.from_calendar(
+      date: calendar.Date(2026, calendar.February, 8),
+      time: calendar.TimeOfDay(13, 33, 33, 0),
+      offset: calendar.utc_offset,
+    )
+
+  timestamp.is_same_date(one, two)
+  |> should.be_true
+
+  timestamp.is_same_date(two, one)
+  |> should.be_true
+}
+
+pub fn is_not_same_date_test() {
+  let one =
+    std_timestamp.from_calendar(
+      date: calendar.Date(2026, calendar.February, 8),
+      time: calendar.TimeOfDay(12, 30, 50, 0),
+      offset: calendar.utc_offset,
+    )
+
+  let two =
+    std_timestamp.from_calendar(
+      date: calendar.Date(2026, calendar.February, 9),
+      time: calendar.TimeOfDay(12, 30, 50, 0),
+      offset: calendar.utc_offset,
+    )
+
+  timestamp.is_same_date(one, two)
+  |> should.be_false
+
+  timestamp.is_same_date(two, one)
+  |> should.be_false
+}

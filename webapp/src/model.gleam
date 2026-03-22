@@ -114,14 +114,6 @@ pub fn go_to_previous_month(m: Model) -> Model {
   Model(..m, today: tsutil.previous_first_of_month(m.today))
 }
 
-pub fn go_to_yesterday(m: Model) -> Model {
-  Model(..m, today: tsutil.yesterday(m.today))
-}
-
-pub fn go_to_tomorrow(m: Model) -> Model {
-  Model(..m, today: tsutil.tomorrow(m.today))
-}
-
 pub fn navigate_to(m: Model, route: route.Route) -> Model {
   let updated_model = case route {
     route.Home -> Model(..m, today: timestamp.system_time())

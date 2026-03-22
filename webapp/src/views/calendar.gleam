@@ -10,6 +10,8 @@ import model
 import route
 import ui/graphics
 import ui/input
+import ui/markup
+import util/timestamp
 
 pub fn view(m: model.Model) -> Element(message.Msg) {
   div([att.class("content")], [
@@ -24,26 +26,24 @@ fn calendar(m: model.Model) {
       let name_of_day = i18n.name_of_day(ts.date, m.lang) |> i18n.capitalize
       let #(hours, minutes) = duration.to_hours_and_minutes(ts.duration)
 
-      a(
-        [
-          att.class("calendar-month-day"),
-          att.href(route.for_timesheet(ts.date)),
-        ],
-        [
-          div([att.class("date")], [
-            div([att.class("number")], [html.text(day)]),
+      let classes =
+        [att.class("calendar-month-day")]
+        |> markup.cond_class(timestamp.is_same_date(ts.date, m.today), "today")
+
+      a([att.href(route.for_timesheet(ts.date)), ..classes], [
+        div([att.class("date")], [
+          div([att.class("number")], [html.text(day)]),
+        ]),
+        div([att.class("name")], [html.text(name_of_day)]),
+        div([att.class("time")], [
+          span([att.class("text-value")], [html.text(int.to_string(hours))]),
+          span([att.class("text-unit")], [html.text("h")]),
+          span([att.class("text-value")], [
+            html.text(int.to_string(minutes)),
           ]),
-          div([att.class("name")], [html.text(name_of_day)]),
-          div([att.class("time")], [
-            span([att.class("text-value")], [html.text(int.to_string(hours))]),
-            span([att.class("text-unit")], [html.text("h")]),
-            span([att.class("text-value")], [
-              html.text(int.to_string(minutes)),
-            ]),
-            span([att.class("text-unit")], [html.text("min")]),
-          ]),
-        ],
-      )
+          span([att.class("text-unit")], [html.text("min")]),
+        ]),
+      ])
     })
 
   div([att.class("calendar-month")], [calendar_header(m), ..days])

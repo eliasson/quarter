@@ -4,9 +4,14 @@ All notable changes to this project will be documented in this file.
 
 ## Pending
 
+## [0.6.7] - 2026-03-18
+
+- Highlight today in calendar.
+- Navigate between timesheets using route navigation.
+- Update page theme color to make it look better on mobile.
+
 ## [0.6.5] - 2026-03-14
 
-- Update page theme color to make it look better on mobile.
 - Align mobile menu with top navigation.
 - Use an exandable activity picker in mobile mode.
 - Order projects in activity picker alphabetically.

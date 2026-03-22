@@ -131,6 +131,14 @@ pub fn yesterday(ts: timestamp.Timestamp) -> timestamp.Timestamp {
   timestamp.add(ts, duration.seconds(86_400 * -1))
 }
 
+/// Check if the two timestamps represents the same date (regardless of time).
+pub fn is_same_date(a: timestamp.Timestamp, b: timestamp.Timestamp) -> Bool {
+  let #(date_a, _) = timestamp.to_calendar(a, calendar.utc_offset)
+  let #(date_b, _) = timestamp.to_calendar(b, calendar.utc_offset)
+
+  date_a == date_b
+}
+
 /// Returns the ISO 8601 week number (1–53) for the given timestamp.
 ///
 /// Week 1 is the week containing the first Thursday of the year.

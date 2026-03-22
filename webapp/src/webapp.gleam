@@ -20,15 +20,17 @@ import message.{
 import model.{
   type Model, clear_registration, close_all_modals, close_modal, delete_activity,
   delete_project, dismiss_error, extend_end_of_day, extend_start_of_day,
-  go_to_next_month, go_to_previous_month, go_to_tomorrow, go_to_yesterday,
-  initial_model, navigate_to, open_dialog, open_drop_down_menu, select_activity,
-  select_quarter, set_active_report, set_active_timesheet, set_current_user,
-  set_timesheets, set_users, start_registration, toggle_activity_picker,
-  toggle_project, update_activity, update_dialog_value, update_project,
+  go_to_next_month, go_to_previous_month, initial_model, navigate_to,
+  open_dialog, open_drop_down_menu, select_activity, select_quarter,
+  set_active_report, set_active_timesheet, set_current_user, set_timesheets,
+  set_users, start_registration, toggle_activity_picker, toggle_project,
+  update_activity, update_dialog_value, update_project,
 }
+
 import modem
 import protocol
 import route
+import util/timestamp as tsutil
 import view
 
 pub fn main() {
@@ -105,21 +107,26 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
     }
 
     NextTimesheet -> {
-      // Called from the timesheet view, change date and load that timesheet.
-      // The timesheet might already be loaded as part of the calendar, but reload it anyways to
-      // always get an up-to-date version
-      let m = go_to_tomorrow(model)
-      let e = protocol.get_timesheet(m.today, message.TimesheetResult)
-      #(m, e)
+      // Called from the timesheet view to move to tomorrow's timesheet.
+      let e =
+        tsutil.tomorrow(model.today)
+        |> route.Timesheet()
+        |> route.to_url()
+        |> modem.push(option.None, option.None)
+
+      #(model, e)
     }
 
     PreviousTimesheet -> {
-      // Called from the timesheet view, change date and load that timesheet.
-      // The timesheet might already be loaded as part of the calendar, but reload it anyways to
-      // always get an up-to-date version
-      let m = go_to_yesterday(model)
-      let e = protocol.get_timesheet(m.today, message.TimesheetResult)
-      #(m, e)
+      // Called from the timesheet view to move to yesterday's timesheet.
+
+      let e =
+        tsutil.yesterday(model.today)
+        |> route.Timesheet()
+        |> route.to_url()
+        |> modem.push(option.None, option.None)
+
+      #(model, e)
     }
 
     SelectActivity(activity) -> {
