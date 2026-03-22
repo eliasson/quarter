@@ -64,7 +64,7 @@
     border-top: 1px solid var(--border-color);
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 640px) {
     .dialog-container {
         max-width: 600px;
         height: unset;

@@ -44,7 +44,7 @@
     letter-spacing: 0.2em;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 640px) {
     .main-navigation {
         display: flex;
         justify-content: space-between;

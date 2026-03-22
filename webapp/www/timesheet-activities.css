@@ -98,7 +98,7 @@ button.activity-picker-toggler .picker-item.active .picker-name {
     opacity: 0.5;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 640px) {
     .activity-picker {
         display: flex;
         margin-top: var(--spacing-2);
