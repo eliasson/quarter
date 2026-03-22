@@ -39,7 +39,7 @@ fn report_header(report: report.WeeklyReport, m: model.Model) {
     <> " — "
     <> i18n.date_medium(report.end_of_week, m.lang) |> i18n.capitalize()
 
-  let week = "Week 12"
+  let week = i18n.week(report.start_of_week, m.lang) |> i18n.capitalize()
 
   header([att.class("report-header ")], [
     input.ghost_button(graphics.icon_prev, message.PreviousReportWeek),

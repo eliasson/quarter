@@ -222,3 +222,17 @@ pub fn should_translate_duration_to_decimal_string_test() {
   i18n.describe(i18n.as_hours_decimal(duration, i18n.English))
   |> should.equal("0.25")
 }
+
+pub fn should_translate_timestamp_to_week() {
+  // Week 53 — year with 53 weeks (2026 starts on Thursday)
+  let ts =
+    timestamp.from_calendar(
+      date: calendar.Date(2026, calendar.December, 28),
+      time: calendar.TimeOfDay(12, 0, 0, 0),
+      offset: calendar.utc_offset,
+    )
+
+  i18n.week(ts, i18n.English)
+  |> i18n.capitalize()
+  |> should.equal("Week 53")
+}

@@ -10,6 +10,7 @@ import gleam/int
 import gleam/string
 import gleam/time/calendar
 import gleam/time/timestamp
+import util/timestamp as tsutil
 import util/weekday
 
 pub type Language {
@@ -153,4 +154,13 @@ pub fn as_hours_decimal(
   |> float.to_precision(2)
   |> float.to_string()
   |> Translation
+}
+
+pub fn week(ts: timestamp.Timestamp, _lang: Language) -> Translation {
+  let v =
+    "week "
+    <> tsutil.iso_week_number(ts)
+    |> int.to_string()
+
+  Translation(v)
 }
