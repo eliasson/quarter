@@ -27,6 +27,7 @@ import model.{
   set_users, start_registration, toggle_activity_picker, toggle_project,
   update_activity, update_dialog_value, update_project,
 }
+import rsvp
 
 import modem
 import protocol
@@ -163,12 +164,6 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       |> clear_registration()
       |> no_effect()
 
-    RegisterTimeResult(Error(_)) ->
-      model
-      |> with_error("Unable to register time.")
-      |> clear_registration()
-      |> no_effect()
-
     ExtendStartOfDay -> extend_start_of_day(model) |> no_effect()
 
     ExtendEndOfDay -> extend_end_of_day(model) |> no_effect()
@@ -187,17 +182,7 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
 
     CurrentUserResult(Ok(u)) -> #(set_current_user(model, u), effect.none())
 
-    CurrentUserResult(Error(_)) ->
-      model
-      |> with_error("Unable to get current user.")
-      |> no_effect()
-
     SystemUsersResult(Ok(users)) -> #(set_users(model, users), effect.none())
-
-    SystemUsersResult(Error(_)) ->
-      model
-      |> with_error("Unable to get users.")
-      |> no_effect()
 
     AddUserResult(Ok(_)) -> {
       // When the user was added successfully add the new user to the state so it
@@ -206,20 +191,10 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       #(model, protocol.get_system_users(message.SystemUsersResult))
     }
 
-    AddUserResult(Error(_)) ->
-      model
-      |> with_error("Unable to add user.")
-      |> no_effect()
-
     ProjectsResult(Ok(projects)) -> #(
       model.Model(..model, projects:),
       effect.none(),
     )
-
-    ProjectsResult(Error(_)) ->
-      model
-      |> with_error("Unable to load projects.")
-      |> no_effect()
 
     FormTextFieldUpdated(value) -> #(
       update_dialog_value(model, value),
@@ -247,11 +222,6 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       |> update_activity(a)
       |> no_effect()
 
-    ArchiveActivityResult(Error(_)) ->
-      model
-      |> with_error("Unable to archive activity.")
-      |> no_effect()
-
     ConfirmArchiveProject(project) ->
       model
       |> open_dialog(model.ArchiveProjectDialog(project))
@@ -269,11 +239,6 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       model
       |> close_all_modals()
       |> update_project(p)
-      |> no_effect()
-
-    ArchiveProjectResult(Error(_)) ->
-      model
-      |> with_error("Unable to archive project.")
       |> no_effect()
 
     ConfirmDeleteActivity(activity) ->
@@ -295,11 +260,6 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       |> delete_activity(activity.id)
       |> no_effect()
 
-    DeleteActivityResult(Error(_)) ->
-      model
-      |> with_error("Unable to delete activity.")
-      |> no_effect()
-
     ConfirmDeleteProject(project) ->
       model
       |> open_dialog(model.DeleteProjectDialog(project))
@@ -319,20 +279,10 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       |> delete_project(project.id)
       |> no_effect()
 
-    DeleteProjectResult(Error(_)) ->
-      model
-      |> with_error("Unable to delete project.")
-      |> no_effect()
-
     CreateProjectResult(Ok(_)) -> #(
       model,
       protocol.get_projects_and_activities(message.ProjectsResult),
     )
-
-    CreateProjectResult(Error(_)) ->
-      model
-      |> with_error("Unable to create project.")
-      |> no_effect()
 
     UpdateProjectResult(Ok(p)) ->
       model
@@ -340,20 +290,10 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       |> update_project(p)
       |> no_effect()
 
-    UpdateProjectResult(Error(_)) ->
-      model
-      |> with_error("Unable to update project.")
-      |> no_effect()
-
     CreateActivityResult(Ok(_)) -> #(
       model,
       protocol.get_projects_and_activities(message.ProjectsResult),
     )
-
-    CreateActivityResult(Error(_)) ->
-      model
-      |> with_error("Unable to create activity.")
-      |> no_effect()
 
     UpdateActivityResult(Ok(a)) ->
       model
@@ -361,28 +301,13 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       |> update_activity(a)
       |> no_effect()
 
-    UpdateActivityResult(Error(_)) ->
-      model
-      |> with_error("Unable to update activity.")
-      |> no_effect()
-
     TimesheetsResult(Ok(timesheets)) ->
       model
       |> set_timesheets(timesheets)
       |> no_effect()
 
-    TimesheetsResult(Error(_)) ->
-      model
-      |> with_error("Unable to load timesheets.")
-      |> no_effect()
-
     TimesheetResult(Ok(timesheet)) ->
       set_active_timesheet(model, timesheet)
-      |> no_effect()
-
-    TimesheetResult(Error(_)) ->
-      model
-      |> with_error("Unable to load timesheet.")
       |> no_effect()
 
     NextReportWeek -> {
@@ -421,14 +346,76 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       }
     }
 
+    //
+    // Error handling ----------------------------------------------------------------------------
     ReportResult(Ok(report)) ->
       set_active_report(model, report)
       |> no_effect()
 
-    ReportResult(Error(_)) ->
+    RegisterTimeResult(Error(e)) ->
       model
-      |> with_error("Unable to load report.")
-      |> no_effect()
+      |> clear_registration()
+      |> handle_error(e, "Unable to register time.")
+
+    CurrentUserResult(Error(e)) ->
+      model
+      |> handle_error(e, "Unable to get current user.")
+
+    SystemUsersResult(Error(e)) ->
+      model
+      |> handle_error(e, "Unable to get users.")
+
+    AddUserResult(Error(e)) ->
+      model
+      |> handle_error(e, "Unable to add user.")
+
+    ProjectsResult(Error(e)) ->
+      model
+      |> handle_error(e, "Unable to load projects.")
+
+    CreateProjectResult(Error(e)) ->
+      model
+      |> handle_error(e, "Unable to create project.")
+
+    UpdateProjectResult(Error(e)) ->
+      model
+      |> handle_error(e, "Unable to update project.")
+
+    DeleteProjectResult(Error(e)) ->
+      model
+      |> handle_error(e, "Unable to delete project.")
+
+    ArchiveProjectResult(Error(e)) ->
+      model
+      |> handle_error(e, "Unable to archive project.")
+
+    CreateActivityResult(Error(e)) ->
+      model
+      |> handle_error(e, "Unable to create activity.")
+
+    ArchiveActivityResult(Error(e)) ->
+      model
+      |> handle_error(e, "Unable to archive activity.")
+
+    DeleteActivityResult(Error(e)) ->
+      model
+      |> handle_error(e, "Unable to delete activity.")
+
+    TimesheetsResult(Error(e)) ->
+      model
+      |> handle_error(e, "Unable to load timesheets.")
+
+    TimesheetResult(Error(e)) ->
+      model
+      |> handle_error(e, "Unable to load timesheet.")
+
+    UpdateActivityResult(Error(e)) ->
+      model
+      |> handle_error(e, "Unable to update activity.")
+
+    ReportResult(Error(e)) ->
+      model
+      |> handle_error(e, "Unable to load report.")
   }
 }
 
@@ -513,4 +500,18 @@ fn with_error(m: Model, message: String) -> model.Model {
     |> timestamp.to_rfc3339(calendar.utc_offset)
 
   add_error(m, model.ApplicationError(id:, message:))
+}
+
+fn handle_error(
+  m: Model,
+  error: rsvp.Error,
+  fallback_msg: String,
+) -> #(Model, Effect(Msg)) {
+  case error {
+    rsvp.HttpError(resp) if resp.status == 401 -> {
+      let assert Ok(uri) = uri.parse("/ui/login.html")
+      #(m, modem.load(uri))
+    }
+    _ -> m |> with_error(fallback_msg) |> no_effect()
+  }
 }
