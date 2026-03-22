@@ -13,6 +13,11 @@ pub type Size {
   MediumSize
 }
 
+/// Add a spacer element.
+pub fn spacer() {
+  html.div([att.class("spacer")], [])
+}
+
 pub fn icon(icon_name: String, size: Size) {
   // I did not manage to produce an attribute using xlink:href, but only href
   // seems to work fine in Firefox at least.

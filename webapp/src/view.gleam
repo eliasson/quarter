@@ -56,7 +56,7 @@ fn route_view(model: model.Model) {
 fn main_navigation(model: model.Model) -> Element(message.Msg) {
   nav([att.class("main-navigation")], [
     nav_logo(),
-    spacer(),
+    ui.spacer(),
     nav_menu(model),
     main_drop_down_menu(model),
   ])
@@ -189,10 +189,6 @@ fn dialogs(model: model.Model) -> List(element.Element(message.Msg)) {
   }
 
   list.map(model.dialogs, fn(dialog) { markup(dialog) })
-}
-
-fn spacer() {
-  div([att.class("spacer")], [])
 }
 
 fn error_notifications(model: model.Model) -> List(element.Element(message.Msg)) {

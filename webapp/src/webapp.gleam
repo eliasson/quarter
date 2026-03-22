@@ -1,4 +1,3 @@
-import gleam/io
 import gleam/option
 import gleam/time/calendar
 import gleam/time/timestamp
