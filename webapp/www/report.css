@@ -37,6 +37,19 @@
     letter-spacing: 0.1em;
 }
 
+.report-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-3);
+    margin-top: 50px;
+    margin-bottom: 50px;
+
+    font-family: var(--font-family-serif);
+    font-size: var(--font-size-4xl);
+    font-style: italic;
+}
+
 table.weekly-report-table thead th {
     text-align: center;
 }
