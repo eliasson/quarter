@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 ## Pending
 
+## [0.6.8] - 2026-03-22
+
+- Add weekly usage report.
+- Adjust header look-and-feel.
+- Adjust font sizes.
+- Adjust the drop-down menu for large screens.
+- Adjust the small screen media query breakpoint.
+
 ## [0.6.7] - 2026-03-18
 
 - Highlight today in calendar.
