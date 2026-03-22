@@ -1,8 +1,10 @@
 import gleam/int
+import gleam/list
 import gleam/string
 import gleam/time/calendar
 import gleam/time/duration
 import gleam/time/timestamp
+import util/weekday
 
 pub fn timestamp_zero() {
   timestamp.from_unix_seconds(0)
@@ -127,4 +129,97 @@ pub fn tomorrow(ts: timestamp.Timestamp) -> timestamp.Timestamp {
 /// Get a timestamp for the previous day (24 hours earlier).
 pub fn yesterday(ts: timestamp.Timestamp) -> timestamp.Timestamp {
   timestamp.add(ts, duration.seconds(86_400 * -1))
+}
+
+/// Returns the ISO 8601 week number (1–53) for the given timestamp.
+///
+/// Week 1 is the week containing the first Thursday of the year.
+/// Weeks start on Monday.
+pub fn iso_week_number(ts: timestamp.Timestamp) -> Int {
+  let #(date, _) = timestamp.to_calendar(ts, calendar.utc_offset)
+  let dow = weekday_iso_num(weekday.from_timestamp(ts))
+  let doy = day_of_year(date)
+  let week = { doy - dow + 10 } / 7
+
+  case week {
+    0 -> weeks_in_year(date.year - 1)
+    w if w >= 53 ->
+      case weeks_in_year(date.year) {
+        53 -> 53
+        _ -> 1
+      }
+    w -> w
+  }
+}
+
+fn weekday_iso_num(day: weekday.Weekday) -> Int {
+  case day {
+    weekday.Monday -> 1
+    weekday.Tuesday -> 2
+    weekday.Wednesday -> 3
+    weekday.Thursday -> 4
+    weekday.Friday -> 5
+    weekday.Saturday -> 6
+    weekday.Sunday -> 7
+  }
+}
+
+fn is_leap_year(year: Int) -> Bool {
+  { year % 4 == 0 && year % 100 != 0 } || year % 400 == 0
+}
+
+fn days_in_month(month: calendar.Month, year: Int) -> Int {
+  case month {
+    calendar.January
+    | calendar.March
+    | calendar.May
+    | calendar.July
+    | calendar.August
+    | calendar.October
+    | calendar.December -> 31
+    calendar.April | calendar.June | calendar.September | calendar.November ->
+      30
+    calendar.February ->
+      case is_leap_year(year) {
+        True -> 29
+        False -> 28
+      }
+  }
+}
+
+fn day_of_year(date: calendar.Date) -> Int {
+  let months = [
+    calendar.January,
+    calendar.February,
+    calendar.March,
+    calendar.April,
+    calendar.May,
+    calendar.June,
+    calendar.July,
+    calendar.August,
+    calendar.September,
+    calendar.October,
+    calendar.November,
+    calendar.December,
+  ]
+  let days_before =
+    list.take(months, calendar_month_to_int(date.month) - 1)
+    |> list.fold(0, fn(acc, m) { acc + days_in_month(m, date.year) })
+  days_before + date.day
+}
+
+/// A year has 53 ISO weeks if Jan 1 is Thursday,
+/// or if it is a leap year and Jan 1 is Wednesday.
+fn weeks_in_year(year: Int) -> Int {
+  let jan1 =
+    timestamp.from_calendar(
+      date: calendar.Date(year, calendar.January, 1),
+      time: calendar.TimeOfDay(0, 0, 0, 0),
+      offset: calendar.utc_offset,
+    )
+  let dow = weekday_iso_num(weekday.from_timestamp(jan1))
+  case dow == 4 || { dow == 3 && is_leap_year(year) } {
+    True -> 53
+    False -> 52
+  }
 }

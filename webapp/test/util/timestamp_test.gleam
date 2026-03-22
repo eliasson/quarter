@@ -112,6 +112,35 @@ pub fn tomorrow_test() {
   })
 }
 
+pub fn iso_week_number_test() {
+  let tests = [
+    // Normal week in the middle of the year
+    #(calendar.Date(2026, calendar.March, 22), 12),
+    // Jan 1 that falls in week 1 of its own year (Thursday)
+    #(calendar.Date(2026, calendar.January, 1), 1),
+    // Week 53 — year with 53 weeks (2026 starts on Thursday)
+    #(calendar.Date(2026, calendar.December, 28), 53),
+    // Dec 31 that falls in week 1 of the next year
+    #(calendar.Date(2025, calendar.December, 31), 1),
+    // Jan 1 that falls in week 53 of the previous year (2016 starts on Friday)
+    #(calendar.Date(2016, calendar.January, 1), 53),
+    // Regular mid-year week
+    #(calendar.Date(2024, calendar.June, 17), 25),
+  ]
+
+  list.each(tests, fn(t) {
+    let ts =
+      std_timestamp.from_calendar(
+        date: t.0,
+        time: calendar.TimeOfDay(12, 0, 0, 0),
+        offset: calendar.utc_offset,
+      )
+
+    timestamp.iso_week_number(ts)
+    |> should.equal(t.1)
+  })
+}
+
 pub fn yesterday_test() {
   let tests = [
     #(calendar.Date(2024, calendar.January, 15), "2024-01-14"),
