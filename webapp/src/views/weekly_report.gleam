@@ -33,16 +33,22 @@ pub fn view(m: model.Model) -> Element(message.Msg) {
 }
 
 fn report_header(report: report.WeeklyReport, m: model.Model) {
+  let period =
+    i18n.date_medium(report.start_of_week, m.lang)
+    |> i18n.capitalize()
+    <> " — "
+    <> i18n.date_medium(report.end_of_week, m.lang) |> i18n.capitalize()
+
+  let week = "Week 12"
+
   header([att.class("report-header ")], [
     input.ghost_button(graphics.icon_prev, message.PreviousReportWeek),
     div([att.class("report-header-content")], [
       h1([att.class("main")], [
-        div([], [html.text("16 Mar — 22 Mar")]),
-        // div([], [html.text("42.5h")]),
+        div([], [html.text(week)]),
       ]),
       div([att.class("second")], [
-        div([], [html.text("Week 12")]),
-        // div([], [html.text("Total")]),
+        div([], [html.text(period)]),
       ]),
     ]),
     input.ghost_button(graphics.icon_next, message.NextReportWeek),
