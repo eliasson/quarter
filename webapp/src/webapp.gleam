@@ -389,11 +389,39 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
     }
 
     NextReportWeek -> {
-      #(model, effect.none())
+      // Called from the report view to move to next week's report.
+      //
+      // There should always be a current report which have a end of week timestamp.
+      // Use that to go one day later and get the report for that week.
+      case model.active_report {
+        option.Some(report) -> {
+          let e =
+            tsutil.tomorrow(report.end_of_week)
+            |> route.Report()
+            |> route.to_url()
+            |> modem.push(option.None, option.None)
+          #(model, e)
+        }
+        _ -> #(model, effect.none())
+      }
     }
 
     PreviousReportWeek -> {
-      #(model, effect.none())
+      // Called from the report view to move to previous week's report.
+      //
+      // There should always be a current report which have a start of week timestamp.
+      // Use that to go one day earlier and get the report for that week.
+      case model.active_report {
+        option.Some(report) -> {
+          let e =
+            tsutil.yesterday(report.start_of_week)
+            |> route.Report()
+            |> route.to_url()
+            |> modem.push(option.None, option.None)
+          #(model, e)
+        }
+        _ -> #(model, effect.none())
+      }
     }
 
     ReportResult(Ok(report)) -> {
