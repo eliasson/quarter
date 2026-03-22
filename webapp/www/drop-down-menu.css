@@ -115,8 +115,8 @@
     }
 
     .drop-down-menu {
-        min-width: 320px;
-        max-width: 320px;
+        min-width: 240px;
+        max-width: 240px;
 
         height: unset;
 
@@ -135,8 +135,18 @@
         display: none;
     }
 
+    .drop-down-menu-item {
+        font-size: var(--font-size-sm);
+        padding: var(--spacing-3) var(--spacing-3);
+    }
+
     .drop-down-menu-item:hover {
         background-color: var(--menu-bg-hover-color);
         transition: background-color 0.2s;
+    }
+
+    .drop-down-menu-item .appendix,
+    .drop-down-menu-item .icon {
+        display: none;
     }
 }
