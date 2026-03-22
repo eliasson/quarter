@@ -69,9 +69,9 @@
     --font-size-lg: 1rem;
     --font-size-xl: 1rem;
     --font-size-2xl: 1.5rem;
-    --font-size-3xl: 1.875rem;
-    --font-size-4xl: 2.5rem;
-    --font-size-5xl: 4rem;
+    --font-size-3xl: 1.8rem;
+    --font-size-4xl: 2.4rem;
+    --font-size-5xl: 2.8rem;
 
     /** Spacing */
     --spacing-1: 0.25rem;
@@ -288,6 +288,13 @@ h6 {
 }
 
 @media (min-width: 1024px) {
+    :root {
+        --font-size-2xl: 1.5rem;
+        --font-size-3xl: 1.875rem;
+        --font-size-4xl: 2.5rem;
+        --font-size-5xl: 4rem;
+    }
+
     .application {
         max-width: 960px;
         margin: 60px auto;
