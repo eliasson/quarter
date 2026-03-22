@@ -208,13 +208,13 @@ pub fn should_translate_date_medium_format_test() {
 pub fn should_translate_duration_test() {
   let duration = duration.Minutes(120)
   i18n.describe(i18n.duration(duration, i18n.English))
-  |> should.equal("2h 0min")
+  |> should.equal("2 h 0 min")
 }
 
 pub fn should_translate_duration_single_minutes_test() {
   let duration = duration.Minutes(7)
   i18n.describe(i18n.duration(duration, i18n.English))
-  |> should.equal("7min")
+  |> should.equal("7 min")
 }
 
 pub fn should_translate_duration_to_decimal_string_test() {

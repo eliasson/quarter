@@ -137,11 +137,11 @@ fn weekday_name_short(day: weekday.Weekday) -> String {
 pub fn duration(duration: duration.Duration, _lang: Language) -> Translation {
   let #(hours, minutes) = duration.to_hours_and_minutes(duration)
 
-  let min = int.to_string(minutes) <> "min"
+  let min = int.to_string(minutes) <> " min"
 
   case hours {
     0 -> Translation(min)
-    _ -> Translation(int.to_string(hours) <> "h " <> min)
+    _ -> Translation(int.to_string(hours) <> " h " <> min)
   }
 }
 
