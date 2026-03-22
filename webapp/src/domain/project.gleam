@@ -58,7 +58,9 @@ pub fn empty() -> ProjectCollection {
 pub fn from_list(projects: List(Project)) -> ProjectCollection {
   let projects =
     sort_projects(projects)
-    |> list.map(fn(p) { Project(..p, activities: sort_activities(p.activities)) })
+    |> list.map(fn(p) {
+      Project(..p, activities: sort_activities(p.activities))
+    })
   let by_project_id = dict.from_list(list.map(projects, fn(p) { #(p.id, p) }))
   let by_activity_id =
     list.fold(projects, dict.new(), fn(acc, p) {
