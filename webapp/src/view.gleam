@@ -21,11 +21,14 @@ import views/weekly_report
 const main_menu_id = "main.nav"
 
 pub fn view(model: model.Model) -> Element(message.Msg) {
-  let children = [
-    drop_down_back_drop(model),
-    main_navigation(model),
-    route_view(model),
-  ]
+  let children =
+    [
+      drop_down_back_drop(model),
+      main_navigation(model),
+      route_view(model),
+    ]
+    |> list.append(dialogs(model))
+    |> list.append(error_notifications(model))
 
   div(
     [
@@ -35,7 +38,7 @@ pub fn view(model: model.Model) -> Element(message.Msg) {
       // we will commmit any pending time registration.
       ui.up_stop(message.CommitRegistering),
     ],
-    list.append(children, dialogs(model)),
+    children,
   )
 }
 
@@ -190,4 +193,10 @@ fn dialogs(model: model.Model) -> List(element.Element(message.Msg)) {
 
 fn spacer() {
   div([att.class("spacer")], [])
+}
+
+fn error_notifications(model: model.Model) -> List(element.Element(message.Msg)) {
+  list.map(model.errors, fn(error) {
+    ui.error_notification(error.id, "An error occured!", error.message)
+  })
 }

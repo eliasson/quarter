@@ -1,0 +1,50 @@
+@keyframes notification-in {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.error-notification {
+    position: fixed;
+    top: var(--spacing-6);
+    right: var(--spacing-6);
+
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-4);
+
+    color: var(--error-notification-color);
+    background-color: var(--error-notification-bg);
+    border-left: 3px solid var(--error-notification-color);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+
+    border-radius: var(--std-radius);
+
+    padding: var(--spacing-4);
+    font-size: var(--font-size-xs);
+    max-width: 320px;
+    min-width: 320px;
+    z-index: 100;
+
+    animation: notification-in 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.error-notification-body {
+    flex: 1;
+    color: var(--error-notification-text);
+}
+
+.error-notification-title {
+    font-weight: 600;
+}
+
+@media (min-width: 640px) {
+    .error-notification-dismiss:hover {
+        opacity: 1;
+    }
+}

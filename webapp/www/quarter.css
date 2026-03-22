@@ -13,6 +13,7 @@
 @import "./form.css";
 @import "./report.css";
 @import "./empty-state.css";
+@import "./style/error-notification.css";
 
 :root {
     /** The color covering the entire outside of the application on large screens. */
@@ -40,6 +41,11 @@
 
     /** Form colors. */
     --input-error-color: #fe5656;
+
+    /** Error notification colors. */
+    --error-notification-bg: #fff0ee;
+    --error-notification-color: #d9604a;
+    --error-notification-text: #a04030;
 
     /** Select / option like. */
     --select-bg: #fff;
@@ -119,6 +125,11 @@
 
         /** Form colors. */
         --input-error-color: #fe5656;
+
+        /** Error notification colors. */
+        --error-notification-bg: #2a1a17;
+        --error-notification-color: #5c2d22;
+        --error-notification-text: #f4a090;
 
         /** Select / option like. */
         --select-bg: #151918;

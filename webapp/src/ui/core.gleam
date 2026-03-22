@@ -4,6 +4,8 @@ import lustre/element
 import lustre/element/html
 import lustre/element/svg
 import lustre/event
+import message
+import ui/graphics
 import util/timestamp as tsutil
 
 pub type Size {
@@ -39,6 +41,28 @@ pub fn empty_state(title: String, text: String) -> element.Element(msg) {
   html.div([att.class("empty-state")], [
     html.h2([], [html.text(title)]),
     html.p([att.class("empty-state-text")], [html.text(text)]),
+  ])
+}
+
+/// Display an error notification with a dismiss button in the corner of the page.
+pub fn error_notification(
+  id: String,
+  title: String,
+  message: String,
+) -> element.Element(message.Msg) {
+  html.div([att.class("error-notification")], [
+    html.div([att.class("error-notification-body")], [
+      html.h2([att.class("error-notification-title")], [html.text(title)]),
+      html.p([att.class("error-notification-message")], [html.text(message)]),
+    ]),
+
+    html.button(
+      [
+        att.class("ghost"),
+        event.on_click(message.DismissError(id)),
+      ],
+      [icon(graphics.icon_close, MediumSize)],
+    ),
   ])
 }
 

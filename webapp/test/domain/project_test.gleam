@@ -36,7 +36,11 @@ pub fn from_list_sorts_activities_test() {
   let project_with_activities =
     project.Project(..arbitrary_project(), activities: [
       project.Activity(..arbitrary_activity(), name: "Zebra"),
-      project.Activity(..arbitrary_activity(), name: "Archived", is_archived: True),
+      project.Activity(
+        ..arbitrary_activity(),
+        name: "Archived",
+        is_archived: True,
+      ),
       project.Activity(..arbitrary_activity(), name: "Apple"),
     ])
 
@@ -52,9 +56,17 @@ pub fn from_list_sorts_activities_test() {
 pub fn from_list_sorts_projects_test() {
   let projects = [
     project.Project(..arbitrary_project(), name: "Zebra"),
-    project.Project(..arbitrary_project(), name: "Archived A", is_archived: True),
+    project.Project(
+      ..arbitrary_project(),
+      name: "Archived A",
+      is_archived: True,
+    ),
     project.Project(..arbitrary_project(), name: "Apple"),
-    project.Project(..arbitrary_project(), name: "Archived B", is_archived: True),
+    project.Project(
+      ..arbitrary_project(),
+      name: "Archived B",
+      is_archived: True,
+    ),
   ]
 
   project.from_list(projects)
