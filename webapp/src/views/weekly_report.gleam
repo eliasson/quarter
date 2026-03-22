@@ -44,12 +44,8 @@ fn report_header(report: report.WeeklyReport, m: model.Model) {
   header([att.class("report-header ")], [
     input.ghost_button(graphics.icon_prev, message.PreviousReportWeek),
     div([att.class("report-header-content")], [
-      h1([att.class("main")], [
-        div([], [html.text(week)]),
-      ]),
-      div([att.class("second")], [
-        div([], [html.text(period)]),
-      ]),
+      h1([att.class("main")], [html.text(week)]),
+      div([att.class("second")], [html.text(period)]),
     ]),
     input.ghost_button(graphics.icon_next, message.NextReportWeek),
   ])

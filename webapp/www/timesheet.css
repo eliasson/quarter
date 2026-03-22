@@ -24,7 +24,7 @@
 }
 
 .timesheet-header-content .second {
-    color: var(--text-color);
+    color: var(--color-accent);
     line-height: 1;
     letter-spacing: 0.1em;
 }
