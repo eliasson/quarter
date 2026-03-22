@@ -1,5 +1,7 @@
 import gleam/io
 import gleam/option
+import gleam/time/calendar
+import gleam/time/timestamp
 import gleam/uri.{type Uri}
 import lustre
 import lustre/effect.{type Effect}
@@ -18,10 +20,10 @@ import message.{
   UpdateProjectResult, UpdateRegistering,
 }
 import model.{
-  type Model, clear_registration, close_all_modals, close_modal, delete_activity,
-  delete_project, dismiss_error, extend_end_of_day, extend_start_of_day,
-  go_to_next_month, go_to_previous_month, initial_model, navigate_to,
-  open_dialog, open_drop_down_menu, select_activity, select_quarter,
+  type Model, add_error, clear_registration, close_all_modals, close_modal,
+  delete_activity, delete_project, dismiss_error, extend_end_of_day,
+  extend_start_of_day, go_to_next_month, go_to_previous_month, initial_model,
+  navigate_to, open_dialog, open_drop_down_menu, select_activity, select_quarter,
   set_active_report, set_active_timesheet, set_current_user, set_timesheets,
   set_users, start_registration, toggle_activity_picker, toggle_project,
   update_activity, update_dialog_value, update_project,
@@ -129,22 +131,19 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       #(model, e)
     }
 
-    SelectActivity(activity) -> {
+    SelectActivity(activity) ->
       // Called from the timesheet view to select the activity used to "paint" the timesheet with.
       select_activity(model, activity) |> no_effect()
-    }
 
-    StartRegistering(index) -> {
+    StartRegistering(index) ->
       model
       |> start_registration(index)
       |> no_effect()
-    }
 
-    UpdateRegistering(index) -> {
+    UpdateRegistering(index) ->
       model
       |> select_quarter(index)
       |> no_effect()
-    }
 
     CommitRegistering -> {
       case model.active_registration {
@@ -165,12 +164,11 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       |> clear_registration()
       |> no_effect()
 
-    RegisterTimeResult(Error(_)) -> {
-      io.println("RegisterTimeResult Error")
+    RegisterTimeResult(Error(_)) ->
       model
+      |> with_error("Unable to register time.")
       |> clear_registration()
       |> no_effect()
-    }
 
     ExtendStartOfDay -> extend_start_of_day(model) |> no_effect()
 
@@ -190,17 +188,17 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
 
     CurrentUserResult(Ok(u)) -> #(set_current_user(model, u), effect.none())
 
-    CurrentUserResult(Error(_)) -> {
-      io.println("CurrentUserResult Error")
-      #(model, effect.none())
-    }
+    CurrentUserResult(Error(_)) ->
+      model
+      |> with_error("Unable to get current user.")
+      |> no_effect()
 
     SystemUsersResult(Ok(users)) -> #(set_users(model, users), effect.none())
 
-    SystemUsersResult(Error(_)) -> {
-      io.println("SystemUsersResult Error")
-      #(model, effect.none())
-    }
+    SystemUsersResult(Error(_)) ->
+      model
+      |> with_error("Unable to get users.")
+      |> no_effect()
 
     AddUserResult(Ok(_)) -> {
       // When the user was added successfully add the new user to the state so it
@@ -209,20 +207,20 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       #(model, protocol.get_system_users(message.SystemUsersResult))
     }
 
-    AddUserResult(Error(_)) -> {
-      io.println("AddUserResult Error")
-      #(model, effect.none())
-    }
+    AddUserResult(Error(_)) ->
+      model
+      |> with_error("Unable to add user.")
+      |> no_effect()
 
     ProjectsResult(Ok(projects)) -> #(
       model.Model(..model, projects:),
       effect.none(),
     )
 
-    ProjectsResult(Error(_)) -> {
-      io.println("ProjectsResult Error")
-      #(model, effect.none())
-    }
+    ProjectsResult(Error(_)) ->
+      model
+      |> with_error("Unable to load projects.")
+      |> no_effect()
 
     FormTextFieldUpdated(value) -> #(
       update_dialog_value(model, value),
@@ -250,10 +248,10 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       |> update_activity(a)
       |> no_effect()
 
-    ArchiveActivityResult(Error(_)) -> {
-      io.println("ArchiveActivityResult Error")
-      #(model, effect.none())
-    }
+    ArchiveActivityResult(Error(_)) ->
+      model
+      |> with_error("Unable to archive activity.")
+      |> no_effect()
 
     ConfirmArchiveProject(project) ->
       model
@@ -274,10 +272,10 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       |> update_project(p)
       |> no_effect()
 
-    ArchiveProjectResult(Error(_)) -> {
-      io.println("ArchiveProjectResult Error")
-      #(model, effect.none())
-    }
+    ArchiveProjectResult(Error(_)) ->
+      model
+      |> with_error("Unable to archive project.")
+      |> no_effect()
 
     ConfirmDeleteActivity(activity) ->
       model
@@ -298,7 +296,10 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       |> delete_activity(activity.id)
       |> no_effect()
 
-    DeleteActivityResult(Error(_)) -> #(model, effect.none())
+    DeleteActivityResult(Error(_)) ->
+      model
+      |> with_error("Unable to delete activity.")
+      |> no_effect()
 
     ConfirmDeleteProject(project) ->
       model
@@ -319,21 +320,20 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       |> delete_project(project.id)
       |> no_effect()
 
-    DeleteProjectResult(Error(_)) -> {
-      io.println("DeleteProjectResult Error")
-
-      #(model, effect.none())
-    }
+    DeleteProjectResult(Error(_)) ->
+      model
+      |> with_error("Unable to delete project.")
+      |> no_effect()
 
     CreateProjectResult(Ok(_)) -> #(
       model,
       protocol.get_projects_and_activities(message.ProjectsResult),
     )
 
-    CreateProjectResult(Error(_)) -> {
-      io.println("CreateProjectResult Error")
-      #(model, effect.none())
-    }
+    CreateProjectResult(Error(_)) ->
+      model
+      |> with_error("Unable to create project.")
+      |> no_effect()
 
     UpdateProjectResult(Ok(p)) ->
       model
@@ -341,20 +341,20 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       |> update_project(p)
       |> no_effect()
 
-    UpdateProjectResult(Error(_)) -> {
-      io.println("UpdateProjectResult Error")
-      #(model, effect.none())
-    }
+    UpdateProjectResult(Error(_)) ->
+      model
+      |> with_error("Unable to update project.")
+      |> no_effect()
 
     CreateActivityResult(Ok(_)) -> #(
       model,
       protocol.get_projects_and_activities(message.ProjectsResult),
     )
 
-    CreateActivityResult(Error(_)) -> {
-      io.println("CreateActivityResult Error")
-      #(model, effect.none())
-    }
+    CreateActivityResult(Error(_)) ->
+      model
+      |> with_error("Unable to create activity.")
+      |> no_effect()
 
     UpdateActivityResult(Ok(a)) ->
       model
@@ -362,31 +362,29 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       |> update_activity(a)
       |> no_effect()
 
-    UpdateActivityResult(Error(_)) -> {
-      io.println("UpdateActivityResult Error")
-      #(model, effect.none())
-    }
+    UpdateActivityResult(Error(_)) ->
+      model
+      |> with_error("Unable to update activity.")
+      |> no_effect()
 
-    TimesheetsResult(Ok(timesheets)) -> {
+    TimesheetsResult(Ok(timesheets)) ->
       model
       |> set_timesheets(timesheets)
       |> no_effect()
-    }
 
-    TimesheetsResult(Error(_)) -> {
-      io.println("TimesheetsResult Error")
-      #(model, effect.none())
-    }
+    TimesheetsResult(Error(_)) ->
+      model
+      |> with_error("Unable to load timesheets.")
+      |> no_effect()
 
-    TimesheetResult(Ok(timesheet)) -> {
+    TimesheetResult(Ok(timesheet)) ->
       set_active_timesheet(model, timesheet)
       |> no_effect()
-    }
 
-    TimesheetResult(Error(_)) -> {
-      io.println("TimesheetResult Error")
-      #(model, effect.none())
-    }
+    TimesheetResult(Error(_)) ->
+      model
+      |> with_error("Unable to load timesheet.")
+      |> no_effect()
 
     NextReportWeek -> {
       // Called from the report view to move to next week's report.
@@ -424,15 +422,14 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       }
     }
 
-    ReportResult(Ok(report)) -> {
+    ReportResult(Ok(report)) ->
       set_active_report(model, report)
       |> no_effect()
-    }
 
-    ReportResult(Error(_)) -> {
-      io.println("Report Error")
-      #(model, effect.none())
-    }
+    ReportResult(Error(_)) ->
+      model
+      |> with_error("Unable to load report.")
+      |> no_effect()
   }
 }
 
@@ -508,4 +505,13 @@ fn no_effect(m: Model) {
 
 fn with_effect(m: Model, e: effect.Effect(Msg)) {
   #(m, e)
+}
+
+fn with_error(m: Model, message: String) -> model.Model {
+  // Generate a unique error ID so that errors can be dismissed.
+  let id =
+    timestamp.system_time()
+    |> timestamp.to_rfc3339(calendar.utc_offset)
+
+  add_error(m, model.ApplicationError(id:, message:))
 }
