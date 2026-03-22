@@ -141,9 +141,11 @@ fn project_body(
       case project.get_activity(projects, au.activity_id) {
         Ok(a) ->
           tr([], [
-            td([att.class("activity")], [
-              activity_badge(a, ui.SmallSize),
-              html.text(a.name),
+            td([], [
+              div([att.class("activity")], [
+                activity_badge(a, ui.SmallSize),
+                html.text(a.name),
+              ]),
             ]),
             ..columns
           ])

@@ -62,7 +62,7 @@ table.weekly-report-table th {
     color: var(--text-color);
 }
 
-table.weekly-report-table td.activity {
+table.weekly-report-table td .activity {
     display: flex;
     flex-direction: row;
     gap: var(--spacing-4);
