@@ -94,7 +94,7 @@ fn table_header(timestamp: timestamp.Timestamp, lang: i18n.Language) {
         html.th([], [
           html.text(
             // Use the current timestamp to describe this column
-            i18n.day_short(ts, lang)
+            i18n.date_short(ts, lang)
             |> i18n.capitalize,
           ),
         ]),

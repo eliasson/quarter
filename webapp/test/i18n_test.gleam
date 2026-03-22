@@ -163,7 +163,7 @@ pub fn should_translate_day_with_capitalize_test() {
   |> should.equal("Monday")
 }
 
-pub fn should_translate_day_short_with_capitalize_test() {
+pub fn should_translate_date_short_with_capitalize_test() {
   let ts =
     timestamp.from_calendar(
       date: calendar.Date(2026, calendar.March, 16),
@@ -172,7 +172,7 @@ pub fn should_translate_day_short_with_capitalize_test() {
     )
 
   ts
-  |> i18n.day_short(i18n.English)
+  |> i18n.date_short(i18n.English)
   |> i18n.capitalize
   |> should.equal("Mon 16")
 }
@@ -191,7 +191,7 @@ pub fn should_translate_date_long_format_test() {
   |> should.equal("saturday, 14 february")
 }
 
-pub fn should_translate_date_short_format_test() {
+pub fn should_translate_date_medium_format_test() {
   let ts =
     timestamp.from_calendar(
       date: calendar.Date(2026, calendar.February, 14),
@@ -200,7 +200,7 @@ pub fn should_translate_date_short_format_test() {
     )
 
   ts
-  |> i18n.date_short(i18n.English)
+  |> i18n.date_medium(i18n.English)
   |> i18n.describe
   |> should.equal("14 february 2026")
 }

@@ -42,14 +42,6 @@ pub fn name_of_day(ts: timestamp.Timestamp, _lang: Language) -> Translation {
   Translation(weekday_name(weekday))
 }
 
-/// Returns the day of the month for the given timestamp.
-/// Eg. "Mon 16", or "Fri 20"
-pub fn day_short(ts: timestamp.Timestamp, _lang: Language) -> Translation {
-  let #(date, _time) = timestamp.to_calendar(ts, calendar.utc_offset)
-  let weekday = weekday.from_timestamp(ts)
-  Translation(weekday_name_short(weekday) <> " " <> int.to_string(date.day))
-}
-
 /// Returns the year for the given timestamp.
 pub fn year(ts: timestamp.Timestamp, _lang: Language) -> Translation {
   let #(date, _time) = timestamp.to_calendar(ts, calendar.utc_offset)
@@ -79,7 +71,7 @@ pub fn date_long(ts: timestamp.Timestamp, _lang: Language) -> Translation {
 }
 
 /// Formats the date in a short format (e.g. "14 february 2023").
-pub fn date_short(ts: timestamp.Timestamp, _lang: Language) -> Translation {
+pub fn date_medium(ts: timestamp.Timestamp, _lang: Language) -> Translation {
   let #(date, _time) = timestamp.to_calendar(ts, calendar.utc_offset)
 
   // 14 february
@@ -90,6 +82,14 @@ pub fn date_short(ts: timestamp.Timestamp, _lang: Language) -> Translation {
     <> " "
     <> int.to_string(date.year),
   )
+}
+
+/// Returns the day of the month for the given timestamp.
+/// Eg. "Mon 16", or "Fri 20"
+pub fn date_short(ts: timestamp.Timestamp, _lang: Language) -> Translation {
+  let #(date, _time) = timestamp.to_calendar(ts, calendar.utc_offset)
+  let weekday = weekday.from_timestamp(ts)
+  Translation(weekday_name_short(weekday) <> " " <> int.to_string(date.day))
 }
 
 fn calendar_month(month: calendar.Month) -> String {

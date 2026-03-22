@@ -31,7 +31,7 @@ pub fn view(m: model.Model) -> Element(message.Msg) {
 
 fn timesheet_header(m: model.Model) {
   let name_of_day = i18n.name_of_day(m.today, m.lang) |> i18n.capitalize
-  let date = i18n.date_short(m.today, m.lang) |> i18n.capitalize()
+  let date = i18n.date_medium(m.today, m.lang) |> i18n.capitalize()
 
   header([att.class("timesheet-header ")], [
     input.ghost_button(graphics.icon_prev, message.PreviousTimesheet),
