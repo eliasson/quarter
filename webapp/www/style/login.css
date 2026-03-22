@@ -1,0 +1,13 @@
+.signin-actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
+}
+
+@media (min-width: 640px) {
+    .application.login {
+        max-width: 480px;
+        margin: 60px auto;
+        padding: 30px 60px;
+    }
+}

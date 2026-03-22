@@ -14,6 +14,7 @@
 @import "./style/button.css";
 @import "./style/calendar.css";
 @import "./style/error-notification.css";
+@import "./style/login.css";
 
 :root {
     /** The color covering the entire outside of the application on large screens. */
@@ -209,6 +210,10 @@ h6 {
 /** Use this on a div in a flex layout to consume space. */
 .spacer {
     flex-grow: 1;
+}
+
+.ingress {
+    padding: var(--spacing-10) 0;
 }
 
 /** icons *******************************************************************/

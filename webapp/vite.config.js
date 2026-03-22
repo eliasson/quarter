@@ -9,5 +9,11 @@ export default {
     build: {
         // The dist directory is where the paper backend will serve it from.
         outDir: path.resolve(__dirname, "..", "dist"),
+        rollupOptions: {
+            input: {
+                main: path.resolve(__dirname, "www", "index.html"),
+                login: path.resolve(__dirname, "www", "login.html"),
+            },
+        },
     },
 };

@@ -1,8 +1,9 @@
-button {
+button,
+a.button {
     display: flex;
     align-items: center;
-    place-content: center;
-    gap: 0.5rem;
+    place-content: start;
+    gap: 1rem;
     padding: 12px 24px;
 
     background: var(--button-bg-color);
@@ -17,6 +18,15 @@ button {
     text-transform: uppercase;
     letter-spacing: 0.1em;
     white-space: nowrap;
+    border: 1px solid var(--button-bg-color);
+}
+
+a.button .icon {
+    color: var(--button-text-color);
+}
+
+a.button:hover {
+    background-color: var(--button-hover-color);
 }
 
 button:disabled {
@@ -58,6 +68,8 @@ button.ghost {
 
     background: none;
     color: var(--text-color-second);
+
+    border: 1px solid transparent;
 }
 
 button.ghost svg {
@@ -70,4 +82,5 @@ button.ghost:hover {
     border-color: var(--text-color);
     color: var(--text-color);
     background: rgba(0, 0, 0, 0.06);
+    border: 1px solid transparent;
 }
