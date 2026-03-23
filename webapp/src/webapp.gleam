@@ -485,14 +485,17 @@ fn handle_dialog_confirm(m: model.Model) {
   #(close_modal(m), work)
 }
 
+/// Returns a tuple of the model and no effect. Only a convenience function.
 fn no_effect(m: Model) {
   #(m, effect.none())
 }
 
+/// Returns a tuple of the model and an effect. Only a convenience function.
 fn with_effect(m: Model, e: effect.Effect(Msg)) {
   #(m, e)
 }
 
+/// Adds an error message to the model
 fn with_error(m: Model, message: String) -> model.Model {
   // Generate a unique error ID so that errors can be dismissed.
   let id =
@@ -502,6 +505,8 @@ fn with_error(m: Model, message: String) -> model.Model {
   add_error(m, model.ApplicationError(id:, message:))
 }
 
+/// Handles an HTTP error by redirecting to the login page if the error is an unauthorized error.
+/// Else shows a generic error message.
 fn handle_error(
   m: Model,
   error: rsvp.Error,
