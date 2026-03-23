@@ -195,6 +195,12 @@ public class Startup(IConfiguration configuration)
 
         app.UseEndpoints(endpoints =>
         {
+            endpoints.MapGet("/app/{*remainder}", ctx =>
+            {
+                ctx.Response.Redirect("/ui");
+                return Task.CompletedTask;
+            });
+
             endpoints.MapControllers();
 
             // This route needs to be very last as it will serve any file requested from /app with the index.html
