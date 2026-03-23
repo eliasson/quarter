@@ -40,7 +40,6 @@ public class Startup(IConfiguration configuration)
 
         services.AddRouting();
         services.AddRazorPages();
-        services.AddServerSideBlazor();
         services.AddControllers(o => o.EnableEndpointRouting = false);
         services.AddAuthorization();
         services.AddHttpContextAccessor();
@@ -193,14 +192,10 @@ public class Startup(IConfiguration configuration)
         app.UseCookiePolicy();
         app.UseAuthentication();
         app.UseAuthorization();
-        app.UseMvc();
 
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();
-            endpoints.MapBlazorHub();
-            endpoints.MapFallbackToPage("/app/{**segment}", "/Application/_ApplicationHost");
-            endpoints.MapFallbackToPage("/admin/{**segment}", "/Admin/_AdminHost");
 
             // This route needs to be very last as it will serve any file requested from /app with the index.html
             // to enable HTML routing (e.g. reload /app/projects page in browser).
@@ -212,6 +207,7 @@ public class Startup(IConfiguration configuration)
                     controller = "WebApp",
                     action = "Index"
                 });
+
         });
     }
 
