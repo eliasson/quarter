@@ -1,31 +1,21 @@
-Quarter is a time-tracker for personal use with the goal to make it as effortless as possible
-to track your time.
+Quarter is a time-tracker for personal use with the goal to make it as effortless as possible to track your time.
 
 - Graphical timesheet for easy tracking
 - Simple reports for basic needs
 - 100% Open HTTP API for everything else
 
-## What does it look like?
-
-![Manage project](docs/screenshots/01-manage-projects.png)
-![Edit activity](docs/screenshots/02-edit-activity.png)
-![Timesheet](docs/screenshots/03-timesheet.png)
-![Report](docs/screenshots/04-report.png)
+![Light theme](docs/screenshots/quarter-light.png)
+![Dark theme](docs/screenshots/quarter-dark.png)
 
 ## Current state
 
-[![Build](https://github.com/eliasson/quarter/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/eliasson/quarter/actions/workflows/build.yml)
+Quarter has just undergone a shift in UI technology used from former .NET Blazor to using Gleam and Luster for
+the front-end.
 
-- [x] Authentication
-- [x] Manage projects
-- [x] Manage activities
-- [x] Register time
-- [x] Summarize current week at start page
-- [x] Weekly report
-- [x] Archive projects and activities
-- [x] HTTP API
-- [ ] Export data
-    
+There very little documentation for contributors as I mainly use this project as my spare time project where I
+experiment with different technologies. But if you want to contribute, reach out via email or open an issue and I
+will be glad to help.
+
 
 ## Can I get an account?
 
@@ -44,7 +34,7 @@ git clone git@github.com:eliasson/quarter.git
 cd quarter
 docker-compose -f docker/docker-compose.yaml up
 dotnet build
-dotnet run --project src/Quarter 
+dotnet run --project src/Quarter
 ```
 
 See [getting-started.md](docs/getting-started.md) for more details.

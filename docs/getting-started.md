@@ -1,13 +1,8 @@
-Quarter is built using .NET Core and Blazor Server.
-
-Blazor is a UI framework from Microsoft where the UI is built more or less only in C#
-and HTML-like templates. Rendering takes place on the server and a WebSocket session
-is established between each user and server. Render updates are then pushed to connected
-clients when needed.
+Quarter is built using .NET Core as backend and a Gleam based front-end using Gleam.
 
 ## Getting started with development
 
-Install .NET Core 6 or greater from [here](https://dotnet.microsoft.com/download)
+Install .NET Core from [here](https://dotnet.microsoft.com/download)
 
 1. Clone this repository:
 
@@ -37,24 +32,3 @@ and privileges. All tables are created using Fluent Migrations at `src/Quarter.C
 
 Run `open https://localhost:5001/` go to **Manage** section and create your first project
 some activities. Then head to **Timesheet** and start register time!
-
-
-### Look and feel
-
-The look and feel of the application is completely self-contained, no CSS-libraries are used.
-The style sheets are implemented in [Sass](https://sass-lang.com/) (`.sass` is like `.scss`
-but without curly braces and semi-colon).
-
-In order to compile Sass to CSS you need NodeJS and NPM installed, from [here](https://nodejs.org/en/download/).
-Then run the following commands:
-
-```shell
-cd src/Quarter.Style
-npm install
-npm run build
-```
-
-This will output the CSS file to the location `src/Quarter/wwwroot/quarter.css`
-from where it is server by the server.
-
-**NOTE:** The server does not need to be restarted when a new CSS file is built.
