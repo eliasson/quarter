@@ -72,6 +72,27 @@ fn project_list(m: model.Model) {
       ]
     }
 
+    let activities =
+      project.activities
+      |> project.sort_activities()
+      |> list.map(fn(activity) {
+        let activity_row_classes =
+          [att.class("activity-row")]
+          |> markup.cond_class(activity.is_archived, "archived")
+
+        let activity_archived_chip = case activity.is_archived {
+          True -> ui.chip("Archived")
+          False -> element.none()
+        }
+
+        div(activity_row_classes, [
+          activity_badge(activity, ui.MediumSize),
+          div([att.class("name")], [html.text(activity.name)]),
+          div([att.class("state")], [activity_archived_chip]),
+          div([att.class("action")], [manage_activity_action(activity, m)]),
+        ])
+      })
+
     div(project_row_classes, [
       div(
         [
@@ -90,29 +111,7 @@ fn project_list(m: model.Model) {
         span([], [html.text(project.description)]),
         manage_project_action(m, project),
       ]),
-      div(
-        [att.class("activities")],
-        list.append(
-          list.map(project.sort_activities(project.activities), fn(activity) {
-            let activity_row_classes =
-              [att.class("activity-row")]
-              |> markup.cond_class(activity.is_archived, "archived")
-
-            let activity_archived_chip = case activity.is_archived {
-              True -> ui.chip("Archived")
-              False -> element.none()
-            }
-
-            div(activity_row_classes, [
-              activity_badge(activity, ui.MediumSize),
-              div([att.class("name")], [html.text(activity.name)]),
-              div([att.class("state")], [activity_archived_chip]),
-              div([att.class("action")], [manage_activity_action(activity, m)]),
-            ])
-          }),
-          project_actions,
-        ),
-      ),
+      div([att.class("activities")], list.append(activities, project_actions)),
     ])
   })
 }
