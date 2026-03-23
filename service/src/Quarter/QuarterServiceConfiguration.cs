@@ -1,5 +1,3 @@
-using Quarter.Core.UI.State;
-using Quarter.State;
 using Microsoft.Extensions.DependencyInjection;
 using Quarter.Core.Commands;
 using Quarter.Core.Migrations;
@@ -34,17 +32,6 @@ public static class QuarterServiceConfiguration
 
         serviceCollection.AddSingleton<ICommandHandler, CommandHandler>();
         serviceCollection.AddSingleton<IQueryHandler, QueryHandler>();
-        serviceCollection.AddScoped<IStateManager<ApplicationState>>(
-            sp =>
-            {
-                var repositoryFactory = sp.GetService<IRepositoryFactory>();
-                var commandHandler = sp.GetService<ICommandHandler>();
-                var authService = sp.GetService<IUserAuthorizationService>();
-
-                return new StateManager<ApplicationState>(
-                    new ApplicationState(),
-                    new ActionHandler(repositoryFactory!, commandHandler!, authService!));
-            });
         serviceCollection.AddScoped<IUserAuthorizationService, UserAuthorizationService>();
         serviceCollection.AddSingleton<IApiService, ApiService>();
         serviceCollection.AddSingleton<IAdminService, AdminService>();
