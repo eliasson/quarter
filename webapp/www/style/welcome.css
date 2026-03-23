@@ -4,12 +4,17 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 60px;
-    align-items: end;
+    align-items: start;
 }
 
 .hero-left {
     display: flex;
     flex-direction: column;
+    height: 100%;
+}
+
+.hero-right {
+    display: none;
 }
 
 .hero-eyebrow {
@@ -91,6 +96,11 @@
 }
 
 @media (min-width: 640px) {
+    .hero-right {
+        display: flex;
+        flex-direction: column;
+    }
+
     .philosophy {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
@@ -98,7 +108,6 @@
     }
 
     .usp {
-        paddingx: 48px 48px 48px 60px;
         padding: var(--spacing-12);
         border-right: 1px solid var(--border-color);
     }
