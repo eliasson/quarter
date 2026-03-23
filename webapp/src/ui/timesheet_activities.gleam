@@ -65,14 +65,19 @@ fn project_items(
   m: model.Model,
   project: project.Project,
 ) -> Element(message.Msg) {
-  let activities = case list.is_empty(project.activities) {
+  let activities =
+    project.activities
+    |> project.active_activities()
+    |> list.map(fn(a) { activity_item(m, a) })
+
+  let items = case list.is_empty(activities) {
     True -> [empty_project()]
-    False -> list.map(project.activities, fn(a) { activity_item(m, a) })
+    False -> activities
   }
 
   div([att.class("picker-project-group")], [
     div([att.class("picker-project-title")], [html.text(project.name)]),
-    ..activities
+    ..items
   ])
 }
 
