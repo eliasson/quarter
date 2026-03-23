@@ -208,6 +208,15 @@ public class Startup(IConfiguration configuration)
                     action = "Index"
                 });
 
+            // The index controller that serves the "ui/welcome.html" as root page.
+            endpoints.MapControllerRoute(
+                name: "welcomeRoute",
+                pattern: "/",
+                defaults: new
+                {
+                    controller = "Welcome",
+                    action = "Index"
+                });
         });
     }
 
