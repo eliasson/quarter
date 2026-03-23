@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## Pending
 
+## [0.7.0] - 2026-03-23
+
+- Switch to the new UI as the only UI (Blazor UI is removed).
+
 ## [0.6.9] - 2026-03-23
 
 - Do not show archived activities in the activity picker.
