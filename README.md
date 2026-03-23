@@ -4,8 +4,8 @@ Quarter is a time-tracker for personal use with the goal to make it as effortles
 - Simple reports for basic needs
 - 100% Open HTTP API for everything else
 
-![Light theme](docs/screenshots/quarter-light.png)
-![Dark theme](docs/screenshots/quarter-dark.png)
+![Light theme](docs/screenshot/quarter-light.png)
+![Dark theme](docs/screenshot/quarter-dark.png)
 
 ## Current state
 
