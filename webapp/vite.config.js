@@ -13,6 +13,7 @@ export default {
             input: {
                 main: path.resolve(__dirname, "www", "index.html"),
                 login: path.resolve(__dirname, "www", "login.html"),
+                welcome: path.resolve(__dirname, "www", "welcome.html"),
             },
         },
     },

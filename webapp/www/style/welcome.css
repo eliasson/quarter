@@ -1,0 +1,114 @@
+.hero {
+    padding: 80px 60px 70px;
+    border-bottom: 1px solid var(--border-color);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: end;
+}
+
+.hero-left {
+    display: flex;
+    flex-direction: column;
+}
+
+.hero-eyebrow {
+    font-size: var(--font-size-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--color-accent);
+    margin-bottom: 24px;
+}
+
+.content .hero h1 {
+    font-size: var(--font-size-5xl);
+}
+
+.hero-desc {
+    color: var(--text-color-secondary);
+    line-height: 1.6;
+    max-width: 320px;
+}
+
+.hero-desc em {
+    color: var(--text-color);
+    font-style: italic;
+}
+
+.content .hero .signin-actions {
+    margin-top: var(--spacing-16);
+}
+
+.philosophy {
+    display: flex;
+    flex-direction: column;
+    border: none;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.usp {
+    padding: var(--spacing-6);
+    align-items: center;
+    text-align: center;
+}
+
+.philosophy h2 {
+    font-size: var(--font-size-2xl);
+    font-style: italic;
+    font-weight: 400;
+    margin-bottom: var(--spacing-4);
+    line-height: 1.2;
+}
+
+.oss-section p,
+.signin-actions p,
+.usp p {
+    font-size: 1rem;
+    color: var(--text-color-second);
+    line-height: 1.6;
+}
+
+.oss-section {
+    padding: var(--spacing-8) var(--spacing-6);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--spacing-6);
+}
+
+.oss-section h2 {
+    font-size: 3.5rem;
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1.1;
+}
+
+.philosophy a,
+.oss-section a {
+    font-weight: bold;
+    color: var(--color-accent);
+}
+
+@media (min-width: 640px) {
+    .philosophy {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .usp {
+        paddingx: 48px 48px 48px 60px;
+        padding: var(--spacing-12);
+        border-right: 1px solid var(--border-color);
+    }
+
+    .usp:last-child {
+        border-right: none;
+    }
+
+    .oss-section {
+        padding: var(--spacing-16) var(--spacing-12);
+        gap: var(--spacing-6);
+    }
+}

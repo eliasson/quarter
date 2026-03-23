@@ -84,3 +84,19 @@ button.ghost:hover {
     background: rgba(0, 0, 0, 0.06);
     border: 1px solid transparent;
 }
+
+a.button.outline {
+    background: transparent;
+    color: var(--color-accent);
+    border: 1px solid var(--color-accent);
+}
+
+a.button.outline:hover {
+    background: rgba(0, 0, 0, 0.06);
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+}
+
+a.button.outline .icon {
+    color: var(--color-accent);
+}

@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="description" content="Quarter - A personal time-tracker" />
 
-        <title>Sign in - Quarter</title>
+        <title>Welcome to Quarter</title>
 
         <link
             rel="icon"
@@ -18,7 +18,7 @@
     </head>
 
     <body>
-        <div class="application login">
+        <div class="application">
             <div class="application-layout">
                 <nav class="main-navigation">
                     <div class="main-navigation-item">
@@ -29,30 +29,84 @@
                 </nav>
 
                 <div class="content">
-                    <h1>Login required.</h1>
+                    <section class="hero">
+                        <div class="hero-left">
+                            <p class="hero-eyebrow">Personal Time Tracking</p>
+                            <h1 class="hero-title">Quarter</h1>
+                            <p class="hero-desc">
+                                Track your day in fifteen-minute blocks.
+                                <em>No timers. No forms.</em> Just paint your time like marks on paper.
+                            </p>
 
-                    <p class="ingress">
-                        The page you were trying to reach requires you to be signed in. Choose a method below to
-                        continue.
-                    </p>
+                            <div class="signin-actions">
+                                <a href="/account/login/google" class="button outline">
+                                    <svg class="icon">
+                                        <use href="#google-logo"></use>
+                                    </svg>
+                                    Continue with Google</a
+                                >
+                                <a href="/account/login/github" class="button outline">
+                                    <svg class="icon">
+                                        <use href="#github-logo"></use></svg
+                                    >Continue with GitHub</a
+                                >
+                                <p class="fine-print">Open source. Free to use. No SLA. No guarantees.</p>
+                            </div>
+                        </div>
+                    </section>
 
-                    <div class="signin-actions">
-                        <a href="/account/login/google" class="button outline">
-                            <svg class="icon">
-                                <use href="#google-logo"></use>
-                            </svg>
-                            Continue with Google</a
-                        >
-                        <a href="/account/login/github" class="button outline">
-                            <svg class="icon">
-                                <use href="#github-logo"></use></svg
-                            >Continue with GitHub</a
-                        >
-                        <p class="fine-print">Open source. Free to use. No SLA. No guarantees.</p>
-                    </div>
+                    <section class="philosophy">
+                        <div class="usp">
+                            <h2>Quiet</h2>
+                            <p>No notifications. No streaks. No dashboards. Just a record of where your time went.</p>
+                        </div>
+                        <div class="usp">
+                            <h2>Paint, don't type</h2>
+                            <p>
+                                No forms. No typing. Most time-tracking software is made for extracting hours, Quarter
+                                is made for putting in hours.
+                            </p>
+                        </div>
+                        <div class="usp">
+                            <h2>Open source</h2>
+                            <p>
+                                Open source. Self-host if you like. As long as there are capacity left on my $5 server,
+                                I will keep registrations open.
+                            </p>
+                        </div>
+                    </section>
+                    <section class="oss-section">
+                        <h2>Open source software.</h2>
+                        <p>
+                            Quarter is open source. It is distributed under the AGPL-3.0 license, and you are free to
+                            host a version yourself if you want.
+                            <br />
+                            If you want to contribute, or register an issue, go to
+                            <a href="https://github.com/eliasson/quarter">GitHub</a>.
+                        </p>
+                        <p>
+                            You are welcome to login and use the service running on my server. As long as there is free
+                            capacity left on my server, I will keep registrations open.
+                        </p>
+                    </section>
                 </div>
             </div>
         </div>
+
+        <footer>
+            <div class="logo">
+                <svg>
+                    <use xlink:href="#quarter-logo"></use>
+                </svg>
+                Quarter
+            </div>
+
+            <nav>
+                <a href="https://github.com/eliasson/quarter">GitHub</a>
+                <a href="mailto:markus.eliasson@proton.me">Contact</a>
+            </nav>
+            <p class="copyright">&copy; 2026. Markus Eliasson. All rights reserved.</p>
+        </footer>
 
         <!-- All icons used in quarter comes from heroicons.com -->
         <svg

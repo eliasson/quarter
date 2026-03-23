@@ -15,6 +15,7 @@
 @import "./style/calendar.css";
 @import "./style/error-notification.css";
 @import "./style/login.css";
+@import "./style/welcome.css";
 
 :root {
     /** The color covering the entire outside of the application on large screens. */
@@ -301,6 +302,12 @@ h6 {
     font-weight: 400;
     font-size: var(--font-size-4xl);
     font-style: italic;
+}
+
+.fine-print {
+    padding: var(--spacing-4) 0;
+    font-size: var(--font-size-xs);
+    color: var(--text-color-);
 }
 
 @media (min-width: 640px) {
