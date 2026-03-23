@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## Pending
 
+## [0.6.9] - 2026-03-23
+
+- Do not show archived activities in the activity picker.
+
 ## [0.6.8] - 2026-03-22
 
 - Add weekly usage report.
