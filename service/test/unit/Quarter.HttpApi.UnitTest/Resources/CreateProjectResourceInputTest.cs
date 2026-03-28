@@ -38,9 +38,6 @@ public class CreateProjectResourceInputTest
         {
             yield return [new CreateProjectResourceInput { name = null! }, "The name field is required."];
             yield return [new CreateProjectResourceInput { name = "" }, "The name field is required."];
-            yield return [new CreateProjectResourceInput { description = null! }, "The description field is required.",
-            ];
-            yield return [new CreateProjectResourceInput { description = "" }, "The description field is required."];
         }
 
         [TestCaseSource(nameof(InvalidResources))]

@@ -30,7 +30,6 @@ public class CreateProjectResourceInput
     [Required]
     public string? name { get; set; }
 
-    [Required]
     public string? description { get; set; }
 }
 
