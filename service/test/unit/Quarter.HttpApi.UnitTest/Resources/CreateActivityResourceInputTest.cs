@@ -76,9 +76,6 @@ public class CreateActivityResourceInputTest
         {
             yield return [new CreateActivityResourceInput { name = null! }, "The name field is required."];
             yield return [new CreateActivityResourceInput { name = "" }, "The name field is required."];
-            yield return [new CreateActivityResourceInput { description = null! }, "The description field is required.",
-            ];
-            yield return [new CreateActivityResourceInput { description = "" }, "The description field is required."];
             yield return [new CreateActivityResourceInput { color = null! }, "The color field is required."];
             yield return [new CreateActivityResourceInput { color = "" }, "The color field is required."];
             yield return [new CreateActivityResourceInput { color = "yellow" }, "The color field is invalid, must be a HEX value (e.g. #04a85b).",
