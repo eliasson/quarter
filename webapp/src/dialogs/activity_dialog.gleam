@@ -64,7 +64,7 @@ pub fn validate(state: State) -> State {
   }
 
   let description_valid = case state.description {
-    input_value.ValidValue(description) -> !string.is_empty(description)
+    input_value.ValidValue(_) -> True
     _ -> False
   }
 

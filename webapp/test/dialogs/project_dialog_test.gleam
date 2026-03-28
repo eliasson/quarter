@@ -5,21 +5,24 @@ import gleeunit/should
 import test_util
 
 pub fn should_be_valid_state_test() {
-  let state =
+  let states = [
     project_dialog.State(
       ValidValue("My Project"),
       ValidValue("A description"),
       False,
-    )
-  let updated = project_dialog.validate(state)
+    ),
+    project_dialog.State(ValidValue("My Project"), ValidValue(""), False),
+  ]
 
-  should.be_true(updated.is_valid)
+  list.each(states, fn(state) {
+    project_dialog.validate(state).is_valid
+    |> should.be_true()
+  })
 }
 
 pub fn should_be_invalid_test() {
   let states = [
     project_dialog.State(ValidValue(""), ValidValue("A description"), True),
-    project_dialog.State(ValidValue("My Project"), ValidValue(""), True),
     project_dialog.State(ValidValue(""), ValidValue(""), True),
   ]
 
