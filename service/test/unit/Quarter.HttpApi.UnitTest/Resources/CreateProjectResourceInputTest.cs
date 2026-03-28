@@ -14,7 +14,7 @@ public class CreateProjectResourceInputTest
     {
         public static IEnumerable<object[]> ValidResources()
         {
-            yield return new object[] { new CreateProjectResourceInput { name = "OK", description = "OK" } };
+            yield return [new CreateProjectResourceInput { name = "OK", description = "OK" }];
         }
 
         [TestCaseSource(nameof(ValidResources))]
@@ -36,10 +36,11 @@ public class CreateProjectResourceInputTest
     {
         public static IEnumerable<object[]> InvalidResources()
         {
-            yield return new object[] { new CreateProjectResourceInput { name = null! }, "The name field is required." };
-            yield return new object[] { new CreateProjectResourceInput { name = "" }, "The name field is required." };
-            yield return new object[] { new CreateProjectResourceInput { description = null! }, "The description field is required." };
-            yield return new object[] { new CreateProjectResourceInput { description = "" }, "The description field is required." };
+            yield return [new CreateProjectResourceInput { name = null! }, "The name field is required."];
+            yield return [new CreateProjectResourceInput { name = "" }, "The name field is required."];
+            yield return [new CreateProjectResourceInput { description = null! }, "The description field is required.",
+            ];
+            yield return [new CreateProjectResourceInput { description = "" }, "The description field is required."];
         }
 
         [TestCaseSource(nameof(InvalidResources))]

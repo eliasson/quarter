@@ -14,10 +14,10 @@ public class UpdateActivityResourceInputTest
     {
         public static IEnumerable<object[]> ValidResources()
         {
-            yield return new object[] { new UpdateActivityResourceInput { name = "OK", description = "OK", color = "#04a85b" } };
-            yield return new object[] { new UpdateActivityResourceInput { name = "OK" } };
-            yield return new object[] { new UpdateActivityResourceInput { isArchived = true } };
-            yield return new object[] { new UpdateActivityResourceInput { description = "OK" } };
+            yield return [new UpdateActivityResourceInput { name = "OK", description = "OK", color = "#04a85b" }];
+            yield return [new UpdateActivityResourceInput { name = "OK" }];
+            yield return [new UpdateActivityResourceInput { isArchived = true }];
+            yield return [new UpdateActivityResourceInput { description = "OK" }];
         }
 
         [TestCaseSource(nameof(ValidResources))]
@@ -39,7 +39,8 @@ public class UpdateActivityResourceInputTest
     {
         public static IEnumerable<object[]> InvalidResources()
         {
-            yield return new object[] { new UpdateActivityResourceInput { color = "yellow" }, "The color field is invalid, must be a HEX value (e.g. #04a85b)." };
+            yield return [new UpdateActivityResourceInput { color = "yellow" }, "The color field is invalid, must be a HEX value (e.g. #04a85b).",
+            ];
         }
 
         [TestCaseSource(nameof(InvalidResources))]

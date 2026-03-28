@@ -50,9 +50,9 @@ public class CreateActivityResourceInputTest
     {
         public static IEnumerable<object[]> ValidResources()
         {
-            yield return new object[] { new CreateActivityResourceInput { name = "OK", description = "OK", color = "#04a85b" } };
-            yield return new object[] { new CreateActivityResourceInput { name = "OK", description = "OK", color = "#aabbcc" } };
-            yield return new object[] { new CreateActivityResourceInput { name = "OK", description = "OK", color = "#abc" } };
+            yield return [new CreateActivityResourceInput { name = "OK", description = "OK", color = "#04a85b" }];
+            yield return [new CreateActivityResourceInput { name = "OK", description = "OK", color = "#aabbcc" }];
+            yield return [new CreateActivityResourceInput { name = "OK", description = "OK", color = "#abc" }];
         }
 
         [TestCaseSource(nameof(ValidResources))]
@@ -74,13 +74,15 @@ public class CreateActivityResourceInputTest
     {
         public static IEnumerable<object[]> InvalidResources()
         {
-            yield return new object[] { new CreateActivityResourceInput { name = null! }, "The name field is required." };
-            yield return new object[] { new CreateActivityResourceInput { name = "" }, "The name field is required." };
-            yield return new object[] { new CreateActivityResourceInput { description = null! }, "The description field is required." };
-            yield return new object[] { new CreateActivityResourceInput { description = "" }, "The description field is required." };
-            yield return new object[] { new CreateActivityResourceInput { color = null! }, "The color field is required." };
-            yield return new object[] { new CreateActivityResourceInput { color = "" }, "The color field is required." };
-            yield return new object[] { new CreateActivityResourceInput { color = "yellow" }, "The color field is invalid, must be a HEX value (e.g. #04a85b)." };
+            yield return [new CreateActivityResourceInput { name = null! }, "The name field is required."];
+            yield return [new CreateActivityResourceInput { name = "" }, "The name field is required."];
+            yield return [new CreateActivityResourceInput { description = null! }, "The description field is required.",
+            ];
+            yield return [new CreateActivityResourceInput { description = "" }, "The description field is required."];
+            yield return [new CreateActivityResourceInput { color = null! }, "The color field is required."];
+            yield return [new CreateActivityResourceInput { color = "" }, "The color field is required."];
+            yield return [new CreateActivityResourceInput { color = "yellow" }, "The color field is invalid, must be a HEX value (e.g. #04a85b).",
+            ];
         }
 
         [TestCaseSource(nameof(InvalidResources))]
