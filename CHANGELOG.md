@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## Pending
 
+## [0.7.1] - 2026-03-28
+
 - Do not require project or activity description.
 
 ## [0.7.0] - 2026-03-23
