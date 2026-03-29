@@ -87,31 +87,29 @@ pub fn to_hex_returns_uppercase_test() {
   should.equal(actual, "#ABCDEF")
 }
 
-pub fn text_color_returns_black_on_light_backgrounds_test() {
+pub fn text_color_returns_dark_variant_on_light_backgrounds_test() {
   let tests = [
-    color.Color(255, 255, 255),
-    // white
-    color.Color(200, 200, 200),
-    // light gray
-    color.Color(142, 135, 245),
-    // light purple: YIQ ≈ 0.587
+    // Achromatic: lightness set to 15% → round(0.15 * 255) = 38
+    #(color.Color(255, 255, 255), color.Color(38, 38, 38)),
+    #(color.Color(200, 200, 200), color.Color(38, 38, 38)),
+    // Light purple (#8E87F5): preserves hue/saturation at L=15%
+    #(color.Color(142, 135, 245), color.Color(10, 6, 71)),
   ]
-  list.each(tests, fn(bg) {
-    should.equal(color.text_color(bg), color.Color(0, 0, 0))
+  list.each(tests, fn(t) {
+    should.equal(color.text_color(t.0), t.1)
   })
 }
 
-pub fn text_color_returns_white_on_dark_backgrounds_test() {
+pub fn text_color_returns_bright_variant_on_dark_backgrounds_test() {
   let tests = [
-    color.Color(0, 0, 0),
-    // black
-    color.Color(50, 50, 50),
-    // dark gray
-    color.Color(30, 60, 120),
-    // dark blue: YIQ ≈ 0.21
+    // Achromatic: lightness set to 85% → round(0.85 * 255) = 217
+    #(color.Color(0, 0, 0), color.Color(217, 217, 217)),
+    #(color.Color(50, 50, 50), color.Color(217, 217, 217)),
+    // Dark blue: preserves hue/saturation at L=85%
+    #(color.Color(30, 60, 120), color.Color(194, 209, 240)),
   ]
-  list.each(tests, fn(bg) {
-    should.equal(color.text_color(bg), color.Color(255, 255, 255))
+  list.each(tests, fn(t) {
+    should.equal(color.text_color(t.0), t.1)
   })
 }
 

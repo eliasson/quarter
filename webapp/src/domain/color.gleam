@@ -67,17 +67,93 @@ pub fn from_hex(value: String) -> Result(Color, String) {
   }
 }
 
-/// Returns black or white depending on which has better contrast against the background color.
-/// Uses the YIQ luminance formula: (0.299*R + 0.587*G + 0.114*B) / 255
+/// Returns a dark variant of the color for bright backgrounds, or a bright
+/// variant for dark backgrounds, preserving hue and saturation.
+/// Uses YIQ luminance to decide, then adjusts HSL lightness to 15% or 85%.
 pub fn text_color(bg: Color) -> Color {
   let luminance =
-    { 0.299 *. int.to_float(bg.r)
-      +. 0.587 *. int.to_float(bg.g)
-      +. 0.114 *. int.to_float(bg.b) }
+    {
+      0.299
+      *. int.to_float(bg.r)
+      +. 0.587
+      *. int.to_float(bg.g)
+      +. 0.114
+      *. int.to_float(bg.b)
+    }
     /. 255.0
   case luminance >=. 0.5 {
-    True -> Color(0, 0, 0)
-    False -> Color(255, 255, 255)
+    True -> set_lightness(bg, 0.15)
+    False -> set_lightness(bg, 0.8)
+  }
+}
+
+fn set_lightness(color: Color, target_l: Float) -> Color {
+  let r = int.to_float(color.r) /. 255.0
+  let g = int.to_float(color.g) /. 255.0
+  let b = int.to_float(color.b) /. 255.0
+
+  let cmax = float.max(float.max(r, g), b)
+  let cmin = float.min(float.min(r, g), b)
+
+  case cmax == cmin {
+    True -> {
+      let v = float.round(target_l *. 255.0)
+      Color(v, v, v)
+    }
+    False -> {
+      let d = cmax -. cmin
+      let l = { cmax +. cmin } /. 2.0
+      let s = case l >. 0.5 {
+        True -> d /. { 2.0 -. cmax -. cmin }
+        False -> d /. { cmax +. cmin }
+      }
+      let h = case cmax == r, cmax == g {
+        True, _ -> {
+          let base = { g -. b } /. d
+          case g <. b {
+            True -> { base +. 6.0 } /. 6.0
+            False -> base /. 6.0
+          }
+        }
+        False, True -> { { b -. r } /. d +. 2.0 } /. 6.0
+        False, False -> { { r -. g } /. d +. 4.0 } /. 6.0
+      }
+
+      let q = case target_l <. 0.5 {
+        True -> target_l *. { 1.0 +. s }
+        False -> target_l +. s -. target_l *. s
+      }
+      let p = 2.0 *. target_l -. q
+
+      Color(
+        float.round(hue_to_rgb(p, q, h +. 1.0 /. 3.0) *. 255.0),
+        float.round(hue_to_rgb(p, q, h) *. 255.0),
+        float.round(hue_to_rgb(p, q, h -. 1.0 /. 3.0) *. 255.0),
+      )
+    }
+  }
+}
+
+fn hue_to_rgb(p: Float, q: Float, t: Float) -> Float {
+  let t = case t <. 0.0 {
+    True -> t +. 1.0
+    False -> t
+  }
+  let t = case t >. 1.0 {
+    True -> t -. 1.0
+    False -> t
+  }
+  case t <. 1.0 /. 6.0 {
+    True -> p +. { q -. p } *. 6.0 *. t
+    False ->
+      case t <. 0.5 {
+        True -> q
+        False ->
+          case t <. 2.0 /. 3.0 {
+            True -> p +. { q -. p } *. { 2.0 /. 3.0 -. t } *. 6.0
+            False -> p
+          }
+      }
   }
 }
 
