@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## Pending
 
+## [0.7.4] - 2026-03-29
+
+- Limit uppercase text to button-like elements.
+
 ## [0.7.3] - 2026-03-29
 
 - Add top-three activities per day in calendar.
