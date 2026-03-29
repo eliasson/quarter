@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## Pending
 
-## [0.7.2] - 2026-03-29
+## [0.7.3] - 2026-03-29
 
 - Add top-three activities per day in calendar.
 
