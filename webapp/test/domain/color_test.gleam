@@ -87,6 +87,34 @@ pub fn to_hex_returns_uppercase_test() {
   should.equal(actual, "#ABCDEF")
 }
 
+pub fn text_color_returns_black_on_light_backgrounds_test() {
+  let tests = [
+    color.Color(255, 255, 255),
+    // white
+    color.Color(200, 200, 200),
+    // light gray
+    color.Color(142, 135, 245),
+    // light purple: YIQ ≈ 0.587
+  ]
+  list.each(tests, fn(bg) {
+    should.equal(color.text_color(bg), color.Color(0, 0, 0))
+  })
+}
+
+pub fn text_color_returns_white_on_dark_backgrounds_test() {
+  let tests = [
+    color.Color(0, 0, 0),
+    // black
+    color.Color(50, 50, 50),
+    // dark gray
+    color.Color(30, 60, 120),
+    // dark blue: YIQ ≈ 0.21
+  ]
+  list.each(tests, fn(bg) {
+    should.equal(color.text_color(bg), color.Color(255, 255, 255))
+  })
+}
+
 pub fn darken_applies_to_each_channel_independently_test() {
   // Use a color where r, g, b are all different to catch channel mix-ups.
   // darken applies -30% luminance: round(min(max(0, c + c * -0.3), 255))

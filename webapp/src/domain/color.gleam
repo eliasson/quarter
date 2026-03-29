@@ -67,6 +67,20 @@ pub fn from_hex(value: String) -> Result(Color, String) {
   }
 }
 
+/// Returns black or white depending on which has better contrast against the background color.
+/// Uses the YIQ luminance formula: (0.299*R + 0.587*G + 0.114*B) / 255
+pub fn text_color(bg: Color) -> Color {
+  let luminance =
+    { 0.299 *. int.to_float(bg.r)
+      +. 0.587 *. int.to_float(bg.g)
+      +. 0.114 *. int.to_float(bg.b) }
+    /. 255.0
+  case luminance >=. 0.5 {
+    True -> Color(0, 0, 0)
+    False -> Color(255, 255, 255)
+  }
+}
+
 fn zero_pad(s: String) -> String {
   case string.length(s) {
     1 -> "0" <> s

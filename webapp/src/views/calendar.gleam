@@ -44,6 +44,10 @@ fn calendar(m: model.Model) {
                     "border-color",
                     color.color_to_style_value(activity.border_color),
                   ),
+                  #(
+                    "color",
+                    color.color_to_style_value(color.text_color(activity.color)),
+                  ),
                 ]),
                 att.class("top-activity"),
               ],
