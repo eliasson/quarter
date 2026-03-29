@@ -33,7 +33,6 @@ th:not(:first-child):not(.action) {
 
 th {
     font-weight: 600;
-    text-transform: uppercase;
     font-size: var(--font-size-sm);
     letter-spacing: 0.05em;
     color: var(--text-color-second);

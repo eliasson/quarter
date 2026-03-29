@@ -118,7 +118,6 @@
         display: inline-block;
         font-size: var(--font-size-xs);
         font-weight: 600;
-        text-transform: uppercase;
         letter-spacing: 0.05em;
         padding: var(--spacing-1) var(--spacing-2);
         border-radius: var(--spacing-1);

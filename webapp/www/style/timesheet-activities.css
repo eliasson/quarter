@@ -57,7 +57,6 @@ button.activity-picker-toggler .picker-item.active .picker-name {
 
 .picker-project-title {
     font-size: var(--font-size-xs);
-    text-transform: uppercase;
     letter-spacing: 0.05em;
     color: var(--text-color);
     margin-bottom: 4px;
