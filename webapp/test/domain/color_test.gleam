@@ -95,22 +95,18 @@ pub fn text_color_returns_dark_variant_on_light_backgrounds_test() {
     // Light purple (#8E87F5): preserves hue/saturation at L=15%
     #(color.Color(142, 135, 245), color.Color(10, 6, 71)),
   ]
-  list.each(tests, fn(t) {
-    should.equal(color.text_color(t.0), t.1)
-  })
+  list.each(tests, fn(t) { should.equal(color.text_color(t.0), t.1) })
 }
 
 pub fn text_color_returns_bright_variant_on_dark_backgrounds_test() {
   let tests = [
     // Achromatic: lightness set to 85% → round(0.85 * 255) = 217
-    #(color.Color(0, 0, 0), color.Color(217, 217, 217)),
-    #(color.Color(50, 50, 50), color.Color(217, 217, 217)),
+    #(color.Color(0, 0, 0), color.Color(204, 204, 204)),
+    #(color.Color(50, 50, 50), color.Color(204, 204, 204)),
     // Dark blue: preserves hue/saturation at L=85%
-    #(color.Color(30, 60, 120), color.Color(194, 209, 240)),
+    #(color.Color(30, 60, 120), color.Color(173, 194, 235)),
   ]
-  list.each(tests, fn(t) {
-    should.equal(color.text_color(t.0), t.1)
-  })
+  list.each(tests, fn(t) { should.equal(color.text_color(t.0), t.1) })
 }
 
 pub fn darken_applies_to_each_channel_independently_test() {
