@@ -1,4 +1,6 @@
+import domain/color
 import domain/duration
+import domain/timesheet
 import gleam/int
 import gleam/list
 import i18n
@@ -8,6 +10,7 @@ import lustre/element/html.{a, div, h1, header, span}
 import message
 import model
 import route
+import ui/core as ui
 import ui/graphics
 import ui/input
 import ui/markup
@@ -26,6 +29,29 @@ fn calendar(m: model.Model) {
       let name_of_day = i18n.name_of_day(ts.date, m.lang) |> i18n.capitalize
       let #(hours, minutes) = duration.to_hours_and_minutes(ts.duration)
 
+      let top_activities =
+        timesheet.top_three_activities(ts, m.projects)
+        |> list.map(fn(activity) {
+          html.div([], [
+            html.span(
+              [
+                att.styles([
+                  #(
+                    "background-color",
+                    color.color_to_style_value(activity.color),
+                  ),
+                  #(
+                    "border-color",
+                    color.color_to_style_value(activity.border_color),
+                  ),
+                ]),
+                att.class("top-activity"),
+              ],
+              [html.text(activity.name)],
+            ),
+          ])
+        })
+
       let classes =
         [att.class("calendar-month-day")]
         |> markup.cond_class(timestamp.is_same_date(ts.date, m.today), "today")
@@ -35,6 +61,7 @@ fn calendar(m: model.Model) {
           div([att.class("number")], [html.text(day)]),
         ]),
         div([att.class("name")], [html.text(name_of_day)]),
+        div([att.class("top-activities")], top_activities),
         div([att.class("time")], [
           span([att.class("text-value")], [html.text(int.to_string(hours))]),
           span([att.class("text-unit")], [html.text("h")]),

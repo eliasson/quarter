@@ -34,9 +34,7 @@
 }
 
 .calendar-month-day {
-    display: grid;
-    grid-template-columns: 60px 1fr 100px; /* Date | Note | Time */
-    align-items: baseline;
+    display: flex;
     padding: var(--spacing-6) 0;
     border-bottom: 1px solid var(--border-color);
     transition: all 0.2s ease;
@@ -71,12 +69,22 @@
     font-size: var(--font-size-2xl);
     color: var(--text-color-second);
     margin-top: 2px;
+    flex-grow: 1;
+    min-width: 140px;
+}
+
+.calendar-month-day .top-activities {
+    display: none;
 }
 
 .calendar-month-day .time {
     text-align: right;
     font-family: var(--font-family);
     font-size: var(--font-size-sm);
+    min-width: 80px;
+    display: flex;
+    justify-content: end;
+    align-items: center;
 }
 
 .calendar-month-day .time .text-value {
@@ -94,4 +102,30 @@
 .calendar-month-day.today .time,
 .calendar-month-day.today .time .text-value {
     color: var(--color-accent);
+}
+
+@media (min-width: 640px) {
+    .calendar-month-day .top-activities {
+        font-size: var(--font-size-2xl);
+        color: var(--text-color-second);
+        margin-top: 2px;
+        flex-grow: 2;
+        display: flex;
+        justify-content: end;
+    }
+
+    .top-activity {
+        display: inline-block;
+        font-size: var(--font-size-xs);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        padding: var(--spacing-1) var(--spacing-2);
+        border-radius: var(--spacing-1);
+        margin-right: 8px;
+        vertical-align: middle;
+        border: 1px solid transparent;
+        color: var(--text-color);
+        font-family: var(--font-family);
+    }
 }
