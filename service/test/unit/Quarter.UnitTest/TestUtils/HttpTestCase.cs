@@ -61,7 +61,7 @@ public class HttpTestCase
     protected Task<Project> AddProjectAsync(IdOf<User> userId, string name)
     {
         var repoFactory = HttpTestSession.ResolveService<IRepositoryFactory>();
-        var project = new Project(name, $"description:{name}");
+        var project = new Project(name, $"description:{name}", Color.FromHexString("#457b9d"));
         return repoFactory.ProjectRepository(userId).CreateAsync(project, CancellationToken.None);
     }
 

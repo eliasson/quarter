@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using Quarter.Core.Models;
+using Quarter.Core.Utils;
 
 namespace Quarter.Core.UnitTest.Models
 {
@@ -8,7 +9,7 @@ namespace Quarter.Core.UnitTest.Models
     {
         public class WhenConstructed
         {
-            private readonly Project _project = new Project("Alpha", "Alpha:Description");
+            private readonly Project _project = new Project("Alpha", "Alpha:Description", Color.FromHexString("#457b9d"));
 
             [Test]
             public void ItShouldHaveName()
@@ -17,6 +18,10 @@ namespace Quarter.Core.UnitTest.Models
             [Test]
             public void ItShouldHaveDescription()
                 => Assert.That(_project.Description, Is.EqualTo("Alpha:Description"));
+
+            [Test]
+            public void ItShouldHaveColor()
+                => Assert.That(_project.Color, Is.EqualTo(Color.FromHexString("#457b9d")));
 
             [Test]
             public void ItShouldGetAnIdAssigned()
@@ -37,7 +42,7 @@ namespace Quarter.Core.UnitTest.Models
 
         public class WhenArchived
         {
-            private readonly Project _project = new Project("Alpha", "Alpha:Description");
+            private readonly Project _project = new Project("Alpha", "Alpha:Description", Color.FromHexString("#457b9d"));
 
             [OneTimeSetUp]
             public void WhenArchivedSetUp()
@@ -52,7 +57,7 @@ namespace Quarter.Core.UnitTest.Models
 
         public class WhenRestored
         {
-            private readonly Project _project = new Project("Alpha", "Alpha:Description");
+            private readonly Project _project = new Project("Alpha", "Alpha:Description", Color.FromHexString("#457b9d"));
 
             [OneTimeSetUp]
             public void WhenRestoredSetUp()

@@ -33,7 +33,7 @@ public class TestCase
     }
     protected Task<Project> AddProject(IdOf<User> userId, string name)
     {
-        var project = new Project(name, $"description:{name}");
+        var project = new Project(name, $"description:{name}", Color.FromHexString("#457b9d"));
         return _repositoryFactory.ProjectRepository(userId).CreateAsync(project, CancellationToken.None);
     }
 

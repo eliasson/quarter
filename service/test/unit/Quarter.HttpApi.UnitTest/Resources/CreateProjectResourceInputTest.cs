@@ -14,6 +14,7 @@ public class CreateProjectResourceInputTest
     {
         public static IEnumerable<object[]> ValidResources()
         {
+            yield return [new CreateProjectResourceInput { name = "OK", description = "OK", color = "#457b9d" }];
             yield return [new CreateProjectResourceInput { name = "OK", description = "OK" }];
         }
 
@@ -36,8 +37,9 @@ public class CreateProjectResourceInputTest
     {
         public static IEnumerable<object[]> InvalidResources()
         {
-            yield return [new CreateProjectResourceInput { name = null! }, "The name field is required."];
-            yield return [new CreateProjectResourceInput { name = "" }, "The name field is required."];
+            yield return [new CreateProjectResourceInput { name = null!, color = "#457b9d" }, "The name field is required."];
+            yield return [new CreateProjectResourceInput { name = "", color = "#457b9d" }, "The name field is required."];
+            yield return [new CreateProjectResourceInput { name = "OK", color = "invalid" }, "The color field is invalid, must be a HEX value (e.g. #04a85b)."];
         }
 
         [TestCaseSource(nameof(InvalidResources))]

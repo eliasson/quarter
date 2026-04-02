@@ -32,7 +32,7 @@ public class ArchiveProjectCommandTest : CommandTestBase
         public async Task AddingInitialProject()
         {
             _projectRepository = RepositoryFactory.ProjectRepository(ActingUser);
-            _initialProject = await _projectRepository.CreateAsync(new Project("a", "a"), CancellationToken.None);
+            _initialProject = await _projectRepository.CreateAsync(new Project("a", "a", Color.FromHexString("#457b9d")), CancellationToken.None);
             var command = new ArchiveProjectCommand(_initialProject.Id);
 
             await Handler.ExecuteAsync(command, OperationContext(), CancellationToken.None);

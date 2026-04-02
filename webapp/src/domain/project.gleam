@@ -19,6 +19,7 @@ pub type Project {
     id: ProjectId,
     name: String,
     description: String,
+    color: color.Color,
     is_archived: Bool,
     created: Timestamp,
     updated: option.Option(Timestamp),

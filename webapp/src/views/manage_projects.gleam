@@ -243,6 +243,12 @@ fn project_form(
     option.None -> "EditProjectDialog"
   }
 
+  let color_value = case state.color {
+    input_value.ValidValue(c) -> color.to_hex(c)
+    input_value.InvalidValue(c, _) -> color.to_hex(c)
+    input_value.UnvalidatedValue(c) -> color.to_hex(c)
+  }
+
   form.Form(
     id,
     [
@@ -254,6 +260,7 @@ fn project_form(
         True,
         False,
       ),
+      form.ColorInput("color", "Color", color_value, True, False),
     ],
     [
       form.Cancel,

@@ -242,7 +242,7 @@ pub fn edit_project_dialog(project: project.Project) {
 }
 
 pub fn new_activity_dialog(project: project.Project) {
-  AddActivityDialog(activity_dialog.new(), project)
+  AddActivityDialog(activity_dialog.new(project), project)
 }
 
 pub fn edit_activity_dialog(activity: project.Activity) {

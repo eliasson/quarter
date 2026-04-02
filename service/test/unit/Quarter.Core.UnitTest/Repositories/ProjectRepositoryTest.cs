@@ -6,6 +6,7 @@ using NUnit.Framework;
 using Quarter.Core.Models;
 using Quarter.Core.Repositories;
 using Quarter.Core.UnitTest.TestUtils;
+using Quarter.Core.Utils;
 
 namespace Quarter.Core.UnitTest.Repositories
 {
@@ -17,7 +18,7 @@ namespace Quarter.Core.UnitTest.Repositories
         protected override Project ArbitraryAggregate()
         {
             var id = Guid.NewGuid();
-            return new Project($"Name {id}", $"Description {id}");
+            return new Project($"Name {id}", $"Description {id}", Color.FromHexString("#457b9d"));
         }
 
         protected override Project WithoutTimestamps(Project aggregate)

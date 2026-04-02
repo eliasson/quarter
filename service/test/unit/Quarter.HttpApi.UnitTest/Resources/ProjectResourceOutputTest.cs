@@ -2,6 +2,7 @@ using NUnit.Framework;
 using Quarter.Core.Models;
 using Quarter.Core.Utils;
 using Quarter.HttpApi.Resources;
+using Color = Quarter.Core.Utils.Color;
 
 namespace Quarter.HttpApi.UnitTest.Resources;
 
@@ -17,7 +18,7 @@ public class ProjectResourceOutputTest
         [OneTimeSetUp]
         public void Setup()
         {
-            _project = new Project("Project name", "Project description");
+            _project = new Project("Project name", "Project description", Color.FromHexString("#457b9d"));
             _output = ProjectResourceOutput.From(_project);
         }
 
@@ -32,6 +33,10 @@ public class ProjectResourceOutputTest
         [Test]
         public void ItShouldMapDescription()
             => Assert.That(_output?.description, Is.EqualTo("Project description"));
+
+        [Test]
+        public void ItShouldMapColor()
+            => Assert.That(_output?.color, Is.EqualTo("#457B9D"));
 
         [Test]
         public void ItShouldMapIsArchived()
@@ -55,7 +60,7 @@ public class ProjectResourceOutputTest
         [OneTimeSetUp]
         public void Setup()
         {
-            _project = new Project("Project name", "Project description");
+            _project = new Project("Project name", "Project description", Color.FromHexString("#457b9d"));
             _project.Updated = UtcDateTime.Now();
             _project.Archive();
             _output = ProjectResourceOutput.From(_project);

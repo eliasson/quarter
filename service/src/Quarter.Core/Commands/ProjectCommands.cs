@@ -3,8 +3,8 @@ using Quarter.Core.Utils;
 
 namespace Quarter.Core.Commands;
 
-public record AddProjectCommand(string Name, string Description) : ICommand;
-public record EditProjectCommand(IdOf<Project> ProjectId, string? Name, string? Description) : ICommand;
+public record AddProjectCommand(string Name, string Description, Color Color) : ICommand;
+public record EditProjectCommand(IdOf<Project> ProjectId, string? Name, string? Description, Color? Color) : ICommand;
 public record RemoveProjectCommand(IdOf<Project> ProjectId) : ICommand;
 public record ArchiveProjectCommand(IdOf<Project> ProjectId) : ICommand;
 public record RestoreProjectCommand(IdOf<Project> ProjectId) : ICommand;
