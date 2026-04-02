@@ -20,6 +20,7 @@ pub fn arbitrary_project() -> project.Project {
     project.ProjectId("P01"),
     "Project Alpha",
     "The Alpha project",
+    color.Color(69, 123, 157),
     False,
     tsutil.timestamp_zero(),
     option.None,
