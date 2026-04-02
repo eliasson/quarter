@@ -1,4 +1,4 @@
-Quarter is built using .NET 9 as backend and a Gleam based front-end using Lustre.
+Quarter is built using .NET Core as backend and a Gleam based front-end using Gleam.
 
 ## Prerequisites
 
