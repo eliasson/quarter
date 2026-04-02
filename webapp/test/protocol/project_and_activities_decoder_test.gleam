@@ -26,12 +26,14 @@ pub fn inflates_to_child_less_projects_test() {
         \"id\": \"P01\",
         \"name\": \"Project Alpha\",
         \"description\": \"The alpha project\",
+        \"color\": \"#457B9D\",
         \"isArchived\": false,
         \"created\": \"2025-11-04T16:49:39.2993437Z\"
      },{
         \"id\": \"P02\",
         \"name\": \"Project Bravo\",
         \"description\": \"The bravo project\",
+        \"color\": \"#457B9D\",
         \"isArchived\": false,
         \"created\": \"2025-11-04T16:49:39.2993437Z\"
     }],

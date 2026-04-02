@@ -1,5 +1,6 @@
 import gleam/float
 import gleam/int
+import gleam/list
 import gleam/string
 
 /// Represents a RGBA color
@@ -10,21 +11,73 @@ pub type Color {
 }
 
 pub fn darken(color: Color) -> Color {
-  // Math.round(Math.min(Math.max(0, c + (c * lum)), 255))
-  let lum = -0.3
+  darken_by(color, 0.3)
+}
+
+/// Darken the color by the given percentage (0.0 to 1.0).
+/// E.g. darken_by(color, 0.1) darkens by 10%.
+pub fn darken_by(color: Color, percentage: Float) -> Color {
+  let amount = 1.0 -. percentage
   let r_float = int.to_float(color.r)
   let g_float = int.to_float(color.g)
   let b_float = int.to_float(color.b)
 
-  let rr = float.add(r_float, float.multiply(r_float, lum))
-  let gg = float.add(g_float, float.multiply(g_float, lum))
-  let bb = float.add(b_float, float.multiply(b_float, lum))
+  let rr = float.multiply(r_float, amount)
+  let gg = float.multiply(g_float, amount)
+  let bb = float.multiply(b_float, amount)
 
   let r = float.round(float.min(float.max(0.0, rr), 255.0))
   let g = float.round(float.min(float.max(0.0, gg), 255.0))
   let b = float.round(float.min(float.max(0.0, bb), 255.0))
 
   Color(r, g, b)
+}
+
+/// A curated palette of visually distinct major colors.
+/// These are chosen to be clearly distinguishable from each other.
+const major_colors = [
+  Color(230, 57, 70),
+  // Red
+  Color(244, 162, 97),
+  // Orange
+  Color(233, 196, 106),
+  // Yellow
+  Color(42, 157, 143),
+  // Teal
+  Color(38, 70, 83),
+  // Dark Blue
+  Color(69, 123, 157),
+  // Steel Blue
+  Color(142, 68, 173),
+  // Purple
+  Color(39, 174, 96),
+  // Green
+  Color(231, 76, 60),
+  // Vermilion
+  Color(52, 152, 219),
+  // Sky Blue
+  Color(211, 84, 0),
+  // Burnt Orange
+  Color(22, 160, 133),
+  // Dark Cyan
+  Color(192, 57, 43),
+  // Dark Red
+  Color(41, 128, 185),
+  // Ocean Blue
+  Color(142, 135, 245),
+  // Lavender
+  Color(230, 126, 34),
+  // Carrot Orange
+]
+
+/// Returns a random color from a curated palette of visually distinct major colors.
+pub fn random_major_color() -> Color {
+  let index = int.random(list.length(major_colors))
+  case list.drop(major_colors, index) {
+    [color, ..] -> color
+    // Fallback should never happen
+    [] -> Color(142, 135, 245)
+  }
 }
 
 pub fn color_to_style_value(c: Color) -> String {

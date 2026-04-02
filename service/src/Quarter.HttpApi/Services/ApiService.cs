@@ -43,7 +43,8 @@ public class ApiService(IRepositoryFactory repositoryFactory, IQueryHandler quer
 
     public async Task<ProjectResourceOutput> CreateProjectAsync(CreateProjectResourceInput input, OperationContext oc, CancellationToken ct)
     {
-        var project = new Project(input.name!, input.description!);
+        var color = input.color is not null ? Color.FromHexString(input.color) : Project.DefaultColor;
+        var project = new Project(input.name!, input.description!, color);
         project = await repositoryFactory.ProjectRepository(oc.UserId).CreateAsync(project, ct);
         return ProjectResourceOutput.From(project);
     }
@@ -54,6 +55,7 @@ public class ApiService(IRepositoryFactory repositoryFactory, IQueryHandler quer
         {
             if (input.name is not null) existing.Name = input.name;
             if (input.description is not null) existing.Description = input.description;
+            if (input.color is not null) existing.Color = Color.FromHexString(input.color);
             if (input.isArchived is {} isArchived) existing.IsArchived = isArchived;
             return existing;
         }, ct);

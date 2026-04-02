@@ -1,3 +1,4 @@
+import domain/color
 import domain/project
 import gleam/json
 import gleam/option
@@ -15,6 +16,7 @@ pub fn decode_minimal_project_test() {
       \"id\": \"001\",
       \"name\": \"Project Alpha\",
       \"description\": \"\",
+      \"color\": \"#457B9D\",
       \"isArchived\": false,
       \"created\": \"2025-11-04T16:49:39.2993437Z\"
      }"
@@ -26,6 +28,7 @@ pub fn decode_minimal_project_test() {
         project.ProjectId("001"),
         "Project Alpha",
         "",
+        color.Color(69, 123, 157),
         False,
         result.unwrap(expected_created, tsutil.timestamp_zero()),
         option.None,
@@ -45,6 +48,7 @@ pub fn decode_full_project_test() {
       \"id\": \"001\",
       \"name\": \"Project Alpha\",
       \"description\": \"The alpha project\",
+      \"color\": \"#E63946\",
       \"isArchived\": true,
       \"created\": \"2025-11-04T16:49:39.2993437Z\",
       \"updated\": \"2025-11-04T20:00:00.0Z\"
@@ -57,6 +61,7 @@ pub fn decode_full_project_test() {
         project.ProjectId("001"),
         "Project Alpha",
         "The alpha project",
+        color.Color(230, 57, 70),
         True,
         result.unwrap(expected_created, tsutil.timestamp_zero()),
         option.Some(result.unwrap(expected_updated, tsutil.timestamp_zero())),

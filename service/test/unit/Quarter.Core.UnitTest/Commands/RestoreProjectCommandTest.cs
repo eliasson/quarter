@@ -5,6 +5,7 @@ using Quarter.Core.Commands;
 using Quarter.Core.Exceptions;
 using Quarter.Core.Models;
 using Quarter.Core.Repositories;
+using Quarter.Core.Utils;
 
 namespace Quarter.Core.UnitTest.Commands;
 
@@ -30,7 +31,7 @@ public class RestoreProjectCommandTest : CommandTestBase
         public async Task AddingInitialProject()
         {
             _projectRepository = RepositoryFactory.ProjectRepository(ActingUser);
-            var project = new Project("a", "a");
+            var project = new Project("a", "a", Color.FromHexString("#457b9d"));
             project.Archive();
             _initialProject = await _projectRepository.CreateAsync(project, CancellationToken.None);
             var command = new RestoreProjectCommand(_initialProject.Id);

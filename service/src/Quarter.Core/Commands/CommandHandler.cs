@@ -66,7 +66,7 @@ public class CommandHandler(IRepositoryFactory repositoryFactory) : ICommandHand
 
     private async Task ExecuteAsync(AddProjectCommand command, OperationContext oc, CancellationToken ct)
     {
-        var project = new Project(command.Name, command.Description);
+        var project = new Project(command.Name, command.Description, command.Color);
         await repositoryFactory.ProjectRepository(oc.UserId).CreateAsync(project, ct);
     }
 
@@ -79,6 +79,8 @@ public class CommandHandler(IRepositoryFactory repositoryFactory) : ICommandHand
                     current.Name = command.Name;
                 if (command.Description is not null)
                     current.Description = command.Description;
+                if (command.Color is not null)
+                    current.Color = command.Color;
 
                 return current;
             }, ct);

@@ -1,6 +1,7 @@
 import domain/color
 import domain/input_value.{type InputValue}
 import domain/project
+import gleam/list
 import gleam/string
 import types.{type FormValue}
 
@@ -13,12 +14,25 @@ pub type State {
   )
 }
 
-/// Create the dialog state for creating a new activity. I.e. an empty state.
-pub fn new() -> State {
+/// Create the dialog state for creating a new activity.
+/// The first activity in a project gets the project's color.
+/// Each subsequent activity darkens the last activity's color by 10%.
+pub fn new(project: project.Project) -> State {
+  let activity_color = case
+    project.activities
+    |> project.sort_activities()
+    |> list.last()
+  {
+    // Darken the last activity's color by 10%
+    Ok(last_activity) -> color.darken_by(last_activity.color, 0.1)
+    // No activities yet, use the project's color
+    Error(_) -> project.color
+  }
+
   State(
     input_value.ValidValue(""),
     input_value.ValidValue(""),
-    input_value.ValidValue(color.Color(142, 135, 245)),
+    input_value.ValidValue(activity_color),
     False,
   )
 }

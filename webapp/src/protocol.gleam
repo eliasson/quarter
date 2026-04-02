@@ -60,6 +60,7 @@ pub fn add_user(
 pub fn create_project(
   name: String,
   description: String,
+  color_value: color.Color,
   on_response handle_response: fn(Result(project.Project, rsvp.Error)) ->
     message.Msg,
 ) -> Effect(message.Msg) {
@@ -69,6 +70,7 @@ pub fn create_project(
     json.object([
       #("name", json.string(name)),
       #("description", json.string(description)),
+      #("color", json.string(color.to_hex(color_value))),
     ])
 
   rsvp.post(url, payload, handler)
@@ -78,6 +80,7 @@ pub fn update_project(
   project: project.Project,
   name: String,
   description: String,
+  color_value: color.Color,
   on_response handle_response: fn(Result(project.Project, rsvp.Error)) ->
     message.Msg,
 ) -> Effect(message.Msg) {
@@ -86,6 +89,7 @@ pub fn update_project(
     json.object([
       #("name", json.string(name)),
       #("description", json.string(description)),
+      #("color", json.string(color.to_hex(color_value))),
     ])
 
   rsvp.patch(project_url(project), payload, handler)
@@ -361,6 +365,7 @@ pub fn project_decoder() -> decode.Decoder(project.Project) {
   use id <- decode.field("id", decode.string)
   use name <- decode.field("name", decode.string)
   use description <- decode.field("description", decode.string)
+  use color_field <- decode.field("color", decode_color())
   use is_archived <- decode.field("isArchived", decode.bool)
   use created <- decode.field("created", decode_timestamp())
   use updated <- decode.optional_field(
@@ -374,6 +379,7 @@ pub fn project_decoder() -> decode.Decoder(project.Project) {
       project.ProjectId(id),
       name,
       description,
+      color_field,
       is_archived,
       created,
       updated,

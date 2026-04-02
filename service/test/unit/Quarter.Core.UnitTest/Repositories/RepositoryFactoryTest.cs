@@ -159,7 +159,7 @@ public abstract class RepositoryAccessTestBase
     }
 
     private static Project ArbitraryProject()
-        => new Project("Arbitrary", "Arbitrary");
+        => new Project("Arbitrary", "Arbitrary", Color.FromHexString("#457b9d"));
 
     private static Activity ArbitraryActivity()
         => new Activity(IdOf<Project>.Random(), "Arbitrary", "Arbitrary", Color.FromHexString("#000"));

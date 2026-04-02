@@ -33,7 +33,7 @@ namespace Quarter.Core.UnitTest.Commands
         protected Task<Project> CreateProjectAsync(string name)
         {
             var repo = RepositoryFactory.ProjectRepository(ActingUser);
-            return repo.CreateAsync(new Project(name, $"Description for {name}"), CancellationToken.None);
+            return repo.CreateAsync(new Project(name, $"Description for {name}", Color.FromHexString("#457b9d")), CancellationToken.None);
         }
 
         protected Task<Activity> CreateActivityAsync(IdOf<Project> projectId, string name)

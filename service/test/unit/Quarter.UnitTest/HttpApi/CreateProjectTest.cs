@@ -23,6 +23,7 @@ public class CreateProjectTest
             {
                 name = "Test name",
                 description = "Test description",
+                color = "#457b9d",
             };
             _response = await PostAsync("/api/projects/", payload);
         }
@@ -80,6 +81,7 @@ public class CreateProjectTest
             {
                 name = "Test name",
                 description = "Test description",
+                color = "#457b9d",
             };
             _response = await PostAsync("/api/projects/", payload);
         }

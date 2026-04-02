@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Npgsql;
 using Quarter.Core.Models;
+using Quarter.Core.Utils;
 
 namespace Quarter.Core.Repositories;
 
@@ -16,7 +17,7 @@ public static class ProjectRepository
 {
     public static Task<Project> CreateSandboxProjectAsync(IProjectRepository self, CancellationToken ct)
     {
-        var project = new Project("Your first project", "A project is used to group activities.");
+        var project = new Project("Your first project", "A project is used to group activities.", Color.FromHexString("#457b9d"));
         return self.CreateAsync(project, ct);
     }
 }

@@ -22,7 +22,8 @@ public class CreateProjectTest
             var input = new CreateProjectResourceInput
             {
                 name = "Project alpha",
-                description = "Description alpha"
+                description = "Description alpha",
+                color = "#457b9d"
             };
             _output = await ApiService.CreateProjectAsync(input, _oc, CancellationToken.None);
         }
@@ -32,11 +33,22 @@ public class CreateProjectTest
             => Assert.That(_output?.name, Is.EqualTo("Project alpha"));
 
         [Test]
+        public void ItShouldReturnOutputResourceWithColor()
+            => Assert.That(_output?.color, Is.EqualTo("#457B9D"));
+
+        [Test]
         public async Task ItShouldHaveCreatedProject()
         {
             var projects = await ReadProjectsAsync(_oc.UserId);
             var projectNames = projects.Select(p => p.Name);
             Assert.That(projectNames, Is.EqualTo(new[] { "Project alpha" }));
+        }
+
+        [Test]
+        public async Task ItShouldHavePersistedProjectColor()
+        {
+            var projects = await ReadProjectsAsync(_oc.UserId);
+            Assert.That(projects.Single().Color, Is.EqualTo(Color.FromHexString("#457b9d")));
         }
     }
 }

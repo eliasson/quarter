@@ -450,6 +450,7 @@ fn handle_dialog_confirm(m: model.Model) {
       protocol.create_project(
         state.name.value,
         state.description.value,
+        state.color.value,
         message.CreateProjectResult,
       )
 
@@ -458,6 +459,7 @@ fn handle_dialog_confirm(m: model.Model) {
         project,
         state.name.value,
         state.description.value,
+        state.color.value,
         message.UpdateProjectResult,
       )
 

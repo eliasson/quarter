@@ -1,17 +1,26 @@
 import dialogs/project_dialog
+import domain/color
 import domain/input_value.{ValidValue}
 import gleam/list
 import gleeunit/should
 import test_util
+
+const valid_color = ValidValue(color.Color(69, 123, 157))
 
 pub fn should_be_valid_state_test() {
   let states = [
     project_dialog.State(
       ValidValue("My Project"),
       ValidValue("A description"),
+      valid_color,
       False,
     ),
-    project_dialog.State(ValidValue("My Project"), ValidValue(""), False),
+    project_dialog.State(
+      ValidValue("My Project"),
+      ValidValue(""),
+      valid_color,
+      False,
+    ),
   ]
 
   list.each(states, fn(state) {
@@ -22,8 +31,13 @@ pub fn should_be_valid_state_test() {
 
 pub fn should_be_invalid_test() {
   let states = [
-    project_dialog.State(ValidValue(""), ValidValue("A description"), True),
-    project_dialog.State(ValidValue(""), ValidValue(""), True),
+    project_dialog.State(
+      ValidValue(""),
+      ValidValue("A description"),
+      valid_color,
+      True,
+    ),
+    project_dialog.State(ValidValue(""), ValidValue(""), valid_color, True),
   ]
 
   list.each(states, fn(state) {
