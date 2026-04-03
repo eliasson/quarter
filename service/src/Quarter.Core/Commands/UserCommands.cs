@@ -19,8 +19,3 @@ public record AddUserCommand(Email Email, IEnumerable<UserRole> Roles) : IComman
         => HashCode.Combine(Email, Roles);
 }
 
-public record RemoveUserCommand(IdOf<User> UserId) : ICommand;
-
-public record AssignUserRoleCommand(IdOf<User> UserId, UserRole Role) : ICommand;
-
-public record RevokeUserRoleCommand(IdOf<User> UserId, UserRole Role) : ICommand;
