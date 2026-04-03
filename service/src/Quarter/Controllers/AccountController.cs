@@ -9,10 +9,6 @@ namespace Quarter.Controllers;
 [Route("[controller]")]
 public class AccountController(ILogger<AccountController> logger) : Controller
 {
-    [HttpGet("login")]
-    public IActionResult LoginAsync()
-        => View("Login");
-
     [HttpGet("login/github")]
     public IActionResult LoginGitHub()
     {
