@@ -5,7 +5,7 @@ By default Quarter is running in local mode. This is ideal for:
 
 When running local mode a fix user will be used named _User_ and a static ID (`47ba567a-711e-4c4a-a7b0-07756d965a79`).
 
-To run in local mode, set `Application.LocalMode` to `true`.
+To run in local mode, set `LocalMode` to `true` in `service/src/Quarter/appsettings.json`.
 
 ### Identity providers
 
@@ -16,7 +16,7 @@ The identity provider is only used to authenticate the users. That will not gain
 to Quarter. In order to do that they must be added as local users with a matching e-mail
 address (this is done int the admin UI).
 
-To run using an identity provider, set `Application.LocalMode` to `false` and add your ID's
+To run using an identity provider, set `LocalMode` to `false` and add your ID's
 and secrets in the application configuration (make sure not to commit these!):
 
 ```
