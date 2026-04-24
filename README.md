@@ -32,7 +32,22 @@ TL;DR
 ```
 git clone git@github.com:eliasson/quarter.git
 cd quarter
-docker-compose -f docker/docker-compose.yaml up
+
+# Start PostgreSQL
+docker compose -f tools/docker/docker-compose.yaml up -d
+
+# Build the frontend
+cd webapp
+npm ci
+gleam build
+npm run build
+cd ..
+
+# Symlink dist so the backend can find the frontend assets
+ln -s ../../dist service/src/Quarter/dist
+
+# Build and run the backend
+cd service
 dotnet build
 dotnet run --project src/Quarter
 ```

@@ -13,7 +13,7 @@ public class StartupTaskConfigurationTest
     [Test]
     public void ItShouldHaveRegisteredStartupTasks()
     {
-        var provider = CreateServiceProvider();
+        var provider = CreateServiceProvider(localMode: false);
         var startupTasks = provider.GetServices<IStartupTask>()
             .Select(t => t.GetType());
         Assert.That(startupTasks, Is.EquivalentTo(new[]
@@ -22,12 +22,25 @@ public class StartupTaskConfigurationTest
         }));
     }
 
-    private static ServiceProvider CreateServiceProvider()
+    [Test]
+    public void ItShouldRegisterLocalUserStartupTaskInLocalMode()
+    {
+        var provider = CreateServiceProvider(localMode: true);
+        var startupTasks = provider.GetServices<IStartupTask>()
+            .Select(t => t.GetType());
+        Assert.That(startupTasks, Is.EquivalentTo(new[]
+        {
+            typeof(InitialUserStartupTask),
+            typeof(LocalUserStartupTask)
+        }));
+    }
+
+    private static ServiceProvider CreateServiceProvider(bool localMode)
     {
         var serviceCollection = new ServiceCollection();
         serviceCollection.AddLogging();
         serviceCollection.UseQuarterUnderTest();
-        serviceCollection.RegisterStartupTasks();
+        serviceCollection.RegisterStartupTasks(localMode);
         return serviceCollection.BuildServiceProvider();
     }
 }

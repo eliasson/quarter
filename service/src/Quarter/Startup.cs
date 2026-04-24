@@ -40,10 +40,11 @@ public class Startup(IConfiguration configuration)
 
         services.AddRouting();
         services.AddRazorPages();
-        services.AddControllers(o => o.EnableEndpointRouting = false);
+        services.AddControllers();
         services.AddAuthorization();
         services.AddHttpContextAccessor();
-        services.RegisterStartupTasks();
+        var localMode = Configuration.GetValue<bool>("LocalMode");
+        services.RegisterStartupTasks(localMode);
     }
 
     private void ConfigureAuth(IServiceCollection services)
