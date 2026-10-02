@@ -4,7 +4,6 @@ import lustre/attribute as att
 import lustre/element
 import lustre/element/html
 import lustre/event
-import message
 import types
 import ui/core as ui
 
@@ -95,8 +94,12 @@ pub fn outline_button(text: String, icon ico: String) {
 }
 
 /// A dialog containing a form.
-pub fn form_dialog(form: form.Form, header: String) {
-  let content = list.map(form.fields, fn(f) { render_field(f) })
+pub fn form_dialog(
+  form: form.Form(msg),
+  header: String,
+  on_input handle_input: fn(types.FormValue) -> msg,
+) -> element.Element(msg) {
+  let content = list.map(form.fields, fn(f) { render_field(f, handle_input) })
   let actions = list.map(form.actions, fn(f) { render_action(f) })
 
   html.div([att.class("dialog-backdrop")], [
@@ -117,23 +120,42 @@ pub fn form_dialog(form: form.Form, header: String) {
   ])
 }
 
-fn render_field(field field: form.FormField) -> element.Element(message.Msg) {
+fn render_field(
+  field field: form.FormField,
+  on_input handle_input: fn(types.FormValue) -> msg,
+) -> element.Element(msg) {
   case field {
     form.EmailInput(name, label, value, required, autofocus) ->
-      input_field("email", name, label, value, required, autofocus)
+      input_field(
+        "email",
+        name,
+        label,
+        value,
+        required,
+        autofocus,
+        handle_input,
+      )
     form.TextInput(name, label, value, required, autofocus) ->
-      input_field("text", name, label, value, required, autofocus)
+      input_field("text", name, label, value, required, autofocus, handle_input)
     form.TextAreaInput(name, label, value, required, autofocus) ->
-      text_area(name, label, value, required, autofocus)
+      text_area(name, label, value, required, autofocus, handle_input)
     form.ColorInput(name, label, value, required, autofocus) ->
-      input_field("color", name, label, value, required, autofocus)
+      input_field(
+        "color",
+        name,
+        label,
+        value,
+        required,
+        autofocus,
+        handle_input,
+      )
     form.TextMessage(text) -> text_message(text)
   }
 }
 
-fn render_action(action action: form.FormAction) -> element.Element(message.Msg) {
+fn render_action(action action: form.FormAction(msg)) -> element.Element(msg) {
   case action {
-    form.Cancel -> cancel_button(message.CloseModal)
+    form.Cancel(msg) -> cancel_button(msg)
     form.Confirm(disabled, msg) -> button("submit", "Confirm", disabled, msg)
   }
 }
@@ -145,7 +167,8 @@ fn input_field(
   inital_value: String,
   required: Bool,
   autofocus: Bool,
-) -> element.Element(message.Msg) {
+  on_input handle_input: fn(types.FormValue) -> msg,
+) -> element.Element(msg) {
   // Only add the required attribute if the input has a value. Else the field will be invalid immediately.
   let validations = case inital_value {
     "" -> []
@@ -161,7 +184,7 @@ fn input_field(
         att.value(inital_value),
         att.autofocus(autofocus),
         event.on_input(fn(updated_value) {
-          message.FormTextFieldUpdated(types.FormValue(name, updated_value))
+          handle_input(types.FormValue(name, updated_value))
         }),
       ],
       validations,
@@ -175,7 +198,8 @@ fn text_area(
   inital_value: String,
   required: Bool,
   autofocus: Bool,
-) -> element.Element(message.Msg) {
+  on_input handle_input: fn(types.FormValue) -> msg,
+) -> element.Element(msg) {
   // Only add the required attribute if the input has a value. Else the field will be invalid immediately.
   let validations = case inital_value {
     "" -> []
@@ -191,7 +215,7 @@ fn text_area(
           att.autofocus(autofocus),
           att.rows(6),
           event.on_input(fn(updated_value) {
-            message.FormTextFieldUpdated(types.FormValue(name, updated_value))
+            handle_input(types.FormValue(name, updated_value))
           }),
         ],
         validations,

@@ -1,7 +1,5 @@
-import message
-
-pub type Form {
-  Form(id: String, fields: List(FormField), actions: List(FormAction))
+pub type Form(msg) {
+  Form(id: String, fields: List(FormField), actions: List(FormAction(msg)))
 }
 
 pub type FormField {
@@ -45,7 +43,7 @@ pub type FormField {
   )
 }
 
-pub type FormAction {
-  Cancel
-  Confirm(disabled: Bool, msg: message.Msg)
+pub type FormAction(msg) {
+  Cancel(msg: msg)
+  Confirm(disabled: Bool, msg: msg)
 }

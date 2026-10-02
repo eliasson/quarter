@@ -59,12 +59,12 @@ fn user_table(m: model.Model) {
 }
 
 /// Generate a form to render based on the dialog state.
-pub fn add_user_form(state: user_dialog.State) -> form.Form {
+pub fn add_user_form(state: user_dialog.State) -> form.Form(message.Msg) {
   form.Form(
     "AddUserDialog",
     [form.EmailInput("email", "Email", state.email.value.value, True, True)],
     [
-      form.Cancel,
+      form.Cancel(message.CloseModal),
       form.Confirm(!state.is_valid, message.ConfirmDialog),
     ],
   )

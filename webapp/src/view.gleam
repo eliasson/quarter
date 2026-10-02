@@ -151,27 +151,42 @@ fn dialogs(model: model.Model) -> List(element.Element(message.Msg)) {
     case d {
       model.AddUserDialog(state) -> {
         system_users.add_user_form(state)
-        |> input.form_dialog("Add new user")
+        |> input.form_dialog(
+          "Add new user",
+          on_input: message.FormTextFieldUpdated,
+        )
       }
 
       model.AddProjectDialog(state) -> {
         manage_projects.add_project_form(state)
-        |> input.form_dialog("Add new project")
+        |> input.form_dialog(
+          "Add new project",
+          on_input: message.FormTextFieldUpdated,
+        )
       }
 
       model.EditProjectDialog(state, project) -> {
         manage_projects.edit_project_form(state, project)
-        |> input.form_dialog("Edit " <> project.name)
+        |> input.form_dialog(
+          "Edit " <> project.name,
+          on_input: message.FormTextFieldUpdated,
+        )
       }
 
       model.AddActivityDialog(state, project) -> {
         manage_projects.add_activity_form(state, project)
-        |> input.form_dialog("Add activity to " <> project.name)
+        |> input.form_dialog(
+          "Add activity to " <> project.name,
+          on_input: message.FormTextFieldUpdated,
+        )
       }
 
       model.EditActivityDialog(state, activity) -> {
         manage_projects.edit_activity_form(state, activity)
-        |> input.form_dialog("Edit " <> activity.name)
+        |> input.form_dialog(
+          "Edit " <> activity.name,
+          on_input: message.FormTextFieldUpdated,
+        )
       }
 
       model.ArchiveActivityDialog(activity) ->

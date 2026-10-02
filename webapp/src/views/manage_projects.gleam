@@ -174,35 +174,35 @@ fn manage_activity_action(
   )
 }
 
-pub fn add_project_form(state: project_dialog.State) -> form.Form {
+pub fn add_project_form(state: project_dialog.State) -> form.Form(message.Msg) {
   project_form(state, option.None)
 }
 
 pub fn edit_project_form(
   state: project_dialog.State,
   project: project.Project,
-) -> form.Form {
+) -> form.Form(message.Msg) {
   project_form(state, option.Some(project))
 }
 
 pub fn add_activity_form(
   state: activity_dialog.State,
   _project: project.Project,
-) -> form.Form {
+) -> form.Form(message.Msg) {
   activity_form(state, option.None)
 }
 
 pub fn edit_activity_form(
   state: activity_dialog.State,
   activity: project.Activity,
-) -> form.Form {
+) -> form.Form(message.Msg) {
   activity_form(state, option.Some(activity))
 }
 
 fn activity_form(
   state: activity_dialog.State,
   activity: option.Option(project.Activity),
-) -> form.Form {
+) -> form.Form(message.Msg) {
   let id = case activity {
     option.Some(_) -> "EditActivityDialog"
     option.None -> "AddActivityDialog"
@@ -228,7 +228,7 @@ fn activity_form(
       form.ColorInput("color", "Color", color_value, True, False),
     ],
     [
-      form.Cancel,
+      form.Cancel(message.CloseModal),
       form.Confirm(!state.is_valid, message.ConfirmDialog),
     ],
   )
@@ -237,7 +237,7 @@ fn activity_form(
 fn project_form(
   state: project_dialog.State,
   project: option.Option(project.Project),
-) -> form.Form {
+) -> form.Form(message.Msg) {
   let id = case project {
     option.Some(_) -> "AddProjectDialog"
     option.None -> "EditProjectDialog"
@@ -256,7 +256,7 @@ fn project_form(
       ),
     ],
     [
-      form.Cancel,
+      form.Cancel(message.CloseModal),
       form.Confirm(!state.is_valid, message.ConfirmDialog),
     ],
   )
@@ -272,11 +272,14 @@ pub fn archive_project_form(
       form.TextMessage(archive_project_text(project)),
     ],
     [
-      form.Cancel,
+      form.Cancel(message.CloseModal),
       form.Confirm(False, message.ArchiveProject(project)),
     ],
   )
-  |> input.form_dialog(archive_project_header(project))
+  |> input.form_dialog(
+    archive_project_header(project),
+    on_input: message.FormTextFieldUpdated,
+  )
 }
 
 /// The archive activity confirmation dialog is stateless and only includes a query text message.
@@ -289,11 +292,14 @@ pub fn archive_activity_form(
       form.TextMessage(archive_activity_text(activity)),
     ],
     [
-      form.Cancel,
+      form.Cancel(message.CloseModal),
       form.Confirm(False, message.ArchiveActivity(activity)),
     ],
   )
-  |> input.form_dialog(archive_activity_header(activity))
+  |> input.form_dialog(
+    archive_activity_header(activity),
+    on_input: message.FormTextFieldUpdated,
+  )
 }
 
 /// The archive activity confirmation dialog is stateless and only includes a query text message.
@@ -310,11 +316,14 @@ pub fn delete_activity_form(
       ),
     ],
     [
-      form.Cancel,
+      form.Cancel(message.CloseModal),
       form.Confirm(False, message.DeleteActivity(activity)),
     ],
   )
-  |> input.form_dialog("Delete activity?")
+  |> input.form_dialog(
+    "Delete activity?",
+    on_input: message.FormTextFieldUpdated,
+  )
 }
 
 pub fn delete_project_form(
@@ -330,11 +339,14 @@ pub fn delete_project_form(
       ),
     ],
     [
-      form.Cancel,
+      form.Cancel(message.CloseModal),
       form.Confirm(False, message.DeleteProject(project)),
     ],
   )
-  |> input.form_dialog("Delete project?")
+  |> input.form_dialog(
+    "Delete project?",
+    on_input: message.FormTextFieldUpdated,
+  )
 }
 
 fn archive_project_menu_label(project: project.Project) -> String {
