@@ -4,7 +4,6 @@ import lustre/element
 import lustre/element/html
 import lustre/element/svg
 import lustre/event
-import message
 import ui/graphics
 import util/timestamp as tsutil
 
@@ -54,7 +53,8 @@ pub fn error_notification(
   id: String,
   title: String,
   message: String,
-) -> element.Element(message.Msg) {
+  on_dismiss: fn(String) -> msg,
+) -> element.Element(msg) {
   html.div([att.class("error-notification")], [
     html.div([att.class("error-notification-body")], [
       html.h2([att.class("error-notification-title")], [html.text(title)]),
@@ -64,7 +64,7 @@ pub fn error_notification(
     html.button(
       [
         att.class("ghost"),
-        event.on_click(message.DismissError(id)),
+        event.on_click(on_dismiss(id)),
       ],
       [icon(graphics.icon_close, MediumSize)],
     ),

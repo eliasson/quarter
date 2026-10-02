@@ -191,8 +191,12 @@ fn dialogs(model: model.Model) -> List(element.Element(message.Msg)) {
   list.map(model.dialogs, fn(dialog) { markup(dialog) })
 }
 
-fn error_notifications(model: model.Model) -> List(element.Element(message.Msg)) {
+fn error_notifications(
+  model: model.Model,
+) -> List(element.Element(message.Msg)) {
   list.map(model.errors, fn(error) {
-    ui.error_notification(error.id, "An error occured!", error.message)
+    ui.error_notification(error.id, "An error occured!", error.message, fn(id) {
+      message.DismissError(id)
+    })
   })
 }
