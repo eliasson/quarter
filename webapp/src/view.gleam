@@ -127,6 +127,8 @@ fn main_drop_down_menu(m: model.Model) {
       dropdown.DropDownMsg(graphics.icon_logout, "Logout", message.Logout),
     ],
     model.is_drop_down_menu_open(m, main_menu_id),
+    on_open: message.OpenDropDownMenu,
+    on_close: message.CloseModal,
   )
 }
 

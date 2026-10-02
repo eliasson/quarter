@@ -140,6 +140,8 @@ fn manage_project_action(m: model.Model, project: project.Project) {
       ),
     ],
     model.is_drop_down_menu_open(m, menu_id),
+    on_open: message.OpenDropDownMenu,
+    on_close: message.CloseModal,
   )
 }
 
@@ -171,6 +173,8 @@ fn manage_activity_action(
       ),
     ],
     model.is_drop_down_menu_open(m, menu_id),
+    on_open: message.OpenDropDownMenu,
+    on_close: message.CloseModal,
   )
 }
 

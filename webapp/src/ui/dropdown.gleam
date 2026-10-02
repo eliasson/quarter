@@ -4,14 +4,13 @@ import lustre/attribute as att
 import lustre/element
 import lustre/element/html
 import lustre/event
-import message
 import ui/core as ui
 import ui/graphics
 import util/either
 
-pub type DropDownItem {
+pub type DropDownItem(msg) {
   DropDownLink(icon: String, label: String, href: String)
-  DropDownMsg(icon: String, label: String, msg: message.Msg)
+  DropDownMsg(icon: String, label: String, msg: msg)
   DropDownLinkApx(
     icon: String,
     label: String,
@@ -24,15 +23,17 @@ pub type DropDownItem {
 
 pub fn drop_down_menu(
   id: String,
-  initiating: element.Element(message.Msg),
-  menu_items: List(DropDownItem),
+  initiating: element.Element(msg),
+  menu_items: List(DropDownItem(msg)),
   is_open: Bool,
-) -> element.Element(message.Msg) {
+  on_open handle_open: fn(String) -> msg,
+  on_close handle_close: msg,
+) -> element.Element(msg) {
   let menu = case is_open {
     True ->
       html.div([att.class("drop-down-menu")], [
-        drop_down_header(message.CloseModal),
-        ..list.map(menu_items, fn(i) { create_drop_down_item(i) })
+        drop_down_header(handle_close),
+        ..list.map(menu_items, fn(i) { create_drop_down_item(i, handle_close) })
       ])
     _ -> element.none()
   }
@@ -40,13 +41,16 @@ pub fn drop_down_menu(
   html.div(
     [
       att.class("drop-down-initiator"),
-      event.on_click(message.OpenDropDownMenu(id)),
+      event.on_click(handle_open(id)),
     ],
     [initiating, menu],
   )
 }
 
-fn create_drop_down_item(item: DropDownItem) -> element.Element(message.Msg) {
+fn create_drop_down_item(
+  item: DropDownItem(msg),
+  on_close: msg,
+) -> element.Element(msg) {
   case item {
     DropDownLink(icon, label, url) ->
       drop_down_item_impl(either.Left(url), icon, label, option.None)
@@ -59,7 +63,7 @@ fn create_drop_down_item(item: DropDownItem) -> element.Element(message.Msg) {
 
     DropDownSeparator -> separator_menu_item()
 
-    DropDownHeader -> drop_down_header(message.CloseModal)
+    DropDownHeader -> drop_down_header(on_close)
   }
 }
 
@@ -80,11 +84,11 @@ fn separator_menu_item() {
 }
 
 fn drop_down_item_impl(
-  action: either.Either(String, message.Msg),
+  action: either.Either(String, msg),
   icon ico: String,
   text text: String,
   appendix appendix: Option(String),
-) {
+) -> element.Element(msg) {
   let appendix_elm = case appendix {
     option.Some(t) -> html.div([att.class("appendix")], [html.text(t)])
     option.None -> element.none()
