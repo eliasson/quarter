@@ -16,15 +16,14 @@ import gleam/option.{type Option, None, Some}
 import gleam/time/calendar
 import gleam/time/timestamp
 import lustre/effect.{type Effect}
-import message
 import rsvp
 import util/seq
 import util/timestamp as tsutil
 
 /// Get the currently logged in user, if logged in.
 pub fn get_current_user(
-  on_response handle_response: fn(Result(user.User, rsvp.Error)) -> message.Msg,
-) -> Effect(message.Msg) {
+  on_response handle_response: fn(Result(user.User, rsvp.Error)) -> msg,
+) -> Effect(msg) {
   let url = "/api/users/self"
   let handler = rsvp.expect_json(user_resource_decoder(), handle_response)
 
@@ -35,9 +34,8 @@ pub fn get_current_user(
 /// This HTTP call requires the current user to have sufficient access to do
 /// so, else the request will fail with Forbidden.
 pub fn get_system_users(
-  on_response handle_response: fn(Result(List(user.User), rsvp.Error)) ->
-    message.Msg,
-) -> Effect(message.Msg) {
+  on_response handle_response: fn(Result(List(user.User), rsvp.Error)) -> msg,
+) -> Effect(msg) {
   let url = "/api/users"
 
   let handler =
@@ -48,8 +46,8 @@ pub fn get_system_users(
 
 pub fn add_user(
   email: email.Email,
-  on_response handle_response: fn(Result(user.User, rsvp.Error)) -> message.Msg,
-) -> Effect(message.Msg) {
+  on_response handle_response: fn(Result(user.User, rsvp.Error)) -> msg,
+) -> Effect(msg) {
   let url = "/api/users"
   let handler = rsvp.expect_json(user_resource_decoder(), handle_response)
   let payload = json.object([#("email", json.string(email.value))])
@@ -60,9 +58,8 @@ pub fn add_user(
 pub fn create_project(
   name: String,
   description: String,
-  on_response handle_response: fn(Result(project.Project, rsvp.Error)) ->
-    message.Msg,
-) -> Effect(message.Msg) {
+  on_response handle_response: fn(Result(project.Project, rsvp.Error)) -> msg,
+) -> Effect(msg) {
   let url = "/api/projects"
   let handler = rsvp.expect_json(project_decoder(), handle_response)
   let payload =
@@ -78,9 +75,8 @@ pub fn update_project(
   project: project.Project,
   name: String,
   description: String,
-  on_response handle_response: fn(Result(project.Project, rsvp.Error)) ->
-    message.Msg,
-) -> Effect(message.Msg) {
+  on_response handle_response: fn(Result(project.Project, rsvp.Error)) -> msg,
+) -> Effect(msg) {
   let handler = rsvp.expect_json(project_decoder(), handle_response)
   let payload =
     json.object([
@@ -96,9 +92,8 @@ pub fn create_activity(
   name: String,
   description: String,
   color_value: color.Color,
-  on_response handle_response: fn(Result(project.Activity, rsvp.Error)) ->
-    message.Msg,
-) -> Effect(message.Msg) {
+  on_response handle_response: fn(Result(project.Activity, rsvp.Error)) -> msg,
+) -> Effect(msg) {
   let url = "/api/projects/" <> project.id.value <> "/activities"
   let handler = rsvp.expect_json(activity_decoder(), handle_response)
   let payload =
@@ -116,9 +111,8 @@ pub fn update_activity(
   name: String,
   description: String,
   color_value: color.Color,
-  on_response handle_response: fn(Result(project.Activity, rsvp.Error)) ->
-    message.Msg,
-) -> Effect(message.Msg) {
+  on_response handle_response: fn(Result(project.Activity, rsvp.Error)) -> msg,
+) -> Effect(msg) {
   let handler = rsvp.expect_json(activity_decoder(), handle_response)
   let payload =
     json.object([
@@ -133,8 +127,8 @@ pub fn update_activity(
 /// Get all users projects and activities in a single request.
 pub fn get_projects_and_activities(
   on_response handle_response: fn(Result(project.ProjectCollection, rsvp.Error)) ->
-    message.Msg,
-) -> Effect(message.Msg) {
+    msg,
+) -> Effect(msg) {
   let url = "/api/projects/activities"
 
   let handler =
@@ -145,9 +139,8 @@ pub fn get_projects_and_activities(
 
 pub fn archive_activity(
   activity: project.Activity,
-  on_response handle_response: fn(Result(project.Activity, rsvp.Error)) ->
-    message.Msg,
-) -> Effect(message.Msg) {
+  on_response handle_response: fn(Result(project.Activity, rsvp.Error)) -> msg,
+) -> Effect(msg) {
   let handler = rsvp.expect_json(activity_decoder(), handle_response)
   let payload = json.object([#("isArchived", json.bool(!activity.is_archived))])
 
@@ -156,10 +149,9 @@ pub fn archive_activity(
 
 pub fn delete_activity(
   activity: project.Activity,
-  on_response handle_response: fn(Result(project.Activity, rsvp.Error)) ->
-    message.Msg,
-) -> Effect(message.Msg) {
-  let handler = fn(result: Result(Response(String), rsvp.Error)) -> message.Msg {
+  on_response handle_response: fn(Result(project.Activity, rsvp.Error)) -> msg,
+) -> Effect(msg) {
+  let handler = fn(result: Result(Response(String), rsvp.Error)) -> msg {
     case result {
       Ok(_) -> handle_response(Ok(activity))
       Error(e) -> handle_response(Error(e))
@@ -175,9 +167,8 @@ pub fn delete_activity(
 
 pub fn archive_project(
   project: project.Project,
-  on_response handle_response: fn(Result(project.Project, rsvp.Error)) ->
-    message.Msg,
-) -> Effect(message.Msg) {
+  on_response handle_response: fn(Result(project.Project, rsvp.Error)) -> msg,
+) -> Effect(msg) {
   let handler = rsvp.expect_json(project_decoder(), handle_response)
   let payload = json.object([#("isArchived", json.bool(!project.is_archived))])
 
@@ -186,10 +177,9 @@ pub fn archive_project(
 
 pub fn delete_project(
   project: project.Project,
-  on_response handle_response: fn(Result(project.Project, rsvp.Error)) ->
-    message.Msg,
-) -> Effect(message.Msg) {
-  let handler = fn(result: Result(Response(String), rsvp.Error)) -> message.Msg {
+  on_response handle_response: fn(Result(project.Project, rsvp.Error)) -> msg,
+) -> Effect(msg) {
+  let handler = fn(result: Result(Response(String), rsvp.Error)) -> msg {
     case result {
       Ok(_) -> handle_response(Ok(project))
       Error(e) -> handle_response(Error(e))
@@ -207,8 +197,8 @@ pub fn delete_project(
 pub fn get_timesheets(
   timestamp: timestamp.Timestamp,
   on_response handle_response: fn(Result(List(timesheet.Timesheet), rsvp.Error)) ->
-    message.Msg,
-) -> Effect(message.Msg) {
+    msg,
+) -> Effect(msg) {
   let #(date, _) = timestamp.to_calendar(timestamp, calendar.utc_offset)
 
   let url =
@@ -241,8 +231,8 @@ pub fn register_time(
   date: timestamp.Timestamp,
   reg: registration.ActiveRegistration,
   on_response handle_response: fn(Result(timesheet.Timesheet, rsvp.Error)) ->
-    message.Msg,
-) -> Effect(message.Msg) {
+    msg,
+) -> Effect(msg) {
   let date_string = tsutil.to_iso_date(date)
   let url = "/api/timesheets/" <> date_string
   let handler = rsvp.expect_json(timesheet_decoder(), handle_response)
@@ -291,8 +281,8 @@ pub fn register_time(
 pub fn get_timesheet(
   date: timestamp.Timestamp,
   on_response handle_response: fn(Result(timesheet.Timesheet, rsvp.Error)) ->
-    message.Msg,
-) -> Effect(message.Msg) {
+    msg,
+) -> Effect(msg) {
   let date_string = tsutil.to_iso_date(date)
   let url = "/api/timesheets/" <> date_string
 
@@ -307,8 +297,8 @@ pub fn get_timesheet(
 pub fn get_weekly_report(
   date: timestamp.Timestamp,
   on_response handle_response: fn(Result(report.WeeklyReport, rsvp.Error)) ->
-    message.Msg,
-) -> Effect(message.Msg) {
+    msg,
+) -> Effect(msg) {
   let date_string = tsutil.to_iso_date(date)
   let url = "/api/reports/week/" <> date_string
 
