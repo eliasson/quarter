@@ -31,8 +31,9 @@ import rsvp
 
 import modem
 import protocol
+import quarter_shared/protocol as shared_protocol
+import quarter_shared/util/timestamp as tsutil
 import route
-import util/timestamp as tsutil
 import view
 
 pub fn main() {
@@ -59,7 +60,7 @@ fn init(_args) -> #(Model, Effect(Msg)) {
       // Setup the router to monitor for URL changes.
       modem.init(on_url_change),
       // Load the current user.
-      protocol.get_current_user(message.CurrentUserResult),
+      shared_protocol.get_current_user(message.CurrentUserResult),
       // Get all available projects and activities.
       protocol.get_projects_and_activities(message.ProjectsResult),
       // Load any additional data based on route.

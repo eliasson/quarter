@@ -14,11 +14,11 @@ import lustre/element/html.{
 }
 import message
 import model
+import quarter_shared/ui/core as ui
+import quarter_shared/ui/graphics
+import quarter_shared/ui/input
+import quarter_shared/util/timestamp as tsutil
 import ui/activity.{activity_badge}
-import ui/core as ui
-import ui/graphics
-import ui/input
-import util/timestamp as tsutil
 
 pub fn view(m: model.Model) -> Element(message.Msg) {
   case m.active_report {

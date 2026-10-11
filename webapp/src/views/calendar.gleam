@@ -9,12 +9,12 @@ import lustre/element.{type Element}
 import lustre/element/html.{a, div, h1, header, span}
 import message
 import model
+import quarter_shared/ui/core as ui
+import quarter_shared/ui/graphics
+import quarter_shared/ui/input
+import quarter_shared/ui/markup
+import quarter_shared/util/timestamp
 import route
-import ui/core as ui
-import ui/graphics
-import ui/input
-import ui/markup
-import util/timestamp
 
 pub fn view(m: model.Model) -> Element(message.Msg) {
   div([att.class("content")], [

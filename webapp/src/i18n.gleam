@@ -10,8 +10,8 @@ import gleam/int
 import gleam/string
 import gleam/time/calendar
 import gleam/time/timestamp
-import util/timestamp as tsutil
-import util/weekday
+import quarter_shared/util/timestamp as tsutil
+import quarter_shared/util/weekday
 
 pub type Language {
   English

@@ -1,7 +1,7 @@
-import domain/email
-import domain/input_value.{type InputValue}
 import gleam/list
-import types.{type FormValue}
+import quarter_shared/domain/email
+import quarter_shared/domain/input_value.{type InputValue}
+import quarter_shared/types.{type FormValue}
 
 pub type State {
   State(email: InputValue(email.Email), is_valid: Bool)

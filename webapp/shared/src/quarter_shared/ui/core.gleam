@@ -4,8 +4,8 @@ import lustre/element
 import lustre/element/html
 import lustre/element/svg
 import lustre/event
-import ui/graphics
-import util/timestamp as tsutil
+import quarter_shared/ui/graphics
+import quarter_shared/util/timestamp as tsutil
 
 pub type Size {
   SmallSize

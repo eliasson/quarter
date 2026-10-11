@@ -1,5 +1,4 @@
 import dialogs/user_dialog
-import form
 import gleam/list
 import gleam/option.{None, Some}
 import lustre/attribute as att
@@ -7,9 +6,10 @@ import lustre/element.{type Element}
 import lustre/element/html.{div, h1, table, tbody, td, th, thead, tr}
 import message
 import model
-import ui/core as ui
-import ui/graphics
-import ui/input
+import quarter_shared/form
+import quarter_shared/ui/core as ui
+import quarter_shared/ui/graphics
+import quarter_shared/ui/input
 
 pub fn view(m: model.Model) -> Element(message.Msg) {
   div([att.class("content")], [

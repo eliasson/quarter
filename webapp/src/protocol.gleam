@@ -1,34 +1,25 @@
 import domain/color
 import domain/duration
-import domain/email
 import domain/project
 import domain/registration
 import domain/report
 import domain/timesheet
-import domain/user
 import gleam/dict
 import gleam/dynamic/decode
 import gleam/http/response.{type Response}
 import gleam/int
 import gleam/json
 import gleam/list
-import gleam/option.{type Option, None, Some}
+import gleam/option
 import gleam/time/calendar
 import gleam/time/timestamp
 import lustre/effect.{type Effect}
+import quarter_shared/domain/email
+import quarter_shared/domain/user
+import quarter_shared/protocol as shared_protocol
+import quarter_shared/util/seq
+import quarter_shared/util/timestamp as tsutil
 import rsvp
-import util/seq
-import util/timestamp as tsutil
-
-/// Get the currently logged in user, if logged in.
-pub fn get_current_user(
-  on_response handle_response: fn(Result(user.User, rsvp.Error)) -> msg,
-) -> Effect(msg) {
-  let url = "/api/users/self"
-  let handler = rsvp.expect_json(user_resource_decoder(), handle_response)
-
-  rsvp.get(url, handler)
-}
 
 /// Get all the system users.
 /// This HTTP call requires the current user to have sufficient access to do
@@ -39,7 +30,10 @@ pub fn get_system_users(
   let url = "/api/users"
 
   let handler =
-    rsvp.expect_json(decode.list(user_resource_decoder()), handle_response)
+    rsvp.expect_json(
+      decode.list(shared_protocol.user_resource_decoder()),
+      handle_response,
+    )
 
   rsvp.get(url, handler)
 }
@@ -49,7 +43,8 @@ pub fn add_user(
   on_response handle_response: fn(Result(user.User, rsvp.Error)) -> msg,
 ) -> Effect(msg) {
   let url = "/api/users"
-  let handler = rsvp.expect_json(user_resource_decoder(), handle_response)
+  let handler =
+    rsvp.expect_json(shared_protocol.user_resource_decoder(), handle_response)
   let payload = json.object([#("email", json.string(email.value))])
 
   rsvp.post(url, payload, handler)
@@ -309,19 +304,6 @@ pub fn get_weekly_report(
 
 // Decoders ------------------------------------------------------------------
 
-pub fn user_resource_decoder() -> decode.Decoder(user.User) {
-  use id <- decode.field("id", decode.string)
-  use email <- decode.field("email", decode.string)
-  use created <- decode.field("created", decode_timestamp())
-  use updated <- decode.optional_field(
-    "updated",
-    option.None,
-    decode_optional_timestamp(),
-  )
-
-  decode.success(user.User(id:, email:, created:, updated:))
-}
-
 pub fn project_and_activities_decoder() -> decode.Decoder(
   project.ProjectCollection,
 ) {
@@ -352,11 +334,11 @@ pub fn project_decoder() -> decode.Decoder(project.Project) {
   use name <- decode.field("name", decode.string)
   use description <- decode.field("description", decode.string)
   use is_archived <- decode.field("isArchived", decode.bool)
-  use created <- decode.field("created", decode_timestamp())
+  use created <- decode.field("created", shared_protocol.decode_timestamp())
   use updated <- decode.optional_field(
     "updated",
     option.None,
-    decode_optional_timestamp(),
+    shared_protocol.decode_optional_timestamp(),
   )
 
   decode.success(
@@ -379,11 +361,11 @@ pub fn activity_decoder() -> decode.Decoder(project.Activity) {
   use description <- decode.field("description", decode.string)
   use color_field <- decode.field("color", decode_color())
   use is_archived <- decode.field("isArchived", decode.bool)
-  use created <- decode.field("created", decode_timestamp())
+  use created <- decode.field("created", shared_protocol.decode_timestamp())
   use updated <- decode.optional_field(
     "updated",
     option.None,
-    decode_optional_timestamp(),
+    shared_protocol.decode_optional_timestamp(),
   )
 
   decode.success(project.Activity(
@@ -396,40 +378,6 @@ pub fn activity_decoder() -> decode.Decoder(project.Activity) {
     created,
     updated,
   ))
-}
-
-/// Decode a ISO-8601 / RFC-3339 timestamp from a string.
-fn decode_timestamp() -> decode.Decoder(timestamp.Timestamp) {
-  use ts_str <- decode.then(decode.string)
-
-  case timestamp.parse_rfc3339(ts_str) {
-    Ok(ts) -> decode.success(ts)
-    _ -> decode.failure(tsutil.timestamp_zero(), "Could not parse timestamp")
-  }
-}
-
-fn decode_timestamp_from_date() -> decode.Decoder(timestamp.Timestamp) {
-  use ts_str <- decode.then(decode.string)
-
-  case timestamp.parse_rfc3339(ts_str <> "T00:00:00Z") {
-    Ok(ts) -> decode.success(ts)
-    _ -> decode.failure(tsutil.timestamp_zero(), "Could not parse timestamp")
-  }
-}
-
-/// Decode an optional ISO-8601 / RFC-3339 timestamp from a string.
-fn decode_optional_timestamp() -> decode.Decoder(Option(timestamp.Timestamp)) {
-  use ts_str <- decode.then(decode.optional(decode.string))
-
-  case ts_str {
-    Some(ts) ->
-      case timestamp.parse_rfc3339(ts) {
-        Ok(t) -> decode.success(Some(t))
-        _ -> decode.failure(None, "Could not parse timestamp")
-      }
-
-    None -> decode.success(None)
-  }
 }
 
 fn decode_color() -> decode.Decoder(color.Color) {
@@ -449,7 +397,7 @@ pub fn timesheets_response_decoder() -> decode.Decoder(
 }
 
 pub fn timesheet_decoder() -> decode.Decoder(timesheet.Timesheet) {
-  use date <- decode.field("date", decode_timestamp_from_date())
+  use date <- decode.field("date", shared_protocol.decode_timestamp_from_date())
   use total_minutes <- decode.field("totalMinutes", decode.int)
   use slots <- decode.field(
     "timeSlots",
@@ -480,8 +428,14 @@ fn timeslot_response_decoder() -> decode.Decoder(timesheet.TimeSlot) {
 }
 
 pub fn weekly_report_decoder() -> decode.Decoder(report.WeeklyReport) {
-  use start_of_week <- decode.field("startOfWeek", decode_timestamp_from_date())
-  use end_of_week <- decode.field("endOfWeek", decode_timestamp_from_date())
+  use start_of_week <- decode.field(
+    "startOfWeek",
+    shared_protocol.decode_timestamp_from_date(),
+  )
+  use end_of_week <- decode.field(
+    "endOfWeek",
+    shared_protocol.decode_timestamp_from_date(),
+  )
   use total_minutes <- decode.field("totalMinutes", decode.int)
   use weekday_totals <- decode.field("weekdayTotals", decode.list(decode.int))
   use usage <- decode.field("usage", decode.list(project_usage_decoder()))

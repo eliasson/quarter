@@ -1,9 +1,9 @@
 import domain/project
 import domain/report
 import domain/timesheet
-import domain/user
 import gleam/option
 import model
+import quarter_shared/domain/user
 import route.{type Route}
 import rsvp
 

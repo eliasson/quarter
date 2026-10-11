@@ -1,6 +1,6 @@
-import domain/email
 import gleam/list
 import gleeunit/should
+import quarter_shared/domain/email
 
 pub fn valid_emails_test() {
   let tests = [

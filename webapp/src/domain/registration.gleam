@@ -2,7 +2,7 @@ import domain/project
 import gleam/int
 import gleam/option
 
-import types.{type QuarterIndex}
+import quarter_shared/types.{type QuarterIndex}
 
 pub type ActiveRegistration {
   /// The ongoing registration

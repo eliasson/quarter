@@ -1,8 +1,8 @@
 import gleam/time/timestamp
 import gleeunit/should
 import model
+import quarter_shared/util/timestamp as tsutil
 import route
-import util/timestamp as tsutil
 
 pub fn navigate_to_home_route_test() {
   let now = timestamp.system_time()

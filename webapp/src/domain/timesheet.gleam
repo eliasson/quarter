@@ -7,7 +7,7 @@ import gleam/list
 import gleam/option
 import gleam/order
 import gleam/time/timestamp.{type Timestamp}
-import util/seq
+import quarter_shared/util/seq
 
 pub type TimeSlot {
 

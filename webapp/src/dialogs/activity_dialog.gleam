@@ -1,8 +1,8 @@
 import domain/color
-import domain/input_value.{type InputValue}
 import domain/project
 import gleam/string
-import types.{type FormValue}
+import quarter_shared/domain/input_value.{type InputValue}
+import quarter_shared/types.{type FormValue}
 
 pub type State {
   State(

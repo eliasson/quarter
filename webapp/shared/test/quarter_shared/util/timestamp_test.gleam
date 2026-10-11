@@ -2,7 +2,7 @@ import gleam/list
 import gleam/time/calendar
 import gleam/time/timestamp as std_timestamp
 import gleeunit/should
-import util/timestamp
+import quarter_shared/util/timestamp
 
 pub fn should_convert_timestamp_to_iso_date_test() {
   let ts =

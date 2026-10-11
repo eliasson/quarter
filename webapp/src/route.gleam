@@ -1,6 +1,6 @@
 import gleam/time/timestamp
 import gleam/uri.{type Uri}
-import util/timestamp as tsutil
+import quarter_shared/util/timestamp as tsutil
 
 /// The page routes for the application.
 pub type Route {

@@ -5,16 +5,16 @@ import domain/project
 import domain/registration.{ActiveRegistration}
 import domain/report
 import domain/timesheet
-import domain/user
 import gleam/list
 import gleam/option
 import gleam/set
 import gleam/time/timestamp
 import i18n
+import quarter_shared/domain/user
+import quarter_shared/types
+import quarter_shared/util/seq
+import quarter_shared/util/timestamp as tsutil
 import route
-import types
-import util/seq
-import util/timestamp as tsutil
 
 pub type Model {
   Model(

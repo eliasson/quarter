@@ -6,12 +6,12 @@ import lustre/element/html.{div, li, nav, ul}
 import lustre/event
 import message
 import model
+import quarter_shared/ui/core as ui
+import quarter_shared/ui/dropdown
+import quarter_shared/ui/graphics
+import quarter_shared/ui/input
+import quarter_shared/ui/markup
 import route
-import ui/core as ui
-import ui/dropdown
-import ui/graphics
-import ui/input
-import ui/markup
 import views/calendar
 import views/manage_projects
 import views/system_users

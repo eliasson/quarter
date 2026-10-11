@@ -8,10 +8,10 @@ import lustre/element/html.{button, div}
 import lustre/event
 import message
 import model
+import quarter_shared/ui/core as ui
+import quarter_shared/ui/graphics
+import quarter_shared/ui/markup
 import ui/activity.{activitiy_color_badge, activity_badge}
-import ui/core as ui
-import ui/graphics
-import ui/markup
 
 /// The activity list used in the timesheet view where the user can select the
 /// currently active activity, or the "clear activities" activity.

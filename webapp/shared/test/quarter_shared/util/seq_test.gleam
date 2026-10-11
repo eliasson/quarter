@@ -1,6 +1,6 @@
 import gleam/dict
 import gleeunit/should
-import util/seq
+import quarter_shared/util/seq
 
 pub fn drop_last_test() {
   seq.drop_last([1, 2, 3])

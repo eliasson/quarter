@@ -2,8 +2,8 @@ import domain/color
 import domain/project
 import lustre/attribute as att
 import lustre/element/html.{div}
-import ui/core as ui
-import ui/markup
+import quarter_shared/ui/core as ui
+import quarter_shared/ui/markup
 
 /// Render the common round color badge for an activity.
 pub fn activity_badge(activity: project.Activity, size: ui.Size) {

@@ -4,7 +4,7 @@ import gleam/string
 import gleam/time/calendar
 import gleam/time/duration
 import gleam/time/timestamp
-import util/weekday
+import quarter_shared/util/weekday
 
 pub fn timestamp_zero() {
   timestamp.from_unix_seconds(0)

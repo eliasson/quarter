@@ -1,7 +1,7 @@
 import dialogs/project_dialog
-import domain/input_value.{ValidValue}
 import gleam/list
 import gleeunit/should
+import quarter_shared/domain/input_value.{ValidValue}
 import test_util
 
 pub fn should_be_valid_state_test() {

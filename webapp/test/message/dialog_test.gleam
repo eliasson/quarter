@@ -1,9 +1,9 @@
 import dialogs/user_dialog
-import domain/email
-import domain/input_value
 import gleeunit/should
 import message
 import model
+import quarter_shared/domain/email
+import quarter_shared/domain/input_value
 import test_util.{first}
 import webapp
 

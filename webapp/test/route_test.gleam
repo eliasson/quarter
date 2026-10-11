@@ -4,8 +4,8 @@ import gleam/time/calendar
 import gleam/time/timestamp
 import gleam/uri
 import gleeunit/should
+import quarter_shared/util/timestamp as tsutil
 import route
-import util/timestamp as tsutil
 
 pub fn should_identify_uri_test() {
   let ts =

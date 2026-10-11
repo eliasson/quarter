@@ -10,9 +10,9 @@ import lustre/element.{type Element}
 import lustre/element/html.{button, div, h1, header}
 import message
 import model
-import ui/core as ui
-import ui/graphics
-import ui/input
+import quarter_shared/ui/core as ui
+import quarter_shared/ui/graphics
+import quarter_shared/ui/input
 import ui/timesheet_activities.{timesheet_activities}
 import ui/timesheet_summary.{timesheet_summary}
 

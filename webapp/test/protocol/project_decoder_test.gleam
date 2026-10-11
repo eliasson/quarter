@@ -5,7 +5,7 @@ import gleam/result
 import gleam/time/timestamp
 import gleeunit/should
 import protocol
-import util/timestamp as tsutil
+import quarter_shared/util/timestamp as tsutil
 
 pub fn decode_minimal_project_test() {
   let expected_created = timestamp.parse_rfc3339("2025-11-04T16:49:39.2993437Z")

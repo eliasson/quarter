@@ -2,7 +2,7 @@ import gleam/list
 import gleam/time/calendar
 import gleam/time/timestamp as std_timestamp
 import gleeunit/should
-import util/weekday
+import quarter_shared/util/weekday
 
 pub fn weekday_test() {
   let tests = [

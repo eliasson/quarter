@@ -1,11 +1,11 @@
-import form
 import gleam/list
 import lustre/attribute as att
 import lustre/element
 import lustre/element/html
 import lustre/event
-import types
-import ui/core as ui
+import quarter_shared/form
+import quarter_shared/types
+import quarter_shared/ui/core as ui
 
 pub fn checkbox() -> element.Element(msg) {
   html.label([att.class("checkbox")], [html.input([att.type_("checkbox")])])

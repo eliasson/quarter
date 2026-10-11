@@ -8,7 +8,7 @@ import gleam/result
 import gleam/time/calendar
 import gleam/time/timestamp
 import model
-import util/timestamp as tsutil
+import quarter_shared/util/timestamp as tsutil
 
 /// Get the first element from a tuple
 pub fn first(t: #(a, b)) {

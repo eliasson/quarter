@@ -2,8 +2,8 @@ import gleam/option
 import gleeunit/should
 import message
 import model
+import quarter_shared/types
 import test_util.{first}
-import types
 import webapp
 
 pub fn should_update_email_in_dialog_state_test() {

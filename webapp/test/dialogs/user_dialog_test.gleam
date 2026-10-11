@@ -1,8 +1,8 @@
 import dialogs/user_dialog
-import domain/email
-import domain/input_value.{InvalidValue, UnvalidatedValue}
 import gleam/list
 import gleeunit/should
+import quarter_shared/domain/email
+import quarter_shared/domain/input_value.{InvalidValue, UnvalidatedValue}
 
 pub fn should_be_valid_state_test() {
   let state =

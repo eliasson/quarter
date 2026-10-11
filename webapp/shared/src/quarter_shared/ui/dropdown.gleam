@@ -4,9 +4,9 @@ import lustre/attribute as att
 import lustre/element
 import lustre/element/html
 import lustre/event
-import ui/core as ui
-import ui/graphics
-import util/either
+import quarter_shared/ui/core as ui
+import quarter_shared/ui/graphics
+import quarter_shared/util/either
 
 pub type DropDownItem(msg) {
   DropDownLink(icon: String, label: String, href: String)

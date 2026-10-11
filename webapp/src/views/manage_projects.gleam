@@ -1,9 +1,7 @@
 import dialogs/activity_dialog
 import dialogs/project_dialog
 import domain/color
-import domain/input_value
 import domain/project
-import form
 import gleam/list
 import gleam/option
 import lustre/attribute as att
@@ -12,12 +10,14 @@ import lustre/element/html.{div, h1, span}
 import lustre/event
 import message
 import model
+import quarter_shared/domain/input_value
+import quarter_shared/form
+import quarter_shared/ui/core as ui
+import quarter_shared/ui/dropdown
+import quarter_shared/ui/graphics
+import quarter_shared/ui/input
+import quarter_shared/ui/markup
 import ui/activity.{activity_badge}
-import ui/core as ui
-import ui/dropdown
-import ui/graphics
-import ui/input
-import ui/markup
 
 pub fn view(m: model.Model) -> Element(message.Msg) {
   div([att.class("content")], [
