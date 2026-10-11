@@ -4,16 +4,16 @@ import message
 import model
 import quarter_shared/types
 import test_util.{first}
-import webapp
+import app
 
 pub fn should_update_field_in_dialog_state_test() {
   let dialog = model.new_project_dialog()
 
   let value =
     model.initial_model()
-    |> webapp.update(message.OpenDialog(dialog))
+    |> app.update(message.OpenDialog(dialog))
     |> first
-    |> webapp.update(
+    |> app.update(
       message.FormTextFieldUpdated(types.FormValue("name", "New Project")),
     )
     |> first

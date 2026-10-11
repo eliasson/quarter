@@ -1,4 +1,5 @@
 .PHONY: build
 
 build:
-	gleam build; npm run build
+	cd app && gleam build
+	npm run build

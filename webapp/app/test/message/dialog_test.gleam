@@ -5,7 +5,7 @@ import model
 import quarter_shared/domain/email
 import quarter_shared/domain/input_value
 import test_util.{first}
-import webapp
+import app
 
 const dialog_one = model.AddUserDialog(
   user_dialog.State(
@@ -24,7 +24,7 @@ const dialog_two = model.AddUserDialog(
 pub fn when_opening_dialog_test() {
   let m =
     model.initial_model()
-    |> webapp.update(message.OpenDialog(dialog_one))
+    |> app.update(message.OpenDialog(dialog_one))
     |> first
 
   should.equal(m.dialogs, [dialog_one])
@@ -33,9 +33,9 @@ pub fn when_opening_dialog_test() {
 pub fn when_closing_modal_with_one_open_dialog_test() {
   let m =
     model.initial_model()
-    |> webapp.update(message.OpenDialog(dialog_one))
+    |> app.update(message.OpenDialog(dialog_one))
     |> first
-    |> webapp.update(message.CloseModal)
+    |> app.update(message.CloseModal)
     |> first
 
   should.equal(m.dialogs, [])
@@ -44,11 +44,11 @@ pub fn when_closing_modal_with_one_open_dialog_test() {
 pub fn when_closing_modal_with_multiple_open_dialogs_test() {
   let m =
     model.initial_model()
-    |> webapp.update(message.OpenDialog(dialog_one))
+    |> app.update(message.OpenDialog(dialog_one))
     |> first
-    |> webapp.update(message.OpenDialog(dialog_two))
+    |> app.update(message.OpenDialog(dialog_two))
     |> first
-    |> webapp.update(message.CloseModal)
+    |> app.update(message.CloseModal)
     |> first
 
   should.equal(m.dialogs, [dialog_one])
@@ -57,9 +57,9 @@ pub fn when_closing_modal_with_multiple_open_dialogs_test() {
 pub fn when_opening_modal_with_open_dropdown_test() {
   let m =
     model.initial_model()
-    |> webapp.update(message.OpenDropDownMenu("one"))
+    |> app.update(message.OpenDropDownMenu("one"))
     |> first
-    |> webapp.update(message.OpenDialog(dialog_one))
+    |> app.update(message.OpenDialog(dialog_one))
     |> first
 
   should.equal(m.dropdowns, [])
@@ -68,9 +68,9 @@ pub fn when_opening_modal_with_open_dropdown_test() {
 pub fn when_confirming_a_dialog_test() {
   let m =
     model.initial_model()
-    |> webapp.update(message.OpenDialog(dialog_one))
+    |> app.update(message.OpenDialog(dialog_one))
     |> first
-    |> webapp.update(message.ConfirmDialog)
+    |> app.update(message.ConfirmDialog)
     |> first
 
   should.equal(m.dialogs, [])

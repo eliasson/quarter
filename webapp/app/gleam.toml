@@ -1,4 +1,4 @@
-name = "webapp"
+name = "app"
 version = "1.0.0"
 target = "javascript"
 
@@ -10,7 +10,7 @@ rsvp = ">= 1.2.0 and < 2.0.0"
 gleam_json = ">= 3.0.2 and < 4.0.0"
 gleam_time = ">= 1.5.0 and < 2.0.0"
 gleam_regexp = ">= 1.1.1 and < 2.0.0"
-shared = { path = "shared" }
+shared = { path = "../shared" }
 
 [dev-dependencies]
 gleeunit = ">= 1.0.0 and < 2.0.0"

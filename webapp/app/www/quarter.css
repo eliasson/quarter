@@ -1,4 +1,4 @@
-@import "../shared/www/shared.css";
+@import "../../shared/www/shared.css";
 @import "./style/timesheet.css";
 @import "./style/timesheet-context.css";
 @import "./style/timesheet-activities.css";

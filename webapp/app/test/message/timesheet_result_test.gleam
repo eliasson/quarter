@@ -4,7 +4,7 @@ import gleeunit/should
 import message
 import model
 import test_util.{first, new_timestamp}
-import webapp
+import app
 
 pub fn should_update_today_to_tomorrow_test() {
   let sheet =
@@ -16,7 +16,7 @@ pub fn should_update_today_to_tomorrow_test() {
       ..model.initial_model(),
       today: new_timestamp(2023, calendar.February, 20),
     )
-    |> webapp.update(message.TimesheetResult(Ok(sheet)))
+    |> app.update(message.TimesheetResult(Ok(sheet)))
     |> first
 
   should.equal(updated.active_timesheet, option.Some(sheet))

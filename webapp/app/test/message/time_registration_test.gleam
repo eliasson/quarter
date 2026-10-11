@@ -4,12 +4,12 @@ import gleeunit/should
 import message
 import model
 import test_util.{first}
-import webapp
+import app
 
 pub fn should_create_active_registration_test() {
   let updated =
     model.initial_model()
-    |> webapp.update(message.StartRegistering(12))
+    |> app.update(message.StartRegistering(12))
     |> first
 
   let expected = registration.ActiveRegistration(12, 12, option.None)
@@ -19,11 +19,11 @@ pub fn should_create_active_registration_test() {
 pub fn should_update_active_registration_test() {
   let updated =
     model.initial_model()
-    |> webapp.update(message.StartRegistering(12))
+    |> app.update(message.StartRegistering(12))
     |> first
-    |> webapp.update(message.UpdateRegistering(8))
+    |> app.update(message.UpdateRegistering(8))
     |> first
-    |> webapp.update(message.UpdateRegistering(4))
+    |> app.update(message.UpdateRegistering(4))
     |> first
 
   let expected = registration.ActiveRegistration(12, 4, option.None)
@@ -34,7 +34,7 @@ pub fn should_not_initiate_registration_on_update_test() {
   // The registration must have been started first.
   let updated =
     model.initial_model()
-    |> webapp.update(message.UpdateRegistering(12))
+    |> app.update(message.UpdateRegistering(12))
     |> first
 
   should.be_none(updated.active_registration)

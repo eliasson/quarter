@@ -4,16 +4,16 @@ import message
 import model
 import quarter_shared/types
 import test_util.{first}
-import webapp
+import app
 
 pub fn should_update_email_in_dialog_state_test() {
   let initial_dialog = model.new_user_dialog()
 
   let value =
     model.initial_model()
-    |> webapp.update(message.OpenDialog(initial_dialog))
+    |> app.update(message.OpenDialog(initial_dialog))
     |> first
-    |> webapp.update(
+    |> app.update(
       message.FormTextFieldUpdated(types.FormValue("email", "jane@example.com")),
     )
     |> first

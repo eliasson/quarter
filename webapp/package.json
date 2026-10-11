@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "vite",
-    "watch": "vite build --watch",
-    "build": "vite build"
+    "dev": "vite -c app/vite.config.js",
+    "watch": "vite build -c app/vite.config.js --watch",
+    "build": "vite build -c app/vite.config.js"
   },
   "dependencies": {
     "vite": "^6.4.1"

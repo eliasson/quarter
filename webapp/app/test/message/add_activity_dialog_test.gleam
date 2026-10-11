@@ -4,7 +4,7 @@ import message
 import model
 import quarter_shared/types
 import test_util.{first}
-import webapp
+import app
 
 pub fn should_update_name_field_in_dialog_state_test() {
   let project = test_util.arbitrary_project()
@@ -12,9 +12,9 @@ pub fn should_update_name_field_in_dialog_state_test() {
 
   let value =
     model.initial_model()
-    |> webapp.update(message.OpenDialog(dialog))
+    |> app.update(message.OpenDialog(dialog))
     |> first
-    |> webapp.update(
+    |> app.update(
       message.FormTextFieldUpdated(types.FormValue("name", "New Activity")),
     )
     |> first
@@ -29,9 +29,9 @@ pub fn should_update_description_field_in_dialog_state_test() {
 
   let value =
     model.initial_model()
-    |> webapp.update(message.OpenDialog(dialog))
+    |> app.update(message.OpenDialog(dialog))
     |> first
-    |> webapp.update(
+    |> app.update(
       message.FormTextFieldUpdated(types.FormValue(
         "description",
         "Activity description",
@@ -49,9 +49,9 @@ pub fn should_update_color_field_in_dialog_state_test() {
 
   let value =
     model.initial_model()
-    |> webapp.update(message.OpenDialog(dialog))
+    |> app.update(message.OpenDialog(dialog))
     |> first
-    |> webapp.update(
+    |> app.update(
       message.FormTextFieldUpdated(types.FormValue("color", "#FF5733")),
     )
     |> first
