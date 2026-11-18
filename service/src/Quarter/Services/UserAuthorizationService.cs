@@ -4,7 +4,6 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Quarter.Core.Auth;
@@ -58,18 +57,9 @@ public interface IUserAuthorizationService
     /// <param name="ct">The cancellation token</param>
     /// <returns>A result indicating authorization state</returns>
     Task<AuthorizedResult> AuthorizeOrCreateUserAsync(string email, CancellationToken ct);
-
-    /// <summary>
-    /// Get the currently logged in user ID if there is a known user for the current session.
-    /// </summary>
-    /// <returns>The User ID or null</returns>
-    Task<IdOf<User>> CurrentUserId();
-
-    Task<string> CurrentUsername();
 }
 
 public class UserAuthorizationService(
-    AuthenticationStateProvider authenticationStateProvider,
     IRepositoryFactory repositoryFactory,
     ICommandHandler commandHandler,
     IOptions<AuthOptions> authOptions,
@@ -106,23 +96,6 @@ public class UserAuthorizationService(
             logger.LogInformation("Successfully authorized user {Email} at login", email);
             return AuthorizedResult.AuthorizedWith(ClaimsForUser(user).ToArray());
         }
-    }
-
-    public async Task<IdOf<User>> CurrentUserId()
-    {
-        var state = await authenticationStateProvider.GetAuthenticationStateAsync();
-        var userId = state.User.Claims
-            .FirstOrDefault(c => c.Type == ApplicationClaim.QuarterUserIdClaimType);
-
-        return userId == null
-            ? throw new UnauthorizedAccessException("No user found on session!")
-            : IdOf<User>.Of(userId.Value);
-    }
-
-    public async Task<string> CurrentUsername()
-    {
-        var state = await authenticationStateProvider.GetAuthenticationStateAsync();
-        return state.User.Identity?.Name ?? "User";
     }
 
     private static IEnumerable<Claim> ClaimsForUser(User user)

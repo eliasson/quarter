@@ -20,12 +20,6 @@ namespace Quarter.Auth;
 /// </summary>
 public class LocalAuthorizationService : IUserAuthorizationService
 {
-    public Task<IdOf<User>> CurrentUserId()
-        => Task.FromResult(LocalUser.UserId)!;
-
-    public Task<string> CurrentUsername()
-        => Task.FromResult("User");
-
     public Task<AuthorizedResult> AuthorizeOrCreateUserAsync(string email, CancellationToken ct)
         => Task.FromResult(AuthorizedResult.AuthorizedWith(LocalUser.Claims));
 }

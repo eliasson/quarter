@@ -12,33 +12,12 @@ using Quarter.Core.Options;
 using Quarter.Core.Repositories;
 using Quarter.Core.Utils;
 using Quarter.Services;
-using Quarter.UnitTest.TestUtils;
 
 namespace Quarter.UnitTest.Services;
 
 [TestFixture]
 public class UserAuthorizationServiceTest
 {
-    [TestFixture]
-    public class WhenThereIsUserSession : TestCase
-    {
-        private User _standardUser;
-
-        [OneTimeSetUp]
-        public async Task Setup()
-        {
-            _standardUser = await AddUser("jane.doe@example.com");
-            SetCurrentUser(_standardUser);
-        }
-
-        [Test]
-        public async Task ItShouldReturnUserId()
-        {
-            var userId = await Service.CurrentUserId();
-            Assert.That(userId, Is.EqualTo(_standardUser.Id));
-        }
-    }
-
     [TestFixture]
     public class WithLocalUsers : TestCase
     {
@@ -131,16 +110,13 @@ public class UserAuthorizationServiceTest
     {
         private readonly IRepositoryFactory _repositoryFactory = new InMemoryRepositoryFactory();
         protected readonly UserAuthorizationService Service;
-        private readonly TestAuthenticationStateProvider _authenticationStateProvider;
         private readonly AuthOptions _authOptions = new() { OpenUserRegistration = false };
 
         protected TestCase()
         {
             var commandHandler = new CommandHandler(_repositoryFactory);
-            _authenticationStateProvider = new TestAuthenticationStateProvider();
 
-            Service = new UserAuthorizationService(_authenticationStateProvider,
-                _repositoryFactory,
+            Service = new UserAuthorizationService(_repositoryFactory,
                 commandHandler,
                 Options.Create(_authOptions),
                 NullLogger<UserAuthorizationService>.Instance);
@@ -148,9 +124,6 @@ public class UserAuthorizationServiceTest
 
         protected void SetOpenRegistration(bool openRegistration)
             => _authOptions.OpenUserRegistration = openRegistration;
-
-        protected void SetCurrentUser(User loggedInUser)
-            => _authenticationStateProvider.SetCurrentUser(loggedInUser.Id);
 
         protected Task<User> AddUser(string email)
             => AddUser(User.StandardUser(new Email(email)));

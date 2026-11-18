@@ -1,5 +1,4 @@
 using System;
-using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using NUnit.Framework;
@@ -9,7 +8,6 @@ using Quarter.Core.Queries;
 using Quarter.Core.Repositories;
 using Quarter.HttpApi.Services;
 using Quarter.Services;
-using Quarter.UnitTest.TestUtils;
 
 namespace Quarter.UnitTest;
 
@@ -33,7 +31,6 @@ public class QuarterServiceConfigurationTest
     {
         var serviceCollection = new ServiceCollection();
         serviceCollection.AddLogging();
-        serviceCollection.AddScoped<AuthenticationStateProvider>(_ => new TestAuthenticationStateProvider());
         serviceCollection.UseQuarterUnderTest();
         return serviceCollection.BuildServiceProvider();
     }
