@@ -50,10 +50,10 @@ public class CreateActivityResourceInput
 
     public Activity ToActivity(IdOf<Project> projectId)
     {
-        if (name is null || description is null || color is null)
+        if (name is null || color is null)
             throw new InvalidOperationException("Input resource is not validated!");
 
-        return new Activity(projectId, name!, description!, Color.FromHexString(color!));
+        return new Activity(projectId, name!, description ?? string.Empty, Color.FromHexString(color!));
     }
 }
 

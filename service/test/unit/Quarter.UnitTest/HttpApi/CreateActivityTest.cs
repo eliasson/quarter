@@ -65,8 +65,8 @@ public class CreateActivityTest
             {
                 projectId = project.Id.AsString(),
                 name = "Test name",
-                // Missing description
-                color = "#CCAABB"
+                // Missing color
+                color = string.Empty
             };
 
             _response = await PostAsync($"/api/projects/{project.Id.AsString()}/activities", payload);

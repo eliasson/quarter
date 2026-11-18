@@ -43,7 +43,7 @@ public class ApiService(IRepositoryFactory repositoryFactory, IQueryHandler quer
 
     public async Task<ProjectResourceOutput> CreateProjectAsync(CreateProjectResourceInput input, OperationContext oc, CancellationToken ct)
     {
-        var project = new Project(input.name!, input.description!);
+        var project = new Project(input.name!, input.description ?? string.Empty);
         project = await repositoryFactory.ProjectRepository(oc.UserId).CreateAsync(project, ct);
         return ProjectResourceOutput.From(project);
     }
