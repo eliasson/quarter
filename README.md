@@ -39,8 +39,7 @@ docker compose -f tools/docker/docker-compose.yaml up -d
 # Build the frontend
 cd webapp
 npm ci
-gleam build
-npm run build
+make build
 cd ..
 
 # Symlink dist so the backend can find the frontend assets

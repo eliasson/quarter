@@ -37,17 +37,22 @@ and privileges. All tables are created using Fluent Migrations at `service/src/Q
 The backend serves static files from a `dist/` directory at the repository root. You need to build the
 frontend before starting the backend.
 
+The frontend consists of two Lustre applications, the time tracking app (served on `/ui`) and the admin
+app (served on `/admin`), plus a shared package. See [webapp/README.md](../webapp/README.md) for details.
+
 From the `webapp/` directory:
 
 ```
 npm ci
-gleam build
-npm run build
+make build
 ```
 
-This compiles the Gleam code, bundles it with Vite, and outputs the result to `dist/` in the repository root.
+This compiles the Gleam code, bundles it with Vite, and outputs the result to `dist/ui/` and `dist/admin/` in
+the repository root. Run `make test` to run the Gleam tests for all projects.
 
-During development you can use `npm run watch` (from `webapp/`) to automatically rebuild on changes.
+During development you can use `npm run watch` (app) or `npm run watch:admin` (admin) from `webapp/` to
+automatically rebundle on changes. Note that the Gleam code still needs to be compiled with `gleam build`
+in the changed project.
 
 5. Symlink the dist directory
 
