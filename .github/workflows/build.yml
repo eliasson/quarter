@@ -53,14 +53,12 @@ jobs:
               run: npm ci
               working-directory: ./webapp
 
-            - name: Gleam build
-              run: gleam build
-              working-directory: ./webapp
-
             - name: Gleam test
-              run: gleam test
+              # Tests the shared, app and admin projects.
+              run: make test
               working-directory: ./webapp
 
             - name: Build frontend
-              run: npm run build
+              # Builds the app and admin projects and bundles them to dist/ui and dist/admin.
+              run: make build
               working-directory: ./webapp

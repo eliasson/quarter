@@ -4,7 +4,7 @@ RUN curl -fsSL https://github.com/gleam-lang/gleam/releases/download/v1.14.0/gle
     | tar -xz -C /usr/local/bin
 WORKDIR /frontend
 COPY webapp/ .
-RUN gleam build && npm ci && npm run build
+RUN npm ci && make build
 
 # Backend build
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS backend-build
