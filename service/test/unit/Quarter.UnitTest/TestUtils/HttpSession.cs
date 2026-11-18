@@ -36,6 +36,7 @@ public class HttpSession
             .Build();
 
         var webBuilder = new WebHostBuilder();
+        webBuilder.UseContentRoot(AppContext.BaseDirectory);
         webBuilder.UseConfiguration(config);
         webBuilder.UseStartup(ctx => new Startup(ctx.Configuration));
         webBuilder.UseEnvironment("test");
@@ -110,7 +111,7 @@ public class FakeAuthenticationHandler : AuthenticationHandler<AuthenticationSch
     {
         // Evaluate and get the claims setup in the HTTP session
         var claims = _fakeClaimResolver();
-        if (!claims.Any()) Task.FromResult(AuthenticateResult.NoResult());
+        if (claims.Length == 0) return Task.FromResult(AuthenticateResult.NoResult());
 
         var ticket = new AuthenticationTicket(
             new ClaimsPrincipal(new ClaimsIdentity(claims, "FakeAuthentication")),

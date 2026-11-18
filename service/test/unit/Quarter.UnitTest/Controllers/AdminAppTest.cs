@@ -49,4 +49,23 @@ public class AdminAppTest
             });
         }
     }
+
+    [TestFixture]
+    public class WhenUserIsAuthenticated : HttpTestCase
+    {
+        private HttpResponseMessage _response;
+
+        [OneTimeSetUp]
+        public async Task SetUp()
+        {
+            _ = await SetupAuthorizedUserAsync("john.doe@example.com", configure: u => u.AssignRole(UserRole.Administrator));
+            _response = await GetAsync("/admin/users");
+        }
+
+        [Test]
+        public void ItShouldReturnOkStatus()
+        {
+            Assert.That(_response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+        }
+    }
 }
