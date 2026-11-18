@@ -1,9 +1,9 @@
+import app
 import gleam/time/calendar
 import gleeunit/should
 import message
 import model
 import test_util.{first, new_timestamp}
-import app
 
 pub fn should_update_today_to_next_month_test() {
   let updated =

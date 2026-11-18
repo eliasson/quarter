@@ -1,8 +1,8 @@
+import app
 import gleeunit/should
 import message
 import model
 import test_util.{first}
-import app
 
 pub fn when_opening_drop_down_menu_test() {
   let m =

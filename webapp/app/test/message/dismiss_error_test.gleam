@@ -1,9 +1,9 @@
+import app
 import gleam/list
 import gleeunit/should
 import message
 import model
 import test_util.{first}
-import app
 
 pub fn should_remove_the_error_from_list_of_errors_test() {
   let m =

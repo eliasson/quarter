@@ -1,8 +1,8 @@
+import app
 import gleeunit/should
 import message
 import model
 import test_util.{first}
-import app
 
 pub fn should_extend_start_of_day_to_one_hour_earlier_test() {
   let updated =

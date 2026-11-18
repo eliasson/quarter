@@ -1,10 +1,10 @@
+import app
 import domain/registration
 import gleam/option
 import gleeunit/should
 import message
 import model
 import test_util.{first}
-import app
 
 pub fn should_create_active_registration_test() {
   let updated =

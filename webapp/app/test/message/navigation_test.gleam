@@ -1,9 +1,9 @@
+import app
 import gleeunit/should
 import message
 import model
 import route
 import test_util.{first}
-import app
 
 pub fn when_navigating_with_open_menu_test() {
   let m =

@@ -1,9 +1,9 @@
+import app
 import gleam/option
 import gleeunit/should
 import message
 import model
 import test_util.{first}
-import app
 
 pub fn should_update_model_with_activity_test() {
   let activity = test_util.arbitrary_activity()
