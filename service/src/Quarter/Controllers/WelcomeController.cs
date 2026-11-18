@@ -14,7 +14,7 @@ public class WelcomeController(ILogger<WebAppController> logger) : Controller
     {
         logger.LogDebug("Serving the ui via index.html");
 
-        var indexPath = Path.Combine(configuration.GetStaticPath(env.ContentRootPath), "welcome.html");
+        var indexPath = Path.Combine(configuration.GetAppPath(env.ContentRootPath), "welcome.html");
         return PhysicalFile(indexPath, "text/html");
     }
 }

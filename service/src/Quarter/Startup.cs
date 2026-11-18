@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Security.Claims;
@@ -204,6 +205,17 @@ public class Startup(IConfiguration configuration)
 
             endpoints.MapControllers();
 
+            // Serve the admin index.html for any request below /admin that is not a static file, to enable HTML
+            // routing in the admin application (e.g. reload /admin/users in browser).
+            endpoints.MapControllerRoute(
+                name: "adminRoute",
+                pattern: "admin/{*adminRoute}",
+                defaults: new
+                {
+                    controller = "AdminApp",
+                    action = "Index"
+                });
+
             // This route needs to be very last as it will serve any file requested from /app with the index.html
             // to enable HTML routing (e.g. reload /app/projects page in browser).
             endpoints.MapControllerRoute(
@@ -229,12 +241,26 @@ public class Startup(IConfiguration configuration)
 
     private void ConfigureStaticFiles(IApplicationBuilder app, IHostEnvironment env, ILogger logger)
     {
-        var staticPath = Configuration.GetStaticPath(env.ContentRootPath);
+        UseClientApplication(app, Configuration.GetAppPath(env.ContentRootPath), "/ui", serveDefaultFile: true, logger);
+
+        // The admin index.html is served by the AdminAppController (and not as a default file) so that it is only
+        // served to administrators.
+        UseClientApplication(app, Configuration.GetAdminPath(env.ContentRootPath), "/admin", serveDefaultFile: false, logger);
+    }
+
+    private static void UseClientApplication(IApplicationBuilder app, string path, string requestPath, bool serveDefaultFile, ILogger logger)
+    {
+        if (!Directory.Exists(path))
+        {
+            logger.LogWarning("No client application found at {Path} for routes at {RequestPath}", path, requestPath);
+            return;
+        }
 
         app.UseFileServer(new FileServerOptions
         {
-            FileProvider = new PhysicalFileProvider(staticPath),
-            RequestPath = "/ui",
+            FileProvider = new PhysicalFileProvider(path),
+            RequestPath = requestPath,
+            EnableDefaultFiles = serveDefaultFile,
             StaticFileOptions =
             {
                 OnPrepareResponse = ctx =>
@@ -250,6 +276,6 @@ public class Startup(IConfiguration configuration)
             }
         });
 
-        logger.LogInformation("Static path: {StaticPath}", staticPath);
+        logger.LogInformation("Serving client application from {Path} on {RequestPath}", path, requestPath);
     }
 }

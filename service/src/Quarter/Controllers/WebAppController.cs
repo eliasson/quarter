@@ -23,7 +23,7 @@ public class WebAppController(ILogger<WebAppController> logger) : Controller
     {
         logger.LogDebug("Serving the ui via index.html");
 
-        var indexPath = Path.Combine(configuration.GetStaticPath(env.ContentRootPath), "index.html");
+        var indexPath = Path.Combine(configuration.GetAppPath(env.ContentRootPath), "index.html");
         return PhysicalFile(indexPath, "text/html");
     }
 }
