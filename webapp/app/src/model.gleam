@@ -1,6 +1,5 @@
 import dialogs/activity_dialog
 import dialogs/project_dialog
-import dialogs/user_dialog
 import domain/project
 import domain/registration.{ActiveRegistration}
 import domain/report
@@ -29,8 +28,6 @@ pub type Model {
     dropdowns: List(DropDownMenu),
     /// The open dialogs as a reverse stack (top most is last in list).
     dialogs: List(Dialog),
-    /// The list of all system users if loaded (for admin).
-    users: List(user.User),
     /// The errors that have occured and that are not dismissed
     errors: List(ApplicationError),
     /// The projects available to the user (regardless of archived state).
@@ -61,7 +58,6 @@ pub type DropDownMenu {
 }
 
 pub type Dialog {
-  AddUserDialog(state: user_dialog.State)
   AddProjectDialog(state: project_dialog.State)
   EditProjectDialog(state: project_dialog.State, project: project.Project)
   AddActivityDialog(state: activity_dialog.State, project: project.Project)
@@ -91,7 +87,6 @@ pub fn initial_model() -> Model {
     today: timestamp.system_time(),
     dropdowns: [],
     dialogs: [],
-    users: [],
     errors: [],
     projects: project.empty(),
     expanded_projects: set.new(),
@@ -153,10 +148,6 @@ pub fn set_current_user(m: Model, _user: user.User) {
   Model(..m, is_authenticated: True)
 }
 
-pub fn set_users(m: Model, users: List(user.User)) {
-  Model(..m, users: users)
-}
-
 /// Update the model with the timesheets for the current month.
 pub fn set_timesheets(m: Model, timesheets: List(timesheet.Timesheet)) {
   Model(..m, timesheets: timesheets)
@@ -196,10 +187,6 @@ pub fn update_dialog_value(m: Model, value: FormValue) -> Model {
   let updated_dialogs = case list.last(m.dialogs) {
     Ok(d) -> {
       case d {
-        AddUserDialog(state) -> [
-          AddUserDialog(state: user_dialog.update(state, value)),
-        ]
-
         AddProjectDialog(state) -> [
           AddProjectDialog(state: project_dialog.update(state, value)),
         ]
@@ -227,10 +214,6 @@ pub fn update_dialog_value(m: Model, value: FormValue) -> Model {
     |> list.append(updated_dialogs)
 
   Model(..m, dialogs:)
-}
-
-pub fn new_user_dialog() {
-  AddUserDialog(user_dialog.new())
 }
 
 pub fn new_project_dialog() {

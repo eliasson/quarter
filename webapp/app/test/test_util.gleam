@@ -92,13 +92,6 @@ pub fn get_dialog_value(
   let value = case list.last(m.dialogs) {
     Ok(d) -> {
       case d {
-        model.AddUserDialog(state) -> {
-          case field_id {
-            "email" -> option.Some(state.email.value.value)
-            _ -> option.None
-          }
-        }
-
         model.AddProjectDialog(state) -> {
           case field_id {
             "name" -> option.Some(state.name.value)

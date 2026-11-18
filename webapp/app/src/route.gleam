@@ -12,10 +12,6 @@ pub type Route {
   Manage
   /// Reports for time registration.
   Report(date: timestamp.Timestamp)
-  /// Admin view for managing users.
-  AdministerSystemUsers
-  /// Admin view for managing features.
-  AdministerSystemFeatures
 }
 
 pub const home_url = "/ui"
@@ -28,10 +24,6 @@ pub const report_url = "/ui/report"
 
 pub const logout_url = "/account/logout"
 
-pub const admin_users_url = "/ui/admin/users"
-
-pub const admin_features_url = "/ui/admin/features"
-
 /// Describe the route in text.
 pub fn describe(route: Route) -> String {
   case route {
@@ -39,8 +31,6 @@ pub fn describe(route: Route) -> String {
     Timesheet(d) -> "Timesheet for " <> tsutil.to_iso_date(d)
     Manage -> "Manage"
     Report(d) -> "Report for " <> tsutil.to_iso_date(d)
-    AdministerSystemUsers -> "Administrate system users"
-    AdministerSystemFeatures -> "Administrate system features"
   }
 }
 
@@ -70,8 +60,6 @@ pub fn identify(uri: Uri) -> Route {
     }
 
     ["ui", "manage"] -> Manage
-    ["ui", "admin", "users"] -> AdministerSystemUsers
-    ["ui", "admin", "features"] -> AdministerSystemFeatures
     _ -> Home
   }
 }
@@ -93,8 +81,6 @@ pub fn to_url(route: Route) -> String {
     Timesheet(d) -> for_timesheet(d)
     Manage -> manage_url
     Report(d) -> for_report(d)
-    AdministerSystemUsers -> admin_users_url
-    AdministerSystemFeatures -> admin_features_url
   }
 }
 

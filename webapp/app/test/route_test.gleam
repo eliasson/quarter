@@ -25,8 +25,9 @@ pub fn should_identify_uri_test() {
     #("/ui/manage", route.Manage),
     #("/ui/report", route.Report(now)),
     #("/ui/report/2026-02-01", route.Report(ts)),
-    #("/ui/admin/users", route.AdministerSystemUsers),
-    #("/ui/admin/features", route.AdministerSystemFeatures),
+    // Admin is a separate application served from /admin.
+    #("/ui/admin/users", route.Home),
+    #("/ui/admin/features", route.Home),
   ]
 
   list.each(tests, fn(t) { should.equal(route.identify(new_uri(t.0)), t.1) })
@@ -57,8 +58,6 @@ pub fn should_get_url_for_route_test() {
     #(route.Timesheet(ts), "/ui/timesheet/2026-02-01"),
     #(route.Manage, "/ui/manage"),
     #(route.Report(ts), "/ui/report/2026-02-01"),
-    #(route.AdministerSystemUsers, "/ui/admin/users"),
-    #(route.AdministerSystemFeatures, "/ui/admin/features"),
   ]
 
   list.each(tests, fn(t) { should.equal(route.to_url(t.0), t.1) })

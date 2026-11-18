@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content="Quarter - Administration" />
+
+        <title>Quarter Admin</title>
+
+        <link
+            rel="icon"
+            type="image/svg+xml"
+            href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'%3E%3C/circle%3E%3Cpath d='M12 12V2.5A9.5 9.5 0 0 1 21.5 12H12z' fill='currentColor' stroke='none'%3E%3C/path%3E%3Cline x1='12' y1='12' x2='12' y2='2'%3E%3C/line%3E%3Cline x1='12' y1='12' x2='22' y2='12'%3E%3C/line%3E%3C/svg%3E"
+        />
+        <link rel="stylesheet" href="admin.css" />
+        <meta
+            name="theme-color"
+            content="#fdfbf8"
+            media="(prefers-color-scheme: light)"
+        />
+        <meta
+            name="theme-color"
+            content="#1e2422"
+            media="(prefers-color-scheme: dark)"
+        />
+    </head>
+
+        <body>
+        <div class="application" id="admin"></div>
+        <footer>
+            <div class="logo">
+                <svg>
+                    <use xlink:href="#quarter-logo"></use>
+                </svg>
+                Quarter
+            </div>
+
+            <nav>
+                <a href="https://github.com/eliasson/quarter">GitHub</a>
+                <a href="mailto:markus.eliasson@proton.me">Contact</a>
+            </nav>
+            <p class="copyright">
+                &copy; 2026. Markus Eliasson. All rights reserved.
+            </p>
+        </footer>
+
+        <script type="module" src="./admin.js"></script>
+
+        <!-- All icons used in quarter comes from heroicons.com -->
+        <svg
+            aria-hidden="true"
+            style="position: absolute; width: 0; height: 0; overflow: hidden"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <symbol
+                id="quarter-logo"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            >
+                <circle cx="12" cy="12" r="10" />
+                <path
+                    d="M12 12V2.5A9.5 9.5 0 0 1 21.5 12H12z"
+                    fill="currentColor"
+                    stroke="none"
+                />
+                <line x1="12" y1="12" x2="12" y2="2" />
+                <line x1="12" y1="12" x2="22" y2="12" />
+            </symbol>
+
+            <symbol
+                id="bars-3"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+            >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                />
+            </symbol>
+
+            <symbol
+                id="x-mark"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+            >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6 18 18 6M6 6l12 12"
+                />
+            </symbol>
+
+            <symbol
+                id="user-plus"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+            >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z"
+                />
+            </symbol>
+
+            <symbol
+                id="arrow-left-end-on-rectangle"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+            >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75"
+                />
+            </symbol>
+        </svg>
+    </body>
+</html>

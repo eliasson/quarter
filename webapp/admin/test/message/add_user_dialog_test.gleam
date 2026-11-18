@@ -1,19 +1,19 @@
+import admin
 import gleam/option
 import gleeunit/should
 import message
 import model
 import quarter_shared/types
 import test_util.{first}
-import app
 
 pub fn should_update_email_in_dialog_state_test() {
   let initial_dialog = model.new_user_dialog()
 
   let value =
     model.initial_model()
-    |> app.update(message.OpenDialog(initial_dialog))
+    |> admin.update(message.OpenDialog(initial_dialog))
     |> first
-    |> app.update(
+    |> admin.update(
       message.FormTextFieldUpdated(types.FormValue("email", "jane@example.com")),
     )
     |> first

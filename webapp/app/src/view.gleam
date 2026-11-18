@@ -14,7 +14,6 @@ import quarter_shared/ui/markup
 import route
 import views/calendar
 import views/manage_projects
-import views/system_users
 import views/timesheet
 import views/weekly_report
 
@@ -46,10 +45,8 @@ fn route_view(model: model.Model) {
   case model.route {
     route.Home -> calendar.view(model)
     route.Timesheet(_) -> timesheet.view(model)
-    route.AdministerSystemUsers -> system_users.view(model)
     route.Manage -> manage_projects.view(model)
     route.Report(_) -> weekly_report.view(model)
-    _ -> element.none()
   }
 }
 
@@ -151,14 +148,6 @@ fn drop_down_back_drop(model: model.Model) {
 fn dialogs(model: model.Model) -> List(element.Element(message.Msg)) {
   let markup = fn(d: model.Dialog) {
     case d {
-      model.AddUserDialog(state) -> {
-        system_users.add_user_form(state)
-        |> input.form_dialog(
-          "Add new user",
-          on_input: message.FormTextFieldUpdated,
-        )
-      }
-
       model.AddProjectDialog(state) -> {
         manage_projects.add_project_form(state)
         |> input.form_dialog(

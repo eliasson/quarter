@@ -1,22 +1,23 @@
-import dialogs/user_dialog
+import app
+import dialogs/project_dialog
 import gleeunit/should
 import message
 import model
-import quarter_shared/domain/email
 import quarter_shared/domain/input_value
 import test_util.{first}
-import app
 
-const dialog_one = model.AddUserDialog(
-  user_dialog.State(
-    input_value.ValidValue(email.Email("one@example.com")),
+const dialog_one = model.AddProjectDialog(
+  project_dialog.State(
+    input_value.ValidValue("One"),
+    input_value.ValidValue(""),
     False,
   ),
 )
 
-const dialog_two = model.AddUserDialog(
-  user_dialog.State(
-    input_value.ValidValue(email.Email("two@example.com")),
+const dialog_two = model.AddProjectDialog(
+  project_dialog.State(
+    input_value.ValidValue("Two"),
+    input_value.ValidValue(""),
     False,
   ),
 )

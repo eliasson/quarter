@@ -5,18 +5,17 @@ import gleam/uri.{type Uri}
 import lustre
 import lustre/effect.{type Effect}
 import message.{
-  type Msg, AddUserResult, ArchiveActivity, ArchiveActivityResult,
-  ArchiveProject, ArchiveProjectResult, CloseModal, CommitRegistering,
-  ConfirmArchiveActivity, ConfirmArchiveProject, ConfirmDeleteActivity,
-  ConfirmDeleteProject, ConfirmDialog, CreateActivityResult, CreateProjectResult,
-  CurrentUserResult, DeleteActivity, DeleteActivityResult, DeleteProject,
-  DeleteProjectResult, DismissError, ExtendEndOfDay, ExtendStartOfDay,
-  FormTextFieldUpdated, Logout, NextMonth, NextReportWeek, NextTimesheet, Noop,
-  OnRouteChange, OpenDialog, OpenDropDownMenu, PreviousMonth, PreviousReportWeek,
-  PreviousTimesheet, ProjectsResult, RegisterTimeResult, ReportResult,
-  SelectActivity, StartRegistering, SystemUsersResult, TimesheetResult,
-  TimesheetsResult, ToggleActivityPicker, ToggleProject, UpdateActivityResult,
-  UpdateProjectResult, UpdateRegistering,
+  type Msg, ArchiveActivity, ArchiveActivityResult, ArchiveProject,
+  ArchiveProjectResult, CloseModal, CommitRegistering, ConfirmArchiveActivity,
+  ConfirmArchiveProject, ConfirmDeleteActivity, ConfirmDeleteProject,
+  ConfirmDialog, CreateActivityResult, CreateProjectResult, CurrentUserResult,
+  DeleteActivity, DeleteActivityResult, DeleteProject, DeleteProjectResult,
+  DismissError, ExtendEndOfDay, ExtendStartOfDay, FormTextFieldUpdated, Logout,
+  NextMonth, NextReportWeek, NextTimesheet, Noop, OnRouteChange, OpenDialog,
+  OpenDropDownMenu, PreviousMonth, PreviousReportWeek, PreviousTimesheet,
+  ProjectsResult, RegisterTimeResult, ReportResult, SelectActivity,
+  StartRegistering, TimesheetResult, TimesheetsResult, ToggleActivityPicker,
+  ToggleProject, UpdateActivityResult, UpdateProjectResult, UpdateRegistering,
 }
 import model.{
   type Model, add_error, clear_registration, close_all_modals, close_modal,
@@ -24,8 +23,8 @@ import model.{
   extend_start_of_day, go_to_next_month, go_to_previous_month, initial_model,
   navigate_to, open_dialog, open_drop_down_menu, select_activity, select_quarter,
   set_active_report, set_active_timesheet, set_current_user, set_timesheets,
-  set_users, start_registration, toggle_activity_picker, toggle_project,
-  update_activity, update_dialog_value, update_project,
+  start_registration, toggle_activity_picker, toggle_project, update_activity,
+  update_dialog_value, update_project,
 }
 import rsvp
 
@@ -182,15 +181,6 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
     ToggleProject(id) -> #(toggle_project(model, id), effect.none())
 
     CurrentUserResult(Ok(u)) -> #(set_current_user(model, u), effect.none())
-
-    SystemUsersResult(Ok(users)) -> #(set_users(model, users), effect.none())
-
-    AddUserResult(Ok(_)) -> {
-      // When the user was added successfully add the new user to the state so it
-      // can be rendered in the list of users. The only way to add a new user is
-      // when viewing the list of users.
-      #(model, protocol.get_system_users(message.SystemUsersResult))
-    }
 
     ProjectsResult(Ok(projects)) -> #(
       model.Model(..model, projects:),
@@ -362,14 +352,6 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       model
       |> handle_error(e, "Unable to get current user.")
 
-    SystemUsersResult(Error(e)) ->
-      model
-      |> handle_error(e, "Unable to get users.")
-
-    AddUserResult(Error(e)) ->
-      model
-      |> handle_error(e, "Unable to add user.")
-
     ProjectsResult(Error(e)) ->
       model
       |> handle_error(e, "Unable to load projects.")
@@ -433,9 +415,6 @@ fn effect_on_route_loaded(m: model.Model, r: route.Route) {
       protocol.get_timesheet(date, message.TimesheetResult)
 
     // TODO load timesheet on timesheet view
-    route.AdministerSystemUsers ->
-      protocol.get_system_users(message.SystemUsersResult)
-
     route.Report(date) -> protocol.get_weekly_report(date, message.ReportResult)
 
     _ -> effect.none()
@@ -444,9 +423,6 @@ fn effect_on_route_loaded(m: model.Model, r: route.Route) {
 
 fn handle_dialog_confirm(m: model.Model) {
   let work = case model.current_dialog(m) {
-    Ok(model.AddUserDialog(state)) ->
-      protocol.add_user(state.email.value, message.AddUserResult)
-
     Ok(model.AddProjectDialog(state)) ->
       protocol.create_project(
         state.name.value,

@@ -4,8 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "vite -c app/vite.config.js",
+    "dev:admin": "vite -c admin/vite.config.js",
     "watch": "vite build -c app/vite.config.js --watch",
-    "build": "vite build -c app/vite.config.js"
+    "watch:admin": "vite build -c admin/vite.config.js --watch",
+    "build": "npm run build:app && npm run build:admin",
+    "build:app": "vite build -c app/vite.config.js",
+    "build:admin": "vite build -c admin/vite.config.js"
   },
   "dependencies": {
     "vite": "^6.4.1"
