@@ -40,7 +40,6 @@ public class Startup(IConfiguration configuration)
         ConfigureAuth(services);
 
         services.AddRouting();
-        services.AddRazorPages();
         services.AddControllers();
         services.AddAuthorization();
         services.AddHttpContextAccessor();
