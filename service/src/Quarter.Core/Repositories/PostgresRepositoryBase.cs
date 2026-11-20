@@ -214,7 +214,11 @@ public abstract class PostgresRepositoryBase<T> : IRepository<T> where T : IAggr
             parameters.Add(accessCondition);
 
         await using var connection = await _connectionProvider.GetConnectionAsync(ct);
-        await foreach (var agg in ExecuteQueryAsync(connection, query, ct, parameters))
+
+        // Read all aggregates before running the post-operation, since a connection can only have one active
+        // command and the post-operation (e.g. reading timesheet slots) issues its own queries.
+        var aggregates = await ExecuteQueryAsync(connection, query, ct, parameters).ToListAsync(ct);
+        foreach (var agg in aggregates)
         {
             // Inefficient! Add a method that allow for bulk reads in post-operations
             await PostGetByIdAsync(connection, agg, ct);
@@ -266,9 +270,7 @@ public abstract class PostgresRepositoryBase<T> : IRepository<T> where T : IAggr
         [EnumeratorCancellation] CancellationToken ct,
         IEnumerable<NpgsqlParameter> parameters)
     {
-        await using var conn = await _connectionProvider.GetConnectionAsync(ct);
-        var command = conn.CreateCommand();
-
+        await using var command = connection.CreateCommand();
         command.CommandText = query;
         command.Parameters.AddRange(parameters.ToArray());
 
