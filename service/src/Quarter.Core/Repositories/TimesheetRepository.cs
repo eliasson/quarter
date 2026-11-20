@@ -21,7 +21,8 @@ public record ProjectTotalUsage(IdOf<Project> ProjectId, int TotalMinutes, List<
         if (ReferenceEquals(null, other)) return false;
         if (ReferenceEquals(this, other)) return true;
         return ProjectId.Equals(other.ProjectId) &&
-               TotalMinutes.Equals(TotalMinutes) &&
+               TotalMinutes == other.TotalMinutes &&
+               LastUsed.Equals(other.LastUsed) &&
                Activities.SequenceEqual(other.Activities);
     }
 
