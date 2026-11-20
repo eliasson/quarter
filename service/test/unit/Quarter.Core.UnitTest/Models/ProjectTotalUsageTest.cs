@@ -1,10 +1,9 @@
 using System;
 using NUnit.Framework;
 using Quarter.Core.Models;
-using Quarter.Core.Repositories;
 using Quarter.Core.Utils;
 
-namespace Quarter.Core.UnitTest.Repositories;
+namespace Quarter.Core.UnitTest.Models;
 
 [TestFixture]
 public class ProjectTotalUsageTest

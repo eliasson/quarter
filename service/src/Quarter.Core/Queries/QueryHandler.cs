@@ -1,5 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
+using Quarter.Core.Models;
 using Quarter.Core.Repositories;
 using Quarter.Core.Utils;
 
