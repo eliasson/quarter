@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Quarter.Core.Models;
 using Quarter.Core.Repositories;
+using Quarter.HttpApi.Resources;
 using Quarter.HttpApi.Services;
 
 namespace Quarter.HttpApi;

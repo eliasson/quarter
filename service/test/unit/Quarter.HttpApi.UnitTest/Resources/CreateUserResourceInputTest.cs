@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using Quarter.Core.Utils;
+using Quarter.HttpApi.Resources;
 
 namespace Quarter.HttpApi.UnitTest.Resources;
 

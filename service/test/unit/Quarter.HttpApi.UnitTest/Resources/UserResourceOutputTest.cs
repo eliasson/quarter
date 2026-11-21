@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using Quarter.Core.Models;
 using Quarter.Core.Utils;
+using Quarter.HttpApi.Resources;
 
 namespace Quarter.HttpApi.UnitTest.Resources;
 

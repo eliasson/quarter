@@ -2,6 +2,8 @@ using System.ComponentModel.DataAnnotations;
 using Quarter.Core.Models;
 using Quarter.Core.Utils;
 
+namespace Quarter.HttpApi.Resources;
+
 // ReSharper disable InconsistentNaming
 
 /// <summary>
