@@ -39,38 +39,10 @@ public class InMemoryTimesheetRepository : InMemoryRepositoryBase<Timesheet>, IT
     }
 
     public Task<RemoveResult> RemoveSlotsForProjectAsync(IdOf<Project> projectId, CancellationToken ct)
-    {
-        var result = RemoveResult.NotRemoved;
-        foreach (var (_, timesheet) in Storage)
-        {
-            var slots = timesheet.Slots().ToList();
-            var originalCount = slots.Count;
-
-            var updatedSlots = slots.Where(s => !Equals(s.ProjectId, projectId)).ToList();
-            timesheet.SetSlots(updatedSlots);
-
-            if (originalCount > updatedSlots.Count)
-                result = RemoveResult.Removed;
-        }
-        return Task.FromResult(result);
-    }
+        => RemoveSlotsFromTimesheetAsync(s => !Equals(s.ProjectId, projectId), ct);
 
     public Task<RemoveResult> RemoveSlotsForActivityAsync(IdOf<Activity> activityId, CancellationToken ct)
-    {
-        var result = RemoveResult.NotRemoved;
-        foreach (var (_, timesheet) in Storage)
-        {
-            var slots = timesheet.Slots().ToList();
-            var originalCount = slots.Count;
-
-            var updatedSlots = slots.Where(s => !Equals(s.ActivityId, activityId)).ToList();
-            timesheet.SetSlots(updatedSlots);
-
-            if (originalCount > updatedSlots.Count)
-                result = RemoveResult.Removed;
-        }
-        return Task.FromResult(result);
-    }
+        => RemoveSlotsFromTimesheetAsync(s => !Equals(s.ActivityId, activityId), ct);
 
     public Task<Timesheet> GetByDateAsync(Date date, CancellationToken ct)
     {
@@ -161,6 +133,23 @@ public class InMemoryTimesheetRepository : InMemoryRepositoryBase<Timesheet>, IT
         }
 
         return Task.FromResult<IReadOnlyList<Timesheet>>(timesheets);
+    }
+
+    private Task<RemoveResult> RemoveSlotsFromTimesheetAsync(Func<ActivityTimeSlot, bool> predicate, CancellationToken ct)
+    {
+        var result = RemoveResult.NotRemoved;
+        foreach (var (_, timesheet) in Storage)
+        {
+            var slots = timesheet.Slots().ToList();
+            var originalCount = slots.Count;
+
+            var updatedSlots = slots.Where(predicate).ToList();
+            timesheet.SetSlots(updatedSlots);
+
+            if (originalCount > updatedSlots.Count)
+                result = RemoveResult.Removed;
+        }
+        return Task.FromResult(result);
     }
 }
 
