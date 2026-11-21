@@ -42,7 +42,7 @@ public abstract class InMemoryRepositoryBase<T> : IRepository<T> where T : IAggr
         CheckConstraints(updatedAggregate);
         if (Storage.TryUpdate(id, updatedAggregate, aggregate))
             return updatedAggregate;
-        throw new InvalidOperationException($"Could not update {nameof(T)}");
+        throw new InvalidOperationException($"Could not update {typeof(T).Name}");
     }
 
     public Task<RemoveResult> RemoveByIdAsync(IdOf<T> id, CancellationToken ct)

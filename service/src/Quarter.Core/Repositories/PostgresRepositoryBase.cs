@@ -311,7 +311,7 @@ public abstract class PostgresRepositoryBase<T> : IRepository<T> where T : IAggr
     {
         var result = await JsonSerializer.DeserializeAsync<T>(stream);
         if (result == null)
-            throw new ArgumentException($"Could not deserialize {nameof(T)} from stream");
+            throw new ArgumentException($"Could not deserialize {typeof(T).Name} from stream");
         return result;
     }
 }

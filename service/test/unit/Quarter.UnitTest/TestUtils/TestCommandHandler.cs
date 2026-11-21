@@ -29,6 +29,6 @@ public class TestCommandHandler : ICommandHandler
         var cmd = ExecutedCommands.Last();
         if (cmd.Command is T res)
             return res;
-        throw new Exception($"Expected {nameof(T)} to have been executed");
+        throw new Exception($"Expected {typeof(T).Name} to have been executed");
     }
 }
