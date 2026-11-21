@@ -30,7 +30,6 @@ public class AdminService(
 
     public async Task<SystemMetrics> GetSystemMetricsAsync(CancellationToken ct)
     {
-        await Task.CompletedTask;
         var numberOfUsers = await repositoryFactory.UserRepository().TotalCountAsync(ct);
         return new SystemMetrics(numberOfUsers);
     }

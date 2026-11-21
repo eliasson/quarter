@@ -18,8 +18,6 @@ public class ApiControllerBase(IApiService apiService, IRepositoryFactory reposi
 
     protected async Task<OperationContext> GetOperationContextForCurrentUserAsync(CancellationToken ct)
     {
-        await Task.CompletedTask;
-
         var principal = httpContextAccessor.HttpContext?.User;
         if (principal == null) throw new UnauthorizedAccessException("No principal found on request");
 
