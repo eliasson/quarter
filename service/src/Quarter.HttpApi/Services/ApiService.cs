@@ -24,7 +24,7 @@ public interface IApiService
 
     Task<ProjectAndActivitiesResourceOutput> GetAllProjectsAndActivitiesForUserAsync(OperationContext oc, CancellationToken ct);
 
-    IAsyncEnumerable<UserResourceOutput> GetAllUsersAsync(OperationContext oc, CancellationToken ct);
+    IAsyncEnumerable<UserListItemResourceOutput> GetAllUsersAsync(OperationContext oc, CancellationToken ct);
 
     Task<UserResourceOutput> GetCurrentUserAsync(OperationContext oc, CancellationToken ct);
 
@@ -147,9 +147,9 @@ public class ApiService(IRepositoryFactory repositoryFactory, IQueryHandler quer
         return new ProjectAndActivitiesResourceOutput(projectResources, activitiesResources);
     }
 
-    public IAsyncEnumerable<UserResourceOutput> GetAllUsersAsync(OperationContext oc, CancellationToken ct)
+    public IAsyncEnumerable<UserListItemResourceOutput> GetAllUsersAsync(OperationContext oc, CancellationToken ct)
     {
-        return repositoryFactory.UserRepository().GetAllAsync(ct).Select(UserResourceOutput.From);
+        return repositoryFactory.UserRepository().GetAllAsync(ct).Select(UserListItemResourceOutput.From);
     }
 
     public async Task<UserResourceOutput> GetCurrentUserAsync(OperationContext oc, CancellationToken ct)

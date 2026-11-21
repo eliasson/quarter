@@ -13,7 +13,7 @@ public class UsersController(IApiService apiService, IRepositoryFactory reposito
     : ApiControllerBase(apiService, repositoryFactory, httpContextAccessor)
 {
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<UserResourceOutput>>> All(CancellationToken ct)
+    public async Task<ActionResult<IEnumerable<UserListItemResourceOutput>>> All(CancellationToken ct)
     {
         var oc = await GetOperationContextForCurrentUserAsync(ct);
 
