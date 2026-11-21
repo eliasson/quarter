@@ -73,24 +73,19 @@ public class ApiService(IRepositoryFactory repositoryFactory, IQueryHandler quer
 
     public async Task<ActivityResourceOutput> CreateActivityAsync(IdOf<Project> projectId, CreateActivityResourceInput input, OperationContext oc, CancellationToken ct)
     {
+        await EnsureProjectExistsAsync(projectId, oc, ct);
+
         var activityRepository = repositoryFactory.ActivityRepository(oc.UserId);
-        var projectRepository = repositoryFactory.ProjectRepository(oc.UserId);
-
-        // This will throw if the project does not exist (which is also the case if the user does not own the given project ID)
-        _ = await projectRepository.GetByIdAsync(projectId, ct);
-
         var activity = await activityRepository.CreateAsync(input.ToActivity(projectId), ct);
+
         return ActivityResourceOutput.From(activity);
     }
 
     public async Task<ActivityResourceOutput> UpdateActivityAsync(IdOf<Project> projectId, IdOf<Activity> activityId, UpdateActivityResourceInput input, OperationContext oc, CancellationToken ct)
     {
+        await EnsureProjectExistsAsync(projectId, oc, ct);
+
         var activityRepository = repositoryFactory.ActivityRepository(oc.UserId);
-        var projectRepository = repositoryFactory.ProjectRepository(oc.UserId);
-
-        // This will throw if the project does not exist (which is also the case if the user does not own the given project ID)
-        _ = await projectRepository.GetByIdAsync(projectId, ct);
-
         var activity = await activityRepository.UpdateByIdAsync(activityId, existing =>
         {
             if (input.name is not null) existing.Name = input.name;
@@ -105,12 +100,9 @@ public class ApiService(IRepositoryFactory repositoryFactory, IQueryHandler quer
 
     public async Task DeleteActivityAsync(IdOf<Project> projectId, IdOf<Activity> activityId, OperationContext oc, CancellationToken ct)
     {
+        await EnsureProjectExistsAsync(projectId, oc, ct);
+
         var activityRepository = repositoryFactory.ActivityRepository(oc.UserId);
-        var projectRepository = repositoryFactory.ProjectRepository(oc.UserId);
-
-        // This will throw if the project does not exist (which is also the case if the user does not own the given project ID)
-        _ = await projectRepository.GetByIdAsync(projectId, ct);
-
         await activityRepository.RemoveByIdAsync(activityId, ct);
     }
 
@@ -176,5 +168,11 @@ public class ApiService(IRepositoryFactory repositoryFactory, IQueryHandler quer
     {
         var report = await queryHandler.ExecuteAsync(new WeeklyReportQuery(date), oc, ct);
         return WeeklyReportResourceOutput.From(report);
+    }
+
+    private async Task EnsureProjectExistsAsync(IdOf<Project> projectId, OperationContext oc, CancellationToken ct)
+    {
+        // This will throw if the project does not exist (which is also the case if the user does not own the given project ID)
+        _ = await repositoryFactory.ProjectRepository(oc.UserId).GetByIdAsync(projectId, ct);
     }
 }
