@@ -36,5 +36,23 @@ public class UserListItemResourceOutputTest
         [Test]
         public void ItShouldLackUpdateTimestamp()
             => Assert.That(_output.updated, Is.Null);
+
+        [Test]
+        public void ItShouldHaveNoRoles()
+            => Assert.That(_output.roles, Is.Empty);
+    }
+
+    [TestFixture]
+    public class WhenConstructingAdminUserOutput
+    {
+        private UserListItemResourceOutput _output = null!;
+
+        [OneTimeSetUp]
+        public void Setup()
+            => _output = UserListItemResourceOutput.From(User.AdminUser(new Email("jane.doe@example.com")));
+
+        [Test]
+        public void ItShouldMapAdministratorRole()
+            => Assert.That(_output.roles, Is.EqualTo(new[] { "administrator" }));
     }
 }

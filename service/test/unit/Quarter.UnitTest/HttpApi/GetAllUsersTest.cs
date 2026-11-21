@@ -1,9 +1,12 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Quarter.Core.Models;
+using Quarter.HttpApi.Resources;
 using Quarter.UnitTest.TestUtils;
 
 namespace Quarter.UnitTest.HttpApi;
@@ -32,6 +35,20 @@ public class GetAllUsersTest
         [Test]
         public void ItShouldReturnJsonContentType()
             => Assert.That(_response?.ContentType(), Is.EqualTo(MediaTypeNames.Application.Json));
+
+        [Test]
+        public async Task ItShouldReturnRolesForEachUser()
+        {
+            var payload = await _response.AsPayload<UserListItemResourceOutput[]>();
+            var roles = payload?.ToDictionary(u => u.email, u => u.roles);
+
+            Assert.That(roles, Is.EquivalentTo(new Dictionary<string, IReadOnlyList<string>>
+            {
+                ["john.doe@example.com"] = ["administrator"],
+                ["lotta@example.com"] = [],
+                ["sven@example.com"] = [],
+            }));
+        }
     }
 
     [TestFixture]
