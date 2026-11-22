@@ -57,7 +57,7 @@ public abstract class InMemoryRepositoryBase<T> : IRepository<T> where T : IAggr
         return Storage.Values.ToAsyncEnumerable();
     }
 
-    public Task Truncate(CancellationToken ct)
+    public virtual Task Truncate(CancellationToken ct)
     {
         Storage.Clear();
         return Task.CompletedTask;

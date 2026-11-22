@@ -102,6 +102,70 @@ public abstract class UserRepositoryTest : RepositoryTestBase<User, IUserReposit
 
         Assert.That(ex?.Message, Does.Contain("Could not store"));
     }
+
+    [Test]
+    public async Task ItShouldNotHaveLastLoginForUserThatNeverLoggedIn()
+    {
+        var repository = Repository();
+        var user = await repository.CreateAsync(ArbitraryAggregate(), CancellationToken.None);
+
+        var lastLogins = await repository.GetLastLoginsAsync(CancellationToken.None);
+
+        Assert.That(lastLogins.ContainsKey(user.Id), Is.False);
+    }
+
+    [Test]
+    public async Task ItShouldRecordLastLogin()
+    {
+        var repository = Repository();
+        var user = await repository.CreateAsync(ArbitraryAggregate(), CancellationToken.None);
+        var timestamp = UtcDateTime.Now();
+
+        await repository.RecordUserLoginAsync(user.Id, timestamp, CancellationToken.None);
+        var lastLogins = await repository.GetLastLoginsAsync(CancellationToken.None);
+
+        // Postgres stores microseconds.
+        Assert.That(lastLogins[user.Id].DateTime, Is.EqualTo(timestamp.DateTime).Within(TimeSpan.FromMilliseconds(1)));
+    }
+
+    [Test]
+    public async Task ItShouldKeepTheMostRecentLogin()
+    {
+        var repository = Repository();
+        var user = await repository.CreateAsync(ArbitraryAggregate(), CancellationToken.None);
+        var recent = UtcDateTime.Now();
+        var older = new UtcDateTime(recent.DateTime.AddHours(-1));
+
+        await repository.RecordUserLoginAsync(user.Id, recent, CancellationToken.None);
+        await repository.RecordUserLoginAsync(user.Id, older, CancellationToken.None);
+        var lastLogins = await repository.GetLastLoginsAsync(CancellationToken.None);
+
+        Assert.That(lastLogins[user.Id].DateTime, Is.EqualTo(recent.DateTime).Within(TimeSpan.FromMilliseconds(1)));
+    }
+
+    [Test]
+    public async Task ItShouldNotSaveLastLoginForAnUnknownUser()
+    {
+        var repository = Repository();
+        var unknownUserId = IdOf<User>.Random();
+
+        await repository.RecordUserLoginAsync(unknownUserId, UtcDateTime.Now(), CancellationToken.None);
+        var lastLogins = await repository.GetLastLoginsAsync(CancellationToken.None);
+
+        Assert.That(lastLogins.ContainsKey(unknownUserId), Is.False);
+    }
+
+    [Test]
+    public async Task ItShouldNotChangeUpdatedTimestampWhenRecordingLogin()
+    {
+        var repository = Repository();
+        var user = await repository.CreateAsync(ArbitraryAggregate(), CancellationToken.None);
+
+        await repository.RecordUserLoginAsync(user.Id, UtcDateTime.Now(), CancellationToken.None);
+        var readUser = await repository.GetByIdAsync(user.Id, CancellationToken.None);
+
+        Assert.That(readUser.Updated, Is.Null);
+    }
 }
 
 [TestFixture]
