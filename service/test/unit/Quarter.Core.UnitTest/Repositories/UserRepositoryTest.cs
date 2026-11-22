@@ -35,7 +35,7 @@ namespace Quarter.Core.UnitTest.Repositories
         {
             var repository = Repository();
 
-            Assert.ThrowsAsync<NotFoundException>(() => repository.GetUserByEmailAsync("bob.doe@example.com", default));
+            Assert.ThrowsAsync<NotFoundException>(() => repository.GetUserByEmailAsync("bob.doe@example.com", CancellationToken.None));
         }
 
         [Test]
@@ -44,8 +44,8 @@ namespace Quarter.Core.UnitTest.Repositories
             var repository = Repository();
             var id = IdOf<User>.Random();
             var user = new User(new Email($"{id.AsString()}@example.com"));
-            await repository.CreateAsync(user, default);
-            var readUser = await repository.GetUserByEmailAsync($"{id.AsString()}@example.com", default);
+            await repository.CreateAsync(user, CancellationToken.None);
+            var readUser = await repository.GetUserByEmailAsync($"{id.AsString()}@example.com", CancellationToken.None);
 
             Assert.That(readUser, Is.EqualTo(user));
         }
@@ -56,8 +56,8 @@ namespace Quarter.Core.UnitTest.Repositories
             var repository = Repository();
             var id = IdOf<User>.Random();
             var user = new User(new Email($"{id.AsString()}@example.com"));
-            await repository.CreateAsync(user, default);
-            var readUser = await repository.GetUserByEmailAsync($"{id.AsString()}@EXAMPLE.COM", default);
+            await repository.CreateAsync(user, CancellationToken.None);
+            var readUser = await repository.GetUserByEmailAsync($"{id.AsString()}@EXAMPLE.COM", CancellationToken.None);
 
             Assert.That(readUser, Is.EqualTo(user));
         }
@@ -68,9 +68,9 @@ namespace Quarter.Core.UnitTest.Repositories
             var repository = Repository();
             var userA = new User(new Email("jane.doe@example.com"));
             var userB = new User(new Email("jane.doe@example.com"));
-            await repository.CreateAsync(userA, default);
+            await repository.CreateAsync(userA, CancellationToken.None);
 
-            var ex = Assert.CatchAsync<ArgumentException>(() => repository.CreateAsync(userB, default));
+            var ex = Assert.CatchAsync<ArgumentException>(() => repository.CreateAsync(userB, CancellationToken.None));
             Assert.That(ex?.Message, Does.Contain("Could not store"));
         }
 
@@ -80,9 +80,9 @@ namespace Quarter.Core.UnitTest.Repositories
             var repository = Repository();
 
             var user = User.AdminUser(new Email("hello@example.com"));
-            await repository.CreateAsync(user, default);
+            await repository.CreateAsync(user, CancellationToken.None);
 
-            var readUser = await repository.GetByIdAsync(user.Id, default);
+            var readUser = await repository.GetByIdAsync(user.Id, CancellationToken.None);
 
             Assert.That(readUser.Roles, Does.Contain(UserRole.Administrator));
         }
@@ -92,10 +92,10 @@ namespace Quarter.Core.UnitTest.Repositories
         {
             var repository = Repository();
             var userA = new User(new Email("jane.doe@example.com"));
-            await repository.CreateAsync(userA, default);
+            await repository.CreateAsync(userA, CancellationToken.None);
 
             var userB = new User(new Email("john.doe@example.com"));
-            userB = await repository.CreateAsync(userB, default);
+            userB = await repository.CreateAsync(userB, CancellationToken.None);
             userB.Email = userA.Email;
 
             var ex = Assert.CatchAsync<ArgumentException>(() => repository.UpdateByIdAsync(userB.Id, _ => userB, CancellationToken.None));
