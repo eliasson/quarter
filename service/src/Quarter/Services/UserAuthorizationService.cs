@@ -73,7 +73,7 @@ public class UserAuthorizationService(
     {
         try
         {
-            return await tryWithExistingUser();
+            return await TryWithExistingUser();
         }
         catch (NotFoundException)
         {
@@ -88,10 +88,10 @@ public class UserAuthorizationService(
             var command = new AddUserCommand(new Email(email), ArraySegment<UserRole>.Empty);
 
             await commandHandler.ExecuteAsync(command, OperationContext.None, ct);
-            return await tryWithExistingUser();
+            return await TryWithExistingUser();
         }
 
-        async Task<AuthorizedResult> tryWithExistingUser()
+        async Task<AuthorizedResult> TryWithExistingUser()
         {
             var user = await _userRepository.GetUserByEmailAsync(email, ct);
             await loginTracker.RecordLoginInAsync(user.Id, ct);
