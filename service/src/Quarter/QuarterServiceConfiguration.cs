@@ -1,4 +1,6 @@
+using System;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Quarter.Core.Commands;
 using Quarter.Core.Migrations;
 using Quarter.Core.Queries;
@@ -32,6 +34,8 @@ public static class QuarterServiceConfiguration
 
         serviceCollection.AddSingleton<ICommandHandler, CommandHandler>();
         serviceCollection.AddSingleton<IQueryHandler, QueryHandler>();
+        serviceCollection.TryAddSingleton(TimeProvider.System);
+        serviceCollection.AddSingleton<ILoginTracker, LoginTracker>();
         serviceCollection.AddScoped<IUserAuthorizationService, UserAuthorizationService>();
         serviceCollection.AddSingleton<IApiService, ApiService>();
         serviceCollection.AddSingleton<IAdminService, AdminService>();
