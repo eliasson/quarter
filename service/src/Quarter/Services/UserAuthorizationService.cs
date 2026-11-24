@@ -62,6 +62,7 @@ public interface IUserAuthorizationService
 public class UserAuthorizationService(
     IRepositoryFactory repositoryFactory,
     ICommandHandler commandHandler,
+    ILoginTracker loginTracker,
     IOptions<AuthOptions> authOptions,
     ILogger<UserAuthorizationService> logger)
     : IUserAuthorizationService
@@ -93,6 +94,8 @@ public class UserAuthorizationService(
         async Task<AuthorizedResult> tryWithExistingUser()
         {
             var user = await _userRepository.GetUserByEmailAsync(email, ct);
+            await loginTracker.RecordLoginInAsync(user.Id, ct);
+
             logger.LogInformation("Successfully authorized user {Email} at login", email);
             return AuthorizedResult.AuthorizedWith(ClaimsForUser(user).ToArray());
         }

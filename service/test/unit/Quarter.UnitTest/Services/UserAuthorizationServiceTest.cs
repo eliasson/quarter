@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -37,6 +38,14 @@ public class UserAuthorizationServiceTest
             var result = await Service.AuthorizeOrCreateUserAsync(_standardUser!.Email.Value, default);
 
             Assert.That(result.State, Is.EqualTo(AuthorizedState.Authorized));
+        }
+
+        [Test]
+        public async Task ItShouldRecordLastLogin()
+        {
+            _ = await Service.AuthorizeOrCreateUserAsync(_standardUser!.Email.Value, default);
+
+            Assert.That(await HasLastLogin(_standardUser.Email.Value), Is.True);
         }
 
         [Test]
@@ -104,6 +113,10 @@ public class UserAuthorizationServiceTest
             var user = await GetUser("jane.doe@example.com");
             Assert.That(user, Is.Not.Null);
         }
+
+        [Test]
+        public async Task ItShouldRecordLastLoginForCreatedUser()
+            => Assert.That(await HasLastLogin("jane.doe@example.com"), Is.True);
     }
 
     public class TestCase
@@ -115,9 +128,11 @@ public class UserAuthorizationServiceTest
         protected TestCase()
         {
             var commandHandler = new CommandHandler(_repositoryFactory);
+            var loginTracker = new LoginTracker(_repositoryFactory, TimeProvider.System, NullLogger<LoginTracker>.Instance);
 
             Service = new UserAuthorizationService(_repositoryFactory,
                 commandHandler,
+                loginTracker,
                 Options.Create(_authOptions),
                 NullLogger<UserAuthorizationService>.Instance);
         }
@@ -130,6 +145,13 @@ public class UserAuthorizationServiceTest
 
         protected Task<User> AddAdminUser(string email)
             => AddUser(User.AdminUser(new Email(email)));
+
+        protected async Task<bool> HasLastLogin(string email)
+        {
+            var user = await GetUser(email);
+            var lastLogins = await _repositoryFactory.UserRepository().GetLastLoginsAsync(default);
+            return lastLogins.ContainsKey(user.Id);
+        }
 
         protected Task<User> GetUser(string email)
             => _repositoryFactory.UserRepository().GetUserByEmailAsync(email, default);
