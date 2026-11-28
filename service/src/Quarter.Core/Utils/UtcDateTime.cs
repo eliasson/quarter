@@ -16,7 +16,7 @@ public struct UtcDateTime
     public UtcDateTime(DateTime dateTime)
         => DateTime = dateTime.ToUniversalTime();
 
-    public string IsoString()
+    public readonly string IsoString()
         => DateTime.ToString("o");
 
     /// <summary>
