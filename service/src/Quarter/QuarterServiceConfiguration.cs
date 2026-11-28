@@ -12,32 +12,35 @@ namespace Quarter;
 
 public static class QuarterServiceConfiguration
 {
-    public static void UseQuarter(this IServiceCollection serviceCollection)
-        => UseQuarter(serviceCollection, false);
-
-    public static void UseQuarterUnderTest(this IServiceCollection serviceCollection)
-        => UseQuarter(serviceCollection, true);
-
-    private static void UseQuarter(this IServiceCollection serviceCollection, bool useInMemoryStorage)
+    extension(IServiceCollection serviceCollection)
     {
-        serviceCollection.AddSingleton<IPostgresConnectionProvider, DefaultPostgresConnectionProvider>();
+        public void UseQuarter()
+            => serviceCollection.UseQuarter(false);
 
-        if (useInMemoryStorage)
-        {
-            serviceCollection.AddSingleton<IRepositoryFactory, InMemoryRepositoryFactory>();
-        }
-        else
-        {
-            serviceCollection.ConfigureMigrations();
-            serviceCollection.AddSingleton<IRepositoryFactory, PostgresRepositoryFactory>();
-        }
+        public void UseQuarterUnderTest()
+            => serviceCollection.UseQuarter(true);
 
-        serviceCollection.AddSingleton<ICommandHandler, CommandHandler>();
-        serviceCollection.AddSingleton<IQueryHandler, QueryHandler>();
-        serviceCollection.TryAddSingleton(TimeProvider.System);
-        serviceCollection.AddSingleton<ILoginTracker, LoginTracker>();
-        serviceCollection.AddScoped<IUserAuthorizationService, UserAuthorizationService>();
-        serviceCollection.AddSingleton<IApiService, ApiService>();
-        serviceCollection.AddSingleton<IAdminService, AdminService>();
+        private void UseQuarter(bool useInMemoryStorage)
+        {
+            serviceCollection.AddSingleton<IPostgresConnectionProvider, DefaultPostgresConnectionProvider>();
+
+            if (useInMemoryStorage)
+            {
+                serviceCollection.AddSingleton<IRepositoryFactory, InMemoryRepositoryFactory>();
+            }
+            else
+            {
+                serviceCollection.ConfigureMigrations();
+                serviceCollection.AddSingleton<IRepositoryFactory, PostgresRepositoryFactory>();
+            }
+
+            serviceCollection.AddSingleton<ICommandHandler, CommandHandler>();
+            serviceCollection.AddSingleton<IQueryHandler, QueryHandler>();
+            serviceCollection.TryAddSingleton(TimeProvider.System);
+            serviceCollection.AddSingleton<ILoginTracker, LoginTracker>();
+            serviceCollection.AddScoped<IUserAuthorizationService, UserAuthorizationService>();
+            serviceCollection.AddSingleton<IApiService, ApiService>();
+            serviceCollection.AddSingleton<IAdminService, AdminService>();
+        }
     }
 }
