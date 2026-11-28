@@ -1,4 +1,5 @@
 import dialogs/user_dialog
+import domain
 import gleam/list
 import gleam/option
 import quarter_shared/domain/user
@@ -12,7 +13,7 @@ pub type Model {
     /// The logged in user, once loaded.
     current_user: option.Option(user.User),
     /// The list of all system users.
-    users: List(user.User),
+    users: List(domain.UserListItem),
     /// The open drop down menus, a list to allow for nested menus.
     dropdowns: List(DropDownMenu),
     /// The open dialogs as a reverse stack (top most is last in list).
@@ -56,7 +57,7 @@ pub fn set_current_user(m: Model, user: user.User) -> Model {
   Model(..m, current_user: option.Some(user))
 }
 
-pub fn set_users(m: Model, users: List(user.User)) -> Model {
+pub fn set_users(m: Model, users: List(domain.UserListItem)) -> Model {
   Model(..m, users:)
 }
 

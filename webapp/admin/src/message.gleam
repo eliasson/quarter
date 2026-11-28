@@ -1,3 +1,4 @@
+import domain
 import model
 import quarter_shared/domain/user
 import quarter_shared/types
@@ -35,6 +36,6 @@ pub type Msg {
   // Protocol messages ---------------------------------------------------------------------------
   //
   CurrentUserResult(Result(user.User, rsvp.Error))
-  SystemUsersResult(Result(List(user.User), rsvp.Error))
+  SystemUsersResult(Result(List(domain.UserListItem), rsvp.Error))
   AddUserResult(Result(user.User, rsvp.Error))
 }
