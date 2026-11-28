@@ -2,11 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
-## Pending
+## [0.7.5] - 2026-11-28
 
 - Update to .NET 10 (LTS) and related packages.
 - Update front-end tooling (Node.js 24 and Gleam 1.19).
 - Update GitHub Actions versions.
+- Include user last login in the admin's user listing.
 
 ## [0.7.4] - 2026-03-29
 
