@@ -49,6 +49,21 @@ public class GetAllUsersTest
                 ["sven@example.com"] = [],
             }));
         }
+
+        [Test]
+        public async Task ItShouldReturnLastLoginForActiveUserOnly()
+        {
+            // This also tests that the login tracking is set up in using the middleware.
+            var payload = await _response.AsPayload<UserListItemResourceOutput[]>();
+            var hasLastLogin = payload?.Select(u => (u.email, u.lastLogin is not null));
+
+            Assert.That(hasLastLogin, Is.EquivalentTo(new []
+            {
+                ("john.doe@example.com", true),
+                ("lotta@example.com", false),
+                ("sven@example.com", false),
+            }));
+        }
     }
 
     [TestFixture]

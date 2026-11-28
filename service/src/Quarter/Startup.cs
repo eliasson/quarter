@@ -193,6 +193,7 @@ public class Startup(IConfiguration configuration)
         app.UseCookiePolicy();
         app.UseAuthentication();
         app.UseAuthorization();
+        app.UseMiddleware<UserActivityMiddleware>();
 
         app.UseEndpoints(endpoints =>
         {

@@ -18,7 +18,7 @@ public class UserListItemResourceOutputTest
         public void Setup()
         {
             _user = new User(new Email("jane.doe@example.com"));
-            _output = UserListItemResourceOutput.From(_user);
+            _output = UserListItemResourceOutput.From(_user, lastLogin: null);
         }
 
         [Test]
@@ -40,6 +40,25 @@ public class UserListItemResourceOutputTest
         [Test]
         public void ItShouldHaveNoRoles()
             => Assert.That(_output.roles, Is.Empty);
+
+        [Test]
+        public void ItShouldLackLastLogin()
+            => Assert.That(_output.lastLogin, Is.Null);
+    }
+
+    [TestFixture]
+    public class WhenUserHasLoggedIn
+    {
+        private readonly UtcDateTime _lastLogin = UtcDateTime.Now();
+        private UserListItemResourceOutput _output = null!;
+
+        [OneTimeSetUp]
+        public void Setup()
+            => _output = UserListItemResourceOutput.From(new User(new Email("jane.doe@example.com")), _lastLogin);
+
+        [Test]
+        public void ItShouldMapLastLoginAsIsoTimestamp()
+            => Assert.That(_output.lastLogin, Is.EqualTo(_lastLogin.IsoString()));
     }
 
     [TestFixture]
@@ -49,7 +68,7 @@ public class UserListItemResourceOutputTest
 
         [OneTimeSetUp]
         public void Setup()
-            => _output = UserListItemResourceOutput.From(User.AdminUser(new Email("jane.doe@example.com")));
+            => _output = UserListItemResourceOutput.From(User.AdminUser(new Email("jane.doe@example.com")), lastLogin: null);
 
         [Test]
         public void ItShouldMapAdministratorRole()

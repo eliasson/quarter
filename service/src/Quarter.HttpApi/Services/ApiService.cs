@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Quarter.Core.Models;
 using Quarter.Core.Queries;
 using Quarter.Core.Repositories;
@@ -147,9 +148,16 @@ public class ApiService(IRepositoryFactory repositoryFactory, IQueryHandler quer
         return new ProjectAndActivitiesResourceOutput(projectResources, activitiesResources);
     }
 
-    public IAsyncEnumerable<UserListItemResourceOutput> GetAllUsersAsync(OperationContext oc, CancellationToken ct)
+    public async IAsyncEnumerable<UserListItemResourceOutput> GetAllUsersAsync(OperationContext oc, [EnumeratorCancellation] CancellationToken ct)
     {
-        return repositoryFactory.UserRepository().GetAllAsync(ct).Select(UserListItemResourceOutput.From);
+        var userRepository = repositoryFactory.UserRepository();
+        var lastLogins = await userRepository.GetLastLoginsAsync(ct);
+
+        await foreach (var user in userRepository.GetAllAsync(ct))
+        {
+            UtcDateTime? lastLogin = lastLogins.TryGetValue(user.Id, out var ts) ? ts : null;
+            yield return UserListItemResourceOutput.From(user, lastLogin);
+        }
     }
 
     public async Task<UserResourceOutput> GetCurrentUserAsync(OperationContext oc, CancellationToken ct)
