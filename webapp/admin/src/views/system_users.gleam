@@ -1,6 +1,7 @@
 import dialogs/user_dialog
 import gleam/list
 import gleam/option.{None, Some}
+import gleam/string
 import lustre/attribute as att
 import lustre/element.{type Element}
 import lustre/element/html.{div, h1, table, tbody, td, th, thead, tr}
@@ -33,6 +34,7 @@ fn user_table(m: model.Model) {
       thead([], [
         tr([], [
           th([], [html.text("E-mail")]),
+          th([], [html.text("Roles")]),
           th([], [html.text("Joined")]),
           th([], [html.text("Updated")]),
           th([], [html.text("Last seen")]),
@@ -42,8 +44,12 @@ fn user_table(m: model.Model) {
       tbody(
         [],
         list.map(m.users, fn(u) {
+          let roles =
+            html.span([], [html.text(string.join(u.roles, with: " "))])
+
           tr([], [
             td([], [html.text(u.email)]),
+            td([], [roles]),
             td([], [ui.timestamp(u.created)]),
             td([], [
               case u.updated {
