@@ -35,6 +35,7 @@ fn user_table(m: model.Model) {
           th([], [html.text("E-mail")]),
           th([], [html.text("Joined")]),
           th([], [html.text("Updated")]),
+          th([], [html.text("Last seen")]),
           th([att.class("action")], [html.text("")]),
         ]),
       ]),
@@ -46,6 +47,12 @@ fn user_table(m: model.Model) {
             td([], [ui.timestamp(u.created)]),
             td([], [
               case u.updated {
+                Some(ts) -> ui.timestamp(ts)
+                None -> element.none()
+              },
+            ]),
+            td([], [
+              case u.last_login {
                 Some(ts) -> ui.timestamp(ts)
                 None -> element.none()
               },
