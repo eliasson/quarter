@@ -127,7 +127,7 @@ public class Startup(IConfiguration configuration)
             if (authService is null) return;
 
             var emailClaim = context.Principal?.Claims.First(c => c.Type == ClaimTypes.Email);
-            if (emailClaim is { })
+            if (emailClaim is not null)
             {
                 var authResult = await authService.AuthorizeOrCreateUserAsync(emailClaim.Value, CancellationToken.None);
                 if (authResult.State == AuthorizedState.Authorized)
@@ -148,7 +148,7 @@ public class Startup(IConfiguration configuration)
 
         app.UseExceptionHandler(builder =>
         {
-            builder.Use(async (HttpContext ctx, RequestDelegate dg) =>
+            builder.Use(async (HttpContext ctx, RequestDelegate _) =>
             {
                 var feature = ctx.Features.Get<IExceptionHandlerPathFeature>();
                 ctx.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
@@ -156,7 +156,7 @@ public class Startup(IConfiguration configuration)
                 // At least for integration-tests of controllers the outer exception is the UnauthorizedAccessException
                 var exception = feature?.Error.InnerException ?? feature?.Error;
 
-                string message = "An unhandled error occured";
+                string message;
 
                 switch (exception)
                 {
@@ -176,7 +176,6 @@ public class Startup(IConfiguration configuration)
                 }
 
                 await ctx.Response.WriteAsync(message);
-                // await dg.Invoke();
             });
         });
 
