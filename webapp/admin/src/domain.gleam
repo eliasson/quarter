@@ -1,4 +1,5 @@
-import gleam/option.{type Option}
+import gleam/option.{type Option, None, Some}
+import gleam/order.{type Order}
 import gleam/time/timestamp.{type Timestamp}
 import quarter_shared/domain/user
 
@@ -15,4 +16,16 @@ pub type UserListItem {
     roles: List(String),
     last_login: Option(Timestamp),
   )
+}
+
+/// Order users by activity, most recently seen first and then user who
+/// has not logged in.
+pub fn compare_by_activity(a: UserListItem, b: UserListItem) -> Order {
+  case a.last_login, b.last_login {
+    Some(x), Some(y) -> timestamp.compare(y, x)
+    Some(_), None -> order.Lt
+    None, Some(_) -> order.Gt
+    None, None -> order.Eq
+  }
+  |> order.break_tie(timestamp.compare(b.created, a.created))
 }

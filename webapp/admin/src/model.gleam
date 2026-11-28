@@ -58,7 +58,7 @@ pub fn set_current_user(m: Model, user: user.User) -> Model {
 }
 
 pub fn set_users(m: Model, users: List(domain.UserListItem)) -> Model {
-  Model(..m, users:)
+  Model(..m, users: list.sort(users, domain.compare_by_activity))
 }
 
 pub fn open_drop_down_menu(m: Model, id: String) -> Model {
