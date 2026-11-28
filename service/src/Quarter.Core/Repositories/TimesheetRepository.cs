@@ -343,7 +343,7 @@ public class PostgresTimesheetRepository(IPostgresConnectionProvider connectionP
             new("endDate", endDate),
         };
 
-        var timesheetLookup = await ExecuteQueryAsync(connection, query, ct, parameters).ToDictionaryAsync(k => k.Date.IsoString(), v => v, ct);
+        var timesheetLookup = await ExecuteQueryAsync(connection, query, ct, parameters).ToDictionaryAsync(k => k.Date.IsoString(), cancellationToken: ct);
         var timesheets = new List<Timesheet>();
 
         foreach (var date in startDate.RangeTo(endDate))

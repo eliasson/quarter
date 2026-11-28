@@ -61,10 +61,10 @@ namespace Quarter.Core.UnitTest.Commands
                 => AddUserInRepository(new Email("jane.doe@example.com"));
 
             [Test]
-            public void ItShouldFailWhenAddingSameUser()
+            public async Task ItShouldFailWhenAddingSameUser()
             {
                 var command = new AddUserCommand(new Email("jane.doe@example.com"), User.NoRoles);
-                Assert.CatchAsync<ArgumentException>(() => Handler.ExecuteAsync(command, OperationContext(), CancellationToken.None));
+                await Assert.CatchAsync<ArgumentException>(() => Handler.ExecuteAsync(command, OperationContext(), CancellationToken.None));
             }
         }
     }

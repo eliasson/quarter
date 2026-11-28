@@ -61,7 +61,7 @@ public class CreateActivityTest
             };
             var project = await AddProject(userId, "Project alpha");
 
-            Assert.CatchAsync<NotFoundException>(() => ApiService.CreateActivityAsync(project.Id, input, oc, CancellationToken.None));
+            await Assert.CatchAsync<NotFoundException>(() => ApiService.CreateActivityAsync(project.Id, input, oc, CancellationToken.None));
         }
     }
 
@@ -69,7 +69,7 @@ public class CreateActivityTest
     public class WhenProjectIsMissing : TestCase
     {
         [Test]
-        public void ItShouldThrowNotFoundException()
+        public async Task ItShouldThrowNotFoundException()
         {
             var oc = CreateOperationContext();
             var input = new CreateActivityResourceInput
@@ -78,7 +78,7 @@ public class CreateActivityTest
                 description = "Description alpha",
                 color = "#aabbcc",
             };
-            Assert.CatchAsync<NotFoundException>(() =>
+            await Assert.CatchAsync<NotFoundException>(() =>
                 ApiService.CreateActivityAsync(IdOf<Project>.Random(), input, oc, CancellationToken.None));
         }
     }

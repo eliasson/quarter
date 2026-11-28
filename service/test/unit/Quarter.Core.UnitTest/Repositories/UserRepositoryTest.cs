@@ -31,11 +31,11 @@ public abstract class UserRepositoryTest : RepositoryTestBase<User, IUserReposit
     }
 
     [Test]
-    public void ThrowsWhenGettingUnknownUserByEmail()
+    public async Task ThrowsWhenGettingUnknownUserByEmail()
     {
         var repository = Repository();
 
-        Assert.ThrowsAsync<NotFoundException>(() => repository.GetUserByEmailAsync("bob.doe@example.com", CancellationToken.None));
+        await Assert.ThrowsAsync<NotFoundException>(() => repository.GetUserByEmailAsync("bob.doe@example.com", CancellationToken.None));
     }
 
     [Test]
@@ -70,7 +70,7 @@ public abstract class UserRepositoryTest : RepositoryTestBase<User, IUserReposit
         var userB = new User(new Email("jane.doe@example.com"));
         await repository.CreateAsync(userA, CancellationToken.None);
 
-        var ex = Assert.CatchAsync<ArgumentException>(() => repository.CreateAsync(userB, CancellationToken.None));
+        var ex = await Assert.CatchAsync<ArgumentException>(() => repository.CreateAsync(userB, CancellationToken.None));
         Assert.That(ex?.Message, Does.Contain("Could not store"));
     }
 
@@ -98,7 +98,7 @@ public abstract class UserRepositoryTest : RepositoryTestBase<User, IUserReposit
         userB = await repository.CreateAsync(userB, CancellationToken.None);
         userB.Email = userA.Email;
 
-        var ex = Assert.CatchAsync<ArgumentException>(() => repository.UpdateByIdAsync(userB.Id, _ => userB, CancellationToken.None));
+        var ex = await Assert.CatchAsync<ArgumentException>(() => repository.UpdateByIdAsync(userB.Id, _ => userB, CancellationToken.None));
 
         Assert.That(ex?.Message, Does.Contain("Could not store"));
     }

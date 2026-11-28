@@ -48,12 +48,12 @@ public abstract class TimesheetRepositoryTest : RepositoryTestBase<Timesheet, IT
     }
 
     [Test]
-    public void GetByDateShouldThrowWhenTimesheetMissing()
+    public async Task GetByDateShouldThrowWhenTimesheetMissing()
     {
         var repository = Repository();
         var strayDate = new Date(DateTime.Parse("1998-06-22T00:00:00Z"));
 
-        var ex = Assert.CatchAsync<NotFoundException>(() =>
+        var ex = await Assert.CatchAsync<NotFoundException>(() =>
             repository.GetByDateAsync(strayDate, CancellationToken.None)
         );
         Assert.That(ex?.Message, Does.Contain("No timesheet for date 1998-06-22 exists"));

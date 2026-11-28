@@ -80,11 +80,11 @@ public class LoginTrackerTest
     }
 
     [Test]
-    public void ItShouldNotThrowWhenRecordingFails()
+    public async Task ItShouldNotThrowWhenRecordingFails()
     {
         var tracker = new LoginTracker(new FailingRepositoryFactory(), _timeProvider, NullLogger<LoginTracker>.Instance);
 
-        Assert.DoesNotThrowAsync(() => tracker.RecordLoginInAsync(_user.Id, CancellationToken.None));
+        await Assert.DoesNotThrowAsync(() => tracker.RecordLoginInAsync(_user.Id, CancellationToken.None));
     }
 
     private async Task<DateTime?> LastLogin()

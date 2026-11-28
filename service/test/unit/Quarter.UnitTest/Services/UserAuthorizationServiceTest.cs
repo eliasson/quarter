@@ -87,8 +87,8 @@ public class UserAuthorizationServiceTest
         }
 
         [Test]
-        public void ItShouldNotCreateUser()
-            => Assert.ThrowsAsync<NotFoundException>(() => GetUser("jane.doe@examepl.com"));
+        public async Task ItShouldNotCreateUser()
+            => await Assert.ThrowsAsync<NotFoundException>(() => GetUser("jane.doe@examepl.com"));
     }
 
     [TestFixture]
