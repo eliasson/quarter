@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
@@ -35,7 +36,7 @@ public class UserAuthorizationServiceTest
         [Test]
         public async Task ItShouldReturnAuthorizedResult()
         {
-            var result = await Service.AuthorizeOrCreateUserAsync(_standardUser!.Email.Value, default);
+            var result = await Service.AuthorizeOrCreateUserAsync(_standardUser!.Email.Value, CancellationToken.None);
 
             Assert.That(result.State, Is.EqualTo(AuthorizedState.Authorized));
         }
@@ -43,7 +44,7 @@ public class UserAuthorizationServiceTest
         [Test]
         public async Task ItShouldRecordLastLogin()
         {
-            _ = await Service.AuthorizeOrCreateUserAsync(_standardUser!.Email.Value, default);
+            _ = await Service.AuthorizeOrCreateUserAsync(_standardUser!.Email.Value, CancellationToken.None);
 
             Assert.That(await HasLastLogin(_standardUser.Email.Value), Is.True);
         }
@@ -51,7 +52,7 @@ public class UserAuthorizationServiceTest
         [Test]
         public async Task ItShouldHaveUserIdClaim()
         {
-            var result = await Service.AuthorizeOrCreateUserAsync(_standardUser!.Email.Value, default);
+            var result = await Service.AuthorizeOrCreateUserAsync(_standardUser!.Email.Value, CancellationToken.None);
             var claims = result.Claims.Select(c => (c.Type, c.Value));
 
             Assert.That(claims, Is.EquivalentTo([
@@ -62,7 +63,7 @@ public class UserAuthorizationServiceTest
         [Test]
         public async Task ItShouldHaveAdminClaim()
         {
-            var result = await Service.AuthorizeOrCreateUserAsync(_adminUser!.Email.Value, default);
+            var result = await Service.AuthorizeOrCreateUserAsync(_adminUser!.Email.Value, CancellationToken.None);
             var claims = result.Claims.Select(c => (c.Type, c.Value));
 
             Assert.That(claims, Is.EquivalentTo([
@@ -79,7 +80,7 @@ public class UserAuthorizationServiceTest
         public async Task ItShouldReturnUnauthenticated()
         {
             SetOpenRegistration(false);
-            var result = await Service.AuthorizeOrCreateUserAsync("jane.doe@example.com", default);
+            var result = await Service.AuthorizeOrCreateUserAsync("jane.doe@example.com", CancellationToken.None);
 
             Assert.That(result.State, Is.EqualTo(AuthorizedState.NotAuthorized));
         }
@@ -98,7 +99,7 @@ public class UserAuthorizationServiceTest
         public async Task Setup()
         {
             SetOpenRegistration(true);
-            _result = await Service.AuthorizeOrCreateUserAsync("jane.doe@example.com", default);
+            _result = await Service.AuthorizeOrCreateUserAsync("jane.doe@example.com", CancellationToken.None);
         }
 
         [Test]
@@ -147,17 +148,17 @@ public class UserAuthorizationServiceTest
         protected async Task<bool> HasLastLogin(string email)
         {
             var user = await GetUser(email);
-            var lastLogins = await _repositoryFactory.UserRepository().GetLastLoginsAsync(default);
+            var lastLogins = await _repositoryFactory.UserRepository().GetLastLoginsAsync(CancellationToken.None);
             return lastLogins.ContainsKey(user.Id);
         }
 
         protected Task<User> GetUser(string email)
-            => _repositoryFactory.UserRepository().GetUserByEmailAsync(email, default);
+            => _repositoryFactory.UserRepository().GetUserByEmailAsync(email, CancellationToken.None);
 
         private async Task<User> AddUser(User user)
         {
             var userRepository = _repositoryFactory.UserRepository();
-            await userRepository.CreateAsync(user, default);
+            await userRepository.CreateAsync(user, CancellationToken.None);
             return user;
         }
     }
