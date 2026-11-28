@@ -74,7 +74,7 @@ public abstract class RepositoryAccessTestBase
     {
         var projectOne = await _projectRepositoryOne.CreateAsync(ArbitraryProject(), CancellationToken.None);
 
-        Assert.ThrowsAsync<NotFoundException>(() => _projectRepositoryTwo.GetByIdAsync(projectOne.Id, CancellationToken.None));
+        await Assert.ThrowsAsync<NotFoundException>(() => _projectRepositoryTwo.GetByIdAsync(projectOne.Id, CancellationToken.None));
     }
 
     [Test]
@@ -82,7 +82,7 @@ public abstract class RepositoryAccessTestBase
     {
         var activityOne = await _activityRepositoryOne.CreateAsync(ArbitraryActivity(), CancellationToken.None);
 
-        Assert.ThrowsAsync<NotFoundException>(() => _activityRepositoryTwo.GetByIdAsync(activityOne.Id, CancellationToken.None));
+        await Assert.ThrowsAsync<NotFoundException>(() => _activityRepositoryTwo.GetByIdAsync(activityOne.Id, CancellationToken.None));
     }
 
     [Test]
@@ -90,7 +90,7 @@ public abstract class RepositoryAccessTestBase
     {
         var projectOne = await _projectRepositoryOne.CreateAsync(ArbitraryProject(), CancellationToken.None);
 
-        Assert.ThrowsAsync<NotFoundException>(() => _projectRepositoryTwo.UpdateByIdAsync(projectOne.Id, a => a, CancellationToken.None));
+        await Assert.ThrowsAsync<NotFoundException>(() => _projectRepositoryTwo.UpdateByIdAsync(projectOne.Id, a => a, CancellationToken.None));
     }
 
     [Test]
@@ -98,7 +98,7 @@ public abstract class RepositoryAccessTestBase
     {
         var activityOne = await _activityRepositoryOne.CreateAsync(ArbitraryActivity(), CancellationToken.None);
 
-        Assert.ThrowsAsync<NotFoundException>(() => _activityRepositoryTwo.UpdateByIdAsync(activityOne.Id, a => a, CancellationToken.None));
+        await Assert.ThrowsAsync<NotFoundException>(() => _activityRepositoryTwo.UpdateByIdAsync(activityOne.Id, a => a, CancellationToken.None));
     }
 
     [Test]

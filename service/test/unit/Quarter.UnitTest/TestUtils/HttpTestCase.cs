@@ -29,6 +29,10 @@ public class HttpTestCase
         return repoFactory.TruncateAll();
     }
 
+    [OneTimeTearDown]
+    protected void DisposeSession()
+        => HttpTestSession.Dispose();
+
     protected Task<User> SetupUnauthenticatedUserAsync(string email)
     {
         var user = new User(new Email(email));

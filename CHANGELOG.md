@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## Pending
 
+- Update to .NET 10 (LTS) and related packages.
+- Update front-end tooling (Node.js 24 and Gleam 1.19).
+- Update GitHub Actions versions.
+
 ## [0.7.4] - 2026-03-29
 
 - Limit uppercase text to button-like elements.

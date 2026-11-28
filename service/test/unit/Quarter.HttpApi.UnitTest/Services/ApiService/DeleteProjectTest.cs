@@ -24,8 +24,8 @@ public class DeleteProjectTest
         }
 
         [Test]
-        public void ItShouldHaveDeletedProject()
-            => Assert.ThrowsAsync<NotFoundException>(() => ReadProjectAsync(_oc.UserId, _project!.Id));
+        public async Task ItShouldHaveDeletedProject()
+            => await Assert.ThrowsAsync<NotFoundException>(() => ReadProjectAsync(_oc.UserId, _project!.Id));
     }
 
     [TestFixture]
@@ -34,7 +34,7 @@ public class DeleteProjectTest
         private readonly OperationContext _oc = CreateOperationContext();
 
         [Test]
-        public void ItShouldBeANoOp()
-            => Assert.DoesNotThrowAsync(() => ApiService.DeleteProjectAsync(IdOf<Project>.Random(), _oc, CancellationToken.None));
+        public async Task ItShouldBeANoOp()
+            => await Assert.DoesNotThrowAsync(() => ApiService.DeleteProjectAsync(IdOf<Project>.Random(), _oc, CancellationToken.None));
     }
 }

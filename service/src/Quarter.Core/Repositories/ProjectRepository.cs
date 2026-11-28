@@ -35,7 +35,7 @@ public class PostgresProjectRepository(IPostgresConnectionProvider connectionPro
     private const string UserIdColumnName = "userid";
 
     protected override IEnumerable<string> AdditionalColumns()
-        => new[] { UserIdColumnName };
+        => [UserIdColumnName];
 
     protected override object AdditionalColumnValue(string columnName, Project aggregate)
         => columnName switch

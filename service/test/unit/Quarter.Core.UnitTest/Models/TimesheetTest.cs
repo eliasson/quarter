@@ -124,11 +124,10 @@ public class TimesheetTest
 
         [Test]
         public void ItShouldHaveRegisteredSlots()
-            => Assert.That(_tc?.Slots, Is.EqualTo(new[]
-                {
-                        (_activityIdOne: _tc?.ActivityIdOne, 0, 3),
-                        (_activityIdOne: _tc?.ActivityIdOne, 10, 3)
-                }));
+            => Assert.That(_tc?.Slots, Is.EqualTo([
+                (_activityIdOne: _tc?.ActivityIdOne, 0, 3),
+                (_activityIdOne: _tc?.ActivityIdOne, 10, 3),
+            ]));
 
         [Test]
         public void ShouldSummarize()
@@ -140,13 +139,12 @@ public class TimesheetTest
                     p.Activities.Select(a => (a.ActivityId, a.Duration)).ToArray());
                 });
 
-            Assert.That(summary, Is.EqualTo(new[]
-            {
-                    (_projectId: _tc.ProjectId, 6, new []
+            Assert.That(summary, Is.EqualTo([
+                (_projectId: _tc.ProjectId, 6, new []
                     {
-                        (_activityIdOne: _tc.ActivityIdOne, 6)
-                    })
-                }));
+                        (_activityIdOne: _tc.ActivityIdOne, 6),
+                    }),
+            ]));
         }
 
         [Test]
@@ -186,11 +184,10 @@ public class TimesheetTest
 
         [Test]
         public void ItShouldHaveMergedAdjacentSlots()
-            => Assert.That(_tc?.Slots, Is.EqualTo(new[]
-                {
-                        (_tc?.ActivityIdOne, 8, 10),
-                        (_tc?.ActivityIdTwo, 18, 4)
-                }));
+            => Assert.That(_tc?.Slots, Is.EqualTo([
+                (_tc?.ActivityIdOne, 8, 10),
+                (_tc?.ActivityIdTwo, 18, 4),
+            ]));
 
         [Test]
         public void ItShouldSummarize()
@@ -203,14 +200,13 @@ public class TimesheetTest
                         p.Activities.Select(a => (a.ActivityId, a.Duration)).ToArray());
                 });
 
-            Assert.That(summary, Is.EqualTo(new[]
-            {
-                    (_projectId: _tc.ProjectId, 14, new []
+            Assert.That(summary, Is.EqualTo([
+                (_projectId: _tc.ProjectId, 14, new []
                     {
                         (_tc.ActivityIdOne, 10),
-                        (_tc.ActivityIdTwo, 4)
-                    })
-                }));
+                        (_tc.ActivityIdTwo, 4),
+                    }),
+            ]));
         }
     }
 
@@ -233,12 +229,11 @@ public class TimesheetTest
 
         [Test]
         public void ItShouldHaveMergedAdjacentSlots()
-            => Assert.That(_tc?.Slots, Is.EqualTo(new[]
-            {
-                    (_tc?.ActivityIdOne, 8, 2),
-                    (_tc?.ActivityIdTwo, 10, 6),
-                    (_tc?.ActivityIdTwo, 18, 4)
-            }));
+            => Assert.That(_tc?.Slots, Is.EqualTo([
+                (_tc?.ActivityIdOne, 8, 2),
+                (_tc?.ActivityIdTwo, 10, 6),
+                (_tc?.ActivityIdTwo, 18, 4),
+            ]));
 
         [Test]
         public void ItShouldSummarize()
@@ -250,14 +245,13 @@ public class TimesheetTest
                         p.Activities.Select(a => (a.ActivityId, a.Duration)).ToArray());
                 });
 
-            Assert.That(summary, Is.EqualTo(new[]
-            {
-                    (_projectId: _tc.ProjectId, 12, new []
+            Assert.That(summary, Is.EqualTo([
+                (_projectId: _tc.ProjectId, 12, new []
                     {
                         (_tc.ActivityIdOne, 2),
                         (_tc.ActivityIdTwo, 10)
-                    })
-                }));
+                    }),
+            ]));
         }
     }
 
@@ -280,11 +274,10 @@ public class TimesheetTest
 
         [Test]
         public void ItShouldHaveMergedAdjacentSlots()
-            => Assert.That(_tc?.Slots, Is.EqualTo(new[]
-            {
-                    (_tc?.ActivityIdOne, 8, 10),
-                    (_tc?.ActivityIdTwo, 18, 4)
-            }));
+            => Assert.That(_tc?.Slots, Is.EqualTo([
+                (_tc?.ActivityIdOne, 8, 10),
+                (_tc?.ActivityIdTwo, 18, 4),
+            ]));
 
         [Test]
         public void ItShouldSummarize()
@@ -296,14 +289,13 @@ public class TimesheetTest
                         p.Activities.Select(a => (a.ActivityId, a.Duration)).ToArray());
                 });
 
-            Assert.That(summary, Is.EqualTo(new[]
-            {
-                    (_projectId: _tc.ProjectId, 14, new []
+            Assert.That(summary, Is.EqualTo([
+                (_projectId: _tc.ProjectId, 14, new []
                     {
                         (_tc.ActivityIdOne, 10),
                         (_tc.ActivityIdTwo, 4),
-                    })
-                }));
+                    }),
+            ]));
         }
     }
 
@@ -326,12 +318,11 @@ public class TimesheetTest
 
         [Test]
         public void ItShouldHaveMergedAdjacentSlots()
-            => Assert.That(_tc?.Slots, Is.EqualTo(new[]
-            {
-                    (_tc?.ActivityIdTwo, 8, 2),
-                    (_tc?.ActivityIdOne, 10, 8),
-                    (_tc?.ActivityIdTwo, 18, 4)
-            }));
+            => Assert.That(_tc?.Slots, Is.EqualTo([
+                (_tc?.ActivityIdTwo, 8, 2),
+                (_tc?.ActivityIdOne, 10, 8),
+                (_tc?.ActivityIdTwo, 18, 4),
+            ]));
 
         [Test]
         public void ItShouldSummarize()
@@ -343,14 +334,13 @@ public class TimesheetTest
                         p.Activities.Select(a => (a.ActivityId, a.Duration)).ToArray());
                 });
 
-            Assert.That(summary, Is.EqualTo(new[]
-            {
-                    (_projectId: _tc.ProjectId, 14, new []
+            Assert.That(summary, Is.EqualTo([
+                (_projectId: _tc.ProjectId, 14, new []
                     {
                         (_tc.ActivityIdTwo, 6),
                         (_tc.ActivityIdOne, 8),
-                    })
-                }));
+                    }),
+            ]));
         }
     }
 
@@ -374,11 +364,10 @@ public class TimesheetTest
 
         [Test]
         public void ItShouldHaveMergedAdjacentSlots()
-            => Assert.That(_tc?.Slots, Is.EqualTo(new[]
-                {
-                        (_tc?.ActivityIdOne, 2, 6),
-                        (_tc?.ActivityIdTwo, 18, 4)
-                }));
+            => Assert.That(_tc?.Slots, Is.EqualTo([
+                (_tc?.ActivityIdOne, 2, 6),
+                (_tc?.ActivityIdTwo, 18, 4),
+            ]));
         [Test]
         public void ItShouldSummarize()
         {
@@ -389,14 +378,13 @@ public class TimesheetTest
                         p.Activities.Select(a => (a.ActivityId, a.Duration)).ToArray());
                 });
 
-            Assert.That(summary, Is.EqualTo(new[]
-            {
-                    (_projectId: _tc.ProjectId, 10, new []
+            Assert.That(summary, Is.EqualTo([
+                (_projectId: _tc.ProjectId, 10, new []
                     {
                         (_tc.ActivityIdOne, 6),
                         (_tc.ActivityIdTwo, 4)
-                    })
-                }));
+                    }),
+            ]));
         }
     }
 
@@ -420,13 +408,12 @@ public class TimesheetTest
 
         [Test]
         public void ItShouldHaveMergedAdjacentSlots()
-            => Assert.That(_tc?.Slots, Is.EqualTo(new[]
-            {
-                    (_tc?.ActivityIdOne, 2, 2),
-                    (_tc?.ActivityIdTwo, 4, 2),
-                    (_tc?.ActivityIdOne, 6, 2),
-                    (_tc?.ActivityIdTwo, 18, 4)
-            }));
+            => Assert.That(_tc?.Slots, Is.EqualTo([
+                (_tc?.ActivityIdOne, 2, 2),
+                (_tc?.ActivityIdTwo, 4, 2),
+                (_tc?.ActivityIdOne, 6, 2),
+                (_tc?.ActivityIdTwo, 18, 4),
+            ]));
 
         [Test]
         public void ItShouldSummarize()
@@ -438,14 +425,13 @@ public class TimesheetTest
                         p.Activities.Select(a => (a.ActivityId, a.Duration)).ToArray());
                 });
 
-            Assert.That(summary, Is.EqualTo(new[]
-            {
-                    (_projectId: _tc.ProjectId, 10, new []
+            Assert.That(summary, Is.EqualTo([
+                (_projectId: _tc.ProjectId, 10, new []
                     {
                         (_tc.ActivityIdOne, 4),
                         (_tc.ActivityIdTwo, 6),
-                    })
-                }));
+                    }),
+            ]));
         }
     }
 
@@ -468,11 +454,10 @@ public class TimesheetTest
 
         [Test]
         public void ItShouldHaveMergedOverlappingSlots()
-            => Assert.That(_tc?.Slots, Is.EqualTo(new[]
-                {
-                        (_tc?.ActivityIdOne, 8, 2),
-                        (_tc?.ActivityIdTwo, 10, 10)
-                }));
+            => Assert.That(_tc?.Slots, Is.EqualTo([
+                (_tc?.ActivityIdOne, 8, 2),
+                (_tc?.ActivityIdTwo, 10, 10),
+            ]));
 
         [Test]
         public void ItShouldSummarize()
@@ -484,14 +469,13 @@ public class TimesheetTest
                         p.Activities.Select(a => (a.ActivityId, a.Duration)).ToArray());
                 });
 
-            Assert.That(summary, Is.EqualTo(new[]
-            {
-                    (_projectId: _tc.ProjectId, 12, new []
+            Assert.That(summary, Is.EqualTo([
+                (_projectId: _tc.ProjectId, 12, new []
                     {
                         (_tc.ActivityIdOne, 2),
                         (_tc.ActivityIdTwo, 10),
-                    })
-                }));
+                    }),
+            ]));
         }
     }
 
@@ -514,12 +498,11 @@ public class TimesheetTest
 
         [Test]
         public void ItShouldShrinkOverlappedSlot()
-            => Assert.That(_tc?.Slots, Is.EqualTo(new[]
-            {
-                    (_tc?.ActivityIdOne, 0, 2),
-                    (_tc?.ActivityIdOne, 10, 6),
-                    (_tc?.ActivityIdTwo, 16, 4)
-            }));
+            => Assert.That(_tc?.Slots, Is.EqualTo([
+                (_tc?.ActivityIdOne, 0, 2),
+                (_tc?.ActivityIdOne, 10, 6),
+                (_tc?.ActivityIdTwo, 16, 4),
+            ]));
 
         [Test]
         public void ItShouldSummarize()
@@ -531,14 +514,13 @@ public class TimesheetTest
                         p.Activities.Select(a => (a.ActivityId, a.Duration)).ToArray());
                 });
 
-            Assert.That(summary, Is.EqualTo(new[]
-            {
-                    (_projectId: _tc.ProjectId, 12, new []
+            Assert.That(summary, Is.EqualTo([
+                (_projectId: _tc.ProjectId, 12, new []
                     {
                         (_tc.ActivityIdOne, 8),
                         (_tc.ActivityIdTwo, 4),
-                    })
-                }));
+                    }),
+            ]));
         }
     }
 
@@ -561,11 +543,10 @@ public class TimesheetTest
 
         [Test]
         public void ItShouldHaveMergedOverlappingSlots()
-            => Assert.That(_tc?.Slots, Is.EqualTo(new[]
-                {
-                        (_tc?.ActivityIdOne, 8, 2),
-                        (_tc?.ActivityIdTwo, 10, 10)
-                }));
+            => Assert.That(_tc?.Slots, Is.EqualTo([
+                (_tc?.ActivityIdOne, 8, 2),
+                (_tc?.ActivityIdTwo, 10, 10),
+            ]));
 
         [Test]
         public void ItShouldSummarize()
@@ -577,14 +558,13 @@ public class TimesheetTest
                         p.Activities.Select(a => (a.ActivityId, a.Duration)).ToArray());
                 });
 
-            Assert.That(summary, Is.EqualTo(new[]
-            {
-                    (_projectId: _tc.ProjectId, 12, new []
+            Assert.That(summary, Is.EqualTo([
+                (_projectId: _tc.ProjectId, 12, new []
                     {
                         (_tc.ActivityIdOne, 2),
                         (_tc.ActivityIdTwo, 10),
-                    })
-                }));
+                    }),
+            ]));
         }
     }
 
@@ -607,12 +587,11 @@ public class TimesheetTest
 
         [Test]
         public void ItShouldShrinkOverlappedSlot()
-            => Assert.That(_tc?.Slots, Is.EqualTo(new[]
-            {
-                    (_tc?.ActivityIdOne, 0, 2),
-                    (_tc?.ActivityIdOne, 10, 8),
-                    (_tc?.ActivityIdTwo, 18, 2)
-            }));
+            => Assert.That(_tc?.Slots, Is.EqualTo([
+                (_tc?.ActivityIdOne, 0, 2),
+                (_tc?.ActivityIdOne, 10, 8),
+                (_tc?.ActivityIdTwo, 18, 2),
+            ]));
 
         [Test]
         public void ItShouldSummarize()
@@ -624,14 +603,13 @@ public class TimesheetTest
                         p.Activities.Select(a => (a.ActivityId, a.Duration)).ToArray());
                 });
 
-            Assert.That(summary, Is.EqualTo(new[]
-            {
-                    (_projectId: _tc.ProjectId, 12, new []
+            Assert.That(summary, Is.EqualTo([
+                (_projectId: _tc.ProjectId, 12, new []
                     {
                         (_tc.ActivityIdOne, 10),
                         (_tc.ActivityIdTwo, 2),
-                    })
-                }));
+                    }),
+            ]));
         }
     }
 
@@ -653,10 +631,7 @@ public class TimesheetTest
 
         [Test]
         public void ItShouldHaveMergedOverlappingSlots()
-            => Assert.That(_tc?.Slots, Is.EqualTo(new[]
-            {
-                    (_activityIdOne: _tc?.ActivityIdOne, 0, 8),
-            }));
+            => Assert.That(_tc?.Slots, Is.EqualTo([(_activityIdOne: _tc?.ActivityIdOne, 0, 8)]));
 
         [Test]
         public void ItShouldSummarize()
@@ -668,13 +643,12 @@ public class TimesheetTest
                         p.Activities.Select(a => (a.ActivityId, a.Duration)).ToArray());
                 });
 
-            Assert.That(summary, Is.EqualTo(new[]
-            {
-                    (_projectId: _tc.ProjectId, 8, new []
+            Assert.That(summary, Is.EqualTo([
+                (_projectId: _tc.ProjectId, 8, new []
                     {
                         (_activityIdOne: _tc.ActivityIdOne, 8),
-                    })
-                }));
+                    }),
+            ]));
         }
     }
 
@@ -696,12 +670,11 @@ public class TimesheetTest
 
         [Test]
         public void ItShouldHaveSlitOverlappedSlot()
-            => Assert.That(_tc?.Slots, Is.EqualTo(new[]
-            {
-                    (_tc?.ActivityIdOne, 0, 2),
-                    (_tc?.ActivityIdTwo, 2, 4),
-                    (_tc?.ActivityIdOne, 6, 2),
-            }));
+            => Assert.That(_tc?.Slots, Is.EqualTo([
+                (_tc?.ActivityIdOne, 0, 2),
+                (_tc?.ActivityIdTwo, 2, 4),
+                (_tc?.ActivityIdOne, 6, 2),
+            ]));
 
         [Test]
         public void ItShouldSummarize()
@@ -713,14 +686,13 @@ public class TimesheetTest
                         p.Activities.Select(a => (a.ActivityId, a.Duration)).ToArray());
                 });
 
-            Assert.That(summary, Is.EqualTo(new[]
-            {
-                    (_projectId: _tc.ProjectId, 8, new []
+            Assert.That(summary, Is.EqualTo([
+                (_projectId: _tc.ProjectId, 8, new []
                     {
                         (_tc.ActivityIdOne, 4),
                         (_tc.ActivityIdTwo, 4),
-                    })
-                }));
+                    }),
+            ]));
         }
     }
 
@@ -743,10 +715,8 @@ public class TimesheetTest
 
         [Test]
         public void ItShouldHaveMergedOverlappingSlots()
-            => Assert.That(_tc?.Slots, Is.EqualTo(new[]
-                {
-                        (_activityIdTwo: _tc?.ActivityIdTwo, 0, 96)
-                }));
+            => Assert.That(_tc?.Slots, Is.EqualTo([(_activityIdTwo: _tc?.ActivityIdTwo, 0, 96)]));
+
         [Test]
         public void ItShouldSummarize()
         {
@@ -757,13 +727,12 @@ public class TimesheetTest
                         p.Activities.Select(a => (a.ActivityId, a.Duration)).ToArray());
                 });
 
-            Assert.That(summary, Is.EqualTo(new[]
-            {
-                    (_projectId: _tc.ProjectId, 96, new []
+            Assert.That(summary, Is.EqualTo([
+                (_projectId: _tc.ProjectId, 96, new []
                     {
                         (_activityIdTwo: _tc.ActivityIdTwo, 96),
-                    })
-                }));
+                    }),
+            ]));
         }
     }
 
@@ -821,10 +790,7 @@ public class TimesheetTest
 
         [Test]
         public void ItShouldHaveRemovedOneSlot()
-            => Assert.That(_tc?.Slots, Is.EqualTo(new[]
-            {
-                    (_activityIdOne: _tc?.ActivityIdOne, 0, 3),
-            }));
+            => Assert.That(_tc?.Slots, Is.EqualTo([(_activityIdOne: _tc?.ActivityIdOne, 0, 3)]));
 
         [Test]
         public void ItShouldSummarize()
@@ -836,13 +802,12 @@ public class TimesheetTest
                         p.Activities.Select(a => (a.ActivityId, a.Duration)).ToArray());
                 });
 
-            Assert.That(summary, Is.EqualTo(new[]
-            {
-                    (_projectId: _tc.ProjectId, 3, new []
+            Assert.That(summary, Is.EqualTo([
+                (_projectId: _tc.ProjectId, 3, new []
                     {
                         (_activityIdOne: _tc.ActivityIdOne, 3),
-                    })
-                }));
+                    }),
+            ]));
         }
     }
 
@@ -864,10 +829,7 @@ public class TimesheetTest
 
         [Test]
         public void ItShouldHaveShrunkOverlappedSlot()
-            => Assert.That(_tc?.Slots, Is.EqualTo(new[]
-            {
-                    (_activityIdOne: _tc?.ActivityIdOne, 4, 4),
-            }));
+            => Assert.That(_tc?.Slots, Is.EqualTo([(_activityIdOne: _tc?.ActivityIdOne, 4, 4)]));
 
         [Test]
         public void ItShouldSummarize()
@@ -879,13 +841,12 @@ public class TimesheetTest
                         p.Activities.Select(a => (a.ActivityId, a.Duration)).ToArray());
                 });
 
-            Assert.That(summary, Is.EqualTo(new[]
-            {
-                    (_projectId: _tc.ProjectId, 4, new []
+            Assert.That(summary, Is.EqualTo([
+                (_projectId: _tc.ProjectId, 4, new []
                     {
                         (_activityIdOne: _tc.ActivityIdOne, 4),
-                    })
-                }));
+                    }),
+            ]));
         }
     }
 
@@ -907,10 +868,7 @@ public class TimesheetTest
 
         [Test]
         public void ItShouldHaveShrunkOverlappedSlot()
-            => Assert.That(_tc?.Slots, Is.EqualTo(new[]
-            {
-                    (_activityIdOne: _tc?.ActivityIdOne, 7, 7),
-            }));
+            => Assert.That(_tc?.Slots, Is.EqualTo([(_activityIdOne: _tc?.ActivityIdOne, 7, 7)]));
 
         [Test]
         public void ItShouldSummarize()
@@ -922,13 +880,12 @@ public class TimesheetTest
                         p.Activities.Select(a => (a.ActivityId, a.Duration)).ToArray());
                 });
 
-            Assert.That(summary, Is.EqualTo(new[]
-            {
-                    (_projectId: _tc.ProjectId, 7, new []
+            Assert.That(summary, Is.EqualTo([
+                (_projectId: _tc.ProjectId, 7, new []
                     {
                         (_activityIdOne: _tc.ActivityIdOne, 7),
-                    })
-                }));
+                    }),
+            ]));
         }
     }
 
@@ -950,10 +907,7 @@ public class TimesheetTest
 
         [Test]
         public void ItShouldHaveShrunkOverlappedSlot()
-            => Assert.That(_tc?.Slots, Is.EqualTo(new[]
-            {
-                    (_activityIdOne: _tc?.ActivityIdOne, 0, 4),
-            }));
+            => Assert.That(_tc?.Slots, Is.EqualTo([(_activityIdOne: _tc?.ActivityIdOne, 0, 4)]));
 
         [Test]
         public void ItShouldSummarize()
@@ -965,13 +919,12 @@ public class TimesheetTest
                         p.Activities.Select(a => (a.ActivityId, a.Duration)).ToArray());
                 });
 
-            Assert.That(summary, Is.EqualTo(new[]
-            {
-                    (_projectId: _tc.ProjectId, 4, new []
+            Assert.That(summary, Is.EqualTo([
+                (_projectId: _tc.ProjectId, 4, new []
                     {
                         (_activityIdOne: _tc.ActivityIdOne, 4),
-                    })
-                }));
+                    }),
+            ]));
         }
     }
 
@@ -993,11 +946,10 @@ public class TimesheetTest
 
         [Test]
         public void ItShouldHaveSplitOverlappedSlot()
-            => Assert.That(_tc?.Slots, Is.EqualTo(new[]
-            {
-                    (_activityIdOne: _tc?.ActivityIdOne, 6*4, 6*4),
-                    (_activityIdOne: _tc?.ActivityIdOne, 13*4, 6*4),
-            }));
+            => Assert.That(_tc?.Slots, Is.EqualTo([
+                (_activityIdOne: _tc?.ActivityIdOne, 6*4, 6*4),
+                (_activityIdOne: _tc?.ActivityIdOne, 13*4, 6*4),
+            ]));
 
         [Test]
         public void ItShouldSummarize()
@@ -1009,13 +961,12 @@ public class TimesheetTest
                         p.Activities.Select(a => (a.ActivityId, a.Duration)).ToArray());
                 });
 
-            Assert.That(summary, Is.EqualTo(new[]
-            {
-                    (_projectId: _tc.ProjectId, 12*4, new []
+            Assert.That(summary, Is.EqualTo([
+                (_projectId: _tc.ProjectId, 12*4, new []
                     {
                         (_activityIdOne: _tc.ActivityIdOne, 12*4),
-                    })
-                }));
+                    }),
+            ]));
         }
 
         [Test]
@@ -1046,10 +997,7 @@ public class TimesheetTest
 
         [Test]
         public void ItShouldHaveSingleSlot()
-            => Assert.That(_tc?.Slots, Is.EqualTo(new[]
-            {
-                    (_activityIdOne: _tc?.ActivityIdOne, 12, 18 * 4),
-            }));
+            => Assert.That(_tc?.Slots, Is.EqualTo([(_activityIdOne: _tc?.ActivityIdOne, 12, 18 * 4)]));
 
         [Test]
         public void ItShouldReturnTheFirstHourUsed()
@@ -1078,11 +1026,10 @@ public class TimesheetTest
 
         [Test]
         public void ItShouldHaveRegisteredSlots()
-            => Assert.That(_tc?.Slots, Is.EqualTo(new[]
-            {
-                    (_tc?.ActivityIdOne, 0, 3),
-                    (_tc?.ActivityIdTwo, 10, 3)
-            }));
+            => Assert.That(_tc?.Slots, Is.EqualTo([
+                (_tc?.ActivityIdOne, 0, 3),
+                (_tc?.ActivityIdTwo, 10, 3),
+            ]));
 
         [Test]
         public void ItShouldSummarize()
@@ -1094,17 +1041,16 @@ public class TimesheetTest
                         p.Activities.Select(a => (a.ActivityId, a.Duration)).ToArray());
                 });
 
-            Assert.That(summary, Is.EqualTo(new[]
-            {
-                    (_tc.ProjectId, 3, new []
+            Assert.That(summary, Is.EqualTo([
+                (_tc.ProjectId, 3, new []
                     {
                         (_activityIdOne: _tc.ActivityIdOne, 3)
                     }),
                     (_tc.ProjectIdTwo, 3, new []
                     {
                         (_activityIdTwo: _tc.ActivityIdTwo, 3)
-                    })
-                }));
+                    }),
+            ]));
         }
     }
 
@@ -1210,26 +1156,26 @@ public class TimesheetTest
             var projectId = IdOf<Project>.Random();
             var activityId = IdOf<Activity>.Random();
 
-            yield return new object[]
-            {
-                    new ActivityTimeSlot(projectId, activityId, 0, 1),
-                    new ActivityTimeSlot(projectId, activityId, 1, 1)
-            };
-            yield return new object[]
-            {
-                    new ActivityTimeSlot(projectId, activityId, 0, 1),
-                    new ActivityTimeSlot(projectId, activityId, 0, 2)
-            };
-            yield return new object[]
-            {
-                    new ActivityTimeSlot(IdOf<Project>.Random(), activityId, 0, 1),
-                    new ActivityTimeSlot(IdOf<Project>.Random(), activityId, 0, 1)
-            };
-            yield return new object[]
-            {
-                    new ActivityTimeSlot(projectId, IdOf<Activity>.Random(), 0, 1),
-                    new ActivityTimeSlot(projectId, IdOf<Activity>.Random(), 0, 1)
-            };
+            yield return
+            [
+                new ActivityTimeSlot(projectId, activityId, 0, 1),
+                new ActivityTimeSlot(projectId, activityId, 1, 1),
+            ];
+            yield return
+            [
+                new ActivityTimeSlot(projectId, activityId, 0, 1),
+                new ActivityTimeSlot(projectId, activityId, 0, 2),
+            ];
+            yield return
+            [
+                new ActivityTimeSlot(IdOf<Project>.Random(), activityId, 0, 1),
+                new ActivityTimeSlot(IdOf<Project>.Random(), activityId, 0, 1),
+            ];
+            yield return
+            [
+                new ActivityTimeSlot(projectId, IdOf<Activity>.Random(), 0, 1),
+                new ActivityTimeSlot(projectId, IdOf<Activity>.Random(), 0, 1),
+            ];
         }
 
         [TestCaseSource(nameof(NotEqualTests))]

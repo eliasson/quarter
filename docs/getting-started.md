@@ -4,9 +4,9 @@ Quarter is built using .NET Core as backend and a Gleam based front-end using Gl
 
 Make sure you have the following tools installed:
 
-- [.NET SDK 9](https://dotnet.microsoft.com/download)
-- [Node.js 20](https://nodejs.org/) (npm is included)
-- [Gleam 1.14+](https://gleam.run/getting-started/installing/)
+- [.NET SDK 10](https://dotnet.microsoft.com/download)
+- [Node.js 24](https://nodejs.org/) (npm is included)
+- [Gleam 1.19+](https://gleam.run/getting-started/installing/)
 - [Erlang/OTP 28+](https://gleam.run/getting-started/installing/) (required by Gleam)
 - [Docker](https://docs.docker.com/get-docker/) (for the PostgreSQL database)
 

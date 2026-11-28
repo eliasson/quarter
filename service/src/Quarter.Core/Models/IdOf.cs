@@ -26,9 +26,9 @@ public class IdOf<TAggregate> where TAggregate : IAggregate<TAggregate>
     }
 
     public static IdOf<TAggregate> Random()
-        => new(Guid.NewGuid());
+        => new(Guid.CreateVersion7()); // UUID 7 is time-based and yields better DB indices.
 
-    public static IdOf<TAggregate> None = new(Guid.Empty);
+    public static readonly IdOf<TAggregate> None = new(Guid.Empty);
 
     public string AsString()
         => Id.ToString();

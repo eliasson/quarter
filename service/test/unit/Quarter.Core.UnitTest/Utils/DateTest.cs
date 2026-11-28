@@ -86,12 +86,11 @@ public class DateTest
     public void ItShouldReturnListOfSequentialDates()
     {
         var seq = Date.Sequence(FromDateString("2021-10-31T12:34:56Z"), 3);
-        Assert.That(seq, Is.EqualTo(new[]
-        {
+        Assert.That(seq, Is.EqualTo([
             FromDateString("2021-10-31T12:34:56Z"),
             FromDateString("2021-11-01T00:00:00Z"),
             FromDateString("2021-11-02T00:00:00Z"),
-        }));
+        ]));
     }
 
     [Test]
@@ -102,12 +101,11 @@ public class DateTest
     public void ItShouldReturnListOfSequentialDatesBasedOnStartAndEndDate()
     {
         var seq = Date.Sequence(FromDateString("2021-10-31T12:34:56Z"), FromDateString("2021-11-02T00:00:00Z"));
-        Assert.That(seq, Is.EqualTo(new[]
-        {
+        Assert.That(seq, Is.EqualTo([
             FromDateString("2021-10-31T12:34:56Z"),
             FromDateString("2021-11-01T00:00:00Z"),
             FromDateString("2021-11-02T00:00:00Z"),
-        }));
+        ]));
     }
 
     [Test]

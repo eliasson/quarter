@@ -139,7 +139,7 @@ public class UpdateActivityTest
                 color = "#aabbcc",
             };
 
-            Assert.CatchAsync<NotFoundException>(() => ApiService.UpdateActivityAsync(project.Id, IdOf<Activity>.Random(), input, oc, CancellationToken.None));
+            await Assert.CatchAsync<NotFoundException>(() => ApiService.UpdateActivityAsync(project.Id, IdOf<Activity>.Random(), input, oc, CancellationToken.None));
         }
     }
 
@@ -161,7 +161,7 @@ public class UpdateActivityTest
                 color = "#aabbcc",
             };
 
-            Assert.CatchAsync<NotFoundException>(() => ApiService.UpdateActivityAsync(project.Id, activity.Id, input, oc, CancellationToken.None));
+            await Assert.CatchAsync<NotFoundException>(() => ApiService.UpdateActivityAsync(project.Id, activity.Id, input, oc, CancellationToken.None));
         }
     }
 
@@ -169,7 +169,7 @@ public class UpdateActivityTest
     public class WhenProjectIsMissing : TestCase
     {
         [Test]
-        public void ItShouldThrowNotFoundException()
+        public async Task ItShouldThrowNotFoundException()
         {
             var oc = CreateOperationContext();
             var input = new UpdateActivityResourceInput
@@ -178,7 +178,7 @@ public class UpdateActivityTest
                 description = "Description alpha",
                 color = "#aabbcc",
             };
-            Assert.CatchAsync<NotFoundException>(() =>
+            await Assert.CatchAsync<NotFoundException>(() =>
                 ApiService.UpdateActivityAsync(IdOf<Project>.Random(), IdOf<Activity>.Random(), input, oc, CancellationToken.None));
         }
     }

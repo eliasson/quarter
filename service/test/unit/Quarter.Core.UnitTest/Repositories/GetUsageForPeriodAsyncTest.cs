@@ -81,16 +81,14 @@ public abstract class GetUsageForPeriodAsyncTest
         var expectedUsage = new List<ProjectTotalUsage>()
         {
             new (_projectIdA, 10 * 15,
-                new List<ActivityUsage>()
-                {
-                    new (_activityAa, 6 * 15, UtcDateTime.MinValue),
-                    new (_activityAb, 4 * 15, UtcDateTime.MinValue),
-                }, UtcDateTime.MinValue),
+            [
+                new ActivityUsage(_activityAa, 6 * 15, UtcDateTime.MinValue),
+                new ActivityUsage(_activityAb, 4 * 15, UtcDateTime.MinValue),
+            ], UtcDateTime.MinValue),
             new (_projectIdB, 20 * 15,
-                new List<ActivityUsage>()
-                {
-                    new (_activityBa, 20 * 15, UtcDateTime.MinValue),
-                }, UtcDateTime.MinValue),
+            [
+                new ActivityUsage(_activityBa, 20 * 15, UtcDateTime.MinValue),
+            ], UtcDateTime.MinValue),
         };
 
         Assert.That(actualUsage, Is.EqualTo(expectedUsage));
@@ -103,16 +101,14 @@ public abstract class GetUsageForPeriodAsyncTest
         var expectedUsage = new List<ProjectTotalUsage>()
         {
             new (_projectIdA, 10 * 15,
-                new List<ActivityUsage>()
-                {
-                    new (_activityAa, 6 * 15, UtcDateTime.MinValue),
-                    new (_activityAb, 4 * 15, UtcDateTime.MinValue),
-                }, UtcDateTime.MinValue),
+            [
+                new ActivityUsage(_activityAa, 6 * 15, UtcDateTime.MinValue),
+                new ActivityUsage(_activityAb, 4 * 15, UtcDateTime.MinValue),
+            ], UtcDateTime.MinValue),
             new (_projectIdB, 20 * 15,
-                new List<ActivityUsage>()
-                {
-                    new (_activityBa, 20 * 15, UtcDateTime.MinValue),
-                }, UtcDateTime.MinValue),
+            [
+                new ActivityUsage(_activityBa, 20 * 15, UtcDateTime.MinValue),
+            ], UtcDateTime.MinValue),
         };
 
         Assert.That(actualUsage, Is.EqualTo(expectedUsage));
@@ -125,16 +121,14 @@ public abstract class GetUsageForPeriodAsyncTest
         var expectedUsage = new List<ProjectTotalUsage>()
         {
             new (_projectIdA, 10 * 15,
-                new List<ActivityUsage>()
-                {
-                    new (_activityAa, 6 * 15, UtcDateTime.MinValue),
-                    new (_activityAb, 4 * 15, UtcDateTime.MinValue),
-                }, UtcDateTime.MinValue),
+            [
+                new ActivityUsage(_activityAa, 6 * 15, UtcDateTime.MinValue),
+                new ActivityUsage(_activityAb, 4 * 15, UtcDateTime.MinValue),
+            ], UtcDateTime.MinValue),
             new (_projectIdB, 20 * 15,
-                new List<ActivityUsage>()
-                {
-                    new (_activityBa, 20 * 15, UtcDateTime.MinValue),
-                }, UtcDateTime.MinValue),
+            [
+                new ActivityUsage(_activityBa, 20 * 15, UtcDateTime.MinValue),
+            ], UtcDateTime.MinValue),
         };
 
         Assert.That(actualUsage, Is.EqualTo(expectedUsage));

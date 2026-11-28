@@ -9,25 +9,25 @@ on:
     workflow_dispatch:
 
 env:
-    DOTNET_VERSION: "9.0.203"
-    NODE_VERSION: "20"
-    OTP_VERSION: "28.0.4"
-    GLEAM_VERSION: "1.14.0"
+    DOTNET_VERSION: "10.0.x"
+    NODE_VERSION: "24"
+    OTP_VERSION: "28"
+    GLEAM_VERSION: "1.19.2"
 
 jobs:
     build:
         runs-on: ubuntu-latest
 
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v7
 
             - name: Setup .NET Core
-              uses: actions/setup-dotnet@v1
+              uses: actions/setup-dotnet@v6
               with:
                   dotnet-version: ${{ env.DOTNET_VERSION }}
 
             - name: Setup Node.js
-              uses: actions/setup-node@v3
+              uses: actions/setup-node@v7
               with:
                   node-version: ${{ env.NODE_VERSION }}
 

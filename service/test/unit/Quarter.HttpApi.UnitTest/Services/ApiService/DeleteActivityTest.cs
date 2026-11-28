@@ -28,8 +28,8 @@ public class DeleteActivityTest
         }
 
         [Test]
-        public void ItShouldHaveDeletedTheActivity()
-            => Assert.ThrowsAsync<NotFoundException>(() => ReadActivityAsync(_oc!.UserId, _project!.Id, _activity!.Id));
+        public async Task ItShouldHaveDeletedTheActivity()
+            => await Assert.ThrowsAsync<NotFoundException>(() => ReadActivityAsync(_oc!.UserId, _project!.Id, _activity!.Id));
     }
 
     [TestFixture]
@@ -42,7 +42,7 @@ public class DeleteActivityTest
             var project = await AddProject(IdOf<User>.Random(), "Project alpha");
             var activity = await AddActivity(oc.UserId, project.Id, "Activity alpha");
 
-            Assert.CatchAsync<NotFoundException>(() => ApiService.DeleteActivityAsync(project.Id, activity.Id, oc, CancellationToken.None));
+            await Assert.CatchAsync<NotFoundException>(() => ApiService.DeleteActivityAsync(project.Id, activity.Id, oc, CancellationToken.None));
         }
     }
 
@@ -50,11 +50,11 @@ public class DeleteActivityTest
     public class WhenProjectIsMissing : TestCase
     {
         [Test]
-        public void ItShouldThrowNotFoundException()
+        public async Task ItShouldThrowNotFoundException()
         {
             var oc = CreateOperationContext();
 
-            Assert.CatchAsync<NotFoundException>(() =>
+            await Assert.CatchAsync<NotFoundException>(() =>
                 ApiService.DeleteActivityAsync(IdOf<Project>.Random(), IdOf<Activity>.Random(), oc, CancellationToken.None));
         }
     }

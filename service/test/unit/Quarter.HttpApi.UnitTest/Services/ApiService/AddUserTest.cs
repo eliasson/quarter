@@ -48,13 +48,13 @@ public class AddUserTest
         }
 
         [Test]
-        public void ItShouldFailIfEmailIsNotUnique()
+        public async Task ItShouldFailIfEmailIsNotUnique()
         {
             var input = new CreateUserResourceInput { email = "alice@example.com" };
 
-            Assert.Multiple(() =>
+            await Assert.MultipleAsync(async () =>
             {
-                var ex = Assert.CatchAsync<ArgumentException>(() => ApiService.CreateUserAsync(input, _oc, CancellationToken.None));
+                var ex = await Assert.CatchAsync<ArgumentException>(() => ApiService.CreateUserAsync(input, _oc, CancellationToken.None));
                 Assert.That(ex?.Message, Is.EqualTo("Could not store as Email already in use"));
             });
         }

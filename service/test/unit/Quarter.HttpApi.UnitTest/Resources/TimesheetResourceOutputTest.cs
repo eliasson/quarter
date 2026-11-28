@@ -51,11 +51,10 @@ public class TimesheetResourceOutputTest
         [Test]
         public void ItShouldMapTimeSlots()
         {
-            Assert.That(Resource.timeSlots, Is.EqualTo(new[]
-            {
+            Assert.That(Resource.timeSlots, Is.EqualTo([
                 new Quarter.HttpApi.Resources.TimeSlotOutput(ProjectIdA.AsString(), ActivityIdA.AsString(), 4, 10),
                 new Quarter.HttpApi.Resources.TimeSlotOutput(ProjectIdB.AsString(), ActivityIdB.AsString(), 50, 20),
-            }));
+            ]));
         }
     }
 

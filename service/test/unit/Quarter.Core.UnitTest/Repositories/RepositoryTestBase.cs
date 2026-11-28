@@ -58,10 +58,10 @@ namespace Quarter.Core.UnitTest.Repositories
         }
 
         [Test]
-        public void ThrowsIfAggregateDoesNotExist()
+        public async Task ThrowsIfAggregateDoesNotExist()
         {
             var repository = Repository();
-            Assert.CatchAsync<NotFoundException>(() => repository.GetByIdAsync(ArbitraryId(), CancellationToken.None));
+            await Assert.CatchAsync<NotFoundException>(() => repository.GetByIdAsync(ArbitraryId(), CancellationToken.None));
         }
 
         [Test]
@@ -110,10 +110,10 @@ namespace Quarter.Core.UnitTest.Repositories
         }
 
         [Test]
-        public void ThrowsIfAggregateDoesNotExistWhenUpdating()
+        public async Task ThrowsIfAggregateDoesNotExistWhenUpdating()
         {
             var repository = Repository();
-            Assert.CatchAsync<NotFoundException>(() => repository.UpdateByIdAsync(ArbitraryId(), agg => agg, CancellationToken.None));
+            await Assert.CatchAsync<NotFoundException>(() => repository.UpdateByIdAsync(ArbitraryId(), agg => agg, CancellationToken.None));
         }
 
         [Test]
@@ -155,7 +155,7 @@ namespace Quarter.Core.UnitTest.Repositories
             await repository.CreateAsync(aggTwo, CancellationToken.None);
 
             var all = await repository.GetAllAsync(CancellationToken.None).ToListAsync(CancellationToken.None);
-            Assert.That(all, Is.SupersetOf(new[] { aggOne, aggTwo }));
+            Assert.That(all, Is.SupersetOf([aggOne, aggTwo]));
         }
 
         [Test]
@@ -182,10 +182,10 @@ namespace Quarter.Core.UnitTest.Repositories
             await repository.CreateAsync(agg, CancellationToken.None);
             var result = await repository.RemoveByIdAsync(agg.Id, CancellationToken.None);
 
-            Assert.Multiple(() =>
+            await Assert.MultipleAsync(async () =>
             {
                 Assert.That(result, Is.EqualTo(RemoveResult.Removed));
-                Assert.CatchAsync<NotFoundException>(() => repository.GetByIdAsync(agg.Id, CancellationToken.None));
+                await Assert.CatchAsync<NotFoundException>(() => repository.GetByIdAsync(agg.Id, CancellationToken.None));
             });
         }
 

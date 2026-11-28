@@ -51,17 +51,17 @@ public static class LocalUser
 
     static LocalUser()
     {
-        User = new User(new Email("local@quarterapp.com"), new[] { UserRole.Administrator })
+        User = new User(new Email("local@quarterapp.com"), [UserRole.Administrator])
         {
             Id = UserId
         };
     }
 
-    public static readonly Claim[] Claims = new[]
-    {
+    public static readonly Claim[] Claims =
+    [
         ApplicationClaim.FromUserId(UserId),
         new Claim(ClaimTypes.Name, "Local user"),
-    };
+    ];
 }
 
 public class LocalModeAuthenticationOptions : AuthenticationSchemeOptions;

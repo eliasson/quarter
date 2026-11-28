@@ -52,7 +52,7 @@ public class PostgresActivityRepository(IPostgresConnectionProvider connectionPr
     private const string UserIdColumnName = "userid";
 
     protected override IEnumerable<string> AdditionalColumns()
-        => new[] { UserIdColumnName };
+        => [UserIdColumnName];
 
     protected override object AdditionalColumnValue(string columnName, Activity aggregate)
         => columnName switch

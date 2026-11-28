@@ -23,7 +23,7 @@ public abstract class PostgresRepositoryBase<T> : IRepository<T> where T : IAggr
     /// </summary>
     /// <returns>A list of column names</returns>
     protected virtual IEnumerable<string> AdditionalColumns()
-        => Array.Empty<string>();
+        => [];
 
     /// <summary>
     /// Fetch the value for a additional column  for a given aggregate.
@@ -97,11 +97,10 @@ public abstract class PostgresRepositoryBase<T> : IRepository<T> where T : IAggr
     {
         var stmt = $"INSERT INTO {_tableName} (id, data{_additionalColumnNames}) VALUES (@id, @data{_additionalColumnValueNames})";
         var parameters = WithAdditionalColumnValues(
-            new NpgsqlParameter[]
-            {
-                new("id", aggregate.Id.Id),
-                new("data", await Serialize(aggregate))
-            }, aggregate);
+        [
+            new NpgsqlParameter("id", aggregate.Id.Id),
+            new NpgsqlParameter("data", Serialize(aggregate)),
+        ], aggregate);
 
         try
         {
@@ -158,11 +157,10 @@ public abstract class PostgresRepositoryBase<T> : IRepository<T> where T : IAggr
         updatedAggregate.Updated = UtcDateTime.Now();
 
         var parameters = WithAdditionalColumnValues(
-            new NpgsqlParameter[]
-            {
-                new("id", id.Id),
-                new("data", await Serialize(updatedAggregate))
-            }, updatedAggregate);
+        [
+            new NpgsqlParameter("id", id.Id),
+            new NpgsqlParameter("data", Serialize(updatedAggregate)),
+        ], updatedAggregate);
 
         if (accessCondition is not null)
             parameters.Add(accessCondition);
@@ -245,7 +243,7 @@ public abstract class PostgresRepositoryBase<T> : IRepository<T> where T : IAggr
     {
         var stmt = $"DELETE FROM {tableName};";
         await using var connection = await _connectionProvider.GetConnectionAsync(ct);
-        _ = await ExecuteStatementAsync(connection, stmt, ct, Array.Empty<NpgsqlParameter>());
+        _ = await ExecuteStatementAsync(connection, stmt, ct, []);
     }
 
     private async Task<int> ExecuteStatementAsync(
@@ -258,10 +256,7 @@ public abstract class PostgresRepositoryBase<T> : IRepository<T> where T : IAggr
         command.CommandText = query;
         command.Parameters.AddRange(parameters.ToArray());
 
-        var result = await command.ExecuteNonQueryAsync(ct);
-        await command.DisposeAsync();
-
-        return result;
+        return await command.ExecuteNonQueryAsync(ct);
     }
 
     protected async IAsyncEnumerable<T> ExecuteQueryAsync(
@@ -298,14 +293,8 @@ public abstract class PostgresRepositoryBase<T> : IRepository<T> where T : IAggr
         return parameters.Concat(additional).ToList();
     }
 
-    private static async Task<string> Serialize(T aggregate)
-    {
-        await using var stream = new MemoryStream();
-        await JsonSerializer.SerializeAsync(stream, aggregate);
-        stream.Position = 0; // TODO: Add Rewind extension method
-        var reader = new StreamReader(stream);
-        return await reader.ReadToEndAsync();
-    }
+    private static string Serialize(T aggregate)
+        => JsonSerializer.Serialize(aggregate);
 
     private static async Task<T> Deserialize(Stream stream)
     {

@@ -5,7 +5,7 @@ namespace Quarter.Core.Migrations;
 [Migration(0001)]
 public class CreateTables : Migration
 {
-    private static readonly string[] Tables = new[] { "project", "activity", "timesheet", "timeslot", "quser" };
+    private static readonly string[] Tables = ["project", "activity", "timesheet", "timeslot", "quser"];
 
     public override void Up()
     {

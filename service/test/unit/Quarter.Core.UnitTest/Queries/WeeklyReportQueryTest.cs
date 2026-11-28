@@ -86,11 +86,10 @@ public class WeeklyReportQueryTest
         {
             var projectTotalUsage = _result.Usage.Values.Select(pu => (pu.ProjectId, pu.TotalMinutes));
 
-            Assert.That(projectTotalUsage, Is.EquivalentTo(new[]
-            {
+            Assert.That(projectTotalUsage, Is.EquivalentTo([
                 (_projectIdOne, 10 * 15),
                 (_projectIdTwo, 6 * 15),
-            }));
+            ]));
         }
 
         [Test]
@@ -99,8 +98,7 @@ public class WeeklyReportQueryTest
             var projectActivityTotalUsage = _result.Usage.Values.Select(pu =>
                 (pu.ProjectId, pu.Usage.Values.Select(au => (au.ActivityId, au.TotalMinutes))));
 
-            Assert.That(projectActivityTotalUsage, Is.EquivalentTo(new[]
-            {
+            Assert.That(projectActivityTotalUsage, Is.EquivalentTo([
                 (_projectIdOne, new[]
                 {
                     (_activityIdOne, 2 * 15),
@@ -110,7 +108,7 @@ public class WeeklyReportQueryTest
                 {
                     (_activityIdTwo, 6 * 15)
                 }),
-            }));
+            ]));
         }
 
         [Test]
@@ -118,26 +116,25 @@ public class WeeklyReportQueryTest
         {
             var result = _result.Usage.Values.SelectMany(pu => pu.Usage.Values.Select(au =>
                 (pu.ProjectId, au.ActivityId, au.DurationPerWeekDay)));
-            Assert.That(result, Is.EquivalentTo(new[]
-            {
-                (_projectIdOne, _activityIdOne,   new[] { 2 * 15, 0, 0, 0, 0, 0, 0 }),
+            Assert.That(result, Is.EquivalentTo([
+                (_projectIdOne, _activityIdOne, [2 * 15, 0, 0, 0, 0, 0, 0]),
                 (_projectIdOne, _activityIdThree, new[] { 0, 0, 0, 0, 0, 0, 8 * 15 }),
                 (_projectIdTwo, _activityIdTwo,   new[] { 6 * 15, 0, 0, 0, 0, 0, 0 }),
-            }));
+            ]));
         }
 
         [Test]
         public void ItShouldContainWeekdayTotalMinutesPerProject()
         {
             var projectWeekdayUsage = _result.Usage.Values.Select(pu => pu.WeekdayTotals);
-            Assert.That(projectWeekdayUsage, Is.EqualTo(new[] {
-                    new [] { 2 * 15, 0, 0, 0, 0, 0, 8 * 15 },
+            Assert.That(projectWeekdayUsage, Is.EqualTo([
+                [2 * 15, 0, 0, 0, 0, 0, 8 * 15],
                     new [] { 6 * 15, 0, 0, 0, 0, 0, 0 },
-            }));
+            ]));
         }
 
         [Test]
         public void ItShouldContainWeekdayTotalMinutes()
-            => Assert.That(_result?.WeekdayTotals, Is.EqualTo(new[] { 8 * 15, 0, 0, 0, 0, 0, 8 * 15 }));
+            => Assert.That(_result?.WeekdayTotals, Is.EqualTo([8 * 15, 0, 0, 0, 0, 0, 8 * 15]));
     }
 }
