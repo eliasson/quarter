@@ -52,12 +52,11 @@ public class TimesheetSummaryQueryTest
 
             var result = _vm?.Timesheets.Select(t => (t.Date.IsoString(), t.TotalMinutes()));
 
-            Assert.That(result, Is.EqualTo(new[]
-            {
+            Assert.That(result, Is.EqualTo([
                 (dayOne, 0),
                 (dayTwo, 0),
                 (dayThree, 0),
-            }));
+            ]));
         }
     }
 
@@ -99,11 +98,10 @@ public class TimesheetSummaryQueryTest
             var dayTwo = Tomorrow.IsoString();
             var result = _vm?.Timesheets.Select(t => (t.Date.IsoString(), t.TotalMinutes()));
 
-            Assert.That(result, Is.EqualTo(new[]
-            {
+            Assert.That(result, Is.EqualTo([
                 (dayOne, 4 * 15),
                 (dayTwo, 8 * 15),
-            }));
+            ]));
         }
     }
 }

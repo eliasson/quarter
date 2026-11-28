@@ -87,7 +87,7 @@ public class PostgresUserRepository(IPostgresConnectionProvider connectionProvid
     private const string LastLoginColumnName = "last_login_ts";
 
     protected override IEnumerable<string> AdditionalColumns()
-        => new[] { EmailColumnName };
+        => [EmailColumnName];
 
     protected override object AdditionalColumnValue(string columnName, User aggregate)
         => columnName switch

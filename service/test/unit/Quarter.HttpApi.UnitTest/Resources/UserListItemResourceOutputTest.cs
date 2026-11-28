@@ -72,6 +72,6 @@ public class UserListItemResourceOutputTest
 
         [Test]
         public void ItShouldMapAdministratorRole()
-            => Assert.That(_output.roles, Is.EqualTo(new[] { "administrator" }));
+            => Assert.That(_output.roles, Is.EqualTo(["administrator"]));
     }
 }

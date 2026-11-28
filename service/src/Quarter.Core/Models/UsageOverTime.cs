@@ -10,7 +10,7 @@ public record ActivityUsage(IdOf<Activity> ActivityId, int TotalMinutes, UtcDate
 
 public record ProjectTotalUsage(IdOf<Project> ProjectId, int TotalMinutes, List<ActivityUsage> Activities, UtcDateTime LastUsed)
 {
-    public static readonly ProjectTotalUsage Zero = new(IdOf<Project>.None, 0, new List<ActivityUsage>(), UtcDateTime.MinValue);
+    public static readonly ProjectTotalUsage Zero = new(IdOf<Project>.None, 0, [], UtcDateTime.MinValue);
 
     public virtual bool Equals(ProjectTotalUsage? other)
     {

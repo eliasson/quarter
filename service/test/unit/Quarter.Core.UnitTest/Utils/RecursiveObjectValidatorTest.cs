@@ -78,7 +78,7 @@ public class RecursiveObjectValidatorTest
     [Test]
     public void ItShouldFailValidationWhenListOchChildLevelPropertyIsMissing()
     {
-        var prospect = new Root { Children = new[] { new Child() } };
+        var prospect = new Root { Children = [new Child()] };
 
         var result = RecursiveObjectValidator.IsValid(prospect, out var errors);
         var messages = errors.Select(_ => _.ErrorMessage);

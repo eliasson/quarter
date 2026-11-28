@@ -70,8 +70,8 @@ namespace Quarter.Core.UnitTest.Repositories
 
             Assert.Multiple(() =>
             {
-                Assert.That(allForOne, Is.EqualTo(new[] { activityForProjectOne.Name }));
-                Assert.That(allForTwo, Is.EqualTo(new[] { activityForProjectTwo.Name }));
+                Assert.That(allForOne, Is.EqualTo([activityForProjectOne.Name]));
+                Assert.That(allForTwo, Is.EqualTo([activityForProjectTwo.Name]));
             });
         }
     }

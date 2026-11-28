@@ -50,10 +50,10 @@ public class GetAllProjectsAndActivitiesForUserTest
 
         [Test]
         public void ItShouldReturnAllProjects()
-            => Assert.That(_result.projects.Select(p => p.name), Is.EquivalentTo(new[] { "Project Alpha", "Project Bravo" }));
+            => Assert.That(_result.projects.Select(p => p.name), Is.EquivalentTo(["Project Alpha", "Project Bravo"]));
 
         [Test]
         public void ItShouldReturnAllActivities()
-            => Assert.That(_result.activities.Select(a => a.name), Is.EquivalentTo(new[] { "Activity Alpha", "Activity Bravo" }));
+            => Assert.That(_result.activities.Select(a => a.name), Is.EquivalentTo(["Activity Alpha", "Activity Bravo"]));
     }
 }

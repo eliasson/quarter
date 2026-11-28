@@ -1,7 +1,5 @@
-using System;
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 using Quarter.StartupTasks;
 
@@ -16,10 +14,8 @@ public class StartupTaskConfigurationTest
         var provider = CreateServiceProvider(localMode: false);
         var startupTasks = provider.GetServices<IStartupTask>()
             .Select(t => t.GetType());
-        Assert.That(startupTasks, Is.EquivalentTo(new[]
-        {
-            typeof(InitialUserStartupTask)
-        }));
+
+        Assert.That(startupTasks, Is.EquivalentTo([typeof(InitialUserStartupTask)]));
     }
 
     [Test]
@@ -28,11 +24,11 @@ public class StartupTaskConfigurationTest
         var provider = CreateServiceProvider(localMode: true);
         var startupTasks = provider.GetServices<IStartupTask>()
             .Select(t => t.GetType());
-        Assert.That(startupTasks, Is.EquivalentTo(new[]
-        {
+
+        Assert.That(startupTasks, Is.EquivalentTo([
             typeof(InitialUserStartupTask),
-            typeof(LocalUserStartupTask)
-        }));
+            typeof(LocalUserStartupTask),
+        ]));
     }
 
     private static ServiceProvider CreateServiceProvider(bool localMode)

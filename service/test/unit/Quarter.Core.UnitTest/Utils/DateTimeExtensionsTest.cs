@@ -62,13 +62,12 @@ public class DateTimeExtensionsTest
         var last = new DateTime(2026, 2, 4);
 
         var range = first.RangeTo(last).Select(dt => dt.IsoString());
-        Assert.That(range, Is.EqualTo(new []
-        {
+        Assert.That(range, Is.EqualTo([
             "2026-02-01",
             "2026-02-02",
             "2026-02-03",
             "2026-02-04",
-        }));
+        ]));
     }
 
     [Test]
@@ -77,7 +76,7 @@ public class DateTimeExtensionsTest
         var d = DateTime.UtcNow;
 
         var range = d.RangeTo(d).Select(dt => dt.IsoString());
-        Assert.That(range, Is.EqualTo(new [] { d.IsoString() }));
+        Assert.That(range, Is.EqualTo([d.IsoString()]));
     }
 
     [Test]

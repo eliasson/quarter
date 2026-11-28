@@ -73,11 +73,10 @@ public abstract class TimesheetRepositoryTest : RepositoryTestBase<Timesheet, IT
         Assert.That(
             readAgg.Slots,
             Is.EqualTo(
-                new[]
-                {
+                [
                     new ActivityTimeSlot(_stableProjectId, _stableActivityId, 0, 2),
                     new ActivityTimeSlot(_stableProjectId, _stableActivityId, 4, 2),
-                }
+                ]
             )
         );
     }
@@ -104,11 +103,10 @@ public abstract class TimesheetRepositoryTest : RepositoryTestBase<Timesheet, IT
         Assert.That(
             readAgg.Slots().OrderBy(_ => _.Offset),
             Is.EqualTo(
-                new[]
-                {
+                [
                     new ActivityTimeSlot(_stableProjectId, _stableActivityId, 0, 2),
                     new ActivityTimeSlot(_stableProjectId, _stableActivityId, 4, 2),
-                }
+                ]
             )
         );
     }
@@ -127,11 +125,10 @@ public abstract class TimesheetRepositoryTest : RepositoryTestBase<Timesheet, IT
         Assert.That(
             readAgg.Slots,
             Is.EqualTo(
-                new[]
-                {
+                [
                     new ActivityTimeSlot(_stableProjectId, _stableActivityId, 0, 2),
                     new ActivityTimeSlot(_stableProjectId, _stableActivityId, 4, 2),
-                }
+                ]
             )
         );
     }
@@ -192,7 +189,7 @@ public abstract class TimesheetRepositoryTest : RepositoryTestBase<Timesheet, IT
         _ = await repository.CreateAsync(agg, CancellationToken.None);
         var usage = await repository.GetProjectTotalUsageAsync(_stableProjectId, CancellationToken.None);
         var activityUsage = usage.Activities.Select(u => u.TotalMinutes);
-        Assert.That(activityUsage, Is.EqualTo(new[] { 6 * 15 }));
+        Assert.That(activityUsage, Is.EqualTo([6 * 15]));
     }
 
     [Test]
@@ -216,11 +213,10 @@ public abstract class TimesheetRepositoryTest : RepositoryTestBase<Timesheet, IT
         Assert.That(
             activities,
             Is.EquivalentTo(
-                new[]
-                {
+                [
                     (activityOne, 2 * 15, slotOne.Created.DateTime.WithoutMilliseconds()),
                     (activityTwo, 4 * 15, slotTwo.Created.DateTime.WithoutMilliseconds()),
-                }
+                ]
             )
         );
     }
@@ -247,7 +243,7 @@ public abstract class TimesheetRepositoryTest : RepositoryTestBase<Timesheet, IT
         Assert.Multiple(() =>
         {
             Assert.That(removeResult, Is.EqualTo(RemoveResult.Removed));
-            Assert.That(slotProjects, Is.EqualTo(new[] { projectIdTwo }));
+            Assert.That(slotProjects, Is.EqualTo([projectIdTwo]));
         });
     }
 
@@ -281,7 +277,7 @@ public abstract class TimesheetRepositoryTest : RepositoryTestBase<Timesheet, IT
         Assert.Multiple(() =>
         {
             Assert.That(removeResult, Is.EqualTo(RemoveResult.Removed));
-            Assert.That(slotProjects, Is.EqualTo(new[] { activityTwo }));
+            Assert.That(slotProjects, Is.EqualTo([activityTwo]));
         });
     }
 

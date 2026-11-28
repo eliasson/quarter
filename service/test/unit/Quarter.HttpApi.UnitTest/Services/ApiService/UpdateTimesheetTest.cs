@@ -28,16 +28,16 @@ public class UpdateTimesheetTest
             var input = new TimesheetResourceInput
             {
                 date = _today.ToString(),
-                timeSlots = new TimeSlotInput[]
-                {
+                timeSlots =
+                [
                     new TimeSlotInput
                     {
                         projectId = _project.Id.AsString(),
                         activityId = _activity.Id.AsString(),
                         offset = 10,
                         duration = 2,
-                    }
-                }
+                    },
+                ]
             };
             _output = await ApiService.UpdateTimesheetAsync(input, _oc, CancellationToken.None);
         }
@@ -52,10 +52,9 @@ public class UpdateTimesheetTest
             var timesheet = await ReadTimesheetAsync(_oc.UserId, _today);
             var slots = timesheet.Slots().Select(s => (s.ProjectId, s.ActivityId, s.Offset, s.Duration));
 
-            Assert.That(slots, Is.EqualTo(new[]
-            {
+            Assert.That(slots, Is.EqualTo([
                 (_project.Id, _activity.Id, 10, 2),
-            }));
+            ]));
         }
     }
 
@@ -82,16 +81,16 @@ public class UpdateTimesheetTest
             var input = new TimesheetResourceInput
             {
                 date = _today.ToString(),
-                timeSlots = new TimeSlotInput[]
-                {
+                timeSlots =
+                [
                     new TimeSlotInput
                     {
                         projectId = null,
                         activityId = null,
                         offset = 4,
                         duration = 4,
-                    }
-                }
+                    },
+                ]
             };
             _output = await ApiService.UpdateTimesheetAsync(input, _oc, CancellationToken.None);
         }
@@ -106,11 +105,10 @@ public class UpdateTimesheetTest
             var timesheet = await ReadTimesheetAsync(_oc.UserId, _today);
             var slots = timesheet.Slots().Select(s => (s.ProjectId, s.ActivityId, s.Offset, s.Duration));
 
-            Assert.That(slots, Is.EqualTo(new[]
-            {
+            Assert.That(slots, Is.EqualTo([
                 (_project.Id, _activity.Id, 0, 4),
                 (_project.Id, _activity.Id, 8, 4),
-            }));
+            ]));
         }
     }
 }

@@ -25,7 +25,7 @@ public enum AuthorizedState
 public record AuthorizedResult(AuthorizedState State, List<Claim> Claims)
 {
     public static AuthorizedResult Unauthorized()
-        => new AuthorizedResult(AuthorizedState.NotAuthorized, new List<Claim>());
+        => new AuthorizedResult(AuthorizedState.NotAuthorized, []);
 
     public static AuthorizedResult AuthorizedWith(params Claim[] claims)
         => new AuthorizedResult(AuthorizedState.Authorized, claims.ToList());

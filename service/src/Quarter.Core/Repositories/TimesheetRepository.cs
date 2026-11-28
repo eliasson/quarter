@@ -170,7 +170,7 @@ public class PostgresTimesheetRepository(IPostgresConnectionProvider connectionP
     }
 
     protected override IEnumerable<string> AdditionalColumns()
-        => new[] { UserIdColumnName, DateColumnName, DateTimestampColumnName };
+        => [UserIdColumnName, DateColumnName, DateTimestampColumnName];
 
     protected override object AdditionalColumnValue(string columnName, Timesheet aggregate)
         => columnName switch

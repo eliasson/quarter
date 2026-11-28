@@ -57,12 +57,11 @@ public class GetAllUsersTest
             var payload = await _response.AsPayload<UserListItemResourceOutput[]>();
             var hasLastLogin = payload?.Select(u => (u.email, u.lastLogin is not null));
 
-            Assert.That(hasLastLogin, Is.EquivalentTo(new []
-            {
+            Assert.That(hasLastLogin, Is.EquivalentTo([
                 ("john.doe@example.com", true),
                 ("lotta@example.com", false),
                 ("sven@example.com", false),
-            }));
+            ]));
         }
     }
 

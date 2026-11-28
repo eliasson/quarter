@@ -155,7 +155,7 @@ namespace Quarter.Core.UnitTest.Repositories
             await repository.CreateAsync(aggTwo, CancellationToken.None);
 
             var all = await repository.GetAllAsync(CancellationToken.None).ToListAsync(CancellationToken.None);
-            Assert.That(all, Is.SupersetOf(new[] { aggOne, aggTwo }));
+            Assert.That(all, Is.SupersetOf([aggOne, aggTwo]));
         }
 
         [Test]

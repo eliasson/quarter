@@ -54,10 +54,9 @@ public class UserAuthorizationServiceTest
             var result = await Service.AuthorizeOrCreateUserAsync(_standardUser!.Email.Value, default);
             var claims = result.Claims.Select(c => (c.Type, c.Value));
 
-            Assert.That(claims, Is.EquivalentTo(new[]
-            {
+            Assert.That(claims, Is.EquivalentTo([
                 (ApplicationClaim.QuarterUserIdClaimType, _standardUser.Id.AsString()),
-            }));
+            ]));
         }
 
         [Test]
@@ -66,11 +65,10 @@ public class UserAuthorizationServiceTest
             var result = await Service.AuthorizeOrCreateUserAsync(_adminUser!.Email.Value, default);
             var claims = result.Claims.Select(c => (c.Type, c.Value));
 
-            Assert.That(claims, Is.EquivalentTo(new[]
-            {
+            Assert.That(claims, Is.EquivalentTo([
                 (ApplicationClaim.QuarterUserIdClaimType, _adminUser.Id.AsString()),
                 (ClaimTypes.Role, "administrator"),
-            }));
+            ]));
         }
     }
 

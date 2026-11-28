@@ -49,18 +49,17 @@ public class GetWeeklyReportTest
 
         [Test]
         public void ItShouldIncludeWeekdayTotals()
-            => Assert.That(_report.weekdayTotals, Is.EqualTo(new[] { 8 * 15, 0, 0, 0, 0, 0, 8 * 15 }));
+            => Assert.That(_report.weekdayTotals, Is.EqualTo([8 * 15, 0, 0, 0, 0, 0, 8 * 15]));
 
         [Test]
         public void ItShouldIncludeProjectUsage()
         {
             var projectsTotal = _report.Usage.Select(pu => (pu.projectId, pu.totalMinutes)).ToList();
 
-            Assert.That(projectsTotal, Is.EquivalentTo(new[]
-            {
+            Assert.That(projectsTotal, Is.EquivalentTo([
                 (ProjectIdOne.AsString(), 10 * 15),
                 (ProjectIdTwo.AsString(), 6 * 15),
-            }));
+            ]));
         }
 
 
@@ -71,11 +70,10 @@ public class GetWeeklyReportTest
                 .activityUsage
                 .Select(pu => (pu.activityId, pu.totalMinutes)).ToList();
 
-            Assert.That(result, Is.EquivalentTo(new[]
-            {
+            Assert.That(result, Is.EquivalentTo([
                 (ActivityIdOne.AsString(), 2 * 15),
                 (ActivityIdThree.AsString(), 8 * 15),
-            }));
+            ]));
         }
 
         [Test]
@@ -118,7 +116,7 @@ public class GetWeeklyReportTest
 
         [Test]
         public void ItShouldIncludeWeekdayTotals()
-            => Assert.That(_report.weekdayTotals, Is.EqualTo(new[] { 0, 0, 0, 0, 0, 0, 0 }));
+            => Assert.That(_report.weekdayTotals, Is.EqualTo([0, 0, 0, 0, 0, 0, 0]));
 
         [Test]
         public void ItShouldIncludeEmptyProjectUsage()

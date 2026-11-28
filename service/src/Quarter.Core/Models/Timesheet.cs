@@ -224,7 +224,7 @@ public class Timesheet : IAggregate<Timesheet>
         var projects = activityDuration.Aggregate(new Dictionary<IdOf<Project>, List<ActivitySummary>>(), (acc, t) =>
         {
             if (!acc.ContainsKey(t.Value.Item1))
-                acc.Add(t.Value.Item1, new List<ActivitySummary>());
+                acc.Add(t.Value.Item1, []);
             acc[t.Value.Item1].Add(new ActivitySummary { ActivityId = t.Key, Duration = t.Value.Item2 });
             return acc;
         });

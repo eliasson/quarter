@@ -25,7 +25,7 @@ public class TimesheetResourceInput
     public IEnumerable<TimeSlot> ToSlots()
     {
         if (timeSlots is null)
-            return Enumerable.Empty<TimeSlot>();
+            return [];
 
         return timeSlots.Select(s => s.ToSlot()).Where(s => s is not null)!;
     }

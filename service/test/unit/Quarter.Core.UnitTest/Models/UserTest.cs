@@ -57,7 +57,7 @@ namespace Quarter.Core.UnitTest.Models
                 {
                     var user = User.AdminUser(new Email("foo@example.com"));
 
-                    Assert.That(user.Roles, Is.EqualTo(new[] { UserRole.Administrator }));
+                    Assert.That(user.Roles, Is.EqualTo([UserRole.Administrator]));
                 }
 
                 [Test]
@@ -75,7 +75,7 @@ namespace Quarter.Core.UnitTest.Models
                 var user = User.StandardUser(new Email("foo@example.com"));
                 user.AssignRole(UserRole.Administrator);
 
-                Assert.That(user.Roles, Is.EqualTo(new[] { UserRole.Administrator }));
+                Assert.That(user.Roles, Is.EqualTo([UserRole.Administrator]));
             }
 
             [Test]
@@ -85,7 +85,7 @@ namespace Quarter.Core.UnitTest.Models
                 user.AssignRole(UserRole.Administrator);
                 user.AssignRole(UserRole.Administrator);
 
-                Assert.That(user.Roles, Is.EqualTo(new[] { UserRole.Administrator }));
+                Assert.That(user.Roles, Is.EqualTo([UserRole.Administrator]));
             }
 
             [Test]

@@ -36,7 +36,7 @@ public class InitialUserStartupTask(
             }
             catch (NotFoundException)
             {
-                var cmd = new AddUserCommand(new Email(_options.Email), new[] { UserRole.Administrator });
+                var cmd = new AddUserCommand(new Email(_options.Email), [UserRole.Administrator]);
                 await commandHandler.ExecuteAsync(cmd, OperationContext.None, CancellationToken.None);
                 logger.LogDebug("Created initial user with email {Email}", _options.Email);
             }

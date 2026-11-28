@@ -27,11 +27,11 @@ namespace Quarter.Core.UnitTest.Utils
 
         public static IEnumerable<object[]> HexTests()
         {
-            yield return new object[] { "#ffffff", System.Drawing.Color.White };
-            yield return new object[] { "#000000", System.Drawing.Color.Black };
-            yield return new object[] { "#00ffff", System.Drawing.Color.Cyan };
-            yield return new object[] { "#fff", System.Drawing.Color.White };
-            yield return new object[] { "#000", System.Drawing.Color.Black };
+            yield return ["#ffffff", System.Drawing.Color.White];
+            yield return ["#000000", System.Drawing.Color.Black];
+            yield return ["#00ffff", System.Drawing.Color.Cyan];
+            yield return ["#fff", System.Drawing.Color.White];
+            yield return ["#000", System.Drawing.Color.Black];
         }
 
         [TestCaseSource(nameof(HexTests))]
@@ -44,9 +44,9 @@ namespace Quarter.Core.UnitTest.Utils
 
         public static IEnumerable<object[]> ToHexTests()
         {
-            yield return new object[] { System.Drawing.Color.White, "#FFFFFF" };
-            yield return new object[] { System.Drawing.Color.Black, "#000000" };
-            yield return new object[] { System.Drawing.Color.Cyan, "#00FFFF" };
+            yield return [System.Drawing.Color.White, "#FFFFFF"];
+            yield return [System.Drawing.Color.Black, "#000000"];
+            yield return [System.Drawing.Color.Cyan, "#00FFFF"];
         }
 
         [TestCaseSource(nameof(ToHexTests))]
@@ -58,10 +58,10 @@ namespace Quarter.Core.UnitTest.Utils
 
         public static IEnumerable<object[]> HexDarkerTests()
         {
-            yield return new object[] { "#ffffff", "#E5E5E5" };
-            yield return new object[] { "#000000", "#000000" };
-            yield return new object[] { "#00ffff", "#00E5E5" };
-            yield return new object[] { "#a58fe5", "#9480CE" };
+            yield return ["#ffffff", "#E5E5E5"];
+            yield return ["#000000", "#000000"];
+            yield return ["#00ffff", "#00E5E5"];
+            yield return ["#a58fe5", "#9480CE"];
         }
 
         [TestCaseSource(nameof(HexDarkerTests))]
