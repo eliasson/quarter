@@ -256,10 +256,7 @@ public abstract class PostgresRepositoryBase<T> : IRepository<T> where T : IAggr
         command.CommandText = query;
         command.Parameters.AddRange(parameters.ToArray());
 
-        var result = await command.ExecuteNonQueryAsync(ct);
-        await command.DisposeAsync();
-
-        return result;
+        return await command.ExecuteNonQueryAsync(ct);
     }
 
     protected async IAsyncEnumerable<T> ExecuteQueryAsync(
