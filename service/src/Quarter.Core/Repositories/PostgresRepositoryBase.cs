@@ -99,7 +99,7 @@ public abstract class PostgresRepositoryBase<T> : IRepository<T> where T : IAggr
         var parameters = WithAdditionalColumnValues(
         [
             new NpgsqlParameter("id", aggregate.Id.Id),
-            new NpgsqlParameter("data", await Serialize(aggregate)),
+            new NpgsqlParameter("data", Serialize(aggregate)),
         ], aggregate);
 
         try
@@ -159,7 +159,7 @@ public abstract class PostgresRepositoryBase<T> : IRepository<T> where T : IAggr
         var parameters = WithAdditionalColumnValues(
         [
             new NpgsqlParameter("id", id.Id),
-            new NpgsqlParameter("data", await Serialize(updatedAggregate)),
+            new NpgsqlParameter("data", Serialize(updatedAggregate)),
         ], updatedAggregate);
 
         if (accessCondition is not null)
@@ -293,14 +293,8 @@ public abstract class PostgresRepositoryBase<T> : IRepository<T> where T : IAggr
         return parameters.Concat(additional).ToList();
     }
 
-    private static async Task<string> Serialize(T aggregate)
-    {
-        await using var stream = new MemoryStream();
-        await JsonSerializer.SerializeAsync(stream, aggregate);
-        stream.Position = 0; // TODO: Add Rewind extension method
-        var reader = new StreamReader(stream);
-        return await reader.ReadToEndAsync();
-    }
+    private static string Serialize(T aggregate)
+        => JsonSerializer.Serialize(aggregate);
 
     private static async Task<T> Deserialize(Stream stream)
     {
